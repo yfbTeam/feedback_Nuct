@@ -64,7 +64,9 @@
                 }
             },
             callback: {
-                onClick: zTreeOnClick
+                onClick: function(e, treeId, treeNode, clickFlag) {
+                    zTree.checkNode(treeNode, !treeNode.checked, true);
+                } 
             },
             check: {
                 autoCheckTrigger: true,
@@ -84,7 +86,7 @@
                 success: function (returnVal) {
                     if (returnVal.result.errMsg == "success") {
                         var trees = returnVal.result.retData;
-                        $.fn.zTree.init($("#table"), setting, trees);
+                        zTree  = $.fn.zTree.init($("#table"), setting, trees);
                     }
                 },
                 error: function (errMsg) {
@@ -99,9 +101,8 @@
                 treeObj.checkNode(node, true, true);
             });
         });
-
-        function zTreeOnClick(event, treeId, treeNode) {
-        }
+        
+        
         function submit()
         {
             var zTree = $.fn.zTree.getZTreeObj("table");
