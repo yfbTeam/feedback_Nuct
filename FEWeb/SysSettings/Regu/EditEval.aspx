@@ -50,7 +50,26 @@
     });
 
     function submit() {
-
+        var name = $('#name').val();
+        if (name == '') {
+            layer.msg('请输入评价名称');
+            return;
+        }
+        var startime = $('#StartTime').val();
+        var endtime = $('#EndTime').val();
+        if (startime == '') {
+            layer.msg('请输入开始时间');
+            return;
+        }
+        if (endtime == '') {
+            layer.msg('请输入结束时间');
+            return;
+        }
+        debugger;
+        if (startime > endtime) {
+            layer.msg('开始时间不能大于结束时间');
+            return;
+        }
 
         Edit_Eva_RegularCompleate = function () {
             parent.Reflesh();

@@ -10,14 +10,16 @@
     <link href="../../css/layout.css" rel="stylesheet" />
     <script src="../../Scripts/jquery-1.11.2.min.js"></script>
     <style>
-       .label{display: inline-block;
-    min-width: 110px;
-    height: 35px;
-    text-align: left;
-    font-size: 15px;
-    color: #555;
-    float: left;
-    line-height: 35px;}
+        .label {
+            display: inline-block;
+            min-width: 110px;
+            height: 35px;
+            text-align: left;
+            font-size: 15px;
+            color: #555;
+            float: left;
+            line-height: 35px;
+        }
     </style>
 </head>
 <body >
@@ -25,12 +27,12 @@
         <div class="main" >
             <div class="input-wrap">
                 <label>评价名称：</label>
-                <input type="text" class="text" readonly="readonly" id="name" value="" placeholder="请填写评价名称" style="width:333px;"/>
+                <input type="text" class="text" id="name" value="" placeholder="请填写评价名称" style="width:333px;"/>
             </div>
             <div class="input-wrap">
                 <label>学年学期：</label>
                 <select class="select ml10" style="width:335px;" id="section" >
-                    <option value="0">全部</option>
+              <%--      <option value="0">全部</option>--%>
                 </select>
             </div>
             <div class="input-wrap">
@@ -41,14 +43,14 @@
             </div>
             <div class="input-wrap pr">
                 <label>评价表分配：</label>
-                <select class="select ml10" style="width:335px;">
+                <select id ="table" class="select ml10" style="width:335px;">
                          
                 </select>
             </div>
             <div class="input-wrap clearfix" v-if="role==1" v-cloak>
                 <label>评价范围：</label>
                 <span class="ml10">
-                    <input type="radio" name="rank" id="all" class="magic-radio"  v-model="picked" value="0" @change="DepartToggle">
+                    <input type="radio" name="rank" id="all" class="magic-radio"  v-model="picked" value="0"  @change="DepartToggle">
                     <label for="all">全校</label>
                 </span>
                 <span class="ml10">
@@ -58,11 +60,8 @@
             </div>
             <div class="input-wrap1 pb20" v-cloak v-show="appoint">
                 <label class="label"></label>
-                <select id="sel_section" data-placeholder="选择部门" class="chosen-select select" multiple="multiple">
-                    <option value="0">q</option>
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
+                <select id="DepartMent" data-placeholder="选择部门" class="chosen-select select" multiple="multiple">
+                  
                 </select>
             </div>
         </div>
@@ -86,41 +85,73 @@
     <script type="text/javascript" src="../../scripts/My97DatePicker/WdatePicker.js"></script>
     <script src="../../Scripts/WebCenter/RegularEval.js"></script>
     <script>
-
-      
-
         var newEval = new Vue({
             el: '#newEval',
             data: {
                 role: "",
                 appoint: false,
-                picked:'0'
+                picked: '0'
             },
             methods: {
                 DepartToggle: function () {
                     this.picked == 1 ? this.appoint = true : this.appoint = false
                 },
+
                 submit: function () {
+                    var name = $('#name').val();
+                    if (name == '') {
+                        layer.msg('请输入评价名称');
+                        return;
+                    }
+
+                    var startime = $('#StartTime').val();
+                    var endtime = $('#EndTime').val();
+                    if (startime == '') {
+                        layer.msg('请输入开始时间');
+                        return;
+                    }
+                    if (endtime == '') {
+                        layer.msg('请输入结束时间');
+                        return;
+                    }
+                    if (startime > endtime) {
+                        layer.msg('开始时间不能大于结束时间');
+                        return;
+                    }
+                    if (Number(this.picked) == 1) {
+                        var departmests = $('#DepartMent').val() == null ? '' : $('#DepartMent').val();
+                        if (departmests == '') {
+                            layer.msg('请选择部门');
+                            return;
+                        }
+                        DepartmentIDs = [];
+
+                        departmests.filter(function (item) { DepartmentIDs += item + ',' });
+                        DepartmentIDs = DepartmentIDs.substring(0, DepartmentIDs.length - 1);
+
+                        LookType = 0;
+                    }
+                    else {
+                        LookType = 1;
+                    }
+                    TableID = $('#table').val();
                     select_sectionid = $('#section').val();
                     Add_Eva_RegularCompleate = function () {
 
                     };
-                    Add_Eva_Regular(2)
+                    Add_Eva_Regular(2);
+
+
                 }
             },
             mounted: function () {
                 this.role = GetLoginUser().Sys_Role_Id;
                 Base.bindStudySection();
-                $("#sel_section").chosen({
-                    allow_single_deselect: true,
-                    disable_search_threshold: 6,
-                    no_results_text: '未找到',
-                    width: '335px'
-                })
-               
+                Base.BindTable();
+                Base.BindDepart();
             }
         })
-        
+
     </script>
 </body>
 </html>

@@ -1,4 +1,5 @@
 ﻿var Base = {
+    bindStudySectionCompleate: function () { },
     bindStudySection: function () {
         $.ajax({
             url: HanderServiceUrl + "/Eva_Manage/Eva_ManageHandler.ashx",
@@ -7,14 +8,22 @@
             data: { Func: "Get_StudySection" },
             success: function (json) {
                 json.result.retData.forEach(function (item) {
-                    var str = "<option value='" + item.Id + "'>" + item.DisPlayName + "</option>";
+
+                    var str = '';
+                    if (item.IsEnable == 1) {
+                        str = "<option value='" + item.Id + "'>" + item.DisPlayName + "</option>";
+                    }
+                    else {
+                        str = "<option selected='selected' value='" + item.Id + "'>" + item.DisPlayName + "</option>";
+                    }
                     $("#section").append(str);
                 })
+                Base.bindStudySectionCompleate();
             },
             error: function () { }
         });
     },
-    BindDepart:function () {
+    BindDepart: function () {
         $.ajax({
             url: HanderServiceUrl + "/UserMan/UserManHandler.ashx",
             type: "post",
@@ -25,11 +34,40 @@
             success: function (json) {
                 if (json.result.errNum.toString() == "0") {
                     $(json.result.retData).each(function () {
+                       
                         $("#DepartMent").append('<option value="' + this.Id + '">' + this.Major_Name + '</option>');
+                    });
+
+                    $("#DepartMent").chosen({
+                        allow_single_deselect: true,
+                        disable_search_threshold: 6,
+                        no_results_text: '未找到',
+                        width: '335px'
+                    })
+                }
+            },
+            error: function (errMsg) { }
+        });
+    },
+
+    BindTable: function () {
+        $.ajax({
+            url: HanderServiceUrl + "/Eva_Manage/Eva_ManageHandler.ashx",
+            type: "post",
+            dataType: "json",
+            data: {
+                func: "Get_Eva_Table"
+            },
+            success: function (json) {
+               
+                if (json.result.errNum.toString() == "0") {
+
+                    $(json.result.retData).each(function () {
+                        $("#table").append('<option title="' + this.Name + '" value="' + this.Id + '">' + cutstr(this.Name, 45) + '</option>');
                     });
                 }
             },
-            error: function (errMsg) {}
+            error: function (errMsg) { }
         });
-    }       
+    }
 }

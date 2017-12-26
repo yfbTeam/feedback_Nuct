@@ -20,14 +20,85 @@ namespace FEHandler.Eva_Manage
         /// <summary>
         ///获取定期评价
         /// </summary>
+        public void Get_Eva_RegularS(HttpContext context)
+        {
+
+            JsonModelNum jsm = new JsonModelNum();
+            HttpRequest Request = context.Request;
+            int intSuccess = (int)errNum.Success;
+            int Type = RequestHelper.int_transfer(Request, "Type");
+            int SectionId = RequestHelper.int_transfer(Request, "SectionId");
+            int PageIndex = RequestHelper.int_transfer(Request, "PageIndex");
+            int PageSize = RequestHelper.int_transfer(Request, "PageSize");
+            try
+            {
+                var regulist = (from regu in Constant.Eva_Regular_List
+                                join section in Constant.StudySection_List on regu.Section_Id equals section.Id
+                                join user in Constant.UserInfo_List on regu.CreateUID equals user.UniqueNo
+                                where regu.Type == Type
+                                select new { SectionId = section.Id, section.DisPlayName, CreateName = user.Name, ReguName = regu.Name, regu.CreateUID, regu.StartTime, regu.EndTime, regu.CreateTime, State = "" }).ToList();
+
+                if (SectionId > 0)
+                {
+                    regulist = (from regu in regulist
+                                where regu.SectionId == SectionId
+                                select new { regu.SectionId, regu.DisPlayName, CreateName = regu.CreateName, ReguName = regu.ReguName, regu.CreateUID, regu.StartTime, regu.EndTime, regu.CreateTime, State = "" }).ToList();
+
+                }
+
+                ReguState regustate = ReguState.进行中;
+                if (regulist.Count > 0)
+                {
+                    var li = regulist[0];
+                    if (li.StartTime < DateTime.Now && li.EndTime > DateTime.Now)
+                    {
+                        regustate = ReguState.进行中;
+                    }
+                    else if (li.StartTime > DateTime.Now)
+                    {
+                        regustate = ReguState.未开始;
+                    }
+                    else
+                    {
+                        regustate = ReguState.已完成;
+                    }
+                }
+                regulist = (from regu in regulist select new { regu.SectionId, regu.DisPlayName, CreateName = regu.CreateName, ReguName = regu.ReguName, regu.CreateUID, regu.StartTime, regu.EndTime, regu.CreateTime, State = Convert.ToString(regustate) }).ToList();
+
+                var query_last = (from an in regulist select an).Skip((PageIndex - 1) * PageSize).Take(PageSize).ToList();
+
+                //返回所有表格数据
+                jsm = JsonModelNum.GetJsonModel_o(intSuccess, "success", query_last);
+                jsm.PageIndex = PageIndex;
+                jsm.PageSize = PageSize;
+                jsm.PageCount = (int)Math.Ceiling((double)regulist.Count() / PageSize);
+                jsm.RowCount = regulist.Count();
+
+                jsonModel = JsonModel.get_jsonmodel(0, "success", regulist);
+            }
+            catch (Exception ex)
+            {
+                LogHelper.Error(ex);
+            }
+            finally
+            {
+                //无论后端出现什么问题，都要给前端有个通知【为防止jsonModel 为空 ,全局字段 jsonModel 特意声明之后进行初始化】
+                context.Response.Write("{\"result\":" + Constant.jss.Serialize(jsm) + "}");
+            }
+        }
+
+        /// <summary>
+        ///获取定期评价
+        /// </summary>
         public void Get_Eva_Regular(HttpContext context)
         {
 
             HttpRequest Request = context.Request;
             int Type = RequestHelper.int_transfer(Request, "Type");
+            int SectionId = RequestHelper.int_transfer(Request, "SectionId");
             try
             {
-                jsonModel = Get_Eva_RegularHelper(Type);
+                jsonModel = Get_Eva_RegularHelper(SectionId, Type);
             }
             catch (Exception ex)
             {
@@ -40,7 +111,7 @@ namespace FEHandler.Eva_Manage
             }
         }
 
-        public static JsonModel Get_Eva_RegularHelper(int Type)
+        public static JsonModel Get_Eva_RegularHelper(int SectionId, int Type)
         {
             JsonModel model = new JsonModel();
             int intSuccess = (int)errNum.Success;
@@ -73,6 +144,10 @@ namespace FEHandler.Eva_Manage
                             item.EndTime,
                         });
                     }
+                }
+                if (SectionId > 0)
+                {
+                    list = (from li in list where li.SectionId == SectionId select li).ToList();
                 }
 
                 list = (from li in list orderby li.EndTime select li).ToList();
@@ -132,7 +207,7 @@ namespace FEHandler.Eva_Manage
                             where exp.ReguId == ReguId
                             select new { exp.Id, exp.TeacherName, exp.ExpertName, exp.Course_Name, teacher.Departent_Name, ReguName = regu.Name, regu.StartTime, regu.EndTime, State = "" }).ToList();
 
-                if(Key!= "")
+                if (Key != "")
                 {
                     list = (from li in list where li.TeacherName.Contains(Key) select li).ToList();
                 }
@@ -279,6 +354,7 @@ namespace FEHandler.Eva_Manage
                 int Section_Id = RequestHelper.int_transfer(Request, "Section_Id");
                 int Type = RequestHelper.int_transfer(Request, "Type");
                 int TableID = RequestHelper.int_transfer(Request, "TableID");
+
                 string DepartmentIDs = RequestHelper.string_transfer(Request, "DepartmentIDs");
                 bool hasAcross = false;
                 try
@@ -308,49 +384,71 @@ namespace FEHandler.Eva_Manage
 
                     #endregion
 
-                    if (!hasAcross)
+                    var section = Constant.StudySection_List.FirstOrDefault(i => i.Id == Section_Id);
+                    if (section != null)
                     {
-                        //新建定期评价
-                        Eva_Regular Eva_Regular_Add = new Eva_Regular()
+                        if (StartTime > section.StartTime && EndTime < section.EndTime)
                         {
-                            Name = Name,
-                            Section_Id = Section_Id,
-                            StartTime = StartTime,
-                            EndTime = EndTime,
-                            LookType = LookType,
-                            Look_StartTime = Look_StartTime,
-                            Look_EndTime = Look_EndTime,
-                            MaxPercent = MaxPercent,
-                            MinPercent = MinPercent,
-                            Remarks = Remarks,
-                            CreateTime = DateTime.Now,
-                            CreateUID = CreateUID,
-                            EditTime = DateTime.Now,
-                            EditUID = EditUID,
-                            IsEnable = (int)IsEnable.Enable,
-                            IsDelete = (int)IsDelete.No_Delete,
-                            Type = Type,
-                            TableID = TableID,
-                            DepartmentIDs = DepartmentIDs,
-                        };
-                        //数据库添加
-                        jsonModel = Constant.Eva_RegularService.Add(Eva_Regular_Add);
-                        if (jsonModel.errNum == 0)
-                        {
-                            //从数据库返回的ID绑定
-                            Eva_Regular_Add.Id = Convert.ToInt32(jsonModel.retData);
-                            //缓存添加
-                            Constant.Eva_Regular_List.Add(Eva_Regular_Add);
+                            #region 添加评价
+
+                            if (!hasAcross)
+                            {
+                                //新建定期评价
+                                Eva_Regular Eva_Regular_Add = new Eva_Regular()
+                                {
+                                    Name = Name,
+                                    Section_Id = Section_Id,
+                                    StartTime = StartTime,
+                                    EndTime = EndTime,
+                                    LookType = LookType,
+                                    Look_StartTime = Look_StartTime,
+                                    Look_EndTime = Look_EndTime,
+                                    MaxPercent = MaxPercent,
+                                    MinPercent = MinPercent,
+                                    Remarks = Remarks,
+                                    CreateTime = DateTime.Now,
+                                    CreateUID = CreateUID,
+                                    EditTime = DateTime.Now,
+                                    EditUID = EditUID,
+                                    IsEnable = (int)IsEnable.Enable,
+                                    IsDelete = (int)IsDelete.No_Delete,
+                                    Type = Type,
+                                    TableID = TableID,
+                                    DepartmentIDs = DepartmentIDs,
+
+                                };
+                                //数据库添加
+                                jsonModel = Constant.Eva_RegularService.Add(Eva_Regular_Add);
+                                if (jsonModel.errNum == 0)
+                                {
+                                    //从数据库返回的ID绑定
+                                    Eva_Regular_Add.Id = Convert.ToInt32(jsonModel.retData);
+                                    //缓存添加
+                                    Constant.Eva_Regular_List.Add(Eva_Regular_Add);
+                                }
+                                else
+                                {
+                                    jsonModel = JsonModel.get_jsonmodel(3, "failed", "添加失败");
+                                }
+                            }
+                            else
+                            {
+                                jsonModel = JsonModel.get_jsonmodel(3, "failed", "和已知的定期评价时间交叉");
+                            }
+
+                            #endregion
                         }
                         else
                         {
-                            jsonModel = JsonModel.get_jsonmodel(3, "failed", "添加失败");
+                            jsonModel = JsonModel.get_jsonmodel(3, "failed", "超出了该学年学期的时间范围");
                         }
                     }
                     else
                     {
-                        jsonModel = JsonModel.get_jsonmodel(3, "failed", "和已知的定期评价时间交叉");
+                        jsonModel = JsonModel.get_jsonmodel(3, "failed", "添加失败");
                     }
+
+
                 }
                 catch (Exception ex)
                 {

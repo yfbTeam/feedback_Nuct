@@ -581,7 +581,7 @@ namespace FEHandler.Eva_Manage
                         EditTime = DateTime.Now,
                         IsEnable = (int)IsEnable.Enable,
                         IsDelete = (int)IsDelete.No_Delete,
-                       
+
                     };
                     //数据库添加
                     jsonModel = new IndicatorService().Add(Indicator_Add);
@@ -757,21 +757,10 @@ namespace FEHandler.Eva_Manage
         {
             int intSuccess = (int)errNum.Success;
             HttpRequest Request = context.Request;
-            int Eva_Role = RequestHelper.int_transfer(Request, "Eva_Role");
             try
             {
-                if (Eva_Role > 0)
-                {
-                    var list = Table_Submiter_EvaRole(Eva_Role);
-                    //返回所有表格数据
-                    jsonModel = JsonModel.get_jsonmodel(intSuccess, "success", list);
-                }
-                else
-                {
-                    var list = Table_Submiter();
-                    //返回所有表格数据
-                    jsonModel = JsonModel.get_jsonmodel(intSuccess, "success", list);
-                }
+                //返回所有表格数据
+                jsonModel = JsonModel.get_jsonmodel(intSuccess, "success", Constant.Eva_Table_List);
             }
             catch (Exception ex)
             {

@@ -610,52 +610,7 @@ namespace FEHandler.Eva_Manage
 
         #endregion
 
-        #region 试卷+提交人
-
-        public static object Table_Submiter()
-        {
-            object table_submiter = null;
-            try
-            {
-                table_submiter = (from t in Constant.Eva_Table_List
-                                  join u in Constant.UserInfo_List on t.CreateUID equals u.UniqueNo
-                                  select new
-                                  {
-                                      t,
-                                      u,
-                                  }).ToList();
-            }
-            catch (Exception ex)
-            {
-                LogHelper.Error(ex);
-            }
-            return table_submiter;
-        }
-
-        public static object Table_Submiter_EvaRole(int Eva_Role)
-        {
-            object table_submiter = null;
-            try
-            {
-                table_submiter = (from t in Constant.Eva_Table_List
-                                  where t.Eva_Role == Eva_Role
-                                  join u in Constant.UserInfo_List on t.CreateUID equals u.UniqueNo
-                                  select new
-                                  {
-                                      t,
-                                      u,
-                                  }).ToList();
-            }
-            catch (Exception ex)
-            {
-                LogHelper.Error(ex);
-            }
-            return table_submiter;
-        }
-
-        #endregion
-
-
+     
         
         #region 表格引用次数添加
 

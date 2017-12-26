@@ -154,6 +154,7 @@ namespace FEHandler.Eva_Manage
                     #region 定期设置
 
                     case "Get_Eva_Regular": Get_Eva_Regular(context); break;
+                    case "Get_Eva_RegularS": Get_Eva_RegularS(context); break;
                     case "Get_Eva_RegularSingle": Get_Eva_RegularSingle(context); break;
                     case "Get_Eva_RegularData": Get_Eva_RegularData(context); break;
                     //新增定期评价

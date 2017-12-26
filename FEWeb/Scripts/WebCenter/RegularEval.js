@@ -63,19 +63,75 @@ function GetSection() {
     })
 }
 
+function Get_Eva_RegularS(SectionId, Type, PageIndex) {
+    layer_index = layer.load(1, {
+        shade: [0.1, '#fff'] //0.1透明度的白色背景
+    });
+    var key = $('#key').val();
+
+    $.ajax({
+        type: "Post",
+        url: HanderServiceUrl + "/Eva_Manage/Eva_ManageHandler.ashx",
+        data: { func: "Get_Eva_RegularS", "SectionId": SectionId, "Type": Type, "PageIndex": PageIndex, "PageSize": pageSize },
+        dataType: "json", "Key": key,
+        async: false,
+        success: function (returnVal) {
+            if (returnVal.result.errMsg == "success") {
+
+                var data = returnVal.result.retData;
+                data.filter(function (item, index) { item.Num = index + 1 })
+                layer.close(layer_index);
+
+                $("#tbody").empty();
+                if (data.length <= 0) {
+                    nomessage('#tbody');
+                    $('#pageBar').hide();
+                    return;
+                }
+                else {
+                    $('#pageBar').show();
+                }
+
+
+                $("#itemData").tmpl(data).appendTo("#tbody");
+                tableSlide();
+
+                laypage({
+                    cont: 'pageBar', //容器。值支持id名、原生dom对象，jquery对象。【如该容器为】：<div id="page1"></div>
+                    pages: returnVal.result.PageCount, //通过后台拿到的总页数
+                    curr: returnVal.result.PageIndex || 1, //当前页
+                    skip: true, //是否开启跳页
+                    skin: '#CA90B0',
+                    groups: 10,
+                    jump: function (obj, first) { //触发分页后的回调
+                        if (!first) { //点击跳页触发函数自身，并传递当前页：obj.curr                                       
+                            Get_Eva_RegularS(SectionId, Type, obj.curr)
+                            pageIndex = obj.curr;
+                        }
+                    }
+                });
+                $("#itemCount").tmpl(returnVal.result).appendTo(".laypage_total");
+            }
+        },
+        error: function (errMsg) {
+            layer.msg("绑定课程类别失败");
+        }
+    });
+}
+
 function Get_Eva_RegularCompleate() { }
-function Get_Eva_Regular(SectionId) {
+function Get_Eva_Regular(SectionId, Type) {
 
     var HasSection = true;
     $.ajax({
         type: "Post",
         url: HanderServiceUrl + "/Eva_Manage/Eva_ManageHandler.ashx",
-        data: { func: "Get_Eva_Regular", "SectionId": SectionId, "Type": 1 },
+        data: { func: "Get_Eva_Regular", "SectionId": SectionId, "Type": Type },
         dataType: "json",
         async: false,
         success: function (json) {
             if (json.result.errMsg == "success") {
-
+                debugger;
                 var retData = json.result.retData;
                 var retdata = Enumerable.From(retData).GroupBy(function (x) { return x.SectionId }).ToArray();
                 //retdata = Enumerable.From(retdata).OrderByDescending(function (child) { child.source[0].SectionId }).ToArray()
@@ -89,7 +145,7 @@ function Get_Eva_Regular(SectionId) {
                     continue;
                 }
                 for (var i in data) {
-                    if (data[i].course_parent.Study_IsEnable == 1) {
+                    if (data[i].course_parent.Study_IsEnable == 0) {
                         select_sectionid = data[i].course_parent.SectionId;
                     }
                 }
@@ -121,16 +177,20 @@ function GetCourseinfoBySortMan(Id) {
     Get_Eva_RegularData(Id, 0);
 }
 
+var DepartmentIDs = '';
+var LookType = 0;
+var TableID = '';
 function Add_Eva_RegularCompleate() { }
 function Add_Eva_Regular(Type) {
     var index_layer = layer.load(1, {
         shade: [0.1, '#fff'] //0.1透明度的白色背景
     });
-
+   
     var postData = {
-        func: "Add_Eva_Regular", "Name": $('#name').val(), "StartTime": $('#StartTime').val(), "EndTime": $('#EndTime').val(), "LookType": '0',
+        func: "Add_Eva_Regular", "Name": $('#name').val(), "StartTime": $('#StartTime').val(), "EndTime": $('#EndTime').val(), "LookType": LookType,
         "Look_StartTime": '', "Look_EndTime": '', "MaxPercent": '', "MinPercent": '', "Remarks": '', "CreateUID": cookie_Userinfo.LoginName
-        , "EditUID": cookie_Userinfo.LoginName, "Section_Id": select_sectionid, "Type": Type, "TableID": '', "DepartmentIDs": ''
+        , "EditUID": cookie_Userinfo.LoginName, "Section_Id": select_sectionid, "Type": Type, "TableID": TableID, "DepartmentIDs": DepartmentIDs,
+       
     };
     $.ajax({
         type: "Post",
@@ -195,7 +255,7 @@ function Edit_Eva_Regular(Type) {
 
 
 
-function DeleteExpert_List_Teacher_Course(Id) {  
+function DeleteExpert_List_Teacher_Course(Id) {
     var postData = {
         func: "DeleteExpert_List_Teacher_Course", "Id": Id
     };
@@ -206,14 +266,14 @@ function DeleteExpert_List_Teacher_Course(Id) {
         dataType: "json",
         success: function (returnVal) {
             if (returnVal.result.errMsg == "success") {
-              
+
                 Get_Eva_RegularData(select_reguid, 0);
-                layer.msg('操作成功');                
-                setTimeout(function () {               
+                layer.msg('操作成功');
+                setTimeout(function () {
                     parent.CloseIFrameWindow();
                 }, 100)
             }
-            else {               
+            else {
                 layer.msg(returnVal.result.retData);
             }
         },
