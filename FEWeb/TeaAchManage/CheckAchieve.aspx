@@ -550,34 +550,6 @@
                 }
             });
         }
-        function OpenDetail(editResult, Reason_Id) {
-            var filestr='';
-            $.ajax({
-                url: HanderServiceUrl + "/TeaAchManage/AchRewardInfo.ashx",
-                type: "post",
-                dataType: "json",
-                data: { Func: "Get_Sys_Document", Type: 5, RelationId: Reason_Id, IsPage: false },
-                success: function (json) {
-                    if (json.result.errNum == 0) {
-                        $(json.result.retData).each(function (i, n) {
-                            filestr+='<li id="file_' + n.Id + '" pt="' + n.Url + '">' +
-                                           '<p class="title1">' + n.Name + '</p>' +
-                                         '<div class="file-panel">' +                                        
-                                                '<span class="preview" onclick="File_Viewer(\'' + n.Url + '\');">预览</span>' +
-                                         '</div></li>';
-                        });
-                    } 
-                }
-            });
-            var content='<div style="padding:10px 20px;"><div class="editResult">' + editResult + '</div><div class="file"><label for="">附件：</label>'
-                   +'<div class="fl"><ul id="ul_HistoryFile" class="clearfix file-ary allot_file">'+filestr+'</ul></div></div></div>';
-            layer.open({
-                type: 1,
-                title: '修改原因',
-                area: ['420px', '240px'], //宽高
-                content:content 
-            });
-        }
     </script>
 </body>
 </html>
