@@ -111,5 +111,33 @@ namespace FEDAL
         }
         #endregion
 
+        #region 管理员修改审核通过的奖金分配信息
+        public int Admin_EditAllotReward(List<TPM_AllotReward> items)
+        {
+            int result = 0;
+            List<SqlParameter> pms = new List<SqlParameter>();
+            StringBuilder str = new StringBuilder();           
+            if (items.Count() > 0)
+            {
+                for (int i = 0; i < items.Count; i++)
+                {
+                    TPM_AllotReward item = items[i];
+                    if (item.AllotMoney == null)
+                    {
+                        pms.Add(new SqlParameter("@AllotMoney" + i, DBNull.Value));
+                    }
+                    else
+                    {
+                        pms.Add(new SqlParameter("@AllotMoney" + i, item.AllotMoney));
+                    }                              
+                    pms.Add(new SqlParameter("@EditUID" + i, item.EditUID));
+                    pms.Add(new SqlParameter("@Id" + i, item.Id));
+                    str.Append("update TPM_AllotReward set AllotMoney=@AllotMoney" + i + ",EditUID=@EditUID" + i + " where Id=@Id" + i + ";");
+                }
+                result = SQLHelp.ExecuteNonQuery(str.ToString(), CommandType.Text, pms.ToArray());
+            }
+            return result;
+        }
+        #endregion
     }
 }

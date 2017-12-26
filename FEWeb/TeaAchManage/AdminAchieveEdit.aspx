@@ -49,8 +49,15 @@
             <td>${DateTimeConvert(new Date(),"yyyy-MM-dd",false)}</td>          
         </tr>
     </script>
+     <%--分配历史记录--%>
+    <script type="text/x-jquery-tmpl" id="li_Record">
+        <li class="clearfix">
+            <span class="fl">${Content} {{if Reason_Id>0}}<a href="javascript:;" onclick="OpenDetail('${EditReason}',${Reason_Id})">查看详情</a>{{/if}}</span>
+            <span class="fr">${DateTimeConvert(CreateTime,"yyyy-MM-dd")}</span>
+        </li>
+    </script>
     <script type="text/x-jquery-tmpl" id="div_item">
-        {{if AuditStatus>0}}
+        {{if AuditStatus==3}}
        <div class="clearfix allot_item">
             <div class="clearfix">
                 <div class="fl status-left">
@@ -214,7 +221,7 @@
                     </div>
                 </div>                
                  <div class="reward_btn">
-                    <input type="button" value="提交" class="btn" onclick="Save_Score(7);"/>
+                    <input type="button" value="提交" class="btn" onclick="Save_Score();"/>
                 </div>
            </div>
         </div>
@@ -248,12 +255,7 @@
         </div>
          <h2 class="cont_title re_reward none RewardReason"><span>分配历史</span></h2>
         <div class="area_form re_reward none RewardReason">
-            <ul class="history">
-                <li class="clearfix">
-                    <span class="fl">陈成一给李树一分配了110分<a href="javascript:;" onclick="OpenDetail('查看详情22','查看详情.jpg')">查看详情</a></span>
-                    <span class="fr">2016-08-09</span>
-                </li>
-            </ul>
+           <ul class="history" id="ul_Record"></ul>
         </div>
     </div>
     <script src="../js/vue.min.js"></script>
@@ -319,6 +321,7 @@
          //绑定成员信息
          var Member_Data = [];
          function Get_RewardUserInfo() {
+             $("#tb_Member").empty();
              $.ajax({
                  type: "Post",
                  url: HanderServiceUrl + "/TeaAchManage/AchRewardInfo.ashx",
@@ -337,7 +340,7 @@
                          });
                          $span_CurScore.html(curscore);
                      }                     
-                     Get_RewardBatchData("", $(".RewardReason"));                     
+                     Get_RewardBatchData("", $(".RewardReason"));
                  },
                  error: function (errMsg) {
                      layer.msg(errMsg);
@@ -363,8 +366,8 @@
              else { return true; }
          }
          //保存分数
-         function Save_Score(status) {
-             var object = { Func: "Add_AcheiveAllot", Id: cur_AchieveId, EditReason: $("#txt_Reasonscore").val()};
+         function Save_Score() {
+             var object = { Func: "Add_AcheiveAllot", Id: cur_AchieveId, EditReason: $("#txt_Reasonscore").val().trim(), CreateUID: loginUser.UniqueNo };
              var valid_flag = validateForm($('#tb_Member tr:visible input[type="number"],#txt_Reasonscore'));
              if (valid_flag != "0") {
                  return false;
@@ -374,24 +377,28 @@
                  layer.msg("请上传附件!");
                  return;
              }
-             object.Add_Path = add_path.length > 0 ? JSON.stringify(add_path) : "";
-             if (CheckScoreAndAward()) {                
-                 object.Status = status;
-                 var addArray = Get_AddMember().addarray;
+             object.Reason_Path = add_path.length > 0 ? JSON.stringify(add_path) : "";
+             if (CheckScoreAndAward()) {                                 
+                 var addMemObj = Get_AddMember(), editMemObj = Get_EditMember();
+                 var addArray = addMemObj.addarray;
                  object.MemberStr = addArray.length > 0 ? JSON.stringify(addArray) : '';
-                 var recordArray = Get_AddMember().edithis;
-                 var editArray = Get_EditMember().editarray;
+                 var recordArray = addMemObj.edithis;
+                 var editArray = editMemObj.editarray;
                  object.MemberEdit = editArray.length > 0 ? JSON.stringify(editArray) : '';
-                 recordArray = recordArray.concat(Get_EditMember().edithis);
+                 recordArray = recordArray.concat(editMemObj.edithis);
                  if (recordArray.length <= 0) {
                      layer.msg("没有修改内容!");
                      return;
                  }
-                 return;
-                 layer.confirm('确认提交吗？', {
+                 object.ResonRecord = JSON.stringify(recordArray);
+                 var warnArray = [];
+                 $.each(recordArray, function (i,n) {
+                     warnArray.push(n.Content);
+                 });                
+                 layer.confirm(warnArray.join('、'), {
                      btn: ['确定', '取消'], //按钮
                      title: '操作'
-                 }, function (object) {
+                 }, function (index) {
                      $.ajax({
                          url: HanderServiceUrl + "/TeaAchManage/AchRewardInfo.ashx",
                          type: "post",
@@ -421,7 +428,7 @@
                          content = loginUser.Name + '将' + $(this).find('td.td_memname').html() + oldtr.find('input[type=number][name=score]').attr('oldsc') + "分" + "改为" + score + "分";
                      }
                      edithis.push({
-                         Type: 0, Acheive_Id: cur_AchieveId, Content: content
+                         Type: 0, Acheive_Id: cur_AchieveId, RelationId: 0, Content: content
                           , ModifyUID: userno, CreateUID: loginUser.UniqueNo
                      });
                  }
@@ -439,7 +446,7 @@
                          editArray.push({ Id: id, Score: score, Sort: i + 1, EditUID: loginUser.UniqueNo });
                          if (Num_Fixed(score) != Num_Fixed(oldscore)) { //修改的
                              edithis.push({
-                                 Type: 0, Acheive_Id: cur_AchieveId, Content: loginUser.Name + '将' + $(this).find('td.td_memname').html() + oldscore + "分" + "改为" + score + "分"
+                                 Type: 0, Acheive_Id: cur_AchieveId, RelationId: 0, Content: loginUser.Name + '将' + $(this).find('td.td_memname').html() + oldscore + "分" + "改为" + score + "分"
                                                , ModifyUID: userno, CreateUID: loginUser.UniqueNo
                              });
                          }
@@ -462,20 +469,25 @@
              if (valid_flag != "0") {
                  return false;
              }
-             var object = { Func: "Oper_AuditAllotReward", Acheive_Id: cur_AchieveId, CreateUID: loginUser.UniqueNo, EditReason: $("#txt_Reasonreward").val() };
+             var object = { Func: "Admin_EditAllotReward", CreateUID: loginUser.UniqueNo, EditReason: $("#txt_Reasonreward").val().trim()};
              var add_path = Get_AddFile(5, '#uploader_reward');             
              if (add_path.length <= 0) {
                  layer.msg("请上传附件!");
                  return;
              }
-             object.Add_Path = add_path.length > 0 ? JSON.stringify(add_path) : "";
-             var allArray = Get_RewardMember().editarray, recordArray = Get_RewardMember().edithis;
+             object.Reason_Path = add_path.length > 0 ? JSON.stringify(add_path) : "";
+             var rewardObj = Get_RewardMember();
+             var allArray = rewardObj.editarray, recordArray = rewardObj.edithis;
              if (recordArray.length <= 0) {
                  layer.msg("没有修改内容!");
                  return;
              }
-             return;
-             layer.confirm('确认提交吗？提交后将不能进行修改', {
+             object.ResonRecord = JSON.stringify(recordArray);
+             var warnArray = [];
+             $.each(recordArray, function (i, n) {
+                 warnArray.push(n.Content);
+             });
+             layer.confirm(warnArray.join('、'), {
                  btn: ['确定', '取消'], //按钮
                  title: '操作'
              }, function (index) {                    
@@ -514,20 +526,11 @@
                          });
                      }
                  });
-                 editArray.push({ Acheive_Id: cur_AchieveId, RewardBatch_Id: rew_batchid, AllotInfo: subarray });
+                 editArray.push({ Id: $(this).attr('uid'), AllotInfo: subarray, EditUID: loginUser.UniqueNo });
              });
              return { editarray: editArray, edithis: edithis };
          }
          /***********************************************奖金结束*************************************************/
-         //分配历史
-         function OpenDetail(editResult, file) {
-             layer.open({
-                 type: 1,
-                 title: '修改原因',
-                 area: ['420px', '240px'], //宽高
-                 content: '<div style="padding:10px 20px;"><div class="editResult">' + editResult + '</div><div class="file"><label for="">附件：</label><span>' + file + '</span><a href="' + file + '" target="_blank">(查看)</a></div></div>'
-             });
-         }
     </script>
 </body>
 </html>
