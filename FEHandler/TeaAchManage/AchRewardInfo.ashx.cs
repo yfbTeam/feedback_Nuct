@@ -1,4 +1,5 @@
 ﻿using FEBLL;
+using FEDAL;
 using FEModel;
 using FEUtility;
 using Newtonsoft.Json;
@@ -99,6 +100,9 @@ namespace FEHandler.TeaAchManage
                     case "Oper_AuditAllotReward":
                         Oper_AuditAllotReward(context);
                         break;
+                    case "Admin_EditAllotReward":
+                        Admin_EditAllotReward(context);
+                        break;
                     case "Check_AuditReward":
                         Check_AuditReward(context);
                         break;
@@ -152,6 +156,9 @@ namespace FEHandler.TeaAchManage
                 ht.Add("EndTime", context.Request["EndTime"].SafeToString());
                 ht.Add("Major_ID", context.Request["Major_ID"].SafeToString());
                 ht.Add("LoginMajor_ID", context.Request["LoginMajor_ID"].SafeToString());
+                ht.Add("AuditMajor_ID", context.Request["AuditMajor_ID"].SafeToString());//按院系查询的Major_ID                
+                ht.Add("Level_DepartIds", context.Request["Level_DepartIds"].SafeToString()); //业绩审核，按院系查询的十大业绩Id
+                ht.Add("Level_AllIds", context.Request["Level_AllIds"].SafeToString());//业绩审核，按全校查询的十大业绩Id
                 jsonModel = bll.GetPage(ht, IsPage);
 
             }
@@ -318,8 +325,11 @@ namespace FEHandler.TeaAchManage
                 model = bll.GetEntityById(Id).retData as TPM_AcheiveRewardInfo;
                 if (model!=null)
                 {
-                    model.Status = Convert.ToByte(context.Request["Status"]);
-                    bll.Update(model);
+                    if (!string.IsNullOrEmpty(context.Request["Status"]))
+                    {
+                        model.Status = Convert.ToByte(context.Request["Status"]);
+                        bll.Update(model);
+                    }                    
                     string memberStr = RequestHelper.string_transfer(context.Request, "MemberStr");
                     string MemberEdit = RequestHelper.string_transfer(context.Request, "MemberEdit");
                     string add_Path = RequestHelper.string_transfer(context.Request, "Add_Path");
@@ -347,6 +357,28 @@ namespace FEHandler.TeaAchManage
                             pathlist = JsonConvert.DeserializeObject<List<Sys_Document>>(add_Path);
                         }
                         new Sys_DocumentService().OperDocument(pathlist, edit_PathId, Id);
+                    }
+                    string EditReason=RequestHelper.string_transfer(context.Request, "EditReason");
+                    string CreateUID = RequestHelper.string_transfer(context.Request, "CreateUID");                    
+                    string Reason_Path = RequestHelper.string_transfer(context.Request, "Reason_Path");
+                    string ResonRecord = RequestHelper.string_transfer(context.Request, "ResonRecord");
+                    if (!string.IsNullOrEmpty(EditReason)) //修改原因
+                    {
+                        JsonModel reaJsonModel=new TPM_ModifyReasonService().Add(new TPM_ModifyReason() {  EditReason=EditReason,CreateUID= CreateUID });
+                        if (reaJsonModel.errNum == 0)
+                        {
+                            int reasonid = Convert.ToInt32(reaJsonModel.retData);
+                            if (!string.IsNullOrEmpty(Reason_Path)) //管理员修改时，上传的附件
+                            {
+                                List<Sys_Document> pathlist = JsonConvert.DeserializeObject<List<Sys_Document>>(Reason_Path);
+                                new Sys_DocumentService().OperDocument(pathlist, "", reasonid);
+                            }
+                            if (!string.IsNullOrEmpty(ResonRecord)) //分数分配历史
+                            {
+                                List<TPM_ModifyRecord> reclist = JsonConvert.DeserializeObject<List<TPM_ModifyRecord>>(ResonRecord);
+                                bll.Add_ModifyRecord(reasonid, reclist);
+                            }
+                        }                        
                     }
                 }
             }
@@ -817,6 +849,54 @@ namespace FEHandler.TeaAchManage
                         new Sys_DocumentService().OperDocument(pathlist, edit_PathId,Convert.ToInt32(jsonModel.retData));
                     }
                 }                
+            }
+            catch (Exception ex)
+            {
+                jsonModel = new JsonModel()
+                {
+                    errNum = 400,
+                    errMsg = ex.Message,
+                    retData = ""
+                };
+                LogService.WriteErrorLog(ex.Message);
+            }
+        }
+        #endregion
+
+        #region 管理员修改审核通过的奖金分配信息
+        private void Admin_EditAllotReward(HttpContext context)
+        {
+            try
+            { 
+                string allotUser = RequestHelper.string_transfer(context.Request, "AllotUser");
+                string EditReason = RequestHelper.string_transfer(context.Request, "EditReason");
+                string CreateUID = RequestHelper.string_transfer(context.Request, "CreateUID");
+                string Reason_Path = RequestHelper.string_transfer(context.Request, "Reason_Path");
+                string ResonRecord = RequestHelper.string_transfer(context.Request, "ResonRecord");
+                List<TPM_AllotReward> allotlist = new List<TPM_AllotReward>();
+                if (!string.IsNullOrEmpty(allotUser))
+                {
+                    allotlist = JsonConvert.DeserializeObject<List<TPM_AllotReward>>(allotUser);
+                }
+                jsonModel = bll.Admin_EditAllotReward(allotlist);
+                if (jsonModel.errNum == 0&&!string.IsNullOrEmpty(EditReason))
+                {
+                    JsonModel reaJsonModel = new TPM_ModifyReasonService().Add(new TPM_ModifyReason() { EditReason = EditReason, CreateUID = CreateUID });
+                    if (reaJsonModel.errNum == 0)
+                    {
+                        int reasonid = Convert.ToInt32(reaJsonModel.retData);
+                        if (!string.IsNullOrEmpty(Reason_Path)) //管理员修改时，上传的附件
+                        {
+                            List<Sys_Document> pathlist = JsonConvert.DeserializeObject<List<Sys_Document>>(Reason_Path);
+                            new Sys_DocumentService().OperDocument(pathlist, "", reasonid);
+                        }
+                        if (!string.IsNullOrEmpty(ResonRecord)) //奖金分配历史
+                        {
+                            List<TPM_ModifyRecord> reclist = JsonConvert.DeserializeObject<List<TPM_ModifyRecord>>(ResonRecord);
+                            bll.Add_ModifyRecord(reasonid, reclist);
+                        }
+                    }
+                }
             }
             catch (Exception ex)
             {

@@ -66,5 +66,32 @@ namespace FEDAL
             }
             return dt;
         }
+
+        #region 添加奖金历史分配信息
+        public int Add_ModifyRecord(int reasonId,List<TPM_ModifyRecord> items)
+        {
+            int result = 0;
+            List<SqlParameter> pms = new List<SqlParameter>();
+            StringBuilder str = new StringBuilder();
+            if (items.Count() > 0)
+            {
+                pms.Add(new SqlParameter("@Reason_Id", reasonId));
+                for (int i = 0; i < items.Count; i++)
+                {
+                    TPM_ModifyRecord item = items[i];
+                    pms.Add(new SqlParameter("@Type" + i, item.Type));
+                    pms.Add(new SqlParameter("@RelationId" + i, item.RelationId));
+                    pms.Add(new SqlParameter("@Acheive_Id" + i, item.Acheive_Id));
+                    pms.Add(new SqlParameter("@Content" + i, item.Content));                    
+                    pms.Add(new SqlParameter("@ModifyUID" + i, item.ModifyUID));
+                    pms.Add(new SqlParameter("@CreateUID" + i, item.CreateUID));
+                    str.Append(@"insert into TPM_ModifyRecord(Type,RelationId,Acheive_Id,Content,Reason_Id,ModifyUID,CreateUID)
+                         values(@Type" + i + ",@RelationId" + i + ",@Acheive_Id" + i + ",@Content" + i + ",@Reason_Id,@ModifyUID" + i + ",@CreateUID" + i+ ");");
+                }
+                result = SQLHelp.ExecuteNonQuery(str.ToString(), CommandType.Text, pms.ToArray());
+            }
+            return result;
+        }
+        #endregion
     }
 }

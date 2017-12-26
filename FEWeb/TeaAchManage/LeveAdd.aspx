@@ -19,9 +19,6 @@
     <input type="hidden" name="EditUID" id="EditUID" value="011" />
     <div class="main" >
         <div class="search_toobar clearfix">
-            
-            
-
             <div class="input-wrap">
                 <label>奖项等级名称：</label><input type="text" isrequired="true" fl="奖项等级名称" id="Name" name="Name" class="text" placeholder="请输入奖项等级名称" />
             </div>
@@ -29,7 +26,6 @@
                 <label>等级排序：</label>
                 <input type="text" class="text" name="Sort" isrequired="true" fl="等级排序" id="Sort" placeholder="请输入奖项等级排序" style="margin-left:15px;"/>
             </div>
-
         </div>
     </div>
     <div class="btnwrap">

@@ -65,8 +65,9 @@
     <script src="../Scripts/jquery.tmpl.js"></script>
     <script src="../Scripts/laypage/laypage.js"></script>
     <script>
+        var loginUser = GetLoginUser();
         $(function () {
-            $("#CreateUID").val(GetLoginUser().UniqueNo);
+            $("#CreateUID").val(loginUser.UniqueNo);
             $('#top').load('/header.html');
             $('#footer').load('/footer.html');
         });
@@ -79,13 +80,14 @@
             BindAchieve(1, 10);    
         });        
         function BindAchieve(startIndex, pageSize) {
-            var departArray = GetAchieveIds.departArray,allArray = GetAchieveIds.allArray;
+            var rtnObj = GetAchieveIds();
+            var departArray = rtnObj.departArray, allArray = rtnObj.allArray;
             $("#tb_Acheive").empty();
             $.ajax({
                 url: HanderServiceUrl + "/TeaAchManage/AchRewardInfo.ashx",
                 type: "post",
                 dataType: "json",
-                data: { "Func": "GetAcheiveRewardInfoData", "Status": "1,5,10", PageIndex: startIndex, pageSize: pageSize },
+                data: { "Func": "GetAcheiveRewardInfoData", "Status": "1,5,10", PageIndex: startIndex, pageSize: pageSize, AuditMajor_ID: loginUser.Major_ID, Level_DepartIds: departArray.join(','), Level_AllIds: allArray.join(',') },
                 success: function (json) {
                     if (json.result.errMsg == "success") {
                         $("#trAcheive").tmpl(json.result.retData.PagedData).appendTo("#tb_Acheive");
@@ -115,13 +117,14 @@
         }
         function GetAchieveIds() {
             //院系范围              全校范围
-            var departArray = [], allArray = [];
+            var departArray = [-1], allArray = [-1];
             $.each(pagebtns, function (index, value) {
-                if (value.indexOf("achieve_depart_") != -1) {
-                    departArray.push(value.replace('achieve_depart_',''));
+                var cur_code = value.MenuCode;
+                if (cur_code.indexOf("achieve_depart_") != -1) {
+                    departArray.push(cur_code.replace('achieve_depart_', ''));
                 }
-                if (value.indexOf("achieve_all_") != -1) {
-                    allArray.push(value.replace('achieve_all_',''));
+                if (cur_code.indexOf("achieve_all_") != -1) {
+                    allArray.push(cur_code.replace('achieve_all_', ''));
                 }
             });
             return { departArray: departArray, allArray: allArray }

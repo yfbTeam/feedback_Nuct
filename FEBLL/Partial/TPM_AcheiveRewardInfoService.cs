@@ -181,6 +181,86 @@ namespace FEBLL
         }
         #endregion
 
+        #region 管理员修改审核通过的奖金分配信息
+        public JsonModel Admin_EditAllotReward(List<TPM_AllotReward> items)
+        {
+            JsonModel jsonModel = new JsonModel();
+            try
+            {
+                int result = new TPM_AllotRewardDal().Admin_EditAllotReward(items);
+                if (result > 0)
+                {
+                    jsonModel = new JsonModel()
+                    {
+                        errNum = 0,
+                        errMsg = "success",
+                        retData = ""
+                    };
+                }
+                else
+                {
+                    jsonModel = new JsonModel()
+                    {
+                        errNum = 999,
+                        errMsg = "数据更新失败",
+                        retData = ""
+                    };
+                }
+                return jsonModel;
+            }
+            catch (Exception ex)
+            {
+                jsonModel = new JsonModel()
+                {
+                    errNum = 400,
+                    errMsg = ex.Message,
+                    retData = ""
+                };
+                return jsonModel;
+            }
+        }
+        #endregion
+
+        #region 添加奖金历史分配信息
+        public JsonModel Add_ModifyRecord(int reasonId, List<TPM_ModifyRecord> items)
+        {
+            JsonModel jsonModel = new JsonModel();
+            try
+            {
+                int result = new TPM_ModifyRecordDal().Add_ModifyRecord(reasonId, items);
+                if (result > 0)
+                {
+                    jsonModel = new JsonModel()
+                    {
+                        errNum = 0,
+                        errMsg = "success",
+                        retData = ""
+                    };
+                }
+                else
+                {
+                    jsonModel = new JsonModel()
+                    {
+                        errNum = 999,
+                        errMsg = "数据更新失败",
+                        retData = ""
+                    };
+                }
+                return jsonModel;
+            }
+            catch (Exception ex)
+            {
+                jsonModel = new JsonModel()
+                {
+                    errNum = 400,
+                    errMsg = ex.Message,
+                    retData = ""
+                };
+                return jsonModel;
+            }
+        }            
+        #endregion
+
         #region 修改业绩状态
         public JsonModel Edit_AchieveStatus(int id, int status)
         {

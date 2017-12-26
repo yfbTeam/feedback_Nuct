@@ -1,5 +1,5 @@
-﻿var HanderServiceUrl = "http://192.168.1.148:8010/Service/";
-var MobileUrl = "http://192.168.1.148:8010/";
+﻿var HanderServiceUrl = "http://192.168.137.41:8999/Service/";
+var MobileUrl = "http://192.168.137.41:8999/";
 
 /**日期转换成时间字符串**/
 /** date日期  **/
@@ -658,7 +658,7 @@ function validateForm(elements) {
     var flag = 0;
     jQuery.each(elements, function (i, fields) {
         if ($(this).attr("isrequired") == "true") {
-            if ($(this).val()==null||$(this).val()== "") {
+            if ($(this).val()==null||$(this).val().trim()== "") {
                 flag++;
                 if (flag == 1) {
                     layer.msg('请输入' + $(this).attr("fl"));
