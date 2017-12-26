@@ -24,6 +24,7 @@
     <SccAuxPath>SAK</SccAuxPath>
     <SccProvider>SAK</SccProvider>
     <UseGlobalApplicationHostFile />
+    <Use64BitIISExpress />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -96,6 +97,7 @@
     <Content Include="js\DateFormate.js" />
     <Content Include="js\moment.js" />
     <Content Include="js\vue.min.js" />
+    <Content Include="NoMessage.aspx" />
     <Content Include="Scripts\pdfjs\build\pdf.js" />
     <Content Include="Scripts\pdfjs\build\pdf.worker.js" />
     <Content Include="Scripts\pdfjs\web\compatibility.js" />
@@ -1101,6 +1103,13 @@
     </Compile>
     <Compile Include="Evaluation\Input\StartEval.aspx.designer.cs">
       <DependentUpon>StartEval.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="NoMessage.aspx.cs">
+      <DependentUpon>NoMessage.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="NoMessage.aspx.designer.cs">
+      <DependentUpon>NoMessage.aspx</DependentUpon>
     </Compile>
     <Compile Include="SysSettings\AllotTable.aspx.cs">
       <DependentUpon>AllotTable.aspx</DependentUpon>
