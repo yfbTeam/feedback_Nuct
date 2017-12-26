@@ -801,6 +801,7 @@ namespace FEHandler.TeaAchManage
                 ht.Add("PageSize", context.Request["PageSize"].SafeToString());             
                 ht.Add("RewardBatch_Id", context.Request["RewardBatch_Id"].SafeToString());
                 ht.Add("AchieveId", context.Request["AchieveId"].SafeToString());
+                ht.Add("No_Status", context.Request["No_Status"].SafeToString());
                 ht.Add("Id", context.Request["Id"].SafeToString());
                 jsonModel = new TPM_AllotRewardService().GetPage(ht, IsPage);
             }

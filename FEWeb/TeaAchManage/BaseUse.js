@@ -1,4 +1,5 @@
 ﻿var loginUser = GetLoginUser();
+var cur_ResponUID = "";
 function Num_Fixed(num, count) {
     count = arguments[1] || 2;
     return Number(num).toFixed(count);
@@ -485,15 +486,15 @@ function Get_AchieveStatus(status,obj) {
 
 /********************************************************业绩-奖金分配开始***************************************************/
 //绑定奖项奖金信息
-function Get_RewardBatchData(status,reasonobj) {
-    status = arguments[0] || "";
-    reasonobj = arguments[1] || "";
+function Get_RewardBatchData(reasonobj,no_status) {    
+    reasonobj = arguments[0] || "";
+    no_status = arguments[1] || ""; //不赋值的状态
     $("#div_MoneyInfo").empty();
     $.ajax({
         url: HanderServiceUrl + "/TeaAchManage/AchRewardInfo.ashx",
         type: "post",
         dataType: "json",
-        data: { "Func": "Get_RewardBatchData", "IsPage": "false", AchieveId: cur_AchieveId, AuditStatus: status },
+        data: { "Func": "Get_RewardBatchData", "IsPage": "false", AchieveId: cur_AchieveId},
         success: function (json) {
             if (json.result.errMsg == "success") {
                 $("#div_item").tmpl(json.result.retData).appendTo("#div_MoneyInfo");
@@ -504,7 +505,7 @@ function Get_RewardBatchData(status,reasonobj) {
                         reasonobj.show();                        
                         BindFile_Plugin("#uploader_reward", "#filePicker_reward", "#dndArea_reward");//原因显示以后，再绑定文件控件 
                     }
-                    Get_AllotReward();
+                    Get_AllotReward(no_status);
                     Bind_AllotFile();
                 }               
             }
@@ -516,12 +517,12 @@ function Get_RewardBatchData(status,reasonobj) {
     });
 }
 //获取分配奖金信息
-function Get_AllotReward() {
+function Get_AllotReward(no_status) {
     $.ajax({
         url: HanderServiceUrl + "/TeaAchManage/AchRewardInfo.ashx",
         type: "post",
         dataType: "json",
-        data: { "Func": "Get_AllotReward", "IsPage": "false", AchieveId: cur_AchieveId },
+        data: { "Func": "Get_AllotReward", "IsPage": "false", AchieveId: cur_AchieveId, No_Status: no_status },
         success: function (json) {
             if (json.result.errMsg == "success") {
                 $(json.result.retData).each(function (i, n) {

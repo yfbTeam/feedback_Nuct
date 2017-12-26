@@ -61,7 +61,8 @@
        <div class="clearfix allot_item">
             <div class="clearfix">
                 <div class="fl status-left">
-                     <label for="">状态：</label>
+                    <label for="" style="margin-right:20px;">第${rowNum}批奖金</label>
+                    <label for="">状态：</label>
                     {{if AuditStatus==0}}<span class="nosubmit">待提交</span>
                     {{else AuditStatus==1}}<span class="checking1">待审核</span>
                     {{else AuditStatus==2}}<span class="nocheck">审核不通过</span>
@@ -304,6 +305,7 @@
                              if (json.result.errMsg == "success") {
                                  that.Info = json.result.retData[0];
                                  $('#span_AllScore').html(that.Info.TotalScore);
+                                 cur_ResponUID = that.Info.ResponsMan;
                                  Get_RewardUserInfo();
                              }
                          },
@@ -340,7 +342,7 @@
                          });
                          $span_CurScore.html(curscore);
                      }                     
-                     Get_RewardBatchData("", $(".RewardReason"));
+                     Get_RewardBatchData($(".RewardReason"));
                  },
                  error: function (errMsg) {
                      layer.msg(errMsg);
