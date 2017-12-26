@@ -84,7 +84,11 @@
     <script src="../../Scripts/choosen/chosen.jquery.js"></script>
     <script src="../../Scripts/choosen/prism.js"></script>
     <script type="text/javascript" src="../../scripts/My97DatePicker/WdatePicker.js"></script>
+    <script src="../../Scripts/WebCenter/RegularEval.js"></script>
     <script>
+
+      
+
         var newEval = new Vue({
             el: '#newEval',
             data: {
@@ -97,7 +101,11 @@
                     this.picked == 1 ? this.appoint = true : this.appoint = false
                 },
                 submit: function () {
-                    console.log(1)
+                    select_sectionid = $('#section').val();
+                    Add_Eva_RegularCompleate = function () {
+
+                    };
+                    Add_Eva_Regular(2)
                 }
             },
             mounted: function () {
