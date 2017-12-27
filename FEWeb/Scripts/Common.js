@@ -1,5 +1,5 @@
-﻿var HanderServiceUrl = "http://192.168.137.41:8999/Service/";
-var MobileUrl = "http://192.168.137.41:8999/";
+﻿var HanderServiceUrl = "http://192.168.1.148:8010/Service/";
+var MobileUrl = "http://192.168.1.148:8010/";
 
 /**日期转换成时间字符串**/
 /** date日期  **/

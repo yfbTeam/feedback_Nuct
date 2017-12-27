@@ -6,7 +6,7 @@ var UI_Allot =
     prepare_init: function () {
         $("#rolenametext").text(CurrentRoleName);
         $('#teacher_student').on('change', function () {
-            debugger
+            
             roleid = $('#teacher_student').val();
             UI_Allot.data_init(roleid);
         });

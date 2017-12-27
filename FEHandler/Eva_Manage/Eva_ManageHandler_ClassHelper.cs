@@ -791,10 +791,61 @@ namespace FEHandler.Eva_Manage
     }
 
 
+    public class ReguModel
+    {
+        public int? SectionId { get; set; }
+
+        public string Value { get; set; }
+
+        public string DisPlayName { get; set; }
+
+        public int? Id { get; set; }
+
+        public byte? Study_IsEnable { get; set; }
+
+        public DateTime? EndTime { get; set; }
+
+        public int ReguState { get; set; }
 
 
 
+        public DateTime? ReguStartTime { get; set; }
 
+        public DateTime? ReguEndTime { get; set; }
+    }
+
+
+    public class Regu_S
+    {
+
+        public int? SectionId { get; set; }
+
+        public string DisPlayName { get; set; }
+
+        public string CreateName { get; set; }
+
+        public string ReguName { get; set; }
+
+        public string CreateUID { get; set; }
+
+        public DateTime? StartTime { get; set; }
+
+        public DateTime? EndTime { get; set; }
+
+        public DateTime? CreateTime { get; set; }
+
+        public string State { get; set; }
+
+        public int StateType { get; set; }
+
+        public string TableName { get; set; }
+
+        public int? Id { get; set; }
+
+        public byte? LookType { get; set; }
+
+        public int ReguState { get; set; }
+    }
 
 
 }
@@ -817,6 +868,11 @@ enum IsAnswer
     Yes = 0,
 }
 
+enum LookType
+{
+    AllSchool=0,
+    DepartmentType =1,
+}
 
 
 enum IsScore
@@ -943,9 +999,9 @@ enum QuesType_Type
 
 enum ReguState
 {
-    进行中,
-    未开始,
-    已完成,
+    未开始 = 1,
+    进行中 = 2,   
+    已结束 = 3,
 }
 
 #endregion

@@ -85,6 +85,11 @@ namespace FEHandler.Eva_Manage
 
                     //获取表格
                     case "Get_Eva_Table": Get_Eva_Table(context); break;
+
+                        //获取表格
+                    case "Get_Eva_Table_S": Get_Eva_Table_S(context); break;
+                        
+
                     //获取表格详情
                     case "Get_Eva_TableDetail": Get_Eva_TableDetail(context); break;
                     //添加表格

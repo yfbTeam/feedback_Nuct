@@ -20,10 +20,10 @@
             <div class="search_toobar clearfix">
                 <div class="fl">
                     <label for="">学年学期:</label>
-                    <select class="select" id="section">                      
+                    <select class="select" id="section">
                     </select>
                 </div>
-               
+
                 <div class="fr">
                     <input type="button" name="" id="" value="新增评价" class="btn" onclick="OpenIFrameWindow('新增评价', 'CreateModel.aspx', '545px', '450px')">
                 </div>
@@ -39,6 +39,7 @@
                             <th>截止时间</th>
                             <th>状态</th>
                             <th>评价表</th>
+                            <th>评价范围</th>
                             <th>创建时间</th>
                             <th>操作</th>
                         </tr>
@@ -61,20 +62,32 @@
     <script src="../../Scripts/laypage/laypage.js"></script>
     <script type="text/x-jquery-tmpl" id="itemData">
         <tr>
-            <td>${ReguName}</td>
+            <td title="${ReguName}">${cutstr(ReguName,10)}</td>
             <td>${DisPlayName}</td>
             <td>${CreateName}</td>
             <td>${DateTimeConvert(StartTime,'yy-MM-dd',true)}</td>
             <td>${DateTimeConvert(EndTime,'yy-MM-dd',true)}</td>
             <td>${State}</td>
-            <td></td>
+            <td style="width: 30%" title="${TableName}">${cutstr(TableName,40)}</td>
+            {{if LookType == 0}}
+             <td>全校</td>
+            {{else LookType == 1}}
+             <td>指定部门</td>
+            {{/if}}
+
             <td>${DateTimeConvert(CreateTime,'yy-MM-dd',true)}</td>
             <td class="operate_wrap">
-                <div class="operate" onclick="OpenIFrameWindow('编辑评价','CreateModel.aspx','545px','450px')">
+                <div class="operate" onclick="OpenIFrameWindow('查看评价','SeeModel.aspx?Id=${Id}','545px','450px')">
+                    <i class="iconfont color_purple">&#xe60b;</i>
+                    <span class="operate_none bg_purple">查看
+                    </span>
+                </div>
+
+                <div class="operate" onclick="OpenIFrameWindow('编辑评价','EditModel.aspx?Id=${Id}','545px','450px')">
                     <i class="iconfont color_purple">&#xe602;</i>
                     <span class="operate_none bg_purple">编辑</span>
                 </div>
-                <div class="operate">
+                <div class="operate" onclick="remove_data(${Id});">
                     <i class="iconfont color_purple">&#xe61b;</i>
                     <span class="operate_none bg_purple">删除</span>
                 </div>
@@ -104,7 +117,24 @@
                 });
             };
             Base.bindStudySection();
+
+
+            Delete_Eva_RegularCompleate = function () {
+                Reflesh();
+            }
         })
+
+        function Reflesh() {
+            select_sectionid = $('#section').val();
+            Get_Eva_RegularS(select_sectionid, 2, pageIndex);
+        }
+
+        function remove_data(Id) {
+            layer.confirm('确定删除吗？', {
+                btn: ['确定', '取消'], //按钮
+                title: '操作'
+            }, function () { Delete_Eva_Regular(Id); });
+        }
     </script>
 </body>
 </html>

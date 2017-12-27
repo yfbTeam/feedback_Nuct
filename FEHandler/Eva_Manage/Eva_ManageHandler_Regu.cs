@@ -18,7 +18,7 @@ namespace FEHandler.Eva_Manage
         #region 获取定期评价
 
         /// <summary>
-        ///获取定期评价
+        ///获取定期评价【课堂评价】
         /// </summary>
         public void Get_Eva_RegularS(HttpContext context)
         {
@@ -34,23 +34,41 @@ namespace FEHandler.Eva_Manage
             {
                 var regulist = (from regu in Constant.Eva_Regular_List
                                 join section in Constant.StudySection_List on regu.Section_Id equals section.Id
-                                join user in Constant.UserInfo_List on regu.CreateUID equals user.UniqueNo
+                                join user in Constant.UserInfo_List on regu.CreateUID equals user.LoginName
+                                join table in Constant.Eva_Table_List on regu.TableID equals table.Id
                                 where regu.Type == Type
-                                select new { SectionId = section.Id, section.DisPlayName, CreateName = user.Name, ReguName = regu.Name, regu.CreateUID, regu.StartTime, regu.EndTime, regu.CreateTime, State = "" }).ToList();
+                                select new Regu_S()
+                                {
+                                    SectionId = section.Id,
+                                    DisPlayName = section.DisPlayName,
+                                    CreateName = user.Name,
+                                    ReguName = regu.Name,
+                                    CreateUID = regu.CreateUID,
+                                    StartTime = regu.StartTime,
+                                    EndTime = regu.EndTime,
+                                    CreateTime = regu.CreateTime,
+                                    State = "",
+                                    StateType = 0,
+                                    TableName = table.Name,
+                                    Id = regu.Id,
+                                    LookType = regu.LookType,
+                                }).ToList();
 
                 if (SectionId > 0)
                 {
                     regulist = (from regu in regulist
                                 where regu.SectionId == SectionId
-                                select new { regu.SectionId, regu.DisPlayName, CreateName = regu.CreateName, ReguName = regu.ReguName, regu.CreateUID, regu.StartTime, regu.EndTime, regu.CreateTime, State = "" }).ToList();
+                                select regu).ToList();
 
                 }
 
+                var query_last = (from an in regulist select an).Skip((PageIndex - 1) * PageSize).Take(PageSize).ToList();
+
                 ReguState regustate = ReguState.进行中;
-                if (regulist.Count > 0)
+                foreach (var li in query_last)
                 {
-                    var li = regulist[0];
-                    if (li.StartTime < DateTime.Now && li.EndTime > DateTime.Now)
+
+                    if (li.StartTime < DateTime.Now && ((DateTime)li.EndTime).AddDays(1) > DateTime.Now)
                     {
                         regustate = ReguState.进行中;
                     }
@@ -60,12 +78,11 @@ namespace FEHandler.Eva_Manage
                     }
                     else
                     {
-                        regustate = ReguState.已完成;
+                        regustate = ReguState.已结束;
                     }
+                    li.State = Convert.ToString(regustate);
+                    li.ReguState = (int)regustate;
                 }
-                regulist = (from regu in regulist select new { regu.SectionId, regu.DisPlayName, CreateName = regu.CreateName, ReguName = regu.ReguName, regu.CreateUID, regu.StartTime, regu.EndTime, regu.CreateTime, State = Convert.ToString(regustate) }).ToList();
-
-                var query_last = (from an in regulist select an).Skip((PageIndex - 1) * PageSize).Take(PageSize).ToList();
 
                 //返回所有表格数据
                 jsm = JsonModelNum.GetJsonModel_o(intSuccess, "success", query_last);
@@ -120,28 +137,32 @@ namespace FEHandler.Eva_Manage
                 var list = (from regu in Constant.Eva_Regular_List
                             where regu.Type == Type
                             join section in Constant.StudySection_List on regu.Section_Id equals section.Id
-                            select new
+                            select new ReguModel()
                             {
                                 SectionId = section.Id,
                                 Value = regu.Name,
-                                section.DisPlayName,
+                                DisPlayName = section.DisPlayName,
                                 Id = regu.Id,
                                 Study_IsEnable = section.IsEnable,
-                                section.EndTime,
+                                EndTime = section.EndTime,
+                                ReguStartTime = regu.StartTime,
+                                ReguEndTime = regu.EndTime,
                             }).ToList();
                 foreach (var item in Constant.StudySection_List)
                 {
                     var li = list.FirstOrDefault(i => i.SectionId == item.Id);
                     if (li == null)
                     {
-                        list.Add(new
+                        list.Add(new ReguModel()
                         {
                             SectionId = item.Id,
                             Value = "",
-                            item.DisPlayName,
+                            DisPlayName = item.DisPlayName,
                             Id = (int?)0,
                             Study_IsEnable = item.IsEnable,
-                            item.EndTime,
+                            EndTime = item.EndTime,
+                            ReguStartTime = item.StartTime,
+                            ReguEndTime = item.EndTime,
                         });
                     }
                 }
@@ -149,8 +170,25 @@ namespace FEHandler.Eva_Manage
                 {
                     list = (from li in list where li.SectionId == SectionId select li).ToList();
                 }
+                ReguState regustate = ReguState.进行中;
+                foreach (var li in list)
+                {
 
-                list = (from li in list orderby li.EndTime select li).ToList();
+                    if (li.ReguStartTime < DateTime.Now && ((DateTime)li.ReguEndTime).AddDays(1) > DateTime.Now)
+                    {
+                        regustate = ReguState.进行中;
+                    }
+                    else if (li.ReguStartTime > DateTime.Now)
+                    {
+                        regustate = ReguState.未开始;
+                    }
+                    else
+                    {
+                        regustate = ReguState.已结束;
+                    }
+                    li.ReguState = (int)regustate;
+                }
+                list = (from li in list orderby li.EndTime descending select li).ToList();
                 //返回所有表格数据
                 model = JsonModel.get_jsonmodel(intSuccess, "success", list);
             }
@@ -171,8 +209,40 @@ namespace FEHandler.Eva_Manage
             int Id = RequestHelper.int_transfer(Request, "Id");
             try
             {
-                var regu = Constant.Eva_Regular_List.FirstOrDefault(i => i.Id == Id);
-                jsonModel = JsonModel.get_jsonmodel(0, "success", regu);
+                Eva_Regular regu = Constant.Eva_Regular_List.FirstOrDefault(i => i.Id == Id);
+                if (regu != null)
+                {
+                    Eva_Table table = Constant.Eva_Table_List.FirstOrDefault(t => t.Id == regu.TableID);
+                    StudySection section = Constant.StudySection_List.FirstOrDefault(s => s.Id == regu.Section_Id);
+                    List<Major> departments = new List<Major>();
+                    List<string> departmentids = new List<string>();
+                    if (regu.LookType == (int)LookType.DepartmentType && regu.DepartmentIDs != "")
+                    {
+                        string[] departs = Split_Hepler.str_to_stringss(regu.DepartmentIDs);
+                        departments = (from d in Constant.Major_List where departs.Contains(d.Id) select d).ToList();
+                        departmentids = (from d in departments select d.Id).ToList();
+                    }
+                    var li = new
+                    {
+                        regu.StartTime,
+                        regu.EndTime,
+                        regu.Id,
+                        regu.Name,
+                        regu.LookType,
+                        TableName = table != null ? table.Name : "",
+                        section.DisPlayName,
+                        SectionID = section.Id,
+                        DepartmentList = departments,
+                        regu.Type,
+                        regu.TableID,
+                        DepartmentIdList = departmentids,
+                    };
+                    jsonModel = JsonModel.get_jsonmodel(0, "success", li);
+                }
+                else
+                {
+                    jsonModel = JsonModel.get_jsonmodel(3, "failed", "指定的定期评价不存在");
+                }
             }
             catch (Exception ex)
             {
@@ -184,8 +254,6 @@ namespace FEHandler.Eva_Manage
                 context.Response.Write("{\"result\":" + Constant.jss.Serialize(jsonModel) + "}");
             }
         }
-
-
 
         /// <summary>
         ///获取课程类型
@@ -205,7 +273,20 @@ namespace FEHandler.Eva_Manage
                             join teacher in Constant.Teacher_List on exp.TeacherUID equals teacher.UniqueNo
                             join regu in Constant.Eva_Regular_List on exp.ReguId equals Convert.ToString(regu.Id)
                             where exp.ReguId == ReguId
-                            select new { exp.Id, exp.TeacherName, exp.ExpertName, exp.Course_Name, teacher.Departent_Name, ReguName = regu.Name, regu.StartTime, regu.EndTime, State = "" }).ToList();
+                            select new
+                            {
+                                exp.Id,
+                                exp.TeacherName,
+                                exp.ExpertName,
+                                exp.Course_Name,
+                                teacher.Departent_Name,
+                                ReguName = regu.Name,
+                                regu.StartTime,
+                                regu.EndTime,
+                                State = "",
+                                StateType = 0,
+                                LookType = regu.LookType,
+                            }).ToList();
 
                 if (Key != "")
                 {
@@ -216,7 +297,7 @@ namespace FEHandler.Eva_Manage
                 if (list.Count > 0)
                 {
                     var li = list[0];
-                    if (li.StartTime < DateTime.Now && li.EndTime > DateTime.Now)
+                    if (li.StartTime < DateTime.Now && ((DateTime)li.EndTime).AddDays(1) > DateTime.Now)
                     {
                         regustate = ReguState.进行中;
 
@@ -227,7 +308,7 @@ namespace FEHandler.Eva_Manage
                     }
                     else
                     {
-                        regustate = ReguState.已完成;
+                        regustate = ReguState.已结束;
                     }
                 }
 
@@ -243,7 +324,9 @@ namespace FEHandler.Eva_Manage
                                   ReguName = an.ReguName,
                                   an.StartTime,
                                   an.EndTime,
-                                  State = Convert.ToString(regustate)
+                                  State = Convert.ToString(regustate),
+                                  StateType = (int)regustate,
+                                  LookType = an.LookType,
                               }).ToList();
                 //返回所有表格数据
                 jsm = JsonModelNum.GetJsonModel_o(intSuccess, "success", query_last);
@@ -300,16 +383,24 @@ namespace FEHandler.Eva_Manage
                 Eva_Regular Eva_Regular_delete = Constant.Eva_Regular_List.FirstOrDefault(i => i.Id == Id);
                 if (Eva_Regular_delete != null)
                 {
-                    //数据库操作成功再改缓存
-                    model = Constant.Eva_RegularService.Delete((int)Eva_Regular_delete.Id);
-                    if (model.errNum == intSuccess)
+                    var experlist_Count = Constant.Expert_Teacher_Course_List.Count(i => i.ReguId == Convert.ToString(Eva_Regular_delete.Id));
+                    if (experlist_Count == 0)
                     {
-                        Eva_Regular_delete.IsDelete = (int)IsDelete.Delete;
-                        Constant.Eva_Regular_List.Remove(Eva_Regular_delete);
+                        //数据库操作成功再改缓存
+                        model = Constant.Eva_RegularService.Delete((int)Eva_Regular_delete.Id);
+                        if (model.errNum == intSuccess)
+                        {
+                            Eva_Regular_delete.IsDelete = (int)IsDelete.Delete;
+                            Constant.Eva_Regular_List.Remove(Eva_Regular_delete);
+                        }
+                        else
+                        {
+                            model = JsonModel.get_jsonmodel(3, "failed", "删除失败");
+                        }
                     }
                     else
                     {
-                        model = JsonModel.get_jsonmodel(3, "failed", "删除失败");
+                        model = JsonModel.get_jsonmodel(3, "failed", "该定期评价已分配任务");
                     }
                 }
                 else
@@ -322,6 +413,146 @@ namespace FEHandler.Eva_Manage
                 LogHelper.Error(ex);
             }
             return model;
+        }
+
+        #endregion
+
+        #region 编辑定期评价
+
+        /// <summary>
+        /// 修改定期评价
+        /// </summary>
+        public void Edit_Eva_Regular(HttpContext context)
+        {
+            HttpRequest Request = context.Request;
+            //名称 开始时间 结束时间  最大百分比 最小百分比
+            string Name = RequestHelper.string_transfer(Request, "Name");
+            int Id = RequestHelper.int_transfer(Request, "Id");
+            DateTime StartTime = RequestHelper.DateTime_transfer(Request, "StartTime");
+            DateTime EndTime = RequestHelper.DateTime_transfer(Request, "EndTime");
+            byte LookType = Convert.ToByte(Request["LookType"]);
+            DateTime Look_StartTime = RequestHelper.DateTime_transfer(Request, "Look_StartTime");
+            DateTime Look_EndTime = RequestHelper.DateTime_transfer(Request, "Look_EndTime");
+            string MaxPercent = RequestHelper.string_transfer(Request, "MaxPercent");
+            string MinPercent = RequestHelper.string_transfer(Request, "MinPercent");
+            string Remarks = RequestHelper.string_transfer(Request, "Remarks");
+            string EditUID = RequestHelper.string_transfer(Request, "EditUID");
+            int Section_Id = RequestHelper.int_transfer(Request, "Section_Id");
+            int Type = RequestHelper.int_transfer(Request, "Type");
+            int TableID = RequestHelper.int_transfer(Request, "TableID");
+            string DepartmentIDs = RequestHelper.string_transfer(Request, "DepartmentIDs");
+            bool hasAcross = false;
+            try
+            {
+                #region 查看是否交叉
+
+                var reguList = (from regu in Constant.Eva_Regular_List where regu.Id != Id && regu.Type == Type select regu).ToList();
+
+                foreach (Eva_Regular regu in reguList)
+                {
+                    if (StartTime <= regu.StartTime && EndTime >= regu.EndTime)
+                    {
+                        hasAcross = true;
+                        break;
+                    }
+                    if (StartTime >= regu.StartTime && StartTime <= regu.EndTime)
+                    {
+                        hasAcross = true;
+                        break;
+                    }
+                    if (EndTime >= regu.StartTime && EndTime <= regu.EndTime)
+                    {
+                        hasAcross = true;
+                        break;
+                    }
+                }
+
+                #endregion
+
+                if (!hasAcross)
+                {
+                    var section = Constant.StudySection_List.FirstOrDefault(i => i.Id == Section_Id);
+                    if (section != null)
+                    {
+                        if (StartTime > section.StartTime && EndTime < section.EndTime)
+                        {
+                            #region 编辑评价
+
+                            var reguEdit = Constant.Eva_Regular_List.FirstOrDefault(i => i.Id == Id);
+                            if (reguEdit != null)
+                            {
+                                var regu_Clone = Constant.Clone<Eva_Regular>(reguEdit);
+
+                                regu_Clone.Name = Name;
+                                regu_Clone.StartTime = StartTime;
+                                regu_Clone.EndTime = EndTime;
+                                regu_Clone.LookType = LookType;
+                                regu_Clone.Look_StartTime = Look_StartTime;
+                                regu_Clone.Look_EndTime = Look_EndTime;
+                                regu_Clone.MaxPercent = MaxPercent;
+                                regu_Clone.MinPercent = MinPercent;
+                                regu_Clone.Remarks = Remarks;
+                                regu_Clone.EditTime = DateTime.Now;
+                                regu_Clone.EditUID = EditUID;
+                                regu_Clone.Type = Type;
+                                regu_Clone.TableID = TableID;
+                                regu_Clone.DepartmentIDs = DepartmentIDs;
+
+                                //数据库添加
+                                jsonModel = Constant.Eva_RegularService.Update(regu_Clone);
+                                if (jsonModel.errNum == 0)
+                                {
+                                    reguEdit.Name = Name;
+                                    reguEdit.StartTime = StartTime;
+                                    reguEdit.EndTime = EndTime;
+                                    reguEdit.LookType = LookType;
+                                    reguEdit.Look_StartTime = Look_StartTime;
+                                    reguEdit.Look_EndTime = Look_EndTime;
+                                    reguEdit.MaxPercent = MaxPercent;
+                                    reguEdit.MinPercent = MinPercent;
+                                    reguEdit.Remarks = Remarks;
+                                    reguEdit.EditTime = DateTime.Now;
+                                    reguEdit.EditUID = EditUID;
+                                    reguEdit.Type = Type;
+                                    reguEdit.TableID = TableID;
+                                    reguEdit.DepartmentIDs = DepartmentIDs;
+                                }
+                                else
+                                {
+                                    jsonModel = JsonModel.get_jsonmodel(3, "failed", "编辑失败");
+                                }
+                            }
+                            else
+                            {
+                                jsonModel = JsonModel.get_jsonmodel(3, "failed", "该评价不存在");
+                            }
+
+                            #endregion
+                        }
+                        else
+                        {
+                            jsonModel = JsonModel.get_jsonmodel(3, "failed", "超出了该学年学期的时间范围");
+                        }
+                    }
+                    else
+                    {
+                        jsonModel = JsonModel.get_jsonmodel(3, "failed", "添加失败");
+                    }
+                }
+                else
+                {
+                    jsonModel = JsonModel.get_jsonmodel(3, "failed", "和已知的定期评价时间交叉");
+                }
+            }
+            catch (Exception ex)
+            {
+                LogHelper.Error(ex);
+            }
+            finally
+            {
+                //无论后端出现什么问题，都要给前端有个通知【为防止jsonModel 为空 ,全局字段 jsonModel 特意声明之后进行初始化】
+                context.Response.Write("{\"result\":" + Constant.jss.Serialize(jsonModel) + "}");
+            }
         }
 
         #endregion
@@ -363,7 +594,7 @@ namespace FEHandler.Eva_Manage
 
                     var reguList = (from regu in Constant.Eva_Regular_List where regu.Type == Type select regu).ToList();
 
-                    foreach (Eva_Regular regu in Constant.Eva_Regular_List)
+                    foreach (Eva_Regular regu in reguList)
                     {
                         if (StartTime <= regu.StartTime && EndTime >= regu.EndTime)
                         {
@@ -463,128 +694,12 @@ namespace FEHandler.Eva_Manage
         }
 
 
-
         #endregion
 
         #region 定期评价管理
 
 
-        /// <summary>
-        /// 修改定期评价
-        /// </summary>
-        public void Edit_Eva_Regular(HttpContext context)
-        {
-            HttpRequest Request = context.Request;
-            //名称 开始时间 结束时间  最大百分比 最小百分比
-            string Name = RequestHelper.string_transfer(Request, "Name");
-            int Id = RequestHelper.int_transfer(Request, "Id");
-            DateTime StartTime = RequestHelper.DateTime_transfer(Request, "StartTime");
-            DateTime EndTime = RequestHelper.DateTime_transfer(Request, "EndTime");
-            byte LookType = Convert.ToByte(Request["LookType"]);
-            DateTime Look_StartTime = RequestHelper.DateTime_transfer(Request, "Look_StartTime");
-            DateTime Look_EndTime = RequestHelper.DateTime_transfer(Request, "Look_EndTime");
-            string MaxPercent = RequestHelper.string_transfer(Request, "MaxPercent");
-            string MinPercent = RequestHelper.string_transfer(Request, "MinPercent");
-            string Remarks = RequestHelper.string_transfer(Request, "Remarks");
-            string EditUID = RequestHelper.string_transfer(Request, "EditUID");
-            int Type = RequestHelper.int_transfer(Request, "Type");
-            int TableID = RequestHelper.int_transfer(Request, "TableID");
-            string DepartmentIDs = RequestHelper.string_transfer(Request, "DepartmentIDs");
-            bool hasAcross = false;
-            try
-            {
-                #region 查看是否交叉
 
-                var reguList = (from regu in Constant.Eva_Regular_List where regu.Id != Id && regu.Type == Type select regu).ToList();
-
-                foreach (Eva_Regular regu in reguList)
-                {
-                    if (StartTime <= regu.StartTime && EndTime >= regu.EndTime)
-                    {
-                        hasAcross = true;
-                        break;
-                    }
-                    if (StartTime >= regu.StartTime && StartTime <= regu.EndTime)
-                    {
-                        hasAcross = true;
-                        break;
-                    }
-                    if (EndTime >= regu.StartTime && EndTime <= regu.EndTime)
-                    {
-                        hasAcross = true;
-                        break;
-                    }
-                }
-
-                #endregion
-
-                if (!hasAcross)
-                {
-                    var reguEdit = Constant.Eva_Regular_List.FirstOrDefault(i => i.Id == Id);
-                    if (reguEdit != null)
-                    {
-                        var regu_Clone = Constant.Clone<Eva_Regular>(reguEdit);
-
-                        regu_Clone.Name = Name;
-                        regu_Clone.StartTime = StartTime;
-                        regu_Clone.EndTime = EndTime;
-                        regu_Clone.LookType = LookType;
-                        regu_Clone.Look_StartTime = Look_StartTime;
-                        regu_Clone.Look_EndTime = Look_EndTime;
-                        regu_Clone.MaxPercent = MaxPercent;
-                        regu_Clone.MinPercent = MinPercent;
-                        regu_Clone.Remarks = Remarks;
-                        regu_Clone.EditTime = DateTime.Now;
-                        regu_Clone.EditUID = EditUID;
-                        regu_Clone.Type = Type;
-                        regu_Clone.TableID = TableID;
-                        regu_Clone.DepartmentIDs = DepartmentIDs;
-
-                        //数据库添加
-                        jsonModel = Constant.Eva_RegularService.Update(regu_Clone);
-                        if (jsonModel.errNum == 0)
-                        {
-                            reguEdit.Name = Name;
-                            reguEdit.StartTime = StartTime;
-                            reguEdit.EndTime = EndTime;
-                            reguEdit.LookType = LookType;
-                            reguEdit.Look_StartTime = Look_StartTime;
-                            reguEdit.Look_EndTime = Look_EndTime;
-                            reguEdit.MaxPercent = MaxPercent;
-                            reguEdit.MinPercent = MinPercent;
-                            reguEdit.Remarks = Remarks;
-                            reguEdit.EditTime = DateTime.Now;
-                            reguEdit.EditUID = EditUID;
-                            reguEdit.Type = Type;
-                            reguEdit.TableID = TableID;
-                            reguEdit.DepartmentIDs = DepartmentIDs;
-                        }
-                        else
-                        {
-                            jsonModel = JsonModel.get_jsonmodel(3, "failed", "编辑失败");
-                        }
-                    }
-                    else
-                    {
-                        jsonModel = JsonModel.get_jsonmodel(3, "failed", "该评价不存在");
-                    }
-
-                }
-                else
-                {
-                    jsonModel = JsonModel.get_jsonmodel(3, "failed", "和已知的定期评价时间交叉");
-                }
-            }
-            catch (Exception ex)
-            {
-                LogHelper.Error(ex);
-            }
-            finally
-            {
-                //无论后端出现什么问题，都要给前端有个通知【为防止jsonModel 为空 ,全局字段 jsonModel 特意声明之后进行初始化】
-                context.Response.Write("{\"result\":" + Constant.jss.Serialize(jsonModel) + "}");
-            }
-        }
 
 
 

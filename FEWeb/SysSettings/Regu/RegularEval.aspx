@@ -74,8 +74,8 @@
                             <input type="text" name="" id="key" placeholder="请输入教师名称" value="" class="text fl">
                             <a class="search fl" href="javascript:;" onclick="SelectByWhere()"><i class="iconfont">&#xe600;</i></a>
                         </div>
-                        <div class="fr" id="operator">
-                            <input type="button" name="" id="" value="分配任务" class="btn" onclick="AllotTask()">
+                        <div class="fr "  id="operator" >
+                          
                         </div>
                     </div>
                     <div class="table">
@@ -126,18 +126,29 @@
     <script type="text/x-jquery-tmpl" id="itemData">
         <tr>
             <td>${Num}</td>
-            <td>${ReguName}</td>
+            <td title="${ReguName}">${cutstr(ReguName,10)}</td>
             <td>${TeacherName}</td>
-            <td>${Departent_Name}</td>
-            <td>${Course_Name}</td>
+            <td title="${Departent_Name}" style="width: 25%">${cutstr(Departent_Name,30)}</td>
+            <td title="${Course_Name}" style="width: 25%">${cutstr(Course_Name,30)}</td>
             <td>${ExpertName}</td>
             <td>${State}</td>
-            <td class="operate_wrap">
+            {{if StateType == 2}}
+             <td class="operate_wrap">
+                <div class="operate">
+                    <i class="iconfont color_gray">&#xe61b;</i>
+                    <span class="operate_none bg_gray">删除</span>
+                </div>
+            </td>
+            {{else}}          
+             <td class="operate_wrap">
                 <div class="operate" onclick='remove_data(${Id})'>
                     <i class="iconfont color_purple">&#xe61b;</i>
                     <span class="operate_none bg_purple">删除</span>
                 </div>
             </td>
+            {{/if}}
+
+            
         </tr>
     </script>
 
@@ -147,17 +158,41 @@
             <span>${course_parent.DisPlayName}<i class="iconfont">&#xe643;</i></span>
             <ul>
                 {{each objectlist}}
-                <li>
-                    <em onclick="GetCourseinfoBySortMan('{{= $value.Id}}')">{{= $value.Value}}</em>
+                <li ReguState="${ReguState}">
+                    <em title="{{= $value.Value}}" onclick="GetCourseinfoBySortMan('{{= $value.Id}}')">{{= cutstr($value.Value,10)}}</em>
                     <div class="operates">
-                        <div class="operate" onclick="OpenIFrameWindow('编辑评价', 'EditEval.aspx?Id={{= $value.Id}}', '600px', '250px')">
-                            <i class="iconfont color_purple">&#xe632;</i>
-                            <a class='operate_none bg_purple'>设置</a>
-                        </div>
-                        <div class="operate ml5" onclick="remove('{{= $value.Id}}','{{= $value.Value}}');">
+                        {{if ReguState == 1}}                        
+                         
+                         <div class="operate" onclick="OpenIFrameWindow('编辑评价', 'EditEval.aspx?Id={{= $value.Id}}', '600px', '250px')">
+                             <i class="iconfont color_purple">&#xe632;</i>
+                             <a class='operate_none bg_purple'>设置</a>
+                         </div>
+                          <div class="operate ml5" onclick="remove('{{= $value.Id}}','{{= $value.Value}}');">
                             <i class="iconfont color_purple">&#xe61b;</i>
                             <a class='operate_none bg_purple'>删除</a>
                         </div>
+                       
+                        {{else ReguState ==2}}
+                         <div class="operate" onclick="OpenIFrameWindow('编辑评价', 'EditEval.aspx?Id={{= $value.Id}}', '600px', '250px')">
+                             <i class="iconfont color_purple">&#xe632;</i>
+                             <a class='operate_none bg_purple'>设置</a>
+                         </div>
+                         <div class="operate ml5">
+                            <i class="iconfont color_gray">&#xe61b;</i>
+                            <a class='operate_none bg_gray'>删除</a>
+                        </div>
+                         {{else ReguState ==3}}
+                        <div class="operate">
+                             <i class="iconfont color_gray">&#xe632;</i>
+                             <a class='operate_none bg_gray'>设置</a>
+                         </div>
+                        <div class="operate ml5">
+                            <i class="iconfont color_gray">&#xe61b;</i>
+                            <a class='operate_none bg_gray'>删除</a>
+                        </div>
+                        {{/if}}
+
+                       
                     </div>
                 </li>
                 {{/each}}                                    
@@ -174,6 +209,14 @@
         <span style="margin-left: 5px; font-size: 14px;">共${RowCount}条，共${PageCount}页</span>
     </script>
 
+
+    <script type="text/x-jquery-tmpl" id="itemAllot">
+        <input type="button" name="" id="" value="分配任务" class="btn"  onclick="AllotTask()">
+    </script>
+
+     <script type="text/x-jquery-tmpl" id="itemAllotNo">
+        <input type="button" name="" id="" value="分配任务" class="btn"  style="background:#A8A8A8">
+    </script>
 </body>
 </html>
 
@@ -182,10 +225,12 @@
     var select_reguid = 0;
     var SectionList = [];
     $(function () {
-        tableSlide();
 
+        Get_Eva_RegularCompleate = function () {
+            PrepareInit();
+        };
         Get_Eva_Regular(0, 1);
-        PrepareInit();
+       
         Delete_Eva_RegularCompleate = function () {
             Reflesh();
         }
@@ -193,8 +238,10 @@
     })
 
     function Reflesh() {
-        Get_Eva_Regular(0,1);
-        PrepareInit();
+        Get_Eva_RegularCompleate = function () {
+            PrepareInit();
+        };
+        Get_Eva_Regular(0, 1);    
     }
 
     function AllotTask() {
@@ -208,18 +255,16 @@
         }, function () { Delete_Eva_Regular(Id); });
     }
 
-    function remove_data(Id)
-    {
+    function remove_data(Id) {
         layer.confirm('确定删除吗？', {
             btn: ['确定', '取消'], //按钮
             title: '操作'
         }, function () { DeleteExpert_List_Teacher_Course(Id); });
     }
 
-    function SelectByWhere()
-    {
+    function SelectByWhere() {
         Get_Eva_RegularData(select_reguid, 0);
     }
-  
+
 
 </script>

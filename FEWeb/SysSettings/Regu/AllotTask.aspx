@@ -135,7 +135,7 @@
     var select_sectionid = parent.select_sectionid;
     var select_course_teacher = [];
     var select_reguid = parent.select_reguid;
-    debugger;
+    
     $(function () {
         UI_Allot.PageType = 'AllotTask';
         UI_Allot.GetProfessInfo();//获取院系

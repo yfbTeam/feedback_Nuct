@@ -84,7 +84,7 @@ var UI_Table =
                 type: "post",
                 async: false,
                 dataType: "json",
-                data: { Func: "Get_Eva_Table", Eva_Role: Eva_Role },
+                data: { Func: "Get_Eva_Table_S", Eva_Role: Eva_Role },
                 success: function (json) {
 
                     retData = json.result.retData;

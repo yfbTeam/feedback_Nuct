@@ -26,8 +26,7 @@ function PrepareInit() {
         }
 
     });
-    //划过事件
-    tableSlide();
+
     //点击样式事件
     $('.menu_list').find('li:has(ul)').find('li').click(function () {
         $('.menu_list').find('li:has(ul)').find('li').removeClass('selected');
@@ -35,9 +34,31 @@ function PrepareInit() {
         $(this).addClass('selected');
 
         select_sectionid = $(this).parent().parent('li').attr('sectionid');
-
-
+        $('#operator').empty();
+        var ReguState = Number($(this).attr('ReguState'));
+        switch (ReguState) {
+            case 1:
+                $("#itemAllot").tmpl(1).appendTo("#operator");
+                break;
+            case 2:
+                $("#itemAllot").tmpl(1).appendTo("#operator");
+                break;
+            case 3:
+                $("#itemAllotNo").tmpl(1).appendTo("#operator");
+                break;
+            default:
+        }
     });
+
+    $('.menu_list').find('li:has(ul)').children('span').each(function () {
+        if ($(this).parent('li').attr('sectionid') == select_sectionid) {
+            var $next = $(this).next('ul');
+            $(this).addClass('selected');
+            $next.stop().slideDown();
+            $(this).parent('li').find('li:first').addClass('selected');
+            $(this).parent('li').find('li:first').find('em').trigger('click')
+        }
+    })
 }
 
 function GetSection() {
@@ -131,7 +152,7 @@ function Get_Eva_Regular(SectionId, Type) {
         async: false,
         success: function (json) {
             if (json.result.errMsg == "success") {
-                debugger;
+
                 var retData = json.result.retData;
                 var retdata = Enumerable.From(retData).GroupBy(function (x) { return x.SectionId }).ToArray();
                 //retdata = Enumerable.From(retdata).OrderByDescending(function (child) { child.source[0].SectionId }).ToArray()
@@ -151,15 +172,7 @@ function Get_Eva_Regular(SectionId, Type) {
                 }
                 $("#menu_listscours").empty();
                 $("#course_item").tmpl(data).appendTo("#menu_listscours");
-                $('.menu_list').find('li:has(ul)').children('span').each(function () {
-                    if ($(this).parent('li').attr('sectionid') == select_sectionid) {
-                        var $next = $(this).next('ul');
-                        $(this).addClass('selected');
-                        $next.stop().slideDown();
-                        $(this).parent('li').find('li:first').addClass('selected');
-                        $(this).parent('li').find('li:first').find('em').trigger('click')
-                    }
-                })
+
 
                 Get_Eva_RegularCompleate();
             }
@@ -173,6 +186,7 @@ function Get_Eva_Regular(SectionId, Type) {
 //点击课程分类
 function GetCourseinfoBySortMan(Id) {
 
+
     select_reguid = Id;
     Get_Eva_RegularData(Id, 0);
 }
@@ -185,12 +199,12 @@ function Add_Eva_Regular(Type) {
     var index_layer = layer.load(1, {
         shade: [0.1, '#fff'] //0.1透明度的白色背景
     });
-   
+
     var postData = {
         func: "Add_Eva_Regular", "Name": $('#name').val(), "StartTime": $('#StartTime').val(), "EndTime": $('#EndTime').val(), "LookType": LookType,
         "Look_StartTime": '', "Look_EndTime": '', "MaxPercent": '', "MinPercent": '', "Remarks": '', "CreateUID": cookie_Userinfo.LoginName
         , "EditUID": cookie_Userinfo.LoginName, "Section_Id": select_sectionid, "Type": Type, "TableID": TableID, "DepartmentIDs": DepartmentIDs,
-       
+
     };
     $.ajax({
         type: "Post",
@@ -199,12 +213,10 @@ function Add_Eva_Regular(Type) {
         dataType: "json",
         success: function (returnVal) {
             if (returnVal.result.errMsg == "success") {
-                layer.msg('操作成功');
+                parent.layer.msg('操作成功');
                 Add_Eva_RegularCompleate();
-                setTimeout(function () {
-                    layer.close(index_layer);
-                    parent.CloseIFrameWindow();
-                }, 100)
+                layer.close(index_layer);
+                parent.CloseIFrameWindow();
             }
             else {
                 layer.close(index_layer);
@@ -222,11 +234,10 @@ function Edit_Eva_Regular(Type) {
     var index_layer = layer.load(1, {
         shade: [0.1, '#fff'] //0.1透明度的白色背景
     });
-
     var postData = {
-        func: "Edit_Eva_Regular", "Id": Id, "Name": $('#name').val(), "StartTime": $('#StartTime').val(), "EndTime": $('#EndTime').val(), "LookType": '0',
+        func: "Edit_Eva_Regular", "Id": Id, "Name": $('#name').val(), "StartTime": $('#StartTime').val(), "EndTime": $('#EndTime').val(), "LookType": LookType,
         "Look_StartTime": '', "Look_EndTime": '', "MaxPercent": '', "MinPercent": '', "Remarks": ''
-        , "EditUID": cookie_Userinfo.LoginName, "Type": Type, "TableID": '', "DepartmentIDs": ''
+        , "EditUID": cookie_Userinfo.LoginName, "Section_Id": select_sectionid, "Type": Type, "TableID": TableID, "DepartmentIDs": DepartmentIDs
     };
     $.ajax({
         type: "Post",
@@ -235,12 +246,10 @@ function Edit_Eva_Regular(Type) {
         dataType: "json",
         success: function (returnVal) {
             if (returnVal.result.errMsg == "success") {
-                layer.msg('操作成功');
+                parent.layer.msg('操作成功');
                 Edit_Eva_RegularCompleate();
-                setTimeout(function () {
-                    layer.close(index_layer);
-                    parent.CloseIFrameWindow();
-                }, 100)
+                layer.close(index_layer);
+                parent.CloseIFrameWindow();
             }
             else {
                 layer.close(index_layer);
@@ -269,9 +278,7 @@ function DeleteExpert_List_Teacher_Course(Id) {
 
                 Get_Eva_RegularData(select_reguid, 0);
                 layer.msg('操作成功');
-                setTimeout(function () {
-                    parent.CloseIFrameWindow();
-                }, 100)
+                parent.CloseIFrameWindow();
             }
             else {
                 layer.msg(returnVal.result.retData);
@@ -283,7 +290,7 @@ function DeleteExpert_List_Teacher_Course(Id) {
     });
 }
 
-function Get_Eva_RegularSingle(Type) {
+function Get_Eva_RegularSingle(Type, IsEdit) {
 
     var postData = {
         func: "Get_Eva_RegularSingle", "Id": Id
@@ -298,10 +305,55 @@ function Get_Eva_RegularSingle(Type) {
                 var regu = returnVal.result.retData;
 
                 $('#name').val(regu.Name);
-
-
                 $('#StartTime').val(DateTimeConvert(regu.StartTime, 'yy-MM-dd', true));
                 $('#EndTime').val(DateTimeConvert(regu.EndTime, 'yy-MM-dd', true));
+
+
+                if (Type == 2) {
+                    if (IsEdit) {
+                        $('#section').val(regu.SectionID);
+                        $('#table').val(regu.TableID);
+
+                        if (regu.LookType == 1) {
+                            newEval.$data.appoint = true;
+                            newEval.$data.picked = 1;
+                            if (regu.DepartmentIdList.length > 0) {
+                                regu.DepartmentIdList.forEach(function (item) {
+
+                                    $('#DepartMent').find('option[value="' + item + '"]').prop('selected', true);
+                                })
+                                $('#DepartMent').on('chosen:ready', function (e, params) {
+                                    $("#DepartMent").val("true")//设置值  
+                                });
+                                $('#DepartMent').trigger('chosen:updated');//更新选项  
+                            }
+                        }
+                        else {
+                            newEval.$data.appoint = false;
+                            newEval.$data.picked = 0;
+                        }
+                    }
+                    else {
+
+                        $('#table').val(regu.TableName);
+                        $('#table').prop('title', regu.TableName);
+                        $('#section').val(regu.DisPlayName);
+                        if (regu.LookType == 1) {
+                            newEval.$data.appoint = true;
+                            newEval.$data.picked = 1;
+                            $('#allspan').hide();
+                            if (regu.DepartmentList.length > 0) {
+                                $("#item_department").tmpl(regu.DepartmentList).appendTo("#_slect_department");
+                            }
+                        }
+                        else {
+                            newEval.$data.appoint = false;
+                            newEval.$data.picked = 0;
+                            $('#appointspan').hide();
+                        }
+                    }
+                }
+
             }
             else {
                 layer.msg(returnVal.result.retData);

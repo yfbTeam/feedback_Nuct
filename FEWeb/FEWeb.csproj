@@ -236,6 +236,8 @@
     <Content Include="SysSettings\Regu\AddEval.aspx" />
     <Content Include="SysSettings\Regu\CreateModel.aspx" />
     <Content Include="SysSettings\Regu\EditEval.aspx" />
+    <Content Include="SysSettings\Regu\EditModel.aspx" />
+    <Content Include="SysSettings\Regu\SeeModel.aspx" />
     <Content Include="SysSettings\Table\EditAddEvalTable.aspx" />
     <Content Include="SysSettings\Indicate\EvalSelectDataBase.aspx" />
     <Content Include="Evaluation\MyStatiscal.aspx" />
@@ -1201,6 +1203,20 @@
     </Compile>
     <Compile Include="SysSettings\Regu\EditEval.aspx.designer.cs">
       <DependentUpon>EditEval.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="SysSettings\Regu\EditModel.aspx.cs">
+      <DependentUpon>EditModel.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="SysSettings\Regu\EditModel.aspx.designer.cs">
+      <DependentUpon>EditModel.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="SysSettings\Regu\SeeModel.aspx.cs">
+      <DependentUpon>SeeModel.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="SysSettings\Regu\SeeModel.aspx.designer.cs">
+      <DependentUpon>SeeModel.aspx</DependentUpon>
     </Compile>
     <Compile Include="SysSettings\Table\EditAddEvalTable.aspx.cs">
       <DependentUpon>EditAddEvalTable.aspx</DependentUpon>

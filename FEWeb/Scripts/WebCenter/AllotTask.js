@@ -209,7 +209,7 @@ function ExpertListReflesh() {
 
         $('#selected_course').empty();
         select_course_teacher = [];
-        debugger;
+        
         if (Teachers != null) {         
             TeachersFilter();
         }

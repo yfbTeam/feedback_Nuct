@@ -753,6 +753,39 @@ namespace FEHandler.Eva_Manage
         /// 获取表格
         /// </summary>
         /// <param name="context">当前上下文</param>
+        public void Get_Eva_Table_S(HttpContext context)
+        {
+            int intSuccess = (int)errNum.Success;
+            HttpRequest Request = context.Request;
+            try
+            {
+                var table_submiter = (from t in Constant.Eva_Table_List
+
+                                      join u in Constant.UserInfo_List on t.CreateUID equals u.UniqueNo
+                                      select new
+                                      {
+                                          t,
+                                          u,
+                                      }).ToList();
+                //返回所有表格数据
+                jsonModel = JsonModel.get_jsonmodel(intSuccess, "success", table_submiter);
+            }
+            catch (Exception ex)
+            {
+                LogHelper.Error(ex);
+            }
+            finally
+            {
+                //无论后端出现什么问题，都要给前端有个通知【为防止jsonModel 为空 ,全局字段 jsonModel 特意声明之后进行初始化】
+                context.Response.Write("{\"result\":" + Constant.jss.Serialize(jsonModel) + "}");
+            }
+        }
+
+
+        /// <summary>
+        /// 获取表格
+        /// </summary>
+        /// <param name="context">当前上下文</param>
         public void Get_Eva_Table(HttpContext context)
         {
             int intSuccess = (int)errNum.Success;

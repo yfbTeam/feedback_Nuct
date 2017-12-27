@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="CreateModel.aspx.cs" Inherits="FEWeb.SysSettings.Regu.CreateModel" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="EditModel.aspx.cs" Inherits="FEWeb.SysSettings.Regu.EditModel" %>
 
 <!DOCTYPE html>
 <html>
@@ -84,9 +84,12 @@
     <script src="../../Scripts/choosen/prism.js"></script>
     <script type="text/javascript" src="../../scripts/My97DatePicker/WdatePicker.js"></script>
     <script src="../../Scripts/WebCenter/RegularEval.js"></script>
-    <script>
 
-        var that = this;
+   
+    <script>
+        var Id = getQueryString('Id');
+
+     
         var newEval = new Vue({
             el: '#newEval',
             data: {
@@ -96,8 +99,7 @@
             },
             methods: {
                 DepartToggle: function () {
-                    this.picked == 1 ? this.appoint = true : this.appoint = false;
-                   
+                    this.picked == 1 ? this.appoint = true : this.appoint = false
                 },
 
                 submit: function () {
@@ -140,19 +142,23 @@
                     }
                     TableID = $('#table').val();
                     select_sectionid = $('#section').val();
-                    Add_Eva_RegularCompleate = function () {
+                    Edit_Eva_RegularCompleate = function () {
                         parent.Reflesh();
                     };
-                    Add_Eva_Regular(2);
-
-
+                    Edit_Eva_Regular(2);
                 }
             },
             mounted: function () {
                 this.role = GetLoginUser().Sys_Role_Id;
+               
+
                 Base.bindStudySection();
                 Base.BindTable();
-                Base.BindDepart();
+                Base.BindDepartCompleate = function()
+                {
+                    Get_Eva_RegularSingle(2, true);
+                }
+                Base.BindDepart();               
             }
         })
 

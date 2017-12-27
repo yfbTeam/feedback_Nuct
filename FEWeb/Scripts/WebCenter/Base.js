@@ -23,6 +23,7 @@
             error: function () { }
         });
     },
+    BindDepartCompleate: function () { },
     BindDepart: function () {
         $.ajax({
             url: HanderServiceUrl + "/UserMan/UserManHandler.ashx",
@@ -34,7 +35,7 @@
             success: function (json) {
                 if (json.result.errNum.toString() == "0") {
                     $(json.result.retData).each(function () {
-                       
+
                         $("#DepartMent").append('<option value="' + this.Id + '">' + this.Major_Name + '</option>');
                     });
 
@@ -44,6 +45,7 @@
                         no_results_text: '未找到',
                         width: '335px'
                     })
+                    Base.BindDepartCompleate();
                 }
             },
             error: function (errMsg) { }
@@ -59,7 +61,7 @@
                 func: "Get_Eva_Table"
             },
             success: function (json) {
-               
+
                 if (json.result.errNum.toString() == "0") {
 
                     $(json.result.retData).each(function () {

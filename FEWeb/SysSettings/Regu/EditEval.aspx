@@ -65,7 +65,7 @@
             layer.msg('请输入结束时间');
             return;
         }
-        debugger;
+        
         if (startime > endtime) {
             layer.msg('开始时间不能大于结束时间');
             return;
