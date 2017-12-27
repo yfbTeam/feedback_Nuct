@@ -10,33 +10,31 @@
     <script src="Scripts/jquery-1.11.2.min.js"></script>
     <script id="my_prize_detail_Item" type="text/x-jquery-tmpl">
         <tr>
-            <td>${GName}</td>
+           <td>${GidName}</td>
             <td>${AchiveName}</td>
+            <td>${Major_Name}</td>
             <td>${ResponsName}</td>
-            <td>${DateTimeConvert(CreateTime,'yyyy-MM-dd')}</td>
+            <td>${Year}</td>           
+            <td>${Score}</td>
+            <td>{{if Status==0}}<span class="nosubmit">待提交</span>
+                {{else Status==1}}<span class="checking1">信息待审核</span>
+                {{else Status==2}}<span class="nocheck">信息不通过</span>
+                {{else Status==3}}<span class="assigning">分数待分配</span>
+                {{else Status==4}}<span class="nosubmit">分数待提交</span>
+                {{else Status==5}}<span class="checking1">分数待审核</span>
+                {{else Status==6}}<span class="nocheck">分数不通过</span>
+                {{else Status==7}}<span class="assigning">审核通过</span>
+                {{else Status==8}}<span class="assigning">奖金待分配</span>
+                {{else Status==9}}<span class="nosubmit">奖金待提交</span>
+                {{else Status==10}}<span class="checking1">奖金待审核</span>
+                {{else Status==11}}<span class="nocheck">奖金不通过</span>
+                {{else}} <span class="assigning">审核通过</span>
+                {{/if}}
+            </td>
             <td>
-                <div class="operate" onclick="OpenIFrameWindow('业绩查看', 'TeaAchManage/CheckAchieve.aspx?Id=${Id}&Type=View', '1000px', '700px')">
+                <div class="operate" onclick="OpenIFrameWindow('业绩查看',{{if ResponsMan==$('#CreateUID').val()}} 'TeaAchManage/CheckAchieve.aspx?Id=${Id}&Type=View'{{else}}'TeaAchManage/AchieveView_Common.aspx?Id=${Id}'{{/if}}, '1000px', '700px')">
                     <i class="iconfont color_purple">&#xe60b;</i>
                     <span class="operate_none bg_purple">查看</span>
-                </div>
-            </td>
-        </tr>
-    </script>
-    <script id="class_detail_Item" type="text/x-jquery-tmpl">
-        <tr>
-            <td>${id}</td>
-            <td>${nd}</td>
-            <td>${jb}</td>
-            <td>${kcmc}</td>
-            <td>${hbbzmc}</td>
-            <td>${nj}</td>
-            <td>${zybmmc}</td>
-            <td>${jsxm}</td>
-            <td class="operate_wrap">
-                <div class="operate">
-                    <i class="iconfont icon-chakanxiangqing"></i>
-                    <span class="operate_none">查看
-                    </span>
                 </div>
             </td>
         </tr>
@@ -117,36 +115,20 @@
                         <table>
                             <thead>
                                 <tr>
-                                    <th>业绩类别</th>
-                                    <th>奖项类别</th>
+                                    <th>奖励项目</th>
+                                    <th width="320px">获奖项目名称</th>
+                                    <th>负责单位</th>
                                     <th>负责人</th>
-                                    <th>录入时间</th>
-                                    <th id="ops">操作</th>
-                                </tr>
+                                    <th>获奖年度</th>                                    
+                                    <th>个人分数</th>
+                                    <th>状态</th>                                    
+                                    <th>操作</th>
+                                </tr>                               
                             </thead>
                             <tbody id="myPirze_table"></tbody>
                         </table>
                         <div  id="myTable" class="page"></div>
-                    </div>
-                    <div class="table none" >
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>课堂编号</th>
-                                    <th>年度</th>
-                                    <th>季别</th>
-                                    <th>课堂名称</th>
-                                    <th>合班</th>
-                                    <th>年级</th>
-                                    <th>专业部门名称</th>
-                                    <th>教师名称</th>
-                                    <th>操作</th>
-                                </tr>
-                            </thead>
-                            <tbody id="class_table"></tbody>
-                        </table>
-                        <div id="class_table_wrap" class="page"></div>
-                    </div>
+                    </div>                    
                 </div>
             </div>
         </div>
@@ -169,12 +151,11 @@
             Get_PageBtn("/Index.aspx");
             navTab('.sort_nav', '.sort_item');
             getmyPrize(1, 10);
-           
+
             var lens = $('.query_lists>a:visible').length;
             $('.query_lists>a').width(100 / lens + '%');
-            
-        })
-        
+
+        });
         //获取我的业绩数据
         function getmyPrize(startIndex, pageSize) {
             $("#tb_info").empty();
@@ -209,8 +190,6 @@
                 }
             });
         }
-
-        
     </script>
 </body>
 </html>

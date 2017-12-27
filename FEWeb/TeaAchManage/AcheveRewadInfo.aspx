@@ -132,7 +132,7 @@
                     </div>
                     <div class="input_lable fl">
                         <label for="">负责单位：</label>
-                        <select class="chosen-select select" isrequired="true" fl="负责单位" data-placeholder="负责单位" id="DepartMent" name="DepartMent" multiple="multiple"></select>
+                        <select class="chosen-select select" data-placeholder="负责单位" id="DepartMent" name="DepartMent" multiple="multiple"></select>
                     </div>
                 </div>
                 <h2 class="cont_title members none"><span>成员信息</span></h2>
@@ -311,7 +311,11 @@
                 return;
             }                               
             var object = getFromValue();//组合input标签
-            object.DepartMent = $("#DepartMent").val().join(',');
+            if ($("#DepartMent").val() == null || $("#DepartMent").val() == "") {
+                layer.msg("请输入负责单位!");
+                return;
+            }
+            object.DepartMent = $("#DepartMent").val().join(',');            
             object.MemberStr = '';
             object.AchieveType = UrlDate.Type;
             if (UrlDate.Type == "2") {

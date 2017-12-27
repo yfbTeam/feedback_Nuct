@@ -32,53 +32,52 @@
                 {{/if}}
             </td>
             <td class="operate_wrap">
-                {{if Status==0||Status==2}}
-                    <%-- <div class="operate" onclick="OpenIFrameWindow('修改业绩信息', 'InsertReward.aspx?Id=${Id}&Type=${AchieveType}', '1110px', '700px')">--%>
-                    <div class="operate" onclick="EditAchive(${Id},'${AchieveType}','${GPid}')">
-                        <i class="iconfont color_purple">&#xe617;</i>
-                        <span class="operate_none bg_purple">修改
-                        </span>
-                    </div>
+                <div class="operate" onclick="OpenIFrameWindow('业绩查看', 'CheckAchieve.aspx?Id=${Id}&Type=View', '1000px', '700px')">
+                    <i class="iconfont color_purple">&#xe60b;</i>
+                    <span class="operate_none bg_purple">查看</span>
+                </div> 
+                {{if GPid==2&&(Status==0||Status==2)}}                   
+                        <div class="operate" onclick="EditAchive(${Id},'${AchieveType}','${GPid}')">
+                            <i class="iconfont color_purple">&#xe617;</i>
+                            <span class="operate_none bg_purple">修改
+                            </span>
+                        </div>
                 {{else}}
-                     <div class="operate">
-                         <i class="iconfont color_gray">&#xe617;</i>
-                         <span class="operate_none bg_gray">修改
-                         </span>
-                     </div>
-                {{/if}}
-                    <div class="operate" onclick="OpenIFrameWindow('业绩查看', 'CheckAchieve.aspx?Id=${Id}&Type=View', '1000px', '700px')">
-                        <i class="iconfont color_purple">&#xe60b;</i>
-                        <span class="operate_none bg_purple">查看</span>
-                    </div>
-                {{if IsShow(Status,ResponsMan,CreateUID)}}
+                         <div class="operate">
+                             <i class="iconfont color_gray">&#xe617;</i>
+                             <span class="operate_none bg_gray">修改
+                             </span>
+                         </div>
+                {{/if}}                                   
+                {{if ResponsMan == $('#CreateUID').val()}}                    
                    {{if Status==3||Status==4||Status==6}}
                     <div class="operate" onclick="OpenIFrameWindow('分数分配','PermanAllot.aspx?AcheiveId=${Id}&AchieveType=${AchieveType}','1000px','700px')">
                         <i class="iconfont color_purple">&#xe63d;</i>
                         <span class="operate_none bg_purple">分配</span>
                     </div>
-                {{else}}
+                   {{else}}
                     <div class="operate">
                         <i class="iconfont color_gray">&#xe63d;</i>
                         <span class="operate_none bg_gray">分配</span>
                     </div>
-                {{/if}} 
-                {{if Status==7||Status==8||Status==9||Status==11}} 
-                <div class="operate" onclick="OpenIFrameWindow('奖金分配','RewardAllot.aspx?AcheiveId=${Id}&AchieveType=${AchieveType}','1000px','700px')">
-                    <i class="iconfont color_purple">&#xe6c2;</i>
-                    <span class="operate_none bg_purple">分配</span>
-                </div>
-                {{else}}
-                 <div class="operate">
-                     <i class="iconfont color_gray">&#xe6c2;</i>
-                     <span class="operate_none bg_gray">分配</span>
-                 </div>
-                {{/if}}            
-                {{else}}
-                    <div class="operate">
-                        <i class="iconfont color_gray">&#xe63d;</i>
-                        <span class="operate_none bg_gray">分配</span>
+                   {{/if}} 
+                    {{if Status==7||Status==8||Status==9||Status==11}} 
+                    <div class="operate" onclick="OpenIFrameWindow('奖金分配','RewardAllot.aspx?AcheiveId=${Id}&AchieveType=${AchieveType}','1000px','700px')">
+                        <i class="iconfont color_purple">&#xe6c2;</i>
+                        <span class="operate_none bg_purple">分配</span>
                     </div>
-                    <div class="operate" >
+                    {{else}}
+                     <div class="operate">
+                         <i class="iconfont color_gray">&#xe6c2;</i>
+                         <span class="operate_none bg_gray">分配</span>
+                     </div>
+                    {{/if}} 
+                {{else}}     
+                     <div class="operate">
+                         <i class="iconfont color_gray">&#xe63d;</i>
+                         <span class="operate_none bg_gray">分配</span>
+                     </div>
+                    <div class="operate">
                         <i class="iconfont color_gray">&#xe6c2;</i>
                         <span class="operate_none bg_gray">分配</span>
                     </div>
@@ -185,13 +184,6 @@
                     //接口错误时需要执行的
                 }
             });
-        }
-        function IsShow(Status, ResponsMan, CreateUID) {
-            var flag = false;
-            if (ResponsMan == $("#CreateUID").val() || CreateUID == $("#CreateUID").val()) {
-                flag = true;
-            }
-            return flag;
         }
         function EditAchive(Id, Type, Group) {
             if (Type == "4") {

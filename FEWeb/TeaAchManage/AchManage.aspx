@@ -31,8 +31,11 @@
                 {{/if}}
             </td>           
             <td class="operate_wrap">
+                 <div class="operate" onclick="OpenIFrameWindow('业绩查看', 'CheckAchieve.aspx?Id=${Id}&Type=View', '1000px', '700px')">
+                    <i class="iconfont color_purple">&#xe60b;</i>
+                    <span class="operate_none bg_purple">查看</span>
+                </div>   
                 {{if Status==0||Status==2}}
-                    <%-- <div class="operate" onclick="OpenIFrameWindow('修改业绩信息', 'InsertReward.aspx?Id=${Id}&Type=${AchieveType}', '1110px', '700px')">--%>
                     <div class="operate" onclick="EditAchive(${Id},'${AchieveType}','${GPid}')">
                         <i class="iconfont color_purple">&#xe617;</i>
                         <span class="operate_none bg_purple">修改
@@ -44,44 +47,7 @@
                          <span class="operate_none bg_gray">修改
                          </span>
                      </div>
-                {{/if}}
-                    <div class="operate" onclick="OpenIFrameWindow('业绩查看', 'CheckAchieve.aspx?Id=${Id}&Type=View', '1000px', '700px')">
-                        <i class="iconfont color_purple">&#xe60b;</i>
-                        <span class="operate_none bg_purple">查看</span>
-                    </div>
-                {{if IsShow(Status,ResponsMan,CreateUID)}}
-                   {{if Status==3||Status==4||Status==6}}
-                    <div class="operate" onclick="OpenIFrameWindow('分数分配','PermanAllot.aspx?AcheiveId=${Id}&AchieveType=${AchieveType}','1000px','700px')">
-                        <i class="iconfont color_purple">&#xe63d;</i>
-                        <span class="operate_none bg_purple">分配</span>
-                    </div>
-                {{else}}
-                    <div class="operate">
-                        <i class="iconfont color_gray">&#xe63d;</i>
-                        <span class="operate_none bg_gray">分配</span>
-                    </div>
-                {{/if}} 
-                {{if Status==7||Status==8||Status==9||Status==11||Auditcount>0}} 
-                <div class="operate" onclick="OpenIFrameWindow('奖金分配','RewardAllot.aspx?AcheiveId=${Id}&AchieveType=${AchieveType}','1000px','700px')">
-                    <i class="iconfont color_purple">&#xe6c2;</i>
-                    <span class="operate_none bg_purple">分配</span>
-                </div>
-                {{else}}
-                 <div class="operate">
-                     <i class="iconfont color_gray">&#xe6c2;</i>
-                     <span class="operate_none bg_gray">分配</span>
-                 </div>
-                {{/if}}            
-                {{else}}
-                    <div class="operate">
-                        <i class="iconfont color_gray">&#xe63d;</i>
-                        <span class="operate_none bg_gray">分配</span>
-                    </div>
-                    <div class="operate" >
-                        <i class="iconfont color_gray">&#xe6c2;</i>
-                        <span class="operate_none bg_gray">分配</span>
-                    </div>
-                {{/if}}                
+                {{/if}}                    
             </td>
         </tr>
     </script>   
@@ -101,16 +67,18 @@
                      <a href="javascript:;" class="selected">录入的业绩</a>
                 </div>
                 <div class="search_toobar clearfix">
-                    <div class="fl">
-                        <label for="">业绩类别:</label>
-                        <select class="select" style="width: 198px;" id="AcheiveType" onchange="BindData(1,10)">
-                        </select>
-                    </div>
-
                     <div class="fl ml20">
-                        <input type="text" name="key" id="Name" placeholder="请输入关键字" value="" class="text fl" style="width: 150px;">
-                        <a class="search fl" href="javascript:search();"><i class="iconfont">&#xe600;</i></a>
+                        <label for="">业绩类别:</label>
+                        <select class="select" style="width: 198px;" id="AcheiveType" onchange="Bind_SelGInfo();"></select>
                     </div>
+                    <div class="fl ml20">
+                        <label for="">奖励项目：</label>
+                        <select class="select" name="Gid" id="Gid" onchange="BindData(1,10);"></select>
+                    </div> 
+                    <div class="fl ml20">
+                        <input type="text" name="key" id="key" placeholder="请输入负责人关键字" value="" class="text fl" style="width: 150px;">
+                        <a class="search fl" href="javascript:search();"><i class="iconfont">&#xe600;</i></a>
+                    </div>                   
                 </div>
                 <div class="table mt10">
                     <table>
@@ -141,6 +109,7 @@
     <script src="../Scripts/linq.min.js"></script>
     <script src="../Scripts/jquery.tmpl.js"></script>
     <script src="../Scripts/laypage/laypage.js"></script>
+    <script src="BaseUse.js"></script>
     <script>
         $(function () {
             $("#CreateUID").val(GetLoginUser().UniqueNo);
@@ -152,9 +121,13 @@
         var UrlDate = new GetUrlDate();
         $(function () {
             BindGroup();
-            BindData(1, 10);           
-            BindAcheiveType();            
+            Bind_SelAchieve();
         });
+        var resonname = "";
+        function search() {
+            resonname = $("#key").val().trim();
+            BindData(1, 10);
+        }
         function BindGroup() {
             $.ajax({
                 url: HanderServiceUrl + "/TeaAchManage/AchManage.ashx",
@@ -183,27 +156,6 @@
                 }
             });
         }
-        
-        function BindAcheiveType() {
-            $("#AcheiveType").html('<option value="">全部</option>');
-            $.ajax({
-                url: HanderServiceUrl + "/TeaAchManage/AchManage.ashx",
-                type: "post",
-                dataType: "json",
-                data: { "Func": "GetAcheiveLevelData", "IsPage": "false", "Pid": "0" },
-                success: function (json) {
-                    if (json.result.errMsg == "success") {
-                        $.each(json.result.retData, function () {
-                            $("#AcheiveType").append('<option value=' + this.Id + '>' + this.Name + '</option>');
-                        });
-                    }
-                },
-                error: function () {
-                    //接口错误时需要执行的
-                }
-            });
-        }
-       
         //我的业绩，我录入的业绩
         function BindData(startIndex, pageSize) {
             $("#tb_info").empty();
@@ -211,13 +163,11 @@
                 url: HanderServiceUrl + "/TeaAchManage/AchRewardInfo.ashx",
                 type: "post",
                 dataType: "json",
-                data: { "Func": "GetAcheiveRewardInfoData", "MyUno": '', "CreateUID": $("#CreateUID").val(), "AchieveLevel": $("#AcheiveType").val(),PageIndex: startIndex, pageSize: pageSize, "Name": $("#Name").val() },
-                success: function (json) {
-                   
+                data: { "Func": "GetAcheiveRewardInfoData", "MyUno": '', "CreateUID": $("#CreateUID").val(), PageIndex: startIndex, pageSize: pageSize, AchieveLevel: $("#AcheiveType").val(), Gid: $("#Gid").val(), "ResponName": resonname },
+                success: function (json) {                   
                     if (json.result.errMsg == "success") {
                         $("#pageBar").show();
                         $("#tr_Info").tmpl(json.result.retData.PagedData).appendTo("#tb_info");
-
                         laypage({
                             cont: 'pageBar', //容器。值支持id名、原生dom对象，jquery对象。【如该容器为】：<div id="page1"></div>
                             pages: json.result.retData.PageCount, //通过后台拿到的总页数
@@ -240,15 +190,6 @@
                     //接口错误时需要执行的
                 }
             });
-        }
-        function IsShow(Status, ResponsMan, CreateUID) {
-            var flag = false;
-            //if (Status == 3) {
-            //    if (ResponsMan == $("#CreateUID").val() || CreateUID == $("#CreateUID").val()) {
-            flag = true;
-            //}
-            //}
-            return flag;
         }
         function EditAchive(Id, Type, Group) {
             if (Type == "4") {

@@ -640,7 +640,7 @@ function Notice_MoreSendMessage(Title, Contents, Type, CreateUID, CreateName, Re
 
 function getFromValue() {
     var o = {};
-    jQuery.each($("input[type='hidden'],input[type='text'],input[type='number']select,textarea"), function (i, fields) {
+    jQuery.each($("input[type='hidden'],input[type='text'],input[type='number'],select,textarea"), function (i, fields) {
         if (o[this.name]) {
             if (!o[this.name].push) {
                 o[this.name] = [o[this.name]];
