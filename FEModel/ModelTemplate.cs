@@ -2243,98 +2243,6 @@ namespace FEModel
 	///	
 	/// </summary>
 	[Serializable]
-    public partial class Course
-    {
-
-		/// <summary>
-		/// 
-		/// </summary>
-		public int? Id { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public string UniqueNo { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public string DepartMentID { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public string DepartmentName { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public string SubDepartmentID { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public string SubDepartmentName { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public string CourseProperty { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public string CourseType { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public string CourseTypeName { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public string Name { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public string CreateUID { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public DateTime? CreateTime { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public string EditUID { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public DateTime? EditTime { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public Byte? IsEnable { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public Byte? IsDelete { get; set; }
-
-          public override bool Equals(object obj)
-        {
-            bool result = false;
-            if (obj.GetType() == typeof(Course))
-            {
-                Course _obj = obj as Course;
-                if (_obj.Id == this.Id)
-                {
-                    result = true;
-                }
-            }
-            return result;
-        }
-
-	    public override int GetHashCode()
-        {
-            return base.GetHashCode();
-        }
-    }
-
-	/// </summary>
-	///	
-	/// </summary>
-	[Serializable]
     public partial class TPM_RewardUserInfo
     {
 
@@ -2709,6 +2617,98 @@ namespace FEModel
             if (obj.GetType() == typeof(Sys_Dictionary))
             {
                 Sys_Dictionary _obj = obj as Sys_Dictionary;
+                if (_obj.Id == this.Id)
+                {
+                    result = true;
+                }
+            }
+            return result;
+        }
+
+	    public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
+    }
+
+	/// </summary>
+	///	
+	/// </summary>
+	[Serializable]
+    public partial class Course
+    {
+
+		/// <summary>
+		/// 
+		/// </summary>
+		public int? Id { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public string UniqueNo { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public string DepartMentID { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public string DepartmentName { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public string SubDepartmentID { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public string SubDepartmentName { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public string CourseProperty { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public string PkType { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public string TaskProperty { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public string Name { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public string CreateUID { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public DateTime? CreateTime { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public string EditUID { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public DateTime? EditTime { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public Byte? IsEnable { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public Byte? IsDelete { get; set; }
+
+          public override bool Equals(object obj)
+        {
+            bool result = false;
+            if (obj.GetType() == typeof(Course))
+            {
+                Course _obj = obj as Course;
                 if (_obj.Id == this.Id)
                 {
                     result = true;
