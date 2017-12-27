@@ -13,36 +13,55 @@
 
 
     <style>
-        /*.main {
-           
-            background: #fff;
-            border: 1px solid #EDEDED;
-            padding: 20px;
-        }*/
+        .selectdiv
+        {
+
+        }
+        .select {
+            width: 150px;
+        }
     </style>
 </head>
 <body>
     <div>
         <div style="min-height: 445px;" class="wrap clearfix">
             <div class="search_toobar clearfix">
-                <div class="fl ">
+                <div class="fl selectdiv">
                     <label for="">目标分类:</label>
-
                     <select id="_currsele" class="select">
                     </select>
-
-                    <%--<span id="currsele" class="currsele"></span>--%>
                 </div>
-                <div class="fr ml20">
-                    <input type="text" name="" id="key" placeholder="请输入关键字" value="" class="text fl">
-                    <a class="search fl" href="javascript:;" onclick="GetNoDis_CourseInfo(0);"><i class="iconfont">&#xe600;</i></a>
+                <div class="fl selectdiv">
+                    <label for="">排课分类:</label>
+                    <select id="_currsele" class="select">
+                    </select>
                 </div>
-                <div class="fr ">
+                <div class="fl selectdiv">
+                    <label for="">任务性质:</label>
+                    <select id="_currsele" class="select">
+                    </select>
+                </div>
+                <div class="fl selectdiv">
+                    <label for="">课程性质:</label>
+                    <select id="_currsele" class="select">
+                    </select>
+                </div>
+                <div class="fl selectdiv">
+                    <label for="">开课单位:</label>
+                    <select id="_currsele" class="select">
+                    </select>
+                </div>
+                <div class="fl selectdiv">
                     <label for="">开课单位:</label>
                     <select id="college" class="select">
                         <option value="">全部         </option>
                     </select>
                 </div>
+                <div class="fl selectdiv">
+                    <input type="text" name="" id="key" placeholder="请输入关键字" value="" class="text fl">
+                    <a class="search fl" href="javascript:;" onclick="GetNoDis_CourseInfo(0);"><i class="iconfont">&#xe600;</i></a>
+                </div>
+
 
             </div>
             <div class="table">
@@ -143,7 +162,7 @@
                 $('#_currsele').val(course_TypeId);
             }
         };
-    
+
         UI_Course.GetCourse_Type(select_sectionid);
         UI_SortCourse.SubmitUpdateCourseSort_Compleate = function (result) {
             if (result) {
