@@ -525,6 +525,7 @@
         }
         //奖金分配审核
         function AllotAudit(status,id,rownum){
+            var responName=$("#ResponsMan").html();
             var $cur_tb=$("#tb_Member_"+rownum),rew_batchid=$cur_tb.attr('rewid');//追加奖金Id
             var hisArray=[];
             if(status==3){
