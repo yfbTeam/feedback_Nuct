@@ -28,7 +28,8 @@
                 <div class="fl status-left">
                     <label for="" style="margin-right:20px;">第${rowNum}批奖金</label>
                     <label for="">状态：</label>
-                    {{if AuditStatus==0}}<span class="nosubmit">待提交</span>
+                    {{if AuditStatus==10}}<span class="nosubmit">待分配</span>
+                    {{else AuditStatus==0}}<span class="nosubmit">待提交</span>
                     {{else AuditStatus==1}}<span class="checking1">待审核</span>
                     {{else AuditStatus==2}}<span class="nocheck">审核不通过</span>
                     {{else}} <span class="assigning">审核通过</span>{{/if}}
@@ -62,9 +63,9 @@
                                 <td>${mem.Sort}</td>
                                 <td>${mem.Major_Name}</td>
                                 <td>${mem.WordNum}</td>
-                                <td class="td_money">{{if AuditStatus==0||AuditStatus==2}}<input type="number" isrequired="true" fl="奖金" min="0" step="0.01">{{/if}}</td>
+                                <td class="td_money">{{if  AuditStatus==10||AuditStatus==0||AuditStatus==2}}<input type="number" isrequired="true" fl="奖金" min="0" step="0.01">{{/if}}</td>
                                 {{else}}
-                                <td class="td_money">{{if AuditStatus==0||AuditStatus==2}}<input type="number" isrequired="true" fl="奖金" min="0" step="0.01">{{/if}}</td>
+                                <td class="td_money">{{if  AuditStatus==10||AuditStatus==0||AuditStatus==2}}<input type="number" isrequired="true" fl="奖金" min="0" step="0.01">{{/if}}</td>
                                 <td>${mem.Major_Name}</td>
                                 <td>${DateTimeConvert(mem.CreateTime,"yyyy-MM-dd")}</td>
                                 {{/if}}     
@@ -73,7 +74,7 @@
                 </tbody>
             </table>
             <div class="clearfix mt10 Enclosure">
-                {{if AuditStatus==0||AuditStatus==2}}
+                {{if  AuditStatus==10||AuditStatus==0||AuditStatus==2}}
                 <div class="input_lable input_lable2">
                     <label for="" style="min-width:46px;color:#731F4F">附件：</label>
                     <div class="fl uploader_container" style="padding-left:55px;">
@@ -102,7 +103,7 @@
                         </div>
                     </div>
                     {{/if}} 
-                 {{if AuditStatus==0||AuditStatus==2}}
+                 {{if AuditStatus==10||AuditStatus==0||AuditStatus==2}}
                 <div class="reward_btn">
                     <input type="button" value="保存" onclick="SaveAllot(0,${rowNum});" class="btn" />
                     <input type="button" value="提交" onclick="SaveAllot(1,${rowNum});" class="btn" />

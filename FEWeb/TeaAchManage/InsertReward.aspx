@@ -99,7 +99,7 @@
                 </div>
                 <div class="input_lable fl">
                     <label for="">负责单位：</label>
-                    <select class="chosen-select" isrequired="true" fl="负责单位" data-placeholder="负责单位" id="DepartMent" name="DepartMent" multiple="multiple"></select>
+                    <select class="chosen-select" data-placeholder="负责单位" id="DepartMent" name="DepartMent" multiple="multiple"></select>
                 </div>
             </div>  
             <h2 class="cont_title members none"><span>成员信息</span></h2>
@@ -213,7 +213,11 @@
                 return;
             }
             var object = getFromValue();//组合input标签   
-            object["DepartMent"] = $("#DepartMent").val().join(',');
+            if ($("#DepartMent").val() == null || $("#DepartMent").val()=="") {
+                layer.msg("请输入负责单位!");
+                return;
+            }
+            object["DepartMent"] = $("#DepartMent").val().join(',');            
             var addArray = Rtn_AddMemArray(0);
             object.MemberStr = addArray.length > 0 ? JSON.stringify(addArray) : '';
             var add_path = Get_AddFile();

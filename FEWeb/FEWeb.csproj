@@ -417,6 +417,7 @@
     <Content Include="TeaAchManage\AcheveRewadSearch.aspx" />
     <Content Include="TeaAchManage\AcheveStatis.aspx" />
     <Content Include="TeaAchManage\AchieveCheck.aspx" />
+    <Content Include="TeaAchManage\AchieveView_Common.aspx" />
     <Content Include="TeaAchManage\AddAchMember.aspx" />
     <Content Include="TeaAchManage\AddAward.aspx" />
     <Content Include="TeaAchManage\AdminAchieveEdit.aspx" />
@@ -1505,6 +1506,13 @@
     </Compile>
     <Compile Include="TeaAchManage\AchieveCheck.aspx.designer.cs">
       <DependentUpon>AchieveCheck.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="TeaAchManage\AchieveView_Common.aspx.cs">
+      <DependentUpon>AchieveView_Common.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="TeaAchManage\AchieveView_Common.aspx.designer.cs">
+      <DependentUpon>AchieveView_Common.aspx</DependentUpon>
     </Compile>
     <Compile Include="TeaAchManage\AchManage.aspx.cs">
       <DependentUpon>AchManage.aspx</DependentUpon>

@@ -25,7 +25,7 @@ namespace FEDAL
                 str.Append(@" select r_bat.*,(select count(1) from TPM_AuditReward where IsDelete=0 and Status in(1,3) and RewardBatch_Id=r_bat.Id)UseCount ");
                 if (ht["IsOnlyBase"].SafeToString()=="1") //查询关联表
                 {
-                    str.Append(@" ,info.Id AchieveId,isnull(aud.Id,0) AuditId,isnull(aud.Status,0)AuditStatus 
+                    str.Append(@" ,info.Id AchieveId,isnull(aud.Id,0) AuditId,isnull(aud.Status,10)AuditStatus 
                       ,isnull((select sum(AllotMoney) from TPM_AllotReward where Audit_Id=aud.Id),0)HasAllot
                      from TPM_RewardBatch r_bat
                      left join TPM_AcheiveRewardInfo info on r_bat.Reward_Id=info.Rid and info.IsDelete=0
@@ -55,7 +55,7 @@ namespace FEDAL
                 }
                 if (ht.ContainsKey("AuditStatus") && !string.IsNullOrEmpty(ht["AuditStatus"].SafeToString()))
                 {
-                    str.Append(" and isnull(aud.Status,0) " + ht["AuditStatus"].ToString());                   
+                    str.Append(" and isnull(aud.Status,10) " + ht["AuditStatus"].ToString());                   
                 }
                 if (IsPage)
                 {

@@ -1,11 +1,10 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="CheckAchieve.aspx.cs" Inherits="FEWeb.TeaAchManage.CheckAchieve" %>
-<!DOCTYPE html>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="AchieveView_Common.aspx.cs" Inherits="FEWeb.TeaAchManage.AchieveView_Common" %>
 <html>
 <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <link href="/images/favicon.ico" rel="shortcut icon">
-    <title>业绩查看审核</title>
+    <title>业绩查看</title>
     <link rel="stylesheet" href="../css/reset.css" />
     <link href="../css/layout.css" rel="stylesheet" />
     <script src="../Scripts/jquery-1.11.2.min.js"></script>
@@ -61,14 +60,7 @@
             <div class="clearfix">
                 <div class="fl status-left">
                     <label for="" style="margin-right:20px;">第${rowNum}批奖金</label>
-                    <label for="">状态：</label>
-                    {{if AuditStatus==10}}<span class="nosubmit">待分配</span>
-                    {{else AuditStatus==0}}<span class="nosubmit">{{if cur_ResponUID==$('#CreateUID').val()}}待提交{{else}}待分配{{/if}}</span>
-                    {{else AuditStatus==1}}<span class="checking1">待审核</span>
-                    {{else AuditStatus==2}}<span class="nocheck">审核不通过</span>
-                    {{else}} <span class="assigning">审核通过</span>{{/if}}
                 </div>
-                <div class="fr status">奖金${Money}，已分配<span>${HasAllot}</span></div>
             </div>
             <table class="allot_table mt10  ">
                 <thead>
@@ -106,34 +98,20 @@
                             </tr>
                     {{/each}}    
                 </tbody>
-            </table>
-            <div class="clearfix mt10 Enclosure">
-                <div class="status-left">
-                    <label for="" class="fl">附件：</label>
-                    <div class="fl">
-                        <ul id="ul_ScoreFile_${rowNum}" auid="${AuditId}" class="clearfix file-ary allot_file"></ul>
-                    </div>
-                </div>
-                {{if UrlDate.Type =='Check'&&AuditStatus==1}}
-                <div class="reward_btn">
-                    <input type="button" value="通过" onclick="AllotAudit(3,${AuditId},${rowNum});" class="btn" />
-                    <input type="button" value="不通过" onclick="AllotAudit(2,${AuditId},${rowNum});" class="btnb" />
-                </div>
-                {{/if}} 
-            </div>
+            </table>            
         </div>
     </script>
     <%--分配历史记录--%>
     <script type="text/x-jquery-tmpl" id="li_Record">
         <li class="clearfix">
-            <span class="fl">${Content} {{if Reason_Id>0}}<a href="javascript:;" onclick="OpenDetail('${EditReason}',${Reason_Id})">查看详情</a>{{/if}}</span>
+            <span class="fl">${Content}</span>
             <span class="fr">${DateTimeConvert(CreateTime,"yyyy-MM-dd")}</span>
         </li>
     </script>
 </head>
 <body style="background: #fff;">
     <input type="hidden" name="CreateUID" id="CreateUID" value="011" />
-    <div class="checkmes none"></div>
+    <div class="checkmes none">审核通过</div>
     <div class="main" >
         <div class="cont">
             <h2 class="cont_title re_view none"><span>获奖文件信息</span></h2>
@@ -216,11 +194,7 @@
                 </div>
             </div> 
             <h2 class="cont_title members none"><span>成员信息</span></h2>
-            <div class="area_form members none">
-                <div class="clearfix" id="div_user_mem">                        
-                    <span class="fr status mr10">已分配：<span id="span_CurScore">0</span></span>
-                    <span class="fr status mr10">总分：<span id="span_AllScore">0</span></span>
-                </div>
+            <div class="area_form members none">               
                 <table class="allot_table mt10">
                     <thead>
                         <tr>                               
@@ -233,12 +207,8 @@
                 </table>
             </div>
             <h2 class="cont_title book none"><span>作者信息</span></h2>
-            <div class="area_form book none">
-                <div class="clearfix" id="div_user_book"> 
-                    <span class="fr status mr10">总分：<span id="span_BookScore">0</span></span>                      
-                    <span class="fr status mr10">总贡献字数：<span id="span_Words">0</span></span>                       
-                </div>
-                <table class="allot_table mt10  ">
+            <div class="area_form book none">                
+                <table class="allot_table mt10">
                     <thead>
                         <tr>
                             <th>姓名</th>
@@ -252,14 +222,7 @@
                 </table>
             </div>           
             <h2 class="cont_title re_score none"><span>分数分配</span></h2> 
-            <div class="area_form re_score none">
-                <div class="clearfix">
-                    <div class="fl status-left">
-                         <label for="">状态：</label>
-                         <span id="span_Scorestatus"></span>
-                    </div>
-                    <div id="div_score_statis" class="fr status"></div>
-                </div>
+            <div class="area_form re_score none">              
                 <table class="allot_table mt10">
                     <thead>
                         <tr class="user_mem none">
@@ -278,15 +241,7 @@
                         </tr>
                     </thead>
                     <tbody id="tb_Member1"></tbody>
-                </table>               
-                <div class="clearfix mt10 Enclosure">
-                    <div class="status-left">
-                        <label for="" class="fl">附件：</label>
-                        <div class="fl">
-                            <ul id="ul_ScoreFile" class="clearfix file-ary"></ul>
-                        </div>
-                    </div>
-                </div>
+                </table>              
             </div>
             <h2 class="cont_title re_reward none"><span>奖金分配</span></h2> 
             <div class="area_form re_reward none" id="div_MoneyInfo"></div>        
@@ -297,10 +252,6 @@
         </div>
     </div>
     <div class="score none"></div>
-    <div class="btnwrap2 none">
-        <input type="button" id="btn_Pass" value="通过" class="btn"/>
-        <input type="button" id="btn_Nopass" value="不通过" class="btnb ml10"/>
-    </div>
     <script src="../Scripts/Common.js"></script>
     <script src="../scripts/public.js"></script>
     <script src="../Scripts/linq.min.js"></script>
@@ -343,25 +294,7 @@
                             $("#FileNames").html(this.FileNames);
                             $("#DefindDate").html(DateTimeConvert(this.DefindDate, '年月日'));
                             $("#DefindDepart").html(this.DefindDepart);
-                            $('#span_AllScore').html(this.TotalScore);
-                            Get_AchieveStatus(this.Status,".checkmes");
-                            var $span_Scorestatus= $("#span_Scorestatus");
-                            if(this.Status==3){
-                                $span_Scorestatus.addClass('assigning');
-                                $span_Scorestatus.html('待分配');
-                            }else if(this.Status==4){
-                                $span_Scorestatus.addClass('nosubmit');
-                                $span_Scorestatus.html('待提交');
-                            }else if(this.Status==5){
-                                $span_Scorestatus.addClass('checking1');
-                                $span_Scorestatus.html('待审核');
-                            }else if(this.Status==6){
-                                $span_Scorestatus.addClass('nocheck');
-                                $span_Scorestatus.html('审核不通过');
-                            }else{
-                                $span_Scorestatus.addClass('pass');
-                                $span_Scorestatus.html('审核通过');
-                            }
+                            $('#span_AllScore').html(this.TotalScore);                                                      
                         });
                     }
                 },
@@ -370,40 +303,8 @@
                 }
             });
         }
-        function View_CheckInit(model) { //查看、审核初始化
-            var yesstatus = 3, nostatus = 2;
-            if (model.Status >= 0 && model.Status <= 3) {//信息
-                yesstatus = 3, nostatus = 2;
-                if (model.AchieveType == 3) { yesstatus =7}//教材建设类直接跳过分数审核
-            } else if (model.Status > 3 && model.Status <= 6) {//分数
-                yesstatus = 7, nostatus = 6;
-                $(".re_score").show();
-                Get_LookPage_Document(3, model.Id, $("#ul_ScoreFile"));
-            } else {  //奖金
-                yesstatus = 12, nostatus = 11;
-                $(".re_score").show();
-                $(".re_reward").show();
-                Get_LookPage_Document(3, model.Id, $("#ul_ScoreFile"));
-            }
-            if (UrlDate.Type == "Check") {
-                $("#btn_Pass").click(function () { Check(yesstatus); });
-                $("#btn_Nopass").click(function () { Check(nostatus); });
-                $(".checkmes").hide();
-                if (model.Status <= 6) {
-                    $(".btnwrap2").show();
-                }               
-                $(".re_view").hide();
-            }
-            else {
-                $(".checkmes").show();
-                $(".btnwrap2").hide();
-                $(".re_view").show();
-            }
-        }
         function InitControl(model) {
             cur_ResponUID = model.ResponsMan;
-            View_CheckInit(model);
-            SetScore_LooK(model);
             cur_AchieveType=model.AchieveType;
             switch (model.AchieveType) {
                 case "2":
@@ -448,32 +349,23 @@
                 success: function (json) {
                     if (json.result.errNum.toString() == "0") { 
                         Member_Data = json.result;
-                        Get_RewardBatchData("",cur_ResponUID==$('#CreateUID').val()?"":"0");
+                        var type_tr = "#tr_Info1";
                         if (model.AchieveType == 3) { //教材建设类                          
-                            $("#tr_Info").tmpl(json.result.retData).appendTo("#tb_info");                          
-                            $("#tr_Info1").tmpl(json.result.retData).appendTo("#tb_Member1");
-                            var $span_Words = $('#span_Words');
-                            var curwords = 0;
-                            $(json.result.retData).each(function (i, n) {
-                                if (n.WordNum) {
-                                    curwords= numAdd(curwords,n.WordNum);
-                                }
-                            });
-                            $span_Words.html(curwords);
-                            Set_BookScore();
-                            $("#div_score_statis").html($("#div_user_book").html());
+                            $("#tr_Info").tmpl(json.result.retData).appendTo("#tb_info");
+                            type_tr = "#tr_Info1";
+                            
                         } else {  //其他类型
                             $("#tr_MemEdit").tmpl(json.result.retData).appendTo("#tb_Member");
-                            $("#tr_MemEdit1").tmpl(json.result.retData).appendTo("#tb_Member1");
-                            var $span_CurScore = $('#span_CurScore');
-                            var curscore = 0;
-                            $(json.result.retData).each(function (i, n) {
-                                if (n.Score) {
-                                    curscore = numAdd(curscore,n.Score);
-                                }                                
-                            });
-                            $span_CurScore.html(curscore);
-                            $("#div_score_statis").html($("#div_user_mem").html());
+                            type_tr = "#tr_MemEdit1";                           
+                        }
+                        if (model.Status > 6) {
+                            $(".re_score").show();
+                            var curMemData = Enumerable.From(json.result.retData).Where("x=>x.UserNo=='" + loginUser.UniqueNo + "'").FirstOrDefault();
+                            $(type_tr).tmpl(curMemData).appendTo("#tb_Member1");
+                        }
+                        if (model.Status > 7) {
+                            $(".re_reward").show();                            
+                           Get_SelfRewardData();
                         }                        
                     }
                 },
@@ -482,70 +374,42 @@
                 }
             });
         }
-        //为业绩赋总分
-        function SetScore_LooK(model) {
-            $(".score").html("分数：" + model.TotalScore + "分" + (model.AchieveType == "2" ? "/万字" : ""));
-            if (model.AchieveType == "3" && model.ScoreType == "2") {
-                Set_BookScore();
-            }
-            $span_AllScore = $('#span_AllScore');
-            if ($span_AllScore) {
-                $span_AllScore.html(model.TotalScore);
-            }
-        }
-        function Check(Status) {
-            var responName=$("#ResponsMan").html();
-            var hisArray=[];
-            if(Status==7){
-                $("#tb_Member1 tr").each(function(){
-                    var memname=$(this).find('td.td_memname').html(),score=$(this).find('td.td_score').html();
-                    hisArray.push({
-                        Type: 0, Acheive_Id: cur_AchieveId, Content: responName+"给"+memname+"分配了"+score+"分"
-                         , ModifyUID: $(this).attr('un'), CreateUID: loginUser.UniqueNo
-                    });
-                });
-            }
-            var hisrecord=hisArray.length > 0 ? JSON.stringify(hisArray) : '';
+        //绑定奖项奖金信息
+        function Get_SelfRewardData() {          
+            $("#div_MoneyInfo").empty();
             $.ajax({
                 url: HanderServiceUrl + "/TeaAchManage/AchRewardInfo.ashx",
                 type: "post",
                 dataType: "json",
-                data: { "Func": "CheckAcheiveRewardInfoData", "Status": Status, Id: cur_AchieveId,HisRecord: hisrecord},
+                data: { "Func": "Get_RewardBatchData", "IsPage": "false", AchieveId: cur_AchieveId, AuditStatus:"=3" },
                 success: function (json) {
                     if (json.result.errMsg == "success") {
-                        parent.layer.msg('操作成功!');
-                        parent.BindAchieve(1,10);
-                        parent.CloseIFrameWindow();
-                    }
+                        $(".re_reward").show();
+                        $("#div_item").tmpl(json.result.retData).appendTo("#div_MoneyInfo");
+                        Get_SelfAllot();
+                        Get_ModifyRecordData(loginUser.UniqueNo);
+                    }                    
                 },
                 error: function () {
                     //接口错误时需要执行的
                 }
             });
         }
-        //奖金分配审核
-        function AllotAudit(status,id,rowNum){
-            var $cur_tb=$("#tb_Member_"+rownum),rew_batchid=$cur_tb.attr('rewid');//追加奖金Id
-            var hisArray=[];
-            if(status==3){
-                $cur_tb.find('tr').each(function(){
-                    var memname=$(this).find('td.td_memname').html(),money=$(this).find('td.td_money').html();
-                    hisArray.push({
-                        Type: 1, Acheive_Id: cur_AchieveId,RelationId: rew_batchid,Content:"第" + rownum + "批奖金"+ responName+"给"+memname+"分配了"+money+"万"
-                         , ModifyUID: $(this).attr('un'), CreateUID: loginUser.UniqueNo
-                    });
-                });
-            }
-            var hisrecord=hisArray.length > 0 ? JSON.stringify(hisArray) : '';
+        //获取自己的分配奖金信息
+        function Get_SelfAllot() {
             $.ajax({
                 url: HanderServiceUrl + "/TeaAchManage/AchRewardInfo.ashx",
                 type: "post",
                 dataType: "json",
-                data: { "Func": "Check_AuditReward", Status: status,Id: id,AchieveId: cur_AchieveId,HisRecord: hisrecord },
+                data: { "Func": "Get_AllotReward", "IsPage": "false", AchieveId: cur_AchieveId},
                 success: function (json) {
                     if (json.result.errMsg == "success") {
-                        layer.msg('操作成功!');
-                        Get_RewardBatchData("",cur_ResponUID==$('#CreateUID').val()?"":"0");                       
+                        $(json.result.retData).each(function (i, n) {
+                            var $td_money = $("tbody[autid='" + n.Audit_Id + "'] tr[uid='" + n.RewardUser_Id + "']").find('.td_money');
+                            if ($td_money.length) {
+                                $td_money.html(n.AllotMoney);
+                            }
+                        });
                     }
                 },
                 error: function () {
