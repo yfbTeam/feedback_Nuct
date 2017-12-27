@@ -524,7 +524,7 @@
             });
         }
         //奖金分配审核
-        function AllotAudit(status,id,rowNum){
+        function AllotAudit(status,id,rownum){
             var $cur_tb=$("#tb_Member_"+rownum),rew_batchid=$cur_tb.attr('rewid');//追加奖金Id
             var hisArray=[];
             if(status==3){
