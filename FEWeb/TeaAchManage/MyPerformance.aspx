@@ -16,23 +16,27 @@
             <td>${ResponsName}</td>
             <td>${Year}</td>           
             <td>${Score}</td>
-            <td>{{if Status==0}}<span class="nosubmit">待提交</span>
-                {{else Status==1}}<span class="checking1">信息待审核</span>
-                {{else Status==2}}<span class="nocheck">信息不通过</span>
-                {{else Status==3}}<span class="assigning">分数待分配</span>
-                {{else Status==4}}<span class="nosubmit">分数待提交</span>
-                {{else Status==5}}<span class="checking1">分数待审核</span>
-                {{else Status==6}}<span class="nocheck">分数不通过</span>
-                {{else Status==7}}<span class="assigning">审核通过</span>
-                {{else Status==8}}<span class="assigning">奖金待分配</span>
-                {{else Status==9}}<span class="nosubmit">奖金待提交</span>
-                {{else Status==10}}<span class="checking1">奖金待审核</span>
-                {{else Status==11}}<span class="nocheck">奖金不通过</span>
-                {{else}} <span class="assigning">审核通过</span>
+            <td>{{if ResponsMan == $('#CreateUID').val()}}                  
+                    {{if Status==0}}<span class="nosubmit">待提交</span>
+                    {{else Status==1}}<span class="checking1">信息待审核</span>
+                    {{else Status==2}}<span class="nocheck">信息不通过</span>
+                    {{else Status==3}}<span class="assigning">分数待分配</span>
+                    {{else Status==4}}<span class="nosubmit">分数待提交</span>
+                    {{else Status==5}}<span class="checking1">分数待审核</span>
+                    {{else Status==6}}<span class="nocheck">分数不通过</span>
+                    {{else Status==7}}<span class="assigning">审核通过</span>
+                    {{else Status==8}}<span class="assigning">奖金待分配</span>
+                    {{else Status==9}}<span class="nosubmit">奖金待提交</span>
+                    {{else Status==10}}<span class="checking1">奖金待审核</span>
+                    {{else Status==11}}<span class="nocheck">奖金不通过</span>
+                    {{else}} <span class="assigning">审核通过</span>
+                    {{/if}}
+                {{else}}
+                    <span class="assigning">审核通过</span>
                 {{/if}}
             </td>
             <td class="operate_wrap">
-                <div class="operate" onclick="OpenIFrameWindow('业绩查看', 'CheckAchieve.aspx?Id=${Id}&Type=View', '1000px', '700px')">
+                <div class="operate" onclick="OpenIFrameWindow('业绩查看',{{if ResponsMan==$('#CreateUID').val()}} 'CheckAchieve.aspx?Id=${Id}&Type=View'{{else}}'AchieveView_Common.aspx?Id=${Id}'{{/if}}, '1000px', '700px')">
                     <i class="iconfont color_purple">&#xe60b;</i>
                     <span class="operate_none bg_purple">查看</span>
                 </div> 
@@ -157,7 +161,7 @@
                 url: HanderServiceUrl + "/TeaAchManage/AchRewardInfo.ashx",
                 type: "post",
                 dataType: "json",
-                data: { "Func": "GetAcheiveRewardInfoData", "MyUno": $("#CreateUID").val(), "CreateUID": '', PageIndex: startIndex, pageSize: pageSize, AchieveLevel: $("#AcheiveType").val(), Gid: $("#Gid").val()},
+                data: { "Func": "GetAcheiveRewardInfoData", "MyUno": $("#CreateUID").val(), "CreateUID": '', MyAch_LoginUID: loginUser.UniqueNo, PageIndex: startIndex, pageSize: pageSize, AchieveLevel: $("#AcheiveType").val(), Gid: $("#Gid").val() },
                 success: function (json) {                   
                     if (json.result.errMsg == "success") {
                         $("#pageBar").show();
