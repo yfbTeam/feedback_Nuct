@@ -117,6 +117,11 @@ namespace FEDAL
                               where ruser.IsDelete = 0 and ruser.RIId!= 0 and u.Major_ID=@AuditMajor_ID))) ");
                     pms.Add(new SqlParameter("@AuditMajor_ID", ht["AuditMajor_ID"].SafeToString()));
                 }
+                if (ht.ContainsKey("MyAch_LoginUID") && !string.IsNullOrEmpty(ht["MyAch_LoginUID"].SafeToString())) //我的业绩处的查询
+                {
+                    str.Append(@" and ((a.GPid!=2 and a.Status>2) or (a.GPid=2 and ((a.CreateUID=@MyAch_LoginUID) or (a.CreateUID!=@MyAch_LoginUID and a.Status>0)))) ");
+                    pms.Add(new SqlParameter("@MyAch_LoginUID", ht["MyAch_LoginUID"].SafeToString()));
+                }
                 if (IsPage)
                 {
                     StartIndex = Convert.ToInt32(ht["StartIndex"].ToString());

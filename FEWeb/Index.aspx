@@ -163,7 +163,7 @@
                 url: HanderServiceUrl + "/TeaAchManage/AchRewardInfo.ashx",
                 type: "post",
                 dataType: "json",
-                data: { "Func": "GetAcheiveRewardInfoData", "MyUno": $("#CreateUID").val(), PageIndex: startIndex, pageSize: pageSize, "Name": $("#Name").val() },
+                data: { "Func": "GetAcheiveRewardInfoData", "MyUno": $("#CreateUID").val(), MyAch_LoginUID: $("#CreateUID").val(), PageIndex: startIndex, pageSize: pageSize, "Name": $("#Name").val() },
                 success: function (json) {
                     if (json.result.errMsg == "success") {
                         $("#my_prize_detail_Item").tmpl(json.result.retData.PagedData).appendTo("#myPirze_table");

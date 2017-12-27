@@ -159,6 +159,7 @@ namespace FEHandler.TeaAchManage
                 ht.Add("AuditMajor_ID", context.Request["AuditMajor_ID"].SafeToString());//按院系查询的Major_ID                
                 ht.Add("Level_DepartIds", context.Request["Level_DepartIds"].SafeToString()); //业绩审核，按院系查询的十大业绩Id
                 ht.Add("Level_AllIds", context.Request["Level_AllIds"].SafeToString());//业绩审核，按全校查询的十大业绩Id
+                ht.Add("MyAch_LoginUID", context.Request["MyAch_LoginUID"].SafeToString());//我的业绩处的查询           
                 jsonModel = bll.GetPage(ht, IsPage);
 
             }
