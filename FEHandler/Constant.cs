@@ -1344,13 +1344,11 @@ namespace FEHandler
                         UniqueNo = Convert.ToString(dr["UniqueNo"]),
                         SubDepartmentID = Convert.ToString(dr["SubDepartmentID"]),
                         SubDepartmentName = Convert.ToString(dr["SubDepartmentName"]),
-                        CourseProperty = Convert.ToString(dr["CourseProperty"]),
-                        CourseType = Convert.ToString(dr["CourseType"]),
+                        CourseProperty = Convert.ToString(dr["CourseProperty"]),                      
                         DepartmentName = Convert.ToString(dr["DepartmentName"]),
-
-                        CourseTypeName = Convert.ToString(dr["CourseTypeName"]),
+                        PkType = Convert.ToString(dr["PkType"]),
                         DepartMentID = Convert.ToString(dr["DepartMentID"]),
-
+                        TaskProperty = Convert.ToString(dr["TaskProperty"]),
                         CreateTime = Convert.ToDateTime(dr["CreateTime"]),
                         CreateUID = Convert.ToString(dr["CreateUID"]),
                         EditTime = Convert.ToDateTime(dr["EditTime"]),

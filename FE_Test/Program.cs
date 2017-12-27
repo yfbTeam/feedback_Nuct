@@ -1,5 +1,6 @@
 ﻿using FEHandler;
 using FEHandler.Eva_Manage;
+using FEHandler.SysClass;
 using FEModel;
 using System;
 using System.Collections.Generic;
@@ -14,13 +15,13 @@ namespace FE_Test
     {
         static void Main(string[] args)
         {
-
+           //helper. Init_Course();
             //var t = File.ReadAllLines(@"E:\vs_work2\FE_Test\TextFile1.txt");
             //var ksp = Eva_ManageHandler.Teacher_Course_ClassInfo();
            //var s = Constant.Indicator_List;
            //var d = Constant.IndicatorType_List;
 
-
+            //CourseInfoHandler.GetCourseInfo_SelectHelper(1, "0");
 
         }
 
@@ -181,26 +182,27 @@ public class helper
 
     public static void Init_Course()
     {
-        //foreach (var item in t)
-        //{
-        //    var a = item.Split('\t');
+        var t = File.ReadAllLines(@"E:\vs_work2\FE_Test\TextFile1.txt");
+        foreach (var item in t)
+        {
+            var a = item.Split('\t');
 
-        //    var course = Constant.Course_List.FirstOrDefault(i => i.UniqueNo == a[4]);
-        //    if(course != null)
-        //    {
-        //        course.DepartMentID = a[0];
-        //        course.DepartmentName = a[1];
-        //        course.SubDepartmentID = a[2];
-        //        course.SubDepartmentName = a[3];
-        //        course.CourseTypeName = a[6];
-        //        course.CourseProperty = a[7];
-
-        //        Constant.CourseService.Update(course); 
-        //    }
-        //    else
-        //    {
-        //        int b= 0;
-        //    }
-        //}
+            var course = Constant.Course_List.FirstOrDefault(i => i.UniqueNo == a[4]);
+            if (course != null)
+            {
+                course.DepartMentID = a[0];
+                course.DepartmentName = a[1];
+                course.SubDepartmentID = a[2];
+                course.SubDepartmentName = a[3];
+                course.PkType = a[6];
+                course.CourseProperty = a[7];
+                course.TaskProperty = a[13];
+                Constant.CourseService.Update(course);
+            }
+            else
+            {
+                int b = 0;
+            }
+        }
     }
 }

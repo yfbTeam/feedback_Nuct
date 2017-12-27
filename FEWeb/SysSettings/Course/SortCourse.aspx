@@ -13,10 +13,11 @@
 
 
     <style>
-        .selectdiv
-        {
-
+        .selectdiv {
+            margin-right: 10px;
+            margin-bottom: 10px;
         }
+
         .select {
             width: 150px;
         }
@@ -33,30 +34,29 @@
                 </div>
                 <div class="fl selectdiv">
                     <label for="">排课分类:</label>
-                    <select id="_currsele" class="select">
+                    <select id="pk" class="select">
+                        <option value="-1">全部</option>
                     </select>
                 </div>
                 <div class="fl selectdiv">
                     <label for="">任务性质:</label>
-                    <select id="_currsele" class="select">
+                    <select id="ck" class="select">
+                        <option value="-1">全部</option>
                     </select>
                 </div>
                 <div class="fl selectdiv">
                     <label for="">课程性质:</label>
-                    <select id="_currsele" class="select">
+                    <select id="cp" class="select">
+                        <option value="-1">全部</option>
                     </select>
                 </div>
                 <div class="fl selectdiv">
                     <label for="">开课单位:</label>
-                    <select id="_currsele" class="select">
+                    <select id="dp" class="select">
+                        <option value="-1">全部</option>
                     </select>
                 </div>
-                <div class="fl selectdiv">
-                    <label for="">开课单位:</label>
-                    <select id="college" class="select">
-                        <option value="">全部         </option>
-                    </select>
-                </div>
+
                 <div class="fl selectdiv">
                     <input type="text" name="" id="key" placeholder="请输入关键字" value="" class="text fl">
                     <a class="search fl" href="javascript:;" onclick="GetNoDis_CourseInfo(0);"><i class="iconfont">&#xe600;</i></a>
@@ -174,6 +174,7 @@
                 layer.msg("失败2！");
             }
         };
+        GetCourseInfo_Select();
     });
     //------------------------------------分配课程------------------------------------
     function SubmitUpdateCourseSort() {

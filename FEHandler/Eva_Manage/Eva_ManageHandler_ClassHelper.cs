@@ -17,76 +17,6 @@ namespace FEHandler.Eva_Manage
 
     #region 定期评价获取model 类
 
-    public class SellModel
-    {
-        public Eva_Distribution dis { get; set; }
-        public Sys_Dictionary dic { get; set; }
-        public Course course { get; set; }
-        public Eva_Regular regu { get; set; }
-        public StudySection section { get; set; }
-        public CourseRoom room { get; set; }
-        public Teacher teacher { get; set; }
-        public UserInfo user { get; set; }
-        public Major major { get; set; }
-        public ClassInfo cls { get; set; }
-
-        public string ExpertUID { get; set; }
-        /// <summary>
-        /// 是否已评价
-        /// </summary>
-        public bool is_answer { get; set; }
-
-        /// <summary>
-        /// 实际回答人数
-        /// </summary>
-        public int answercount { get; set; }
-
-        /// <summary>
-        /// 计算平均分
-        /// </summary>
-        public double ave_score { get; set; }
-
-        public string expertName { get; set; }
-
-        public string regu_name { get; set; }
-
-        public int ranking { get; set; }
-    }
-
-
-    //详情
-    public class SellModel_Eva_Detail
-    {
-        public UserInfo user { get; set; }
-
-        public Student student { get; set; }
-
-        public Eva_Distribution dis { get; set; }
-        public Sys_Dictionary dic { get; set; }
-        public Course course { get; set; }
-        public Eva_Regular regu { get; set; }
-        public StudySection section { get; set; }
-        public CourseRoom room { get; set; }
-        public Teacher teacher { get; set; }
-        //获取该分配表的指定表格设计，然后取出指标库类型【集合】
-        public List<int> list { get; set; }
-        //表格设计里的每一道题【试卷里的所有题】
-        public List<List<Score_Model>> TList { get; set; }
-
-
-        //同上【教学反馈】
-        public List<int> list2 { get; set; }
-        //同上【教学反馈】
-        public List<List<Score_Model>> TList2 { get; set; }
-
-        public List<string> name_list { get; set; }
-
-        public List<double> score_list { get; set; }
-
-        public List<Feed_Anony_Model> feed_anony_model_list { get; set; }
-    }
-
-
     public class Regu_Student_Model
     {
         public string EvaName { get; set; }
@@ -680,6 +610,18 @@ namespace FEHandler.Eva_Manage
         }
     }
 
+    class DepartmentSelectComparer : EqualityComparer<DepartmentSelect>
+    {
+        public override bool Equals(DepartmentSelect x, DepartmentSelect y)
+        {
+            return x.DepartMentID == y.DepartMentID ;
+        }
+        public override int GetHashCode(DepartmentSelect obj)
+        {
+            return obj.DepartMentID.GetHashCode();
+        }
+    }
+
     #endregion
 
     #region Task_Answer
@@ -740,7 +682,8 @@ namespace FEHandler.Eva_Manage
     #endregion
 
 
-
+    #region new
+    
     public class C_T
     {
 
@@ -847,7 +790,17 @@ namespace FEHandler.Eva_Manage
         public int ReguState { get; set; }
     }
 
+    public class DepartmentSelect
+    {
 
+        public string DepartMentID { get; set; }
+
+        public string DepartmentName { get; set; }
+    }
+    
+    #endregion
+
+    
 }
 
 #region 枚举类
