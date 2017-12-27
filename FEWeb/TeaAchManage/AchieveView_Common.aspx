@@ -114,8 +114,8 @@
     <div class="checkmes none">审核通过</div>
     <div class="main" >
         <div class="cont">
-            <h2 class="cont_title re_view none"><span>获奖文件信息</span></h2>
-            <div class="area_form clearfix re_view none">
+            <h2 class="cont_title re_view"><span>获奖文件信息</span></h2>
+            <div class="area_form clearfix re_view">
                 <div class="input_lable fl">
                     <label for="">发文号：</label>
                     <span id="FileEdionNo"></span>
