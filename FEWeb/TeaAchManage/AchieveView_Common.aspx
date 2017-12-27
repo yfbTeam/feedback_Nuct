@@ -81,7 +81,7 @@
                     </tr>
                 </thead>
                 <tbody id="tb_Member_${rowNum}" autid="${AuditId}" rewid="${Id}">
-                    {{each(i, mem) Member_Data.retData}}                        
+                    {{each(i, mem) Member_Data}}                        
                             <tr un="${mem.UserNo}" uid="${mem.Id}">
                                 <td class="td_memname">${mem.Name}</td>
                                 {{if cur_AchieveType==3}}
@@ -348,7 +348,6 @@
                 dataType: "json",
                 success: function (json) {
                     if (json.result.errNum.toString() == "0") { 
-                        Member_Data = json.result;
                         var type_tr = "#tr_Info1";
                         if (model.AchieveType == 3) { //教材建设类                          
                             $("#tr_Info").tmpl(json.result.retData).appendTo("#tb_info");
@@ -364,6 +363,7 @@
                             $(type_tr).tmpl(curMemData).appendTo("#tb_Member1");
                         }
                         if (model.Status > 7) {
+                            Member_Data = [curMemData];
                             $(".re_reward").show();                            
                            Get_SelfRewardData();
                         }                        

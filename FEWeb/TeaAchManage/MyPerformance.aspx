@@ -32,7 +32,7 @@
                 {{/if}}
             </td>
             <td class="operate_wrap">
-                <div class="operate" onclick="OpenIFrameWindow('业绩查看',{{if ResponsMan==$('#CreateUID').val()}} 'TeaAchManage/CheckAchieve.aspx?Id=${Id}&Type=View'{{else}}'TeaAchManage/AchieveView_Common.aspx?Id=${Id}'{{/if}}, '1000px', '700px')">
+                <div class="operate" onclick="OpenIFrameWindow('业绩查看',{{if ResponsMan==$('#CreateUID').val()}} 'CheckAchieve.aspx?Id=${Id}&Type=View'{{else}}'AchieveView_Common.aspx?Id=${Id}'{{/if}}, '1000px', '700px')">
                     <i class="iconfont color_purple">&#xe60b;</i>
                     <span class="operate_none bg_purple">查看</span>
                 </div> 
