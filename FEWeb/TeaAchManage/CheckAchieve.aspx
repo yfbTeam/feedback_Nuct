@@ -60,8 +60,9 @@
        <div class="clearfix allot_item">
             <div class="clearfix">
                 <div class="fl status-left">
-                     <label for="">状态：</label>
-                    {{if AuditStatus==0}}<span class="nosubmit">待提交</span>
+                    <label for="" style="margin-right:20px;">第${rowNum}批奖金</label>
+                    <label for="">状态：</label>
+                    {{if AuditStatus==0}}<span class="nosubmit">{{if cur_ResponUID==$('#CreateUID').val()}}待提交{{else}}待分配{{/if}}</span>
                     {{else AuditStatus==1}}<span class="checking1">待审核</span>
                     {{else AuditStatus==2}}<span class="nocheck">审核不通过</span>
                     {{else}} <span class="assigning">审核通过</span>{{/if}}
@@ -398,7 +399,8 @@
                 $(".re_view").show();
             }
         }
-        function InitControl(model) {           
+        function InitControl(model) {
+            cur_ResponUID = model.ResponsMan;
             View_CheckInit(model);
             SetScore_LooK(model);
             cur_AchieveType=model.AchieveType;
@@ -445,7 +447,7 @@
                 success: function (json) {
                     if (json.result.errNum.toString() == "0") { 
                         Member_Data = json.result;
-                        Get_RewardBatchData();
+                        Get_RewardBatchData("",cur_ResponUID==$('#CreateUID').val()?"0":"");
                         if (model.AchieveType == 3) { //教材建设类                          
                             $("#tr_Info").tmpl(json.result.retData).appendTo("#tb_info");                          
                             $("#tr_Info1").tmpl(json.result.retData).appendTo("#tb_Member1");
@@ -542,7 +544,7 @@
                 success: function (json) {
                     if (json.result.errMsg == "success") {
                         layer.msg('操作成功!');
-                        Get_RewardBatchData();                       
+                        Get_RewardBatchData("",cur_ResponUID==$('#CreateUID').val()?"0":"");                       
                     }
                 },
                 error: function () {

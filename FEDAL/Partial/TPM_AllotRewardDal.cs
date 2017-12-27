@@ -42,6 +42,11 @@ namespace FEDAL
                     str.Append(" and allot.Id=@Id ");
                     pms.Add(new SqlParameter("@Id", ht["Id"].ToString()));
                 }
+                if (ht.ContainsKey("No_Status") && !string.IsNullOrEmpty(ht["No_Status"].SafeToString()))
+                {
+                    str.Append(" and aud.Status!=@No_Status");
+                    pms.Add(new SqlParameter("@No_Status", ht["No_Status"].ToString()));
+                }                
                 if (IsPage)
                 {
                     StartIndex = Convert.ToInt32(ht["StartIndex"].ToString());
