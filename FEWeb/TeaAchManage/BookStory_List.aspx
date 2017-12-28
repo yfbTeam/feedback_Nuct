@@ -72,7 +72,7 @@
                     <select class="select" id="BookType" onchange="Book(1,10);" style="width: 198px;">
                         <option value="">全部</option>
                         <option value="1">立项教材</option>
-                        <option value="2">已出版教材</option>
+                        <option value="2">出版教材</option>
                     </select>
                 </div> 
                 <div class="fl ml20">

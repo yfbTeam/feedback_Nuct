@@ -209,7 +209,7 @@
                                     $(".checkmes").html("待审核");
                                     break;
                                 case "2":
-                                    $(".checkmes").html("审核失败");
+                                    $(".checkmes").html("审核不通过");
                                     break;
                                 case "3":
                                     $(".checkmes").html("审核通过");

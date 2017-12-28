@@ -32,15 +32,15 @@
                 </select>
             </div>
             <div class="input-wrap">
-                <label>奖项分数：</label><input type="number" id="Score" regtype="money" isrequired="true" fl="奖项分数" name="Score" class="text" placeholder="请输入奖项分数" min="0" step="0.01"/><span>分</span><span id="Unit" class="none">/万字</span>
+                <label>奖项分数：</label><input type="number" id="Score" regtype="money" isrequired="true" fl="奖项分数" name="Score" class="text" placeholder="请输入奖项分数（允许两位小数）" min="0" step="0.01"/><span class="ml10">分</span><span id="Unit" class="none">/万字</span>
             </div>
             <div class="input-wrap">
                 <label>奖项金额：</label>
-                <input type="text" class="text" id="Award" name="Award" regtype="money" fl="奖项金额" placeholder="请输入奖项金额" min="0" step="0.01"/><span>万元</span>
+                <input type="text" class="text" id="Award" name="Award" regtype="money" fl="奖项金额" placeholder="请输入奖项金额（允许两位小数）" min="0" step="0.01"/><span class="ml10">万元</span>
             </div>
             <div class="input-wrap">
                 <label>排序：</label>
-                <input type="number" class="text" id="Sort" name="Sort" isrequired="true" regtype="integer" fl="排序" placeholder="请输入排序号" min="0" step="0"/>
+                <input type="number" class="text" id="Sort" name="Sort" isrequired="true" regtype="integer" fl="排序" placeholder="请输入排序号（整数）" min="0" step="0"/>
             </div>
     </div>
     <div class="btnwrap">

@@ -31,7 +31,7 @@
                     <i class="iconfont color_purple">&#xe60b;</i>
                     <span class="operate_none bg_purple">查看</span>
                 </div>
-                 {{if Status==0}}
+                 {{if (MEditor== $('#CreateUID').val()||CreateUID==$('#CreateUID').val())&&(Status==0||Status==2)}}
                     <div class="operate" onclick="OpenIFrameWindow('教材修改','BookAdd.aspx?Id=${Id}','1100px','700px');">
                         <i class="iconfont color_purple">&#xe617;</i>
                         <span class="operate_none bg_purple">修改</span>
@@ -66,7 +66,7 @@
                     <select class="select" id="BookType" onchange="Book(1,10);" style="width: 198px;">
                         <option value="">全部</option>
                         <option value="1">立项教材</option>
-                        <option value="2">已出版教材</option>
+                        <option value="2">出版教材</option>
                     </select>
                 </div>
                 <div class="fl ml20">

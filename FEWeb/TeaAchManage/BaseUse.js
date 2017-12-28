@@ -430,6 +430,8 @@ function Get_OperReward_UserInfo() {
                 //接口错误时需要执行的
             }
         });
+    } else {
+        $('#ISBN').val('');
     }
 }
 function Set_BookScore() {    

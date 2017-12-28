@@ -332,29 +332,29 @@
         }
         //提交按钮
         function Save(s_type) {
-            type = arguments[0] || 0;
-            var valid_flag=0;
-            if ($("#BookType").val() != "1") {                
-                //验证为空项或其他          
-                valid_flag = validateForm($('select,input[type="text"]:visible'));             
-                if(valid_flag== 0&&$("input[name='IsOneAuthor']:checked").val() == "0"&& $("#AuthorInfo tr").length==1){
+            s_type = arguments[0] || 0;
+            var name = $("#Name").val().trim(), meditor = $("#MEditor").val();
+            if (!name.length) { layer.msg("请填写书名！"); return; }
+            if (!meditor.length) { layer.msg("请选择主编姓名！"); return; }
+            var valid_flag = 0;
+            if (s_type == 1) {
+                if ($("#BookType").val() != "1") {
+                    valid_flag = validateForm($('select,input[type="text"]:visible'));
+                    if (valid_flag != 0) { return false; }
+                }
+                if (valid_flag == 0 && $("input[name='IsOneAuthor']:checked").val() == "0" && $("#AuthorInfo tr").length == 1) {
                     layer.msg("该教材非独著，请添加作者后提交！");
                     return;
                 }
                 var au_count = 0;
-                $("#AuthorInfo tr input[type='number']").each(function () {                  
+                $("#AuthorInfo tr input[type='number']").each(function () {
                     if ($(this).val().trim() == "") {
-                        au_count++;                        
+                        au_count++;
                         return false;
                     }
                 });
                 if (au_count > 0) { layer.msg("请填写作者信息处的排名及贡献字数！"); return; }
             }
-            else{
-                var name = $("#Name").val().trim(),meditor=$("#MEditor").val();
-                if (!name.length) { layer.msg("请填写书名！"); return; }
-                if (!meditor.length) { layer.msg("请选择主编姓名！"); return; }
-            }           
             if (valid_flag== 0)
             {
                 var o = getFromValue();
