@@ -23,8 +23,8 @@
     <script type="text/x-jquery-tmpl" id="tr_MemEdit">
         <tr class="memedit" un="${UserNo}">
             <td class="td_memname">${Name}</td>
-            <td class="td_score">${Score}</td>
             <td>${Major_Name}</td>
+            <td class="td_score">${Score}</td>
         </tr>
     </script>
     <%--成员信息--%>
@@ -69,7 +69,7 @@
                         <th>姓名</th>
                         <th>作者类型</th>
                         <th>排名</th>
-                        <th>单位／部门</th>
+                        <th>部门</th>
                         <th>贡献字数（万字）</th>
                         <th>奖金</th>
                         {{else}}
@@ -152,7 +152,7 @@
                     <span id="TeaUNo"></span>
                 </div>
                 <div class="input_lable fl none">
-                    <label for="">奖项名称：</label>
+                    <label for="">获奖项目名称：</label>
                     <span id="Name"></span>
                 </div>
                 <div class="input_lable book fl none">
@@ -199,8 +199,8 @@
                     <thead>
                         <tr>                               
                             <th>姓名</th>
-                            <th>单位/部门</th>
-                            <th>得分</th>
+                            <th>部门</th>
+                            <th>分数</th>
                         </tr>
                     </thead>
                     <tbody id="tb_Member"></tbody>
@@ -214,7 +214,7 @@
                             <th>姓名</th>
                             <th>作者类型</th>
                             <th>排名</th>
-                            <th>单位／部门</th>
+                            <th>部门</th>
                             <th>贡献字数（万字）</th>
                         </tr>
                     </thead>
@@ -235,7 +235,7 @@
                             <th>姓名</th>
                             <th>作者类型</th>
                             <th>排名</th>
-                            <th>单位／部门</th>
+                            <th>部门</th>
                             <th>贡献字数（万字）</th>
                             <th>分数</th>
                         </tr>
@@ -245,8 +245,8 @@
             </div>
             <h2 class="cont_title re_reward none"><span>奖金分配</span></h2> 
             <div class="area_form re_reward none" id="div_MoneyInfo"></div>        
-            <h2 class="cont_title re_reward none"><span>分配历史</span></h2>
-            <div class="area_form re_reward none">
+            <h2 class="cont_title re_history none"><span>分配历史</span></h2>
+            <div class="area_form re_history none">
                 <ul class="history" id="ul_Record"></ul>
             </div>
         </div>
@@ -289,7 +289,7 @@
                             $("#Year").html(this.Year);
                             $("#ResponsMan").html(this.ResponsName);
                             $("#DepartMent").html(this.Major_Name);
-                            $("#Sort").html(this.rankName);
+                            $("#Sort").html(this.RankName);
                             $("#FileEdionNo").html(this.FileEdionNo);
                             $("#FileNames").html(this.FileNames);
                             $("#DefindDate").html(DateTimeConvert(this.DefindDate, '年月日'));
@@ -347,26 +347,28 @@
                 data: postData,
                 dataType: "json",
                 success: function (json) {
-                    if (json.result.errNum.toString() == "0") { 
+                    if (json.result.errNum.toString() == "0") {
                         var type_tr = "#tr_Info1";
                         if (model.AchieveType == 3) { //教材建设类                          
                             $("#tr_Info").tmpl(json.result.retData).appendTo("#tb_info");
                             type_tr = "#tr_Info1";
-                            
+
                         } else {  //其他类型
                             $("#tr_MemEdit").tmpl(json.result.retData).appendTo("#tb_Member");
-                            type_tr = "#tr_MemEdit1";                           
+                            type_tr = "#tr_MemEdit1";
                         }
                         if (model.Status > 6) {
                             $(".re_score").show();
                             var curMemData = Enumerable.From(json.result.retData).Where("x=>x.UserNo=='" + loginUser.UniqueNo + "'").FirstOrDefault();
                             $(type_tr).tmpl(curMemData).appendTo("#tb_Member1");
+                            if (model.Status > 7) {
+                                Member_Data = [curMemData];
+                                $(".re_reward").show();
+                                Get_SelfRewardData();
+                            }
+                            $(".re_history").show();
+                            Get_ModifyRecordData(loginUser.UniqueNo);
                         }
-                        if (model.Status > 7) {
-                            Member_Data = [curMemData];
-                            $(".re_reward").show();                            
-                           Get_SelfRewardData();
-                        }                        
                     }
                 },
                 error: function (errMsg) {
@@ -386,8 +388,7 @@
                     if (json.result.errMsg == "success") {
                         $(".re_reward").show();
                         $("#div_item").tmpl(json.result.retData).appendTo("#div_MoneyInfo");
-                        Get_SelfAllot();
-                        Get_ModifyRecordData(loginUser.UniqueNo);
+                        Get_SelfAllot();                        
                     }                    
                 },
                 error: function () {

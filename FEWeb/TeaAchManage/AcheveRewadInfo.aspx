@@ -25,7 +25,7 @@
         <td><input type='checkbox' value="${UniqueNo}" name="ck_trsub" onclick="CheckSub(this);"/></td>       
         <td>${Name}</td>       
         <td>${MajorName}</td>
-        <td><input type="number" value="" min="0" step="0.01" onblur="ChangeRankScore(this);"></td>
+        <td><input type="number" value="" regtype="money" fl="分数" min="0" step="0.01" onblur="ChangeRankScore(this);"></td>
     </tr>
 </script>
     <script>
@@ -95,8 +95,8 @@
                         <select class="chosen-select" data-placeholder="获奖教师" id="TeaUNo" name="TeaUNo"></select>
                     </div>
                     <div class="input_lable fl none">
-                        <label for="">奖项名称：</label>
-                        <input type="text" isrequired="true" fl="奖项名称" class="text" name="Name" id="Name" style="width: 694px" />
+                        <label for="">获奖项目名称：</label>
+                        <input type="text" isrequired="true" fl="获奖项目名称" class="text" name="Name" id="Name" style="width: 694px" />
                     </div>
                     <div class="input_lable book fl none">
                         <label for="">书名：</label>
@@ -148,8 +148,8 @@
                             <tr>
                                 <th width="40px;"><input type="checkbox" name="ck_tball" onclick="CheckAll(this)"/></th>
                                 <th>姓名</th>
-                                <th>单位/部门</th>
-                                <th>得分</th>
+                                <th>部门</th>
+                                <th>分数</th>
                             </tr>
                         </thead>
                         <tbody id="tb_Member"></tbody>
@@ -167,7 +167,7 @@
                                 <th>姓名</th>
                                 <th>作者类型</th>
                                 <th>排名</th>
-                                <th>单位／部门</th>
+                                <th>部门</th>
                                 <th>贡献字数（万字）</th>
                             </tr>
                         </thead>

@@ -24,8 +24,8 @@
     <script type="text/x-jquery-tmpl" id="tr_MemEdit">
         <tr class="memedit" un="${UserNo}">
             <td class="td_memname">${Name}</td>
-            <td class="td_score">${Score}</td>
             <td>${Major_Name}</td>
+            <td class="td_score">${Score}</td>           
         </tr>
     </script>
     <%--成员信息--%>
@@ -77,7 +77,7 @@
                         <th>姓名</th>
                         <th>作者类型</th>
                         <th>排名</th>
-                        <th>单位／部门</th>
+                        <th>部门</th>
                         <th>贡献字数（万字）</th>
                         <th>奖金</th>
                         {{else}}
@@ -174,7 +174,7 @@
                     <span id="TeaUNo"></span>
                 </div>
                 <div class="input_lable fl none">
-                    <label for="">奖项名称：</label>
+                    <label for="">获奖项目名称：</label>
                     <span id="Name"></span>
                 </div>
                 <div class="input_lable book fl none">
@@ -225,8 +225,8 @@
                     <thead>
                         <tr>                               
                             <th>姓名</th>
-                            <th>单位/部门</th>
-                            <th>得分</th>
+                            <th>部门</th>
+                            <th>分数</th>
                         </tr>
                     </thead>
                     <tbody id="tb_Member"></tbody>
@@ -244,7 +244,7 @@
                             <th>姓名</th>
                             <th>作者类型</th>
                             <th>排名</th>
-                            <th>单位／部门</th>
+                            <th>部门</th>
                             <th>贡献字数（万字）</th>
                         </tr>
                     </thead>
@@ -272,7 +272,7 @@
                             <th>姓名</th>
                             <th>作者类型</th>
                             <th>排名</th>
-                            <th>单位／部门</th>
+                            <th>部门</th>
                             <th>贡献字数（万字）</th>
                             <th>分数</th>
                         </tr>
@@ -338,7 +338,7 @@
                             $("#Year").html(this.Year);
                             $("#ResponsMan").html(this.ResponsName);
                             $("#DepartMent").html(this.Major_Name);
-                            $("#Sort").html(this.rankName);
+                            $("#Sort").html(this.RankName);
                             $("#FileEdionNo").html(this.FileEdionNo);
                             $("#FileNames").html(this.FileNames);
                             $("#DefindDate").html(DateTimeConvert(this.DefindDate, '年月日'));

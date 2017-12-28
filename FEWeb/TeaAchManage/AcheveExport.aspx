@@ -50,9 +50,9 @@
                                 <th>获奖级别</th>
                                 <th>获奖等级</th>
                                 <th>获奖教师</th>
-                                <th>单位/部门</th>
+                                <th>部门</th>
                                 <th>获奖日期</th>
-                                <th>得分</th>
+                                <th>分数</th>
                             </tr>
                         </thead>
                         <tbody id="tb_info">

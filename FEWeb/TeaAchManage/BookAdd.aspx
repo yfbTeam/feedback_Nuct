@@ -28,7 +28,7 @@
             </td>
             <td><input type="number" value="${auth.Sort}" min="0" {{if i==0}}disabled="disabled"{{/if}}/></td>
             <td>${auth.Major_Name}</td>
-            <td><input type="number" value="${auth.WordNum}" step="0.01"/></td>
+            <td><input type="number" value="${auth.WordNum}" regtype="money" fl="贡献字数（万字）" step="0.01"/></td>
         </tr>
         {{/each}}        
     </script>
@@ -45,7 +45,7 @@
                 </select></td>
             <td><input type="number" value="" min="0" step="1"/></td>
             <td mid="${Major_ID}">${MajorName}</td>
-            <td><input type="number" value="" step="0.01"/></td>          
+            <td><input type="number" value="" regtype="money" fl="贡献字数（万字）" step="0.01"/></td>          
         </tr>
     </script>
     <style>
@@ -188,7 +188,7 @@
                             <th>姓名</th>
                             <th>作者类型</th>
                             <th>排名</th>
-                            <th>单位／部门</th>
+                            <th>部门</th>
                             <th>贡献字数（万字）</th>                           
                         </tr>
                     </thead>

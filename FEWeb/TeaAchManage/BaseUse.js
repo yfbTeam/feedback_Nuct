@@ -312,7 +312,7 @@ function Bind_ResponsMan(selid) {
         if ($curoption.val() != "") {
             var first_tr = '<tr class="meditor memadd" un="' + $curoption.val() + '"><td></td><td>' + $curoption.text() + '</td>\
                         <td>' + $curoption.attr('mname') + '</td>\
-                        <td><input type="number" value="" min="0" step="0.01" onblur="ChangeRankScore(this);"></td></tr>';
+                        <td><input type="number" value="" min="0" regtype="money" fl="分数" step="0.01" onblur="ChangeRankScore(this);"></td></tr>';
             var $existobj = $("#tb_Member tr[un='" + $curoption.val() + "']");
             if (!$existobj.length) {
                 $("#tb_Member .meditor").remove();

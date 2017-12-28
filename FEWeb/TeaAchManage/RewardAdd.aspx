@@ -20,8 +20,8 @@
     <input type="hidden" name="Batch_Id" id="Batch_Id" value=""/>
     <div class="main">
             <div class="input-wrap">
-                <label for="">奖项名称:</label>
-                <input type="text" class="text" name="Name" id="Name" isrequired="true" fl="奖项名称" placeholder="请输入奖项名称" />
+                <label for="">获奖项目名称:</label>
+                <input type="text" class="text" name="Name" id="Name" isrequired="true" fl="获奖项目名称" placeholder="请输入获奖项目名称" />
             </div>
             <div class="input-wrap">
                 <label for="">记分标准:</label>

@@ -26,11 +26,11 @@
                 {{/if}}
             </td>
             <td>${mem.Name}</td>
-            <td>{{if $("#AchieveType").val()=="3"}}${mem.UnitScore* mem.WordNum}
-                {{else}}<input type="number" name="score" value="${mem.Score}" min="0" step="0.01"/>
+            <td>{{if $("#AchieveType").val()=="3"}}${Num_Fixed(mem.UnitScore* mem.WordNum)}
+                {{else}}<input type="number" name="score" value="${mem.Score}" regtype="money" fl="分数" min="0" step="0.01"/>
             {{/if}}
             </td>
-            <td>${mem.CreateName}</td>
+            <td>${mem.Major_Name}</td>
             <td>${DateTimeConvert(mem.CreateTime,"yyyy-MM-dd")}</td>
         </tr>
         {{/each}}  
@@ -40,7 +40,7 @@
         <tr class="memadd" un="${UniqueNo}">
             <td><input type='checkbox' value="${UniqueNo}" name="ck_trsub" onclick="CheckSub(this);" /></td>
             <td>${Name}</td>
-            <td><input type="number" name="score" value="" min="0" step="0.01"></td>          
+            <td><input type="number" name="score" value="" min="0" regtype="money" fl="分数" step="0.01"></td>          
             <td>${loginUser.Name}</td>
             <td>${DateTimeConvert(new Date(),"yyyy-MM-dd",false)}</td>          
         </tr>
@@ -60,7 +60,7 @@
                     <span id="TeaUNo"></span>
                 </div>
                 <div class="input_lable fl none">
-                    <label for="">奖项名称：</label>
+                    <label for="">获奖项目名称：</label>
                     <span id="Name"></span>
                 </div>
                 <div class="input_lable book fl none">
@@ -114,7 +114,7 @@
                             <th width="16px"><input type="checkbox" name="ck_tball" onclick="CheckAll(this)"/></th>
                             <th>成员</th>
                             <th>分数</th>                          
-                            <th>录入人</th>
+                            <th>部门</th>
                             <th>录入日期</th>                                                  
                         </tr>
                     </thead>
@@ -197,7 +197,7 @@
                             $("#TeaUNo").html(this.ResponsName);
                             $("#ResponsMan").html(this.ResponsName);
                             $("#DepartMent").html(this.Major_Name);
-                            $("#Sort").html(this.rankName);                           
+                            $("#Sort").html(this.RankName);
                             $('#span_AllScore').html(this.TotalScore);                            
                         });
                     }
@@ -233,36 +233,32 @@
             var AllScore = $("#span_AllScore").html();
             var ShareScore=0;          
             $("#tb_Member").find("tr").each(function () {
-                var Score=  $(this).find("td").eq(2).find("input").val();             
+                var Score = $(this).find('input[type=number][name=score]').val();
                 ShareScore= numAdd(ShareScore,Score);
             });
             if (isNaN(ShareScore)==true&& isNaN(ShareAward)==true) {
                 layer.msg("没有数据修改");
                 return false;
             }
-            //else if (AllScore>=ShareScore&&AllAward>ShareAward) {
-            //    return true;
-            //}
-            //else if (AllScore>=ShareScore&&AllAward==NaN) {
-            //    return true;
-            //}
             else if (AllScore==NaN&&AllAward>ShareAward) {
                 return true;
             }
             else if (AllScore<ShareScore) {
                 layer.msg("分配的分数大于总分数");
                 return false;
-            }
-            //else if (AllAward<ShareAward)
-            //{
-            //    layer.msg("分配的金额大于总金额")
-            //    return false
-            //}
+            }            
             else{  return true;}
         }
+        var object = { Func: "Add_AcheiveAllot", Id: cur_AchieveId };
         function submit(status) {
+            var add_path = Get_AddFile(3);
+            object.Add_Path = add_path.length > 0 ? JSON.stringify(add_path) : "";
             if (CheckScoreAndAward()) {                
                 if (status == 5) {
+                    if (add_path.length <= 0) {
+                        layer.msg("请上传附件!");
+                        return;
+                    }
                     layer.confirm('确认提交吗？提交后将不能进行修改', {
                         btn: ['确定', '取消'], //按钮
                         title: '操作'
@@ -274,15 +270,12 @@
                 }                
             }
         }
-        function LastSave(status) {
-            var object = { Func: "Add_AcheiveAllot", Id: cur_AchieveId };
+        function LastSave(status) {            
             object.Status = status;
             var addArray = Get_AddMember();
             object.MemberStr = addArray.length > 0 ? JSON.stringify(addArray) : '';
             var editArray = Get_EditMember();
-            object.MemberEdit = editArray.length > 0 ? JSON.stringify(editArray) : '';
-            var add_path = Get_AddFile(3);
-            object.Add_Path = add_path.length > 0 ? JSON.stringify(add_path) : "";
+            object.MemberEdit = editArray.length > 0 ? JSON.stringify(editArray) : '';            
             object.Edit_PathId = Get_EditFileId();
             $.ajax({
                 url: HanderServiceUrl + "/TeaAchManage/AchRewardInfo.ashx",

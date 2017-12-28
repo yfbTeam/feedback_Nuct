@@ -11,7 +11,7 @@
     <script type="text/x-jquery-tmpl" id="trBook">
         <tr>
             <td>${ISBN}</td>
-            <td>${Name}{{if PrizeCount>0}}<i class="iconfont reward">&#xe778;</i>{{/if}}<i class="iconfont" style="color:#3c86e2">&#xe688;</i></td>
+            <td>${Name}{{if PrizeCount>0}}<i class="iconfont reward">&#xe778;</i>{{/if}}{{if BookType==2&&IdentifyCol>0}}<i class="iconfont" style="color:#3c86e2">&#xe688;</i>{{/if}}</td>
             <td>{{if IsOneVolum==1}}单册{{else}} 多册{{/if}}</td>
             <td>${EditName}</td>
             <td>{{if BookType==1}}立项教材{{else}} 出版教材{{/if}}</td> 

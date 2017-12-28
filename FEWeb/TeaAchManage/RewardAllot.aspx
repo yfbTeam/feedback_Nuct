@@ -43,7 +43,7 @@
                         <th>姓名</th>
                         <th>作者类型</th>
                         <th>排名</th>
-                        <th>单位／部门</th>
+                        <th>部门</th>
                         <th>贡献字数（万字）</th>
                         <th>奖金</th>
                         {{else}}
@@ -63,9 +63,9 @@
                                 <td>${mem.Sort}</td>
                                 <td>${mem.Major_Name}</td>
                                 <td>${mem.WordNum}</td>
-                                <td class="td_money">{{if  AuditStatus==10||AuditStatus==0||AuditStatus==2}}<input type="number" isrequired="true" fl="奖金" min="0" step="0.01">{{/if}}</td>
+                                <td class="td_money">{{if  AuditStatus==10||AuditStatus==0||AuditStatus==2}}<input type="number" isrequired="true" regtype="money" fl="奖金" min="0" step="0.01">{{/if}}</td>
                                 {{else}}
-                                <td class="td_money">{{if  AuditStatus==10||AuditStatus==0||AuditStatus==2}}<input type="number" isrequired="true" fl="奖金" min="0" step="0.01">{{/if}}</td>
+                                <td class="td_money">{{if  AuditStatus==10||AuditStatus==0||AuditStatus==2}}<input type="number" isrequired="true" regtype="money" fl="奖金" min="0" step="0.01">{{/if}}</td>
                                 <td>${mem.Major_Name}</td>
                                 <td>${DateTimeConvert(mem.CreateTime,"yyyy-MM-dd")}</td>
                                 {{/if}}     
@@ -124,7 +124,7 @@
                 <span id="TeaUNo">{{Info.ResponsName}}</span>
             </div>
             <div class="input_lable fl" v-if="Info.AchieveType==1||Info.AchieveType==2" v-cloak >
-                <label for="">奖项名称：</label>
+                <label for="">获奖项目名称：</label>
                 <span id="Name" >{{Info.AchiveName}}</span>
             </div>
             <div class="input_lable book fl" v-if="Info.AchieveType==3"v-cloak  >
@@ -150,7 +150,7 @@
             </div>
             <div class="input_lable fl" v-if="Info.AchieveType==2" v-cloak >
                 <label for="">排名：</label>
-                <span id="Sort">{{Info.rankName}}</span>
+                <span id="Sort">{{Info.RankName}}</span>
             </div>
             <div class="input_lable fl" v-cloak >
                 <label for="">获奖年度：</label>
