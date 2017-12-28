@@ -125,7 +125,7 @@ namespace FEHandler.Eva_Manage
                                    join section in Constant.StudySection_List on dic.SectionId equals section.Id
                                    where dic.Type == Convert.ToString((int)dictiontype) && dic.SectionId == section.Id && section.Id == SectionId
                                    orderby section.EndTime descending
-                                   select new { dic.SectionId, dic.Value, section.DisPlayName, dic.Id, dic.Key, Study_IsEnable = section.IsEnable, dic.IsEnable };
+                                   select new { dic.SectionId, dic.Value, section.DisPlayName,section.StartTime,section.EndTime, dic.Id, dic.Key, Study_IsEnable = section.IsEnable, dic.IsEnable };
                         //返回所有表格数据
                         jsonModel = JsonModel.get_jsonmodel(intSuccess, "success", list);
                     }
@@ -135,7 +135,7 @@ namespace FEHandler.Eva_Manage
                                    join section in Constant.StudySection_List on dic.SectionId equals section.Id
                                    where dic.Type == Convert.ToString((int)dictiontype) && dic.SectionId == section.Id
                                    orderby section.EndTime descending
-                                   select new { dic.SectionId, dic.Value, section.DisPlayName, dic.Id, dic.Key, Study_IsEnable = section.IsEnable, dic.IsEnable };
+                                   select new { dic.SectionId, dic.Value, section.DisPlayName, section.StartTime, section.EndTime, dic.Id, dic.Key, Study_IsEnable = section.IsEnable, dic.IsEnable };
                         //返回所有表格数据
                         jsonModel = JsonModel.get_jsonmodel(intSuccess, "success", list);
                     }
@@ -150,7 +150,7 @@ namespace FEHandler.Eva_Manage
                                    join sect in Constant.StudySection_List on dic.SectionId equals sect.Id
                                    where dic.Type == Convert.ToString((int)dictiontype)
                                    orderby section.EndTime descending
-                                   select new { dic.SectionId, dic.Sort, dic.Type, dic.Value, dic.CreateTime, dic.Id, dic.Key, dic.Pid, sect.IsEnable };
+                                   select new { dic.SectionId, dic.Sort, dic.Type, dic.Value, dic.CreateTime, section.StartTime, section.EndTime, dic.Id, dic.Key, dic.Pid, sect.IsEnable };
                         //返回所有表格数据
                         jsonModel = JsonModel.get_jsonmodel(intSuccess, "success", list);
                     }
@@ -1706,6 +1706,8 @@ namespace FEHandler.Eva_Manage
         }
 
         #endregion
+
+       
 
     }
 }

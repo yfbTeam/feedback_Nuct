@@ -76,10 +76,14 @@ var UI_Course = {
                                 }
                                 
                                 for (var i in data) {
-                                    if (data[i].course_parent.Study_IsEnable == 1) {
+                                    if (data[i].course_parent.Study_IsEnable == 0) {
                                         select_sectionid = data[i].course_parent.SectionId;
                                     }
-                                 }
+                                }
+                                
+                                data = Enumerable.From(data).OrderByDescending(function (item) {
+                                    return item.EndTime;
+                                }).ToArray();
                                 
                                 $("#menu_listscours").empty();
                                 $("#course_item").tmpl(data).appendTo("#menu_listscours");
@@ -88,8 +92,8 @@ var UI_Course = {
                                 //获取第一个课程分类的数据 
                                 UI_Course.select_CourseTypeId = data[0].objectlist[0].Key;
                                 UI_Course.select_CourseTypeName = data[0].objectlist[0].Value;
-                                //UI_Course.GetCourseinfoBySortMan(UI_Course.select_CourseTypeId, UI_Course.select_CourseTypeName, '');
-                                console.log(select_sectionid)
+                               
+                            
                                 $('.menu_list').find('li:has(ul)').children('span').each(function () {
                                     if ($(this).parent('li').attr('sectionid') == select_sectionid) {
                                         var $next = $(this).next('ul');

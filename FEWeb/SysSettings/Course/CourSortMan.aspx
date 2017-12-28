@@ -138,7 +138,7 @@
                     </div>
                 </li>
                 {{/each}}                                     
-                {{if course_parent.Study_IsEnable == 1}}
+                {{if course_parent.Study_IsEnable == 0}}
              <input type="button" value="新增分类" style="display: block" class="new" onclick="OpenIFrameWindow('新增分类', 'AddCourseSort.aspx?itemid=0&SectionId={{= course_parent.SectionId}}&IsEnable=0', '500px', '280px')" />
                 {{else course_parent.Study_IsEnable== 0}}
                 {{/if}}

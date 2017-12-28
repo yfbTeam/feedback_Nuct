@@ -173,4 +173,45 @@ function GetNoDis_CourseInfo(PageIndex) {
 
 }
 
+function GetCourseInfo_Select()
+{
+    var postData = {
+        func: "GetCourseInfo_Select",
+        "SectionId": select_sectionid,        
+    };
+    $.ajax({
+        type: "Post",
+        url: HanderServiceUrl + "/SysClass/CourseInfoHandler.ashx",
+        data: postData,
+        dataType: "json",
+        success: function (returnVal) {
+            if (returnVal.result.errMsg == "success") {
+                var obj = returnVal.result.retData;
+                obj.PkList.forEach(function (item) {
+                    var str = str = "<option value='" + item + "'>" + item + "</option>";
+                    $("#pk").append(str);
+                });
+
+                obj.TKList.forEach(function (item) {
+                    var str = str = "<option value='" + item + "'>" + item + "</option>";
+                    $("#ck").append(str);
+                });
+
+                obj.CPList.forEach(function (item) {
+                    var str = str = "<option value='" + item + "'>" + item + "</option>";
+                    $("#cp").append(str);
+                });
+
+                obj.DPList.forEach(function (item) {
+                    var str = str = "<option value='" + item.DepartMentID + "'>" + item.DepartmentName + "</option>";
+                    $("#dp").append(str);
+                });
+            }
+        },
+        error: function (errMsg) {
+            alert("失败2");
+        }
+    });
+}
+
 

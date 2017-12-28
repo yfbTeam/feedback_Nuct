@@ -1,4 +1,5 @@
-﻿using FEModel;
+﻿using FEHandler.Eva_Manage;
+using FEModel;
 using FEUtility;
 using System;
 using System.Collections.Generic;
@@ -25,6 +26,9 @@ namespace FEHandler.SysClass
                 {
                     //获取所有课程
                     case "GetCourseInfo": GetCourseInfo(context); break;
+
+                      //获取所有课程筛选
+                    case "GetCourseInfo_Select": GetCourseInfo_Select(context); break;  
 
                     //获取所有未分配课程
                     case "GetNoDis_CourseInfo": GetNoDis_CourseInfo(context); break;
@@ -328,9 +332,15 @@ namespace FEHandler.SysClass
                                where CourseRel_.StudySection_Id == SectionId && CourseRel_.CourseType_Id == CourseTypeID
                                join Sys_Dictionary_ in Sys_Dictionary_List.Where(i => i.Type == dictiontypevalue) on CourseRel_.CourseType_Id equals Sys_Dictionary_.Key
                                where Sys_Dictionary_.SectionId == SectionId
-                               select new { CourseRel_.CourseType_Id, CourseRel_.Course_Id, Sys_Dictionary_.Value, Sys_Dictionary_.IsEnable, CourseRelID = CourseRel_.Id }).ToList();
+                               select new
+                               {
+                                   CourseRel_.CourseType_Id,
+                                   CourseRel_.Course_Id,
+                                   Sys_Dictionary_.Value,
+                                   Sys_Dictionary_.IsEnable,
+                                   CourseRelID = CourseRel_.Id
+                               }).ToList();
                 var query = (from Course_ in Course_List
-                             where Course_.Name.Contains(Key) || Course_.UniqueNo.Contains(Key)
                              join cr in courrel on Course_.UniqueNo equals cr.Course_Id
                              orderby Course_.IsEnable
                              select new
@@ -343,6 +353,7 @@ namespace FEHandler.SysClass
                                  //课程分类id
                                  CourseRel_Id = cr == null ? "" : cr.CourseType_Id,
                                  CourseRel_Name = (cr == null ? "未分类" : cr.Value),
+                                 PkType = Course_.PkType,
 
                                  CourseRelID = cr == null ? 0 : cr.CourseRelID,
                                  Course_.IsEnable,
@@ -353,8 +364,17 @@ namespace FEHandler.SysClass
                                  SubDepartmentName = Course_.SubDepartmentName,
                                  CourseProperty = Course_.CourseProperty,
                              }).ToList();
+
+                if (Key != "")
+                {
+                    query = (from qu in query
+                             where qu.Course_Name.Contains(Key) || qu.Course_No.Contains(Key)
+                             select qu).ToList();
+
+                }
+
+
                 var query_last = (from an in query select an).Skip((PageIndex - 1) * PageSize).Take(PageSize).ToList();
-                //jsm = JsonModel.get_jsonmodel(intSuccess, "success", query_last);
 
                 //返回所有表格数据
                 jsm = JsonModelNum.GetJsonModel_o(intSuccess, "success", query_last);
@@ -362,6 +382,101 @@ namespace FEHandler.SysClass
                 jsm.PageSize = PageSize;
                 jsm.PageCount = (int)Math.Ceiling((double)query.Count() / PageSize);
                 jsm.RowCount = query.Count();
+            }
+            catch (Exception ex)
+            {
+                LogHelper.Error(ex);
+            }
+            return jsm;
+        }
+
+        public void GetCourseInfo_Select(HttpContext context)
+        {
+            try
+            {
+                HttpRequest request = context.Request;
+                int SectionId = RequestHelper.int_transfer(request, "SectionId");               
+
+                jsonModel = GetCourseInfo_SelectHelper(SectionId);
+            }
+            catch (Exception ex)
+            {
+                LogHelper.Error(ex);
+            }
+            finally
+            {
+                //无论后端出现什么问题，都要给前端有个通知【为防止jsonModel 为空 ,全局字段 jsonModel 特意声明之后进行初始化】
+                context.Response.Write("{\"result\":" + Constant.jss.Serialize(jsonModel) + "}");
+            }
+        }
+
+        public static JsonModel GetCourseInfo_SelectHelper(int SectionId)
+        {
+            JsonModel jsm = new JsonModel();
+            int intSuccess = (int)errNum.Success;
+            try
+            {
+                List<Course> Course_List = Constant.Course_List;
+                List<CourseRel> CourseRel_List = Constant.CourseRel_List;
+                DictionType_Enum dictiontype = DictionType_Enum.Course_Type;
+                List<Sys_Dictionary> Sys_Dictionary_List = Constant.Sys_Dictionary_List;
+                string dictiontypevalue = Convert.ToString((int)dictiontype);
+
+                var courrel = (from CourseRel_ in CourseRel_List
+                               where CourseRel_.StudySection_Id == SectionId 
+                               join Sys_Dictionary_ in Sys_Dictionary_List.Where(i => i.Type == dictiontypevalue) on CourseRel_.CourseType_Id equals Sys_Dictionary_.Key
+                               where Sys_Dictionary_.SectionId == SectionId
+                               select new
+                               {
+                                   CourseRel_.CourseType_Id,
+                                   CourseRel_.Course_Id,
+                                   Sys_Dictionary_.Value,
+                                   Sys_Dictionary_.IsEnable,
+                                   CourseRelID = CourseRel_.Id
+                               }).ToList();
+                var query = (from Course_ in Course_List
+                             join cr in courrel on Course_.UniqueNo equals cr.Course_Id
+                             orderby Course_.IsEnable
+                             select new
+                             {
+                                 Course_Id = Course_.Id,
+                                 //课程名称
+                                 Course_Name = Course_.Name,
+                                 //课程编号
+                                 Course_No = Course_.UniqueNo,
+                                 //课程分类id
+                                 CourseRel_Id = cr == null ? "" : cr.CourseType_Id,
+                                 CourseRel_Name = (cr == null ? "未分类" : cr.Value),
+                                 PkType = Course_.PkType,
+                                 TaskProperty = Course_.TaskProperty,
+                                 CourseRelID = cr == null ? 0 : cr.CourseRelID,
+                                 Course_.IsEnable,
+
+                                 DepartMentID = Course_.DepartMentID,
+                                 DepartmentName = Course_.DepartmentName,
+                                 SubDepartmentID = Course_.SubDepartmentID,
+                                 SubDepartmentName = Course_.SubDepartmentName,
+                                 CourseProperty = Course_.CourseProperty,
+                             }).ToList();
+
+
+                var data = new
+                {
+                    PkList = (from q in query select q.PkType).Distinct().ToList(),
+                    TKList = (from q in query select q.TaskProperty).Distinct().ToList(),
+                    CPList = (from q in query select q.CourseProperty).Distinct().ToList(),
+                    DPList = (from q in query
+                              select new DepartmentSelect()
+                              {
+                                  DepartMentID = q.DepartMentID,
+                                  DepartmentName = q.DepartmentName
+                              }).Distinct(new DepartmentSelectComparer()).ToList(),
+                };
+
+
+                //返回所有表格数据
+                jsm = JsonModel.get_jsonmodel(intSuccess, "success", data);
+
             }
             catch (Exception ex)
             {
