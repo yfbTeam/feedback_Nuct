@@ -16,97 +16,64 @@
             padding: 0px 0px 20px 0px;
         }
     </style>
-    <script type="text/x-jquery-tmpl" id="tr_MemEdit">
-        {{each(i, mem) AcheiveMember_data.retData}}  
-        <tr id="tr_mem_${mem.Id}" class="memedit" un="${mem.UserNo}">              
-            <td>{{if $("#AchieveType").val()=="2"}}
-                  {{if i>4}}<input type="checkbox" name="ck_trsub" value="${mem.UserNo}" onclick="CheckSub(this);"/>{{/if}}
-                {{else}}
-                  {{if i!=0}}<input type="checkbox" name="ck_trsub" value="${mem.UserNo}" onclick="CheckSub(this);"/>{{/if}}
-                {{/if}}
-            </td>
-            <td>${mem.Name}</td>
-            <td>{{if $("#AchieveType").val()=="3"}}${mem.UnitScore* mem.WordNum}
-                {{else}}<input type="number" name="score" value="${mem.Score}" min="0" step="0.01"/>
+     <%--业绩信息--%>
+    <script type="text/x-jquery-tmpl" id="div_AchInfo">
+        <h2 class="cont_title"><span>基本信息</span></h2>
+        <div class="area_form clearfix">
+            {{if AchieveType==1||AchieveType==2}}             
+                <div class="input_lable fl">
+                    <label for="">获奖项目名称：</label>
+                    <span>${AchiveName}</span>
+                </div>
             {{/if}}
-            </td>
-            <td>${mem.CreateName}</td>
-            <td>${DateTimeConvert(mem.CreateTime,"yyyy-MM-dd")}</td>
-        </tr>
-        {{/each}}  
-    </script>
-     <%--成员信息(新添加的)--%>
-    <script type="text/x-jquery-tmpl" id="itemData">
-        <tr class="memadd" un="${UniqueNo}">
-            <td><input type='checkbox' value="${UniqueNo}" name="ck_trsub" onclick="CheckSub(this);" /></td>
-            <td>${Name}</td>
-            <td><input type="number" name="score" value="" min="0" step="0.01"></td>          
-            <td>${loginUser.Name}</td>
-            <td>${DateTimeConvert(new Date(),"yyyy-MM-dd",false)}</td>          
-        </tr>
-    </script>
-</head>
-<body style="background: #fff;">
-    <input type="hidden" name="AwardSwich" id="AchieveType" value="" />
-    <input type="hidden" name="AwardSwich" id="AwardSwich" value="" />
-    <input type="hidden" name="CreateUID" id="CreateUID" value="011" />
-    <input type="hidden" id="hid_UploadFunc" value="Upload_AcheiveReward"/>
-    <div class="main" >
-        <div class="cont">
-            <h2 class="cont_title"><span>基本信息</span></h2>
-            <div class="area_form clearfix">
-                <div class="input_lable fl none">
-                    <label for="">获奖教师：</label>
-                    <span id="TeaUNo"></span>
-                </div>
-                <div class="input_lable fl none">
-                    <label for="">奖项名称：</label>
-                    <span id="Name"></span>
-                </div>
-                <div class="input_lable book fl none">
+                {{if  AchieveType==3}}
+                <div class="input_lable book fl">
                     <label for="">书名：</label>
-                    <span id="BookName"></span> 
-                    <input type="hidden" id="BookId" name="BookId" value=""/>                 
+                    <span>${BookName}</span>
+                    <input type="hidden" id="BookId" name="BookId" value="${BookId}" />
                 </div>
-                <div class="input_lable book fl none">
-                    <label for="">书号：</label>
-                    <span id="ISBN"></span>
-                </div>
+            <div class="input_lable book fl">
+                <label for="">书号：</label>
+                <span>${ISBN}</span>
+            </div>
+            {{/if}}
                 <div class="input_lable fl">
                     <label for="">奖励项目：</label>
-                    <span id="Gid"></span>
+                    <span>${GidName}</span>
                 </div>
+            <div class="input_lable fl">
+                <label for="">获奖级别：</label>
+                <span>${LevelName}</span>
+            </div>
+            <div class="input_lable fl">
+                <label for="">奖励等级：</label>
+                <span>${RewadName}</span>
+            </div>
+            {{if AchieveType==2}}
                 <div class="input_lable fl">
-                    <label for="">获奖级别：</label>
-                    <span id="Lid"></span>
-                </div>
-                <div class="input_lable fl">
-                    <label for="">奖励等级：</label>
-                    <span id="Rid"></span>
-                </div>
-                <div class="input_lable fl none">
                     <label for="">排名：</label>
-                    <span id="Sort"></span>
+                    <span>${RankName}</span>
                 </div>
+            {{/if}}
                 <div class="input_lable fl">
                     <label for="">获奖年度：</label>
-                    <span id="Year"></span>
+                    <span>${Year}</span>
                 </div>
-                <div class="input_lable fl">
-                    <label for="">负责人：</label>
-                    <span id="ResponsMan"></span>
-                </div>
-                <div class="input_lable fl">
-                    <label for="">负责单位：</label>
-                    <span id="DepartMent"></span>
-                </div>
+            <div class="input_lable fl">
+                <label for="">负责人：</label>
+                <span>${ResponsName}</span>
             </div>
-            <h2 class="cont_title"><span>分数分配</span></h2>
-            <div class="area_form clearfix">
+            <div class="input_lable fl">
+                <label for="">负责单位：</label>
+                <span>${Major_Name}</span>
+            </div>
+        </div>
+        <h2 class="cont_title"><span>分数分配</span></h2>
+        <div class="area_form clearfix">
                 <div class="clearfix">                   
                     <input type="button" name="memberbtn" value="添加" class="btn ml" style="display:none;" id="AddBtn" onclick="javascript: OpenIFrameWindow('添加成员','AddAchMember.aspx', '900px', '650px');"/>
                     <input type="button" name="memberbtn" value="删除" class="btn ml10" style="display:none;" onclick="Del_HtmlMember();"/>
-                    <span class="fr status">总分：<span id="span_AllScore"></span><span id="Unit"></span>，<span id="span_CurScore" style="margin-right:15px;"></span></span>
+                    <span class="fr status">总分：<span id="span_AllScore">${TotalScore}</span><span id="Unit"></span>，<span id="span_CurScore" style="margin-right:15px;"></span></span>
                 </div>
                 <table class="allot_table mt10  ">
                     <thead>
@@ -114,7 +81,7 @@
                             <th width="16px"><input type="checkbox" name="ck_tball" onclick="CheckAll(this)"/></th>
                             <th>成员</th>
                             <th>分数</th>                          
-                            <th>录入人</th>
+                            <th>部门</th>
                             <th>录入日期</th>                                                  
                         </tr>
                     </thead>
@@ -141,7 +108,44 @@
                         </div>
                     </div>
             </div>
-        </div>
+    </script>
+    <script type="text/x-jquery-tmpl" id="tr_MemEdit">
+        {{each(i, mem) AcheiveMember_data.retData}}  
+        <tr id="tr_mem_${mem.Id}" class="memedit" un="${mem.UserNo}">              
+            <td>{{if $("#AchieveType").val()=="2"}}
+                  {{if i>4}}<input type="checkbox" name="ck_trsub" value="${mem.UserNo}" onclick="CheckSub(this);"/>{{/if}}
+                {{else}}
+                  {{if i!=0}}<input type="checkbox" name="ck_trsub" value="${mem.UserNo}" onclick="CheckSub(this);"/>{{/if}}
+                {{/if}}
+            </td>
+            <td>${mem.Name}</td>
+            <td>{{if $("#AchieveType").val()=="3"}}${Num_Fixed(mem.UnitScore* mem.WordNum)}
+                {{else}}<input type="number" name="score" value="${mem.Score}" regtype="money" fl="分数" min="0" step="0.01"/>
+            {{/if}}
+            </td>
+            <td>${mem.Major_Name}</td>
+            <td>${DateTimeConvert(mem.CreateTime,"yyyy-MM-dd")}</td>
+        </tr>
+        {{/each}}  
+    </script>
+     <%--成员信息(新添加的)--%>
+    <script type="text/x-jquery-tmpl" id="itemData">
+        <tr class="memadd" un="${UniqueNo}">
+            <td><input type='checkbox' value="${UniqueNo}" name="ck_trsub" onclick="CheckSub(this);" /></td>
+            <td>${Name}</td>
+            <td><input type="number" name="score" value="" min="0" regtype="money" fl="分数" step="0.01"></td>          
+            <td>${loginUser.Name}</td>
+            <td>${DateTimeConvert(new Date(),"yyyy-MM-dd",false)}</td>          
+        </tr>
+    </script>
+</head>
+<body style="background: #fff;">
+    <input type="hidden" name="AwardSwich" id="AchieveType" value="" />
+    <input type="hidden" name="AwardSwich" id="AwardSwich" value="" />
+    <input type="hidden" name="CreateUID" id="CreateUID" value="011" />
+    <input type="hidden" id="hid_UploadFunc" value="Upload_AcheiveReward"/>
+    <div class="main" >
+        <div id="div_Achieve" class="cont"></div>
     </div>
     <div class="btnwrap2">
         <input type="button" value="保存" onclick="submit(4)" class="btn" />
@@ -174,95 +178,41 @@
                 $("#Unit").html("分");
             }
             BindFile_Plugin();
-            GetDateById();
+            GetAchieveDetailById();
             Get_TPM_AcheiveMember(cur_AchieveId);
             Get_Sys_Document(3, cur_AchieveId);
-        });
-        function GetDateById() {
-            $.ajax({
-                url: HanderServiceUrl + "/TeaAchManage/AchRewardInfo.ashx",
-                type: "post",
-                dataType: "json",
-                async:false,
-                data: { "Func": "GetAcheiveRewardInfoData", "IsPage": "false", Id: cur_AchieveId },
-                success: function (json) {
-                    if (json.result.errMsg == "success") {
-                        $.each(json.result.retData, function () {
-                            InitControl(this);
-                            $("#Name").html(this.AchiveName);
-                            $("#Gid").html(this.GidName);
-                            $("#Lid").html(this.LevelName);
-                            $("#Rid").html(this.RewadName);
-                            $("#Year").html(this.Year);
-                            $("#TeaUNo").html(this.ResponsName);
-                            $("#ResponsMan").html(this.ResponsName);
-                            $("#DepartMent").html(this.Major_Name);
-                            $("#Sort").html(this.rankName);                           
-                            $('#span_AllScore').html(this.TotalScore);                            
-                        });
-                    }
-                },
-                error: function () {
-                    //接口错误时需要执行的
-                }
-            });
-        }
-        function InitControl(model) {
-            switch (model.AchieveType) {
-                case "2":
-                    $("#Sort").parent().show();                  
-                    $('.members').show();
-                    $("#Name").parent().show();
-                    break;
-                case "3":
-                    $(".book").show();
-                    $('#BookName').html(model.BookName);
-                    $('#BookId').val(model.BookId);
-                    $('#ISBN').html(model.ISBN);                  
-                    break;
-                case "5":
-                    $("#TeaUNo").parent().show();
-                    break;
-                case "1":                  
-                    $("#Name").parent().show();
-                    break;
-            }
-        }       
+        });        
         function CheckScoreAndAward()
         {          
             var AllScore = $("#span_AllScore").html();
             var ShareScore=0;          
             $("#tb_Member").find("tr").each(function () {
-                var Score=  $(this).find("td").eq(2).find("input").val();             
+                var Score = $(this).find('input[type=number][name=score]').val();
                 ShareScore= numAdd(ShareScore,Score);
             });
             if (isNaN(ShareScore)==true&& isNaN(ShareAward)==true) {
                 layer.msg("没有数据修改");
                 return false;
             }
-            //else if (AllScore>=ShareScore&&AllAward>ShareAward) {
-            //    return true;
-            //}
-            //else if (AllScore>=ShareScore&&AllAward==NaN) {
-            //    return true;
-            //}
             else if (AllScore==NaN&&AllAward>ShareAward) {
                 return true;
             }
             else if (AllScore<ShareScore) {
                 layer.msg("分配的分数大于总分数");
                 return false;
-            }
-            //else if (AllAward<ShareAward)
-            //{
-            //    layer.msg("分配的金额大于总金额")
-            //    return false
-            //}
+            }            
             else{  return true;}
         }
+        var object = { Func: "Add_AcheiveAllot", Id: cur_AchieveId };
         function submit(status) {
+            var add_path = Get_AddFile(3);
+            object.Add_Path = add_path.length > 0 ? JSON.stringify(add_path) : "";
             if (CheckScoreAndAward()) {                
                 if (status == 5) {
+                    if (add_path.length <= 0) {
+                        layer.msg("请上传附件!");
+                        return;
+                    }
                     layer.confirm('确认提交吗？提交后将不能进行修改', {
                         btn: ['确定', '取消'], //按钮
                         title: '操作'
@@ -274,15 +224,12 @@
                 }                
             }
         }
-        function LastSave(status) {
-            var object = { Func: "Add_AcheiveAllot", Id: cur_AchieveId };
+        function LastSave(status) {            
             object.Status = status;
             var addArray = Get_AddMember();
             object.MemberStr = addArray.length > 0 ? JSON.stringify(addArray) : '';
             var editArray = Get_EditMember();
-            object.MemberEdit = editArray.length > 0 ? JSON.stringify(editArray) : '';
-            var add_path = Get_AddFile(3);
-            object.Add_Path = add_path.length > 0 ? JSON.stringify(add_path) : "";
+            object.MemberEdit = editArray.length > 0 ? JSON.stringify(editArray) : '';            
             object.Edit_PathId = Get_EditFileId();
             $.ajax({
                 url: HanderServiceUrl + "/TeaAchManage/AchRewardInfo.ashx",

@@ -31,10 +31,10 @@
             </td>
             <td class="td_memname">${mem.Name}</td>
             <td>{{if $("#AchieveType").val()=="3"}}${mem.UnitScore* mem.WordNum}
-                {{else}}<input type="number" name="score" value="${mem.Score}" oldsc="${mem.Score}" isrequired="true" fl="分数" min="0" step="0.01"/>
+                {{else}}<input type="number" name="score" value="${mem.Score}" oldsc="${mem.Score}" isrequired="true" regtype="money" fl="分数" min="0" step="0.01"/>
             {{/if}}
             </td>
-            <td>${mem.CreateName}</td>
+            <td>${mem.Major_Name}</td>
             <td>${DateTimeConvert(mem.CreateTime,"yyyy-MM-dd")}</td>
         </tr>
         {{/each}}  
@@ -44,7 +44,7 @@
         <tr class="memadd" un="${UniqueNo}">
             <td><input type='checkbox' value="${UniqueNo}" name="ck_trsub" onclick="CheckSub(this);" /></td>
             <td class="td_memname">${Name}</td>
-            <td><input type="number" name="score" value="" isrequired="true" fl="分数" min="0" step="0.01"></td>          
+            <td><input type="number" name="score" value="" isrequired="true" regtype="money" fl="分数" min="0" step="0.01"></td>          
             <td>${loginUser.Name}</td>
             <td>${DateTimeConvert(new Date(),"yyyy-MM-dd",false)}</td>          
         </tr>
@@ -77,7 +77,7 @@
                         <th>姓名</th>
                         <th>作者类型</th>
                         <th>排名</th>
-                        <th>单位／部门</th>
+                        <th>部门</th>
                         <th>贡献字数（万字）</th>
                         <th>奖金</th>
                         {{else}}
@@ -97,9 +97,9 @@
                                 <td>${mem.Sort}</td>
                                 <td>${mem.Major_Name}</td>
                                 <td>${mem.WordNum}</td>
-                                <td class="td_money"><input type="number" isrequired="true" oldre="0" fl="奖金" min="0" step="0.01"></td>
+                                <td class="td_money"><input type="number" isrequired="true" regtype="money" oldre="0" fl="奖金" min="0" step="0.01"></td>
                                 {{else}}
-                                <td class="td_money"><input type="number" isrequired="true" oldre="0" fl="奖金" min="0" step="0.01"></td>
+                                <td class="td_money"><input type="number" isrequired="true" regtype="money" oldre="0" fl="奖金" min="0" step="0.01"></td>
                                 <td>${mem.Major_Name}</td>
                                 <td>${DateTimeConvert(mem.CreateTime,"yyyy-MM-dd")}</td>
                                 {{/if}}     
@@ -131,7 +131,7 @@
                 <span id="TeaUNo">{{Info.ResponsName}}</span>
             </div>
             <div class="input_lable fl" v-if="Info.AchieveType==1||Info.AchieveType==2" v-cloak >
-                <label for="">奖项名称：</label>
+                <label for="">获奖项目名称：</label>
                 <span id="Name" >{{Info.AchiveName}}</span>
             </div>
             <div class="input_lable book fl" v-if="Info.AchieveType==3"v-cloak  >
@@ -157,7 +157,7 @@
             </div>
             <div class="input_lable fl" v-if="Info.AchieveType==2" v-cloak >
                 <label for="">排名：</label>
-                <span id="Sort">{{Info.rankName}}</span>
+                <span id="Sort">{{Info.RankName}}</span>
             </div>
             <div class="input_lable fl" v-cloak >
                 <label for="">获奖年度：</label>
@@ -185,7 +185,7 @@
                         <th width="16px"><input type="checkbox" name="ck_tball" onclick="CheckAll(this)"/></th>
                         <th>成员</th>
                         <th>分数</th>                          
-                        <th>录入人</th>
+                        <th>部门</th>
                         <th>录入日期</th>                                                  
                     </tr>
                 </thead>
@@ -355,7 +355,7 @@
              var AllScore = $("#span_AllScore").html();
              var ShareScore = 0;
              $("#tb_Member").find("tr:visible").each(function () {
-                 var Score = $(this).find("td").eq(2).find("input").val();
+                 var Score = $(this).find('input[type=number][name=score]').val();
                  ShareScore= numAdd(ShareScore,Score);
              });
              if (AllScore == NaN && AllAward > ShareAward) {

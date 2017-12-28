@@ -17,7 +17,7 @@
         <td><input type='checkbox' value="${UniqueNo}" name="ck_trsub" onclick="CheckSub(this);"/></td>       
         <td>${Name}</td>       
         <td>${MajorName}</td>
-        <td><input type="number" value="" min="0" step="0.01" onblur="ChangeRankScore(this);"></td>
+        <td><input type="number" value="" min="0" regtype="money" fl="分数" step="0.01" onblur="ChangeRankScore(this);"></td>
     </tr>
 </script>
 </head>
@@ -73,8 +73,8 @@
             <h2 class="cont_title"><span>基本信息</span></h2>
             <div class="area_form clearfix">
                 <div class="input_lable">
-                    <label for="">奖项名称：</label>
-                    <input type="text" isrequired="true" fl="奖项名称" class="text" id="Name" name="Name" style="width: 692px;" />
+                    <label for="">获奖项目名称：</label>
+                    <input type="text" isrequired="true" fl="获奖项目名称" class="text" id="Name" name="Name" style="width: 692px;" />
                 </div>
                 <div class="input_lable fl">
                     <label for="">奖励项目：</label>
@@ -113,8 +113,8 @@
                             <tr>
                                 <th width="40px;"><input type="checkbox" name="ck_tball" onclick="CheckAll(this)"/></th>
                                 <th>姓名</th>
-                                <th>单位/部门</th>
-                                <th>得分</th>
+                                <th>部门</th>
+                                <th>分数</th>
                             </tr>
                         </thead>
                         <tbody id="tb_Member"></tbody>

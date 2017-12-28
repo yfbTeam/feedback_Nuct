@@ -124,13 +124,13 @@
                             <th>姓名</th>
                             <th>作者类型</th>
                             <th>排名</th>
-                            <th>单位/部门</th>
+                            <th>部门</th>
                             <th>贡献字数（万字）</th>
                         </tr>
                     </thead>
                     <tbody id="AuthorInfo"> </tbody>
                 </table>
-            </div>
+            </div>       
             <h2 class="cont_title achieveshow none"><span>获奖信息</span></h2>
             <div class="area_form clearfix achieveshow none"> 
                 <table class="allot_table mt10  ">
@@ -209,7 +209,7 @@
                                     $(".checkmes").html("待审核");
                                     break;
                                 case "2":
-                                    $(".checkmes").html("审核失败");
+                                    $(".checkmes").html("审核不通过");
                                     break;
                                 case "3":
                                     $(".checkmes").html("审核通过");

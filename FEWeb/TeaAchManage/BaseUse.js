@@ -1,8 +1,35 @@
 ﻿var loginUser = GetLoginUser();
-var cur_ResponUID = "";
+var cur_ResponUID = "", cur_AchieveType = 1;
 function Num_Fixed(num, count) {
     count = arguments[1] || 2;
     return Number(num).toFixed(count);
+}
+function GetAchieveDetailById(type) { //获取业绩详情
+    type = arguments[0] || 0; // type 0默认信息；1 AchieveView_Common ；2 CheckAchieve
+    $("#div_Achieve").empty();
+    $.ajax({
+        url: HanderServiceUrl + "/TeaAchManage/AchRewardInfo.ashx",
+        type: "post",
+        dataType: "json",
+        data: { "Func": "GetAcheiveRewardInfoData", "IsPage": "false", Id: cur_AchieveId },
+        success: function (json) {
+            if (json.result.errMsg == "success") {
+                var model = json.result.retData[0];
+                $("#div_AchInfo").tmpl(model).appendTo("#div_Achieve");
+                cur_ResponUID = model.ResponsMan;
+                cur_AchieveType = model.AchieveType;
+                if (type == 1) {
+                  Get_RewardUserInfo(model);
+                } else if (type == 2) {
+                    View_CheckInit(model);
+                    SetScore_LooK(model);
+                    Get_RewardUserInfo(model);
+                    Get_AchieveStatus(model.Status, ".checkmes");
+                }                
+            }
+        },
+        error: function () { }
+    });
 }
 function BindDepart(id,val) {
     val=arguments[1]||"";
@@ -312,7 +339,7 @@ function Bind_ResponsMan(selid) {
         if ($curoption.val() != "") {
             var first_tr = '<tr class="meditor memadd" un="' + $curoption.val() + '"><td></td><td>' + $curoption.text() + '</td>\
                         <td>' + $curoption.attr('mname') + '</td>\
-                        <td><input type="number" value="" min="0" step="0.01" onblur="ChangeRankScore(this);"></td></tr>';
+                        <td><input type="number" value="" min="0" regtype="money" fl="分数" step="0.01" onblur="ChangeRankScore(this);"></td></tr>';
             var $existobj = $("#tb_Member tr[un='" + $curoption.val() + "']");
             if (!$existobj.length) {
                 $("#tb_Member .meditor").remove();
@@ -430,6 +457,8 @@ function Get_OperReward_UserInfo() {
                 //接口错误时需要执行的
             }
         });
+    } else {
+        $('#ISBN').val('');
     }
 }
 function Set_BookScore() {    

@@ -61,8 +61,9 @@ namespace FEDAL
                     }
                     if (ht.ContainsKey("Author_SelfNo") && !string.IsNullOrEmpty(ht["Author_SelfNo"].SafeToString()))//自己创建或者是主编、参编
                     {
-                        str.Append(@" and ((a.CreateUID=@Author_SelfNo and a.Status in(0,1)) or ( 
-a.Id in(select distinct BookId from TPM_RewardUserInfo where IsDelete=0 and UserNo=@Author_SelfNo) and a.Status in(2,3)))");
+                        str.Append(@" and ((a.CreateUID=@Author_SelfNo and a.Status in(0,1,2)) or ( 
+a.MEditor=@Author_SelfNo and ((a.CreateUID!=@Author_SelfNo and a.Status>0) or (a.CreateUID=@Author_SelfNo)) or ( 
+a.Id in(select distinct BookId from TPM_RewardUserInfo where IsDelete=0 and UserNo=@Author_SelfNo and UserNo!=a.MEditor) and a.Status=3)))");
                         pms.Add(new SqlParameter("@Author_SelfNo", ht["Author_SelfNo"].SafeToString()));
                     }
                     if (ht.ContainsKey("AuthorNo") && !string.IsNullOrEmpty(ht["AuthorNo"].SafeToString()))//自己是主编、参编

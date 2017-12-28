@@ -25,7 +25,7 @@ namespace FEDAL
                     case when a.GPid=6 then bk.Name else a.Name end as AchiveName,
                     l.Type as AchieveType,ll.Name as LevelName,r.Name as RewadName,
                     (select STUFF((select ',' + CAST(Major_Name AS NVARCHAR(MAX)) from Major where Id in(select value from func_split(a.DepartMent,',')) FOR xml path('')), 1, 1, '')) as Major_Name,                   
-                    case when a.GPid=1 then isnull((select Score from TMP_RewardRank where a.Sort=Id),0) else r.Score end as TotalScore,
+                    case when a.GPid=1 then isnull((ran.Score),0) else r.Score end as TotalScore,ran.Name RankName,
                     r.ScoreType,r.Award,r.AddAward,bk.Name as BookName,bk.BookType,case when bk.BookType=1 then '无' else bk.ISBN end as ISBN
                     ,(select count(1) from TPM_AuditReward where IsDelete=0 and Acheive_Id=a.Id and Status in(0,2))Auditcount ");
                 if (ht.ContainsKey("LoginMajor_ID") && !string.IsNullOrEmpty(ht["LoginMajor_ID"].SafeToString()))
@@ -42,6 +42,7 @@ namespace FEDAL
                     left join TPM_AcheiveLevel al on al.Id=a.Gid
                     inner join TPM_RewardLevel ll on a.Lid=ll.Id 
                     inner join TPM_RewardInfo r on a.Rid=r.Id 
+                    left join TMP_RewardRank ran on a.Sort=ran.Id
                     left join TPM_BookStory bk on a.bookid=bk.id where a.IsDelete=0 ");
                 int StartIndex = 0;
                 int EndIndex = 0;

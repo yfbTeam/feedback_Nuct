@@ -49,7 +49,7 @@
                     <select class="select" id="BookType" onchange="Book(1,10);" style="width: 198px;">
                         <option value="">全部</option>
                         <option value="1">立项教材</option>
-                        <option value="2">已出版教材</option>
+                        <option value="2">出版教材</option>
                     </select>
                 </div>                       
                 <div class="fl ml20">
@@ -104,7 +104,7 @@
         });
         function Book(startIndex, pageSize) {
             $("#tb_Book").empty();
-            var parmsData = { "Func": "GetTPM_BookStory", "Status": "1", PageIndex: startIndex, pageSize: pageSize };
+            var parmsData = { "Func": "GetTPM_BookStory", "Status": "1", BookType: $("#BookType").val(), "Name": $("#Key").val(),PageIndex: startIndex, pageSize: pageSize };
             if (!list_book_auditall) {
                 parmsData["Major_ID"] = loginUser.Major_ID;
             }

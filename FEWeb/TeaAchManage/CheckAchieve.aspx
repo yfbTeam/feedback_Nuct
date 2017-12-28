@@ -20,12 +20,181 @@
             float:left;margin-left:10px;cursor:pointer;
         }      
     </style>
+    <%--业绩信息--%>
+    <script type="text/x-jquery-tmpl" id="div_AchInfo">
+        {{if UrlDate.Type!='Check'}}
+             <h2 class="cont_title re_view"><span>获奖文件信息</span></h2>
+            <div class="area_form clearfix re_view">
+                <div class="input_lable fl">
+                    <label for="">发文号：</label>
+                    <span>${FileEdionNo}</span>
+                </div>
+                <div class="input_lable fl">
+                    <label for="">文件名称：</label>
+                    <span>${FileNames}</span>
+                </div>
+                <div class="input_lable fl">
+                    <label for="">认定机构：</label>
+                    <span>${DefindDepart}</span>
+                </div>
+                <div class="input_lable fl">
+                    <label for="">认定日期：</label>
+                    <span>${DateTimeConvert(DefindDate, '年月日')}</span>
+                </div>
+                <div class="input_lable fl input_lable2">
+                    <label for="">获奖扫描件：</label>
+                    <div class="fl uploader_container">
+                        <div id="uploader">
+                            <div class="queueList">
+                                <div id="dndArea" class="placeholder photo_lists">
+                                    <ul class="filelist clearfix"></ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {{/if}}
+           <h2 class="cont_title"><span>基本信息</span></h2>
+        <div class="area_form clearfix">
+            {{if AchieveType==1||AchieveType==2}}             
+                <div class="input_lable fl">
+                    <label for="">获奖项目名称：</label>
+                    <span>${AchiveName}</span>
+                </div>
+            {{/if}}
+                {{if  AchieveType==3}}
+                <div class="input_lable book fl">
+                    <label for="">书名：</label>
+                    <span>${BookName}</span>
+                    <input type="hidden" id="BookId" name="BookId" value="${BookId}" />
+                </div>
+            <div class="input_lable book fl">
+                <label for="">书号：</label>
+                <span>${ISBN}</span>
+            </div>
+            {{/if}}
+                <div class="input_lable fl">
+                    <label for="">奖励项目：</label>
+                    <span>${GidName}</span>
+                </div>
+            <div class="input_lable fl">
+                <label for="">获奖级别：</label>
+                <span>${LevelName}</span>
+            </div>
+            <div class="input_lable fl">
+                <label for="">奖励等级：</label>
+                <span>${RewadName}</span>
+            </div>
+            {{if AchieveType==2}}
+                <div class="input_lable fl">
+                    <label for="">排名：</label>
+                    <span>${RankName}</span>
+                </div>
+            {{/if}}
+                <div class="input_lable fl">
+                    <label for="">获奖年度：</label>
+                    <span>${Year}</span>
+                </div>
+            <div class="input_lable fl">
+                <label for="">负责人：</label>
+                <span>${ResponsName}</span>
+            </div>
+            <div class="input_lable fl">
+                <label for="">负责单位：</label>
+                <span>${Major_Name}</span>
+            </div>
+        </div>         
+               <h2 class="cont_title members {{if AchieveType!=2||Status>3}}none{{/if}}"><span>成员信息</span></h2>
+            <div class="area_form members {{if AchieveType!=2||Status>3}}none{{/if}}">
+                <div class="clearfix" id="div_user_mem">                        
+                    <span class="fr status mr10">已分配：<span id="span_CurScore">0</span></span>
+                    <span class="fr status mr10">总分：<span id="span_AllScore">${TotalScore}</span></span>
+                </div>
+                <table class="allot_table mt10">
+                    <thead>
+                        <tr>                               
+                            <th>姓名</th>
+                            <th>部门</th>
+                            <th>分数</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tb_Member"></tbody>
+                </table>
+            </div>
+            <h2 class="cont_title book {{if AchieveType!=2||Status>3}}none{{/if}}"><span>作者信息</span></h2>
+            <div class="area_form book {{if AchieveType!=2||Status>3}}none{{/if}}" >
+                <div class="clearfix" id="div_user_book"> 
+                    <span class="fr status mr10">总分：<span id="span_BookScore">0</span></span>                      
+                    <span class="fr status mr10">总贡献字数：<span id="span_Words">0</span></span>                       
+                </div>
+                <table class="allot_table mt10  ">
+                    <thead>
+                        <tr>
+                            <th>姓名</th>
+                            <th>作者类型</th>
+                            <th>排名</th>
+                            <th>部门</th>
+                            <th>贡献字数（万字）</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tb_info"></tbody>
+                </table>
+            </div>    
+            <h2 class="cont_title re_score none"><span>分数分配</span></h2> 
+            <div class="area_form re_score none">
+                <div class="clearfix">
+                    <div class="fl status-left">
+                         <label for="">状态：</label>
+                        {{if Status==3}} <span class="assigning">待分配</span>
+                        {{else Status==4}}<span class="nosubmit">待提交</span>
+                        {{else Status==5}}<span class="checking1">待审核</span>
+                        {{else Status==6}}<span class="nocheck">审核不通过</span>
+                        {{else Status==7}}<span class="pass">审核通过</span>{{/if}}
+                    </div>
+                    <div id="div_score_statis" class="fr status"></div>
+                </div>
+                <table class="allot_table mt10">
+                    <thead>
+                        <tr class="user_mem none">
+                            <th>成员</th>
+                            <th>分数</th>
+                            <th>部门</th>
+                            <th>录入日期</th>                         
+                        </tr>
+                        <tr class="user_book none">
+                            <th>姓名</th>
+                            <th>作者类型</th>
+                            <th>排名</th>
+                            <th>部门</th>
+                            <th>贡献字数（万字）</th>
+                            <th>分数</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tb_Member1"></tbody>
+                </table>               
+                <div class="clearfix mt10 Enclosure">
+                    <div class="status-left">
+                        <label for="" class="fl">附件：</label>
+                        <div class="fl">
+                            <ul id="ul_ScoreFile" class="clearfix file-ary"></ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <h2 class="cont_title re_reward none"><span>奖金分配</span></h2> 
+            <div class="area_form re_reward none" id="div_MoneyInfo"></div>        
+            <h2 class="cont_title re_reward none"><span>分配历史</span></h2>
+            <div class="area_form re_reward none">
+                <ul class="history" id="ul_Record"></ul>
+            </div>
+    </script>
     <%--成员信息--%>
     <script type="text/x-jquery-tmpl" id="tr_MemEdit">
         <tr class="memedit" un="${UserNo}">
             <td class="td_memname">${Name}</td>
-            <td class="td_score">${Score}</td>
             <td>${Major_Name}</td>
+            <td class="td_score">${Score}</td>           
         </tr>
     </script>
     <%--成员信息--%>
@@ -77,7 +246,7 @@
                         <th>姓名</th>
                         <th>作者类型</th>
                         <th>排名</th>
-                        <th>单位／部门</th>
+                        <th>部门</th>
                         <th>贡献字数（万字）</th>
                         <th>奖金</th>
                         {{else}}
@@ -135,166 +304,7 @@
     <input type="hidden" name="CreateUID" id="CreateUID" value="011" />
     <div class="checkmes none"></div>
     <div class="main" >
-        <div class="cont">
-            <h2 class="cont_title re_view none"><span>获奖文件信息</span></h2>
-            <div class="area_form clearfix re_view none">
-                <div class="input_lable fl">
-                    <label for="">发文号：</label>
-                    <span id="FileEdionNo"></span>
-                </div>
-                <div class="input_lable fl">
-                    <label for="">文件名称：</label>
-                    <span id="FileNames"></span>
-                </div>
-                <div class="input_lable fl">
-                    <label for="">认定机构：</label>
-                    <span id="DefindDepart"></span>
-                </div>
-                <div class="input_lable fl">
-                    <label for="">认定日期：</label>
-                    <span id="DefindDate"></span>
-                </div>
-                <div class="input_lable fl input_lable2">
-                    <label for="">获奖扫描件：</label>
-                    <div class="fl uploader_container">
-                        <div id="uploader">
-                            <div class="queueList">
-                                <div id="dndArea" class="placeholder photo_lists">                                   
-                                    <ul class="filelist clearfix"></ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <h2 class="cont_title"><span>基本信息</span></h2>
-            <div class="area_form clearfix">
-                <div class="input_lable fl none">
-                    <label for="">获奖教师：</label>
-                    <span id="TeaUNo"></span>
-                </div>
-                <div class="input_lable fl none">
-                    <label for="">奖项名称：</label>
-                    <span id="Name"></span>
-                </div>
-                <div class="input_lable book fl none">
-                    <label for="">书名：</label>
-                    <span id="BookName"></span> 
-                    <input type="hidden" id="BookId" name="BookId" value=""/>                 
-                </div>
-                <div class="input_lable book fl none">
-                    <label for="">书号：</label>
-                    <span id="ISBN"></span>
-                </div>
-                <div class="input_lable fl">
-                    <label for="">奖励项目：</label>
-                    <span id="Gid"></span>
-                </div>
-                <div class="input_lable fl">
-                    <label for="">获奖级别：</label>
-                    <span id="Lid"></span>
-                </div>
-                <div class="input_lable fl">
-                    <label for="">奖励等级：</label>
-                    <span id="Rid"></span>
-                </div>
-                <div class="input_lable fl none">
-                    <label for="">排名：</label>
-                    <span id="Sort"></span>
-                </div>
-                <div class="input_lable fl">
-                    <label for="">获奖年度：</label>
-                    <span id="Year"></span>
-                </div>
-                <div class="input_lable fl">
-                    <label for="">负责人：</label>
-                    <span id="ResponsMan"></span>
-                </div>
-                <div class="input_lable fl">
-                    <label for="">负责单位：</label>
-                    <span id="DepartMent"></span>
-                </div>
-            </div> 
-            <h2 class="cont_title members none"><span>成员信息</span></h2>
-            <div class="area_form members none">
-                <div class="clearfix" id="div_user_mem">                        
-                    <span class="fr status mr10">已分配：<span id="span_CurScore">0</span></span>
-                    <span class="fr status mr10">总分：<span id="span_AllScore">0</span></span>
-                </div>
-                <table class="allot_table mt10">
-                    <thead>
-                        <tr>                               
-                            <th>姓名</th>
-                            <th>单位/部门</th>
-                            <th>得分</th>
-                        </tr>
-                    </thead>
-                    <tbody id="tb_Member"></tbody>
-                </table>
-            </div>
-            <h2 class="cont_title book none"><span>作者信息</span></h2>
-            <div class="area_form book none">
-                <div class="clearfix" id="div_user_book"> 
-                    <span class="fr status mr10">总分：<span id="span_BookScore">0</span></span>                      
-                    <span class="fr status mr10">总贡献字数：<span id="span_Words">0</span></span>                       
-                </div>
-                <table class="allot_table mt10  ">
-                    <thead>
-                        <tr>
-                            <th>姓名</th>
-                            <th>作者类型</th>
-                            <th>排名</th>
-                            <th>单位／部门</th>
-                            <th>贡献字数（万字）</th>
-                        </tr>
-                    </thead>
-                    <tbody id="tb_info"></tbody>
-                </table>
-            </div>           
-            <h2 class="cont_title re_score none"><span>分数分配</span></h2> 
-            <div class="area_form re_score none">
-                <div class="clearfix">
-                    <div class="fl status-left">
-                         <label for="">状态：</label>
-                         <span id="span_Scorestatus"></span>
-                    </div>
-                    <div id="div_score_statis" class="fr status"></div>
-                </div>
-                <table class="allot_table mt10">
-                    <thead>
-                        <tr class="user_mem none">
-                            <th>成员</th>
-                            <th>分数</th>
-                            <th>部门</th>
-                            <th>录入日期</th>                         
-                        </tr>
-                        <tr class="user_book none">
-                            <th>姓名</th>
-                            <th>作者类型</th>
-                            <th>排名</th>
-                            <th>单位／部门</th>
-                            <th>贡献字数（万字）</th>
-                            <th>分数</th>
-                        </tr>
-                    </thead>
-                    <tbody id="tb_Member1"></tbody>
-                </table>               
-                <div class="clearfix mt10 Enclosure">
-                    <div class="status-left">
-                        <label for="" class="fl">附件：</label>
-                        <div class="fl">
-                            <ul id="ul_ScoreFile" class="clearfix file-ary"></ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <h2 class="cont_title re_reward none"><span>奖金分配</span></h2> 
-            <div class="area_form re_reward none" id="div_MoneyInfo"></div>        
-            <h2 class="cont_title re_reward none"><span>分配历史</span></h2>
-            <div class="area_form re_reward none">
-                <ul class="history" id="ul_Record"></ul>
-            </div>
-        </div>
+        <div id="div_Achieve" class="cont"></div>
     </div>
     <div class="score none"></div>
     <div class="btnwrap2 none">
@@ -316,60 +326,10 @@
             $("#CreateUID").val(GetLoginUser().UniqueNo);            
             var Id = UrlDate.Id;
             if (Id != undefined) {
-                GetBookDetailById();                
+                GetAchieveDetailById(2);                
                 Get_LookPage_Document(0, Id);
             }
-        });
-        function GetBookDetailById() {
-            $.ajax({
-                url: HanderServiceUrl + "/TeaAchManage/AchRewardInfo.ashx",
-                type: "post",
-                dataType: "json",
-                data: { "Func": "GetAcheiveRewardInfoData", "IsPage": "false", Id: cur_AchieveId },
-                success: function (json) {
-                    if (json.result.errMsg == "success") {
-                        $(json.result.retData).each(function () {
-                            InitControl(this);
-                            $("#TeaUNo").html(this.ResponsName);
-                            $("#Name").html(this.AchiveName);
-                            $("#Gid").html(this.GidName);
-                            $("#Lid").html(this.LevelName);
-                            $("#Rid").html(this.RewadName);
-                            $("#Year").html(this.Year);
-                            $("#ResponsMan").html(this.ResponsName);
-                            $("#DepartMent").html(this.Major_Name);
-                            $("#Sort").html(this.rankName);
-                            $("#FileEdionNo").html(this.FileEdionNo);
-                            $("#FileNames").html(this.FileNames);
-                            $("#DefindDate").html(DateTimeConvert(this.DefindDate, '年月日'));
-                            $("#DefindDepart").html(this.DefindDepart);
-                            $('#span_AllScore').html(this.TotalScore);
-                            Get_AchieveStatus(this.Status,".checkmes");
-                            var $span_Scorestatus= $("#span_Scorestatus");
-                            if(this.Status==3){
-                                $span_Scorestatus.addClass('assigning');
-                                $span_Scorestatus.html('待分配');
-                            }else if(this.Status==4){
-                                $span_Scorestatus.addClass('nosubmit');
-                                $span_Scorestatus.html('待提交');
-                            }else if(this.Status==5){
-                                $span_Scorestatus.addClass('checking1');
-                                $span_Scorestatus.html('待审核');
-                            }else if(this.Status==6){
-                                $span_Scorestatus.addClass('nocheck');
-                                $span_Scorestatus.html('审核不通过');
-                            }else{
-                                $span_Scorestatus.addClass('pass');
-                                $span_Scorestatus.html('审核通过');
-                            }
-                        });
-                    }
-                },
-                error: function () {
-                    //接口错误时需要执行的
-                }
-            });
-        }
+        });        
         function View_CheckInit(model) { //查看、审核初始化
             var yesstatus = 3, nostatus = 2;
             if (model.Status >= 0 && model.Status <= 3) {//信息
@@ -399,37 +359,7 @@
                 $(".btnwrap2").hide();
                 $(".re_view").show();
             }
-        }
-        function InitControl(model) {
-            cur_ResponUID = model.ResponsMan;
-            View_CheckInit(model);
-            SetScore_LooK(model);
-            cur_AchieveType=model.AchieveType;
-            switch (model.AchieveType) {
-                case "2":
-                    $("#Sort").parent().show();
-                    $("#Name").parent().show();
-                    if (model.Status <= 3) {
-                        $('.members').show();                        
-                    }                             
-                    break;
-                case "3":                    
-                    $('#BookName').html(model.BookName);
-                    $('#BookId').val(model.BookId);
-                    $('#ISBN').html(model.ISBN);
-                    if (model.Status <= 3) {
-                        $(".book").show();                      
-                    }
-                    break;
-                case "5":
-                    $("#TeaUNo").parent().show();                   
-                    break;
-                case "1":                   
-                    $("#Name").parent().show();                  
-                    break;
-            }
-            Get_RewardUserInfo(model);
-        }
+        }       
         //绑定成员信息
         var Member_Data = [];
         function Get_RewardUserInfo(model) {
