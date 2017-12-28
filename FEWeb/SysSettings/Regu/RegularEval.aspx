@@ -147,8 +147,6 @@
                 </div>
             </td>
             {{/if}}
-
-            
         </tr>
     </script>
 
@@ -179,16 +177,14 @@
                          </div>
                          <div class="operate ml5">
                             <i class="iconfont color_gray">&#xe61b;</i>
-                            <a class='operate_none bg_gray'>删除</a>
+                         
                         </div>
                          {{else ReguState ==3}}
                         <div class="operate">
-                             <i class="iconfont color_gray">&#xe632;</i>
-                             <a class='operate_none bg_gray'>设置</a>
+                             <i class="iconfont color_gray">&#xe632;</i>                            
                          </div>
                         <div class="operate ml5">
-                            <i class="iconfont color_gray">&#xe61b;</i>
-                            <a class='operate_none bg_gray'>删除</a>
+                            <i class="iconfont color_gray">&#xe61b;</i>                         
                         </div>
                         {{/if}}
 
@@ -198,7 +194,8 @@
                 {{/each}}                                    
                 {{if course_parent.Study_IsEnable == 0}}
                 <input type="button" value="新增评价" style="display: block" class="new" onclick="OpenIFrameWindow('新增评价', 'AddEval.aspx?itemid=0&SectionId={{= course_parent.SectionId}}&IsEnable=0', '600px', '250px')" />
-                {{else course_parent.Study_IsEnable== 0}}
+                {{else course_parent.Study_IsEnable== 1}}
+                  <input type="button" value="新增评价" style="display: block;background:#A8A8A8" class="new"  />
                 {{/if}}
               
             </ul>

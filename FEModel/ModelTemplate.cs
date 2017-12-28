@@ -227,6 +227,78 @@ namespace FEModel
 	///	
 	/// </summary>
 	[Serializable]
+    public partial class Eva_Table_Header_Custom
+    {
+
+		/// <summary>
+		/// 
+		/// </summary>
+		public int? Id { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public string Code { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public string Header { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public string Header_Value { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public int? Sort { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public string CreateUID { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public DateTime? CreateTime { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public string EditUID { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public DateTime? EditTime { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public Byte? IsEnable { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public Byte? IsDelete { get; set; }
+
+          public override bool Equals(object obj)
+        {
+            bool result = false;
+            if (obj.GetType() == typeof(Eva_Table_Header_Custom))
+            {
+                Eva_Table_Header_Custom _obj = obj as Eva_Table_Header_Custom;
+                if (_obj.Id == this.Id)
+                {
+                    result = true;
+                }
+            }
+            return result;
+        }
+
+	    public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
+    }
+
+	/// </summary>
+	///	
+	/// </summary>
+	[Serializable]
     public partial class UserInfo
     {
 
@@ -485,6 +557,154 @@ namespace FEModel
             if (obj.GetType() == typeof(AssetManagement))
             {
                 AssetManagement _obj = obj as AssetManagement;
+                if (_obj.Id == this.Id)
+                {
+                    result = true;
+                }
+            }
+            return result;
+        }
+
+	    public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
+    }
+
+	/// </summary>
+	///	
+	/// </summary>
+	[Serializable]
+    public partial class Eva_TableDetail
+    {
+
+		/// <summary>
+		/// 
+		/// </summary>
+		public int? Id { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public string Root { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public string Name { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public string Type { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public int? Eva_table_Id { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public int? Indicator_Id { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public int? QuesType_Id { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public int? IndicatorType_Id { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public string IndicatorType_Name { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public string OptionA { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public string OptionB { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public string OptionC { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public string OptionD { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public string OptionE { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public string OptionF { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public decimal? OptionA_S { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public decimal? OptionB_S { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public decimal? OptionC_S { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public decimal? OptionD_S { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public decimal? OptionE_S { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public decimal? OptionF_S { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public decimal? OptionF_S_Max { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public int? Sort { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public string Remarks { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public string CreateUID { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public DateTime? CreateTime { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public string EditUID { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public DateTime? EditTime { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public Byte? IsEnable { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public Byte? IsDelete { get; set; }
+
+          public override bool Equals(object obj)
+        {
+            bool result = false;
+            if (obj.GetType() == typeof(Eva_TableDetail))
+            {
+                Eva_TableDetail _obj = obj as Eva_TableDetail;
                 if (_obj.Id == this.Id)
                 {
                     result = true;
@@ -2035,162 +2255,6 @@ namespace FEModel
 	///	
 	/// </summary>
 	[Serializable]
-    public partial class CourseRoom
-    {
-
-		/// <summary>
-		/// 
-		/// </summary>
-		public int? Id { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public string UniqueNo { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public string Name { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public int? StudySection_Id { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public int? Year { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public string Season { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public string RoomDepartmentID { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public string Coures_Id { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public string CouresName { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public string CourseProperty { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public string CourseType { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public string GradeID { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public string GradeName { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public string Calss_Id { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public string Major_Id { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public string DepartmentName { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public string SubDepartmentID { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public string SubDepartmentName { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public string TeacherUID { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public string TeacherName { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public string TeacherPropertyID { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public string TeacherProperty { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public string TeacherJobTitle { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public string TeacherDepartmentID { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public string TeacherSubDepartmentID { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public int? StudentCount { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public string CreateUID { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public DateTime? CreateTime { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public string EditUID { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public DateTime? EditTime { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public Byte? IsEnable { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public Byte? IsDelete { get; set; }
-
-          public override bool Equals(object obj)
-        {
-            bool result = false;
-            if (obj.GetType() == typeof(CourseRoom))
-            {
-                CourseRoom _obj = obj as CourseRoom;
-                if (_obj.Id == this.Id)
-                {
-                    result = true;
-                }
-            }
-            return result;
-        }
-
-	    public override int GetHashCode()
-        {
-            return base.GetHashCode();
-        }
-    }
-
-	/// </summary>
-	///	
-	/// </summary>
-	[Serializable]
     public partial class TPM_RewardLevel
     {
 
@@ -3023,6 +3087,166 @@ namespace FEModel
 	///	
 	/// </summary>
 	[Serializable]
+    public partial class CourseRoom
+    {
+
+		/// <summary>
+		/// 
+		/// </summary>
+		public int? Id { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public string UniqueNo { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public string Name { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public int? StudySection_Id { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public int? Year { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public string Season { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public string RoomDepartmentID { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public string Coures_Id { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public string CouresName { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public string CourseProperty { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public string CourseType { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public string GradeID { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public string GradeName { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public string ClassID { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public string ClassName { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public string Major_Id { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public string DepartmentName { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public string SubDepartmentID { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public string SubDepartmentName { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public string TeacherUID { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public string TeacherName { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public string TeacherPropertyID { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public string TeacherProperty { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public string TeacherJobTitle { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public string TeacherDepartmentName { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public string TeacherSubDepartmentName { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public int? StudentCount { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public string CreateUID { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public DateTime? CreateTime { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public string EditUID { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public DateTime? EditTime { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public Byte? IsEnable { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public Byte? IsDelete { get; set; }
+
+          public override bool Equals(object obj)
+        {
+            bool result = false;
+            if (obj.GetType() == typeof(CourseRoom))
+            {
+                CourseRoom _obj = obj as CourseRoom;
+                if (_obj.Id == this.Id)
+                {
+                    result = true;
+                }
+            }
+            return result;
+        }
+
+	    public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
+    }
+
+	/// </summary>
+	///	
+	/// </summary>
+	[Serializable]
     public partial class Student
     {
 
@@ -3405,150 +3629,6 @@ namespace FEModel
             if (obj.GetType() == typeof(TPM_BookStory))
             {
                 TPM_BookStory _obj = obj as TPM_BookStory;
-                if (_obj.Id == this.Id)
-                {
-                    result = true;
-                }
-            }
-            return result;
-        }
-
-	    public override int GetHashCode()
-        {
-            return base.GetHashCode();
-        }
-    }
-
-	/// </summary>
-	///	
-	/// </summary>
-	[Serializable]
-    public partial class Eva_TableDetail
-    {
-
-		/// <summary>
-		/// 
-		/// </summary>
-		public int? Id { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public string Root { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public string Name { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public string Type { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public int? Eva_table_Id { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public int? Indicator_Id { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public int? QuesType_Id { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public int? IndicatorType_Id { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public string IndicatorType_Name { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public string OptionA { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public string OptionB { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public string OptionC { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public string OptionD { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public string OptionE { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public string OptionF { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public decimal? OptionA_S { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public decimal? OptionB_S { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public decimal? OptionC_S { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public decimal? OptionD_S { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public decimal? OptionE_S { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public decimal? OptionF_S { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public int? Sort { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public string Remarks { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public string CreateUID { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public DateTime? CreateTime { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public string EditUID { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public DateTime? EditTime { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public Byte? IsEnable { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public Byte? IsDelete { get; set; }
-
-          public override bool Equals(object obj)
-        {
-            bool result = false;
-            if (obj.GetType() == typeof(Eva_TableDetail))
-            {
-                Eva_TableDetail _obj = obj as Eva_TableDetail;
                 if (_obj.Id == this.Id)
                 {
                     result = true;
@@ -4125,78 +4205,6 @@ namespace FEModel
             if (obj.GetType() == typeof(Sys_LogInfo))
             {
                 Sys_LogInfo _obj = obj as Sys_LogInfo;
-                if (_obj.Id == this.Id)
-                {
-                    result = true;
-                }
-            }
-            return result;
-        }
-
-	    public override int GetHashCode()
-        {
-            return base.GetHashCode();
-        }
-    }
-
-	/// </summary>
-	///	
-	/// </summary>
-	[Serializable]
-    public partial class Eva_Table_Header_Custom
-    {
-
-		/// <summary>
-		/// 
-		/// </summary>
-		public int? Id { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public string Code { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public string Header { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public string Header_Value { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public int? Sort { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public string CreateUID { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public DateTime? CreateTime { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public string EditUID { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public DateTime? EditTime { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public Byte? IsEnable { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public Byte? IsDelete { get; set; }
-
-          public override bool Equals(object obj)
-        {
-            bool result = false;
-            if (obj.GetType() == typeof(Eva_Table_Header_Custom))
-            {
-                Eva_Table_Header_Custom _obj = obj as Eva_Table_Header_Custom;
                 if (_obj.Id == this.Id)
                 {
                     result = true;

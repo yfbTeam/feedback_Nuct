@@ -33,8 +33,6 @@ var UI_Course = {
 
         });
 
-
-
         //划过事件
         tableSlide();
         //点击样式事件
@@ -44,6 +42,21 @@ var UI_Course = {
             $(this).addClass('selected');
 
             select_sectionid = $(this).parent().parent('li').attr('sectionid');
+            debugger;
+            $('#operator').empty();
+            var ReguState = Number($(this).attr('ReguState'));
+            switch (ReguState) {
+                case 1:
+                    $("#itemAllot").tmpl(1).appendTo("#operator");
+                    break;
+                case 2:
+                    $("#itemAllot").tmpl(1).appendTo("#operator");
+                    break;
+                case 3:
+                    $("#itemAllotNo").tmpl(1).appendTo("#operator");
+                    break;
+                default:
+            }
         });
     },
     GetCourse_Type: function (SectionId) {

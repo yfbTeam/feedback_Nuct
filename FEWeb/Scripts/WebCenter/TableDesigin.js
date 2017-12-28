@@ -114,7 +114,7 @@ var UI_Table =
                     else {
                         $("#item_eva").tmpl(retDataCache).appendTo("#tb_eva");
                         tableSlide();
-                       
+
                     }
                     UI_Table.initdataCompleate(retDataCache);
                     //CheckEventInit();
@@ -156,7 +156,7 @@ var UI_Table =
             tableSlide();
             CheckEventInit();
             //SameCountDealWidth();
-           
+
         },
 
     };
@@ -306,14 +306,14 @@ var UI_Table_Create =
 
     },
     sheet_init: function () {
-        $("#sheets div").children('span').each(function () {
+        $("#sheets div").children('input').each(function () {
             $(this).unbind("click");
-
             $(this).on('click', function () {
                 select_sheet_Id = $(this).attr('t_id');
                 //alert(select_sheet_Id)
                 //变更样式
-                $(this).css('border-color', 'red').parent().siblings(0).children('span').css('border-color', '')
+                $(this).css('border-color', 'red').parent().siblings(0).children('input').css('border-color', '');
+                $(this).prop('readonly', '')
                 for (var i in list_sheets) {
                     if (list_sheets[i].t_Id == select_sheet_Id) {
                         //-------------------------------------------------------------------试题节点切换
@@ -323,6 +323,11 @@ var UI_Table_Create =
                         break;
                     }
                 }
+            });
+            $(this).unbind("blur");
+            $(this).on('blur', function () {
+                $(this).prop('readonly', 'readonly')
+                //$(this).prop('cursor', 'pointer')
             });
         });
 
@@ -439,43 +444,43 @@ var UI_Table_Create =
     },
     up_sort_update: function (_li) {
         //==================序号进行变更
-        var sort_Id = _li.attr('sort');
+        var sort_Id = _li.attr('Sort');
         var data_indic = select_sheet.indicator_array[0].indicator_list;
 
-        var next_sort_Id = _li.next().attr('sort');
+        var next_sort_Id = _li.next().attr('Sort');
         var ary = data_indic.filter(function (item) { return item.Id == sort_Id });
         var ary_before = data_indic.filter(function (item) { return item.Id == next_sort_Id });
         if (ary.length > 0 && ary_before.length > 0) {
-            var ary_sort = ary[0].sort;
-            var ary_next_sort = ary_before[0].sort;
-            ary[0].sort = ary_next_sort;
-            ary_before[0].sort = ary_sort;
+            var ary_sort = ary[0].Sort;
+            var ary_next_sort = ary_before[0].Sort;
+            ary[0].Sort = ary_next_sort;
+            ary_before[0].Sort = ary_sort;
 
             //alert(ary_sort)
             //alert(ary_next_sort)
         }
-        select_sheet.indicator_array[0].indicator_list = Enumerable.From(data_indic).OrderBy(function (item) { return item.sort }).ToArray();
+        select_sheet.indicator_array[0].indicator_list = Enumerable.From(data_indic).OrderBy(function (item) { return item.Sort }).ToArray();
 
 
     },
     dwon_sort_update: function (_li) {
         //==================序号进行变更
-        var sort_Id = _li.attr('sort');
+        var sort_Id = _li.attr('Sort');
         var data_indic = select_sheet.indicator_array[0].indicator_list;
 
-        var next_sort_Id = _li.prev().attr('sort');
+        var next_sort_Id = _li.prev().attr('Sort');
         var ary = data_indic.filter(function (item) { return item.Id == sort_Id });
         var ary_next = data_indic.filter(function (item) { return item.Id == next_sort_Id });
         if (ary.length > 0 && ary_next.length > 0) {
-            var ary_sort = ary[0].sort;
-            var ary_next_sort = ary_next[0].sort;
-            ary[0].sort = ary_next_sort;
-            ary_next[0].sort = ary_sort;
+            var ary_sort = ary[0].Sort;
+            var ary_next_sort = ary_next[0].Sort;
+            ary[0].Sort = ary_next_sort;
+            ary_next[0].Sort = ary_sort;
 
             //alert(ary_sort)
             //alert(ary_next_sort)
         }
-        select_sheet.indicator_array[0].indicator_list = Enumerable.From(data_indic).OrderBy(function (item) { return item.sort }).ToArray();
+        select_sheet.indicator_array[0].indicator_list = Enumerable.From(data_indic).OrderBy(function (item) { return item.Sort }).ToArray();
     },
     //标题的向上排序
     t_up: function (_this) {
@@ -808,16 +813,15 @@ var UI_Table_Create =
         for (var i in list_sheets) {
             if (list_sheets[i].indicator_array.length > 0) {
                 for (var j in list_sheets[i].indicator_array) {
-                    ////添加节点名称
-                    //list_sheets[i].indicator_array[j].Root = list_sheets[i].title;
-
-                    //for (var h in list_sheets[i].indicator_array[j]) {
-
-                    //}
                     all_array.push(list_sheets[i].indicator_array[j]);
+                    var indicator_list = list_sheets[i].indicator_array[j].indicator_list;
+                    for (var h in indicator_list) {
+                        indicator_list[h].Root =$('#sheets').find('input[t_id="'+list_sheets[i].t_Id+'"]').val();
+                    }
                 }
             }
         }
+        debugger;
         var Name = $("#Name").val();
         var IsScore = "0";
         //是否记分
@@ -847,8 +851,6 @@ var UI_Table_Create =
         //表头信息填充
         for (var i in lisss) {
             lisss[i].title = $('#list2').find('input[t_id="' + lisss[i].t_Id + '"]').val();
-            //lisss[i].name = $('#list2').find('input[v_id="' + lisss[i].t_Id + '"]').val();
-            //|| lisss[i].name.trim() == ''
             if (lisss[i].title.trim() == '') { lisss_IsNull = true }
         }
         if (lisss_IsNull) {
@@ -870,7 +872,7 @@ var UI_Table_Create =
             },//组合input标签
             success: function (json) {
                 if (json.result.errMsg == "success") {
-                  
+
                     UI_Table_Create.submit_Compleate();
                     layer.msg('操作成功!');
                 }
@@ -926,7 +928,8 @@ var UI_Table_Create =
 
                 //加上序号
                 for (var i in _sheet.indicator_array[0].indicator_list) {
-                    _sheet.indicator_array[0].indicator_list[i].sort = Number(i) + 1;
+                    debugger;
+                    _sheet.indicator_array[0].indicator_list[i].Sort = Number(i) + 1;
                     _sheet.indicator_array[0].indicator_list[i].flg = Number(i) + 1;
                     _sheet.indicator_array[0].indicator_list[i].Root = _sheet.title;
                 }
@@ -1094,11 +1097,11 @@ var UI_Table_View = {
             data: { Func: "Get_Eva_TableDetail", "table_Id": table_Id, "IsPage_Display": UI_Table_View.IsPage_Display },
             success: function (json) {
                 var retData = json.result.retData;
-
+                debugger;
                 switch (UI_Table_View.PageType) {
                     case 'TableView':
                         $("#table_view").empty();
-                        //$("#remark").html(retData.Eva_Table.Remarks == "" ? "备注：无" : '备注：' + retData.Eva_Table.Remarks);
+
                         $(".tablename").html(retData.Name);
                         for (var i in retData.Table_Detail_Dic_List) {
                             $("#item_table_view").tmpl(retData.Table_Detail_Dic_List[i]).appendTo("#table_view");
@@ -1123,6 +1126,7 @@ var UI_Table_View = {
                         }
 
                         $('#Name').val(retData.Name);
+                        var total_ = 0;
                         //添加节点信息
                         for (var i in retData.Table_Detail_Dic_List) {
                             var sheet = new Object();
@@ -1133,11 +1137,15 @@ var UI_Table_View = {
                                 , indicator_type_type: '0', indicator_type_value: '', total_value: 0,
                                 indicator_list: retData.Table_Detail_Dic_List[i].Eva_TableDetail_List,
                             };
-
+                            debugger;
                             for (var j in indica.indicator_list) {
                                 indica.indicator_list[j].flg = indica.indicator_list[j].Sort;
-                            }
 
+                                total_ += indica.indicator_list[j].OptionF_S_Max;
+
+                              
+                            }
+                           
                             sheet.indicator_array.push(indica);
                             if (list_sheets.length == 0) {
                                 sheet.Num = 1;
@@ -1152,6 +1160,7 @@ var UI_Table_View = {
                             list_sheets.push(sheet);
                             $("#item_sheet").tmpl(sheet).appendTo("#sheets");
                         }
+                        $('#total').text(total_)
                         UI_Table_Create.sheet_init();
 
                         retData.Table_Header_List = Enumerable.From(retData.Table_Header_List).OrderBy(function (item) { return item.Id }).ToArray();//按Id进行升序排列
@@ -1186,7 +1195,7 @@ var UI_Table_View = {
                                 $("#item_check").tmpl(header_s).appendTo("#list");
                             }
                         }
-                        $('#sheets span:eq(0)').trigger('click');
+                        $('#sheets input:eq(0)').trigger('click');
 
                         break;
                     default:

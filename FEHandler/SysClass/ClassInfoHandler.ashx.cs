@@ -1,4 +1,5 @@
-﻿using FEModel;
+﻿using FEHandler.Eva_Manage;
+using FEModel;
 using FEUtility;
 using System;
 using System.Collections.Generic;
@@ -12,8 +13,22 @@ namespace FEHandler.SysClass
     /// </summary>
     public class ClassInfoHandler : IHttpHandler
     {
+        #region 字段
 
         JsonModel jsonModel = new JsonModel();
+
+        public bool IsReusable
+        {
+            get
+            {
+                return false;
+            }
+        }
+
+        #endregion
+
+        #region 中心入口
+
         public void ProcessRequest(HttpContext context)
         {
             HttpRequest Request = context.Request;
@@ -22,8 +37,11 @@ namespace FEHandler.SysClass
             {
                 switch (func)
                 {
-                    //获取课程信息
+                    //获取教学安排信息
                     case "GetClassInfo": GetClassInfo(context); break;
+                    //获取教学安排筛选
+                    case "GetClassInfoSelect": GetClassInfoSelect(context); break;
+
                     //获取学年学期
                     case "Get_StudySection_List": Get_StudySection_List(context); break;
                     default:
@@ -40,6 +58,11 @@ namespace FEHandler.SysClass
                 context.Response.Write("{\"result\":" + Constant.jss.Serialize(jsonModel) + "}");
             }
         }
+
+        #endregion
+
+        #region 获取学年学期
+
         public void Get_StudySection_List(HttpContext context)
         {
             try
@@ -93,88 +116,30 @@ namespace FEHandler.SysClass
                 context.Response.Write("{\"result\":" + Constant.jss.Serialize(jsonModel) + "}");
             }
         }
+
+        #endregion
+
+        #region 获取教学安排信息
+
         public void GetClassInfo(HttpContext context)
         {
+            HttpRequest request = context.Request;
+            int PageIndex = RequestHelper.int_transfer(request, "PageIndex");
+            int PageSize = RequestHelper.int_transfer(request, "PageSize");
+
+            int SectionID = RequestHelper.int_transfer(request, "SectionID");
+            string DP = RequestHelper.string_transfer(request, "DP");
+            string CT = RequestHelper.string_transfer(request, "CT");
+            string CP = RequestHelper.string_transfer(request, "CP");
+            string TD = RequestHelper.string_transfer(request, "TD");
+            string TN = RequestHelper.string_transfer(request, "TN");
+            string MD = RequestHelper.string_transfer(request, "MD");
+            string GD = RequestHelper.string_transfer(request, "GD");
+            string CN = RequestHelper.string_transfer(request, "CN");
+
             try
             {
-                HttpRequest Request = context.Request;
-                int intSuccess = (int)errNum.Success;
-                string TeacherUID = RequestHelper.string_transfer(context.Request, "TeacherUID");
-                //返回所有用户信息
-                // <th>年度</th>
-                //<th>季别</th>
-                //<th>课堂名称</th>
-                //<th>合班</th>
-                //<th>年级</th>
-                //<th>专业部门名称</th>
-                //<th>教师姓名</th>
-                //<th>教师性质</th>
-                //<th>操作</th>
-                List<Course> Course_List = Constant.Course_List;
-                List<CourseRoom> CourseRoom_List = Constant.CourseRoom_List;
-                List<Teacher> Teacher_List = Constant.Teacher_List;
-                List<StudySection> StudySection_List = Constant.StudySection_List;
-                List<ClassInfo> ClassInfo_List = Constant.ClassInfo_List;
-                List<GradeInfo> GradeInfo_List = Constant.GradeInfo_List;
-                List<UserInfo> UserInfo_List = Constant.UserInfo_List;
-                if (!string.IsNullOrEmpty(TeacherUID))
-                {
-                    CourseRoom_List = CourseRoom_List.Where(t=>t.TeacherUID==TeacherUID).ToList();
-                }
-                var query = from CourseRoom_ in CourseRoom_List
-                            join Course_ in Course_List on CourseRoom_.Coures_Id equals Course_.UniqueNo
-                            join Teacher_ in Teacher_List on CourseRoom_.TeacherUID equals Teacher_.UniqueNo
-                            join StudySection_ in StudySection_List on CourseRoom_.StudySection_Id equals StudySection_.Id
-                            join ClassInfo_ in ClassInfo_List on CourseRoom_.Calss_Id equals ClassInfo_.ClassNO
-                            //join GradeInfo_ in GradeInfo_List on ClassInfo_.Grade_Id equals GradeInfo_.Id
-                            join userinfo in Constant.UserInfo_List on Teacher_.UniqueNo equals userinfo.UniqueNo
-                            select new
-                            {
-                                //年度
-                                Academic = StudySection_.Academic,
-                                //级别
-                                Semester = StudySection_.Semester,
-                                //学年学期
-                                DisPlayName = StudySection_.DisPlayName,
-                                //课堂名称
-                                Course_Name = Course_.Name,
-                                //班
-                                ClassInfo_Name = ClassInfo_.Class_Name,
-                                //年纪
-                                GradeInfo_Name = "",
-                                //教师姓名
-                                Teacher_Name = userinfo.Name,
-                                //教师性质
-                                Teacher_JobTitle = Teacher_.JobTitle,
-                                //教师id
-                                //TeacherUID=Teacher_.UniqueNo
-                            };
-                int a = query.Count();
-                ////左连接部门名称
-                //var query2 = from Class_Info in query
-                //             join UserInfo_ in UserInfo_List on Class_Info.TeacherUID equals UserInfo_.UniqueNo
-                //             into gj from subpet in gj.DefaultIfEmpty()
-                //             select new
-                //             {
-                //                //年度
-                //                 Academic = Class_Info.Academic,
-                //                //级别
-                //                 Semester = GetSemester(Class_Info.Semester),
-                //                //课堂名称
-                //                 Course_Name = Class_Info.Course_Name,
-                //                //班
-                //                 ClassInfo_Name = Class_Info.ClassInfo_Name,
-                //                //年纪
-                //                 GradeInfo_Name = Class_Info.GradeInfo_Name,
-                //                //教师姓名
-                //                 Teacher_Name = Class_Info.Teacher_Name,
-                //                //教师性质
-                //                 Teacher_JobTitle = (Class_Info.Teacher_JobTitle == null) ? string.Empty : Class_Info.Teacher_JobTitle,
-                //                 //专业部门名称
-                //                // Department_Name = (subpet == null ? String.Empty :  subpet.Department_Name)
-
-                //             };
-                jsonModel = JsonModel.get_jsonmodel(intSuccess, "success", query);
+                jsonModel = GetClassInfo_Helper(PageIndex, PageSize, SectionID, DP, CT, CP, TD, TN, MD, GD, CN);
             }
             catch (Exception ex)
             {
@@ -186,25 +151,193 @@ namespace FEHandler.SysClass
                 context.Response.Write("{\"result\":" + Constant.jss.Serialize(jsonModel) + "}");
             }
         }
-        public string GetSemester(int? i)
+
+        public static JsonModelNum GetClassInfo_Helper(int PageIndex, int PageSize, int SectionID, string DP, string CT, string CP, string TD, string TN, string MD, string GD, string CN)
         {
-            string re = "";
-            if (i == 1)
+            int intSuccess = (int)errNum.Success;
+            JsonModelNum jsm = new JsonModelNum();
+            try
             {
-                re = "上学期";
+                List<Course> Course_List = Constant.Course_List;
+                List<CourseRoom> CourseRoom_List = Constant.CourseRoom_List;
+                List<StudySection> StudySection_List = Constant.StudySection_List;
+                var query = (from CourseRoom_ in CourseRoom_List
+                             join Course_ in Course_List on CourseRoom_.Coures_Id equals Course_.UniqueNo
+                             join StudySection_ in StudySection_List on CourseRoom_.StudySection_Id equals StudySection_.Id
+                             select new ClassModel()
+                             {
+                                 //年度
+                                 Academic = StudySection_.Academic,
+                                 //级别
+                                 SectionID = StudySection_.Id,
+                                 //学年学期
+                                 DisPlayName = StudySection_.DisPlayName,
+                                 //课堂名称
+                                 Course_Name = Course_.Name,
+                                 //班
+                                 ClassName = CourseRoom_.ClassName,
+                                 //年级
+                                 GradeInfo_Name = CourseRoom_.GradeName,
+                                 //教师姓名
+                                 Teacher_Name = CourseRoom_.TeacherName,
+                                 //开课部门
+                                 DepartmentName = Course_.DepartmentName,
+                                 //课程类型
+                                 CourseType = CourseRoom_.CourseType,
+                                 //课程性质
+                                 CourseProperty = Course_.CourseProperty,
+                                 //教师部门
+                                 TeacherDepartmentName = CourseRoom_.TeacherDepartmentName,
+                                 //专业部门
+                                 CourseDepartmentName = CourseRoom_.DepartmentName,
+                                 //序号
+                                 Num = 0,
+                             });
+                if (SectionID > 0)
+                {
+                    query = (from q in query where q.SectionID == SectionID select q);
+                }
+                if (DP != "")
+                {
+                    query = (from q in query where q.DepartmentName == DP select q);
+                }
+                if (CT != "")
+                {
+                    query = (from q in query where q.CourseType == CT select q);
+                }
+                if (CP != "")
+                {
+                    query = (from q in query where q.CourseProperty == CP select q);
+                }
+                if (TD != "")
+                {
+                    query = (from q in query where q.TeacherDepartmentName == TD select q);
+                }
+                if (TN != "")
+                {
+                    query = (from q in query where q.Teacher_Name == TN select q);
+                }
+                if (MD != "")
+                {
+                    query = (from q in query where q.CourseDepartmentName == MD select q);
+                }
+                if (GD != "")
+                {
+                    query = (from q in query where q.GradeInfo_Name == GD select q);
+                }
+                if (CN != "")
+                {
+                    query = (from q in query where q.ClassName == CN select q);
+                }
+                var queryList = query.ToList();
+                int count = 1;
+                queryList.ForEach(i =>
+                {
+                    i.Num += count;
+                    count++;
+                });
+
+                var query_last = (from an in queryList select an).Skip((PageIndex - 1) * PageSize).Take(PageSize).ToList();
+
+                jsm = JsonModelNum.GetJsonModel_o(intSuccess, "success", query_last);
+                jsm.PageIndex = PageIndex;
+                jsm.PageSize = PageSize;
+                jsm.PageCount = (int)Math.Ceiling((double)query.Count() / PageSize);
+                jsm.RowCount = query.Count();
             }
-            else
+            catch (Exception ex)
             {
-                re = "下学期";
+                LogHelper.Error(ex);
             }
-            return re;
+            return jsm;
         }
-        public bool IsReusable
+
+        #endregion
+
+        #region 获取教学安排筛选
+
+        public void GetClassInfoSelect(HttpContext context)
         {
-            get
+            HttpRequest request = context.Request;
+            try
             {
-                return false;
+                jsonModel = GetClassInfoSelect_Helper();
+            }
+            catch (Exception ex)
+            {
+                LogHelper.Error(ex);
+            }
+            finally
+            {
+                //无论后端出现什么问题，都要给前端有个通知【为防止jsonModel 为空 ,全局字段 jsonModel 特意声明之后进行初始化】
+                context.Response.Write("{\"result\":" + Constant.jss.Serialize(jsonModel) + "}");
             }
         }
+
+        public static JsonModelNum GetClassInfoSelect_Helper()
+        {
+            int intSuccess = (int)errNum.Success;
+            JsonModelNum jsm = new JsonModelNum();
+            try
+            {
+                List<Course> Course_List = Constant.Course_List;
+                List<CourseRoom> CourseRoom_List = Constant.CourseRoom_List;
+                List<StudySection> StudySection_List = Constant.StudySection_List;
+
+                var query = (from CourseRoom_ in CourseRoom_List
+                             join Course_ in Course_List on CourseRoom_.Coures_Id equals Course_.UniqueNo
+                             join StudySection_ in StudySection_List on CourseRoom_.StudySection_Id equals StudySection_.Id
+                             select new ClassModel()
+                             {
+                                 //年度
+                                 Academic = StudySection_.Academic,
+                                 //级别
+                                 Semester = StudySection_.Semester,
+                                 //学年学期
+                                 DisPlayName = StudySection_.DisPlayName,
+                                 //课堂名称
+                                 Course_Name = Course_.Name,
+                                 //班
+                                 ClassName = CourseRoom_.ClassName,
+                                 //年级
+                                 GradeInfo_Name = CourseRoom_.GradeName,
+                                 //教师姓名
+                                 Teacher_Name = CourseRoom_.TeacherName,
+                                 //开课部门
+                                 DepartmentName = Course_.DepartmentName,
+                                 //课程类型
+                                 CourseType = CourseRoom_.CourseType,
+                                 //课程性质
+                                 CourseProperty = Course_.CourseProperty,
+                                 //教师部门
+                                 TeacherDepartmentName = CourseRoom_.TeacherDepartmentName,
+                                 //专业部门
+                                 CourseDepartmentName = CourseRoom_.DepartmentName,
+                                 //序号
+                                 Num = 0,
+                             }).ToList();
+                var data = new
+                {
+                    DPList = (from qe in query where qe.DepartmentName != "" select qe.DepartmentName).Distinct().ToList(),
+                    CTList = (from qe in query where qe.CourseType != "" select qe.CourseType).Distinct().ToList(),
+                    CPList = (from qe in query where qe.CourseProperty != "" select qe.CourseProperty).Distinct().ToList(),
+                    TDList = (from qe in query where qe.TeacherDepartmentName != "" select qe.TeacherDepartmentName).Distinct().ToList(),
+                    TNList = (from qe in query where qe.Teacher_Name != "" select qe.Teacher_Name).Distinct().ToList(),
+                    MDList = (from qe in query where qe.CourseDepartmentName != "" select qe.CourseDepartmentName).Distinct().ToList(),
+                    GDList = (from qe in query where qe.GradeInfo_Name != "" select qe.GradeInfo_Name).Distinct().ToList(),
+                    CNList = (from qe in query where qe.ClassName != "" select qe.ClassName).Distinct().ToList(),
+                };
+
+                jsm = JsonModelNum.GetJsonModel_o(intSuccess, "success", data);
+            }
+            catch (Exception ex)
+            {
+                LogHelper.Error(ex);
+            }
+            return jsm;
+        }
+
+        #endregion
+
     }
 }

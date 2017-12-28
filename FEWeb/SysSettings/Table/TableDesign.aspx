@@ -175,14 +175,14 @@
 
         //评价表预览
         function table_view(table_Id) {
-            OpenIFrameWindow('评价表详情', 'TableView.aspx?table_Id=' + table_Id + '&Id=' + getQueryString('Id') + '&Iid=' + getQueryString('Iid'), '1000px', '800px')
+            OpenIFrameWindow('评价表详情', 'TableView.aspx?table_Id=' + table_Id + '&Id=' + getQueryString('Id') + '&Iid=' + getQueryString('Iid'), '1000px', '600px')
         };
         //新增表格 打开窗口页
         function AddEvalTable() {
             OpenIFrameWindow('新增表格', 'AddEvalTable.aspx?typeid=' + 1 + '&Id=' + getQueryString('Id') + '&Iid=' + getQueryString('Iid'), '800px', '800px')
         }
         function edit(id) {          
-            window.location.href = 'AddEvalTable.aspx' + '?Id=' + getQueryString('Id') + '&Iid=' + getQueryString('Iid') + '&table_id=' + id + '&type=1';
+            window.location.href = 'AddEvalTable.aspx' + '?selected=1&Id=' + getQueryString('Id') + '&Iid=' + getQueryString('Iid') + '&table_id=' + id + '&type=1';
         }
         //初始化表格列表
         function initdata() {

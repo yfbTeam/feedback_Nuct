@@ -86,9 +86,9 @@ namespace FEHandler.Eva_Manage
                     //获取表格
                     case "Get_Eva_Table": Get_Eva_Table(context); break;
 
-                        //获取表格
+                    //获取表格
                     case "Get_Eva_Table_S": Get_Eva_Table_S(context); break;
-                        
+
 
                     //获取表格详情
                     case "Get_Eva_TableDetail": Get_Eva_TableDetail(context); break;
@@ -298,7 +298,7 @@ namespace FEHandler.Eva_Manage
                           }).ToList();
 
                 List<T_C_Model_Child> list = (from room in rooms
-                                              join cls in clss on room.Calss_Id equals cls.ClassNO
+                                              join cls in clss on room.ClassID equals cls.ClassNO
                                               join course in courses on room.Coures_Id equals course.UniqueNo
                                               join exp in Constant.Expert_Teacher_Course_List on new
                                               {
@@ -464,19 +464,19 @@ namespace FEHandler.Eva_Manage
         public void DeleteExpert_List_Teacher_Course(HttpContext context)
         {
             HttpRequest Request = context.Request;
-            int Id = RequestHelper.int_transfer(Request, "Id");                    
+            int Id = RequestHelper.int_transfer(Request, "Id");
             try
             {
                 var exp = Constant.Expert_Teacher_Course_List.FirstOrDefault(i => i.Id == Id);
-                if(exp!= null)
-                {                  
-                   jsonModel = Constant.Expert_Teacher_CourseService.Delete((int)exp.Id);
-                    if(jsonModel.errNum ==0)
+                if (exp != null)
+                {
+                    jsonModel = Constant.Expert_Teacher_CourseService.Delete((int)exp.Id);
+                    if (jsonModel.errNum == 0)
                     {
                         Constant.Expert_Teacher_Course_List.Remove(exp);
                     }
                 }
-               
+
             }
             catch (Exception ex)
             {
@@ -1204,7 +1204,8 @@ namespace FEHandler.Eva_Manage
                                         Eva_table_Id = Eva_Task_Add.Id,
                                         //评价任务 1，表格设计 0
                                         Type = type_table,
-
+                                        OptionF_S_Max = item.OptionF_S_Max,
+                                        Root = item.Root,
                                     };
 
                                     //添加到缓存
@@ -1368,7 +1369,8 @@ namespace FEHandler.Eva_Manage
                                             Eva_table_Id = Eva_Task_Edit.Id,
                                             //评价任务 1，表格设计 0
                                             Type = type_table,
-
+                                            OptionF_S_Max = item.OptionF_S_Max,
+                                            Root = item.Root,
                                         };
 
 

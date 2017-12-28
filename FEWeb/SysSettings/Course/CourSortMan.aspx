@@ -10,17 +10,19 @@
     <link href="../../css/layout.css" rel="stylesheet" />
     <script src="../../Scripts/jquery-1.11.2.min.js"></script>
     <style>
-       .menu_list li .operates {
+        .menu_list li .operates {
             position: absolute;
             right: 10px;
             top: 8px;
             line-height: 22px;
             z-index: 11;
         }
+
         .menu .menu_list li .operate {
             text-align: center;
             min-width: 32px;
         }
+
         .menu_list li em {
             display: block;
             overflow: hidden;
@@ -28,22 +30,24 @@
             white-space: nowrap;
             line-height: 36px;
         }
+
         .menu_list li ul li:before {
-                width: 5px;
-                height: 5px;
-                content: '';
-                border-radius: 50%;
-                display: block;
-                background: #C1E68E;
-                position: absolute;
-                left: 8px;
-                top: 15px;
-            }
+            width: 5px;
+            height: 5px;
+            content: '';
+            border-radius: 50%;
+            display: block;
+            background: #C1E68E;
+            position: absolute;
+            left: 8px;
+            top: 15px;
+        }
+
         .menu_list li ul li {
             padding: 0px 10px 0px 20px;
         }
     </style>
-    
+
 </head>
 <body>
     <div id="top"></div>
@@ -65,9 +69,7 @@
                             <input type="text" name="" id="select_where" placeholder="请输入关键字" value="" class="text fl">
                             <a class="search fl" href="javascript:;" onclick="all_change();"><i class="iconfont">&#xe600;</i></a>
                         </div>
-                        <div class="fr" style="display: block">
-                            <input type="button" value="分配评价表" class="btn mr10" onclick="OpenTableAllot()" />
-                            <input type="button" name="" id="course_set" value="分配课程" class="btn" onclick="dis_course();">
+                        <div class="fr" style="display: block" id="operator">
                         </div>
                     </div>
                     <div class="table">
@@ -75,9 +77,10 @@
                             <thead>
                                 <tr>
                                     <th style="width: 10%;">课程编码</th>
-                                    <th style="width: 25%;">课程名称</th>
+                                    <th style="width: 20%;">课程名称</th>
                                     <th style="width: 10%;">排课分类</th>
                                     <th style="width: 10%;">课程性质</th>
+                                    <th>任务性质</th>
                                     <th style="width: 15%;">部门</th>
                                     <th style="width: 15%;">子部门</th>
                                     <th style="width: 10%;">操作</th>
@@ -105,11 +108,12 @@
     <script id="Courseinfo_tmpl" type="text/x-jquery-tmpl">
         <tr>
             <td>${Course_No}</td>
-            <td>${Course_Name}</td>
-            <td>${CourseRel_Name}</td>
+            <td title="${Course_Name}">${cutstr(Course_Name,18)}</td>
+            <td>${PkType}</td>
             <td>${CourseProperty}</td>
-            <td>${DepartmentName}</td>
-            <td>${SubDepartmentName}</td>
+            <td>${TaskProperty}</td>
+            <td title="${DepartmentName}">${cutstr(DepartmentName,15)}</td>
+            <td title="${SubDepartmentName.trim()}">${cutstr(SubDepartmentName.trim(),15)}</td>
             <td>
                 <div class="operate" onclick="removeCourseDis('${CourseRelID}','${Course_Name}')">
                     <i class="iconfont color_purple">&#xe798;</i>
@@ -124,23 +128,37 @@
             <span>${course_parent.DisPlayName}<i class="iconfont">&#xe643;</i></span>
             <ul>
                 {{each objectlist}}
-                <li>
-                    <em onclick="GetCourseinfoBySortMan('{{= $value.Key}}','{{= $value.Value}}','{{= $value.SectionId}}')">{{= $value.Value}}</em>
-                    <div class="operates">
-                        <div class="operate" onclick="OpenIFrameWindow('设置分类', 'AddCourseSort.aspx?id={{= $value.Id}}&Name={{= $value.Value}}&IsEnable={{= $value.IsEnable}}', '500px', '280px')">
-                            <i class="iconfont color_purple">&#xe632;</i>
-                            <a class='operate_none bg_purple'>设置</a>
-                        </div>
-                        <div class="operate ml5" onclick="remove('{{= $value.Id}}','{{= $value.Value}}');">
-                            <i class="iconfont color_purple">&#xe61b;</i>
-                            <a class='operate_none bg_purple'>删除</a>
-                        </div>
-                    </div>
+                <li regustate="${ReguState}">
+                    <em title="{{= $value.Value}}" onclick="GetCourseinfoBySortMan('{{= $value.Key}}','{{= $value.Value}}','{{= $value.SectionId}}')">{{= cutstr($value.Value,10)}}</em>
+
+                    {{if ReguState == 3}}                        
+                         <div class="operates">
+                             <div class="operate">
+                                 <i class="iconfont color_gray">&#xe632;</i>
+                             </div>
+                             <div class="operate ml5">
+                                 <i class="iconfont color_gray">&#xe61b;</i>
+                             </div>
+                         </div>
+                    {{else}}
+                       <div class="operates">
+                           <div class="operate" onclick="OpenIFrameWindow('设置分类', 'AddCourseSort.aspx?id={{= $value.Id}}&Name={{= $value.Value}}&IsEnable={{= $value.IsEnable}}', '500px', '280px')">
+                               <i class="iconfont color_purple">&#xe632;</i>
+                               <a class='operate_none bg_purple'>设置</a>
+                           </div>
+                           <div class="operate ml5" onclick="remove('{{= $value.Id}}','{{= $value.Value}}');">
+                               <i class="iconfont color_purple">&#xe61b;</i>
+                               <a class='operate_none bg_purple'>删除</a>
+                           </div>
+                       </div>
+                    {{/if}}
+                   
                 </li>
                 {{/each}}                                     
                 {{if course_parent.Study_IsEnable == 0}}
-             <input type="button" value="新增分类" style="display: block" class="new" onclick="OpenIFrameWindow('新增分类', 'AddCourseSort.aspx?itemid=0&SectionId={{= course_parent.SectionId}}&IsEnable=0', '500px', '280px')" />
-                {{else course_parent.Study_IsEnable== 0}}
+                  <input type="button" value="新增分类" style="display: block" class="new" onclick="OpenIFrameWindow('新增分类', 'AddCourseSort.aspx?itemid=0&SectionId={{= course_parent.SectionId}}&IsEnable=0', '500px', '280px')" />
+                {{else course_parent.Study_IsEnable== 1}}
+                  <input type="button" value="新增评价" style="display: block; background: #A8A8A8" class="new" />
                 {{/if}}
               
             </ul>
@@ -149,6 +167,16 @@
 
     <script type="text/x-jquery-tmpl" id="itemCount">
         <span style="margin-left: 5px; font-size: 14px;">共${RowCount}条，共${PageCount}页</span>
+    </script>
+
+    <script type="text/x-jquery-tmpl" id="itemAllot">
+        <input type="button" value="分配评价表" class="btn mr10" onclick="OpenTableAllot()" />
+        <input type="button" name="" value="分配课程" class="btn" onclick="dis_course();">
+    </script>
+
+    <script type="text/x-jquery-tmpl" id="itemAllotNo">
+        <input type="button" value="分配评价表" class="btn mr10" style="background: #A8A8A8" />
+        <input type="button" name="" value="分配课程" class="btn" style="background: #A8A8A8">
     </script>
 </body>
 </html>
@@ -169,9 +197,9 @@
         $('#top').load('/header.html');
         $('#footer').load('/footer.html');
         UI_Course.PageType = 'CourSortMan';
-        
-        UI_Course.GetCourse_Type();
 
+        UI_Course.GetCourse_Type();
+      
     });
     function menu_list() {
         UI_Course.menu_list();

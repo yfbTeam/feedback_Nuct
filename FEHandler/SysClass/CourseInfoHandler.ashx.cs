@@ -27,8 +27,8 @@ namespace FEHandler.SysClass
                     //获取所有课程
                     case "GetCourseInfo": GetCourseInfo(context); break;
 
-                      //获取所有课程筛选
-                    case "GetCourseInfo_Select": GetCourseInfo_Select(context); break;  
+                    //获取所有课程筛选
+                    case "GetCourseInfo_Select": GetCourseInfo_Select(context); break;
 
                     //获取所有未分配课程
                     case "GetNoDis_CourseInfo": GetNoDis_CourseInfo(context); break;
@@ -343,7 +343,7 @@ namespace FEHandler.SysClass
                 var query = (from Course_ in Course_List
                              join cr in courrel on Course_.UniqueNo equals cr.Course_Id
                              orderby Course_.IsEnable
-                             select new
+                             select new 
                              {
                                  Course_Id = Course_.Id,
                                  //课程名称
@@ -354,10 +354,9 @@ namespace FEHandler.SysClass
                                  CourseRel_Id = cr == null ? "" : cr.CourseType_Id,
                                  CourseRel_Name = (cr == null ? "未分类" : cr.Value),
                                  PkType = Course_.PkType,
-
+                                 Course_.TaskProperty,
                                  CourseRelID = cr == null ? 0 : cr.CourseRelID,
-                                 Course_.IsEnable,
-
+                                 Course_.IsEnable,                               
                                  DepartMentID = Course_.DepartMentID,
                                  DepartmentName = Course_.DepartmentName,
                                  SubDepartmentID = Course_.SubDepartmentID,
@@ -370,7 +369,6 @@ namespace FEHandler.SysClass
                     query = (from qu in query
                              where qu.Course_Name.Contains(Key) || qu.Course_No.Contains(Key)
                              select qu).ToList();
-
                 }
 
 
@@ -395,7 +393,7 @@ namespace FEHandler.SysClass
             try
             {
                 HttpRequest request = context.Request;
-                int SectionId = RequestHelper.int_transfer(request, "SectionId");               
+                int SectionId = RequestHelper.int_transfer(request, "SectionId");
 
                 jsonModel = GetCourseInfo_SelectHelper(SectionId);
             }
@@ -423,7 +421,7 @@ namespace FEHandler.SysClass
                 string dictiontypevalue = Convert.ToString((int)dictiontype);
 
                 var courrel = (from CourseRel_ in CourseRel_List
-                               where CourseRel_.StudySection_Id == SectionId 
+                               //where CourseRel_.StudySection_Id == SectionId
                                join Sys_Dictionary_ in Sys_Dictionary_List.Where(i => i.Type == dictiontypevalue) on CourseRel_.CourseType_Id equals Sys_Dictionary_.Key
                                where Sys_Dictionary_.SectionId == SectionId
                                select new
@@ -500,7 +498,12 @@ namespace FEHandler.SysClass
                 int PageIndex = RequestHelper.int_transfer(request, "PageIndex");
                 int PageSize = RequestHelper.int_transfer(request, "PageSize");
 
-                jsonModel = GetNoDis_CourseInfoHelper(PageIndex, PageSize, Major_Id, SectionId, Key);
+                string pk = RequestHelper.string_transfer(request, "pk");
+                string ck = RequestHelper.string_transfer(request, "ck");
+                string cp = RequestHelper.string_transfer(request, "cp");
+
+
+                jsonModel = GetNoDis_CourseInfoHelper(PageIndex, PageSize, Major_Id, SectionId, Key, pk, ck, cp);
             }
             catch (Exception ex)
             {
@@ -513,7 +516,7 @@ namespace FEHandler.SysClass
             }
         }
 
-        public static JsonModelNum GetNoDis_CourseInfoHelper(int PageIndex, int PageSize, string Major_Id, int SectionId, string Key)
+        public static JsonModelNum GetNoDis_CourseInfoHelper(int PageIndex, int PageSize, string Major_Id, int SectionId, string Key, string pk, string ck, string cp)
         {
             JsonModelNum jsm = new JsonModelNum();
             int intSuccess = (int)errNum.Success;
@@ -529,6 +532,18 @@ namespace FEHandler.SysClass
                 if (Key != "")
                 {
                     Course_List = (from course in Course_List where course.Name.Contains(Key) || course.UniqueNo.Contains(Key) select course).ToList();
+                }
+                if (pk != "")
+                {
+                    Course_List = (from course in Course_List where course.PkType == pk select course).ToList();
+                }
+                if (ck != "")
+                {
+                    Course_List = (from course in Course_List where course.TaskProperty == ck select course).ToList();
+                }
+                if (cp != "")
+                {
+                    Course_List = (from course in Course_List where course.CourseProperty == cp select course).ToList();
                 }
 
                 var query = (from Course_ in Course_List
@@ -557,7 +572,8 @@ namespace FEHandler.SysClass
 
                                  //CourseRelID = cr == null ? 0 : cr.CourseRelID,
                                  Course_.IsEnable,
-
+                                 Course_.TaskProperty,
+                                 Course_.PkType,
                                  DepartMentID = Course_.DepartMentID,
                                  DepartmentName = Course_.DepartmentName,
                                  SubDepartmentID = Course_.SubDepartmentID,
