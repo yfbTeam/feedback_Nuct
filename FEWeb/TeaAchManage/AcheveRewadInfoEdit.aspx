@@ -19,6 +19,142 @@
             <td>${WordNum}</td>
         </tr>
     </script>
+    <%--业绩信息--%>
+    <script type="text/x-jquery-tmpl" id="div_AchInfo">
+                <h2 class="cont_title"><span>获奖文件信息</span></h2>
+                <div class="area_form clearfix">
+                    <div class="input_lable fl">
+                        <label for="">发文号：</label>
+                        <input type="text" isrequired="true" fl="发文号" name="FileEdionNo" id="FileEdionNo" value="${FileEdionNo}" class="text" />
+                    </div>
+                    <div class="input_lable fl">
+                        <label for="">文件名称：</label>
+                        <input type="text" isrequired="true" fl="文件名称" name="FileNames" id="FileNames" value="${FileNames}" class="text" />
+                    </div>
+                    <div class="input_lable fl">
+                        <label for="">认定机构：</label>
+                        <input type="text" isrequired="true" fl="认定机构" name="DefindDepart" id="DefindDepart" value="${DefindDepart}" class="text" />
+                    </div>
+                    <div class="input_lable fl">
+                        <label for="">认定日期：</label>
+                        <input type="text" isrequired="true" fl="认定日期" name="DefindDate" id="DefindDate" value="${DateTimeConvert(DefindDate, '年月日')}" class="text Wdate" onclick="WdatePicker({ dateFmt: 'yyyy年MM月dd日' });" onkeydown="ChangeLid();"/>
+                    </div>
+                    <div class="input_lable fl input_lable2">
+                        <label for="">获奖扫描件：</label>
+                        <div class="fl uploader_container">
+                            <div id="uploader">
+                                <div class="queueList">
+                                    <div id="dndArea" class="placeholder photo_lists">
+                                        <div id="filePicker"></div>
+                                        <ul class="filelist clearfix"></ul>
+                                    </div>
+                                </div>
+                                <div class="statusBar" style="display: none;">
+                                    <div class="progress">
+                                        <span class="text">0%</span>
+                                        <span class="percentage"></span>
+                                    </div>
+                                    <div class="info"></div>                                
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <h2 class="cont_title"><span>基本信息</span></h2>
+                <div class="area_form clearfix"> 
+                    {{if AchieveType==1||AchieveType==2}}                    
+                    <div class="input_lable fl">
+                        <label for="">获奖项目名称：</label>
+                        <input type="text" isrequired="true" fl="获奖项目名称" class="text" name="Name" id="Name" value="${Name}" style="width: 694px" />
+                    </div>
+                    {{/if}}
+                    {{if  AchieveType==3}}
+                    <div class="input_lable book fl">
+                        <label for="">书名：</label>
+                        <select class="chosen-select" data-placeholder="书名" id="BookId" name="BookId" onchange="Get_OperReward_UserInfo();"></select>
+                    </div>
+                    <div class="input_lable book fl">
+                        <label for="">书号：</label>
+                        <input type="text" name="ISBN" id="ISBN" value="${ISBN}" class="text" readonly="readonly"/>
+                    </div>
+                     {{/if}}
+                    <div class="input_lable fl">
+                        <label for="">奖励项目：</label>
+                        <select class="select" isrequired="true" fl="奖励项目" name="Gid" id="Gid" onchange="BindLinfo()"></select>
+                    </div>
+                    <div class="input_lable fl">
+                        <label for="">获奖级别：</label>
+                        <select class="select" isrequired="true" fl="获奖级别" name="Lid" id="Lid" onchange="BindRewardInfo()"></select>
+                    </div>
+
+                    <div class="input_lable fl">
+                        <label for="">奖励等级：</label>
+                        <select class="select" isrequired="true" fl="奖励等级" name="Rid" id="Rid" onchange="SetScore();BindRank();"></select>
+                    </div>
+                     {{if AchieveType==2}}
+                    <div class="input_lable fl">
+                        <label for="">排名：</label>
+                        <select class="select" name="Sort" id="Sort" onchange="SetScore('#Sort');"></select>
+                    </div>
+                     {{/if}}
+                    <div class="input_lable fl">
+                        <label for="">获奖年度：</label>
+                        <input type="text" isrequired="true" fl="获奖年度" value="${Year}" class="text Wdate" name="Year" id="Year" onclick="WdatePicker({dateFmt:'yyyy年'})" />
+                    </div>
+                    <div class="input_lable fl">
+                        <label for="" id="lb_ResponsMan">负责人：</label>
+                        <select class="chosen-select" isrequired="true" fl="负责人" data-placeholder="负责人" id="ResponsMan" name="ResponsMan" onchange="Bind_ResponsMan('ResponsMan');"></select>
+                    </div>
+                    <div class="input_lable fl">
+                        <label for="">负责单位：</label>
+                        <select class="chosen-select" data-placeholder="负责单位" id="DepartMent" name="DepartMent" multiple="multiple"></select>
+                    </div>
+                </div>
+        {{if AchieveType==2&&Status <= 3}}  
+                <h2 class="cont_title members"><span>成员信息</span></h2>
+                <div class="area_form members">
+                    <div class="clearfix">
+                        <input type="button" name="name" id="" value="添加" class="btn fl" onclick="javascript: OpenIFrameWindow('添加成员','AddAchMember.aspx', '1000px', '700px');">
+                        <input type="button" name="name" id="" value="删除" class="btn fl ml20" onclick="Del_HtmlMember();">
+                        <span class="fr status mr10">已分配：<span id="span_CurScore">0</span></span>
+                        <span class="fr status mr10">总分：<span id="span_AllScore">0</span></span>
+                    </div>
+                    <table class="allot_table mt10">
+                        <thead>
+                            <tr>
+                                <th width="40px;"><input type="checkbox" name="ck_tball" onclick="CheckAll(this)"/></th>
+                                <th>姓名</th>
+                                <th>部门</th>
+                                <th>分数</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tb_Member"></tbody>
+                    </table>
+                </div>
+         {{/if}}
+         {{if AchieveType==3&&Status <= 3}}
+                <h2 class="cont_title book"><span>作者信息</span></h2>
+                <div class="area_form book">
+                    <div class="clearfix">                       
+                       <span class="fr status mr10">总分：<span id="span_BookScore">0</span></span>                      
+                       <span class="fr status mr10">总贡献字数：<span id="span_Words">0</span></span>                   
+                    </div>
+                    <table class="allot_table mt10  ">
+                        <thead>
+                            <tr>
+
+                                <th>姓名</th>
+                                <th>作者类型</th>
+                                <th>排名</th>
+                                <th>部门</th>
+                                <th>贡献字数（万字）</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tb_info"></tbody>
+                    </table>
+                </div> 
+         {{/if}}
+    </script>
     <%--成员信息(已添加的)--%>
     <script type="text/x-jquery-tmpl" id="tr_MemEdit">
         {{each(i, mem) AcheiveMember_data.retData}}    
@@ -59,139 +195,9 @@
             <h1 class="title">
                 <a onclick="javascript:window.history.go(-1)" style="cursor: pointer;">业绩修改</a><span>&gt;</span><a href="#" class="crumbs" id="GropName"></a>
             </h1>
-            <div class="cont">
-                  <h2 class="cont_title"><span>获奖文件信息</span></h2>
-                <div class="area_form clearfix">
-                    <div class="input_lable fl">
-                        <label for="">发文号：</label>
-                        <input type="text" isrequired="true" fl="发文号" name="FileEdionNo" id="FileEdionNo" value="" class="text" />
-                    </div>
-                    <div class="input_lable fl">
-                        <label for="">文件名称：</label>
-                        <input type="text" isrequired="true" fl="文件名称" name="FileNames" id="FileNames" value="" class="text" />
-                    </div>
-                    <div class="input_lable fl">
-                        <label for="">认定机构：</label>
-                        <input type="text" isrequired="true" fl="认定机构" name="DefindDepart" id="DefindDepart" value="" class="text" />
-                    </div>
-                    <div class="input_lable fl">
-                        <label for="">认定日期：</label>
-                        <input type="text" isrequired="true" fl="认定日期" name="DefindDate" id="DefindDate" class="text Wdate" onclick="WdatePicker({ dateFmt: 'yyyy年MM月dd日' });" onkeydown="ChangeLid();"/>
-                    </div>
-                    <div class="input_lable fl input_lable2">
-                        <label for="">获奖扫描件：</label>
-                        <div class="fl uploader_container">
-                            <div id="uploader">
-                                <div class="queueList">
-                                    <div id="dndArea" class="placeholder photo_lists">
-                                        <div id="filePicker"></div>
-                                        <ul class="filelist clearfix"></ul>
-                                    </div>
-                                </div>
-                                <div class="statusBar" style="display: none;">
-                                    <div class="progress">
-                                        <span class="text">0%</span>
-                                        <span class="percentage"></span>
-                                    </div>
-                                    <div class="info"></div>                                
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <h2 class="cont_title"><span>基本信息</span></h2>
-                <div class="area_form clearfix">
-                    <div class="input_lable fl none">
-                        <label for="">获奖教师：</label>
-                        <select class="chosen-select" data-placeholder="获奖教师" id="TeaUNo" name="TeaUNo"></select>
-                    </div>
-                    <div class="input_lable fl none">
-                        <label for="">获奖项目名称：</label>
-                        <input type="text" isrequired="true" fl="获奖项目名称" class="text" name="Name" id="Name" style="width: 694px" />
-                    </div>
-                    <div class="input_lable book fl none">
-                        <label for="">书名：</label>
-                        <select class="chosen-select" data-placeholder="书名" id="BookId" name="BookId" onchange="Get_OperReward_UserInfo();"></select>
-                    </div>
-                    <div class="input_lable book fl none">
-                        <label for="">书号：</label>
-                        <input type="text" name="ISBN" id="ISBN" value="" class="text" readonly="readonly"/>
-                    </div>
-                    <div class="input_lable fl">
-                        <label for="">奖励项目：</label>
-                        <select class="select" isrequired="true" fl="奖励项目" name="Gid" id="Gid" onchange="BindLinfo()"></select>
-                    </div>
-                    <div class="input_lable fl">
-                        <label for="">获奖级别：</label>
-                        <select class="select" isrequired="true" fl="获奖级别" name="Lid" id="Lid" onchange="BindRewardInfo()"></select>
-                    </div>
-
-                    <div class="input_lable fl">
-                        <label for="">奖励等级：</label>
-                        <select class="select" isrequired="true" fl="奖励等级" name="Rid" id="Rid" onchange="SetScore();BindRank();"></select>
-                    </div>
-                    <div class="input_lable fl none">
-                        <label for="">排名：</label>
-                        <select class="select" name="Sort" id="Sort" onchange="SetScore('#Sort');"></select>
-                    </div>
-                    <div class="input_lable fl">
-                        <label for="">获奖年度：</label>
-                        <input type="text" isrequired="true" fl="获奖年度" class="text Wdate" name="Year" id="Year" onclick="WdatePicker({dateFmt:'yyyy年'})" />
-                    </div>
-                    <div class="input_lable fl">
-                        <label for="">负责人：</label>
-                        <select class="chosen-select" isrequired="true" fl="负责人" data-placeholder="负责人" id="ResponsMan" name="ResponsMan" onchange="Bind_ResponsMan('ResponsMan');"></select>
-                    </div>
-                    <div class="input_lable fl">
-                        <label for="">负责单位：</label>
-                        <select class="chosen-select" data-placeholder="负责单位" id="DepartMent" name="DepartMent" multiple="multiple"></select>
-                    </div>
-                </div>
-                <h2 class="cont_title members none"><span>成员信息</span></h2>
-                <div class="area_form members none">
-                    <div class="clearfix">
-                        <input type="button" name="name" id="" value="添加" class="btn fl" onclick="javascript: OpenIFrameWindow('添加成员','AddAchMember.aspx', '1000px', '700px');">
-                        <input type="button" name="name" id="" value="删除" class="btn fl ml20" onclick="Del_HtmlMember();">
-                        <span class="fr status mr10">已分配：<span id="span_CurScore">0</span></span>
-                        <span class="fr status mr10">总分：<span id="span_AllScore">0</span></span>
-                    </div>
-                    <table class="allot_table mt10">
-                        <thead>
-                            <tr>
-                                <th width="40px;"><input type="checkbox" name="ck_tball" onclick="CheckAll(this)"/></th>
-                                <th>姓名</th>
-                                <th>部门</th>
-                                <th>分数</th>
-                            </tr>
-                        </thead>
-                        <tbody id="tb_Member"></tbody>
-                    </table>
-                </div>
-                <h2 class="cont_title book none"><span>作者信息</span></h2>
-                <div class="area_form book none">
-                    <div class="clearfix">                       
-                       <span class="fr status mr10">总分：<span id="span_BookScore">0</span></span>                      
-                       <span class="fr status mr10">总贡献字数：<span id="span_Words">0</span></span>                   
-                    </div>
-                    <table class="allot_table mt10  ">
-                        <thead>
-                            <tr>
-
-                                <th>姓名</th>
-                                <th>作者类型</th>
-                                <th>排名</th>
-                                <th>部门</th>
-                                <th>贡献字数（万字）</th>
-                            </tr>
-                        </thead>
-                        <tbody id="tb_info"></tbody>
-                    </table>
-                </div>              
-            </div>
+            <div id="div_Achieve" class="cont"></div>
         </div>
-        <div class="score">
-            
-        </div>
+        <div class="score"></div>
         <div class="btnwrap" style="background: #fafafa; padding: 15px 0px;">
             <input type="button" value="保存" onclick="Save()" class="btn" />
             <input type="button" value="提交" class="btn ml10" onclick="submit()"/>
@@ -217,46 +223,16 @@
             $("#CreateUID").val(GetLoginUser().UniqueNo);
             Get_PageBtn("/TeaAchManage/AchManage.aspx");
             achieve_add_noaudit = JudgeBtn_IsExist("achieve_add_noaudit");
-            var Type = UrlDate.Type;
-            switch (Type) {
-                case "2":
-                    $("#Sort").parent().show();                    
-                    $('.members').show();
-                    $("#Name").parent().show();
-                    break;
-                case "3":
-                    $(".book").show();
-                    break;
-                case "5":
-                    $("#TeaUNo").parent().show();
-                    break;
-                case "1":                   
-                    $("#Name").parent().show();
-                    break;
-            }
-            BindFile_Plugin();
-            $("#Group").val(UrlDate.Group);
-            BindUser("ResponsMan");
-            BindUser("TeaUNo");
+            $("#Group").val(UrlDate.Group);            
             //$("#Group").val(UrlDate.Group);
-            //$("#GropName").html(decodeURI(UrlDate.Name));
-            if (UrlDate.Group != undefined) {
-                BindGInfo();//奖励项目
-            }
-            BindBook();
+            //$("#GropName").html(decodeURI(UrlDate.Name));            
             var itemId = UrlDate.itemId;
             if (itemId != undefined) {
-                $("#Id").val(itemId);
-                Get_Sys_Document(0, $("#Id").val());
-                if (UrlDate.Type != "3") {
-                    Get_TPM_AcheiveMember(itemId);
-                }
+                $("#Id").val(itemId);                
                 GetDataById(itemId);
-            } else {
-                BindDepart("DepartMent");
-            }
+            } 
         });
-        function GetDataById() {
+        function GetDataById(itemId) {
             $.ajax({
                 url: HanderServiceUrl + "/TeaAchManage/AchRewardInfo.ashx",
                 type: "post",
@@ -265,27 +241,19 @@
                 success: function (json) {
                     if (json.result.errMsg == "success") {
                         $(json.result.retData[0]).each(function () {
-                            $("#GropName").html(this.GName);
-                            $("#Name").val(this.Name);
+                            var model = json.result.retData[0];
+                            $("#div_AchInfo").tmpl(model).appendTo("#div_Achieve");
+                            cur_ResponUID = model.ResponsMan;
+                            cur_AchieveType = model.AchieveType;
+                            $("#GropName").html(this.GName);                          
                             $("#Gid").val(this.Gid);
                             $("#BookId").val(this.BookId);                            
                             $("#BookId").trigger("chosen:updated");
-                            $("#BookId").chosen();
-                            $('#ISBN').val(this.ISBN);
-                            $("#Year").val(this.Year);
+                            $("#BookId").chosen();                          
                             $("#ResponsMan").val(this.ResponsMan);
                             $("#ResponsMan").trigger("chosen:updated");
                             $("#ResponsMan").chosen();
-
                             BindDepart("DepartMent", this.DepartMent);
-                            //$("#DepartMent").val(this.DepartMent);
-                            //$("#DepartMent").trigger("chosen:updated");
-                            //$("#DepartMent").chosen();
-
-                            $("#FileEdionNo").val(this.FileEdionNo);
-                            $("#FileNames").val(this.FileNames);
-                            $("#DefindDate").val(DateTimeConvert(this.DefindDate, '年月日'));
-                            $("#DefindDepart").val(this.DefindDepart);
                             BindLinfo();
                             $("#Lid").val(this.Lid);
                             BindRewardInfo();
@@ -298,6 +266,16 @@
                             }
                             else {
                                 $(".btn").hide();
+                            }
+                            BindFile_Plugin();
+                            BindUser("ResponsMan");
+                            if (UrlDate.Group != undefined) {
+                                BindGInfo();//奖励项目
+                            }
+                            BindBook();
+                            Get_Sys_Document(0, $("#Id").val());
+                            if (UrlDate.Type != "3") {
+                                Get_TPM_AcheiveMember(itemId);
                             }
                         });
                     }
@@ -356,8 +334,7 @@
                     }
                 });
             }
-        }
-      
+        }      
         function submit() {            
             $("#Status").val(achieve_add_noaudit ? "3" : "1");
             Save();
@@ -381,11 +358,7 @@
             if (UrlDate.Type == "3" && !$("#BookId").val().trim().length) {
                 layer.msg("请输入书名!");
                 return;
-            }
-            if (UrlDate.Type == "5" && !$("#TeaUNo").val().trim().length) {
-                layer.msg("请输入获奖教师!");
-                return;
-            }
+            }            
             var object = getFromValue();//组合input标签
             if ($("#DepartMent").val() == null || $("#DepartMent").val() == "") {
                 layer.msg("请输入负责单位!");
@@ -449,7 +422,6 @@
                 }
             });
         }
-
         //奖励项目
         function BindGInfo() {
             $("#Gid").html('<option value="">请选择</option>');

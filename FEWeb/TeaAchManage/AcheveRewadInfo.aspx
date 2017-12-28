@@ -19,36 +19,9 @@
             <td>${WordNum}</td>
         </tr>
     </script>
-    <%--成员信息--%>
-    <script type="text/x-jquery-tmpl" id="itemData">
-    <tr class="memadd" un="${UniqueNo}">        
-        <td><input type='checkbox' value="${UniqueNo}" name="ck_trsub" onclick="CheckSub(this);"/></td>       
-        <td>${Name}</td>       
-        <td>${MajorName}</td>
-        <td><input type="number" value="" regtype="money" fl="分数" min="0" step="0.01" onblur="ChangeRankScore(this);"></td>
-    </tr>
-</script>
-    <script>
-        $(function () {
-            $('#top').load('/header.html');
-            $('#footer').load('/footer.html');
-        });
-    </script>
-</head>
-<body>
-    <input type="hidden" name="Func" value="AddAcheiveRewardInfoData" />
-    <input type="hidden" name="CreateUID" id="CreateUID" value="011" />
-    <input type="hidden" name="Status" id="Status" value="0" />
-    <input type="hidden" id="Group" name="Group" />
-    <input type="hidden" id="hid_UploadFunc" value="Upload_AcheiveReward"/>
-    <div id="top"></div>
-    <div class="center" id="centerwrap">
-        <div class="wrap clearfix" style="padding-bottom: 0px;">
-            <h1 class="title">
-                <a onclick="javascript:window.history.go(-1)" style="cursor: pointer;">业绩录入</a><span>&gt;</span><a href="#" class="crumbs" id="GropName"></a>
-            </h1>
-            <div class="cont">
-                 <h2 class="cont_title"><span>获奖文件信息</span></h2>
+    <%--业绩信息--%>
+    <script type="text/x-jquery-tmpl" id="div_AchInfo">
+      <h2 class="cont_title"><span>获奖文件信息</span></h2>
                 <div class="area_form clearfix">
                     <div class="input_lable fl">
                         <label for="">发文号：</label>
@@ -90,22 +63,22 @@
                 </div>
                 <h2 class="cont_title"><span>基本信息</span></h2>
                 <div class="area_form clearfix">
-                    <div class="input_lable fl none">
-                        <label for="">获奖教师：</label>
-                        <select class="chosen-select" data-placeholder="获奖教师" id="TeaUNo" name="TeaUNo"></select>
-                    </div>
-                    <div class="input_lable fl none">
+                     {{if AchieveType==1||AchieveType==2}}                           
+                    <div class="input_lable fl">
                         <label for="">获奖项目名称：</label>
                         <input type="text" isrequired="true" fl="获奖项目名称" class="text" name="Name" id="Name" style="width: 694px" />
                     </div>
-                    <div class="input_lable book fl none">
+                    {{/if}}
+                    {{if  AchieveType==3}}
+                    <div class="input_lable book fl">
                         <label for="">书名：</label>
                         <select class="chosen-select" data-placeholder="书名" id="BookId" name="BookId" onchange="Get_OperReward_UserInfo();"></select>
                     </div>
-                    <div class="input_lable book fl none">
+                    <div class="input_lable book fl">
                         <label for="">书号：</label>
                         <input type="text" name="ISBN" id="ISBN" value="" class="text" readonly="readonly"/>
                     </div>
+                    {{/if}}
                     <div class="input_lable fl">
                         <label for="">奖励项目：</label>
                         <select class="select" isrequired="true" fl="奖励项目" name="Gid" id="Gid" onchange="BindLinfo()"></select>
@@ -118,16 +91,18 @@
                         <label for="">奖励等级：</label>
                         <select class="select" isrequired="true" fl="奖励等级" name="Rid" id="Rid" onchange="SetScore();BindRank();"></select>
                     </div>
-                    <div class="input_lable fl none">
+                     {{if AchieveType==2}}
+                    <div class="input_lable fl">
                         <label for="">排名：</label>
                         <select class="select" name="Sort" id="Sort" onchange="SetScore('#Sort');"></select>
                     </div>
+                    {{/if}}
                     <div class="input_lable fl">
                         <label for="">获奖年度：</label>
                         <input type="text"  isrequired="true" fl="获奖年度" class="text Wdate" name="Year" id="Year" onclick="WdatePicker({dateFmt:'yyyy年'})" />
                     </div>
                     <div class="input_lable fl">
-                        <label for="">负责人：</label>
+                        <label for="" id="lb_ResponsMan">负责人：</label>
                         <select class="chosen-select select" isrequired="true" fl="负责人" data-placeholder="负责人" id="ResponsMan" name="ResponsMan" onchange="Bind_ResponsMan('ResponsMan');"></select>
                     </div>
                     <div class="input_lable fl">
@@ -135,8 +110,9 @@
                         <select class="chosen-select select" data-placeholder="负责单位" id="DepartMent" name="DepartMent" multiple="multiple"></select>
                     </div>
                 </div>
-                <h2 class="cont_title members none"><span>成员信息</span></h2>
-                <div class="area_form members none">
+         {{if AchieveType==2&&Status <= 3}}  
+                <h2 class="cont_title members"><span>成员信息</span></h2>
+                <div class="area_form members">
                     <div class="clearfix">
                         <input type="button" name="name" id="" value="添加" class="btn fl" onclick="javascript: OpenIFrameWindow('添加成员','AddAchMember.aspx', '1000px', '700px');">
                         <input type="button" name="name" id="" value="删除" class="btn fl ml20" onclick="Del_HtmlMember();">
@@ -155,8 +131,10 @@
                         <tbody id="tb_Member"></tbody>
                     </table>
                 </div>
-                <h2 class="cont_title book none"><span>作者信息</span></h2>
-                <div class="area_form book none">
+        {{/if}}
+         {{if AchieveType==3&&Status <= 3}}
+                <h2 class="cont_title book"><span>作者信息</span></h2>
+                <div class="area_form book">
                     <div class="clearfix"> 
                        <span class="fr status mr10">总分：<span id="span_BookScore">0</span></span>                      
                        <span class="fr status mr10">总贡献字数：<span id="span_Words">0</span></span>                       
@@ -173,8 +151,38 @@
                         </thead>
                         <tbody id="tb_info"></tbody>
                     </table>
-                </div>               
-            </div>
+                </div>
+        {{/if}}
+    </script>
+    <%--成员信息--%>
+    <script type="text/x-jquery-tmpl" id="itemData">
+    <tr class="memadd" un="${UniqueNo}">        
+        <td><input type='checkbox' value="${UniqueNo}" name="ck_trsub" onclick="CheckSub(this);"/></td>       
+        <td>${Name}</td>       
+        <td>${MajorName}</td>
+        <td><input type="number" value="" regtype="money" fl="分数" min="0" step="0.01" onblur="ChangeRankScore(this);"></td>
+    </tr>
+</script>
+    <script>
+        $(function () {
+            $('#top').load('/header.html');
+            $('#footer').load('/footer.html');
+        });
+    </script>
+</head>
+<body>
+    <input type="hidden" name="Func" value="AddAcheiveRewardInfoData" />
+    <input type="hidden" name="CreateUID" id="CreateUID" value="011" />
+    <input type="hidden" name="Status" id="Status" value="0" />
+    <input type="hidden" id="Group" name="Group" />
+    <input type="hidden" id="hid_UploadFunc" value="Upload_AcheiveReward"/>
+    <div id="top"></div>
+    <div class="center" id="centerwrap">
+        <div class="wrap clearfix" style="padding-bottom: 0px;">
+            <h1 class="title">
+                <a onclick="javascript:window.history.go(-1)" style="cursor: pointer;">业绩录入</a><span>&gt;</span><a href="#" class="crumbs" id="GropName"></a>
+            </h1>
+            <div id="div_Achieve" class="cont"></div>
         </div>
         <div class="score"></div>
         <div class="btnwrap" style="background: #fafafa; padding: 15px 0px;">
@@ -198,10 +206,13 @@
     <script>
         var UrlDate = new GetUrlDate();
         var achieve_add_noaudit = false;//无需审核
+        var AchieveType = UrlDate.Type;
         $(function () {
             $("#CreateUID").val(GetLoginUser().UniqueNo);
             Get_PageBtn("/TeaAchManage/AchManage.aspx");
             achieve_add_noaudit = JudgeBtn_IsExist("achieve_add_noaudit");
+            $("#div_Achieve").empty();
+            $("#div_AchInfo").tmpl({ AchieveType: UrlDate.Type }).appendTo("#div_Achieve");
             var Type = UrlDate.Type;
             switch (Type) {
                 case "2":                                                        
@@ -212,8 +223,10 @@
                 case "3":
                     $(".book").show();                         
                     break;
-                case "5":                   
-                    $("#TeaUNo").parent().show();
+                case "5":
+                    $("#lb_ResponsMan").html("获奖教师");
+                    $("#ResponsMan").attr('fl',"获奖教师");
+                    $("#ResponsMan").attr('data-placeholder', "获奖教师");
                     break;
                 case "1":                    
                     $("#Name").parent().show();
@@ -273,7 +286,6 @@
             $("#Group").val(UrlDate.Group);
             BindDepart("DepartMent");
             BindUser("ResponsMan");
-            BindUser("TeaUNo");
             $("#Group").val(UrlDate.Group);
             $("#GropName").html(decodeURI(UrlDate.Name));
             if (UrlDate.Group != undefined) {
@@ -305,11 +317,7 @@
             if (UrlDate.Type == "3" && !$("#BookId").val().trim().length) {
                 layer.msg("请输入书名!");
                 return;
-            }
-            if (UrlDate.Type == "5" && !$("#TeaUNo").val().trim().length) {
-                layer.msg("请输入获奖教师!");
-                return;
-            }                               
+            }                                       
             var object = getFromValue();//组合input标签
             if ($("#DepartMent").val() == null || $("#DepartMent").val() == "") {
                 layer.msg("请输入负责单位!");
