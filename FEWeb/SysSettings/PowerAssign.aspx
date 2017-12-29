@@ -32,7 +32,7 @@
      <link href="../Scripts/pagination/pagination.css" rel="stylesheet" />
     <script src="../Scripts/pagination/jquery.pagination.js"></script>
     <link href="../Scripts/zTree/css/zTreeStyle/zTreeStyle.css" rel="stylesheet" />
-    <script src="../Scripts/zTree/js/jquery.ztree.all-3.5.js"></script>
+    <script src="../Scripts/zTree/js/jquery.ztree.all.min.js"></script>
     <script>
         var UrlDate = new GetUrlDate();
         var setting = {

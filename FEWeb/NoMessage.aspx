@@ -14,9 +14,8 @@
     <div id="top"></div>
     <div class="center" id="centerwrap">
         <div class="wrap">
-            <div class="sort_nav" id="threenav">
-                
-            </div>
+            <div class="sort_nav" id="threenav"></div>
+            <div id="nomessage"></div>
         </div>
     </div>
     <footer id="footer"></footer>
@@ -26,6 +25,7 @@
         $(function () {
             $('#top').load('/header.html');
             $('#footer').load('/footer.html');
+            nomessage('#nomessage','div')
         });
     </script>
 </body>
