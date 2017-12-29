@@ -1144,6 +1144,8 @@ var UI_Table_View = {
                                 total_ += indica.indicator_list[j].OptionF_S_Max;
 
                               
+
+
                             }
                            
                             sheet.indicator_array.push(indica);
