@@ -29,12 +29,8 @@
     <script src="../Scripts/layer/layer.js"></script>
     <script src="../Scripts/jquery.tmpl.js"></script>
     <script src="../Scripts/linq.js"></script>
-    <link href="../Scripts/kkPage/Css.css" rel="stylesheet" />
-    <script src="../Scripts/kkPage/jquery.kkPages.js"></script>
      <link href="../Scripts/pagination/pagination.css" rel="stylesheet" />
     <script src="../Scripts/pagination/jquery.pagination.js"></script>
-    <%--<link href="../Scripts/TreeGrid/TreeGrid.css" rel="stylesheet" />
-    <script src="../Scripts/TreeGrid/TreeGrid.js"></script>--%>
     <link href="../Scripts/zTree/css/zTreeStyle/zTreeStyle.css" rel="stylesheet" />
     <script src="../Scripts/zTree/js/jquery.ztree.all-3.5.js"></script>
     <script>
@@ -72,7 +68,7 @@
                 autoCheckTrigger: true,
                 enable: true,
                 chkStyle: "checkbox",
-                chkboxType: { "Y": "p", "N": "ps" }
+                chkboxType: { "Y": "ps", "N": "ps" }
             }
         };
         $(document).ready(function () {
