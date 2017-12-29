@@ -68,7 +68,7 @@
                 autoCheckTrigger: true,
                 enable: true,
                 chkStyle: "checkbox",
-                chkboxType: { "Y": "ps", "N": "ps" }
+                chkboxType: { "Y": "p", "N": "ps" }
             }
         };
         $(document).ready(function () {
