@@ -38,9 +38,14 @@
         $('#onenav,#ul_twonav').html('');
         var oneNav = getNav(0);
         $(oneNav).each(function (i, n) {
-            n['child'] = getNav(n.ID);
-            if (n['child'].length > 0) {
-                $('#onenav').append('<li id="li_top_' + n.ID + '" class="' + (n.child[0].Url == cururl ? "selected" : "") + '"><a href="' + n.child[0].Url + '?Id=' + n.ID + '&Iid=' + n.child[0].ID + '"><i class="iconfont">' + n.IconClass + '</i><span>' + n.Name + '</span></a></li>');
+            var twoAry = getNav(n.ID);
+            if (twoAry.length > 0) {
+                var threeAry = get3rdNavBy1st(n.ID);
+                if (threeAry.length > 0) {
+                    $('#onenav').append('<li id="li_top_' + n.ID + '" class="' + (threeAry[0].Url == cururl ? "selected" : "") + '"><a href="' + threeAry[0].Url + '?Id=' + n.ID + '&Iid=' + twoAry[0].ID + '"><i class="iconfont">' + n.IconClass + '</i><span>' + n.Name + '</span></a></li>');
+                } else {
+                    $('#onenav').append('<li id="li_top_' + n.ID + '" class="' + (twoAry[0].Url == cururl ? "selected" : "") + '"><a href="' + twoAry[0].Url + '?Id=' + n.ID + '&Iid=' + twoAry[0].ID + '"><i class="iconfont">' + n.IconClass + '</i><span>' + n.Name + '</span></a></li>');
+                }
             } else {
                 $('#onenav').append('<li id="li_top_' + n.ID + '" class="' + (n.Url == cururl ? "selected" : "") + '"><a href="' + n.Url + '?Id=' + n.ID + '"><i class="iconfont">' + n.IconClass + '</i><span>' + n.Name + '</span></a></li>');
             }
@@ -55,13 +60,12 @@
         var Id = getQueryString('Id'), Iid = getQueryString('Iid');
         var twoNav = getNav(Id);
         $(twoNav).each(function (i, item) {
-            item['child'] = getNav(item.ID);
-            if (item['child'].length > 0) {
-                $("#ul_twonav").append('<li id="li_twonav_' + item.ID + '" class="' + (item.child[0].Url == cururl ? "selected" : "") + '"><a href="' + item.child[0].Url + '?Id=' + item.Pid + '&Iid=' + item.ID + '"><div><i class="iconfont">' + item.IconClass + '</i><span>' + item.Name + '</span></div></a></li>')
+            var threeAry = getNav(item.ID);
+            if (threeAry.length > 0) {
+                $("#ul_twonav").append('<li id="li_twonav_' + item.ID + '" class="' + (threeAry[0].Url == cururl ? "selected" : "") + '"><a href="' + threeAry[0].Url + '?Id=' + item.Pid + '&Iid=' + item.ID + '"><div><i class="iconfont">' + item.IconClass + '</i><span>' + item.Name + '</span></div></a></li>')
             } else {
                 $("#ul_twonav").append('<li id="li_twonav_' + item.ID + '" class="' + (item.Url == cururl ? "selected" : "") + '"><a href="' + item.Url + '?Id=' + item.Pid + '&Iid=' + item.ID + '"><div><i class="iconfont">' + item.IconClass + '</i><span>' + item.Name + '</span></div></a></li>')
             }
-
         })
         $("#li_top_" + Id).addClass('selected').siblings().removeClass('selected');
         if (Iid != 'null') {

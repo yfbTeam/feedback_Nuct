@@ -97,9 +97,9 @@ namespace FEHandler.Eva_Manage
                                     where t.UniqueNo == TeacherUID
                                     //课堂
                                     join c in Constant.CourseRoom_List on t.UniqueNo equals c.TeacherUID
-                                    where task.Class_Id.Contains(c.Calss_Id)
+                                    where task.Class_Id.Contains(c.ClassID)
                                     //班级
-                                    join cl in Constant.Class_StudentInfo_List on c.Calss_Id equals cl.Class_Id
+                                    join cl in Constant.Class_StudentInfo_List on c.ClassID equals cl.Class_Id
                                     //获取所有学生ID 
                                     select cl).ToList();
             }
@@ -124,7 +124,7 @@ namespace FEHandler.Eva_Manage
                                     join c in Constant.CourseRoom_List on t.UniqueNo equals c.TeacherUID
                                     where c.Coures_Id == Course_Id
                                     //班级
-                                    join cl in Constant.Class_StudentInfo_List on c.Calss_Id equals cl.Class_Id
+                                    join cl in Constant.Class_StudentInfo_List on c.ClassID equals cl.Class_Id
                                     //获取所有学生ID 
                                     select cl).ToList(); ;
             }
@@ -155,8 +155,8 @@ namespace FEHandler.Eva_Manage
                                     //课堂
                                     join c in Constant.CourseRoom_List on t.UniqueNo equals c.TeacherUID
                                     //班级
-                                    join cs in Constant.ClassInfo_List on c.Calss_Id equals cs.ClassNO
-                                    join cl in Constant.Class_StudentInfo_List on c.Calss_Id equals cl.Class_Id
+                                    join cs in Constant.ClassInfo_List on c.ClassID equals cs.ClassNO
+                                    join cl in Constant.Class_StudentInfo_List on c.ClassID equals cl.Class_Id
 
                                     join stu in Constant.Student_List on cl.UniqueNo equals stu.UniqueNo
                                     join user in Constant.UserInfo_List on stu.UniqueNo equals user.UniqueNo
@@ -196,9 +196,9 @@ namespace FEHandler.Eva_Manage
                                     //课堂
                                     join c in Constant.CourseRoom_List on t.UniqueNo equals c.TeacherUID
                                     //班级
-                                    join cs in Constant.ClassInfo_List on c.Calss_Id equals cs.ClassNO
+                                    join cs in Constant.ClassInfo_List on c.ClassID equals cs.ClassNO
                                     where task.Class_Id.Contains(cs.ClassNO)
-                                    join cl in Constant.Class_StudentInfo_List on c.Calss_Id equals cl.Class_Id
+                                    join cl in Constant.Class_StudentInfo_List on c.ClassID equals cl.Class_Id
 
                                     join stu in Constant.Student_List on cl.UniqueNo equals stu.UniqueNo
                                     join user in Constant.UserInfo_List on stu.UniqueNo equals user.UniqueNo
@@ -402,7 +402,7 @@ namespace FEHandler.Eva_Manage
                 //获取所有当前教师所教学生
                 teacher_List = (from s in Constant.Class_StudentInfo_List
                                 where s.UniqueNo == StudentUID
-                                join c in Constant.CourseRoom_List on s.Class_Id equals c.Calss_Id
+                                join c in Constant.CourseRoom_List on s.Class_Id equals c.ClassID
                                 join t in Constant.Teacher_List on c.TeacherUID equals t.UniqueNo
                                 join u in Constant.UserInfo_List on t.UniqueNo equals u.UniqueNo
 
@@ -425,7 +425,7 @@ namespace FEHandler.Eva_Manage
                 //获取所有当前教师所教学生
                 teacher_List = (from s in Constant.Class_StudentInfo_List
                                 where s.UniqueNo == StudentUID
-                                join c in Constant.CourseRoom_List on s.Class_Id equals c.Calss_Id
+                                join c in Constant.CourseRoom_List on s.Class_Id equals c.ClassID
                                 join t in Constant.Teacher_List on c.TeacherUID equals t.UniqueNo
                                 orderby t.UniqueNo
                                 select t).ToList();
@@ -454,7 +454,7 @@ namespace FEHandler.Eva_Manage
                                   join user in Constant.UserInfo_List on student.UniqueNo equals user.UniqueNo
                                   //课堂
                                   join cls in Constant.Class_StudentInfo_List on student.UniqueNo equals cls.UniqueNo
-                                  join room in Constant.CourseRoom_List on cls.Class_Id equals room.Calss_Id
+                                  join room in Constant.CourseRoom_List on cls.Class_Id equals room.ClassID
 
                                   //教师
                                   join teacher in Constant.Teacher_List on room.TeacherUID equals teacher.UniqueNo
@@ -515,7 +515,7 @@ namespace FEHandler.Eva_Manage
             {
                 student_classInfo = (from c in Constant.CourseRoom_List
                                      where c.TeacherUID == TeacherUID
-                                     join s in Constant.ClassInfo_List on c.Calss_Id equals s.ClassNO
+                                     join s in Constant.ClassInfo_List on c.ClassID equals s.ClassNO
                                      orderby s.Id
                                      select s).Distinct().ToList();
             }

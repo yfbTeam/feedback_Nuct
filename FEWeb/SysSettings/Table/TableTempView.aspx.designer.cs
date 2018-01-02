@@ -7,9 +7,9 @@
 // </自动生成>
 //------------------------------------------------------------------------------
 
-namespace FEWeb.SysSettings {
+namespace FEWeb.SysSettings.Table {
     
     
-    public partial class ClassInfo {
+    public partial class TableTempView {
     }
 }

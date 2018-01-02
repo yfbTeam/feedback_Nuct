@@ -5,13 +5,13 @@ var UI_SortCourse =
         PrepareInit: function () {
             //UI_SortCourse.GetCourseInfo();
             select_uniques = [];
-            $('#college').change(function () {            
+            $('#college').change(function () {
                 var majorId = $('#college').val();
                 var key = $("#key").val();
                 GetNoDis_CourseInfo(0, select_sectionid, majorId, key);
 
             });
-        },       
+        },
         //------------------------------------全选/单选------------------------------------
         Course_CheckAll: function (oInput) {
             var isCheckAll = function () {
@@ -39,7 +39,7 @@ var UI_SortCourse =
         },
         //数组添加或移除课程编码
         AddORDelCourse: function (Course_No, ischeck) {
-            
+
             var cindex = $.inArray(Course_No, select_uniques);
             if (!ischeck) { //取消选中          
                 if (cindex > -1) {
@@ -92,7 +92,7 @@ var UI_SortCourse =
 
 
 function GetNoDis_CourseInfo(PageIndex) {
-    
+
 
     var majorId = $('#college').val();
     var key = $("#key").val();
@@ -104,6 +104,10 @@ function GetNoDis_CourseInfo(PageIndex) {
         "Key": key,
         "PageIndex": PageIndex,
         "PageSize": pageSize,
+        "pk": $('#pk').val(),
+        "ck": $('#ck').val(),
+        "cp": $('#cp').val(),
+       
 
     };
     layer_index = layer.load(1, {
@@ -151,19 +155,19 @@ function GetNoDis_CourseInfo(PageIndex) {
 
 
                 UI_SortCourse.Course_CheckAll($('input:checkbox'));//全选        
-                    $("#ck_head").removeAttr('checked');
-                    if (select_uniques.length > 0) {
-                        var $check_Sub = $('input:checkbox[name=ss]');
-                        var seltimes = 0;
-                        $check_Sub.each(function () {
-                            var Course_No = this.value;
-                            if ($.inArray(Course_No, select_uniques) != -1) {
-                                $(this).attr("checked", true);
-                                seltimes++;
-                            }
-                        });
-                        $('input:checkbox')[0].checked = seltimes == $check_Sub.length;
-                    }
+                $("#ck_head").removeAttr('checked');
+                if (select_uniques.length > 0) {
+                    var $check_Sub = $('input:checkbox[name=ss]');
+                    var seltimes = 0;
+                    $check_Sub.each(function () {
+                        var Course_No = this.value;
+                        if ($.inArray(Course_No, select_uniques) != -1) {
+                            $(this).attr("checked", true);
+                            seltimes++;
+                        }
+                    });
+                    $('input:checkbox')[0].checked = seltimes == $check_Sub.length;
+                }
             }
         },
         error: function (errMsg) {
@@ -173,11 +177,10 @@ function GetNoDis_CourseInfo(PageIndex) {
 
 }
 
-function GetCourseInfo_Select()
-{
+function GetCourseInfo_Select() {
     var postData = {
         func: "GetCourseInfo_Select",
-        "SectionId": select_sectionid,        
+        "SectionId": select_sectionid,
     };
     $.ajax({
         type: "Post",

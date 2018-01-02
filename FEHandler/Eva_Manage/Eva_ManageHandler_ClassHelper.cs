@@ -201,7 +201,7 @@ namespace FEHandler.Eva_Manage
         /// </summary>
         public long Id { get; set; }
 
-        public string OptionF_S_Max { get; set; }
+        public decimal OptionF_S_Max { get; set; }
 
         /// <summary>
         /// 教师对学生要求严格。
@@ -365,7 +365,101 @@ namespace FEHandler.Eva_Manage
     {
         public string Root { get; set; }
 
-        public List<Eva_TableDetail> Eva_TableDetail_List { get; set; }
+        public List<Eva_TableDetail_S> Eva_TableDetail_List { get; set; }
+    }
+
+    public class Eva_TableDetail_S
+    {
+        /// <summary>
+        /// 
+        /// </summary>
+        public int? Id { get; set; }
+        /// <summary>
+        /// 
+        /// </summary>
+        public string Root { get; set; }
+        /// <summary>
+        /// 
+        /// </summary>
+        public string Name { get; set; }
+        /// <summary>
+        /// 
+        /// </summary>
+        public string Type { get; set; }
+        /// <summary>
+        /// 
+        /// </summary>
+        public int? Eva_table_Id { get; set; }
+        /// <summary>
+        /// 
+        /// </summary>
+        public int? Indicator_Id { get; set; }
+        /// <summary>
+        /// 
+        /// </summary>
+        public int? QuesType_Id { get; set; }
+        /// <summary>
+        /// 
+        /// </summary>
+        public int? IndicatorType_Id { get; set; }
+        /// <summary>
+        /// 
+        /// </summary>
+        public string IndicatorType_Name { get; set; }
+        /// <summary>
+        /// 
+        /// </summary>
+        public string OptionA { get; set; }
+        /// <summary>
+        /// 
+        /// </summary>
+        public string OptionB { get; set; }
+        /// <summary>
+        /// 
+        /// </summary>
+        public string OptionC { get; set; }
+        /// <summary>
+        /// 
+        /// </summary>
+        public string OptionD { get; set; }
+        /// <summary>
+        /// 
+        /// </summary>
+        public string OptionE { get; set; }
+        /// <summary>
+        /// 
+        /// </summary>
+        public string OptionF { get; set; }
+        /// <summary>
+        /// 
+        /// </summary>
+        public decimal? OptionA_S { get; set; }
+        /// <summary>
+        /// 
+        /// </summary>
+        public decimal? OptionB_S { get; set; }
+        /// <summary>
+        /// 
+        /// </summary>
+        public decimal? OptionC_S { get; set; }
+        /// <summary>
+        /// 
+        /// </summary>
+        public decimal? OptionD_S { get; set; }
+        /// <summary>
+        /// 
+        /// </summary>
+        public decimal? OptionE_S { get; set; }
+        /// <summary>
+        /// 
+        /// </summary>
+        public decimal? OptionF_S { get; set; }
+        /// <summary>
+        /// 
+        /// </summary>
+        public int? Sort { get; set; }
+
+        public decimal? OptionF_S_Max { get; set; }
     }
 
 
@@ -551,17 +645,7 @@ namespace FEHandler.Eva_Manage
         }
     }
 
-    class CourseRoomClsComparer : EqualityComparer<CourseRoom>
-    {
-        public override bool Equals(CourseRoom x, CourseRoom y)
-        {
-            return x.TeacherUID == y.TeacherUID && x.Coures_Id == y.Coures_Id && x.Calss_Id == y.Calss_Id;
-        }
-        public override int GetHashCode(CourseRoom obj)
-        {
-            return obj.TeacherUID.GetHashCode();
-        }
-    }
+    
 
     public class T_C_Model
     {
@@ -796,6 +880,76 @@ namespace FEHandler.Eva_Manage
         public string DepartMentID { get; set; }
 
         public string DepartmentName { get; set; }
+    }
+
+    public class CourseSection
+    {
+
+        public int? SectionId { get; set; }
+
+        public int? Sort { get; set; }
+
+        public string Value { get; set; }
+
+        public string Type { get; set; }
+
+        public string DisPlayName { get; set; }
+
+        public DateTime? CreateTime { get; set; }
+
+        public DateTime? StartTime { get; set; }
+
+        public DateTime? EndTime { get; set; }
+
+        public int? Id { get; set; }
+
+        public string Key { get; set; }
+
+        public int? Pid { get; set; }
+
+        public byte? Study_IsEnable { get; set; }
+
+        public byte? IsEnable { get; set; }
+
+        public int ReguState { get; set; }
+
+        public string State { get; set; }
+    }
+
+    class ClassModel
+    {
+        public string Academic { get; set; }
+
+        public string Semester { get; set; }
+
+        public string DisPlayName { get; set; }
+
+        public string Course_Name { get; set; }
+
+
+        public string GradeInfo_Name { get; set; }
+
+        public string Teacher_Name { get; set; }
+
+        public string Teacher_JobTitle { get; set; }
+
+        public int Num { get; set; }
+
+        public string DepartmentName { get; set; }
+
+        public string CourseType { get; set; }
+
+        public string CourseProperty { get; set; }
+
+        public string TeacherDepartmentName { get; set; }
+
+        public string TeacherRoomDepartmentName { get; set; }
+
+        public string ClassName { get; set; }
+
+        public string CourseDepartmentName { get; set; }
+
+        public int? SectionID { get; set; }
     }
     
     #endregion

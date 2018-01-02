@@ -40,9 +40,7 @@
     <script src="../../Scripts/linq.min.js"></script>
     <script src="../../Scripts/layer/layer.js"></script>
     <script src="../../Scripts/linq.min.js"></script>
-    <script src="../../Scripts/jquery.tmpl.js"></script>
-    <link href="../../Scripts/kkPage/Css.css" rel="stylesheet" />
-    <script src="../../Scripts/kkPage/jquery.kkPages.js"></script>
+    <script src="../../Scripts/jquery.tmpl.js"></script>  
     <script src="../../Scripts/WebCenter/TableDesigin.js"></script>
     <script type="text/javascript">
         var index = parent.layer.getFrameIndex(window.name);//弹框的索引

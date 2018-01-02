@@ -195,9 +195,44 @@
     <Content Include="Scripts\WebCenter\DatabaseMan.js" />
     <Content Include="Scripts\WebCenter\Power.js" />
     <Content Include="Scripts\WebCenter\RegularEval.js" />
+    <Content Include="Scripts\WebCenter\Room.js" />
     <Content Include="Scripts\WebCenter\SortCourse.js" />
     <Content Include="Scripts\WebCenter\TableDesigin.js" />
     <Content Include="Scripts\WebCenter\描述文件.txt" />
+    <Content Include="Scripts\zTree\css\awesomeStyle\awesome.css" />
+    <Content Include="Scripts\zTree\css\awesomeStyle\img\loading.gif" />
+    <Content Include="Scripts\zTree\css\demo.css" />
+    <Content Include="Scripts\zTree\css\metroStyle\img\line_conn.png" />
+    <Content Include="Scripts\zTree\css\metroStyle\img\loading.gif" />
+    <Content Include="Scripts\zTree\css\metroStyle\img\metro.gif" />
+    <Content Include="Scripts\zTree\css\metroStyle\img\metro.png" />
+    <Content Include="Scripts\zTree\css\metroStyle\metroStyle.css" />
+    <Content Include="Scripts\zTree\css\zTreeStyle\img\diy\1_close.png" />
+    <Content Include="Scripts\zTree\css\zTreeStyle\img\diy\1_open.png" />
+    <Content Include="Scripts\zTree\css\zTreeStyle\img\diy\2.png" />
+    <Content Include="Scripts\zTree\css\zTreeStyle\img\diy\3.png" />
+    <Content Include="Scripts\zTree\css\zTreeStyle\img\diy\4.png" />
+    <Content Include="Scripts\zTree\css\zTreeStyle\img\diy\5.png" />
+    <Content Include="Scripts\zTree\css\zTreeStyle\img\diy\6.png" />
+    <Content Include="Scripts\zTree\css\zTreeStyle\img\diy\7.png" />
+    <Content Include="Scripts\zTree\css\zTreeStyle\img\diy\8.png" />
+    <Content Include="Scripts\zTree\css\zTreeStyle\img\diy\9.png" />
+    <Content Include="Scripts\zTree\css\zTreeStyle\img\line_conn.gif" />
+    <Content Include="Scripts\zTree\css\zTreeStyle\img\loading.gif" />
+    <Content Include="Scripts\zTree\css\zTreeStyle\img\zTreeStandard.gif" />
+    <Content Include="Scripts\zTree\css\zTreeStyle\img\zTreeStandard.png" />
+    <Content Include="Scripts\zTree\css\zTreeStyle\zTreeStyle.css" />
+    <Content Include="Scripts\zTree\js\jquery-1.4.4.min.js" />
+    <Content Include="Scripts\zTree\js\jquery.ztree.all.js" />
+    <Content Include="Scripts\zTree\js\jquery.ztree.all.min.js" />
+    <Content Include="Scripts\zTree\js\jquery.ztree.core.js" />
+    <Content Include="Scripts\zTree\js\jquery.ztree.core.min.js" />
+    <Content Include="Scripts\zTree\js\jquery.ztree.excheck.js" />
+    <Content Include="Scripts\zTree\js\jquery.ztree.excheck.min.js" />
+    <Content Include="Scripts\zTree\js\jquery.ztree.exedit.js" />
+    <Content Include="Scripts\zTree\js\jquery.ztree.exedit.min.js" />
+    <Content Include="Scripts\zTree\js\jquery.ztree.exhide.js" />
+    <Content Include="Scripts\zTree\js\jquery.ztree.exhide.min.js" />
     <Content Include="SysSettings\AllotTable.aspx" />
     <Content Include="Evaluation\ClassEval.aspx" />
     <Content Include="Evaluation\EvalDetail.aspx" />
@@ -243,6 +278,7 @@
     <Content Include="Evaluation\MyStatiscal.aspx" />
     <Content Include="Evaluation\QRcode.aspx" />
     <Content Include="Evaluation\ReleaseTask.aspx" />
+    <Content Include="SysSettings\Table\TableTempView.aspx" />
     <Content Include="SysSettings\Table\TableView.aspx" />
     <Content Include="Mobile\AnonymousChat.html" />
     <Content Include="Mobile\AnonymousChat_Detail.html" />
@@ -391,8 +427,6 @@
     <Content Include="Scripts\Webuploader\upload.js" />
     <Content Include="Scripts\Webuploader\Uploader.swf" />
     <Content Include="Scripts\Webuploader\webuploader.js" />
-    <Content Include="Scripts\zTree\css\awesomeStyle\awesome.less" />
-    <Content Include="Scripts\zTree\css\awesomeStyle\fa.less" />
     <Content Include="Scripts\Webuploader\dist\README.md" />
     <Content Include="Scripts\Webuploader\Upload.ashx" />
     <Content Include="Scripts\Uploadify\uploadify\UploadSvc.ashx" />
@@ -716,6 +750,8 @@
     <Content Include="Scripts\pdfjs\web\locale\zh-CN\viewer.properties" />
     <Content Include="Scripts\pdfjs\web\locale\zh-TW\viewer.properties" />
     <Content Include="Scripts\pdfjs\web\locale\zu\viewer.properties" />
+    <Content Include="Scripts\zTree\css\awesomeStyle\awesome.less" />
+    <Content Include="Scripts\zTree\css\awesomeStyle\fa.less" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -971,40 +1007,6 @@
     <Content Include="Scripts\My97DatePicker\开发包\skin\whyGreen\datepicker.css" />
     <Content Include="Scripts\My97DatePicker\开发包\skin\whyGreen\img.gif" />
     <Content Include="Scripts\Validform_v5.3.1.js" />
-    <Content Include="Scripts\zTree\css\awesomeStyle\awesome.css" />
-    <Content Include="Scripts\zTree\css\awesomeStyle\img\loading.gif" />
-    <Content Include="Scripts\zTree\css\metroStyle\img\line_conn.png" />
-    <Content Include="Scripts\zTree\css\metroStyle\img\loading.gif" />
-    <Content Include="Scripts\zTree\css\metroStyle\img\metro.gif" />
-    <Content Include="Scripts\zTree\css\metroStyle\img\metro.png" />
-    <Content Include="Scripts\zTree\css\metroStyle\metroStyle.css" />
-    <Content Include="Scripts\zTree\css\zTreeStyle\img\diy\1_close.png" />
-    <Content Include="Scripts\zTree\css\zTreeStyle\img\diy\1_open.png" />
-    <Content Include="Scripts\zTree\css\zTreeStyle\img\diy\2.png" />
-    <Content Include="Scripts\zTree\css\zTreeStyle\img\diy\3.png" />
-    <Content Include="Scripts\zTree\css\zTreeStyle\img\diy\4.png" />
-    <Content Include="Scripts\zTree\css\zTreeStyle\img\diy\5.png" />
-    <Content Include="Scripts\zTree\css\zTreeStyle\img\diy\6.png" />
-    <Content Include="Scripts\zTree\css\zTreeStyle\img\diy\7.png" />
-    <Content Include="Scripts\zTree\css\zTreeStyle\img\diy\8.png" />
-    <Content Include="Scripts\zTree\css\zTreeStyle\img\diy\9.png" />
-    <Content Include="Scripts\zTree\css\zTreeStyle\img\line_conn.gif" />
-    <Content Include="Scripts\zTree\css\zTreeStyle\img\loading.gif" />
-    <Content Include="Scripts\zTree\css\zTreeStyle\img\zTreeStandard.gif" />
-    <Content Include="Scripts\zTree\css\zTreeStyle\img\zTreeStandard.png" />
-    <Content Include="Scripts\zTree\css\zTreeStyle\zTreeStyle.css" />
-    <Content Include="Scripts\zTree\js\jquery-1.4.4.min.js" />
-    <Content Include="Scripts\zTree\js\jquery.ztree.all-3.5.js" />
-    <Content Include="Scripts\zTree\js\jquery.ztree.all-3.5.min.js" />
-    <Content Include="Scripts\zTree\js\jquery.ztree.core-3.5.js" />
-    <Content Include="Scripts\zTree\js\jquery.ztree.core-3.5.min.js" />
-    <Content Include="Scripts\zTree\js\jquery.ztree.excheck-3.5.js" />
-    <Content Include="Scripts\zTree\js\jquery.ztree.excheck-3.5.min.js" />
-    <Content Include="Scripts\zTree\js\jquery.ztree.exedit-3.5.js" />
-    <Content Include="Scripts\zTree\js\jquery.ztree.exedit-3.5.min.js" />
-    <Content Include="Scripts\zTree\js\jquery.ztree.exedit.js" />
-    <Content Include="Scripts\zTree\js\jquery.ztree.exhide-3.5.js" />
-    <Content Include="Scripts\zTree\js\jquery.ztree.exhide-3.5.min.js" />
     <Content Include="SysSettings\Indicate\AddDatabase.aspx" />
     <Content Include="SysSettings\Table\AddEvalTable.aspx" />
     <Content Include="SysSettings\AddStudySection.aspx" />
@@ -1253,6 +1255,13 @@
     </Compile>
     <Compile Include="Evaluation\ReleaseTask.aspx.designer.cs">
       <DependentUpon>ReleaseTask.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="SysSettings\Table\TableTempView.aspx.cs">
+      <DependentUpon>TableTempView.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="SysSettings\Table\TableTempView.aspx.designer.cs">
+      <DependentUpon>TableTempView.aspx</DependentUpon>
     </Compile>
     <Compile Include="SysSettings\Table\TableView.aspx.cs">
       <DependentUpon>TableView.aspx</DependentUpon>

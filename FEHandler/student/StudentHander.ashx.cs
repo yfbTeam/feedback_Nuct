@@ -89,12 +89,12 @@ namespace FEHandler.student
                             //获取课程名称
                             join sc in Constant.CourseRel_List on ed.CousrseType_Id equals sc.CourseType_Id
                             join scr in Constant.CourseRoom_List  on sc.Course_Id equals scr.Coures_Id
-                            join cif in Constant.ClassInfo_List on scr.Calss_Id equals cif.ClassNO
+                            join cif in Constant.ClassInfo_List on scr.ClassID equals cif.ClassNO
                             //获取教师名称
                             join t in Constant.UserInfo_List on scr.TeacherUID equals t.UniqueNo
                             //获取那些学生能看到
                             join c in Constant.Course_List on scr.Coures_Id equals c.UniqueNo
-                            join csr in Constant.Class_StudentInfo_List on scr.Calss_Id equals csr.Class_Id
+                            join csr in Constant.Class_StudentInfo_List on scr.ClassID equals csr.Class_Id
                             where csr.UniqueNo == UserUniqueNo
                             select new
                             {

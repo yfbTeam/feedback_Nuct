@@ -116,50 +116,71 @@ namespace FEHandler.Eva_Manage
             {
                 bool HasSection = RequestHelper.bool_transfer(Request, "HasSection");
 
+
+                var list = (from dic in Constant.Sys_Dictionary_List
+                            join section in Constant.StudySection_List on dic.SectionId equals section.Id
+                            where dic.Type == Convert.ToString((int)dictiontype) && dic.SectionId == section.Id
+                            orderby section.EndTime descending
+                            select new CourseSection()
+                            {
+                                SectionId = dic.SectionId,
+                                Sort = dic.Sort,
+                                Type = dic.Type,
+                                Value = dic.Value,
+                                DisPlayName = section.DisPlayName,
+                                CreateTime = section.CreateTime,
+                                StartTime = section.StartTime,
+                                EndTime = section.EndTime,
+                                Id = dic.Id,
+                                Key = dic.Key,
+                                Pid = dic.Pid,
+                                Study_IsEnable = section.IsEnable,
+                                IsEnable = dic.IsEnable,
+                                State = "",
+                                ReguState = 0,
+                            }).ToList();
+
                 //带学年学期的课程
                 if (HasSection)
                 {
                     if (SectionId > 0)
                     {
-                        var list = from dic in Constant.Sys_Dictionary_List
-                                   join section in Constant.StudySection_List on dic.SectionId equals section.Id
-                                   where dic.Type == Convert.ToString((int)dictiontype) && dic.SectionId == section.Id && section.Id == SectionId
-                                   orderby section.EndTime descending
-                                   select new { dic.SectionId, dic.Value, section.DisPlayName,section.StartTime,section.EndTime, dic.Id, dic.Key, Study_IsEnable = section.IsEnable, dic.IsEnable };
-                        //返回所有表格数据
-                        jsonModel = JsonModel.get_jsonmodel(intSuccess, "success", list);
+                        list = (from li in list
+                                where li.SectionId == SectionId
+                                select li).ToList();
                     }
-                    else
-                    {
-                        var list = from dic in Constant.Sys_Dictionary_List
-                                   join section in Constant.StudySection_List on dic.SectionId equals section.Id
-                                   where dic.Type == Convert.ToString((int)dictiontype) && dic.SectionId == section.Id
-                                   orderby section.EndTime descending
-                                   select new { dic.SectionId, dic.Value, section.DisPlayName, section.StartTime, section.EndTime, dic.Id, dic.Key, Study_IsEnable = section.IsEnable, dic.IsEnable };
-                        //返回所有表格数据
-                        jsonModel = JsonModel.get_jsonmodel(intSuccess, "success", list);
-                    }
-
                 }
                 else
                 {
-                    StudySection section = Constant.StudySection_List.FirstOrDefault(item => item.IsEnable == 1);
+                    StudySection section = Constant.StudySection_List.FirstOrDefault(item => item.IsEnable == 0);
                     if (section != null)
                     {
-                        var list = from dic in Constant.Sys_Dictionary_List
-                                   join sect in Constant.StudySection_List on dic.SectionId equals sect.Id
-                                   where dic.Type == Convert.ToString((int)dictiontype)
-                                   orderby section.EndTime descending
-                                   select new { dic.SectionId, dic.Sort, dic.Type, dic.Value, dic.CreateTime, section.StartTime, section.EndTime, dic.Id, dic.Key, dic.Pid, sect.IsEnable };
-                        //返回所有表格数据
-                        jsonModel = JsonModel.get_jsonmodel(intSuccess, "success", list);
+                        list = (from li in list
+                                where section.Id == li.SectionId
+                                select li).ToList();
+                    }
+                }
+
+                ReguState regustate = ReguState.进行中;
+                foreach (var li in list)
+                {
+                    if (li.StartTime < DateTime.Now && ((DateTime)li.EndTime).AddDays(1) > DateTime.Now)
+                    {
+                        regustate = ReguState.进行中;
+                    }
+                    else if (li.StartTime > DateTime.Now)
+                    {
+                        regustate = ReguState.未开始;
                     }
                     else
                     {
-                        //返回所有表格数据
-                        jsonModel = JsonModel.get_jsonmodel((int)errNum.Failed, "failed", 0);
+                        regustate = ReguState.已结束;
                     }
+                    li.State = Convert.ToString(regustate);
+                    li.ReguState = (int)regustate;
                 }
+                //返回所有表格数据
+                jsonModel = JsonModel.get_jsonmodel(intSuccess, "success", list);
             }
             catch (Exception ex)
             {
@@ -855,10 +876,35 @@ namespace FEHandler.Eva_Manage
                     table_view.Name = table.Name;
                     table_view.IsScore = (int)table.IsScore;
                     //搜集试卷题
-                    List<Eva_TableDetail> details = (from TableDetail in Constant.Eva_TableDetail_List
-                                                     where TableDetail.Eva_table_Id == table_Id
-                                                     orderby TableDetail.Id
-                                                     select TableDetail).ToList();
+                    List<Eva_TableDetail_S> details = (from det in Constant.Eva_TableDetail_List
+                                                       where det.Eva_table_Id == table_Id
+                                                       orderby det.Id
+                                                       select new Eva_TableDetail_S()
+                                                       {
+                                                           Id = det.Id,
+                                                           Indicator_Id = det.Indicator_Id,
+                                                           IndicatorType_Id = det.IndicatorType_Id,
+                                                           Eva_table_Id = det.Eva_table_Id,
+                                                           IndicatorType_Name = det.IndicatorType_Name,
+                                                           Name = det.Name,
+                                                           OptionA = det.OptionA,
+                                                           OptionA_S = det.OptionA_S,
+                                                           OptionB = det.OptionB,
+                                                           OptionB_S = det.OptionB_S,
+                                                           OptionC = det.OptionC,
+                                                           OptionC_S = det.OptionC_S,
+                                                           OptionD = det.OptionD,
+                                                           OptionD_S = det.OptionD_S,
+                                                           OptionE = det.OptionE,
+                                                           OptionE_S = det.OptionE_S,
+                                                           OptionF = det.OptionF,
+                                                           OptionF_S = det.OptionF_S,
+                                                           QuesType_Id = det.QuesType_Id,
+                                                           Root = det.Root,
+                                                           Sort = det.Sort,
+                                                           Type = det.Type,
+                                                           OptionF_S_Max = det.OptionF_S_Max,
+                                                       }).ToList();
                     //表详情
                     table_view.Table_Detail_Dic_List = (from ps in details
                                                         group ps by ps.Root
@@ -1175,6 +1221,7 @@ namespace FEHandler.Eva_Manage
                                 Eva_table_Id = Table_Id,
                                 //评价任务 1，表格设计 0
                                 Type = Convert.ToString((int)TableDetail_Type.Table),
+                                OptionF_S_Max = item.OptionF_S_Max,
 
                             };
 
@@ -1707,7 +1754,7 @@ namespace FEHandler.Eva_Manage
 
         #endregion
 
-       
+
 
     }
 }

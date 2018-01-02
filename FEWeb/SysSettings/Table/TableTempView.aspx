@@ -1,5 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="TableView.aspx.cs" Inherits="FEWeb.Evaluation.TableView" %>
-
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="TableTempView.aspx.cs" Inherits="FEWeb.SysSettings.Table.TableTempView" %>
 
 <!DOCTYPE html>
 <html>
@@ -19,24 +18,40 @@
         .test_lists ul li {
             padding-right: 0;
         }
-         .tableheader .evalmes {
+
+        .tableheader .evalmes {
             text-align: center;
         }
+
+        .h1_div {
+            margin-top: 0;
+            background: #f9f4f8;
+            height: 40px;
+        }
+
+            .h1_div h1 {
+                margin-top: 15px;
+                margin-left: 20px;
+            }
     </style>
 
 
 </head>
 <body>
-    <div class="clearix main">
-        <div class="tableheader" style="margin-bottom: 10px">
-            <h1 class="tablename"></h1>
+    <div class="main">
+        <div class="tableheader" style="margin-bottom: 20px">
+            <h1 class="tablename" style="font-weight: bold;"></h1>
+
+            <div class="table_header_left clearfix" style="min-height: 49px" id="list">
+            </div>
+
             <div class="evalmes">
-                <span id="sp_total" class="isscore"></span>
+                <span id="sp_total" style="float: left; margin-left: 20px"></span>
                 <span id="remark"></span>
             </div>
         </div>
 
-        <div class="content clearix">
+        <div class="content">
             <ul id="table_view">
             </ul>
         </div>
@@ -51,27 +66,27 @@
 <script src="../../Scripts/linq.min.js"></script>
 <script src="../../Scripts/layer/layer.js"></script>
 <script src="../../Scripts/jquery.tmpl.js"></script>
-<link href="../../Scripts/kkPage/Css.css" rel="stylesheet" />
-<script src="../../Scripts/kkPage/jquery.kkPages.js"></script>
+
 <script src="../../Scripts/WebCenter/TableDesigin.js"></script>
 
 <script type="text/x-jquery-tmpl" id="item_table_view">
-    <div class="content clearix">
-        <h1  class="test_title clearfix" style="margin-top: 0;">
-            <b class="order_num"></b><b>${Root}</b>
-            <b class="isscore">(<span id="h_${indicator_type_tid}"></span> 分)</b>
-        </h1>
+    <div class="content ">
+        <div class="h1_div">
+            <h1 class="test_title " style="display: inline-block">
+                <b class="order_num"></b><b>${Root}</b>
+                <b class="isscore">(<span>${Score}</span> 分)</b>
+            </h1>
+        </div>
+
         <div class="test_module">
             <input type="hidden" value="${indicator_type_tid}" name="name_title" />
             <div class="test_lists">
                 <ul>
                     {{each Eva_TableDetail_List}}
                 <li>
-                    <input type="hidden" name="name_in" value="{{= $value.Id}}" />
-                    <input type="hidden" name="name_QuesType_Id" value="{{= $value.QuesType_Id}}" />
-                    <h2 class="title"><span id="sp_f_${$value.Id}"></span>、${$value.Name}
+                    <h2 class="title">${Sort}、${$value.Name}
                     {{if $value.QuesType_Id!=3}}
-                        <span class="isscore" id="sp_${$value.Id}"><%--(20分)--%></span>
+                      <b class="isscore">（<span class="isscore">${OptionF_S_Max}分</span>）</b>
                         {{/if}}
                     </h2>
                     {{if $value.QuesType_Id!=3}}
@@ -133,22 +148,61 @@
         </div>
     </div>
 </script>
+
+<%--固定表头--%>
+<script type="text/x-jquery-tmpl" id="item_check">
+    <div class="fl" style="margin-bottom: 20px; margin-left: 20px">
+        <label for="">${name}：【${description}】</label>
+    </div>
+</script>
+
+<%--自由表头--%>
+<script type="text/x-jquery-tmpl" id="item_check2">
+    <div class="fl" style="margin-bottom: 20px; margin-left: 20px">
+        <label for="">
+            ${title}：____________
+        </label>
+    </div>
+</script>
 <script>
-    var table_Id = getQueryString("table_Id");
-    //求分类的总分
-    var total = 0;
 
     $(function () {
-        ;
-        //$('#header').load('../../header.html');
-        $('#footer').load('../../footer.html');
-        UI_Table_View.PageType = 'TableView';
-        UI_Table_View.IsPage_Display = true;
-        UI_Table_View.Get_Eva_TableDetail();
+        parent.Refresh_View_Display();
 
+        $('.tablename').text(parent.TableName);
+        var head_value = parent.head_value;
+        var headerList = parent.lisss;
+
+        $("#item_check").tmpl(head_value).appendTo("#list");
+        $("#item_check2").tmpl(headerList).appendTo("#list");
+
+
+        var All_Array = parent.All_Array;
+        var objArray = [];
+        var sp_total = 0;
+        for (var i in All_Array) {
+            var obj = new Object();
+            if (All_Array[i].indicator_list.length > 0) {
+                obj.Root = All_Array[i].indicator_list[0].Root;
+                obj.Eva_TableDetail_List = All_Array[i].indicator_list;
+                obj.Score = 0;
+            }
+            for (var h in All_Array[i].indicator_list) {
+                var hv = All_Array[i].indicator_list[h];
+                obj.Score += hv.OptionF_S_Max;
+                sp_total += obj.Score;
+            }
+            objArray.push(obj);
+        }
+        $("#item_table_view").tmpl(objArray).appendTo("#table_view");
+        if (!parent.IsScore) {
+            $('.isscore').hide();
+            $('#sp_total').text("总分：不计分");
+        }
+        else {
+            $('#sp_total').text("总分：" + sp_total);
+        }
 
     })
 
 </script>
-
-

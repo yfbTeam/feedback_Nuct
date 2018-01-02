@@ -35,25 +35,25 @@
                 <div class="fl selectdiv">
                     <label for="">排课分类:</label>
                     <select id="pk" class="select">
-                        <option value="-1">全部</option>
+                        <option value="">全部</option>
                     </select>
                 </div>
                 <div class="fl selectdiv">
                     <label for="">任务性质:</label>
                     <select id="ck" class="select">
-                        <option value="-1">全部</option>
+                        <option value="">全部</option>
                     </select>
                 </div>
                 <div class="fl selectdiv">
                     <label for="">课程性质:</label>
                     <select id="cp" class="select">
-                        <option value="-1">全部</option>
+                        <option value="">全部</option>
                     </select>
                 </div>
                 <div class="fl selectdiv">
                     <label for="">开课单位:</label>
-                    <select id="dp" class="select">
-                        <option value="-1">全部</option>
+                    <select id="college" class="select">
+                        <option value="">全部</option>
                     </select>
                 </div>
 
@@ -74,6 +74,7 @@
                             <th>课程名称</th>
                             <th>排课分类</th>
                             <th>课程性质</th>
+                            <th>任务性质</th>
                             <th>部门</th>
                             <th>子部门</th>
 
@@ -114,12 +115,12 @@
         <td>
             <input type='checkbox' name="ss" value="${Course_No}" /></td>
         <td>${Course_No}</td>
-        <td>${Course_Name}</td>
-
-        <td>未分类</td>
+        <td title="${Course_Name}">${cutstr(Course_Name,18)}</td>
+        <td>${PkType}</td>
         <td>${CourseProperty}</td>
-        <td>${DepartmentName}</td>
-        <td>${SubDepartmentName}</td>
+        <td>${TaskProperty}</td>
+        <td title="${DepartmentName}">${cutstr(DepartmentName,15)}</td>
+        <td title="${SubDepartmentName.trim()}">${cutstr(SubDepartmentName.trim(),15)}</td>
     </tr>
 </script>
 
@@ -154,7 +155,15 @@
         $('#college').change(function () {
             GetNoDis_CourseInfo(0);
         });
-
+        $('#pk').change(function () {
+            GetNoDis_CourseInfo(0);
+        });
+        $('#ck').change(function () {
+            GetNoDis_CourseInfo(0);
+        });
+        $('#cp').change(function () {
+            GetNoDis_CourseInfo(0);
+        });
         UI_Allot.GetProfessInfo();
         //===========获取课程分类，选择课程分类
         UI_Course.GetCourse_Type_Compleate = function () {

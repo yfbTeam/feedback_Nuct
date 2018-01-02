@@ -1,6 +1,7 @@
 ﻿var Base = {
     bindStudySectionCompleate: function () { },
     bindStudySection: function () {
+        var that = this;
         $.ajax({
             url: HanderServiceUrl + "/Eva_Manage/Eva_ManageHandler.ashx",
             type: "post",
@@ -18,13 +19,14 @@
                     }
                     $("#section").append(str);
                 })
-                Base.bindStudySectionCompleate();
+                that.bindStudySectionCompleate();
             },
             error: function () { }
         });
     },
     BindDepartCompleate: function () { },
     BindDepart: function () {
+        var that = this;
         $.ajax({
             url: HanderServiceUrl + "/UserMan/UserManHandler.ashx",
             type: "post",
@@ -45,7 +47,7 @@
                         no_results_text: '未找到',
                         width: '335px'
                     })
-                    Base.BindDepartCompleate();
+                    that.BindDepartCompleate();
                 }
             },
             error: function (errMsg) { }

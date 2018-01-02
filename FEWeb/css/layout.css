@@ -1,4 +1,6 @@
-﻿
+﻿#threenav{
+    display:none;
+}
 .menu .menu_lists li em {
 	display: block;
 	overflow: hidden;

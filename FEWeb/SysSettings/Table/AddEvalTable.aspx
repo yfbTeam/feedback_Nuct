@@ -30,6 +30,12 @@
             text-align: center;
             cursor: pointer;
         }
+
+        .input_root {
+            height: 35px;          
+            margin-left: 5px;
+            margin-bottom:5px;
+        }
     </style>
 
 
@@ -39,7 +45,6 @@
     <div class="center" id="centerwrap">
         <div class="wrap clearfix">
             <div class="sort_nav" id="threenav">
-               
             </div>
             <h1 class="title mb10">
                 <a style="cursor: pointer" class="reback">表格设计</a><span>&gt;</span><a href="javascript:;" class="crumbs">新增表格</a>
@@ -96,31 +101,9 @@
             </div>
             <div class="table_header mt10 clearfix" style="min-height: 98px">
                 <div class="table_header_left clearfix" style="min-height: 49px" id="list">
-                    <%--<div class="fl">
-                        <label for="">学院：</label>
-                        <span>【计算机学院】</span>
-                    </div>
-                    <div class="fl">
-                        <label for="">课程名称：</label>
-                        <span>【计算机学院】</span>
-                    </div>
-                    <div class="fl">
-                        <label for="">教师姓名：</label>
-                        <span>【李立三】</span>
-                    </div>--%>
                 </div>
 
                 <div class="table_header_left clearfix" style="min-height: 49px" id="list2">
-                    <%--<div class="fl">
-                        <label for="">
-                            <input type="text" name="name" value="调查人数：" />
-                        </label>
-                        <input type="text" name="name" value="" />
-                    </div>--%>
-                    <%-- <div class="fl">
-                        <label for="">教师姓名：</label>
-                        <input type="text" name="name" value="" />
-                    </div>--%>
                 </div>
                 <div class="table_header_right fr">
                     <input type="button" name="name" value="选择表头" class="btn2" onclick="OpenIFrameWindow('选择表头', './SelTabelHead.aspx', '700px', '340px')" />
@@ -129,17 +112,15 @@
             </div>
             <div class="test_module mt10">
                 <div class="evalheader clearfix">
-                    <div class="all fl">
+                  <%--  <div class="all fl">
                         <i class="iconfont">&#xe62c;</i>
                         全部
-                    </div>
+                    </div>--%>
                     <div class="nodes fl">
                         <div id="sheets" style="float: left">
-                            <%--  <span>教学态度</span>
-                            <span>教学态度</span>--%>
                         </div>
                         <div style="float: right">
-                            <input type="text" name="name" id="inputTitle" onkeydown="add_root_keydown();" value="" placeholder="名称可以为空" />
+                            <%--<input type="text" name="name" id="inputTitle" onkeydown="add_root_keydown();" value="" placeholder="名称可以为空" />--%>
                             <input type="button" class="" onclick="add_root();" value="添加节点" />
                         </div>
                     </div>
@@ -147,11 +128,10 @@
                         <div class="fl total" style="margin-right: 10px;">
                             <span class="isscore">实时试卷总分：
 							    <span><b id="total">0</b>分</span></span>
-                        </div>
-                        <%-- <div class="fr">
-                            <input type="button" name="" value="新增指标" class="btn2" onclick="openIndicator();" />
 
-                        </div>--%>
+                               <input type="button" name="name" value="预览"  class="btn ml10" onclick="OpenIFrameWindow('预览', './TableTempView.aspx', '1000px', '700px')" />
+                        </div>
+
                     </div>
                 </div>
                 <div class="test_lists">
@@ -196,26 +176,14 @@
 
 <script type="text/x-jquery-tmpl" id="item_sheet">
     <div style="float: left">
-        <span style="cursor: pointer" t_id="${t_Id}">${title}</span>
+       
+        <input  class="input_root" t_id="${t_Id}" value="${title}" />
         <i t_id="${t_Id}" style="cursor: pointer; align-content: center" class="iconfont">&#xe672;</i>
     </div>
 </script>
 
 <script type="text/x-jquery-tmpl" id="item_indicator_title_1">
     <div class="indicator_type" ques="${QuesType_Id}">
-
-        <%--  <h1 class="test_title clearfix">
-                <input type="text" name="" id="indicator_type_tid_${indicator_type_tid}" value="${indicator_type_tname}" />
-                {{if QuesType_Id!="3"}}
-                <b class="b_${indicator_type_tid}">(<input type="text" id="h_${indicator_type_tid}" readonly="readonly" value="${indicator_type_value}" min="0" class="sss"/>分)</b>
-                
-                {{/if}}
-                <div class="operates">
-                    <i class="iconfont color_green up_t" onclick="t_up(this)">&#xe626;</i>
-                    <i class="iconfont color_green down_t" onclick="t_down(this)">&#xe603;</i>
-                </div>
-            </h1>--%>
-        <%--<span><b>(<input type="text" id="t_{{= $value.Id}}" value="{{= $value.OptionF_S_Max}}" onkeydown="onlyNum();" flg="sum" min="0" class="sss" />分)</b></span>--%>
         <div class="test_lists">
             <ul>
                 {{each (indicator_list)}}
@@ -294,8 +262,7 @@
 <script src="../../Scripts/linq.min.js"></script>
 <script src="../../Scripts/layer/layer.js"></script>
 <script src="../../Scripts/jquery.tmpl.js"></script>
-<link href="../../Scripts/kkPage/Css.css" rel="stylesheet" />
-<script src="../../Scripts/kkPage/jquery.kkPages.js"></script>
+
 <script src="../../Scripts/WebCenter/TableDesigin.js"></script>
 <script src="../../Scripts/WebCenter/DatabaseMan.js"></script>
 <script type="text/javascript">
@@ -356,14 +323,14 @@
     }
     //-----------选择表头【子窗体使用】------------------------------------------
     function tablehead(headvalue) {
-        
+
         UI_Table_Create.head_value = headvalue;
         $("#list").html('');
         $("#item_check").tmpl(headvalue).appendTo("#list");
     }
     //-----------获取表头【子窗体使用】------------------------------------------
     function get_tablehead() {
-        
+
         return UI_Table_Create.head_value;
     }
     //----------------------------------------------------------------------------------------提交表格设计
@@ -379,7 +346,7 @@
     //---------------------------------移除试题-----------------------------------------------------
     //移除
     function remove1(_this, id) {
-       
+
         UI_Table_Create.remove1(_this, id);
     }
     //试题向上排序

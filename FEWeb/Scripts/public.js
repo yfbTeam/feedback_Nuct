@@ -63,14 +63,26 @@ function getNav(Id) {
         return item.Pid == Id;
     })
 }
-
+//根据1级导航获取3级导航
+function get3rdNavBy1st(fristnavId) {
+    var twoAry = getNav(fristnavId);
+    if (twoAry.length > 0) {
+        return getNav(twoAry[0].ID);
+    }
+}
 function BindThreeNav() {
     $('#threenav').html('');
     var Id = getQueryString('Id'), Iid = getQueryString('Iid');
     var threeNav = getNav(Iid);
-    $(threeNav).each(function (i, item) {
-        $('#threenav').append('<a href="' + item.Url + '?Id=' + Id + '&Iid=' + Iid + '" class="' + (item.Url == cururl ? "selected" : "") + '">' + item.Name + '</a>')
-    })
+    if (threeNav.length > 0) {
+        $('#threenav').show();
+        $(threeNav).each(function (i, item) {
+            $('#threenav').append('<a href="' + item.Url + '?Id=' + Id + '&Iid=' + Iid + '" class="' + (item.Url == cururl ? "selected" : "") + '">' + item.Name + '</a>')
+        })
+    } else {
+        $('#threenav').hide();
+    }
+    
 }
 //表格操作
 function tableSlide() {
