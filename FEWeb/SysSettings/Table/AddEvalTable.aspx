@@ -128,6 +128,8 @@
                         <div class="fl total" style="margin-right: 10px;">
                             <span class="isscore">实时试卷总分：
 							    <span><b id="total">0</b>分</span></span>
+
+                               <input type="button" name="name" value="预览"  class="btn ml10" onclick="OpenIFrameWindow('预览', './TableTempView.aspx', '1000px', '700px')" />
                         </div>
 
                     </div>

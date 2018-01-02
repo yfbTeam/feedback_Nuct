@@ -821,7 +821,7 @@ var UI_Table_Create =
                 }
             }
         }
-        debugger;
+        
         var Name = $("#Name").val();
         var IsScore = "0";
         //是否记分
@@ -883,6 +883,85 @@ var UI_Table_Create =
         });
 
     },
+    submit: function () {
+        var func = UI_Table_Create.Type == 1 ? 'Edit_Eva_Table' : 'Add_Eva_Table';
+        //试题加载
+        var all_array = [];
+        for (var i in list_sheets) {
+            if (list_sheets[i].indicator_array.length > 0) {
+                for (var j in list_sheets[i].indicator_array) {
+                    all_array.push(list_sheets[i].indicator_array[j]);
+                    var indicator_list = list_sheets[i].indicator_array[j].indicator_list;
+                    for (var h in indicator_list) {
+                        indicator_list[h].Root =$('#sheets').find('input[t_id="'+list_sheets[i].t_Id+'"]').val();
+                    }
+                }
+            }
+        }
+        
+        var Name = $("#Name").val();
+        var IsScore = "0";
+        //是否记分
+        if ($("#IsScore").is(":checked")) {
+            IsScore = "0";
+            //验证 为0表示验证通过
+            var valid_flag = validateForm($('input[type="text"],input[class="number"]'));
+            if (valid_flag != "0")////验证失败的情况  需要表单的input控件 有isrequired 值为true或false 和fl 值为不为空的名称两个属性
+            {
+                return false;
+            }
+        }
+        else {
+            IsScore = "1";
+        }
+        var Remarks = $("#Remarks").val();
+        var CreateUID = GetLoginUser().UniqueNo;
+        var EditUID = GetLoginUser().UniqueNo;
+        //是否选择指标
+        if (all_array.length <= 0) {
+            layer.msg('您还未选择指标！');
+            return false;
+        }
+        var Eva_Role = get_Eva_Role_by_rid();
+
+        var lisss_IsNull = false;
+        //表头信息填充
+        for (var i in lisss) {
+            lisss[i].title = $('#list2').find('input[t_id="' + lisss[i].t_Id + '"]').val();
+            if (lisss[i].title.trim() == '') { lisss_IsNull = true }
+        }
+        if (lisss_IsNull) {
+            layer.msg('请输入自定义表头信息！');
+            return false;
+        }
+
+        //启用或禁用
+        var IsEnable = $("#disalbe").is(":checked") ? 0 : 1;
+        $.ajax({
+            url: HanderServiceUrl + "/Eva_Manage/Eva_ManageHandler.ashx",
+            type: "post",
+            async: false,
+            dataType: "json",
+            data: {
+                "func": func, "table_Id": table_Id, "Name": Name, "IsScore": IsScore, "Remarks": Remarks,
+                "CreateUID": CreateUID, "EditUID": EditUID, "Eva_Role": Eva_Role, "List": JSON.stringify(all_array),
+                "head_value": JSON.stringify(UI_Table_Create.head_value), "lisss": JSON.stringify(lisss), "IsEnable": IsEnable
+            },//组合input标签
+            success: function (json) {
+                if (json.result.errMsg == "success") {
+
+                    UI_Table_Create.submit_Compleate();
+                    layer.msg('操作成功!');
+                }
+            },
+            error: function () {
+                //接口错误时需要执行的
+            }
+        });
+
+    },
+
+
     submit_Compleate: function () {
     },
     sel_CousrseType: function () {
@@ -928,7 +1007,7 @@ var UI_Table_Create =
 
                 //加上序号
                 for (var i in _sheet.indicator_array[0].indicator_list) {
-                    debugger;
+                    
                     _sheet.indicator_array[0].indicator_list[i].Sort = Number(i) + 1;
                     _sheet.indicator_array[0].indicator_list[i].flg = Number(i) + 1;
                     _sheet.indicator_array[0].indicator_list[i].Root = _sheet.title;
@@ -1008,6 +1087,7 @@ var UI_Table_Create =
                 retData = json.result.retData;
                 switch (UI_Table_Create.PageType) {
                     case 'SelTabelHead':
+                        debugger;
                         $("#item_check").tmpl(retData).appendTo("#list");
                         UI_Table_Create.Get_Eva_Table_Header_Custom_List_Compleate(retData);
                         break;
@@ -1097,7 +1177,7 @@ var UI_Table_View = {
             data: { Func: "Get_Eva_TableDetail", "table_Id": table_Id, "IsPage_Display": UI_Table_View.IsPage_Display },
             success: function (json) {
                 var retData = json.result.retData;
-                debugger;
+                
                 switch (UI_Table_View.PageType) {
                     case 'TableView':
                         $("#table_view").empty();
@@ -1137,7 +1217,7 @@ var UI_Table_View = {
                                 , indicator_type_type: '0', indicator_type_value: '', total_value: 0,
                                 indicator_list: retData.Table_Detail_Dic_List[i].Eva_TableDetail_List,
                             };
-                            debugger;
+                            
                             for (var j in indica.indicator_list) {
                                 indica.indicator_list[j].flg = indica.indicator_list[j].Sort;
 
@@ -1214,5 +1294,35 @@ var UI_Table_View = {
     Get_Eva_TableDetail_Compleate: function (retData) { },
 };
 
+var All_Array = [];
+var IsScore = false;
+var TableName = '';
+var head_value = [];
+function Refresh_View_Display  () {    
+    //试题加载
+    All_Array = [];
+    for (var i in list_sheets) {
+        if (list_sheets[i].indicator_array.length > 0) {
+            for (var j in list_sheets[i].indicator_array) {
+                All_Array.push(list_sheets[i].indicator_array[j]);
+                var indicator_list = list_sheets[i].indicator_array[j].indicator_list;
+                for (var h in indicator_list) {
+                    indicator_list[h].Root =$('#sheets').find('input[t_id="'+list_sheets[i].t_Id+'"]').val();
+                }
+            }
+        }
+    }        
+    var lisss_IsNull = false;
+    //表头信息填充
+    for (var i in lisss) {
+        lisss[i].title = $('#list2').find('input[t_id="' + lisss[i].t_Id + '"]').val();
+        if (lisss[i].title.trim() == '') { lisss_IsNull = true }
+    }
 
+    head_value = UI_Table_Create.head_value;
+    //启用或禁用
+    IsScore = $("#IsScore").is(":checked") ? true : false;
+    
+    TableName = $("#Name").val();
+}
 //===================================================================================

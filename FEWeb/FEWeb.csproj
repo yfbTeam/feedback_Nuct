@@ -278,6 +278,7 @@
     <Content Include="Evaluation\MyStatiscal.aspx" />
     <Content Include="Evaluation\QRcode.aspx" />
     <Content Include="Evaluation\ReleaseTask.aspx" />
+    <Content Include="SysSettings\Table\TableTempView.aspx" />
     <Content Include="SysSettings\Table\TableView.aspx" />
     <Content Include="Mobile\AnonymousChat.html" />
     <Content Include="Mobile\AnonymousChat_Detail.html" />
@@ -1254,6 +1255,13 @@
     </Compile>
     <Compile Include="Evaluation\ReleaseTask.aspx.designer.cs">
       <DependentUpon>ReleaseTask.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="SysSettings\Table\TableTempView.aspx.cs">
+      <DependentUpon>TableTempView.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="SysSettings\Table\TableTempView.aspx.designer.cs">
+      <DependentUpon>TableTempView.aspx</DependentUpon>
     </Compile>
     <Compile Include="SysSettings\Table\TableView.aspx.cs">
       <DependentUpon>TableView.aspx</DependentUpon>
