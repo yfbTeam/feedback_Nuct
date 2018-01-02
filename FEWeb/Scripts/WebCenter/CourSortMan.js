@@ -42,7 +42,7 @@ var UI_Course = {
             $(this).addClass('selected');
 
             select_sectionid = $(this).parent().parent('li').attr('sectionid');
-            debugger;
+            
             $('#operator').empty();
             var ReguState = Number($(this).attr('ReguState'));
             switch (ReguState) {
