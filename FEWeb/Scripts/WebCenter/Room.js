@@ -84,54 +84,45 @@ function GetClassInfoSelect() {
                     var str = str = "<option value='" + item + "'>" + item + "</option>";
                     $("#DP").append(str);
                 });
+                ChosenInit($('#DP'));
               
                 obj.CTList.forEach(function (item) {
                     var str = str = "<option value='" + item + "'>" + item + "</option>";
                     $("#CT").append(str);
                 });               
-
+                ChosenInit($('#CT'));
                 obj.CPList.forEach(function (item) {
                     var str = str = "<option value='" + item + "'>" + item + "</option>";
                     $("#CP").append(str);
                 });
-
+                ChosenInit($('#CP'));
                 obj.TDList.forEach(function (item) {
                     var str = str = "<option value='" + item + "'>" + item + "</option>";
                     $("#TD").append(str);
                 });
-
+                ChosenInit($('#TD'));
 
                 obj.TNList.forEach(function (item) {
                     var str = str = "<option value='" + item + "'>" + item + "</option>";
                     $("#TN").append(str);
                 });
-                $('#TN').chosen({
-                    allow_single_deselect: true,
-                    disable_search_threshold: 1,
-                    no_results_text: '未找到',
-                    search_contains: true
-                });
-                $('#TN').trigger("chosen:updated");//动态更新select下的选择项时，只要在更新选择项后触发Chosen中的chosen:updated事件就可以了
+                ChosenInit($('#TN'));
 
                 obj.MDList.forEach(function (item) {
                     var str = str = "<option value='" + item + "'>" + item + "</option>";
                     $("#MD").append(str);
                 });
+                ChosenInit($('#MD'));
                 obj.GDList.forEach(function (item) {
                     var str = str = "<option value='" + item + "'>" + item + "</option>";
                     $("#GD").append(str);
                 });
+                ChosenInit($('#GD'));
                 obj.CNList.forEach(function (item) {
                     var str = str = "<option value='" + item + "'>" + item + "</option>";
                     $("#CN").append(str);
                 });
-                $('#CN').chosen({
-                    allow_single_deselect: true,
-                    disable_search_threshold: 1,
-                    no_results_text: '未找到',
-                    search_contains: true
-                });
-                $('#CN').trigger("chosen:updated");//动态更新select下的选择项时，只要在更新选择项后触发Chosen中的chosen:updated事件就可以了
+                ChosenInit($('#CN'));
 
 
                 $("#DP,#CT,#CP,#TD,#TN,#MD,#GD,#CN").on('change', function () {
@@ -145,3 +136,4 @@ function GetClassInfoSelect() {
         }
     });
 }
+

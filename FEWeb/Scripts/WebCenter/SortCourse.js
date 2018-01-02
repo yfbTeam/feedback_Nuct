@@ -107,7 +107,8 @@ function GetNoDis_CourseInfo(PageIndex) {
         "pk": $('#pk').val(),
         "ck": $('#ck').val(),
         "cp": $('#cp').val(),
-       
+        "dp": $('#dp').val(),
+        
 
     };
     layer_index = layer.load(1, {
@@ -194,21 +195,22 @@ function GetCourseInfo_Select() {
                     var str = str = "<option value='" + item + "'>" + item + "</option>";
                     $("#pk").append(str);
                 });
-
+                ChosenInit($('#pk'));
                 obj.TKList.forEach(function (item) {
                     var str = str = "<option value='" + item + "'>" + item + "</option>";
                     $("#ck").append(str);
                 });
-
+                ChosenInit($('#ck'));
                 obj.CPList.forEach(function (item) {
                     var str = str = "<option value='" + item + "'>" + item + "</option>";
                     $("#cp").append(str);
                 });
-
+                ChosenInit($('#cp'));
                 obj.DPList.forEach(function (item) {
                     var str = str = "<option value='" + item.DepartMentID + "'>" + item.DepartmentName + "</option>";
                     $("#dp").append(str);
                 });
+                ChosenInit($('#dp'));
             }
         },
         error: function (errMsg) {

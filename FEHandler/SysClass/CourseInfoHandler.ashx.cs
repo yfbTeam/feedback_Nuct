@@ -501,9 +501,9 @@ namespace FEHandler.SysClass
                 string pk = RequestHelper.string_transfer(request, "pk");
                 string ck = RequestHelper.string_transfer(request, "ck");
                 string cp = RequestHelper.string_transfer(request, "cp");
+                string dp = RequestHelper.string_transfer(request, "dp");
 
-
-                jsonModel = GetNoDis_CourseInfoHelper(PageIndex, PageSize, Major_Id, SectionId, Key, pk, ck, cp);
+                jsonModel = GetNoDis_CourseInfoHelper(PageIndex, PageSize, Major_Id, SectionId, Key, pk, ck, cp, dp);
             }
             catch (Exception ex)
             {
@@ -516,15 +516,14 @@ namespace FEHandler.SysClass
             }
         }
 
-        public static JsonModelNum GetNoDis_CourseInfoHelper(int PageIndex, int PageSize, string Major_Id, int SectionId, string Key, string pk, string ck, string cp)
+        public static JsonModelNum GetNoDis_CourseInfoHelper(int PageIndex, int PageSize, string Major_Id, int SectionId, string Key, string pk, string ck, string cp, string dp)
         {
             JsonModelNum jsm = new JsonModelNum();
             int intSuccess = (int)errNum.Success;
             try
             {
                 List<Course> Course_List = Constant.Course_List;
-                List<CourseRel> CourseRel_List = Constant.CourseRel_List;
-
+                List<CourseRel> CourseRel_List = Constant.CourseRel_List;             
                 if (Major_Id != "")
                 {
                     Course_List = (from course in Course_List where course.DepartMentID == Major_Id select course).ToList();
@@ -545,6 +544,10 @@ namespace FEHandler.SysClass
                 {
                     Course_List = (from course in Course_List where course.CourseProperty == cp select course).ToList();
                 }
+                if (dp != "")
+                {
+                    Course_List = (from course in Course_List where course.DepartMentID == dp select course).ToList();
+                }
 
                 var query = (from Course_ in Course_List
                              join cr in CourseRel_List on new
@@ -556,7 +559,7 @@ namespace FEHandler.SysClass
                                  UniqueNo = cr.Course_Id,
                                  SectionId = (int)cr.StudySection_Id
                              } into courelfs_
-                             from courel in courelfs_.DefaultIfEmpty()
+                             from courel in courelfs_.DefaultIfEmpty()                           
                              where courel == null
                              orderby Course_.IsEnable
                              select new

@@ -70,8 +70,8 @@ function AddDis(Course_UniqueNo, Course_Name, TeacherUID, TeacherName) {
         ReguId: select_reguid,
         ExpertUID: selectExpertUID,
         ExpertName: selectExpertName,
-        CreateUID: cookie_Userinfo.LoginName,
-        EditUID: cookie_Userinfo.LoginName,
+        CreateUID: cookie_Userinfo.UniqueNo,
+        EditUID: cookie_Userinfo.UniqueNo,
         Type: expType,
     };
     select_course_teacher.push(obj);
@@ -124,12 +124,14 @@ function GetTeacherInfo_Course_Cls() {
                     Teachers = json.result.retData;
                     switch (PageType) {
                         case 'AllotTask':
-                            Teachers_Reflesh();
-                            select_course_teacher = [];
-                            TeachersFilter();                            
+                            break;
+                        case 'AllotTask':
                             break;
                         default:
                     }
+                    Teachers_Reflesh();
+                    select_course_teacher = [];
+                    TeachersFilter();
                 }
             },
             error: function (errMsg) {
@@ -142,12 +144,12 @@ function Teachers_Reflesh() {
 
     $('#teachers').empty();
 
-    var college = $('#college').val().trim();
+    var DepartMent = $('#DepartMent').val().trim();
     var key = $('#key').val().trim();
     var teachers_temp = Teachers;
 
-    if (college != '0') {
-        teachers_temp = teachers_temp.filter(function (item) { return item.Department_UniqueNo == college });
+    if (DepartMent != '0') {
+        teachers_temp = teachers_temp.filter(function (item) { return item.Department_UniqueNo == DepartMent });
     }
     if (key != '') {
         teachers_temp = teachers_temp.filter(function (item) { return item.Teacher_Name.indexOf(key) > -1 });
@@ -175,15 +177,15 @@ function GetUserByType(userType) {
             async: false,
             success: function (json) {
                 if (json.result.errMsg == "success") {
-
                     switch (PageType) {
                         case 'AllotTask':
-                            ExpertList = json.result.retData;
-                            ExpertListReflesh();
+                            break;
+                        case 'AllotTask':
                             break;
                         default:
-
                     }
+                    ExpertList = json.result.retData;
+                    ExpertListReflesh();
                 }
             },
             error: function (errMsg) {
@@ -209,8 +211,8 @@ function ExpertListReflesh() {
 
         $('#selected_course').empty();
         select_course_teacher = [];
-        
-        if (Teachers != null) {         
+
+        if (Teachers != null) {
             TeachersFilter();
         }
 
@@ -228,7 +230,7 @@ function TeachersFilter() {
     lis.attr('flg', '');
 
     lis.parent().parent().removeClass('selected');
-    lis.parent().parent().attr('flg', ''); 
+    lis.parent().parent().attr('flg', '');
     Teachers.filter(function (item) {
         item.T_C_Model_Childs.filter(function (child) {
             if (child.Selected) {
@@ -241,11 +243,11 @@ function TeachersFilter() {
                     ReguId: select_reguid,
                     ExpertUID: child.SelectedExperUID,
                     ExpertName: child.SelectedExperName,
-                    CreateUID: cookie_Userinfo.LoginName,
-                    EditUID: cookie_Userinfo.LoginName,
+                    CreateUID: cookie_Userinfo.UniqueNo,
+                    EditUID: cookie_Userinfo.UniqueNo,
                     Type: expType,
                 };
-              
+
                 if (selectExpertUID == obj.ExpertUID) {
                     select_course_teacher.push(obj);
                     var tea = obj.TeacherName;
@@ -282,7 +284,19 @@ function AddExpert_List_Teacher_Course() {
 
                 layer.msg('操作成功')
                 setTimeout(function () {
-                    parent.Get_Eva_RegularData(select_reguid, 0);
+                    if (parent.Get_Eva_RegularData != undefined) {
+                        switch (PageType) {
+                            case "AllotTask":
+                                parent.Get_Eva_RegularData(select_reguid, 0);
+                                break;
+                            case "StartEval":
+                                parent.Get_Eva_RegularData(0, 0);
+                                break;
+                            default:
+
+                        }
+
+                    }
                     parent.CloseIFrameWindow();
                 }, 300);
 
@@ -296,3 +310,11 @@ function AddExpert_List_Teacher_Course() {
         }
     });
 }
+
+//--------指定元素进删除---------------------------------------------------------------
+Array.prototype.remove = function (val) {
+    var index = this.indexOf(val);
+    if (index > -1) {
+        this.splice(index, 1);
+    }
+};

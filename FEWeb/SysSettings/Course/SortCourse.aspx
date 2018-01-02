@@ -51,8 +51,9 @@
                     </select>
                 </div>
                 <div class="fl selectdiv">
-                    <label for="">开课单位:</label>
-                    <select id="college" class="select">
+                    <label style="letter-spacing: 23px;" for="">部</label>
+                    <label for="">门:</label>
+                    <select id="dp" class="select">
                         <option value="">全部</option>
                     </select>
                 </div>
@@ -105,6 +106,12 @@
 <script src="../../Scripts/kkPage/jquery.kkPages.js"></script>
 <script src="../../Scripts/pagination/jquery.pagination.js"></script>
 <link href="../../Scripts/pagination/pagination.css" rel="stylesheet" />
+
+<link href="../../Scripts/choosen/prism.css" rel="stylesheet" />
+<link href="../../Scripts/choosen/chosen.css" rel="stylesheet" />
+<script src="../../Scripts/choosen/chosen.jquery.js"></script>
+<script src="../../Scripts/choosen/prism.js"></script>
+
 <script src="../../Scripts/laypage/laypage.js"></script>
 <script src="../../Scripts/WebCenter/SortCourse.js"></script>
 <script src="../../Scripts/WebCenter/CourSortMan.js"></script>
@@ -152,7 +159,7 @@
         GetNoDis_CourseInfo(0);
         UI_Course.PageType = "SortCourse";
         select_uniques = [];
-        $('#college').change(function () {
+        $('#dp').change(function () {
             GetNoDis_CourseInfo(0);
         });
         $('#pk').change(function () {
@@ -164,7 +171,7 @@
         $('#cp').change(function () {
             GetNoDis_CourseInfo(0);
         });
-        UI_Allot.GetProfessInfo();
+        //UI_Allot.GetProfessInfo();
         //===========获取课程分类，选择课程分类
         UI_Course.GetCourse_Type_Compleate = function () {
             if (course_TypeId != null && course_TypeId > -1) {

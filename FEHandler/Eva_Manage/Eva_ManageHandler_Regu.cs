@@ -255,29 +255,60 @@ namespace FEHandler.Eva_Manage
             }
         }
 
+
+
+        #endregion
+
+        #region 获取定期评价列表数据
+
         /// <summary>
-        ///获取课程类型
+        /// 获取定期评价列表数据
         /// </summary>
         public void Get_Eva_RegularData(HttpContext context)
         {
-            JsonModelNum jsm = new JsonModelNum();
             HttpRequest Request = context.Request;
-            int intSuccess = (int)errNum.Success;
-            string ReguId = RequestHelper.string_transfer(Request, "ReguId");
+
+            int SectionID = RequestHelper.int_transfer(Request, "SectionID");
+            int ReguId = RequestHelper.int_transfer(Request, "ReguId");
             string Key = RequestHelper.string_transfer(Request, "Key");
+            string SelectUID = RequestHelper.string_transfer(Request, "SelectUID");
+         
+            string Te = RequestHelper.string_transfer(Request, "Te");
+
             int PageIndex = RequestHelper.int_transfer(Request, "PageIndex");
             int PageSize = RequestHelper.int_transfer(Request, "PageSize");
+            try
+            {
+                jsonModel = Get_Eva_RegularData_Helper(PageIndex, PageSize, SectionID, ReguId, Key, SelectUID, Te);
+            }
+            catch (Exception ex)
+            {
+                LogHelper.Error(ex);
+            }
+            finally
+            {
+                //无论后端出现什么问题，都要给前端有个通知【为防止jsonModel 为空 ,全局字段 jsonModel 特意声明之后进行初始化】
+                context.Response.Write("{\"result\":" + Constant.jss.Serialize(jsonModel) + "}");
+            }
+        }
+
+        public static JsonModel Get_Eva_RegularData_Helper(int PageIndex, int PageSize, int SectionID, int ReguId, string Key, string SelectUID, string Te)
+        {
+            int intSuccess = (int)errNum.Success;
+            JsonModelNum jsm = new JsonModelNum();
             try
             {
                 var list = (from exp in Constant.Expert_Teacher_Course_List
                             join teacher in Constant.Teacher_List on exp.TeacherUID equals teacher.UniqueNo
                             join regu in Constant.Eva_Regular_List on exp.ReguId equals Convert.ToString(regu.Id)
-                            where exp.ReguId == ReguId
+                            join section in Constant.StudySection_List on regu.Section_Id equals section.Id
                             select new
                             {
                                 exp.Id,
                                 exp.TeacherName,
+                                exp.TeacherUID,
                                 exp.ExpertName,
+                                exp.ExpertUID,
                                 exp.Course_Name,
                                 teacher.Departent_Name,
                                 ReguName = regu.Name,
@@ -286,11 +317,34 @@ namespace FEHandler.Eva_Manage
                                 State = "",
                                 StateType = 0,
                                 LookType = regu.LookType,
+                                ReguId = regu.Id,
+                                section.DisPlayName,
+                                SectionID = section.Id,
                             }).ToList();
+
+
+                if (SectionID > 0)
+                {
+                    list = (from li in list where li.SectionID == SectionID select li).ToList();
+                }
+
+                if (ReguId > 0)
+                {
+                    list = (from li in list where li.ReguId == ReguId select li).ToList();
+                }
 
                 if (Key != "")
                 {
                     list = (from li in list where li.TeacherName.Contains(Key) select li).ToList();
+                }
+                if (SelectUID != "")
+                {
+                    list = (from li in list where li.ExpertUID == SelectUID select li).ToList();
+                }
+              
+                if (Te != "")
+                {
+                    list = (from li in list where li.TeacherUID == Te select li).ToList();
                 }
 
                 ReguState regustate = ReguState.进行中;
@@ -318,7 +372,9 @@ namespace FEHandler.Eva_Manage
                               {
                                   an.Id,
                                   an.TeacherName,
+                                  an.TeacherUID,
                                   an.ExpertName,
+                                  an.ExpertUID,
                                   an.Course_Name,
                                   an.Departent_Name,
                                   ReguName = an.ReguName,
@@ -327,6 +383,9 @@ namespace FEHandler.Eva_Manage
                                   State = Convert.ToString(regustate),
                                   StateType = (int)regustate,
                                   LookType = an.LookType,
+                                  ReguId = an.ReguId,
+                                  an.DisPlayName,
+                                  SectionID = an.SectionID,
                               }).ToList();
                 //返回所有表格数据
                 jsm = JsonModelNum.GetJsonModel_o(intSuccess, "success", query_last);
@@ -339,11 +398,79 @@ namespace FEHandler.Eva_Manage
             {
                 LogHelper.Error(ex);
             }
+            return jsm;
+        }
+
+        /// <summary>
+        /// 获取定期评价列表数据筛选
+        /// </summary>
+        /// <param name="context"></param>
+        public void Get_Eva_RegularDataSelect(HttpContext context)
+        {
+            HttpRequest Request = context.Request;
+
+            int SectionID = RequestHelper.int_transfer(Request, "SectionID");
+            string SelectUID = RequestHelper.string_transfer(Request, "SelectUID");
+            try
+            {
+                jsonModel = Get_Eva_RegularDataSelect_Helper(SectionID, SelectUID);
+            }
+            catch (Exception ex)
+            {
+                LogHelper.Error(ex);
+            }
             finally
             {
                 //无论后端出现什么问题，都要给前端有个通知【为防止jsonModel 为空 ,全局字段 jsonModel 特意声明之后进行初始化】
-                context.Response.Write("{\"result\":" + Constant.jss.Serialize(jsm) + "}");
+                context.Response.Write("{\"result\":" + Constant.jss.Serialize(jsonModel) + "}");
             }
+        }
+
+        public static JsonModel Get_Eva_RegularDataSelect_Helper(int SectionID, string SelectUID)
+        {
+            int intSuccess = (int)errNum.Success;
+            JsonModelNum jsm = new JsonModelNum();
+            try
+            {
+                var list = (from exp in Constant.Expert_Teacher_Course_List
+                            join teacher in Constant.Teacher_List on exp.TeacherUID equals teacher.UniqueNo
+                            join regu in Constant.Eva_Regular_List on exp.ReguId equals Convert.ToString(regu.Id)
+                            join section in Constant.StudySection_List on regu.Section_Id equals section.Id
+                            select new
+                           {
+                               SectionID = section.Id,
+
+                               ReguId = regu.Id,
+                               ReguName = regu.Name,
+
+                               TeacherUID = teacher.UniqueNo,
+                               TeacherName = teacher.Name,
+                             
+                               ExpertUID = exp.ExpertUID,
+
+                           }).ToList();
+                if (SectionID > 0)
+                {
+                    list = (from li in list where li.SectionID == SectionID select li).ToList();
+                }
+                if (SelectUID != "")
+                {
+                    list = (from li in list where li.ExpertUID == SelectUID select li).ToList();
+                }
+                var select = new
+                {
+                    RgList = (from li in list select new ReModel() { ReguId = li.ReguId, ReguName = li.ReguName }).Distinct(new ReModelComparer()).ToList(),
+                    TeList = (from li in list select new TeModel { TeacherUID = li.TeacherUID, TeacherName = li.TeacherName }).Distinct(new TeModelComparer()) .ToList(),
+                };
+
+                //返回所有表格数据
+                jsm = JsonModelNum.GetJsonModel_o(intSuccess, "success", select);
+            }
+            catch (Exception ex)
+            {
+                LogHelper.Error(ex);
+            }
+            return jsm;
         }
 
         #endregion

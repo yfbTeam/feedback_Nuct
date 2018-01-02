@@ -3084,7 +3084,7 @@ namespace FEModel
     }
 
 	/// </summary>
-	///	
+	///	专业部门名称实体类
 	/// </summary>
 	[Serializable]
     public partial class CourseRoom
@@ -3115,9 +3115,9 @@ namespace FEModel
 		/// </summary>
 		public string Season { get; set; }
 		/// <summary>
-		/// 
+		///专业部门名称 
 		/// </summary>
-		public string RoomDepartmentID { get; set; }
+		public string RoomDepartmentName { get; set; }
 		/// <summary>
 		/// 
 		/// </summary>
@@ -3151,19 +3151,19 @@ namespace FEModel
 		/// </summary>
 		public string ClassName { get; set; }
 		/// <summary>
-		/// 
+		///开课部门 
 		/// </summary>
 		public string Major_Id { get; set; }
 		/// <summary>
-		/// 
+		///开课部门 
 		/// </summary>
 		public string DepartmentName { get; set; }
 		/// <summary>
-		/// 
+		///开课子部门 
 		/// </summary>
 		public string SubDepartmentID { get; set; }
 		/// <summary>
-		/// 
+		///开课子部门 
 		/// </summary>
 		public string SubDepartmentName { get; set; }
 		/// <summary>
@@ -3187,11 +3187,11 @@ namespace FEModel
 		/// </summary>
 		public string TeacherJobTitle { get; set; }
 		/// <summary>
-		/// 
+		///教师所属部门 
 		/// </summary>
 		public string TeacherDepartmentName { get; set; }
 		/// <summary>
-		/// 
+		///教师所属子部门 
 		/// </summary>
 		public string TeacherSubDepartmentName { get; set; }
 		/// <summary>

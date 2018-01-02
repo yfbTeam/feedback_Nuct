@@ -12,10 +12,10 @@
 
                     var str = '';
                     if (item.IsEnable == 1) {
-                        str = "<option value='" + item.Id + "'>" + item.DisPlayName + "</option>";
+                        str = "<option IsEnable='" + item.IsEnable + "' value='" + item.Id + "'>" + item.DisPlayName + "</option>";
                     }
                     else {
-                        str = "<option selected='selected' value='" + item.Id + "'>" + item.DisPlayName + "</option>";
+                        str = "<option IsEnable='" + item.IsEnable + "' selected='selected' value='" + item.Id + "'>" + item.DisPlayName + "</option>";
                     }
                     $("#section").append(str);
                 })
@@ -25,7 +25,7 @@
         });
     },
     BindDepartCompleate: function () { },
-    BindDepart: function () {
+    BindDepart: function (width) {
         var that = this;
         $.ajax({
             url: HanderServiceUrl + "/UserMan/UserManHandler.ashx",
@@ -37,15 +37,15 @@
             success: function (json) {
                 if (json.result.errNum.toString() == "0") {
                     $(json.result.retData).each(function () {
-
                         $("#DepartMent").append('<option value="' + this.Id + '">' + this.Major_Name + '</option>');
                     });
+                    width = (width == undefined || width == null) ? '335px' : width;
 
                     $("#DepartMent").chosen({
                         allow_single_deselect: true,
                         disable_search_threshold: 6,
                         no_results_text: '未找到',
-                        width: '335px'
+                        width: width,
                     })
                     that.BindDepartCompleate();
                 }
@@ -69,6 +69,30 @@
                     $(json.result.retData).each(function () {
                         $("#table").append('<option title="' + this.Name + '" value="' + this.Id + '">' + cutstr(this.Name, 45) + '</option>');
                     });
+
+                    ChosenInit($("#table"));
+                }
+            },
+            error: function (errMsg) { }
+        });
+    },
+    CheckHasExpertReguCompleate: function () { },
+    CheckHasExpertRegu: function (Type) {
+        $.ajax({
+            url: HanderServiceUrl + "/Eva_Manage/Eva_ManageHandler.ashx",
+            type: "post",
+            dataType: "json",
+            data: {
+                func: "CheckHasExpertRegu",
+                "Type": Type,
+            },
+            success: function (json) {
+                if (json.result.errNum.toString() == "0") {
+                    var result = false;
+                    if (json.result.retData.length > 0) {
+                        result = true;
+                    }
+                    Base.CheckHasExpertReguCompleate(result, json.result.retData);
                 }
             },
             error: function (errMsg) { }

@@ -1,0 +1,50 @@
+/* Reset system css */
+
+blockquote,body,dd,dir,dl,fieldset,form,h1,h2,h3,h4,h5,h6,hr,input,menu,ol,p,pre,ul,xmp {margin:0}
+button,caption,dir,fieldset,input,legend,menu,ol,td,textarea,th,ul {padding:0}
+html{text-size-adjust:none}ul,menu{list-style:none}img{border:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}a{margin:0;padding:0;border:0;;vertical-align:baseline;}ins{background-color:#ff9;color:#000;text-decoration:none}mark{background-color:#ff9;color:#000;font-style:italic;font-weight:700}del{text-decoration:line-through}sup,sub{line-height:0}abbr[title],dfn[title]{border-bottom:1px dotted #000;cursor:help}table{border-collapse:collapse;border-spacing:0}hr{display:block;height:1px;border:0;border-top:1px solid #ccc;margin:1em 0;padding:0}input,select,label{vertical-align:middle}
+
+/* Reset end */
+
+/* All Css */
+
+html {color: #333;}
+h1{font-size: 40px;}h2{font-size: 22px;}h3{font-size: 20px;}h4{font-size: 18px;}h5{font-size: 16px;}h6{font-size: 14px;}
+a:link,a:visited {text-decoration:none; cursor:pointer;}
+a:hover,a:active {text-decoration: none;-webkit-transition:color .15s linear , background-color .3s linear;-moz-transition:color .15s linear , background-color .3s linear;-o-transition:color .15s linear , background-color .3s linear;-ms-transition:color .15s linear , background-color .3s linear;transition:color .15s linear , background-color .3s linear; cursor:pointer;}
+.clear {height:0; width:100%; overflow:hidden; clear:both;}
+.clear8 {height:8px; overflow:hidden; clear:both;}
+.float_left{ float:left;}
+.float_right{float:right;}
+
+/* All end */
+
+/* kkPages */
+
+.Pagination{height: 22px;line-height: 20px; color: #565656;padding: 10px 0px; clear:both;text-align:center;display:block;margin: 0 auto;font-size:14px;}
+.Pagination span{margin-right: 5px;display: inline-block;margin-left: 5px;}
+.Pagination span b{padding: 0 2px;}
+.Pagination div {display:inline-block;font-size:14px;}
+.Pagination a{ font-size: 14px;text-decoration: none;display: inline-block;color: #565656;border: 1px solid #cacaca;height: 20px;line-height: 20px;padding: 0 7px;margin: 0 5px;border-radius:2px;}
+.Pagination .Ellipsis {line-height: 32px;overflow: hidden; display:none;}
+cite.FormNum{display: inline-block;line-height: 20px;height: 20px; font-style:  normal; padding-left:10px;}
+#PageNum{ color:#777;width: 30px;height: 20px;line-height: 20px; border: 1px solid #cacaca; margin:0 5px; text-align:center;}
+.Pagination a:hover,.Pagination a.PageCur{background-color: #07a383;border: 1px solid #07a383;color: #ffffff; }
+
+
+/* Demo */
+.pagelist .item {float: left;width: 218px;border: 1px solid #CCC;text-align: center;}
+.newslist{line-height:24px;}
+.newslist ul li {height: 24px;border-bottom-width: 1px;border-bottom-style: dashed;border-bottom-color: #999;padding-top: 5px;padding-bottom: 5px;}
+.newslist a{color:#444}
+.newslist ul li div {float: left;background-image:url(../Images/h-1.gif);background-repeat: no-repeat;background-position: 4px center;padding-left: 16px;}
+.newslist ul li span {float: right;color: #666;}
+
+
+.yongfa {line-height: 25px;}
+.copy {line-height: 25px;text-align: center;}
+.copy a {color: #000;}
+.copy a:hover {color: #F00;padding-bottom: 10px;}
+.title font {
+	font-size: 14px;
+}

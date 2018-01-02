@@ -19,24 +19,40 @@
         .test_lists ul li {
             padding-right: 0;
         }
-         .tableheader .evalmes {
+
+        .tableheader .evalmes {
             text-align: center;
         }
+
+        .h1_div {
+            margin-top: 0;
+            background: #f9f4f8;
+            height: 40px;
+        }
+
+            .h1_div h1 {
+                margin-top: -9px;
+                margin-left: 20px;
+            }
     </style>
 
 
 </head>
-<body>
-    <div class="clearix main">
-        <div class="tableheader" style="margin-bottom: 10px">
-            <h1 class="tablename"></h1>
+<body>  
+     <div class="main">
+        <div class="tableheader" style="margin-bottom: 20px">
+            <h1 class="tablename" style="font-weight: bold;"></h1>
+
+            <div class="table_header_left clearfix" style="min-height: 49px" id="list">
+            </div>
+
             <div class="evalmes">
-                <span id="sp_total" class="isscore"></span>
+                <span id="sp_total" style="float: left; margin-left: 20px"></span>
                 <span id="remark"></span>
             </div>
         </div>
 
-        <div class="content clearix">
+        <div class="content">
             <ul id="table_view">
             </ul>
         </div>
@@ -56,11 +72,13 @@
 <script src="../../Scripts/WebCenter/TableDesigin.js"></script>
 
 <script type="text/x-jquery-tmpl" id="item_table_view">
-    <div class="content clearix">
-        <h1  class="test_title clearfix" style="margin-top: 0;">
-            <b class="order_num"></b><b>${Root}</b>
-            <b class="isscore">(<span id="h_${indicator_type_tid}"></span> 分)</b>
-        </h1>
+    <div class="content">
+        <div class="h1_div">
+            <h1 class="test_title" style="display: inline-block">
+                <b class="order_num"></b><b>${Root}</b>
+                <%--<b class="isscore">(<span id="h_${indicator_type_tid}"></span> 分)</b>--%>
+            </h1>
+        </div>
         <div class="test_module">
             <input type="hidden" value="${indicator_type_tid}" name="name_title" />
             <div class="test_lists">
@@ -69,9 +87,9 @@
                 <li>
                     <input type="hidden" name="name_in" value="{{= $value.Id}}" />
                     <input type="hidden" name="name_QuesType_Id" value="{{= $value.QuesType_Id}}" />
-                    <h2 class="title"><span id="sp_f_${$value.Id}"></span>、${$value.Name}
+                    <h2 class="title">${Sort}、${$value.Name}
                     {{if $value.QuesType_Id!=3}}
-                        <span class="isscore" id="sp_${$value.Id}"><%--(20分)--%></span>
+                       <b class="isscore">（<span class="isscore">${OptionF_S_Max}分</span>）</b>
                         {{/if}}
                     </h2>
                     {{if $value.QuesType_Id!=3}}
@@ -133,6 +151,23 @@
         </div>
     </div>
 </script>
+
+<%--固定表头--%>
+<script type="text/x-jquery-tmpl" id="item_check">
+    <div class="fl" style="margin-bottom: 20px; margin-left: 20px">
+        <label for="">${Value}：【${Header}】</label>
+    </div>
+</script>
+
+<%--自由表头--%>
+<script type="text/x-jquery-tmpl" id="item_check2">
+    <div class="fl" style="margin-bottom: 20px; margin-left: 20px">
+        <label for="">
+            ${Header}：____________
+        </label>
+    </div>
+</script>
+
 <script>
     var table_Id = getQueryString("table_Id");
     //求分类的总分

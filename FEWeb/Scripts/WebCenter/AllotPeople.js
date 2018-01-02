@@ -204,13 +204,13 @@ var UI_Allot =
     },
 };
 
-//--------指定元素进删除---------------------------------------------------------------
-Array.prototype.remove = function (val) {
-    var index = this.indexOf(val);
-    if (index > -1) {
-        this.splice(index, 1);
-    }
-};
+////--------指定元素进删除---------------------------------------------------------------
+//Array.prototype.remove = function (val) {
+//    var index = this.indexOf(val);
+//    if (index > -1) {
+//        this.splice(index, 1);
+//    }
+//};
 
 
 

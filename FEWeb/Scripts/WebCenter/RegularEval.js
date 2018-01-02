@@ -4,6 +4,9 @@
 /// <reference path="../../SysSettings/Regu/RegularEval.aspx" />
 var select_sectionid = null;
 var pageSize = 10;
+var SelectUID = '';
+var SectionID = 0;
+var Te = '';
 
 //============================================================================================
 function PrepareInit() {
@@ -202,8 +205,8 @@ function Add_Eva_Regular(Type) {
 
     var postData = {
         func: "Add_Eva_Regular", "Name": $('#name').val(), "StartTime": $('#StartTime').val(), "EndTime": $('#EndTime').val(), "LookType": LookType,
-        "Look_StartTime": '', "Look_EndTime": '', "MaxPercent": '', "MinPercent": '', "Remarks": '', "CreateUID": cookie_Userinfo.LoginName
-        , "EditUID": cookie_Userinfo.LoginName, "Section_Id": select_sectionid, "Type": Type, "TableID": TableID, "DepartmentIDs": DepartmentIDs,
+        "Look_StartTime": '', "Look_EndTime": '', "MaxPercent": '', "MinPercent": '', "Remarks": '', "CreateUID": cookie_Userinfo.UniqueNo
+        , "EditUID": cookie_Userinfo.UniqueNo, "Section_Id": select_sectionid, "Type": Type, "TableID": TableID, "DepartmentIDs": DepartmentIDs,
 
     };
     $.ajax({
@@ -237,7 +240,7 @@ function Edit_Eva_Regular(Type) {
     var postData = {
         func: "Edit_Eva_Regular", "Id": Id, "Name": $('#name').val(), "StartTime": $('#StartTime').val(), "EndTime": $('#EndTime').val(), "LookType": LookType,
         "Look_StartTime": '', "Look_EndTime": '', "MaxPercent": '', "MinPercent": '', "Remarks": ''
-        , "EditUID": cookie_Userinfo.LoginName, "Section_Id": select_sectionid, "Type": Type, "TableID": TableID, "DepartmentIDs": DepartmentIDs
+        , "EditUID": cookie_Userinfo.UniqueNo, "Section_Id": select_sectionid, "Type": Type, "TableID": TableID, "DepartmentIDs": DepartmentIDs
     };
     $.ajax({
         type: "Post",
@@ -368,7 +371,8 @@ function Get_Eva_RegularSingle(Type, IsEdit) {
 function Get_Eva_RegularData(Id, PageIndex) {
     var postData = {
         func: "Get_Eva_RegularData", "ReguId": Id, "PageIndex": PageIndex,
-        "PageSize": pageSize, "Key": $('#key').val(),
+        "PageSize": pageSize, "Key": $('#key').val(), "SelectUID": SelectUID, "SectionID": SectionID,
+        "Te": Te
     };
     layer_index = layer.load(1, {
         shade: [0.1, '#fff'] //0.1透明度的白色背景
@@ -422,6 +426,46 @@ function Get_Eva_RegularData(Id, PageIndex) {
         }
     });
 }
+
+function Get_Eva_RegularDataSelectCompleate() { }
+function Get_Eva_RegularDataSelect() {   
+    var postData = {
+        func: "Get_Eva_RegularDataSelect", "SelectUID": SelectUID, "SectionID": SectionID
+    };
+    $.ajax({
+        type: "Post",
+        url: HanderServiceUrl + "/Eva_Manage/Eva_ManageHandler.ashx",
+        data: postData,
+        dataType: "json",
+        success: function (returnVal) {
+            if (returnVal.result.errMsg == "success") {
+
+                var obj = returnVal.result.retData;
+                obj.RgList.forEach(function (item) {
+                    var str = str = "<option value='" + item.ReguId + "'>" + item.ReguName + "</option>";
+                    $("#Rg").append(str);
+                });
+                ChosenInit($('#Rg'));
+
+                obj.TeList.forEach(function (item) {
+                    var str = str = "<option value='" + item.TeacherUID + "'>" + item.TeacherName + "</option>";
+                    $("#Te").append(str);
+                });
+                ChosenInit($('#Te'));
+              
+                Get_Eva_RegularDataSelectCompleate();
+            }
+            else {
+                layer.msg(returnVal.result.retData);
+            }
+        },
+        error: function (errMsg) {
+
+        }
+    });
+}
+
+
 
 function Delete_Eva_RegularCompleate() { }
 function Delete_Eva_Regular(Id) {

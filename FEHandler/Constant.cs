@@ -72,7 +72,7 @@ namespace FEHandler
         /// 数据库服务
         /// </summary>
         public static IndicatorService IndicatorService = new IndicatorService();
-        public static IndicatorTypeService IndicatorTypeService = new IndicatorTypeService();     
+        public static IndicatorTypeService IndicatorTypeService = new IndicatorTypeService();
         public static Eva_DistributionService Eva_DistributionService = new Eva_DistributionService();
         public static Eva_TableService Eva_TableService = new Eva_TableService();
         public static Eva_Table_HeaderService Eva_Table_HeaderService = new Eva_Table_HeaderService();
@@ -852,7 +852,7 @@ namespace FEHandler
             }
             set { Constant.expert_Teacher_Course_List = value; }
         }
-        
+
 
         #endregion
 
@@ -1286,7 +1286,7 @@ namespace FEHandler
                         DepartmentName = Convert.ToString(dr["DepartmentName"]),
                         GradeID = Convert.ToString(dr["GradeID"]),
                         GradeName = Convert.ToString(dr["GradeName"]),
-                        RoomDepartmentID = Convert.ToString(dr["RoomDepartmentID"]),
+                        RoomDepartmentName = Convert.ToString(dr["RoomDepartmentName"]),
                         Season = Convert.ToString(dr["Season"]),
                         StudentCount = Convert.ToInt32(dr["StudentCount"]),
                         StudySection_Id = Convert.ToInt32(dr["StudySection_Id"]),
@@ -1344,7 +1344,7 @@ namespace FEHandler
                         UniqueNo = Convert.ToString(dr["UniqueNo"]),
                         SubDepartmentID = Convert.ToString(dr["SubDepartmentID"]),
                         SubDepartmentName = Convert.ToString(dr["SubDepartmentName"]),
-                        CourseProperty = Convert.ToString(dr["CourseProperty"]),                      
+                        CourseProperty = Convert.ToString(dr["CourseProperty"]),
                         DepartmentName = Convert.ToString(dr["DepartmentName"]),
                         PkType = Convert.ToString(dr["PkType"]),
                         DepartMentID = Convert.ToString(dr["DepartMentID"]),
@@ -1445,7 +1445,7 @@ namespace FEHandler
                         QuesType_Id = Convert.ToInt32(dr["QuesType_Id"]),
                         Remarks = Convert.ToString(dr["Remarks"]),
                         Type = Convert.ToInt32(dr["Type"]),
-                        UseTimes = Convert.ToInt32(dr["UseTimes"]),                          
+                        UseTimes = Convert.ToInt32(dr["UseTimes"]),
 
                         CreateTime = Convert.ToDateTime(dr["CreateTime"]),
                         CreateUID = Convert.ToString(dr["CreateUID"]),
@@ -1485,12 +1485,12 @@ namespace FEHandler
                 {
                     IndicatorType t = new IndicatorType()
                     {
-                        Id = Convert.ToInt32(dr["Id"]),                     
-                        Name = Convert.ToString(dr["Name"]),                      
+                        Id = Convert.ToInt32(dr["Id"]),
+                        Name = Convert.ToString(dr["Name"]),
                         Type = Convert.ToInt32(dr["Type"]),
                         P_Type = Convert.ToInt32(dr["P_Type"]),
                         Parent_Id = Convert.ToInt32(dr["Parent_Id"]),
-                       
+
                         CreateTime = Convert.ToDateTime(dr["CreateTime"]),
                         CreateUID = Convert.ToString(dr["CreateUID"]),
                         EditTime = Convert.ToDateTime(dr["EditTime"]),

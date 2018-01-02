@@ -9,6 +9,17 @@
     <link href="../../css/reset.css" rel="stylesheet" />
     <link href="../../css/layout.css" rel="stylesheet" />
     <script src="../../Scripts/jquery-1.11.2.min.js"></script>
+
+    <style>
+        .chosen-drop {
+            color: black;
+        }
+
+        .select_expertdiv {
+            height: 322px;
+            overflow: auto;
+        }
+    </style>
 </head>
 <body>
     <div class="main">
@@ -29,14 +40,13 @@
             </h2>
             <div class="select_expertdiv">
                 <ul class="select_expert clearfix" id="teachers">
-                            
                 </ul>
             </div>
             <h2 class="navEval mt20">已选择</h2>
             <div class="select_expertdiv" style="overflow-y: auto; height: 80px; min-height: 80px;">
                 <ul id="selected_course" class="slectd">
-                    <li>于秀玲 【有课程】<i class="iconfont">&#xe672;</i></li>
-                    <li id="20040005">王明哲 【有课程】<i class="iconfont">&#xe672;</i></li>
+                    <%-- <li>于秀玲 【有课程】<i class="iconfont">&#xe672;</i></li>
+                    <li id="20040005">王明哲 【有课程】<i class="iconfont">&#xe672;</i></li>--%>
                 </ul>
             </div>
         </div>
@@ -48,12 +58,62 @@
     <script src="../../Scripts/Common.js"></script>
     <script src="../../Scripts/layer/layer.js"></script>
     <script src="../../Scripts/public.js"></script>
-     <script src="../../Scripts/WebCenter/Base.js"></script>
+    <script src="../../Scripts/linq.min.js"></script>
     <script src="../../Scripts/jquery.tmpl.js"></script>
+
+    <link href="../../Scripts/choosen/prism.css" rel="stylesheet" />
+    <link href="../../Scripts/choosen/chosen.css" rel="stylesheet" />
+    <script src="../../Scripts/choosen/chosen.jquery.js"></script>
+    <script src="../../Scripts/choosen/prism.js"></script>
+
+    <script src="../../Scripts/WebCenter/Base.js"></script>
+    <script src="../../Scripts/WebCenter/AllotTask.js"></script>
+    <script type="text/x-jquery-tmpl" id="item_Teachers">
+        <li>
+            <span>${Teacher_Name}</span>
+            <ul>
+                {{each T_C_Model_Childs}}
+              <li>
+                  <span teacheruid="${TeacherUID}" teacher_name="${Teacher_Name}" course_uniqueno="${Course_UniqueNo}">${Course_Name}</span>
+              </li>
+                {{/each}}
+           
+            </ul>
+        </li>
+    </script>
+    <script type="text/x-jquery-tmpl" id="item_ExpertTeacher">
+        <li teacheruid="${TeacherUID}" course_uniqueno="${CourseId}">${TeacherName} ${Course_Name}<i class="iconfont">&#xe672;</i></li>
+    </script>
     <script>
+
+        var select_sectionid = parent.select_sectionid;
+        var select_course_teacher = [];
+        var select_reguid = parent.select_reguid;
+        
         $(function () {
-            Base.BindDepart();
+          
+            selectExpertUID = login_User.UniqueNo;
+            selectExpertName = login_User.LoginName;
+
+            Base.BindDepart('248px  ');
+
+            $('#DepartMent').on('change', function () {
+                Teachers_Reflesh();
+            });
+
+            PageType = 'StartEval';
+            PrepareInit();//初始化
+            //GetUserByType('16,17');//获取专家     
+            GetTeacherInfo_Course_Cls();//获取教师
         })
+
+        function search() {
+            Teachers_Reflesh();
+        }
+
+        function submit() {
+            AddExpert_List_Teacher_Course();
+        }
     </script>
 </body>
 </html>

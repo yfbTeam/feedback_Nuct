@@ -44,6 +44,10 @@
         .scroll-pane {
             border-top: 1px solid #dcdcdc;
         }
+        .chosen-drop
+        {
+            color:black;
+        }
     </style>
 
 </head>
@@ -67,7 +71,7 @@
                 <div class="search_toobar clearfix fr">
                     <div class="fl ml10">
                         <label for="">所属部门:</label>
-                        <select class="select" id="college">
+                        <select class="select"  id="DepartMent" >
                             <option value="0">全部</option>
                         </select>
                     </div>
@@ -100,6 +104,13 @@
 <script src="../../Scripts/linq.min.js"></script>
 <script src="../../Scripts/layer/layer.js"></script>
 <script src="../../Scripts/jquery.tmpl.js"></script>
+
+<link href="../../Scripts/choosen/prism.css" rel="stylesheet" />
+<link href="../../Scripts/choosen/chosen.css" rel="stylesheet" />
+<script src="../../Scripts/choosen/chosen.jquery.js"></script>
+<script src="../../Scripts/choosen/prism.js"></script>
+
+<script src="../../Scripts/WebCenter/Base.js"></script>
 <script src="../../Scripts/WebCenter/AllotTask.js"></script>
 <script src="../../Scripts/WebCenter/AllotPeople.js"></script>
 <script type="text/x-jquery-tmpl" id="item_Expert">
@@ -127,7 +138,6 @@
 </script>
 
 <script type="text/x-jquery-tmpl" id="item_ExpertTeacher">
-
     <li teacheruid="${TeacherUID}" course_uniqueno="${CourseId}">${TeacherName} ${Course_Name}<i class="iconfont">&#xe672;</i></li>
 </script>
 <script>
@@ -136,11 +146,10 @@
     var select_course_teacher = [];
     var select_reguid = parent.select_reguid;
     
-    $(function () {
-        UI_Allot.PageType = 'AllotTask';
-        UI_Allot.GetProfessInfo();//获取院系
+    $(function () {       
+        Base.BindDepart('248px  ');
 
-        $('#college').on('change', function () {
+        $('#DepartMent').on('change', function () {
             Teachers_Reflesh();
         });
 

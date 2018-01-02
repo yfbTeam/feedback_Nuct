@@ -10,11 +10,12 @@
     <link href="../css/layout.css" rel="stylesheet" />
     <script src="../Scripts/jquery-1.11.2.min.js"></script>
     <style>
-        .regularEval{
-            color:#179720;
+        .regularEval {
+            color: #179720;
         }
-        .selfEval{
-            color:#B25F83;
+
+        .selfEval {
+            color: #B25F83;
         }
     </style>
 </head>
@@ -22,37 +23,35 @@
     <div id="top"></div>
     <div class="center" id="centerwrap">
         <div class="wrap clearfix" id="EvaluationInput">
-             <div class="search_toobar clearfix">
+            <div class="search_toobar clearfix">
                 <div class="fl">
                     <label for="">学年学期:</label>
-                    <select class="select" id="section"  style="width:198px;" v-model="options.section">
-                         <option value="">全部</option>
+                    <select class="select" id="section" style="width: 198px;" v-model="options.section">
+                       <%-- <option value="">全部</option>--%>
                     </select>
                 </div>
-                 <div class="fl ml10" >
+                <div class="fl ml10">
                     <label for="">部门:</label>
-                    <select class="select" id="DepartMent" style="width:148px;" v-model="options.department">
-                         <option value="">全部</option>
+                    <select class="select" id="DepartMent" style="width: 148px;" v-model="options.department">
+                        <option value="">全部</option>
                     </select>
                 </div>
-                 <div class="fl ml10">
+                <div class="fl ml10">
                     <label for="">课程:</label>
-                    <select class="select" style="width:148px;" v-model="options.course">
-                         
+                    <select class="select" style="width: 148px;" v-model="options.course">
                     </select>
                 </div>
-                 <div class="fl ml10">
+                <div class="fl ml10">
                     <label for="">评价表:</label>
-                    <select class="select" style="width:188px;" v-model="options.evaltable">
-                         
+                    <select class="select" id="table" style="width: 188px;" v-model="options.evaltable">
                     </select>
                 </div>
-                 <div class="fr pr">
-                     <button class="btn" onclick="window.location.href='./Input/createModal.aspx?Id='+getQueryString('Id')+'&Iid='+getQueryString('Iid')">评价任务</button>
-                     <b class="dian"></b>
-                 </div>
+                <div class="fr pr">
+                    <button class="btn" onclick="window.location.href='./Input/createModal.aspx?Id='+getQueryString('Id')+'&Iid='+getQueryString('Iid')">评价任务</button>
+                    <b class="dian"></b>
+                </div>
             </div>
-             <div class="table">
+            <div class="table">
                 <table>
                     <thead>
                         <tr>
@@ -69,7 +68,7 @@
                     </thead>
                     <tbody id="tb_RegEval">
                         <tr v-for="(item,index) in list" v-cloak>
-                            <td >{{index+1}}</td>
+                            <td>{{index+1}}</td>
                             <td>{{item.section}}</td>
                             <td>{{item.evelPerson}}</td>
                             <td>{{item.courseName}}</td>
@@ -92,7 +91,7 @@
                                 </div>
                             </td>
                         </tr>
-                        
+
                     </tbody>
                 </table>
                 <div class="page" id="page"></div>
@@ -103,17 +102,26 @@
     <script src="../js/vue.min.js"></script>
     <script src="../Scripts/Common.js"></script>
     <script src="../Scripts/layer/layer.js"></script>
+
+    <link href="../Scripts/choosen/prism.css" rel="stylesheet" />
+    <link href="../Scripts/choosen/chosen.css" rel="stylesheet" />
+    <script src="../Scripts/choosen/chosen.jquery.js"></script>
+    <script src="../Scripts/choosen/prism.js"></script>
+
     <script src="../Scripts/public.js"></script>
     <script src="../Scripts/WebCenter/Base.js"></script>
     <script src="../Scripts/jquery.tmpl.js"></script>
+
+
     <script>
         $(function () {
             $('#top').load('/header.html');
             $('#footer').load('/footer.html');
             Base.bindStudySection();
-            Base.BindDepart();
+            Base.BindDepart('148px');
+            Base.BindTable();
         })
-   
+
         var EvaluationInput = new Vue({
             el: '#EvaluationInput',
             data: {
@@ -124,7 +132,7 @@
                         courseName: '计算机基础',
                         className: '计12-11',
                         evelTable: "课堂教学评价表",
-                        status:1,
+                        status: 1,
                         score: '60'
                     },
                     {
@@ -155,17 +163,17 @@
                 },
             },
             methods: {
-                initList() {
+                initList: function () {
                     var that = this;
                 }
             },
-            mounted:function(){
+            mounted: function () {
                 var that = this;
                 tableSlide();
                 that.initList();
             }
         })
-       
+
     </script>
 </body>
 </html>

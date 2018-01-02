@@ -11,86 +11,185 @@
     <link rel="stylesheet" href="../../css/reset.css" />
     <link href="../../css/layout.css" rel="stylesheet" />
     <script src="../../Scripts/jquery-1.11.2.min.js"></script>
-    
+
 </head>
 <body>
     <div id="top"></div>
     <div class="center" id="centerwrap">
         <div class="wrap clearfix" id="createInput">
             <div class="search_toobar clearfix">
-                <div class="clearfix fl clearfix">
-                    <input type="text" name="key" id="key" placeholder="请输入关键字" value="" class="text fl" style="width: 130px;" v-model="key"/>
-                    <a class="search fl" href="javascript:search();"><i class="iconfont">&#xe600;</i></a>
+                <div class="fl">
+                    <label for="">学年学期:</label>
+                    <select class="select" id="section" style="width: 198px;">
+                    </select>
                 </div>
-                <div class="fr">
-                    <button class="btn ml10" onclick="OpenIFrameWindow('发起评教','StartEval.aspx','900px','650px')">发起评教</button>
-                    <button class="btn" onclick="window.history.go(-1);">返回上一步</button>
+
+                <div class="fl ml10">
+                    <label for="">评价名称:</label>
+                    <select class="select" id="Rg" style="width: 198px;">
+                        <option value="">全部</option>
+                    </select>
+                </div>
+                <div class="fl ml10">
+                    <label for="">教师姓名:</label>
+                    <select class="select" id="Te" style="width: 198px;">
+                        <option value="">全部</option>
+                    </select>
+                </div>
+
+                <div class="fr" id="btCtrl">
                 </div>
             </div>
             <div class="table mt10">
-                 <table>
+                <table>
                     <thead>
                         <tr>
                             <th>序号</th>
+                            <th>学年学期</th>
+                            <th>评价名称</th>
+                            <th>截止时间</th>
                             <th>评价课程</th>
                             <th>被评价教师</th>
                             <th>部门</th>
                             <th>操作</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        <tr v-for="(item,index) in list" v-cloak>
-                            <td>{{index+1}}</td>
-                            <td>{{item.course}}</td>
-                            <td>{{item.teracher}}</td>
-                            <td>{{item.depart}}</td>
-                            <td class="operate_wrap">
-                                <div class="operate" onclick="window.location.href='./selectTable.aspx?Id='+getQueryString('Id')+'&Iid='+getQueryString('Iid')">
-                                    <i class="iconfont color_purple">&#xe617;</i>
-                                    <span class="operate_none bg_purple">录入</span>
-                                </div>
-                            </td>
-                        </tr>
+                    <tbody id="ShowCourseInfo">
                     </tbody>
                 </table>
-                <div id="page" class="page"></div>
+                <div id="pageBar" class="page"></div>
             </div>
         </div>
-    </div>
-    <footer id="footer"></footer>
-    <script src="../../js/vue.min.js"></script>
-    <script src="../../Scripts/Common.js"></script>
-    <script src="../../Scripts/layer/layer.js"></script>
-    <script src="../../Scripts/public.js"></script>
-    <script src="../../Scripts/jquery.tmpl.js"></script>
-    <script>
-        $(function () {
-            $('#top').load('/header.html');
-            $('#footer').load('/footer.html');
-        })
-        var createInput = new Vue({
-            el: '#createInput',
-            data: {
-                list: [
-                    {
-                        course: '评价课程',
-                        teracher: '被评价教师',
-                        depart:'计算机学院'
+        <footer id="footer"></footer>
+        <script src="../../js/vue.min.js"></script>
+        <script src="../../Scripts/Common.js"></script>
+        <script src="../../Scripts/layer/layer.js"></script>
+        <script src="../../Scripts/public.js"></script>
+        <script src="../../Scripts/jquery.tmpl.js"></script>
+
+        <link href="../../Scripts/choosen/prism.css" rel="stylesheet" />
+        <link href="../../Scripts/choosen/chosen.css" rel="stylesheet" />
+        <script src="../../Scripts/choosen/chosen.jquery.js"></script>
+        <script src="../../Scripts/choosen/prism.js"></script>
+
+        <script src="../../Scripts/WebCenter/Base.js"></script>
+        <script src="../../Scripts/WebCenter/RegularEval.js"></script>
+        <script src="../../Scripts/laypage/laypage.js"></script>
+
+        <script type="text/x-jquery-tmpl" id="itembtn_Enable">
+            <button class="btn ml10" onclick="OpenIFrameWindow('发起评教','StartEval.aspx','900px','650px')">发起评教</button>
+            <button class="btn" onclick="window.history.go(-1);">返回上一步</button>
+        </script>
+
+        <script type="text/x-jquery-tmpl" id="itembtn_No_Enable">
+            <button class="btn ml10" style="background: #A8A8A8">发起评教</button>
+            <button class="btn" onclick="window.history.go(-1);">返回上一步</button>
+        </script>
+
+        <script type="text/x-jquery-tmpl" id="itemCount">
+            <span style="margin-left: 5px; font-size: 14px;">共${RowCount}条，共${PageCount}页</span>
+        </script>
+
+        <script type="text/x-jquery-tmpl" id="itemData">
+            <tr>
+                <td style="width: 5%">${Num}</td>
+                <td style="width: 10%">${DisPlayName}</td>
+                <td style="width: 10%" title="${ReguName}">${cutstr(ReguName,10)}</td>
+                <td style="width: 10%">${ DateTimeConvert(EndTime, 'yy-MM-dd', true)}</td>
+                <td title="${Course_Name}" style="width: 20%">${cutstr(Course_Name,30)}</td>
+                <td style="width: 7%">${TeacherName}</td>
+                <td title="${Departent_Name}" style="width: 20%">${cutstr(Departent_Name,30)}</td>
+                {{if StateType == 2}}
+          <td style="width: 5%" class="operate_wrap">
+              <div class="operate" onclick="window.location.href='./selectTable.aspx?Id='+getQueryString('Id')+'&Iid='+getQueryString('Iid')">
+                  <i class="iconfont color_purple">&#xe617;</i>
+                  <span class="operate_none bg_purple">录入</span>
+              </div>
+          </td>
+                {{else}}          
+             <td style="width: 5%" class="operate_wrap">
+                 <div class="operate" onclick='remove_data(${Id})'>
+                     <i class="iconfont color_purple">&#xe61b;</i>
+                     <span class="operate_none bg_purple">删除</span>
+                 </div>
+             </td>
+                {{/if}}
+            </tr>
+        </script>
+
+        <script>
+            var reguType = 1;
+            var select_sectionid = 0;
+            var select_reguid = 0;
+            var pageIndex = 0;
+            $(function () {
+                $('#top').load('/header.html');
+                $('#footer').load('/footer.html');
+            })
+            var createInput = new Vue({
+                el: '#createInput',
+                data: {
+                    list: [
+                        {
+
+                        }
+                    ],
+                    key: '',
+                },
+                methods: {
+                    initList: function () {
+                        var that = this;
                     }
-                ],
-                key:''
-            },
-            methods: {
-                initList: function () {
+                },
+                mounted: function () {
                     var that = this;
+                    Base.bindStudySectionCompleate = function () {
+                        $('#section').on('change', function () {
+                            Get_Eva_RegularDataSelect();
+                            Reflesh();
+                        });
+                    };
+                    Base.bindStudySection();
+
+                    SelectUID = login_User.UniqueNo;
+                    SectionID = select_sectionid
+
+                    Get_Eva_RegularDataSelectCompleate = function () {
+                        $('#Rg').on('change', function () {
+                            Reflesh();
+                        });
+
+                        $('#Te').on('change', function () {
+                            Reflesh();
+                        });
+                    };
+                    Get_Eva_RegularDataSelect();
+
+                    Base.CheckHasExpertReguCompleate = function (result, data) {
+                        $('#btCtrl').empty();
+                        if (result) {
+                            $("#itembtn_Enable").tmpl(1).appendTo("#btCtrl");
+                            select_sectionid = data[0].Section_Id;
+                            select_reguid = data[0].Id;
+                        }
+                        else {
+                            $("#itembtn_No_Enable").tmpl(1).appendTo("#btCtrl");
+                        }
+                    };
+                    Base.CheckHasExpertRegu(reguType);
+                  
+                    Get_Eva_RegularData(0, pageIndex);
                 }
-            },
-            mounted: function () {
-                var that = this;
-                tableSlide();
+            })
+
+            function Reflesh()
+            {
+                pageIndex = 0;
+                Te = $('#Te').val();
+                SectionID = $('#section').val();
+                Get_Eva_RegularData($('#Rg').val(), pageIndex);
             }
-        })
-       
-    </script>
+
+        </script>
 </body>
 </html>

@@ -98,6 +98,8 @@
     <Content Include="js\moment.js" />
     <Content Include="js\vue.min.js" />
     <Content Include="NoMessage.aspx" />
+    <Content Include="Scripts\kkPage\Css.css" />
+    <Content Include="Scripts\kkPage\jquery.kkPages.js" />
     <Content Include="Scripts\pdfjs\build\pdf.js" />
     <Content Include="Scripts\pdfjs\build\pdf.worker.js" />
     <Content Include="Scripts\pdfjs\web\compatibility.js" />

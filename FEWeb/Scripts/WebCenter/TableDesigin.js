@@ -858,6 +858,8 @@ var UI_Table_Create =
             return false;
         }
 
+      
+
         //启用或禁用
         var IsEnable = $("#disalbe").is(":checked") ? 0 : 1;
         $.ajax({
@@ -934,6 +936,10 @@ var UI_Table_Create =
             layer.msg('请输入自定义表头信息！');
             return false;
         }
+
+        //for (var i in UI_Table_Create.head_value) {
+        //    UI_Table_Create.head_value[i].Code = UI_Table_Create.head_value[i].CustomCode;
+        //}
 
         //启用或禁用
         var IsEnable = $("#disalbe").is(":checked") ? 0 : 1;
@@ -1112,58 +1118,62 @@ var UI_Table_View = {
     IsPage_Display: false,
     init_Prepare: function (retData) {
         //为题目分类排题号
-        var order_number = 0;//设置大的标题  比如  一、二、三等       
-        $(".test_module").each(function () {
-            order_number++;
-            $(this).parent().find("h1").find(".order_num").html(Arabia_To_SimplifiedChinese(order_number) + '、');//h1 下的标题的序号
+        //var order_number = 0;//设置大的标题  比如  一、二、三等       
+        //$(".test_module").each(function () {
+        //    order_number++;
+        //    $(this).parent().find("h1").find(".order_num").html(Arabia_To_SimplifiedChinese(order_number) + '、');//h1 下的标题的序号
 
-        })
-        var h = 0;
-        $('#table_view').find("li").each(function () {
-            var id = $(this).children("input[name='name_in']").val();//使用flg的原因防止有重复的id标签出现  比如有两个id=sp_1
-            $("#sp_f_" + id).html(h + 1);//为题目设置索引
-            h++;
-        })
+        //})
+        //var h = 0;
+        //$('#table_view').find("li").each(function () {
+        //    var id = $(this).children("input[name='name_in']").val();//使用flg的原因防止有重复的id标签出现  比如有两个id=sp_1
+        //    $("#sp_f_" + id).html(h + 1);//为题目设置索引
+        //    h++;
+        //})
 
         //求最大分
-        $("input[name='name_in']").each(function () {
-            var numbers1 = [];
-            $(this).parents('li').find(".numbers").each(function () {
-                numbers1.push($(this).html());
-            })
-            var max = Math.max.apply(null, numbers1);
-            $("#sp_" + $(this).val()).html('(<b id="b_' + $(this).val() + '">' + max + '</b>分)');
-        })
-
-
+        //$("input[name='name_in']").each(function () {
+        //    var numbers1 = [];
+        //    $(this).parents('li').find(".numbers").each(function () {
+        //        numbers1.push($(this).html());
+        //    })
+        //    var max = Math.max.apply(null, numbers1);
+        //    $("#sp_" + $(this).val()).html('(<b id="b_' + $(this).val() + '">' + max + '</b>分)');
+        //})
+      
         //求分类的总分
-        var total = 0;
-        $(".test_module").each(function () {
-            var Id = $(this).children("input[name='name_title']").val();
-            var all_array = [];
-            $(this).find('li').each(function () {
-                var titles = $(this).find("input[name='name_in']").val();
-                var QuesType_Id = $(this).find("input[name='name_QuesType_Id']").val();//找到问答题的值
-                if (QuesType_Id == 3)//3位问答题
-                {
-                    all_array.push("0");
-                }
-                else {
-                    all_array.push($("#b_" + titles).html());
-                }
+        //var total = 0;
+        //$(".test_module").each(function () {
+        //    var Id = $(this).children("input[name='name_title']").val();
+        //    var all_array = [];
+        //    $(this).find('li').each(function () {
+        //        var titles = $(this).find("input[name='name_in']").val();
+        //        var QuesType_Id = $(this).find("input[name='name_QuesType_Id']").val();//找到问答题的值
+        //        if (QuesType_Id == 3)//3位问答题
+        //        {
+        //            all_array.push("0");
+        //        }
+        //        else {
+        //            all_array.push($("#b_" + titles).html());
+        //        }
 
 
-            })
-            //对all_array进行遍历，进行求和
-            var sum = 0;
-            for (var i = 0; i < all_array.length; i++) {
-                sum = numAdd(sum, all_array[i]);//防止值为字符串 导致计算错误
-            }
-            total += sum;
-            $("#h_" + Id).html(sum);
-        })
+        //    })
+        //    //对all_array进行遍历，进行求和
+        //    var sum = 0;
+        //    for (var i = 0; i < all_array.length; i++) {
+        //        sum = numAdd(sum, all_array[i]);//防止值为字符串 导致计算错误
+        //    }
+        //    total += sum;
+        //    $("#h_" + Id).html(sum);
+        //})
         //总分
-        $("#sp_total").html('总分' + total + '分')
+        //$("#sp_total").html('总分' + total + '分')
+     
+        var head_value = retData.Table_Header_List.filter(function (item) { return item.CustomCode == '' });
+        var headerList = retData.Table_Header_List.filter(function (item) { return item.CustomCode != '' });
+        $("#item_check").tmpl(head_value).appendTo("#list");
+        $("#item_check2").tmpl(headerList).appendTo("#list");
 
     },
 
@@ -1189,9 +1199,11 @@ var UI_Table_View = {
                         if (retData.IsScore == 1) {
                             $(".isscore").hide();
                         }
+                       console.log(retData)
                         UI_Table_View.init_Prepare(retData);
                         break;
                     case 'AddEvalTable':
+
                         if (retData.IsScore == 0) {
                             $("#IsScore").attr('checked', true);
                         }
@@ -1222,10 +1234,6 @@ var UI_Table_View = {
                                 indica.indicator_list[j].flg = indica.indicator_list[j].Sort;
 
                                 total_ += indica.indicator_list[j].OptionF_S_Max;
-
-                              
-
-
                             }
                            
                             sheet.indicator_array.push(indica);
@@ -1244,7 +1252,7 @@ var UI_Table_View = {
                         }
                         $('#total').text(total_)
                         UI_Table_Create.sheet_init();
-
+                        debugger;
                         retData.Table_Header_List = Enumerable.From(retData.Table_Header_List).OrderBy(function (item) { return item.Id }).ToArray();//按Id进行升序排列
 
                         //添加表头信息
@@ -1262,8 +1270,7 @@ var UI_Table_View = {
                                     header.Num = lisss[lisss.length - 1].Num + 1;
                                     header.t_Id = 't_' + header.Num;
                                 }
-                                lisss.push(header);
-
+                                lisss.push(header);                              
                                 $("#item_check2").tmpl(header).appendTo("#list2");
                             }
                             else {

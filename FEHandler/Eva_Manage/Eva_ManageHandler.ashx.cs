@@ -162,6 +162,10 @@ namespace FEHandler.Eva_Manage
                     case "Get_Eva_RegularS": Get_Eva_RegularS(context); break;
                     case "Get_Eva_RegularSingle": Get_Eva_RegularSingle(context); break;
                     case "Get_Eva_RegularData": Get_Eva_RegularData(context); break;
+                    //筛选
+                    case "Get_Eva_RegularDataSelect": Get_Eva_RegularDataSelect(context); break;
+
+
                     //新增定期评价
                     case "Add_Eva_Regular": Add_Eva_Regular(context); break;
                     //编辑定期评价
@@ -2177,13 +2181,13 @@ namespace FEHandler.Eva_Manage
             int intSuccess = (int)errNum.Success;
             HttpRequest Request = context.Request;
 
-            int Eva_Role = RequestHelper.int_transfer(Request, "Eva_Role");
+            int Type = RequestHelper.int_transfer(Request, "Type");
             try
             {
                 //教师          
-                List<Eva_Regular> sele2 = GetLastRegu(Eva_Role);
+                List<Eva_Regular> sele2 = GetLastRegu(Type);
                 //返回所有表格数据
-                jsonModel = JsonModel.get_jsonmodel(intSuccess, "success", sele2.Count);
+                jsonModel = JsonModel.get_jsonmodel(intSuccess, "success", sele2);
             }
             catch (Exception ex)
             {
@@ -2207,14 +2211,14 @@ namespace FEHandler.Eva_Manage
         /// </summary>
         /// <param name="Eva_Role"></param>
         /// <returns></returns>
-        public static List<Eva_Regular> GetLastRegu(int Eva_Role)
+        public static List<Eva_Regular> GetLastRegu(int Type)
         {
             List<Eva_Regular> list = new List<Eva_Regular>();
             try
             {
                 list = (
                        from regu in Constant.Eva_Regular_List
-                       where regu.StartTime < DateTime.Now && ((DateTime)regu.EndTime).AddDays(1) > DateTime.Now
+                       where regu.StartTime < DateTime.Now && ((DateTime)regu.EndTime).AddDays(1) > DateTime.Now && regu.Type == Type
                        select regu).ToList();
             }
             catch (Exception ex)

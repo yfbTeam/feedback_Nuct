@@ -770,8 +770,6 @@ namespace FEHandler.Eva_Manage
     
     public class C_T
     {
-
-
         public UserInfo user { get; set; }
 
         public Major major { get; set; }
@@ -951,6 +949,47 @@ namespace FEHandler.Eva_Manage
 
         public int? SectionID { get; set; }
     }
+
+    public class ReModel
+    {
+
+        public string ReguName { get; set; }
+
+        public int? ReguId { get; set; }
+    }
+
+    class ReModelComparer : EqualityComparer<ReModel>
+    {
+        public override bool Equals(ReModel x, ReModel y)
+        {
+            return x.ReguId == y.ReguId;
+        }
+        public override int GetHashCode(ReModel obj)
+        {
+            return obj.ReguId.GetHashCode();
+        }
+    }
+
+    public class TeModel
+    {
+
+        public string TeacherUID { get; set; }
+
+        public string TeacherName { get; set; }
+    }
+
+    class TeModelComparer : EqualityComparer<TeModel>
+    {
+        public override bool Equals(TeModel x, TeModel y)
+        {
+            return x.TeacherUID == y.TeacherUID ;
+        }
+        public override int GetHashCode(TeModel obj)
+        {
+            return obj.TeacherUID.GetHashCode();
+        }
+    }
+    
     
     #endregion
 
