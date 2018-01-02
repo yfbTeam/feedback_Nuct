@@ -10,7 +10,7 @@
     <script type="text/x-jquery-tmpl" id="tr_Info">
         <tr id="tr_rank_${Id}" {{if UseCount==0}}class="edit_rank"{{/if}}>
             <td>第<span class="rankname">${ReplaceName(Name)}</span>名</td>
-            <td><input type="number" class="text" isrequired="true" fl="分数" style="width:80px" min="1" value="${Score}" {{if UseCount>0}} disabled="disabled" {{/if}}/></td>
+            <td><input type="number" class="text" isrequired="true" regtype="money" fl="分数" placeholder="分数（允许两位小数）" style="width:160px" min="0" step="0.01" value="${Score}" {{if UseCount>0}} disabled="disabled" {{/if}}/></td>
             <td class="operate_wrap">
                 {{if UseCount==0}}
                     <div class="operate" onclick="DelRank(${Id})">
@@ -79,7 +79,7 @@
             }           
             $("#tb_Rank").prepend('<tr class="add_newrank">\
                         <td>第<input type="number" class="text rankname" isrequired="true" fl="排名" style="width:60px;margin:0px 10px;" min="1"/>名</td>\
-                        <td><input type="number" class="text" isrequired="true" fl="分数" style="width:80px" min="1" /></td>\
+                        <td><input type="number" class="text" isrequired="true" regtype="money" fl="分数" placeholder="分数（允许两位小数）" style="width:160px" min="0" step="0.01"/></td>\
                         <td class="operate_wrap">\
                             <div class="operate" onclick="javascript:$(this).parents(\'tr\').remove();">\
                                <i class="iconfont color_purple">&#xe61b;</i>\
