@@ -93,7 +93,7 @@
                     <input type="text" isrequired="true" fl="获奖年度" class="text Wdate" name="Year" id="Year" onfocus="WdatePicker({dateFmt:'yyyy年'})" />
                 </div>
                 <div class="input_lable fl">
-                    <label for="">负责人：</label>
+                    <label for="">获奖教师：</label>
                     <input type="text" name="ResponsMan_Name" id="ResponsMan_Name" class="text" readonly="readonly"/>
                     <input type="hidden" name="ResponsMan" id="ResponsMan" value=""/>                            
                 </div>

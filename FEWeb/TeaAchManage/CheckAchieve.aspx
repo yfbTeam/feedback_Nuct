@@ -97,7 +97,7 @@
                     <span>${Year}</span>
                 </div>
             <div class="input_lable fl">
-                <label for="">负责人：</label>
+                <label for="">{{if AchieveType==5}}获奖教师{{else}}负责人{{/if}}：</label>
                 <span>${ResponsName}</span>
             </div>
             <div class="input_lable fl">
@@ -122,8 +122,8 @@
                     <tbody id="tb_Member"></tbody>
                 </table>
             </div>
-            <h2 class="cont_title book {{if AchieveType!=2||Status>3}}none{{/if}}"><span>作者信息</span></h2>
-            <div class="area_form book {{if AchieveType!=2||Status>3}}none{{/if}}" >
+            <h2 class="cont_title book {{if AchieveType!=3||Status>3}}none{{/if}}"><span>作者信息</span></h2>
+            <div class="area_form book {{if AchieveType!=3||Status>3}}none{{/if}}" >
                 <div class="clearfix" id="div_user_book"> 
                     <span class="fr status mr10">总分：<span id="span_BookScore">0</span></span>                      
                     <span class="fr status mr10">总贡献字数：<span id="span_Words">0</span></span>                       

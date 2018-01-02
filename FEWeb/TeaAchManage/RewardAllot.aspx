@@ -157,7 +157,8 @@
                 <span id="Year" >{{Info.Year}}</span>
             </div>
             <div class="input_lable fl" v-cloak >
-                <label for="">负责人：</label>
+                <label for=""  v-if="Info.AchieveType==5">获奖教师：</label>
+                <label for="" v-else>负责人：</label>
                 <span id="ResponsMan" >{{Info.ResponsMan}}</span>
             </div>
             <div class="input_lable fl" v-cloak >

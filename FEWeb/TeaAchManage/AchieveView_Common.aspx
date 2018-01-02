@@ -100,7 +100,7 @@
                     <span>${Year}</span>
                 </div>
             <div class="input_lable fl">
-                <label for="">负责人：</label>
+                <label for="">{{if AchieveType==5}}获奖教师{{else}}负责人{{/if}}：</label>
                 <span>${ResponsName}</span>
             </div>
             <div class="input_lable fl">

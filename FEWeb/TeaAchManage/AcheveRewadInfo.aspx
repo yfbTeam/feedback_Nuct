@@ -102,15 +102,15 @@
                         <input type="text"  isrequired="true" fl="获奖年度" class="text Wdate" name="Year" id="Year" onclick="WdatePicker({dateFmt:'yyyy年'})" />
                     </div>
                     <div class="input_lable fl">
-                        <label for="" id="lb_ResponsMan">负责人：</label>
-                        <select class="chosen-select select" isrequired="true" fl="负责人" data-placeholder="负责人" id="ResponsMan" name="ResponsMan" onchange="Bind_ResponsMan('ResponsMan');"></select>
+                        <label for="" id="lb_ResponsMan">{{if AchieveType==5}}获奖教师{{else}}负责人{{/if}}：</label>
+                        <select class="chosen-select select" isrequired="true" fl="{{if AchieveType==5}}获奖教师{{else}}负责人{{/if}}" data-placeholder="{{if AchieveType==5}}获奖教师{{else}}负责人{{/if}}" id="ResponsMan" name="ResponsMan" onchange="Bind_ResponsMan('ResponsMan');"></select>
                     </div>
                     <div class="input_lable fl">
                         <label for="">负责单位：</label>
                         <select class="chosen-select select" data-placeholder="负责单位" id="DepartMent" name="DepartMent" multiple="multiple"></select>
                     </div>
                 </div>
-         {{if AchieveType==2&&Status <= 3}}  
+         {{if AchieveType==2}}  
                 <h2 class="cont_title members"><span>成员信息</span></h2>
                 <div class="area_form members">
                     <div class="clearfix">
@@ -132,7 +132,7 @@
                     </table>
                 </div>
         {{/if}}
-         {{if AchieveType==3&&Status <= 3}}
+         {{if AchieveType==3}}
                 <h2 class="cont_title book"><span>作者信息</span></h2>
                 <div class="area_form book">
                     <div class="clearfix"> 
@@ -212,27 +212,18 @@
             Get_PageBtn("/TeaAchManage/AchManage.aspx");
             achieve_add_noaudit = JudgeBtn_IsExist("achieve_add_noaudit");
             $("#div_Achieve").empty();
-            $("#div_AchInfo").tmpl({ AchieveType: UrlDate.Type }).appendTo("#div_Achieve");
-            var Type = UrlDate.Type;
-            switch (Type) {
-                case "2":                                                        
-                    $('.members').show();
-                    $("#Sort").parent().show();
-                    $("#Name").parent().show();
-                    break;
-                case "3":
-                    $(".book").show();                         
-                    break;
-                case "5":
-                    $("#lb_ResponsMan").html("获奖教师");
-                    $("#ResponsMan").attr('fl',"获奖教师");
-                    $("#ResponsMan").attr('data-placeholder', "获奖教师");
-                    break;
-                case "1":                    
-                    $("#Name").parent().show();
-                    break;
-            }
+            $("#div_AchInfo").tmpl({ AchieveType: UrlDate.Type }).appendTo("#div_Achieve");            
             BindFile_Plugin();
+            $("#Group").val(UrlDate.Group);
+            BindDepart("DepartMent");
+            BindUser("ResponsMan");
+            $("#Group").val(UrlDate.Group);
+            $("#GropName").html(decodeURI(UrlDate.Name));
+            if (UrlDate.Group != undefined) {
+                //奖励项目
+                BindGInfo();
+            }
+            BindBook();
         });
         function BindBook() {
             $.ajax({
@@ -281,19 +272,7 @@
                     }
                 });
             }
-        }
-        $(function () {           
-            $("#Group").val(UrlDate.Group);
-            BindDepart("DepartMent");
-            BindUser("ResponsMan");
-            $("#Group").val(UrlDate.Group);
-            $("#GropName").html(decodeURI(UrlDate.Name));
-            if (UrlDate.Group != undefined) {
-                //奖励项目
-                BindGInfo();
-            }
-            BindBook();
-        });
+        }       
         function submit() {
             $("#Status").val(achieve_add_noaudit?"3":"1");
             Save();

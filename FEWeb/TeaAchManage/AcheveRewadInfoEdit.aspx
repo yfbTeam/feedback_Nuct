@@ -102,8 +102,8 @@
                         <input type="text" isrequired="true" fl="获奖年度" value="${Year}" class="text Wdate" name="Year" id="Year" onclick="WdatePicker({dateFmt:'yyyy年'})" />
                     </div>
                     <div class="input_lable fl">
-                        <label for="" id="lb_ResponsMan">负责人：</label>
-                        <select class="chosen-select" isrequired="true" fl="负责人" data-placeholder="负责人" id="ResponsMan" name="ResponsMan" onchange="Bind_ResponsMan('ResponsMan');"></select>
+                        <label for="" id="lb_ResponsMan">{{if AchieveType==5}}获奖教师{{else}}负责人{{/if}}：</label>
+                        <select class="chosen-select" isrequired="true" fl="{{if AchieveType==5}}获奖教师{{else}}负责人{{/if}}" data-placeholder="{{if AchieveType==5}}获奖教师{{else}}负责人{{/if}}" id="ResponsMan" name="ResponsMan" onchange="Bind_ResponsMan('ResponsMan');"></select>
                     </div>
                     <div class="input_lable fl">
                         <label for="">负责单位：</label>
@@ -223,9 +223,7 @@
             $("#CreateUID").val(GetLoginUser().UniqueNo);
             Get_PageBtn("/TeaAchManage/AchManage.aspx");
             achieve_add_noaudit = JudgeBtn_IsExist("achieve_add_noaudit");
-            $("#Group").val(UrlDate.Group);            
-            //$("#Group").val(UrlDate.Group);
-            //$("#GropName").html(decodeURI(UrlDate.Name));            
+            $("#Group").val(UrlDate.Group);                     
             var itemId = UrlDate.itemId;
             if (itemId != undefined) {
                 $("#Id").val(itemId);                
@@ -240,44 +238,41 @@
                 data: { "Func": "GetAcheiveRewardInfoData", "IsPage": "false", Id: UrlDate.itemId },
                 success: function (json) {
                     if (json.result.errMsg == "success") {
-                        $(json.result.retData[0]).each(function () {
-                            var model = json.result.retData[0];
-                            $("#div_AchInfo").tmpl(model).appendTo("#div_Achieve");
-                            cur_ResponUID = model.ResponsMan;
-                            cur_AchieveType = model.AchieveType;
-                            $("#GropName").html(this.GName);                          
-                            $("#Gid").val(this.Gid);
-                            $("#BookId").val(this.BookId);                            
-                            $("#BookId").trigger("chosen:updated");
-                            $("#BookId").chosen();                          
-                            $("#ResponsMan").val(this.ResponsMan);
-                            $("#ResponsMan").trigger("chosen:updated");
-                            $("#ResponsMan").chosen();
-                            BindDepart("DepartMent", this.DepartMent);
-                            BindLinfo();
-                            $("#Lid").val(this.Lid);
-                            BindRewardInfo();
-                            $("#Rid").val(this.Rid);
-                            BindRank();
-                            SetScore();
-                            Get_OperReward_UserInfo();
-                            if (this.Status == "0" || this.Status == "2") {
-                                $(".btn").show();
-                            }
-                            else {
-                                $(".btn").hide();
-                            }
-                            BindFile_Plugin();
-                            BindUser("ResponsMan");
-                            if (UrlDate.Group != undefined) {
-                                BindGInfo();//奖励项目
-                            }
+                        var model = json.result.retData[0];
+                        $("#div_AchInfo").tmpl(model).appendTo("#div_Achieve");
+                        cur_ResponUID = model.ResponsMan;
+                        cur_AchieveType = model.AchieveType;
+                        $("#GropName").html(model.GName);
+                        if (model.Status == "0" || model.Status == "2") {
+                            $(".btn").show();
+                        }
+                        else {
+                            $(".btn").hide();
+                        }
+                        BindDepart("DepartMent", model.DepartMent);
+                        BindGInfo();//奖励项目
+                        $("#Gid").val(model.Gid);
+                        BindLinfo();
+                        $("#Lid").val(model.Lid);
+                        BindRewardInfo();
+                        $("#Rid").val(model.Rid);
+                        BindRank();
+                        SetScore();                                            
+                        BindFile_Plugin();
+                        Get_Sys_Document(0, $("#Id").val());
+                        BindUser("ResponsMan");
+                        $("#ResponsMan").val(model.ResponsMan);
+                        $("#ResponsMan").trigger("chosen:updated");
+                        $("#ResponsMan").chosen();                       
+                        if (cur_AchieveType == 3) {
                             BindBook();
-                            Get_Sys_Document(0, $("#Id").val());
-                            if (UrlDate.Type != "3") {
-                                Get_TPM_AcheiveMember(itemId);
-                            }
-                        });
+                            $("#BookId").val(model.BookId);
+                            $("#BookId").trigger("chosen:updated");
+                            $("#BookId").chosen();
+                            Get_OperReward_UserInfo();
+                        } else {
+                            Get_TPM_AcheiveMember(UrlDate.itemId);
+                        }                                              
                     }
                 },
                 error: function () {
