@@ -11,7 +11,7 @@
     <link href="../Scripts/choosen/prism.css" rel="stylesheet" />
     <script src="../Scripts/jquery-1.11.2.min.js"></script>
     <script type="text/x-jquery-tmpl" id="tr_Info">
-        <tr>
+        <tr un="${UserNo}">
             <td>${Name}</td>
             <td>{{if ULevel==0}}独著 {{else ULevel==1}}主编{{else ULevel==2}}参编{{else}}其他人员{{/if}}</td>           
             <td>${Sort}</td>
@@ -101,18 +101,19 @@
                         <label for="">获奖年度：</label>
                         <input type="text" isrequired="true" fl="获奖年度" value="${Year}" class="text Wdate" name="Year" id="Year" onclick="WdatePicker({dateFmt:'yyyy年'})" />
                     </div>
-                    <div class="input_lable fl">
-                        <label for="" id="lb_ResponsMan">负责人：</label>
-                        <select class="chosen-select" isrequired="true" fl="负责人" data-placeholder="负责人" id="ResponsMan" name="ResponsMan" onchange="Bind_ResponsMan('ResponsMan');"></select>
+                    {{if AchieveType!=3}}
+                    <div class="input_lable fl {{if AchieveType==3}}none{{/if}}">
+                        <label for="" id="lb_ResponsMan">{{if AchieveType==5}}获奖教师{{else}}负责人{{/if}}：</label>
+                        <select class="chosen-select" isrequired="true" fl="{{if AchieveType==5}}获奖教师{{else}}负责人{{/if}}" data-placeholder="{{if AchieveType==5}}获奖教师{{else}}负责人{{/if}}" id="ResponsMan" name="ResponsMan" onchange="Bind_ResponsMan('ResponsMan');"></select>
                     </div>
+                     {{/if}}
                     <div class="input_lable fl">
                         <label for="">负责单位：</label>
                         <select class="chosen-select" data-placeholder="负责单位" id="DepartMent" name="DepartMent" multiple="multiple"></select>
                     </div>
                 </div>
-        {{if AchieveType==2&&Status <= 3}}  
-                <h2 class="cont_title members"><span>成员信息</span></h2>
-                <div class="area_form members">
+                <h2 class="cont_title members {{if AchieveType!=2}}none{{/if}}"><span>成员信息</span></h2>
+                <div class="area_form members {{if AchieveType!=2}}none{{/if}}">
                     <div class="clearfix">
                         <input type="button" name="name" id="" value="添加" class="btn fl" onclick="javascript: OpenIFrameWindow('添加成员','AddAchMember.aspx', '1000px', '700px');">
                         <input type="button" name="name" id="" value="删除" class="btn fl ml20" onclick="Del_HtmlMember();">
@@ -131,8 +132,7 @@
                         <tbody id="tb_Member"></tbody>
                     </table>
                 </div>
-         {{/if}}
-         {{if AchieveType==3&&Status <= 3}}
+         {{if AchieveType==3}}
                 <h2 class="cont_title book"><span>作者信息</span></h2>
                 <div class="area_form book">
                     <div class="clearfix">                       
@@ -199,8 +199,8 @@
         </div>
         <div class="score"></div>
         <div class="btnwrap" style="background: #fafafa; padding: 15px 0px;">
-            <input type="button" value="保存" onclick="Save()" class="btn" />
-            <input type="button" value="提交" class="btn ml10" onclick="submit()"/>
+            <input type="button" value="保存" onclick="Save(0);" class="btn" />
+            <input type="button" value="提交" class="btn ml10" onclick="Save(1);"/>
         </div>
     </div>
     <footer id="footer"></footer>
@@ -223,9 +223,7 @@
             $("#CreateUID").val(GetLoginUser().UniqueNo);
             Get_PageBtn("/TeaAchManage/AchManage.aspx");
             achieve_add_noaudit = JudgeBtn_IsExist("achieve_add_noaudit");
-            $("#Group").val(UrlDate.Group);            
-            //$("#Group").val(UrlDate.Group);
-            //$("#GropName").html(decodeURI(UrlDate.Name));            
+            $("#Group").val(UrlDate.Group);                     
             var itemId = UrlDate.itemId;
             if (itemId != undefined) {
                 $("#Id").val(itemId);                
@@ -240,44 +238,41 @@
                 data: { "Func": "GetAcheiveRewardInfoData", "IsPage": "false", Id: UrlDate.itemId },
                 success: function (json) {
                     if (json.result.errMsg == "success") {
-                        $(json.result.retData[0]).each(function () {
-                            var model = json.result.retData[0];
-                            $("#div_AchInfo").tmpl(model).appendTo("#div_Achieve");
-                            cur_ResponUID = model.ResponsMan;
-                            cur_AchieveType = model.AchieveType;
-                            $("#GropName").html(this.GName);                          
-                            $("#Gid").val(this.Gid);
-                            $("#BookId").val(this.BookId);                            
-                            $("#BookId").trigger("chosen:updated");
-                            $("#BookId").chosen();                          
-                            $("#ResponsMan").val(this.ResponsMan);
-                            $("#ResponsMan").trigger("chosen:updated");
-                            $("#ResponsMan").chosen();
-                            BindDepart("DepartMent", this.DepartMent);
-                            BindLinfo();
-                            $("#Lid").val(this.Lid);
-                            BindRewardInfo();
-                            $("#Rid").val(this.Rid);
-                            BindRank();
-                            SetScore();
-                            Get_OperReward_UserInfo();
-                            if (this.Status == "0" || this.Status == "2") {
-                                $(".btn").show();
-                            }
-                            else {
-                                $(".btn").hide();
-                            }
-                            BindFile_Plugin();
-                            BindUser("ResponsMan");
-                            if (UrlDate.Group != undefined) {
-                                BindGInfo();//奖励项目
-                            }
+                        var model = json.result.retData[0];
+                        $("#div_AchInfo").tmpl(model).appendTo("#div_Achieve");
+                        cur_ResponUID = model.ResponsMan;
+                        cur_AchieveType = model.AchieveType;
+                        $("#GropName").html(model.GName);
+                        if (model.Status == "0" || model.Status == "2") {
+                            $(".btn").show();
+                        }
+                        else {
+                            $(".btn").hide();
+                        }
+                        BindDepart("DepartMent", model.DepartMent);
+                        BindGInfo();//奖励项目
+                        $("#Gid").val(model.Gid);
+                        BindLinfo();
+                        $("#Lid").val(model.Lid);
+                        BindRewardInfo();
+                        $("#Rid").val(model.Rid);
+                        BindRank();
+                        SetScore();                                            
+                        BindFile_Plugin();
+                        Get_Sys_Document(0, $("#Id").val());
+                        BindUser("ResponsMan");
+                        $("#ResponsMan").val(model.ResponsMan);
+                        $("#ResponsMan").trigger("chosen:updated");
+                        $("#ResponsMan").chosen();                       
+                        if (cur_AchieveType == 3) {
                             BindBook();
-                            Get_Sys_Document(0, $("#Id").val());
-                            if (UrlDate.Type != "3") {
-                                Get_TPM_AcheiveMember(itemId);
-                            }
-                        });
+                            $("#BookId").val(model.BookId);
+                            $("#BookId").trigger("chosen:updated");
+                            $("#BookId").chosen();
+                            Get_OperReward_UserInfo();
+                        } else {
+                            Get_TPM_AcheiveMember(UrlDate.itemId);
+                        }                                              
                     }
                 },
                 error: function () {
@@ -334,54 +329,67 @@
                     }
                 });
             }
-        }      
-        function submit() {            
-            $("#Status").val(achieve_add_noaudit ? "3" : "1");
-            Save();
-        }
+        }            
         //提交按钮
-        function Save() {
-            //验证为空项或其他
-            var valid_flag = validateForm($('select,input[type="text"]:visible'));
-            if (valid_flag != "0")////验证失败的情况  需要表单的input控件 有 isrequired 值为true或false 和fl 值为不为空的名称两个属性
-            {
-                return false;
+        function Save(s_type) {
+            var department = $("#DepartMent").val();
+            if (s_type == 0) {
+                $("#Status").val("0");                
+                var judgeobj = $("#ResponsMan");
+                if (UrlDate.Type == "1" || UrlDate.Type == "2") { judgeobj = $("#Name"); } else {
+                    judgeobj = $("#BookId");
+                }
+                if (!judgeobj.val().trim().length) {
+                    layer.msg("请输入" + judgeobj.attr("fl")+ "!");
+                    return;
+                }
+            } else {
+                $("#Status").val(achieve_add_noaudit ? "3" : "1");
+                //验证为空项或其他
+                var valid_flag = validateForm($('select,input[type="text"]:visible'));
+                if (valid_flag != "0")////验证失败的情况  需要表单的input控件 有 isrequired 值为true或false 和fl 值为不为空的名称两个属性
+                {
+                    return false;
+                }
+                if ($("#uploader .filelist li").length <= 0) {
+                    layer.msg("请上传获奖扫描件!");
+                    return;
+                }
+                if (UrlDate.Type == "2" && !$("#Sort").val().length) {
+                    layer.msg("请选择排名!");
+                    return;
+                }
+                if (UrlDate.Type == "3" && !$("#BookId").val().trim().length) {
+                    layer.msg("请输入书名!");
+                    return;
+                }
+                if (department == null || department == "") {
+                    layer.msg("请输入负责单位!");
+                    return;
+                }
+                if (UrlDate.Type == "2") {
+                    var add_tr = $("#tb_Member tr");
+                    if (add_tr.length <= 0) {
+                        layer.msg("请添加成员信息!");
+                        return;
+                    }
+                    if (add_tr.length <= 4) {
+                        layer.msg("请至少添加五个成员信息!");
+                        return;
+                    }                    
+                }
             }
-            if ($("#uploader .filelist li").length <= 0) {
-                layer.msg("请上传获奖扫描件!");
+            if (UrlDate.Type == "2"&&(Num_Fixed($('#span_AllScore').html()) < Num_Fixed($('#span_CurScore').html()))) {               
+                layer.msg("已分配分数不能大于总分！");
                 return;
             }
-            if (UrlDate.Type == "2" && !$("#Sort").val().length) {
-                layer.msg("请选择排名!");
-                return;
-            }
-            if (UrlDate.Type == "3" && !$("#BookId").val().trim().length) {
-                layer.msg("请输入书名!");
-                return;
-            }            
-            var object = getFromValue();//组合input标签
-            if ($("#DepartMent").val() == null || $("#DepartMent").val() == "") {
-                layer.msg("请输入负责单位!");
-                return;
-            }
-            object["DepartMent"] = $("#DepartMent").val().join(',');            
+            var object = getFromValue();//组合input标签   
+            object.DepartMent = department ? $("#DepartMent").val().join(',') : "";                    
             object.MemberStr = '';
             object.MemberEdit = '';
             object.AchieveType = UrlDate.Type;
-            if (UrlDate.Type == "2") {
-                var add_tr = $("#tb_Member tr");
-                if (add_tr.length <= 0) {
-                    layer.msg("请添加成员信息!");
-                    return;
-                }
-                if (add_tr.length <= 4) {
-                    layer.msg("请至少添加五个成员信息!");
-                    return;
-                }
-                if (Num_Fixed($('#span_AllScore').html()) < Num_Fixed($('#span_CurScore').html())) {
-                    layer.msg("已分配分数不能大于总分！");
-                    return;
-                }                
+            if (UrlDate.Type == "3") {
+                object.ResponsMan = $("#tb_info tr:first").attr('un');
             }
             var addArray = Rtn_AddMemArray(1);
             object.MemberStr = addArray.length > 0 ? JSON.stringify(addArray) : '';

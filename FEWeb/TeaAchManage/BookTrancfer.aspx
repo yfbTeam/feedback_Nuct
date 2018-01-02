@@ -315,7 +315,9 @@
         function submit(status) {
             if (status == 1) {
                 $("#Status").val(btn_book_noaudit ? "3" : "1");
-            }             
+            } else {
+                $("#Status").val("0");
+            }
             Save(status);
         }
         //提交按钮

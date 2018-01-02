@@ -96,10 +96,12 @@
                     <label for="">获奖年度：</label>
                     <span>${Year}</span>
                 </div>
-            <div class="input_lable fl">
-                <label for="">负责人：</label>
-                <span>${ResponsName}</span>
-            </div>
+             {{if AchieveType!=3}}
+                <div class="input_lable fl">
+                    <label for="">{{if AchieveType==5}}获奖教师{{else}}负责人{{/if}}：</label>
+                    <span>${ResponsName}</span>
+                </div>
+             {{/if}}
             <div class="input_lable fl">
                 <label for="">负责单位：</label>
                 <span>${Major_Name}</span>
@@ -122,8 +124,8 @@
                     <tbody id="tb_Member"></tbody>
                 </table>
             </div>
-            <h2 class="cont_title book {{if AchieveType!=2||Status>3}}none{{/if}}"><span>作者信息</span></h2>
-            <div class="area_form book {{if AchieveType!=2||Status>3}}none{{/if}}" >
+            <h2 class="cont_title book {{if AchieveType!=3||Status>3}}none{{/if}}"><span>作者信息</span></h2>
+            <div class="area_form book {{if AchieveType!=3||Status>3}}none{{/if}}" >
                 <div class="clearfix" id="div_user_book"> 
                     <span class="fr status mr10">总分：<span id="span_BookScore">0</span></span>                      
                     <span class="fr status mr10">总贡献字数：<span id="span_Words">0</span></span>                       
@@ -334,7 +336,7 @@
             var yesstatus = 3, nostatus = 2;
             if (model.Status >= 0 && model.Status <= 3) {//信息
                 yesstatus = 3, nostatus = 2;
-                if (model.AchieveType == 3) { yesstatus =7}//教材建设类直接跳过分数审核
+                //if (model.AchieveType == 3) { yesstatus =7}//教材建设类直接跳过分数审核
             } else if (model.Status > 3 && model.Status <= 6) {//分数
                 yesstatus = 7, nostatus = 6;
                 $(".re_score").show();

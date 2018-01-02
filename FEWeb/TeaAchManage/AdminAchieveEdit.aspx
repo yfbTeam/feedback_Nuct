@@ -125,11 +125,7 @@
     <input type="hidden" id="hid_UploadFunc" value="Upload_AcheiveReward"/>
     <div class="main"  id="RewardAllot">
         <h2 class="cont_title"><span>基本信息</span></h2>
-        <div class="area_form clearfix" style="min-height:165px;">
-            <div class="input_lable fl" v-if="Info.AchieveType==5" v-cloak >
-                <label for="">获奖教师：</label>
-                <span id="TeaUNo">{{Info.ResponsName}}</span>
-            </div>
+        <div class="area_form clearfix" style="min-height:165px;">            
             <div class="input_lable fl" v-if="Info.AchieveType==1||Info.AchieveType==2" v-cloak >
                 <label for="">获奖项目名称：</label>
                 <span id="Name" >{{Info.AchiveName}}</span>
@@ -163,8 +159,9 @@
                 <label for="">获奖年度：</label>
                 <span id="Year" >{{Info.Year}}</span>
             </div>
-            <div class="input_lable fl" v-cloak >
-                <label for="">负责人：</label>
+            <div class="input_lable fl" v-if="Info.AchieveType!=3" v-cloak >
+                <label for=""  v-if="Info.AchieveType==5">获奖教师：</label>
+                <label for="" v-else>负责人：</label>               
                 <span id="ResponsMan" >{{Info.ResponsMan}}</span>
             </div>
             <div class="input_lable fl" v-cloak >

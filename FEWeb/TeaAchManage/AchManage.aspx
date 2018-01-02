@@ -17,36 +17,31 @@
             <td>${Year}</td>           
             <td>{{if Status==0}}<span class="nosubmit">待提交</span>
                 {{else Status==1}}<span class="checking1">信息待审核</span>
-                {{else Status==2}}<span class="nocheck">信息不通过</span>
-                {{else Status==3}}<span class="assigning">分数待分配</span>
-                {{else Status==4}}<span class="nosubmit">分数待提交</span>
-                {{else Status==5}}<span class="checking1">分数待审核</span>
-                {{else Status==6}}<span class="nocheck">分数不通过</span>
-                {{else Status==7}}<span class="assigning">审核通过</span>
-                {{else Status==8}}<span class="assigning">奖金待分配</span>
-                {{else Status==9}}<span class="nosubmit">奖金待提交</span>
-                {{else Status==10}}<span class="checking1">奖金待审核</span>
-                {{else Status==11}}<span class="nocheck">奖金不通过</span>
-                {{else}} <span class="assigning">审核通过</span>
-                {{/if}}
-            </td>           
+                {{else}}<span class="nocheck">信息不通过</span>{{/if}}
+            </td>
             <td class="operate_wrap">
-                 <div class="operate" onclick="OpenIFrameWindow('业绩查看', 'CheckAchieve.aspx?Id=${Id}&Type=View', '1000px', '700px')">
+                <div class="operate" onclick="OpenIFrameWindow('业绩查看', 'CheckAchieve.aspx?Id=${Id}&Type=View', '1000px', '700px')">
                     <i class="iconfont color_purple">&#xe60b;</i>
                     <span class="operate_none bg_purple">查看</span>
-                </div>   
+                </div>
                 {{if Status==0||Status==2}}
                     <div class="operate" onclick="EditAchive(${Id},'${AchieveType}','${GPid}')">
                         <i class="iconfont color_purple">&#xe617;</i>
-                        <span class="operate_none bg_purple">修改
-                        </span>
+                        <span class="operate_none bg_purple">修改</span>
                     </div>
-                {{else}}
+                    <div class="operate" onclick="Del_Achieve(${Id});">
+                        <i class="iconfont color_purple">&#xe61b;</i>
+                        <span class="operate_none bg_purple">删除</span>
+                    </div>
+                 {{else}}
                      <div class="operate">
                          <i class="iconfont color_gray">&#xe617;</i>
-                         <span class="operate_none bg_gray">修改
-                         </span>
+                         <span class="operate_none bg_gray">修改</span>
                      </div>
+                    <div class="operate">
+                        <i class="iconfont color_gray">&#xe61b;</i>
+                        <span class="operate_none bg_gray">删除</span>
+                    </div>
                 {{/if}}                    
             </td>
         </tr>
@@ -163,7 +158,7 @@
                 url: HanderServiceUrl + "/TeaAchManage/AchRewardInfo.ashx",
                 type: "post",
                 dataType: "json",
-                data: { "Func": "GetAcheiveRewardInfoData", "MyUno": '', "CreateUID": $("#CreateUID").val(), PageIndex: startIndex, pageSize: pageSize, AchieveLevel: $("#AcheiveType").val(), Gid: $("#Gid").val(), "ResponName": resonname },
+                data: { "Func": "GetAcheiveRewardInfoData", "MyUno": '', "CreateUID": $("#CreateUID").val(), PageIndex: startIndex, pageSize: pageSize, AchieveLevel: $("#AcheiveType").val(), Gid: $("#Gid").val(), "ResponName": resonname, Status_Com:"<3" },
                 success: function (json) {                   
                     if (json.result.errMsg == "success") {
                         $("#pageBar").show();

@@ -3,7 +3,7 @@
         showTime();
         var cookie_Userinfo = JSON.parse(localStorage.getItem('Userinfo_LG'));
         if (cookie_Userinfo != null) {
-            $("#userName").html(cookie_Userinfo.Sys_Role + "：" + cookie_Userinfo.Name + '<i class="iconfont">&#xe659;</i>');
+            $("#userName").html(cookie_Userinfo.Name + '<i class="iconfont">&#xe659;</i>');
             var cookie_UserList = JSON.parse(localStorage.getItem('Userinfos'));
             if (cookie_UserList != null) {
                 for (var i = 0; i < cookie_UserList.length; i++) {

@@ -198,8 +198,8 @@
         </div>
     </div>
     <div class="btnwrap" style="background: #fafafa; padding: 15px 0px;">
-        <input type="button" value="保存" onclick="Save()" class="btn" style="display:none;" id="Save" />
-        <input type="button" value="提交" class="btn ml10" onclick="submit()" id="Submit" />
+        <input type="button" value="保存" onclick="Save(0);" class="btn" style="display:none;" id="Save" />
+        <input type="button" value="提交" class="btn ml10" onclick="Save(1);" id="Submit" />
     </div>
     <script src="../Scripts/Common.js"></script>
     <script src="../Scripts/layer/layer.js"></script>
@@ -325,13 +325,14 @@
                 $("#AddAuthor").show();
             } 
             Set_FirstAuthor();
-        }
-        function submit() {
-            $("#Status").val(btn_book_noaudit? "3" : "1");
-            Save(1);
-        }
+        }       
         //提交按钮
         function Save(s_type) {
+            if (s_type == 0) {
+                $("#Status").val("0");
+            } else {
+                $("#Status").val(btn_book_noaudit ? "3" : "1");
+            }
             s_type = arguments[0] || 0;
             var name = $("#Name").val().trim(), meditor = $("#MEditor").val();
             if (!name.length) { layer.msg("请填写书名！"); return; }

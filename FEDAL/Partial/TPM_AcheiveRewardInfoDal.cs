@@ -22,7 +22,7 @@ namespace FEDAL
             {
                 StringBuilder str = new StringBuilder();
                 str.Append(@"select a.*,uu.Name as ResponsName,u.Name as CreateName,l.name as GName,al.Name as GidName,
-                    case when a.GPid=6 then bk.Name else a.Name end as AchiveName,
+                    case when a.GPid=6 then bk.Name when l.Type=5 then uu.Name else a.Name end as AchiveName,
                     l.Type as AchieveType,ll.Name as LevelName,r.Name as RewadName,
                     (select STUFF((select ',' + CAST(Major_Name AS NVARCHAR(MAX)) from Major where Id in(select value from func_split(a.DepartMent,',')) FOR xml path('')), 1, 1, '')) as Major_Name,                   
                     case when a.GPid=1 then isnull((ran.Score),0) else r.Score end as TotalScore,ran.Name RankName,
@@ -35,13 +35,13 @@ namespace FEDAL
                     pms.Add(new SqlParameter("@LoginMajor_ID", ht["LoginMajor_ID"].SafeToString()));
                 }
                 str.Append(@" from TPM_AcheiveRewardInfo a 
-                    inner join UserInfo u on a.CreateUid=u.UniqueNo 
-                    inner join UserInfo uu on a.ResponsMan=uu.UniqueNo
+                    inner join UserInfo u on a.CreateUID=u.UniqueNo 
+                    left join UserInfo uu on a.ResponsMan=uu.UniqueNo
                     left join Major m on a.DepartMent=m.Id 
-                    inner join TPM_AcheiveLevel l on a.gpid=l.Id  
+                    left join TPM_AcheiveLevel l on a.gpid=l.Id  
                     left join TPM_AcheiveLevel al on al.Id=a.Gid
-                    inner join TPM_RewardLevel ll on a.Lid=ll.Id 
-                    inner join TPM_RewardInfo r on a.Rid=r.Id 
+                    left join TPM_RewardLevel ll on a.Lid=ll.Id 
+                    left join TPM_RewardInfo r on a.Rid=r.Id 
                     left join TMP_RewardRank ran on a.Sort=ran.Id
                     left join TPM_BookStory bk on a.bookid=bk.id where a.IsDelete=0 ");
                 int StartIndex = 0;
@@ -170,6 +170,17 @@ namespace FEDAL
             List<SqlParameter> pms = new List<SqlParameter>();
             pms.Add(new SqlParameter("@Id", id));
             pms.Add(new SqlParameter("@Status", status));
+            return SQLHelp.ExecuteNonQuery(str, CommandType.Text, pms.ToArray());
+        }
+        #endregion
+
+        #region 修改业绩状态
+        public int DelAcheiveRewardInfo(int id)
+        {
+            string str = @"update TPM_AcheiveRewardInfo set IsDelete=1 where Id=@Id;
+                          update TPM_RewardUserInfo set IsDelete=1 where RIId=@Id";
+            List<SqlParameter> pms = new List<SqlParameter>();
+            pms.Add(new SqlParameter("@Id", id));            
             return SQLHelp.ExecuteNonQuery(str, CommandType.Text, pms.ToArray());
         }
         #endregion

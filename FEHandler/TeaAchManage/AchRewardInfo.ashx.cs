@@ -42,8 +42,8 @@ namespace FEHandler.TeaAchManage
                     case "AddAcheiveRewardInfoData":
                         AddAcheiveRewardInfoData(context);
                         break;
-                    case "DelAcheiveRewardInfoData":
-                        DelAcheiveRewardInfoData(context);
+                    case "DelAcheiveRewardInfo":
+                        DelAcheiveRewardInfo(context);
                         break;
                     case "CheckAcheiveRewardInfoData":
                         CheckAcheiveRewardInfoData(context);
@@ -297,12 +297,12 @@ namespace FEHandler.TeaAchManage
                 LogService.WriteErrorLog(ex.Message);
             }
         }
-        private void DelAcheiveRewardInfoData(HttpContext context)
+        private void DelAcheiveRewardInfo(HttpContext context)
         {
             try
             {
-                int Id = Convert.ToInt32(context.Request["Id"]);
-                jsonModel = bll.Delete(Id);
+                int Id = Convert.ToInt32(context.Request["ItemId"]);
+                jsonModel = bll.DelAcheiveRewardInfo(Id);
             }
             catch (Exception ex)
             {

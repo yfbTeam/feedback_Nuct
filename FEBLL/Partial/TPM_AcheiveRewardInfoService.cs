@@ -300,5 +300,45 @@ namespace FEBLL
             }
         }
         #endregion
+
+        #region 删除业绩
+        public JsonModel DelAcheiveRewardInfo(int id)
+        {
+            JsonModel jsonModel = new JsonModel();
+            try
+            {
+                int result = dal.DelAcheiveRewardInfo(id);
+                if (result > 0)
+                {
+                    jsonModel = new JsonModel()
+                    {
+                        errNum = 0,
+                        errMsg = "success",
+                        retData = ""
+                    };
+                }
+                else
+                {
+                    jsonModel = new JsonModel()
+                    {
+                        errNum = 999,
+                        errMsg = "数据更新失败",
+                        retData = ""
+                    };
+                }
+                return jsonModel;
+            }
+            catch (Exception ex)
+            {
+                jsonModel = new JsonModel()
+                {
+                    errNum = 400,
+                    errMsg = ex.Message,
+                    retData = ""
+                };
+                return jsonModel;
+            }
+        }
+        #endregion
     }
 }
