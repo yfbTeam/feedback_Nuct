@@ -71,11 +71,7 @@
                     </div>
             </div>
             <h2 class="cont_title"><span>基本信息</span></h2>
-            <div class="area_form clearfix">
-                <div class="input_lable">
-                    <label for="">获奖项目名称：</label>
-                    <input type="text" isrequired="true" fl="获奖项目名称" class="text" id="Name" name="Name" style="width: 692px;" />
-                </div>
+            <div class="area_form clearfix">                
                 <div class="input_lable fl">
                     <label for="">奖励项目：</label>
                     <select class="select" isrequired="true" fl="奖励项目" name="Gid" id="Gid" onchange="BindLinfo()"></select>
@@ -124,12 +120,13 @@
     </div>
     <div class="score" style="border-top: 1px solid #ECDEE6;"></div>
     <div class="btnwrap2">
-        <input type="button" value="保存" onclick="Save()" class="btn" />
-        <input type="button" value="提交" onclick="submit()" class="btna" />
+        <input type="button" value="保存" onclick="Save(0);" class="btn" />
+        <input type="button" value="提交" onclick="Save(1);" class="btna" />
     </div>
     <script src="../Scripts/Common.js"></script>
     <script src="../Scripts/layer/layer.js"></script>
     <script src="../Scripts/public.js"></script>
+    <script src="../Scripts/linq.min.js"></script>
     <script type="text/javascript" src="../Scripts/My97DatePicker/WdatePicker.js"></script>
     <script src="../Scripts/choosen/chosen.jquery.js"></script>
     <script src="../Scripts/choosen/prism.js"></script>
@@ -140,8 +137,11 @@
     <script src="../Scripts/jquery.tmpl.js"></script>
     <script type="text/javascript">
         var UrlDate = new GetUrlDate();
+        var achieve_add_noaudit = false;//无需审核
         $(function () {
             $("#CreateUID").val(GetLoginUser().UniqueNo);
+            Get_PageBtn("/TeaAchManage/AchManage.aspx");
+            achieve_add_noaudit = JudgeBtn_IsExist("achieve_add_noaudit");
             $("#ResponsMan_Name").val(loginUser.Name);
             $("#ResponsMan").val(loginUser.UniqueNo);
             $("#itemData").tmpl([{ UniqueNo: loginUser.UniqueNo, Name: loginUser.Name, MajorName: '' }]).appendTo("#tb_Member");
@@ -196,28 +196,34 @@
                 }
             });
         }
-        function submit() {
-            $("#Status").val("1");
-            Save();
-        }
         //提交按钮
-        function Save() {
-            //验证为空项或其他
-            var valid_flag = validateForm($('select,input[type="text"]'));
-            if (valid_flag !=0)////验证失败的情况  需要表单的input控件 有 isrequired 值为true或false 和fl 值为不为空的名称两个属性
-            {
-                return false;
-            }
-            if ($("#uploader .filelist li").length <= 0) {
-                layer.msg("请上传获奖扫描件!");
-                return;
-            }
+        function Save(s_type) {
+            var department = $("#DepartMent").val();
+            if (s_type == 0) {
+                $("#Status").val("0");
+                if (!$("#ResponsMan_Name").val().trim().length) {
+                    layer.msg("请输入获奖教师!");
+                    return;
+                }
+            } else {
+                $("#Status").val(achieve_add_noaudit ? "3" : "1");
+                //验证为空项或其他
+                var valid_flag = validateForm($('select,input[type="text"]'));
+                if (valid_flag != 0)////验证失败的情况  需要表单的input控件 有 isrequired 值为true或false 和fl 值为不为空的名称两个属性
+                {
+                    return false;
+                }
+                if ($("#uploader .filelist li").length <= 0) {
+                    layer.msg("请上传获奖扫描件!");
+                    return;
+                }
+                if (department == null || department == "") {
+                    layer.msg("请输入负责单位!");
+                    return;
+                }
+            }            
             var object = getFromValue();//组合input标签   
-            if ($("#DepartMent").val() == null || $("#DepartMent").val()=="") {
-                layer.msg("请输入负责单位!");
-                return;
-            }
-            object["DepartMent"] = $("#DepartMent").val().join(',');            
+            object.DepartMent = department ? $("#DepartMent").val().join(',') : "";                    
             var addArray = Rtn_AddMemArray(0);
             object.MemberStr = addArray.length > 0 ? JSON.stringify(addArray) : '';
             var add_path = Get_AddFile();

@@ -43,9 +43,8 @@
                 {{if GPid==2&&(Status==0||Status==2)}}                   
                         <div class="operate" onclick="EditAchive(${Id},'${AchieveType}','${GPid}')">
                             <i class="iconfont color_purple">&#xe617;</i>
-                            <span class="operate_none bg_purple">修改
-                            </span>
-                        </div>
+                            <span class="operate_none bg_purple">修改</span>
+                        </div>                    
                 {{else}}
                          <div class="operate">
                              <i class="iconfont color_gray">&#xe617;</i>
@@ -84,6 +83,17 @@
                     <div class="operate">
                         <i class="iconfont color_gray">&#xe6c2;</i>
                         <span class="operate_none bg_gray">分配</span>
+                    </div>                       
+                {{/if}} 
+                {{if Status==0||Status==2}}
+                   <div class="operate" onclick="Del_Achieve(${Id});">
+                        <i class="iconfont color_purple">&#xe61b;</i>
+                        <span class="operate_none bg_purple">删除</span>
+                    </div>    
+                {{else}}
+                 <div class="operate">
+                        <i class="iconfont color_gray">&#xe61b;</i>
+                        <span class="operate_none bg_gray">删除</span>
                     </div>
                 {{/if}}                
             </td>

@@ -2,7 +2,7 @@
 var cur_ResponUID = "", cur_AchieveType = 1;
 function Num_Fixed(num, count) {
     count = arguments[1] || 2;
-    return Number(num).toFixed(count);
+    return Number(num||0).toFixed(count);
 }
 function GetAchieveDetailById(type) { //获取业绩详情
     type = arguments[0] || 0; // type 0默认信息；1 AchieveView_Common ；2 CheckAchieve
@@ -11,6 +11,7 @@ function GetAchieveDetailById(type) { //获取业绩详情
         url: HanderServiceUrl + "/TeaAchManage/AchRewardInfo.ashx",
         type: "post",
         dataType: "json",
+        async: false,
         data: { "Func": "GetAcheiveRewardInfoData", "IsPage": "false", Id: cur_AchieveId },
         success: function (json) {
             if (json.result.errMsg == "success") {
@@ -399,7 +400,7 @@ function GetCur_RankScore() {
 //为业绩赋总分
 function SetScore(objid) {
     objid = arguments[0] || "#Rid";
-    var Score = $(objid).find("option:selected").attr("ss");
+    var Score =Num_Fixed($(objid).find("option:selected").attr("ss"));
     var ScoreType = $(objid).find("option:selected").attr("st");    
     $(".score").html("分数：" + Score + "分" + (ScoreType == "2" ? "/万字" : ""));
     if (UrlDate.Type=="3"&&ScoreType == "2") {
@@ -637,7 +638,7 @@ function OpenDetail(editResult, Reason_Id) {
     });
 }
 /********************************************************分配历史记录结束***************************************************/
-/********************************************************业绩-业绩类别、奖励项目开始***************************************************/
+/********************************************************业绩-业绩类别、奖励项目、删除业绩开始***************************************************/
 function Bind_SelAchieve() {
             $("#AcheiveType").html('<option value="">全部</option>');
             $.ajax({
@@ -675,4 +676,26 @@ function Bind_SelGInfo() {
         error: function () { }
     });
 }
-/********************************************************业绩-业绩类别、奖励项目结束***************************************************/
+//删除业绩
+function Del_Achieve(id) {
+    layer.confirm('确定删除该业绩吗？', {
+        btn: ['确定', '取消'],
+        title: '操作'
+    }, function (index) {
+        $.ajax({
+            url: HanderServiceUrl + "/TeaAchManage/AchRewardInfo.ashx",
+            type: "post",
+            async: false,
+            dataType: "json",
+            data: { Func: "DelAcheiveRewardInfo", ItemId: id },
+            success: function (json) {
+                if (json.result.errNum == 0) {
+                    layer.msg('操作成功!');
+                    BindData(1, 10);
+                }
+            },
+            error: function () { }
+        });
+    }, function () { });
+}
+/********************************************************业绩-业绩类别、奖励项目、删除业绩结束***************************************************/

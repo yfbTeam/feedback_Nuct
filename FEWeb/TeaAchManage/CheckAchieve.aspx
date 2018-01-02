@@ -96,10 +96,12 @@
                     <label for="">获奖年度：</label>
                     <span>${Year}</span>
                 </div>
-            <div class="input_lable fl">
-                <label for="">{{if AchieveType==5}}获奖教师{{else}}负责人{{/if}}：</label>
-                <span>${ResponsName}</span>
-            </div>
+             {{if AchieveType!=3}}
+                <div class="input_lable fl">
+                    <label for="">{{if AchieveType==5}}获奖教师{{else}}负责人{{/if}}：</label>
+                    <span>${ResponsName}</span>
+                </div>
+             {{/if}}
             <div class="input_lable fl">
                 <label for="">负责单位：</label>
                 <span>${Major_Name}</span>
@@ -334,7 +336,7 @@
             var yesstatus = 3, nostatus = 2;
             if (model.Status >= 0 && model.Status <= 3) {//信息
                 yesstatus = 3, nostatus = 2;
-                if (model.AchieveType == 3) { yesstatus =7}//教材建设类直接跳过分数审核
+                //if (model.AchieveType == 3) { yesstatus =7}//教材建设类直接跳过分数审核
             } else if (model.Status > 3 && model.Status <= 6) {//分数
                 yesstatus = 7, nostatus = 6;
                 $(".re_score").show();

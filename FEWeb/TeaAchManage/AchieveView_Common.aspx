@@ -99,10 +99,12 @@
                     <label for="">获奖年度：</label>
                     <span>${Year}</span>
                 </div>
-            <div class="input_lable fl">
-                <label for="">{{if AchieveType==5}}获奖教师{{else}}负责人{{/if}}：</label>
-                <span>${ResponsName}</span>
-            </div>
+            {{if AchieveType!=3}}
+                <div class="input_lable fl">
+                    <label for="">{{if AchieveType==5}}获奖教师{{else}}负责人{{/if}}：</label>
+                    <span>${ResponsName}</span>
+                </div>
+            {{/if}}
             <div class="input_lable fl">
                 <label for="">负责单位：</label>
                 <span>${Major_Name}</span>

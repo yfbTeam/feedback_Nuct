@@ -19,6 +19,7 @@
      <%--业绩信息--%>
     <script type="text/x-jquery-tmpl" id="div_AchInfo">
         <h2 class="cont_title"><span>基本信息</span></h2>
+        <input type="hidden" id="hid_Status" value="${Status}"/>
         <div class="area_form clearfix">
             {{if AchieveType==1||AchieveType==2}}             
                 <div class="input_lable fl">
@@ -59,10 +60,12 @@
                     <label for="">获奖年度：</label>
                     <span>${Year}</span>
                 </div>
-            <div class="input_lable fl">
-                <label for="">{{if AchieveType==5}}获奖教师{{else}}负责人{{/if}}：</label>
-                <span>${ResponsName}</span>
-            </div>
+             {{if AchieveType!=3}}
+                <div class="input_lable fl">
+                    <label for="">{{if AchieveType==5}}获奖教师{{else}}负责人{{/if}}：</label>
+                    <span>${ResponsName}</span>
+                </div>
+            {{/if}}
             <div class="input_lable fl">
                 <label for="">负责单位：</label>
                 <span>${Major_Name}</span>
@@ -70,19 +73,30 @@
         </div>
         <h2 class="cont_title"><span>分数分配</span></h2>
         <div class="area_form clearfix">
-                <div class="clearfix">                   
+                <div class="clearfix"> 
+                    {{if AchieveType==1||AchieveType==2}}                  
                     <input type="button" name="memberbtn" value="添加" class="btn ml" style="display:none;" id="AddBtn" onclick="javascript: OpenIFrameWindow('添加成员','AddAchMember.aspx', '900px', '650px');"/>
                     <input type="button" name="memberbtn" value="删除" class="btn ml10" style="display:none;" onclick="Del_HtmlMember();"/>
-                    <span class="fr status">总分：<span id="span_AllScore">${TotalScore}</span><span id="Unit"></span>，<span id="span_CurScore" style="margin-right:15px;"></span></span>
+                    {{/if}}
+                    <span class="fr status">总分：<span id="span_AllScore">${TotalScore}</span><span id="Unit">{{if AchieveType==3}}分/万字{{else}}分{{/if}}</span>，<span id="span_CurScore" style="margin-right:15px;"></span></span>
                 </div>
                 <table class="allot_table mt10  ">
                     <thead>
                         <tr>
+                            {{if AchieveType==3}}
+                            <th>姓名</th>
+                            <th>作者类型</th>
+                            <th>排名</th>
+                            <th>部门</th>
+                            <th>贡献字数（万字）</th>
+                            <th>分数</th>  
+                            {{else}}
                             <th width="16px"><input type="checkbox" name="ck_tball" onclick="CheckAll(this)"/></th>
                             <th>成员</th>
                             <th>分数</th>                          
                             <th>部门</th>
-                            <th>录入日期</th>                                                  
+                            <th>录入日期</th>   
+                            {{/if}}                                          
                         </tr>
                     </thead>
                     <tbody id="tb_Member"></tbody>
@@ -111,21 +125,31 @@
     </script>
     <script type="text/x-jquery-tmpl" id="tr_MemEdit">
         {{each(i, mem) AcheiveMember_data.retData}}  
-        <tr id="tr_mem_${mem.Id}" class="memedit" un="${mem.UserNo}">              
-            <td>{{if $("#AchieveType").val()=="2"}}
-                  {{if i>4}}<input type="checkbox" name="ck_trsub" value="${mem.UserNo}" onclick="CheckSub(this);"/>{{/if}}
+            <tr id="tr_mem_${mem.Id}" class="memedit" un="${mem.UserNo}"> 
+                {{if $("#AchieveType").val()=="3"}}             
+                    <td>${mem.Name}</td>
+                    <td>{{if ULevel==0}}独著 {{else ULevel==1}}主编{{else ULevel==2}}参编{{else}}其他人员{{/if}}</td>   
+                    <td>${Sort}</td>
+                    <td>${Major_Name}</td>
+                    <td>${WordNum}</td>          
+                    <td>${Num_Fixed(mem.UnitScore* mem.WordNum)}</td>           
                 {{else}}
-                  {{if i!=0}}<input type="checkbox" name="ck_trsub" value="${mem.UserNo}" onclick="CheckSub(this);"/>{{/if}}
+                    <td>{{if $("#AchieveType").val()=="2"}}
+                          {{if i>4}}<input type="checkbox" name="ck_trsub" value="${mem.UserNo}" onclick="CheckSub(this);"/>{{/if}}
+                        {{else}}
+                          {{if i!=0}}<input type="checkbox" name="ck_trsub" value="${mem.UserNo}" onclick="CheckSub(this);"/>{{/if}}
+                        {{/if}}
+                    </td>
+                    <td>${mem.Name}</td>
+                    {{if $("#AchieveType").val()=="5"&&$('#hid_Status').val()=='3'}}
+                       <td><input type="number" name="score" value="${UnitScore}" regtype="money" fl="分数" min="0" step="0.01"/></td>
+                    {{else}}
+                      <td><input type="number" name="score" value="${mem.Score}" regtype="money" fl="分数" min="0" step="0.01"/></td>
+                    {{/if}}
+                    <td>${mem.Major_Name}</td>
+                    <td>${DateTimeConvert(mem.CreateTime,"yyyy-MM-dd")}</td>
                 {{/if}}
-            </td>
-            <td>${mem.Name}</td>
-            <td>{{if $("#AchieveType").val()=="3"}}${Num_Fixed(mem.UnitScore* mem.WordNum)}
-                {{else}}<input type="number" name="score" value="${mem.Score}" regtype="money" fl="分数" min="0" step="0.01"/>
-            {{/if}}
-            </td>
-            <td>${mem.Major_Name}</td>
-            <td>${DateTimeConvert(mem.CreateTime,"yyyy-MM-dd")}</td>
-        </tr>
+            </tr>
         {{/each}}  
     </script>
      <%--成员信息(新添加的)--%>
@@ -167,19 +191,10 @@
         var cur_AchieveId = UrlDate.AcheiveId;
         $(function () {
             $("#CreateUID").val(GetLoginUser().UniqueNo);
-            $("#AchieveType").val(UrlDate.AchieveType);
-            if (UrlDate.AchieveType == "3")//教材建设类
-            {
-                $("[name='memberbtn']").hide();
-                $("#Unit").html("分/万字");
-            }
-            else {
-                $("[name='memberbtn']").show();
-                $("#Unit").html("分");
-            }
-            BindFile_Plugin();
+            $("#AchieveType").val(UrlDate.AchieveType);            
             GetAchieveDetailById();
-            Get_TPM_AcheiveMember(cur_AchieveId);
+            BindFile_Plugin();
+            Get_TPM_AcheiveMember(cur_AchieveId);            
             Get_Sys_Document(3, cur_AchieveId);
         });        
         function CheckScoreAndAward()
@@ -189,15 +204,8 @@
             $("#tb_Member").find("tr").each(function () {
                 var Score = $(this).find('input[type=number][name=score]').val();
                 ShareScore= numAdd(ShareScore,Score);
-            });
-            if (isNaN(ShareScore)==true&& isNaN(ShareAward)==true) {
-                layer.msg("没有数据修改");
-                return false;
-            }
-            else if (AllScore==NaN&&AllAward>ShareAward) {
-                return true;
-            }
-            else if (AllScore<ShareScore) {
+            });          
+            if (AllScore<ShareScore) {
                 layer.msg("分配的分数大于总分数");
                 return false;
             }            
