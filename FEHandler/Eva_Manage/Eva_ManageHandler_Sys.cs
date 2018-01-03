@@ -1132,7 +1132,7 @@ namespace FEHandler.Eva_Manage
                     List<head_value> head_values = JsonConvert.DeserializeObject<List<head_value>>(head_value);
                     foreach (var item in head_values)
                     {
-                        Eva_Table_Header header = new Eva_Table_Header() { Custom_Code = item.Code, Name_Key = item.description, Name_Value = item.name, Table_Id = table_Id, Type = Convert.ToInt32(item.id) };
+                        Eva_Table_Header header = new Eva_Table_Header() { Custom_Code = (item.Code==null||item.Code =="")?item.Custom_Code:item.Code, Name_Key = item.description, Name_Value = item.name, Table_Id = table_Id, Type = Convert.ToInt32(item.id) };
                         var josnmodel = Constant.Eva_Table_HeaderService.Add(header);
                         if (josnmodel.errNum == 0)
                         {
