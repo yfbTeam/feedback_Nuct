@@ -382,11 +382,16 @@ z-index: 9999;width:100%;
 .query_lists a i{display:inline-block;height:175px;}
 .query_lists a p{line-height:40px;text-align: center;font-size:22px;color:#5d4954;}
 
-
-
+.input-wrap1 > label {
+    font-size: 15px;
+    color: #555;
+}
 /**/
-.rolelists_wrap{
-    width:198px;border:1px solid #ccc;border-radius:2px;border-bottom:none;
+.rolelists_wrap {
+    width: 198px;
+    border: 1px solid #ccc;
+    border-radius: 2px;
+    border-bottom: none;
 }
 .rolelists_wrap .title{
     line-height:35px;height:35px;background:#dcdcdc;padding:0px 10px;
