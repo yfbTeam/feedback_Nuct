@@ -37,7 +37,7 @@
                     </div>
                     <div class="input_lable fl">
                         <label for="">认定日期：</label>
-                        <input type="text" isrequired="true" fl="认定日期" name="DefindDate" id="DefindDate" value="${DateTimeConvert(DefindDate, '年月日')}" class="text Wdate" onclick="WdatePicker({ dateFmt: 'yyyy年MM月dd日' });" onkeydown="ChangeLid();"/>
+                        <input type="text" isrequired="true" fl="认定日期" name="DefindDate" id="DefindDate" value="${DateTimeConvert(DefindDate, '年月日')}" class="text Wdate" onclick="WdatePicker({ dateFmt: 'yyyy年MM月dd日', onpicking: function (dp) { ChangeLid(); } });"/>
                     </div>
                     <div class="input_lable fl input_lable2">
                         <label for="">获奖扫描件：</label>
@@ -472,6 +472,8 @@
                             $(json.result.retData).each(function () {
                                 $("#Lid").append('<option value="' + this.Id + '">' + this.Name + '</option>');
                             })
+                        } else {
+                            layer.msg("该认定日期没有对应的业绩版本！");
                         }
                     },
                     error: function () {

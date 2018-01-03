@@ -296,7 +296,7 @@ function GetProfessInfo(objid) {
     });
 }
 function ChangeLid() {
-    if ($("#Gid").val() != "0") {
+    if ($("#Gid").val() != "") {
         BindLinfo();
     }
 }
