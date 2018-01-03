@@ -41,8 +41,8 @@
                 <span style="padding-left: 10px;">~</span>
                 <input type="text" id="EndTime" name="EndTime" class="text Wdate" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})" style="width: 150px;" />
             </div>
-            <div class="input-wrap pr">
-                <label>评价表分配：</label>
+            <div class="input-wrap1 pr pb20" >
+                <label style="width:100px;margin-right:6px;display:inline-block">评价表分配：</label>
                 <select id ="table" class="select ml10" style="width:335px;">
                          
                 </select>
