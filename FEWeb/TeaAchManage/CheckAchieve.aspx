@@ -149,7 +149,7 @@
                     <div class="fl status-left">
                          <label for="">状态：</label>
                         {{if Status==3}} <span class="assigning">待分配</span>
-                        {{else Status==4}}<span class="nosubmit">{{if cur_ResponUID==$('#CreateUID').val()}}待提交{{else}}待分配{{/if}}</span>
+                        {{else Status==4}}<span class="nosubmit">{{if ResponsMan==$('#CreateUID').val()}}待提交{{else}}待分配{{/if}}</span>
                         {{else Status==5}}<span class="checking1">待审核</span>
                         {{else Status==6}}<span class="nocheck">审核不通过</span>
                         {{else Status==7}}<span class="pass">审核通过</span>{{/if}}
@@ -234,7 +234,7 @@
                     <label for="" style="margin-right:20px;">第${rowNum}批奖金</label>
                     <label for="">状态：</label>
                     {{if AuditStatus==10}}<span class="nosubmit">待分配</span>
-                    {{else AuditStatus==0}}<span class="nosubmit">{{if ResponsMan==$('#CreateUID').val()}}待提交{{else}}待分配{{/if}}</span>
+                    {{else AuditStatus==0}}<span class="nosubmit">{{if cur_ResponUID==$('#CreateUID').val()}}待提交{{else}}待分配{{/if}}</span>
                     {{else AuditStatus==1}}<span class="checking1">待审核</span>
                     {{else AuditStatus==2}}<span class="nocheck">审核不通过</span>
                     {{else}} <span class="assigning">审核通过</span>{{/if}}
