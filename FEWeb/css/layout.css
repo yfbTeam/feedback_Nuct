@@ -372,9 +372,14 @@ z-index: 9999;width:100%;
 .record_fl h1{font-size:20px;color:#611c42;line-height: 40px;}
 .record_fl h2{font-size:16px;color:#b879a6;line-height:26px;text-align: center;}
 
-.query_lists{padding:45px 0px 75px 0px;}
-.query_lists a{width:25%;height:215px;float:left;}
-.query_lists a i{display: block;width:230px;height:175px;margin: 0 auto;}
+    .query_lists a {
+        margin:30px 0px;
+        width: 25%;
+        height: 215px;
+        float: left;
+        text-align: center
+    }
+.query_lists a i{display:inline-block;height:175px;}
 .query_lists a p{line-height:40px;text-align: center;font-size:22px;color:#5d4954;}
 
 
