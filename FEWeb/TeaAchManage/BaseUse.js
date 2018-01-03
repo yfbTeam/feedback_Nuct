@@ -1,5 +1,5 @@
 ﻿var loginUser = GetLoginUser();
-var cur_ResponUID = "", cur_AchieveType = 1;
+var cur_ResponUID = "", cur_AchieveType = 1,achie_Score=0;
 function Num_Fixed(num, count) {
     count = arguments[1] || 2;
     return Number(num||0).toFixed(count);
@@ -19,6 +19,7 @@ function GetAchieveDetailById(type) { //获取业绩详情
                 $("#div_AchInfo").tmpl(model).appendTo("#div_Achieve");
                 cur_ResponUID = model.ResponsMan;
                 cur_AchieveType = model.AchieveType;
+                achie_Score = Num_Fixed(model.TotalScore);
                 if (type == 1) {
                   Get_RewardUserInfo(model);
                 } else if (type == 2) {
@@ -318,20 +319,35 @@ function Get_TPM_AcheiveMember(achid,tb_id) {
             if (json.result.errNum.toString() == "0") {
                 AcheiveMember_data = json.result;
                 $("#tr_MemEdit").tmpl(json.result).appendTo("#" + tb_id);
-                var $span_CurScore = $('#span_CurScore');
-                var curscore = 0;               
-                $(json.result.retData).each(function (i, n) {                    
-                    if (n.Score) {
-                        curscore = numAdd(curscore,n.Score);
-                    }
-                });
-                $span_CurScore.html(curscore);
+                GetAchieveUser_Score(json.result.retData);
             }
         },
         error: function (errMsg) {
             layer.msg(errMsg);
         }
     });
+}
+function GetAchieveUser_Score(userdata) {
+    if (cur_AchieveType == "3") {
+        var $span_Words = $('#span_Words');
+        var curwords = 0;
+        $(userdata).each(function (i, n) {
+            if (n.WordNum) {
+                curwords = numAdd(curwords, n.WordNum);
+            }
+        });
+        $span_Words.html(curwords);
+        $('#span_BookScore').html(Num_Fixed(curwords * achie_Score));
+    } else {
+        var $span_CurScore = $('#span_CurScore');
+        var curscore = 0;
+        $(userdata).each(function (i, n) {
+            if (n.Score) {
+                curscore = numAdd(curscore, n.Score);
+            }
+        });
+        $span_CurScore.html(curscore);
+    }
 }
 //绑定教学成果，负责人信息
 function Bind_ResponsMan(selid) {
@@ -516,7 +532,7 @@ function Get_AchieveStatus(status,obj) {
 
 /********************************************************业绩-奖金分配开始***************************************************/
 //绑定奖项奖金信息
-function Get_RewardBatchData(reasonobj,no_status) {    
+function Get_RewardBatchData(reasonobj, no_status) {
     reasonobj = arguments[0] || "";
     no_status = arguments[1] || ""; //不赋值的状态
     $("#div_MoneyInfo").empty();
@@ -531,7 +547,8 @@ function Get_RewardBatchData(reasonobj,no_status) {
                 if (reasonobj != "" && json.result.retData.length == 0) {
                     reasonobj.hide();
                 } else {
-                    if (reasonobj != "") {
+                    var auditlist=json.result.retData.filter(function (item) { return item.AuditStatus==3 })//查找审核通过的奖项
+                    if (reasonobj != "" && auditlist.length>0) {
                         reasonobj.show();                        
                         BindFile_Plugin("#uploader_reward", "#filePicker_reward", "#dndArea_reward");//原因显示以后，再绑定文件控件 
                     }

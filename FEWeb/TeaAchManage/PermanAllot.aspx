@@ -78,7 +78,9 @@
                     <input type="button" name="memberbtn" value="添加" class="btn ml" style="display:none;" id="AddBtn" onclick="javascript: OpenIFrameWindow('添加成员','AddAchMember.aspx', '900px', '650px');"/>
                     <input type="button" name="memberbtn" value="删除" class="btn ml10" style="display:none;" onclick="Del_HtmlMember();"/>
                     {{/if}}
-                    <span class="fr status">总分：<span id="span_AllScore">${TotalScore}</span><span id="Unit">{{if AchieveType==3}}分/万字{{else}}分{{/if}}</span>，<span id="span_CurScore" style="margin-right:15px;"></span></span>
+                    {{if AchieveType==3}}
+                    <span class="fr status">总贡献字数：<span id="span_Words">0</span>万字，总分：<span id="span_BookScore">0</span>分</span>
+                   {{else}}<span class="fr status">总分：<span id="span_AllScore">${TotalScore}</span>分，已分：<span id="span_CurScore">0</span>分</span>{{/if}}
                 </div>
                 <table class="allot_table mt10  ">
                     <thead>
@@ -132,7 +134,7 @@
                     <td>${Sort}</td>
                     <td>${Major_Name}</td>
                     <td>${WordNum}</td>          
-                    <td>${Num_Fixed(mem.UnitScore* mem.WordNum)}</td>           
+                    <td class="td_score">${Num_Fixed(mem.UnitScore* mem.WordNum)}</td>           
                 {{else}}
                     <td>{{if $("#AchieveType").val()=="2"}}
                           {{if i>4}}<input type="checkbox" name="ck_trsub" value="${mem.UserNo}" onclick="CheckSub(this);"/>{{/if}}
@@ -266,7 +268,7 @@
                 if ($(this).hasClass('memadd')) {
                     var sub_m = new Object();
                     sub_m.UserNo = $(this).attr('un');
-                    sub_m.Score = $(this).find('input[type=number][name=score]').val();                   
+                    sub_m.Score =cur_AchieveType=="3"?$(this).find('td.td_score').html():$(this).find('input[type=number][name=score]').val();                   
                     sub_m.Sort = i + 1;
                     sub_m.CreateUID = loginUser.UniqueNo;
                     addArray.push(sub_m);

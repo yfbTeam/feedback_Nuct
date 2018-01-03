@@ -101,8 +101,8 @@
             <h2 class="cont_title members none"><span>成员信息</span></h2>
                 <div class="area_form members none">
                     <div class="clearfix">
-                        <span class="fr status mr10">已分配：<span id="span_CurScore">0</span></span>
-                        <span class="fr status mr10">总分：<span id="span_AllScore">0</span></span>
+                        <span class="fr status">已分：<span id="span_CurScore">0</span>分</span>
+                        <span class="fr status">总分：<span id="span_AllScore">0</span>分，</span>
                     </div>
                     <table class="allot_table mt10">
                         <thead>
