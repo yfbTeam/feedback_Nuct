@@ -272,15 +272,12 @@
          $(function () {
              $("#CreateUID").val(GetLoginUser().UniqueNo);
              $("#AchieveType").val(UrlDate.AchieveType);
-             if (UrlDate.AchieveType == "3")//教材建设类
-             {
+             if (UrlDate.AchieveType == "1" || UrlDate.AchieveType == "2") {
+                 $("[name='memberbtn']").show();                 
+             } else {
                  $("[name='memberbtn']").hide();
-                 $("#Unit").html("分/万字");
              }
-             else {
-                 $("[name='memberbtn']").show();
-                 $("#Unit").html("分");
-             }
+             $("#Unit").html(UrlDate.AchieveType == "3"?"分/万字":"分");//教材建设类             
              BindFile_Plugin();                          
              Get_LookPage_Document(3, cur_AchieveId, $("#ul_ScoreFile"));
          });
