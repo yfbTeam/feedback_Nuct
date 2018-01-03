@@ -84,9 +84,7 @@
             <div class="test_lists">
                 <ul>
                     {{each Eva_TableDetail_List}}
-                <li>
-                    <input type="hidden" name="name_in" value="{{= $value.Id}}" />
-                    <input type="hidden" name="name_QuesType_Id" value="{{= $value.QuesType_Id}}" />
+                <li>                 
                     <h2 class="title">${Sort}、${$value.Name}
                     {{if $value.QuesType_Id!=3}}
                        <b class="isscore">（<span class="isscore">${OptionF_S_Max}分</span>）</b>
