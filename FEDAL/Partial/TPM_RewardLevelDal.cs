@@ -33,7 +33,7 @@ namespace FEDAL
                     if (!ht.ContainsKey("EID"))
                     {
                         str.Append(" and EID in (select id from TPM_RewardEdition where lid=" + ht["LID"].SafeToString());
-                        if (!ht.ContainsKey("DefindDate"))
+                        if (ht.ContainsKey("DefindDate"))
                         {
                             str.Append(" and convert(varchar(10),'" + ht["DefindDate"].SafeToString() + "',21) between convert(varchar(10),BeginTime,21) and convert(varchar(10),EndTime,21) ");
                         }

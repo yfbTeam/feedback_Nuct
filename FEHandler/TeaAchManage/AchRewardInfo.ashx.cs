@@ -472,10 +472,26 @@ namespace FEHandler.TeaAchManage
             model.UseObj = context.Request["UseObj"].SafeToString();
             model.IsOneAuthor = Convert.ToByte(context.Request["OneAuthor"]);
             model.Status = Convert.ToInt32(context.Request["Status"]);
+            int isTransfer = 0;
+            TPM_BookStory pro_Model = new TPM_BookStory();
             if (!string.IsNullOrEmpty(context.Request["SelBook"]))
             {
                 int bookid= RequestHelper.int_transfer(context.Request, "SelBook");
                 model.IdentifyCol = bookid;
+                if (model.Status == 3)
+                {
+                    pro_Model = bookbll.GetEntityById(Convert.ToInt32(model.IdentifyCol)).retData as TPM_BookStory;
+                    if (pro_Model.IdentifyCol == 1)//判断转出版的立项教材是不是已经出版了
+                    {
+                        jsonModel = JsonModel.get_jsonmodel(-2, "该立项教材已转出版！", "");
+                        return;
+                    }
+                    else
+                    {
+                        pro_Model.IdentifyCol = 1;
+                        isTransfer = 1;                        
+                    }
+                }                             
             }
             if (Id == 0)
             {
@@ -488,6 +504,10 @@ namespace FEHandler.TeaAchManage
             }
             if (jsonModel.errNum == 0)
             {
+                if (isTransfer == 1)
+                {
+                    bookbll.Update(pro_Model);
+                }
                 string add_Path = RequestHelper.string_transfer(context.Request, "Add_Path");
                 string edit_PathId = RequestHelper.string_transfer(context.Request, "Edit_PathId");
                 if (!string.IsNullOrEmpty(add_Path) || !string.IsNullOrEmpty(edit_PathId))
