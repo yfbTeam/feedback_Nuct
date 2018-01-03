@@ -181,7 +181,7 @@ namespace FEHandler.Eva_Manage
 
         public string Code { get; set; }
 
-        public string Custom_Code { get; set; }
+        public string CustomCode { get; set; }
     }
 
     public class lisss

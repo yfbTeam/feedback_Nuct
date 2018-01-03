@@ -70,14 +70,17 @@
 <script src="../../Scripts/WebCenter/TableDesigin.js"></script>
 
 <script type="text/x-jquery-tmpl" id="item_table_view">
-    <div class="content ">
-        <div class="h1_div">
-            <h1 class="test_title " style="display: inline-block">
-                <b class="order_num"></b><b>${Root}</b>
-                <b class="isscore">(<span>${Score}</span> 分)</b>
-            </h1>
-        </div>
-
+    {{if Root.trim() !=''}}
+      <div class="content ">
+          <div class="h1_div">
+              <h1 class="test_title " style="display: inline-block">
+                  <b class="order_num"></b><b>${Root}</b>
+                  <b class="isscore">(<span>${Score}</span> 分)</b>
+              </h1>
+          </div>
+          {{else}}
+            <div class="content " style="margin-top: -20px;">
+                {{/if}}    
         <div class="test_module">
             <input type="hidden" value="${indicator_type_tid}" name="name_title" />
             <div class="test_lists">
@@ -146,7 +149,7 @@
                 </ul>
             </div>
         </div>
-    </div>
+            </div>
 </script>
 
 <%--固定表头--%>

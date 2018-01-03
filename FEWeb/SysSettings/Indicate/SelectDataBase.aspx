@@ -11,32 +11,12 @@
     <link rel="stylesheet" href="../../css/layout.css" />
     <script src="../../Scripts/jquery-1.11.2.min.js"></script>
 
-    <script type="text/x-jquery-tmpl" id="item_indicator">
-        <tr>
-            <td>
-                <input type="checkbox" id="cb_${Id}" name="cb_item" value="${Id}" /><input type="hidden" value="" /></td>
-            <td style="text-align: left; padding-left: 20px;">${Name}</td>
-            <td>${questionType(QuesType_Id)}</td>
-            <td>${Remarks}</td>
-            <td>${DateTimeConvert(EditTime,'yyyy-MM-dd',true)}</td>
-        </tr>
-    </script>
+    <style>
+        .menu .titlea {
+            font-size: 16px;
+        }
+    </style>
 
-
-    <script type="text/x-jquery-tmpl" id="item_indicatorType">
-        <li>
-            <span title="${self.Name}">${self.Name}<i class="iconfont">&#xe643;</i></span>
-            <ul>
-                {{each child_list}}
-                <li onclick="indicator_type_click('{{= $value.Id}}','{{= $value.Name}}','{{= $value.Parent_Id}}','{{= $value.Type}}');">
-                    <input type="hidden" value="{{= $value.Id}}" />
-                    <input type="hidden" value="{{= $value.Parent_Id}}" />
-                    ${$value.Name}
-                </li>
-                {{/each}}
-            </ul>
-        </li>
-    </script>
 </head>
 <body style="background: #FFF;">
     <div class="content clearix" style="padding: 20px;">
@@ -97,6 +77,34 @@
     <link href="../../Scripts/kkPage/Css.css" rel="stylesheet" />
     <script src="../../Scripts/kkPage/jquery.kkPages.js"></script>
     <script src="../../Scripts/WebCenter/DatabaseMan.js"></script>
+
+    <script type="text/x-jquery-tmpl" id="item_indicator">
+        <tr>
+            <td>
+                <input type="checkbox" id="cb_${Id}" name="cb_item" value="${Id}" /><input type="hidden" value="" /></td>
+            <td style="text-align: left; padding-left: 20px;">${Name}</td>
+            <td>${questionType(QuesType_Id)}</td>
+            <td>${Remarks}</td>
+            <td>${DateTimeConvert(EditTime,'yyyy-MM-dd',true)}</td>
+        </tr>
+    </script>
+
+
+    <script type="text/x-jquery-tmpl" id="item_indicatorType">
+        <li>
+            <span title="${self.Name}">${self.Name}<i class="iconfont">&#xe643;</i></span>
+            <ul>
+                {{each child_list}}
+                <li onclick="indicator_type_click('{{= $value.Id}}','{{= $value.Name}}','{{= $value.Parent_Id}}','{{= $value.Type}}');">
+                    <input type="hidden" value="{{= $value.Id}}" />
+                    <input type="hidden" value="{{= $value.Parent_Id}}" />
+                    ${$value.Name}
+                </li>
+                {{/each}}
+            </ul>
+        </li>
+    </script>
+
     <script type="text/javascript">
         var index = parent.layer.getFrameIndex(window.name);//弹框的索引
         //选择的指标库分类ID
@@ -135,7 +143,7 @@
                 parent.layer.close(index);
                 //获取选中的指标的内容
             })
-            
+
             ck_click();//复选框点击事件，点击完 进行存储
         })
 
@@ -149,17 +157,17 @@
         }
 
         //指标库分类点击获取指标列表
-        function indicator_type_click(Id, Name, Parent_Id, Type) {        
+        function indicator_type_click(Id, Name, Parent_Id, Type) {
             DataBaseMainModel.indicator_type_click(Id, Name, Parent_Id, Type);
         }
 
         //复选框点击事件
         function ck_click() {
-            
+
             //选择后存储一个子父级的一个大的数组
             $("input[name='cb_item']").on('click', function () {
                 DataBaseMainModel.storage_array(this);
-            });           
+            });
         }
         //新增指标 打开窗口页
         function newIndicator() {
