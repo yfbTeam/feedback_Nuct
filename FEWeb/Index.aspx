@@ -84,29 +84,47 @@
         </div>
         <div style="background: #fff;" id="index_body">
             <div class="center query_lists clearfix">
-                <a href="/TeaAchManage/AchManage.aspx?Id=2&Iid=3" ss="3" mcode="a_index_acheiveadd" style="display:none;">
+                <a href="/TeaAchManage/AchManage.aspx?Id=2&Iid=3" ss="3" mcode="a_index_AchManage" style="display:none;">
                     <i>
-                        <img src="images/shouye_01.jpg" alt="" />
+                        <img src="images/index_01.png" alt="" />
                     </i>
-                    <p>业绩录入</p>
+                    <p>业绩管理</p>
                 </a>
-                <a href="/Evaluation/EvaluationInput.aspx?Id=7&Iid=8" ss="8" mcode="a_index_evaluateadd" style="display:none;">
+                <a href="/TeaAchManage/MyPerformance.aspx?Id=2&Iid=4" ss="4" mcode="a_index_MyPerformance" style="display:none;">
                     <i>
-                        <img src="images/shouye_01.jpg" alt="" />
+                        <img src="images/index_02.png" alt="" />
+                    </i>
+                    <p>我的业绩</p>
+                </a>
+                <a href="/TeaAchManage/AcheveRewadSearch.aspx?Id=2&Iid=5" ss="5" mcode="a_index_AcheveRewadSearch" style="display:none;">
+                    <i>
+                        <img src="images/index_03.png" alt="" />
+                    </i>
+                    <p>业绩查询</p>
+                </a>
+                <a href="/Evaluation/EvaluationInput.aspx?Id=7&Iid=8" ss="8" mcode="a_index_EvaluationInput" style="display:none;">
+                    <i>
+                        <img src="images/index_04.png" alt="" />
                     </i>
                     <p>评价录入</p>
                 </a>
-                <a href="/Evaluation/ClassEval.aspx?Id=7&Iid=10" ss="10" mcode="a_index_classcode" style="display:none;">
+                <a href="/Evaluation/TaskAllot.aspx?Id=7&Iid=9" ss="9" mcode="a_index_TaskAllot" style="display:none;">
                     <i>
-                        <img src="images/shouye_02.jpg" alt="" />
+                        <img src="images/index_05.png" alt="" />
                     </i>
-                    <p>课堂扫码评价</p>
+                    <p>审核入库</p>
                 </a>
-                <a href="/Evaluation/EvalStatist.aspx?Id=7&Iid=11" ss="11" mcode="a_index_statistic" style="display:none;">
+                <a href="/Evaluation/ExpertEvalSee/index.aspx?Id=7&Iid=134" ss="134" mcode="a_index_ExpertEvalSee" style="display:none;">
                     <i>
-                        <img src="images/shouye_03.jpg" alt="" />
+                        <img src="images/index_06.png" alt="" />
                     </i>
-                    <p>统计结果查询</p>
+                    <p>专家评价查看</p>
+                </a>
+                <a href="/Evaluation/CourseEvalSee/index.aspx?Id=7&Iid=135" ss="135" mcode="a_index_CourseEvalSee" style="display:none;">
+                    <i>
+                        <img src="images/index_07.png" alt="" />
+                    </i>
+                    <p>课堂评价查看</p>
                 </a>
             </div>
             <div class="center">
@@ -157,8 +175,9 @@
             getmyPrize(1, 10);
 
             var lens = $('.query_lists>a:visible').length;
-            $('.query_lists>a').width(100 / lens + '%');
-
+            if (lens < 4) {
+                $('.query_lists>a').width(100 / lens + '%');
+            }
         });
         //获取我的业绩数据
         function getmyPrize(startIndex, pageSize) {
