@@ -388,7 +388,7 @@
                 dataType: "json",
                 data: o,//组合input标签
                 success: function (json) {
-                    if (json.result.errMsg == "success") {
+                    if (json.result.errNum == 0) {
                         parent.layer.msg('操作成功!');
                         Del_Document();
                         parent.Book(1, 10);

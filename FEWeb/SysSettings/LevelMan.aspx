@@ -87,22 +87,16 @@
     <input id="EID" type="hidden" />
     <div id="top"></div>
     <div class="center" id="centerwrap">
-        <div class="wrap clearfix">
-            
+        <div class="wrap clearfix">            
             <div class="sortwrap clearfix">
                 <div class="menu fl">
                     <h1 class="titlea">业绩等级管理</h1>
-                    <ul class="menu_list">
-                       
-                    </ul>
+                    <ul class="menu_list"></ul>
                     <input type="button" name="name" value="设置" class="new" onclick="OpenIFrameWindow('菜单设置','MenuSetting.aspx','900px','680px')" />
                 </div>
                 <div class="sort_right fr">
                     <div class="nav_version_wrap clearfix">
-                        <div class="nav_version_left fl">
-                            <%--<a href="javascript:;" class="selected">[2017] 10号 (12-02~17-12)</a>
-                            <a href="javascript:;">[2017] 10号 (12-02~17-12)</a>--%>
-                        </div>
+                        <div class="nav_version_left fl"></div>
                         <div class="fr">
                             <input type="button" name="name" value="编辑版本" class="btn2" id="EditEdition" />
                             <input type="button" name="name" value="新增版本" class="btn2" id="NewEdition" />
@@ -111,55 +105,15 @@
                     <div class="nav_title clearfix">
                         <span id="BigGroupName"></span>
                         <div class="fr clearfix">
-                            <div class="input-wrap fl mr10" style="margin-bottom: 0;" onclick="ChangeAwardSwichStatus()">
+                            <div class="input-wrap fl mr10" style="margin-bottom: 0;" onclick="ChangeRewardEditionAllot()">
                                 <label for="" style="min-width: auto;">金额分配：</label>
-                                <span class="switch-on" themecolor="#6a264b" id="AwardSwich"></span>
+                                <span class="switch-on" themecolor="#6a264b" id="IsMoneyAllot"></span>
                             </div>
                             <input type="button" name="name" value="新增等级" class="btn" id="NewLevel" />
                         </div>
                     </div>
                     <div class="">
-                        <ul class="version_lists">
-                            <%--<li>
-                                <dt class="version_header clearfix">
-                                    <span>国家级</span>
-                                    <i class="iconfont fr icond">&#xe643;</i>
-                                    <input type="button" name="name" value="新增奖项" class="btn fr ml10" />
-                                    <div class="oprated fr">
-                                        <div class="operate">
-                                            <i class="iconfont color_purple">&#xe628;</i>
-                                            <span class="operate_none bg_purple">编辑</span>
-                                        </div>
-                                        <div class="operate">
-                                            <i class="iconfont color_gray">&#xe629;</i>
-                                            <span class="operate_none bg_gray">上移</span>
-                                        </div>
-                                        <div class="operate">
-                                            <i class="iconfont color_purple">&#xe62d;</i>
-                                            <span class="operate_none bg_purple">下移</span>
-                                        </div>
-                                    </div>
-                                </dt>
-                                <dd class="none">
-                                    <div class="table">
-                                        <table>
-                                            <thead>
-                                                <tr>
-                                                    <th>奖项</th>
-                                                    <th>分数</th>
-                                                    <th>排名递减</th>
-                                                    <th>奖金</th>
-                                                    <th>追加</th>
-                                                    <th id="ops">操作</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody id="myPirze_table">
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </dd>
-                            </li>--%>
-                        </ul>
+                        <ul class="version_lists"></ul>
                     </div>
                 </div>
             </div>
@@ -189,29 +143,29 @@
             OpenIFrameWindow('新增奖项', '../TeaAchManage/RewardAdd.aspx?LID=' + LID, '500px', '410px');
         }
         //开启（关闭）金额分配
-        function ChangeAwardSwichStatus()
+        function ChangeRewardEditionAllot()
         { 
-            var AwardSwich=0;
-            if($("#AwardSwich").hasClass("switch-on"))
+            var IsMoneyAllot = 0;
+            if ($("#IsMoneyAllot").hasClass("switch-on"))
             {
-                AwardSwich=1;
+                IsMoneyAllot = 1;
             }
-            var Id= $("#ELID").val();
+            var Id = $("#EID").val();
             $.ajax({
                 url: HanderServiceUrl + "/TeaAchManage/AchManage.ashx",
                 type: "post",
                 dataType: "json",
-                data: { "Func": "ChangeAwardSwichStatus", "IsPage": "false",Id:Id,AwardSwich:AwardSwich },
+                data: { "Func": "ChangeRewardEditionAllot", "IsPage": "false", Id: Id, IsMoneyAllot: IsMoneyAllot },
                 success: function (json) {
-                    if (json.result.errMsg == "success") {
-                        if (AwardSwich=="1") {
-                            honeySwitch.showOn("#AwardSwich");
-                            $("#"+Id).attr("switch","1");
+                    if (json.result.errNum ==0) {
+                        if (IsMoneyAllot == 1) {
+                            honeySwitch.showOn("#IsMoneyAllot");
+                            $(".nav_version_left").find("#" + Id).attr("switch", "1");
                         }
                         else
                         {
-                            honeySwitch.showOff("#AwardSwich");
-                            $("#"+Id).attr("switch","0");
+                            honeySwitch.showOff("#IsMoneyAllot");
+                            $(".nav_version_left").find("#" + Id).attr("switch", "0");
                         }
                     }
                 },
@@ -224,7 +178,6 @@
             menu_list("");
             $("#NewLevel").click(function () {
                 var EID=$("#EID").val();
-
                 if (!EID) {
                     layer.msg("请选择一个版本");
                 }
@@ -241,7 +194,6 @@
             height = height || 270;
             $(obj).click(function () {
                 var LID = $("#ELID").val();
-
                 if (!LID) {
                     layer.msg("请选择一个分类");
                 }
@@ -264,9 +216,7 @@
                             AcheiveLevel = json.result.retData;
                         }
                     },
-                    error: function () {
-                        //接口错误时需要执行的
-                    }
+                    error: function () {}
                 });
             }
             else{
@@ -292,7 +242,7 @@
             $("#" + ulID).html("");
             $(AcheiveLevel).each(function () {
                 if (this.Pid == Id) {
-                    $("#" + ulID).append("<li id=" + this.Id + " switch="+this.AwardSwich+">" + this.Name + "</li>")
+                    $("#" + ulID).append("<li id=" + this.Id + ">" + this.Name + "</li>")
                 }
             })
         }        
@@ -301,14 +251,7 @@
             $('.menu_list li:eq(0)').children('ul').slideDown();
             $('.menu_list li:eq(0)').children('ul').find("li:eq(0)").addClass('selected');
             var id=$('.menu_list li:eq(0)').children('ul').find("li:eq(0)").attr("id");
-            var Name=$('.menu_list li:eq(0)').children('ul').find("li:eq(0)").html();
-            var AwardSwich=$('.menu_list li:eq(0)').children('ul').find("li:eq(0)").attr("switch");
-            if (AwardSwich=="0") {
-                honeySwitch.showOff("#AwardSwich");
-            }
-            else{
-                honeySwitch.showOn("#AwardSwich");
-            }
+            var Name=$('.menu_list li:eq(0)').children('ul').find("li:eq(0)").html();            
             $("#BigGroupName").html(Name);
             $("#ELID").val(id)
             BindEdition(id);
@@ -323,16 +266,10 @@
                     $(this).addClass('selected');
                     $next.stop().slideDown();
                     $('.menu_list').find('li').removeClass('selected');
-                    $(this).next('ul').find("li:eq(0)").addClass("selected");
-                    
+                    $(this).next('ul').find("li:eq(0)").addClass("selected");                    
                     var id= $(this).next('ul').find("li:eq(0)").addClass("selected").attr("id");
-                    var Name=$(this).next('ul').find("li:eq(0)").html();
-                    var AwardSwich= $(this).next('ul').find("li:eq(0)").attr("switch");
-                    //$("#BigGroupName").html(Name);
-                    //$("#ELID").val(id)
-                    //BindEdition(id);
-                    GroupSelected(id,Name,AwardSwich);
-
+                    var Name=$(this).next('ul').find("li:eq(0)").html();                      
+                    GroupSelected(id, Name);
                     if($(this).parent('li').siblings().children('ul').is(':visible')) {
                         $(this).parent('li').siblings().children('span').removeClass('selected');
                         $(this).parent('li').siblings().children('ul').stop().slideUp();
@@ -344,26 +281,15 @@
             });
             $('.menu_list').find('li:has(ul)').find('li').click(function () {
                 $('.menu_list').find('li').removeClass('selected');
-                $(this).addClass('selected').siblings().removeClass('selected');
-                //$("#ELID").val($(this).attr("id"));
-                //$("#BigGroupName").html($(this).html());
-                ////绑定版本
-                //BindEdition($(this).attr("id"));
-                GroupSelected($(this).attr("id"),$(this).html(),$(this).attr("switch"));
+                $(this).addClass('selected').siblings().removeClass('selected');                
+                GroupSelected($(this).attr("id"),$(this).html());
             });
         }
-        function GroupSelected(id,name,AwardSwich)
+        function GroupSelected(id, name)
         {
             $("#ELID").val(id);
             $("#BigGroupName").html(name);
-            if (AwardSwich=="0") {
-                honeySwitch.showOff("#AwardSwich");
-            }
-            else{
-                honeySwitch.showOn("#AwardSwich");
-            }
-            //绑定版本
-            BindEdition(id);
+            BindEdition(id);//绑定版本
         }
 
         //奖项版本
@@ -379,12 +305,12 @@
                     if (json.result.errMsg == "success") {
                         $(json.result.retData).each(function () {
                             if (i == 0) {
-                                $(".nav_version_left").append('<a href="javascript:;" id=' + this.Id + ' class="selected" onclick="BindRewardLevelData(' + this.Id +',this)">' + this.Name + '</a>')
-                                $("#EID").val(this.Id);
+                                $(".nav_version_left").append('<a href="javascript:;" id=' + this.Id + ' switch=' + this.IsMoneyAllot + ' class="selected" onclick="BindRewardLevelData(' + this.Id + ',this)">' + this.Name + '</a>')
+                                $("#EID").val(this.Id);                                
                                 BindRewardLevelData(this.Id);
                             }
                             else {
-                                $(".nav_version_left").append('<a href="javascript:;" id=' + this.Id + ' onclick="BindRewardLevelData(' + this.Id + ',this)">' + this.Name + '</a>')
+                                $(".nav_version_left").append('<a href="javascript:;" id=' + this.Id + ' switch=' + this.IsMoneyAllot + ' onclick="BindRewardLevelData(' + this.Id + ',this)">' + this.Name + '</a>')
                             }
                             i++;
                         });
@@ -407,6 +333,13 @@
             }
             else{
                 $("#EID").val(EID);
+            }
+            var IsMoneyAllot = $(".nav_version_left").find('#'+EID).attr('switch');
+            if (IsMoneyAllot == "0") {
+                honeySwitch.showOff("#IsMoneyAllot");
+            }
+            else {
+                honeySwitch.showOn("#IsMoneyAllot");
             }
             //$(em).addClass("selected").siblings().removeClass("selected");
             $(".version_lists").html("");

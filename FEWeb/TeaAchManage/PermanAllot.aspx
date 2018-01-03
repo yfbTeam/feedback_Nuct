@@ -164,8 +164,7 @@
     </script>
 </head>
 <body style="background: #fff;">
-    <input type="hidden" name="AwardSwich" id="AchieveType" value="" />
-    <input type="hidden" name="AwardSwich" id="AwardSwich" value="" />
+    <input type="hidden" name="AchieveType" id="AchieveType" value="" />
     <input type="hidden" name="CreateUID" id="CreateUID" value="011" />
     <input type="hidden" id="hid_UploadFunc" value="Upload_AcheiveReward"/>
     <div class="main" >
