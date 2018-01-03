@@ -9,7 +9,7 @@ function GetClassInfo(PageIndex) {
     layer_index = layer.load(1, {
         shade: [0.1, '#fff'] //0.1透明度的白色背景
     });
-        
+
     var postData = {
         func: "GetClassInfo", "PageIndex": PageIndex, "PageSize": PageSize,
         "SectionID": $('#section').val(), "DP": $('#DP').val(), "CT": $('#CT').val(),
@@ -68,9 +68,12 @@ function GetClassInfo(PageIndex) {
     });
 }
 
-function GetClassInfoSelect() {
+
+function GetClassInfoSelectCompleate(){};
+function GetClassInfoSelect(SectionID, TeacherUID, CourseID) {
     var postData = {
         func: "GetClassInfoSelect",
+        "SectionID": SectionID, "TeacherUID": TeacherUID, "CourseID": CourseID
     };
     $.ajax({
         type: "Post",
@@ -85,11 +88,11 @@ function GetClassInfoSelect() {
                     $("#DP").append(str);
                 });
                 ChosenInit($('#DP'));
-              
+
                 obj.CTList.forEach(function (item) {
                     var str = str = "<option value='" + item + "'>" + item + "</option>";
                     $("#CT").append(str);
-                });               
+                });
                 ChosenInit($('#CT'));
                 obj.CPList.forEach(function (item) {
                     var str = str = "<option value='" + item + "'>" + item + "</option>";
@@ -124,11 +127,19 @@ function GetClassInfoSelect() {
                 });
                 ChosenInit($('#CN'));
 
+                obj.ClsList.forEach(function (item) {
+                    var str = str = "<option value='" + item.ClassID + "'>" + item.ClassName + "</option>";
+                    $("#Cls").append(str);
+                });
+                ChosenInit($('#Cls'));
+
 
                 $("#DP,#CT,#CP,#TD,#TN,#MD,#GD,#CN").on('change', function () {
                     pageIndex = 0;
                     GetClassInfo(pageIndex);
                 });
+
+                GetClassInfoSelectCompleate();
             }
         },
         error: function (errMsg) {

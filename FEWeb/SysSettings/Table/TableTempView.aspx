@@ -33,21 +33,27 @@
                 margin-top: 15px;
                 margin-left: 20px;
             }
+
+        .tableheader .tablename {
+            height: 20px;
+        }
+
+        .tableheader .evalmes span {
+            line-height: 40px;
+        }
     </style>
 
 
 </head>
 <body>
     <div class="main">
-        <div class="tableheader" style="margin-bottom: 20px">
+        <div class="tableheader" >
             <h1 class="tablename" style="font-weight: bold;"></h1>
-
-            <div class="table_header_left clearfix" style="min-height: 49px" id="list">
-            </div>
-
-            <div class="evalmes">
-                <span id="sp_total" style="float: left; margin-left: 20px"></span>
+              <div class="evalmes" style="color: #999999; font-size: 14px">
+                <span id="sp_total" ></span>
                 <span id="remark"></span>
+            </div>
+            <div class="table_header_left clearfix" style="min-height: 49px" id="list">
             </div>
         </div>
 

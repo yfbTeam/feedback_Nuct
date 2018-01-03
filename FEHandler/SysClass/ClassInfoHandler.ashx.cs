@@ -259,9 +259,12 @@ namespace FEHandler.SysClass
         public void GetClassInfoSelect(HttpContext context)
         {
             HttpRequest request = context.Request;
+            int SectionID = RequestHelper.int_transfer(request, "SectionID");
+            string TeacherUID = RequestHelper.string_transfer(request, "TeacherUID");
+            string CourseID = RequestHelper.string_transfer(request, "CourseID");
             try
             {
-                jsonModel = GetClassInfoSelect_Helper();
+                jsonModel = GetClassInfoSelect_Helper(SectionID, TeacherUID, CourseID);
             }
             catch (Exception ex)
             {
@@ -274,7 +277,7 @@ namespace FEHandler.SysClass
             }
         }
 
-        public static JsonModelNum GetClassInfoSelect_Helper()
+        public static JsonModelNum GetClassInfoSelect_Helper(int SectionID, string TeacherUID, string CourseID)
         {
             int intSuccess = (int)errNum.Success;
             JsonModelNum jsm = new JsonModelNum();
@@ -289,6 +292,7 @@ namespace FEHandler.SysClass
                              join StudySection_ in StudySection_List on CourseRoom_.StudySection_Id equals StudySection_.Id
                              select new ClassModel()
                              {
+                                 SectionID = StudySection_.Id,
                                  //年度
                                  Academic = StudySection_.Academic,
                                  //级别
@@ -313,9 +317,27 @@ namespace FEHandler.SysClass
                                  TeacherDepartmentName = CourseRoom_.TeacherDepartmentName,
                                  //专业部门
                                  CourseDepartmentName = CourseRoom_.DepartmentName,
+
+                                 TeacherUID = CourseRoom_.TeacherUID,
+                                 CourseID = CourseRoom_.Coures_Id,
+                                 ClassID = CourseRoom_.ClassID,
+
                                  //序号
                                  Num = 0,
                              }).ToList();
+                if (SectionID > 0)
+                {
+                    query = (from q in query where q.SectionID == SectionID select q).ToList();
+                }
+                if (TeacherUID != "")
+                {
+                    query = (from q in query where q.TeacherUID == TeacherUID select q).ToList();
+                }
+                if (CourseID != "")
+                {
+                    query = (from q in query where q.CourseID == CourseID select q).ToList();
+                }
+
                 var data = new
                 {
                     DPList = (from qe in query where qe.DepartmentName != "" select qe.DepartmentName).Distinct().ToList(),
@@ -326,6 +348,8 @@ namespace FEHandler.SysClass
                     MDList = (from qe in query where qe.CourseDepartmentName != "" select qe.CourseDepartmentName).Distinct().ToList(),
                     GDList = (from qe in query where qe.GradeInfo_Name != "" select qe.GradeInfo_Name).Distinct().ToList(),
                     CNList = (from qe in query where qe.ClassName != "" select qe.ClassName).Distinct().ToList(),
+
+                    ClsList = (from qe in query where qe.ClassName != "" select new ClsModel() { ClassID = qe.ClassID, ClassName = qe.ClassName }).Distinct(new ClsModelComparer()).ToList(),
                 };
 
                 jsm = JsonModelNum.GetJsonModel_o(intSuccess, "success", data);

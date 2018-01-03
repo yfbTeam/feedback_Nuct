@@ -837,7 +837,7 @@ namespace FEHandler.Eva_Manage
             HttpRequest Request = context.Request;
             try
             {
-                var list = (from c in Constant.Eva_Table_Header_Custom_List select new { Code = c.Code, id = c.Code, name = c.Header, description = c.Header_Value }).ToList();
+                var list = (from c in Constant.Eva_Table_Header_Custom_List orderby c.Sort select new { Code = c.Code, id = c.Code, name = c.Header, description = c.Header_Value }).ToList();
                 //返回所有表格数据
                 jsonModel = JsonModel.get_jsonmodel(intSuccess, "success", list);
             }
@@ -900,6 +900,7 @@ namespace FEHandler.Eva_Manage
                                                            OptionF = det.OptionF,
                                                            OptionF_S = det.OptionF_S,
                                                            QuesType_Id = det.QuesType_Id,
+                                                           RootID = det.RootID,
                                                            Root = det.Root,
                                                            Sort = det.Sort,
                                                            Type = det.Type,
@@ -907,13 +908,14 @@ namespace FEHandler.Eva_Manage
                                                        }).ToList();
                     //表详情
                     table_view.Table_Detail_Dic_List = (from ps in details
-                                                        group ps by ps.Root
+                                                        group ps by ps.RootID
                                                             into g
-                                                            select new Table_Detail_Dic { Root = g.Key, Eva_TableDetail_List = g.ToList() }).ToList();
+                                                            select new Table_Detail_Dic { Root = g.FirstOrDefault(i=>i.RootID == g.Key).Root, Eva_TableDetail_List = g.ToList() }).ToList();
 
                     //表头
                     table_view.Table_Header_List = (from header in Constant.Eva_Table_Header_List
                                                     where header.Table_Id == table.Id
+                                                    orderby header.Sort
                                                     select new
                                                         Table_Header { Header = header.Name_Key, CustomCode = header.Custom_Code, Value = header.Name_Value, Type = (int)header.Type, Id = (int)header.Id }).ToList();
                 }
@@ -1130,15 +1132,31 @@ namespace FEHandler.Eva_Manage
                 {
                     //序列化表表头固化
                     List<head_value> head_values = JsonConvert.DeserializeObject<List<head_value>>(head_value);
+                    int i = 0;
                     foreach (var item in head_values)
                     {
-                        Eva_Table_Header header = new Eva_Table_Header() { Custom_Code = (item.Code==null||item.Code =="")?item.CustomCode:item.Code, Name_Key = item.description, Name_Value = item.name, Table_Id = table_Id, Type = Convert.ToInt32(item.id) };
+                        Eva_Table_Header header = new Eva_Table_Header()
+                        {
+                            Custom_Code = (item.Code == null || item.Code == "") ? item.CustomCode : item.Code,
+                            Name_Key = item.description,
+                            Name_Value = item.name,
+                            Table_Id = table_Id,
+                            Type = Convert.ToInt32(item.id),
+                            CreateTime = DateTime.Now,
+                            CreateUID = "",
+                            EditTime = DateTime.Now,
+                            EditUID = "",
+                            IsDelete = (int)IsDelete.No_Delete,
+                            IsEnable = (int)IsEnable.Enable,
+                            Sort = i,
+                        };
                         var josnmodel = Constant.Eva_Table_HeaderService.Add(header);
                         if (josnmodel.errNum == 0)
                         {
                             header.Id = Convert.ToInt32(josnmodel.retData);
                             Constant.Eva_Table_Header_List.Add(header);
                         }
+                        i++;
                     }
 
                 }
@@ -1218,6 +1236,7 @@ namespace FEHandler.Eva_Manage
                                 Remarks = item.Remarks,
                                 Sort = RequestHelper.int_transfer(item.Sort),
                                 Root = item.Root,
+                                RootID = item.RootID,
                                 Eva_table_Id = Table_Id,
                                 //评价任务 1，表格设计 0
                                 Type = Convert.ToString((int)TableDetail_Type.Table),

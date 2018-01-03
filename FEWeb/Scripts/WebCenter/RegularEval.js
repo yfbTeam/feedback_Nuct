@@ -398,7 +398,7 @@ function Get_Eva_RegularData(Id, PageIndex) {
                 else {
                     $('#pageBar').show();
                 }
-
+                console.log(returnVal)
                 $("#itemData").tmpl(data).appendTo("#ShowCourseInfo");
                 tableSlide();
                 laypage({
