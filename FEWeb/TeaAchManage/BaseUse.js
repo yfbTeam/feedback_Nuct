@@ -483,7 +483,7 @@ function Get_AchieveStatus(status,obj) {
             $(obj).html("分数待分配");
             break;
         case "4":
-            $(obj).html("分数待提交");
+            $(obj).html(ResponsMan == $('#CreateUID').val() ? "分数待提交" : "分数待分配");
             break;
         case "5":
             $(obj).html("分数待审核");
