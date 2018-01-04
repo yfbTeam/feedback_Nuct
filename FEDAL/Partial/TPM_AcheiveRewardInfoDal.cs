@@ -139,7 +139,8 @@ namespace FEDAL
         public string AddAcheiveRewardInfo(TPM_AcheiveRewardInfo entity)
         {
 
-            List<SqlParameter> param = new List<SqlParameter>() { 
+            List<SqlParameter> param = new List<SqlParameter>() {
+                                  new SqlParameter("@Id",entity.Id),
                                   new SqlParameter("@Name",entity.Name),                                 
                                   new SqlParameter("@GPid",entity.GPid),                                  
                                   new SqlParameter("@TeaUNo",entity.TeaUNo),                                

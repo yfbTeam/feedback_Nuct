@@ -201,7 +201,7 @@ namespace FEHandler.TeaAchManage
                 bool isadd = Id == 0;
                 if (Id == 0)
                 {
-                    model = new TPM_AcheiveRewardInfo();                   
+                    model = new TPM_AcheiveRewardInfo();
                     model.GPid = RequestHelper.int_transfer(context.Request, "Group");
                     model.CreateUID = context.Request["CreateUID"].SafeToString();
                 }
@@ -209,6 +209,7 @@ namespace FEHandler.TeaAchManage
                 {
                     model = bll.GetEntityById(Id).retData as TPM_AcheiveRewardInfo;
                 }
+               
                 model.Gid = RequestHelper.int_transfer(context.Request, "Gid");
                 model.Lid = RequestHelper.int_transfer(context.Request, "Lid");
                 model.Rid = RequestHelper.int_transfer(context.Request, "Rid");
@@ -250,7 +251,7 @@ namespace FEHandler.TeaAchManage
                 }
                 else
                 {
-                    jsonModel = bll.Update(model);
+                    jsonModel = bll.TPM_AcheiveLevelAdd(model);
                 }
                 if (jsonModel.errNum == 0)
                 {
