@@ -60,24 +60,16 @@
                 </dl>
                 <div class="track_record fr clearfix">
                     <a class="fl record_fl" href="javascript:;">
-                        <h1>待审核</h1>
-                        <h2>5</h2>
+                        <h1>待审核业绩</h1>
+                        <h2 id="checkNumber"></h2>
                     </a>
-                    <a class="fl record_fl" href="javascript:;">
-                        <h1>待评价</h1>
-                        <h2>10</h2>
-                    </a>
-                    <a class="fl record_fl" href="javascript:;">
-                        <h1>评价总数</h1>
-                        <h2>340</h2>
-                    </a>
-                    <a class="fl record_fl" href="javascript:;">
-                        <h1>业绩总数</h1>
-                        <h2>220</h2>
-                    </a>
-                    <a class="fl record_fl" href="javascript:;">
+                    <a class="fl record_fl">
                         <h1>我的业绩</h1>
-                        <h2>5</h2>
+                        <h2 id="myAcheiveNumber"></h2>
+                    </a>
+                    <a class="fl record_fl">
+                        <h1>我的教材</h1>
+                        <h2 id="myStoryNumber"></h2>
                     </a>
                 </div>
             </div>
@@ -173,7 +165,7 @@
             Get_PageBtn("/Index.aspx");
             navTab('.sort_nav', '.sort_item');
             getmyPrize(1, 10);
-
+            Book();
             var lens = $('.query_lists>a:visible').length;
             if (lens < 4) {
                 $('.query_lists>a').width(100 / lens + '%');
@@ -189,6 +181,8 @@
                 data: { "Func": "GetAcheiveRewardInfoData", "MyUno": $("#CreateUID").val(), MyAch_LoginUID: $("#CreateUID").val(), PageIndex: startIndex, pageSize: pageSize, "Name": $("#Name").val() },
                 success: function (json) {
                     if (json.result.errMsg == "success") {
+
+                        $('#myAcheiveNumber').html(json.result.retData.RowCount);
                         $("#my_prize_detail_Item").tmpl(json.result.retData.PagedData).appendTo("#myPirze_table");
                        
                         laypage({
@@ -205,6 +199,7 @@
                         });
                         tableSlide();
                     } else {
+                        $('#myAcheiveNumber').html('0');
                         nomessage('#myPirze_table');
                     }
                 },
@@ -213,6 +208,26 @@
                 }
             });
         }
+        //获取我的教材数据
+        function Book() {
+            var parmsData = { "Func": "GetTPM_BookStory","IsPage" : false,Author_SelfNo: $("#CreateUID").val() };
+            $.ajax({
+                url: HanderServiceUrl + "/TeaAchManage/AchRewardInfo.ashx",
+                type: "post",
+                dataType: "json",
+                data: parmsData,
+                success: function (json) {
+                    if (json.result.errMsg == "success") {
+                        $('#myStoryNumber').html(json.result.retData.length);
+                    } else {
+                        $('#myStoryNumber').html('0');
+                    }
+                },
+                error: function () {
+                    //接口错误时需要执行的
+                }
+            });
+        }  
     </script>
 </body>
 </html>
