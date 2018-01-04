@@ -325,9 +325,9 @@
                         return;
                     }
                 }
-            }                                            
+            }
             var object = getFromValue();//组合input标签 
-            object.DepartMent =department?$("#DepartMent").val().join(','):"";            
+            object.DepartMent = department ? $("#DepartMent").val().join(',') : "";
             object.MemberStr = '';
             object.AchieveType = UrlDate.Type;
             if (UrlDate.Type == "3") {
@@ -335,8 +335,20 @@
             }
             var addArray = Rtn_AddMemArray(0);
             object.MemberStr = JSON.stringify(addArray);
-            var add_path = Get_AddFile();                    
+            var add_path = Get_AddFile();
             object.Add_Path = add_path.length > 0 ? JSON.stringify(add_path) : "";
+            if (s_type == 1) {
+                layer.confirm('确认提交吗？提交后将不能进行修改', {
+                    btn: ['确定', '取消'], //按钮
+                    title: '操作'
+                }, function (index) {
+                    LastSave(object);
+                }, function () { });
+            } else {
+                LastSave(object);
+            }            
+        }
+        function LastSave(object) {
             $.ajax({
                 url: HanderServiceUrl + "/TeaAchManage/AchRewardInfo.ashx",
                 type: "post",

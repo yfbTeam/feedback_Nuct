@@ -257,6 +257,7 @@
                         BindRewardInfo();
                         $("#Rid").val(model.Rid);
                         BindRank();
+                        $("#Sort").val(model.Sort);
                         SetScore();                                            
                         BindFile_Plugin();
                         Get_Sys_Document(0, $("#Id").val());
@@ -315,6 +316,7 @@
                     url: HanderServiceUrl + "/TeaAchManage/AchRewardInfo.ashx",
                     type: "post",
                     dataType: "json",
+                    async: false,
                     data: { "Func": "GetRank", "IsPage": "false", "RId": $("#Rid").val() },
                     success: function (json) {
                         if (json.result.errMsg == "success") {
@@ -408,26 +410,36 @@
             var add_path = Get_AddFile();
             object.Add_Path = add_path.length > 0 ? JSON.stringify(add_path) : "";
             object.Edit_PathId = Get_EditFileId();
+            if (s_type == 1) {
+                layer.confirm('确认提交吗？提交后将不能进行修改', {
+                    btn: ['确定', '取消'], //按钮
+                    title: '操作'
+                }, function (index) {
+                    LastSave(object);
+                }, function () { });
+            } else {
+                LastSave(object);
+            }
+        }
+        function LastSave(object) {
             $.ajax({
                 url: HanderServiceUrl + "/TeaAchManage/AchRewardInfo.ashx",
                 type: "post",
                 dataType: "json",
                 data: object,
                 success: function (json) {
-                    if (json.result.errNum ==0) {
-                        layer.msg('操作成功!');                        
+                    if (json.result.errNum == 0) {
+                        layer.msg('操作成功!');
                         Del_Document();
-                        //window.location.go(-1);
-                        window.history.go(-1);
-                       // window.location.href = "AcheveRewadSearch.aspx";
-                    } else if (json.result.errNum == -1) {
-
-                    }
+                        //window.history.go(-1);       
+                        if (UrlDate.Iid == 3) {
+                            window.location.href = "AchManage.aspx?Id=2&Iid=3";
+                        } else {
+                            window.location.href = "MyPerformance.aspx?Id=2&Iid=4";
+                        }                                                               
+                    } else if (json.result.errNum == -1) {}
                 },
-                error: function (errMsg) {
-                    //接口错误时需要执行的
-                    alert(errMsg);
-                }
+                error: function (errMsg) {}
             });
         }
         //奖励项目
