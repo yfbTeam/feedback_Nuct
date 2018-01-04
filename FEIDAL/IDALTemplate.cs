@@ -39,6 +39,14 @@ namespace FEIDAL
 	/// </summary>
 	///	
 	/// </summary>
+    public interface IEva_Table_Header_CustomDal: IBaseDal<Eva_Table_Header_Custom>
+    {
+		
+    }
+
+	/// </summary>
+	///	
+	/// </summary>
     public interface IUserInfoDal: IBaseDal<UserInfo>
     {
 		
@@ -79,14 +87,6 @@ namespace FEIDAL
 	/// </summary>
 	///	
 	/// </summary>
-    public interface IEva_Table_HeaderDal: IBaseDal<Eva_Table_Header>
-    {
-		
-    }
-
-	/// </summary>
-	///	
-	/// </summary>
     public interface IClassInfoDal: IBaseDal<ClassInfo>
     {
 		
@@ -119,14 +119,6 @@ namespace FEIDAL
 	/// </summary>
 	///	
 	/// </summary>
-    public interface IEva_DistributionDal: IBaseDal<Eva_Distribution>
-    {
-		
-    }
-
-	/// </summary>
-	///	
-	/// </summary>
     public interface IExpert_Teacher_CourseDal: IBaseDal<Expert_Teacher_Course>
     {
 		
@@ -135,23 +127,7 @@ namespace FEIDAL
 	/// </summary>
 	///	
 	/// </summary>
-    public interface IEva_QuestionAnswerDal: IBaseDal<Eva_QuestionAnswer>
-    {
-		
-    }
-
-	/// </summary>
-	///	
-	/// </summary>
     public interface ITPM_AllotRewardDal: IBaseDal<TPM_AllotReward>
-    {
-		
-    }
-
-	/// </summary>
-	///	
-	/// </summary>
-    public interface IEva_QuestionAnswer_DetailDal: IBaseDal<Eva_QuestionAnswer_Detail>
     {
 		
     }
@@ -184,6 +160,14 @@ namespace FEIDAL
 	///	
 	/// </summary>
     public interface ISys_DocumentDal: IBaseDal<Sys_Document>
+    {
+		
+    }
+
+	/// </summary>
+	///	
+	/// </summary>
+    public interface IEva_Table_HeaderDal: IBaseDal<Eva_Table_Header>
     {
 		
     }
@@ -231,23 +215,7 @@ namespace FEIDAL
 	/// </summary>
 	///	
 	/// </summary>
-    public interface ICourseRoomDal: IBaseDal<CourseRoom>
-    {
-		
-    }
-
-	/// </summary>
-	///	
-	/// </summary>
     public interface ITPM_RewardLevelDal: IBaseDal<TPM_RewardLevel>
-    {
-		
-    }
-
-	/// </summary>
-	///	
-	/// </summary>
-    public interface ICourseDal: IBaseDal<Course>
     {
 		
     }
@@ -295,6 +263,22 @@ namespace FEIDAL
 	/// </summary>
 	///	
 	/// </summary>
+    public interface ICourseDal: IBaseDal<Course>
+    {
+		
+    }
+
+	/// </summary>
+	///	
+	/// </summary>
+    public interface IEva_TableDetailDal: IBaseDal<Eva_TableDetail>
+    {
+		
+    }
+
+	/// </summary>
+	///	
+	/// </summary>
     public interface IMajorDal: IBaseDal<Major>
     {
 		
@@ -311,6 +295,14 @@ namespace FEIDAL
 	/// </summary>
 	///	
 	/// </summary>
+    public interface IEva_QuestionAnswerDal: IBaseDal<Eva_QuestionAnswer>
+    {
+		
+    }
+
+	/// </summary>
+	///	
+	/// </summary>
     public interface IStudySectionDal: IBaseDal<StudySection>
     {
 		
@@ -320,6 +312,14 @@ namespace FEIDAL
 	///	
 	/// </summary>
     public interface IGradeInfoDal: IBaseDal<GradeInfo>
+    {
+		
+    }
+
+	/// </summary>
+	///	专业部门名称数据处理接口类6
+	/// </summary>
+    public interface ICourseRoomDal: IBaseDal<CourseRoom>
     {
 		
     }
@@ -359,14 +359,6 @@ namespace FEIDAL
 	/// </summary>
 	///	
 	/// </summary>
-    public interface IEva_TableDetailDal: IBaseDal<Eva_TableDetail>
-    {
-		
-    }
-
-	/// </summary>
-	///	
-	/// </summary>
     public interface IIndicatorTypeDal: IBaseDal<IndicatorType>
     {
 		
@@ -389,7 +381,7 @@ namespace FEIDAL
     }
 
 	/// </summary>
-	///	菜单按钮类型数据处理接口类6
+	///	菜单按钮类型数据处理接口类7
 	/// </summary>
     public interface ISys_ButtonTypeDal: IBaseDal<Sys_ButtonType>
     {
@@ -415,15 +407,7 @@ namespace FEIDAL
 	/// </summary>
 	///	
 	/// </summary>
-    public interface IEva_CourseType_TableDal: IBaseDal<Eva_CourseType_Table>
-    {
-		
-    }
-
-	/// </summary>
-	///	系统日志数据处理接口类7
-	/// </summary>
-    public interface ISys_LogInfoDal: IBaseDal<Sys_LogInfo>
+    public interface IEva_QuestionAnswer_DetailDal: IBaseDal<Eva_QuestionAnswer_Detail>
     {
 		
     }
@@ -431,7 +415,15 @@ namespace FEIDAL
 	/// </summary>
 	///	
 	/// </summary>
-    public interface IEva_Table_Header_CustomDal: IBaseDal<Eva_Table_Header_Custom>
+    public interface IEva_CourseType_TableDal: IBaseDal<Eva_CourseType_Table>
+    {
+		
+    }
+
+	/// </summary>
+	///	系统日志数据处理接口类8
+	/// </summary>
+    public interface ISys_LogInfoDal: IBaseDal<Sys_LogInfo>
     {
 		
     }

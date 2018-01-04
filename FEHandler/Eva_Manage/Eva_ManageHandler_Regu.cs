@@ -296,30 +296,31 @@ namespace FEHandler.Eva_Manage
             JsonModelNum jsm = new JsonModelNum();
             try
             {
-                var list = (from exp in Constant.Expert_Teacher_Course_List
-                            join teacher in Constant.Teacher_List on exp.TeacherUID equals teacher.UniqueNo
-                            join regu in Constant.Eva_Regular_List on exp.ReguId equals Convert.ToString(regu.Id)
-                            join section in Constant.StudySection_List on regu.Section_Id equals section.Id
-                            select new
-                            {
-                                exp.Id,
-                                exp.TeacherName,
-                                exp.TeacherUID,
-                                exp.ExpertName,
-                                exp.ExpertUID,
-                                exp.Course_Name,
-                                CourseID = exp.CourseId,
-                                teacher.Departent_Name,
-                                ReguName = regu.Name,
-                                regu.StartTime,
-                                regu.EndTime,
-                                State = "",
-                                StateType = 0,
-                                LookType = regu.LookType,
-                                ReguId = regu.Id,
-                                section.DisPlayName,
-                                SectionID = section.Id,
-                            }).ToList();
+                List<RegularDataModel> list = (from exp in Constant.Expert_Teacher_Course_List
+                                               join teacher in Constant.Teacher_List on exp.TeacherUID equals teacher.UniqueNo
+                                               join regu in Constant.Eva_Regular_List on exp.ReguId equals Convert.ToString(regu.Id)
+                                               join section in Constant.StudySection_List on regu.Section_Id equals section.Id
+                                               orderby exp.CreateTime descending
+                                               select new RegularDataModel()
+                                               {
+                                                   Id = exp.Id,
+                                                   TeacherName = exp.TeacherName,
+                                                   TeacherUID = exp.TeacherUID,
+                                                   ExpertName = exp.ExpertName,
+                                                   ExpertUID = exp.ExpertUID,
+                                                   Course_Name = exp.Course_Name,
+                                                   CourseID = exp.CourseId,
+                                                   Departent_Name = teacher.Departent_Name,
+                                                   ReguName = regu.Name,
+                                                   StartTime = regu.StartTime,
+                                                   EndTime = regu.EndTime,
+                                                   State = "",
+                                                   StateType = 0,
+                                                   LookType = regu.LookType,
+                                                   ReguId = regu.Id,
+                                                   DisPlayName = section.DisPlayName,
+                                                   SectionID = section.Id,
+                                               }).ToList();
 
 
                 if (SectionID > 0)
@@ -345,15 +346,13 @@ namespace FEHandler.Eva_Manage
                 {
                     list = (from li in list where li.TeacherUID == Te select li).ToList();
                 }
-
-                ReguState regustate = ReguState.进行中;
-                if (list.Count > 0)
+                var query_last = (from an in list select an).Skip((PageIndex - 1) * PageSize).Take(PageSize).ToList();
+                foreach (var li in query_last)
                 {
-                    var li = list[0];
+                    ReguState regustate = ReguState.进行中;
                     if (li.StartTime < DateTime.Now && ((DateTime)li.EndTime).AddDays(1) > DateTime.Now)
                     {
                         regustate = ReguState.进行中;
-
                     }
                     else if (li.StartTime > DateTime.Now)
                     {
@@ -363,30 +362,9 @@ namespace FEHandler.Eva_Manage
                     {
                         regustate = ReguState.已结束;
                     }
+                    li.State = Convert.ToString(regustate);
+                    li.StateType = (int)regustate;
                 }
-
-                var query_last = (from an in list select an).Skip((PageIndex - 1) * PageSize).Take(PageSize).ToList();
-                query_last = (from an in query_last
-                              select new
-                              {
-                                  an.Id,
-                                  an.TeacherName,
-                                  an.TeacherUID,
-                                  an.ExpertName,
-                                  an.ExpertUID,
-                                  an.Course_Name,
-                                  an.CourseID,
-                                  an.Departent_Name,
-                                  ReguName = an.ReguName,
-                                  an.StartTime,
-                                  an.EndTime,
-                                  State = Convert.ToString(regustate),
-                                  StateType = (int)regustate,
-                                  LookType = an.LookType,
-                                  ReguId = an.ReguId,
-                                  an.DisPlayName,
-                                  SectionID = an.SectionID,
-                              }).ToList();
                 //返回所有表格数据
                 jsm = JsonModelNum.GetJsonModel_o(intSuccess, "success", query_last);
                 jsm.PageIndex = PageIndex;
@@ -898,14 +876,15 @@ namespace FEHandler.Eva_Manage
                 //创建者
                 string CreateUID = RequestHelper.string_transfer(Request, "CreateUID");
 
+                int Type = RequestHelper.int_transfer(Request, "Type");
+                int Eva_Role = RequestHelper.int_transfer(Request, "Eva_Role");
+
                 //课程分类
                 var data = (from r in Constant.CourseRel_List
                             join c in Constant.Sys_Dictionary_List on r.CourseType_Id equals c.Key
                             where c.Type == "0"
                             select new { r, c }).ToList();
 
-
-                int Type = RequestHelper.int_transfer(Request, "Type");
                 try
                 {
                     var first = data.Count > 0 ? data[0] : null;
@@ -933,9 +912,10 @@ namespace FEHandler.Eva_Manage
 
                         TableID = TableID,
                         TableName = TableName,
-
-                        Score = Score,
-
+                         
+                        Score = Score,                      
+                        Eva_Role = Eva_Role,
+                         
                         CreateUID = CreateUID,
                         CreateTime = DateTime.Now,
                         EditTime = DateTime.Now,
@@ -976,10 +956,12 @@ namespace FEHandler.Eva_Manage
                             item.AnswerUID = AnswerUID;
                             item.AnswerName = AnswerName;
 
-                           
+                            item.QuestionID = Eva_QuestionAnswer.Id;
 
                             item.TableID = TableID;
                             item.TableName = TableName;
+                          
+                            item.Eva_Role = Eva_Role;
 
                             item.CreateTime = DateTime.Now;
                             item.CreateUID = AnswerUID;
@@ -993,10 +975,7 @@ namespace FEHandler.Eva_Manage
                             if (jsm.errNum == intSuccess)
                             {
                                 item.Id = Convert.ToInt32(jsm.retData);
-                                if (!Constant.Eva_QuestionAnswer_Detail_List.Contains(item))
-                                {
-                                    Constant.Eva_QuestionAnswer_Detail_List.Add(item);
-                                }
+                                Constant.Eva_QuestionAnswer_Detail_List.Add(item);
                             }
                         }
                     }

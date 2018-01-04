@@ -863,8 +863,8 @@ z-index: 9999;width:100%;
 }
 .test_lists ul li .test_desc span input[type=checkbox],.test_lists ul li .test_desc span input[type=radio]{
   margin-right: 5px;
-  width: 16px;
-  height: 16px;
+  width: 15px;
+  height: 15px;
 }
 .test_lists ul li .test_desc span b {
   color: #666666;

@@ -1157,7 +1157,7 @@ var UI_Table_View = {
     selectTable_Init: function (retData) {
         UI_Table_View.TableView_Init(retData);
 
-        console.log(headerList);
+        
     },
 
 
@@ -1172,7 +1172,7 @@ var UI_Table_View = {
             success: function (json) {
 
                 var retData = json.result.retData;
-
+                console.log(retData);
                 switch (UI_Table_View.PageType) {
                     case 'TableView':
                         UI_Table_View.TableView_Init(retData);
