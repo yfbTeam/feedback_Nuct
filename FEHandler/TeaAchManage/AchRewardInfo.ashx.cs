@@ -200,8 +200,9 @@ namespace FEHandler.TeaAchManage
                 int BookId = RequestHelper.int_transfer(context.Request, "BookId");
                 bool isadd = Id == 0;
                 if (Id == 0)
-                {
+                {                    
                     model = new TPM_AcheiveRewardInfo();
+                    model.Id = 0;
                     model.GPid = RequestHelper.int_transfer(context.Request, "Group");
                     model.CreateUID = context.Request["CreateUID"].SafeToString();
                 }

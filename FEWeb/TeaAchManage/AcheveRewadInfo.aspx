@@ -345,7 +345,7 @@
                 success: function (json) {
                     if (json.result.errMsg == "success") {
                         parent.layer.msg('操作成功!');
-                        window.location.href = "AchManage.aspx?Id=2";                        
+                        window.location.href = "AchManage.aspx?Id=2&Iid=3";
                     }
                     else {
                         layer.msg(json.result.errMsg);
