@@ -140,14 +140,9 @@ namespace FEDAL
         {
 
             List<SqlParameter> param = new List<SqlParameter>() { 
-                                  new SqlParameter("@Name",entity.Name),
-                                  new SqlParameter("@Gid",entity.Gid),
-                                  new SqlParameter("@GPid",entity.GPid),
-                                  new SqlParameter("@BookId",entity.BookId),
-                                  new SqlParameter("@TeaUNo",entity.TeaUNo),
-                                  new SqlParameter("@Lid",entity.Lid),
-                                  new SqlParameter("@Rid",entity.Rid),
-                                  new SqlParameter("@Sort",entity.Sort),
+                                  new SqlParameter("@Name",entity.Name),                                 
+                                  new SqlParameter("@GPid",entity.GPid),                                  
+                                  new SqlParameter("@TeaUNo",entity.TeaUNo),                                
                                   new SqlParameter("@Year",entity.Year),
                                   new SqlParameter("@ResponsMan",entity.ResponsMan),
                                   new SqlParameter("@DepartMent",entity.DepartMent),
@@ -158,7 +153,49 @@ namespace FEDAL
                                   new SqlParameter("@Status",entity.Status),
                                   new SqlParameter("@CreateUID",entity.CreateUID)
                                   };
-            if(entity.DefindDate == null)
+            if (entity.Gid == 0)
+            {
+                param.Add(new SqlParameter("@Gid",DBNull.Value));
+            }
+            else
+            {
+                param.Add(new SqlParameter("@Gid", entity.Gid));
+            }
+            if (entity.BookId == 0)
+            {
+                param.Add(new SqlParameter("@BookId", DBNull.Value));
+            }
+            else
+            {
+                param.Add(new SqlParameter("@BookId", entity.BookId));
+            }
+
+            if (entity.Lid == 0)
+            {
+                param.Add(new SqlParameter("@Lid", DBNull.Value));
+            }
+            else
+            {
+                param.Add(new SqlParameter("@Lid", entity.Lid));
+            }
+
+            if (entity.Rid == 0)
+            {
+                param.Add(new SqlParameter("@Rid", DBNull.Value));
+            }
+            else
+            {
+                param.Add(new SqlParameter("@Rid", entity.Rid));
+            }
+            if (entity.Sort == 0)
+            {
+                param.Add(new SqlParameter("@Sort", DBNull.Value));
+            }
+            else
+            {
+                param.Add(new SqlParameter("@Sort", entity.Sort));
+            }
+            if (entity.DefindDate == null)
             {
                 param.Add(new SqlParameter("@DefindDate", DBNull.Value));
             }

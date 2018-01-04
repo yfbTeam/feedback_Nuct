@@ -281,7 +281,7 @@
                 layer.msg("请先指定认定日期");
                 return;
             }
-            if ($("#Gid").val() != 0) {
+            if ($("#Gid").val() != "") {
                 $.ajax({
                     url: HanderServiceUrl + "/TeaAchManage/AchManage.ashx",
                     type: "post",
@@ -306,7 +306,7 @@
         //奖励等级
         function BindRewardInfo() {
             $("#Rid").html('<option value="" ss="0">请选择</option>');
-            if ($("#Lid").val() != 0) {
+            if ($("#Lid").val() != "") {
                 $.ajax({
                     url: HanderServiceUrl + "/TeaAchManage/AchManage.ashx",
                     type: "post",

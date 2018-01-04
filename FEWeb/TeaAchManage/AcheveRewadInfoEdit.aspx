@@ -310,7 +310,7 @@
         }        
         function BindRank() {
             $("#Sort").html('<option value="" ss="0">请选择</option>');
-            if ($("#Rid").val() != 0) {
+            if ($("#Rid").val() != "") {
                 $.ajax({
                     url: HanderServiceUrl + "/TeaAchManage/AchRewardInfo.ashx",
                     type: "post",
@@ -460,7 +460,7 @@
                 layer.msg("请先指定认定日期");
                 return;
             }
-            if ($("#Gid").val() != 0) {
+            if ($("#Gid").val() != "") {
                 $.ajax({
                     url: HanderServiceUrl + "/TeaAchManage/AchManage.ashx",
                     type: "post",
@@ -486,7 +486,7 @@
         function BindRewardInfo() {
             $("#Rid").html('<option value="" ss="0">请选择</option>');
             $("#Sort").html('<option value="" ss="0">请选择</option>');
-            if ($("#Lid").val() != 0) {
+            if ($("#Lid").val() != "") {
                 $.ajax({
                     url: HanderServiceUrl + "/TeaAchManage/AchManage.ashx",
                     type: "post",
