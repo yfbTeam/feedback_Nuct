@@ -98,8 +98,7 @@
                     <div class="nav_version_wrap clearfix">
                         <div class="nav_version_left fl"></div>
                         <div class="fr">
-                            <input type="button" name="name" value="编辑版本" class="btn2" id="EditEdition" />
-                            <input type="button" name="name" value="新增版本" class="btn2" id="NewEdition" />
+                            <input type="button" name="name" value="版本管理" class="btn2" id="EditEdition"/>                           
                         </div>
                     </div>
                     <div class="nav_title clearfix">
@@ -186,8 +185,7 @@
                     OpenIFrameWindow('新增等级', '../TeaAchManage/LeveAdd.aspx?EID=' +EID , '500px', '270px');
                 }
             })
-            Edition('#NewEdition', 'EditionAdd','新增');
-            Edition('#EditEdition', 'EditionEdit','编辑','800','500');
+            Edition('#EditEdition', 'EditionEdit','版本管理','800','500');
         })
         function Edition(obj, src,name, width, height) {
             width = width || 600;
@@ -198,7 +196,7 @@
                     layer.msg("请选择一个分类");
                 }
                 else {
-                    OpenIFrameWindow('' + name + '版本', '../TeaAchManage/' + src + '.aspx?LID=' + LID + '&id=' + $(".nav_version_left .selected").attr('id'), '' + width + 'px', '' + height + 'px');
+                    OpenIFrameWindow(name, '../TeaAchManage/' + src + '.aspx?LID=' + LID + '&id=' + $(".nav_version_left .selected").attr('id'), '' + width + 'px', '' + height + 'px');
                 }
             })
         }
