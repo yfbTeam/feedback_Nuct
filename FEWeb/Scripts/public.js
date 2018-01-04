@@ -426,12 +426,15 @@ function File_Viewer(filepath) {
 }
 
 function ChosenInit(select) {
-    select.chosen({
-        allow_single_deselect: true,
-        disable_search_threshold: 1,
-        no_results_text: '未找到',
-        search_contains: true
-    });
-    select.trigger("chosen:updated");//动态更新select下的选择项时，只要在更新选择项后触发Chosen中的chosen:updated事件就可以了
+    if (select.chosen != undefined)
+    {
+        select.chosen({
+            allow_single_deselect: true,
+            disable_search_threshold: 1,
+            no_results_text: '未找到',
+            search_contains: true
+        });
+        select.trigger("chosen:updated");//动态更新select下的选择项时，只要在更新选择项后触发Chosen中的chosen:updated事件就可以了
+    }  
 }
 

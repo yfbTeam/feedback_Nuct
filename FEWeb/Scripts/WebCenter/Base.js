@@ -53,7 +53,7 @@
             error: function (errMsg) { }
         });
     },
-
+    BindTableCompleate: function () { },
     BindTable: function () {
         $.ajax({
             url: HanderServiceUrl + "/Eva_Manage/Eva_ManageHandler.ashx",
@@ -71,6 +71,7 @@
                     });
 
                     ChosenInit($("#table"));
+                    Base.BindTableCompleate()
                 }
             },
             error: function (errMsg) { }

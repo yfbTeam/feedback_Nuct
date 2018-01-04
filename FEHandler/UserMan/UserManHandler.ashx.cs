@@ -22,7 +22,7 @@ namespace FEHandler.UserMan
             {
                 switch (func)
                 {
-                    //获取学年学期
+                    //获取学生
                     case "Get_UserInfo_List": Get_UserInfo_List(context); break;
                     //操作用户组
                     case "Ope_UserGourp": Ope_UserGourp(context); break;
@@ -36,7 +36,9 @@ namespace FEHandler.UserMan
                     case "SetUserToRole": SetUserToRole(context); break;
                     case "GetTeachers": GetTeachers(context); break;
                     case "GetStudents": GetStudents(context); break;
+                    case "GetStudentsSelect": GetStudentsSelect(context); break;
                     case "GetMajors": GetMajors(context); break;
+
                     default:
                         jsonModel = JsonModel.get_jsonmodel(5, "没有此方法", "");
                         context.Response.Write("{\"result\":" + Constant.jss.Serialize(jsonModel) + "}");
@@ -341,11 +343,9 @@ namespace FEHandler.UserMan
                 List<Sys_Role> Sys_Role_List = Constant.Sys_Role_List;
                 List<Sys_RoleOfUser> Sys_RoleOfUser_List = Constant.Sys_RoleOfUser_List;
                 List<Major> Major_List = Constant.Major_List;
-                //LogHelper.Info("Get_UserInfo_List:开始");
                 var query = from ul in UserInfo_List_
                             join SysRoleOfUser in Sys_RoleOfUser_List on ul.UniqueNo equals SysRoleOfUser.UniqueNo
                             join SysRole in Sys_Role_List on SysRoleOfUser.Role_Id equals SysRole.Id
-                            //join SysMajor in Major_List on ul.Major_ID equals SysMajor.Id
                             where SysRole.Name != "超级管理员"
                             orderby SysRole.Sort
                             select new
@@ -353,9 +353,6 @@ namespace FEHandler.UserMan
                      id = ul.Id,
                      Name = (ul.Name == null) ? string.Empty : ul.Name,
                      Sex = GetSex(Convert.ToString(ul.Sex)),
-                     //Department_Name = (ul.Department_Name == null) ? string.Empty : ul.Department_Name,
-                     //Major_Name = (ul.Major_Name == null) ? string.Empty : ul.Major_Name,
-                     //College_Name = (ul.College_Name == null) ? string.Empty : ul.College_Name,
                      LoginName = (ul.LoginName == null) ? string.Empty : ul.LoginName,
                      Phone = (ul.Phone == null) ? string.Empty : ul.Phone,
                      Email = (ul.Email == null) ? string.Empty : ul.Email,
@@ -364,7 +361,6 @@ namespace FEHandler.UserMan
                      RoleName = SysRole.Name,
                      UniqueNo = ul.UniqueNo,
                      Pwd = ul.ClearPassword,
-                     //MajorName=SysMajor.Major_Name
                      MajorName = "",
                      Major_ID = ul.Major_ID
                  };
@@ -379,9 +375,6 @@ namespace FEHandler.UserMan
                                  id = q.id,
                                  Name = (q.Name == null) ? string.Empty : q.Name,
                                  Sex = q.Sex,
-                                 //Department_Name = (ul.Department_Name == null) ? string.Empty : ul.Department_Name,
-                                 //Major_Name = (ul.Major_Name == null) ? string.Empty : ul.Major_Name,
-                                 //College_Name = (ul.College_Name == null) ? string.Empty : ul.College_Name,
                                  LoginName = (q.LoginName == null) ? string.Empty : q.LoginName,
                                  Phone = (q.Phone == null) ? string.Empty : q.Phone,
                                  Email = (q.Email == null) ? string.Empty : q.Email,
@@ -390,7 +383,6 @@ namespace FEHandler.UserMan
                                  RoleName = q.RoleName,
                                  UniqueNo = q.UniqueNo,
                                  Pwd = q.Pwd,
-                                 //MajorName=SysMajor.Major_Name
                                  MajorName = (lf == null ? "" : lf.Major_Name),
                                  Major_ID = q.Major_ID
                              };
@@ -586,9 +578,11 @@ namespace FEHandler.UserMan
                 HttpRequest Request = context.Request;
                 //返回所有用户信息
 
+
+
                 List<UserInfo> UserInfo_List_ = Constant.UserInfo_List;
                 List<Major> Major_List = Constant.Major_List;
-                //LogHelper.Info("Get_UserInfo_List:开始");
+
                 var query = from ul in UserInfo_List_
                             join s in Constant.Student_List on ul.UniqueNo equals s.UniqueNo
                             select new
@@ -596,9 +590,6 @@ namespace FEHandler.UserMan
                                 id = ul.Id,
                                 Name = (ul.Name == null) ? string.Empty : ul.Name,
                                 Sex = GetSex(Convert.ToString(ul.Sex)),
-                                //Department_Name = (ul.Department_Name == null) ? string.Empty : ul.Department_Name,
-                                //Major_Name = (ul.Major_Name == null) ? string.Empty : ul.Major_Name,
-                                //College_Name = (ul.College_Name == null) ? string.Empty : ul.College_Name,
                                 LoginName = (ul.LoginName == null) ? string.Empty : ul.LoginName,
                                 Phone = (ul.Phone == null) ? string.Empty : ul.Phone,
                                 Email = (ul.Email == null) ? string.Empty : ul.Email,
@@ -607,7 +598,6 @@ namespace FEHandler.UserMan
                                 RoleName = "学生",
                                 UniqueNo = ul.UniqueNo,
                                 Pwd = ul.ClearPassword,
-                                //MajorName=SysMajor.Major_Name
                                 MajorName = "",
                                 Major_ID = ul.Major_ID
                             };
@@ -616,15 +606,11 @@ namespace FEHandler.UserMan
                              join SysMajor in Major_List on q.Major_ID equals SysMajor.Id
                              into gj
                              from lf in gj.DefaultIfEmpty()
-
                              select new
                              {
                                  id = q.id,
                                  Name = (q.Name == null) ? string.Empty : q.Name,
                                  Sex = q.Sex,
-                                 //Department_Name = (ul.Department_Name == null) ? string.Empty : ul.Department_Name,
-                                 //Major_Name = (ul.Major_Name == null) ? string.Empty : ul.Major_Name,
-                                 //College_Name = (ul.College_Name == null) ? string.Empty : ul.College_Name,
                                  LoginName = (q.LoginName == null) ? string.Empty : q.LoginName,
                                  Phone = (q.Phone == null) ? string.Empty : q.Phone,
                                  Email = (q.Email == null) ? string.Empty : q.Email,
@@ -633,7 +619,6 @@ namespace FEHandler.UserMan
                                  RoleName = q.RoleName,
                                  UniqueNo = q.UniqueNo,
                                  Pwd = q.Pwd,
-                                 //MajorName=SysMajor.Major_Name
                                  MajorName = (lf == null ? "" : lf.Major_Name),
                                  Major_ID = q.Major_ID
                              };
@@ -643,6 +628,58 @@ namespace FEHandler.UserMan
                 int count = query1.Count();
 
                 jsonModel = JsonModel.get_jsonmodel(intSuccess, "success", query1);
+            }
+            catch (Exception ex)
+            {
+                LogHelper.Error(ex);
+            }
+            finally
+            {
+                //无论后端出现什么问题，都要给前端有个通知【为防止jsonModel 为空 ,全局字段 jsonModel 特意声明之后进行初始化】
+                context.Response.Write("{\"result\":" + Constant.jss.Serialize(jsonModel) + "}");
+            }
+        }
+
+        public void GetStudentsSelect(HttpContext context)
+        {
+            int intSuccess = (int)errNum.Success;
+            try
+            {
+                HttpRequest Request = context.Request;
+                //返回所有用户信息
+
+                string ClassID = RequestHelper.string_transfer(Request, "ClassID");
+
+                List<UserInfo> UserInfo_List_ = Constant.UserInfo_List;
+                List<Major> Major_List = Constant.Major_List;
+
+                var query = from ul in UserInfo_List_
+                            join s in Constant.Student_List on ul.UniqueNo equals s.UniqueNo
+                            select new
+                            {
+                                id = ul.Id,
+                                Name = (ul.Name == null) ? string.Empty : ul.Name,
+                                Sex = GetSex(Convert.ToString(ul.Sex)),
+                                LoginName = (ul.LoginName == null) ? string.Empty : ul.LoginName,
+                                Phone = (ul.Phone == null) ? string.Empty : ul.Phone,
+                                Email = (ul.Email == null) ? string.Empty : ul.Email,
+                                UserType = ul.UserType,
+                                Roleid = 2,
+                                RoleName = "学生",
+                                UniqueNo = ul.UniqueNo,
+                                Pwd = ul.ClearPassword,
+                                MajorName = "",
+                                Major_ID = ul.Major_ID,
+                                s.ClassNo,
+                                s.ClassName,
+                            };
+                if (ClassID != "")
+                {
+                    query = (from q in query where q.ClassNo == ClassID select q).ToList();
+                }
+                var data = new { StuList = (from q in query select new { q.UniqueNo, q.Name }) };
+
+                jsonModel = JsonModel.get_jsonmodel(intSuccess, "success", data);
             }
             catch (Exception ex)
             {
@@ -670,7 +707,7 @@ namespace FEHandler.UserMan
                 List<UserInfo> UserInfo_List_ = Constant.UserInfo_List;
                 if (!string.IsNullOrEmpty(Major_ID))
                 {
-                    UserInfo_List_ = UserInfo_List_.Where(t=>t.Major_ID==Major_ID).ToList();
+                    UserInfo_List_ = UserInfo_List_.Where(t => t.Major_ID == Major_ID).ToList();
                 }
                 List<Major> Major_List = Constant.Major_List;
                 //LogHelper.Info("Get_UserInfo_List:开始");

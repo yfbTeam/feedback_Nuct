@@ -101,7 +101,9 @@
                 <td title="${Departent_Name}" style="width: 20%">${cutstr(Departent_Name,30)}</td>
                 {{if StateType == 2}}
           <td style="width: 5%" class="operate_wrap">
-              <div class="operate" onclick="window.location.href='./selectTable.aspx?Id='+getQueryString('Id')+'&Iid='+getQueryString('Iid')">
+              <div class="operate" onclick="window.location.href='./selectTable.aspx?Id='+getQueryString('Id')+'&Iid='+getQueryString('Iid') +'&TeacherUID='+'${TeacherUID}'+'&TeacherName='+'${TeacherName}'
+                  +'&SectionID='+'${SectionID}'+'&DisPlayName='+'${DisPlayName}'+'&CourseID='+'${CourseID}'+'&Course_Name='+'${Course_Name}'+'&ReguID='+'${ReguId}'+'&ReguName='+'${ReguName}'
+                  +'&AnswerUID='+'${ExpertUID}'+'&AnswerName='+'${ExpertName}'">
                   <i class="iconfont color_purple">&#xe617;</i>
                   <span class="operate_none bg_purple">录入</span>
               </div>

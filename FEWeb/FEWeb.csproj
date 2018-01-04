@@ -201,11 +201,13 @@
     <Content Include="Scripts\WebCenter\Base.js" />
     <Content Include="Scripts\WebCenter\CourSortMan.js" />
     <Content Include="Scripts\WebCenter\DatabaseMan.js" />
+    <Content Include="Scripts\WebCenter\Evaluate.js" />
     <Content Include="Scripts\WebCenter\Power.js" />
     <Content Include="Scripts\WebCenter\RegularEval.js" />
     <Content Include="Scripts\WebCenter\Room.js" />
     <Content Include="Scripts\WebCenter\SortCourse.js" />
     <Content Include="Scripts\WebCenter\TableDesigin.js" />
+    <Content Include="Scripts\WebCenter\User.js" />
     <Content Include="Scripts\WebCenter\描述文件.txt" />
     <Content Include="Scripts\zTree\css\awesomeStyle\awesome.css" />
     <Content Include="Scripts\zTree\css\awesomeStyle\img\loading.gif" />

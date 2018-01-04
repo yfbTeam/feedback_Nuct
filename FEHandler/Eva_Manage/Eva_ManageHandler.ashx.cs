@@ -187,7 +187,6 @@ namespace FEHandler.Eva_Manage
 
                     #endregion
 
-
                     #region other
 
 
@@ -1210,6 +1209,7 @@ namespace FEHandler.Eva_Manage
                                         Type = type_table,
                                         OptionF_S_Max = item.OptionF_S_Max,
                                         Root = item.Root,
+                                        RootID = item.RootID,
                                     };
 
                                     //添加到缓存
@@ -1375,6 +1375,7 @@ namespace FEHandler.Eva_Manage
                                             Type = type_table,
                                             OptionF_S_Max = item.OptionF_S_Max,
                                             Root = item.Root,
+                                            RootID = item.RootID
                                         };
 
 
@@ -2008,27 +2009,27 @@ namespace FEHandler.Eva_Manage
         {
             try
             {
-                if (eva_Answer.eva_detail_list == null)
-                {
-                    eva_Answer.eva_detail_list = new List<eva_detail_answer>();
-                }
-                eva_detail_answer eva_detail = new eva_detail_answer() { indicator_type_tid = Convert.ToString(t.IndicatorType_Id), indicator_type_tname = t.IndicatorType_Name };
-                eva_Answer.eva_detail_list.Add(eva_detail);
+                //if (eva_Answer.eva_detail_list == null)
+                //{
+                //    eva_Answer.eva_detail_list = new List<eva_detail_answer>();
+                //}
+                //eva_detail_answer eva_detail = new eva_detail_answer() { indicator_type_tid = Convert.ToString(t.IndicatorType_Id), indicator_type_tname = t.IndicatorType_Name };
+                //eva_Answer.eva_detail_list.Add(eva_detail);
 
-                eva_detail.indicator_list = (from cl in collection
-                                             where cl.IndicatorType_Id == t.IndicatorType_Id
-                                             select cl).ToList();
+                //eva_detail.indicator_list = (from cl in collection
+                //                             where cl.IndicatorType_Id == t.IndicatorType_Id
+                //                             select cl).ToList();
 
-                Eva_QuestionAnswer answer_model = Constant.Eva_QuestionAnswer_List.FirstOrDefault(tc => tc.TeacherUID == TeacherUID && tc.StudentUID == StudentUID
-                    && tc.CourseId == CourseId);
-                if (answer_model != null)
-                {
+                //Eva_QuestionAnswer answer_model = Constant.Eva_QuestionAnswer_List.FirstOrDefault(tc => tc.TeacherUID == TeacherUID && tc.StudentUID == StudentUID
+                //    && tc.CourseId == CourseId);
+                //if (answer_model != null)
+                //{
 
-                    eva_detail.answer_detail_list = (from answer in Constant.Eva_QuestionAnswer_Detail_List
-                                                     where answer.Eva_TaskAnswer_Id == answer_model.Id
-                                                     select answer).ToList();
+                //    eva_detail.answer_detail_list = (from answer in Constant.Eva_QuestionAnswer_Detail_List
+                //                                     where answer.Eva_TaskAnswer_Id == answer_model.Id
+                //                                     select answer).ToList();
 
-                }
+                //}
             }
             catch (Exception ex)
             {
@@ -2052,7 +2053,7 @@ namespace FEHandler.Eva_Manage
                                                  where f_ans.TeacherUID == TeacherUID && f_ans.Eva_Distribution_Id == Eva_Distribution_Id && f_ans.CourseId == CourseId
                                                  select new Eva_QuestionAnswer_Detail
                                                  {
-                                                     TableDetail_Id = f_ans.Indicator_Id,
+                                                     TableDetailID = f_ans.Indicator_Id,
                                                      Answer = f_ans.Answer
                                                  }).ToList();
             }
@@ -2061,8 +2062,6 @@ namespace FEHandler.Eva_Manage
                 LogHelper.Error(ex);
             }
         }
-
-
 
         #endregion
 

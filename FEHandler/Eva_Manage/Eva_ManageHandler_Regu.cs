@@ -255,8 +255,6 @@ namespace FEHandler.Eva_Manage
             }
         }
 
-
-
         #endregion
 
         #region 获取定期评价列表数据
@@ -272,7 +270,7 @@ namespace FEHandler.Eva_Manage
             int ReguId = RequestHelper.int_transfer(Request, "ReguId");
             string Key = RequestHelper.string_transfer(Request, "Key");
             string SelectUID = RequestHelper.string_transfer(Request, "SelectUID");
-         
+
             string Te = RequestHelper.string_transfer(Request, "Te");
 
             int PageIndex = RequestHelper.int_transfer(Request, "PageIndex");
@@ -310,6 +308,7 @@ namespace FEHandler.Eva_Manage
                                 exp.ExpertName,
                                 exp.ExpertUID,
                                 exp.Course_Name,
+                                CourseID = exp.CourseId,
                                 teacher.Departent_Name,
                                 ReguName = regu.Name,
                                 regu.StartTime,
@@ -341,7 +340,7 @@ namespace FEHandler.Eva_Manage
                 {
                     list = (from li in list where li.ExpertUID == SelectUID select li).ToList();
                 }
-              
+
                 if (Te != "")
                 {
                     list = (from li in list where li.TeacherUID == Te select li).ToList();
@@ -376,6 +375,7 @@ namespace FEHandler.Eva_Manage
                                   an.ExpertName,
                                   an.ExpertUID,
                                   an.Course_Name,
+                                  an.CourseID,
                                   an.Departent_Name,
                                   ReguName = an.ReguName,
                                   an.StartTime,
@@ -445,7 +445,7 @@ namespace FEHandler.Eva_Manage
 
                                TeacherUID = teacher.UniqueNo,
                                TeacherName = teacher.Name,
-                             
+
                                ExpertUID = exp.ExpertUID,
 
                            }).ToList();
@@ -460,7 +460,7 @@ namespace FEHandler.Eva_Manage
                 var select = new
                 {
                     RgList = (from li in list select new ReModel() { ReguId = li.ReguId, ReguName = li.ReguName }).Distinct(new ReModelComparer()).ToList(),
-                    TeList = (from li in list select new TeModel { TeacherUID = li.TeacherUID, TeacherName = li.TeacherName }).Distinct(new TeModelComparer()) .ToList(),
+                    TeList = (from li in list select new TeModel { TeacherUID = li.TeacherUID, TeacherName = li.TeacherName }).Distinct(new TeModelComparer()).ToList(),
                 };
 
                 //返回所有表格数据
@@ -868,38 +868,74 @@ namespace FEHandler.Eva_Manage
         {
             lock (obj_Add_Eva_QuestionAnswer)
             {
+                int intSuccess = (int)errNum.Success;
                 HttpRequest Request = context.Request;
-                //分配表的ID
-                int Eva_Distribution_Id = RequestHelper.int_transfer(Request, "Eva_Distribution_Id");
-                //学生【用户唯一标识符】
-                string StudentUID = RequestHelper.string_transfer(Request, "StudentUID");
+
+                //学年学期的ID
+                int SectionID = RequestHelper.int_transfer(Request, "SectionID");
+                string DisPlayName = RequestHelper.string_transfer(Request, "DisPlayName");
+
+                int ReguID = RequestHelper.int_transfer(Request, "ReguID");
+                string ReguName = RequestHelper.string_transfer(Request, "ReguName");
+
                 //课程的ID
-                string CourseId = RequestHelper.string_transfer(Request, "CourseId");
+                string CourseID = RequestHelper.string_transfer(Request, "CourseID");
+                string CourseName = RequestHelper.string_transfer(Request, "CourseName");
+
                 //教师的ID
                 string TeacherUID = RequestHelper.string_transfer(Request, "TeacherUID");
-                //学年学期的ID
-                int SectionId = RequestHelper.int_transfer(Request, "SectionId");
+                string TeacherName = RequestHelper.string_transfer(Request, "TeacherName");
+
+                //学生【用户唯一标识符】
+                string AnswerUID = RequestHelper.string_transfer(Request, "AnswerUID");
+                string AnswerName = RequestHelper.string_transfer(Request, "AnswerName");
+
+                int TableID = RequestHelper.int_transfer(Request, "TableID");
+                string TableName = RequestHelper.string_transfer(Request, "TableName");
+
                 //得分
                 decimal Score = RequestHelper.decimal_transfer(Request, "Score");
                 //创建者
                 string CreateUID = RequestHelper.string_transfer(Request, "CreateUID");
-                int intSuccess = (int)errNum.Success;
+
                 //课程分类
-                string CourseTypeId = Constant.CourseRel_List.FirstOrDefault(i => i.Course_Id == CourseId).CourseType_Id;
+                var data = (from r in Constant.CourseRel_List
+                            join c in Constant.Sys_Dictionary_List on r.CourseType_Id equals c.Key
+                            where c.Type == "0"
+                            select new { r, c }).ToList();
+
+
                 int Type = RequestHelper.int_transfer(Request, "Type");
                 try
                 {
+                    var first = data.Count > 0 ? data[0] : null;
 
                     //学生回答任务信息表
                     Eva_QuestionAnswer Eva_QuestionAnswer = new Eva_QuestionAnswer()
                     {
-                        Eva_Distribution_Id = Eva_Distribution_Id,
-                        StudentUID = StudentUID,
-                        CourseTypeId = CourseTypeId,
-                        CourseId = CourseId,
+                        SectionID = SectionID,
+                        DisPlayName = DisPlayName,
+
+                        ReguID = ReguID,
+                        ReguName = ReguName,
+
+                        CourseTypeID = first != null ? first.c.Key : "",
+                        CourseTypeName = first != null ? first.c.Value : "",
+
+                        CourseID = CourseID,
+                        CourseName = CourseName,
+
+                        AnswerUID = AnswerUID,
+                        AnswerName = AnswerName,
+
                         TeacherUID = TeacherUID,
-                        SectionId = SectionId,
+                        TeacherName = TeacherName,
+
+                        TableID = TableID,
+                        TableName = TableName,
+
                         Score = Score,
+
                         CreateUID = CreateUID,
                         CreateTime = DateTime.Now,
                         EditTime = DateTime.Now,
@@ -916,17 +952,38 @@ namespace FEHandler.Eva_Manage
                     jsonModel = Constant.Eva_QuestionAnswerService.Add(Eva_QuestionAnswer);
 
                     Eva_QuestionAnswer.Id = Convert.ToInt32(jsonModel.retData);
-                    if (jsonModel.errNum == intSuccess && !Constant.Eva_QuestionAnswer_List.Contains(Eva_QuestionAnswer))
+                    if (jsonModel.errNum == intSuccess)
                     {
                         Constant.Eva_QuestionAnswer_List.Add(Eva_QuestionAnswer);
-
                         //答题任务详情填充
                         foreach (Eva_QuestionAnswer_Detail item in Eva_QuestionAnswer_Detail_List)
                         {
-                            item.Eva_TaskAnswer_Id = Eva_QuestionAnswer.Id;
+                            item.SectionID = SectionID;
+                            item.DisPlayName = DisPlayName;
+
+                            item.ReguID = ReguID;
+                            item.ReguName = ReguName;
+
+                            item.TeacherUID = TeacherUID;
+                            item.TeacherName = TeacherName;
+
+                            item.CourseTypeID = Eva_QuestionAnswer.CourseTypeID;
+                            item.CourseTypeName = Eva_QuestionAnswer.CourseTypeName;
+
+                            item.CourseID = CourseID;
+                            item.CourseName = CourseName;
+
+                            item.AnswerUID = AnswerUID;
+                            item.AnswerName = AnswerName;
+
+                           
+
+                            item.TableID = TableID;
+                            item.TableName = TableName;
+
                             item.CreateTime = DateTime.Now;
-                            item.CreateUID = StudentUID;
-                            item.EditUID = StudentUID;
+                            item.CreateUID = AnswerUID;
+                            item.EditUID = AnswerUID;
                             item.EditTime = DateTime.Now;
                             item.IsDelete = (int)IsDelete.No_Delete;
                             item.IsEnable = (int)IsEnable.Enable;

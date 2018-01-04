@@ -816,12 +816,13 @@ var UI_Table_Create =
                     all_array.push(list_sheets[i].indicator_array[j]);
                     var indicator_list = list_sheets[i].indicator_array[j].indicator_list;
                     for (var h in indicator_list) {
-                        indicator_list[h].Root =$('#sheets').find('input[t_id="'+list_sheets[i].t_Id+'"]').val();
+                        indicator_list[h].Root = $('#sheets').find('input[t_id="' + list_sheets[i].t_Id + '"]').val();
+                        indicator_list[h].RootID = Number(i) + 1;
                     }
                 }
             }
         }
-        
+
         var Name = $("#Name").val();
         var IsScore = "0";
         //是否记分
@@ -857,9 +858,6 @@ var UI_Table_Create =
             layer.msg('请输入自定义表头信息！');
             return false;
         }
-
-      
-
         //启用或禁用
         var IsEnable = $("#disalbe").is(":checked") ? 0 : 1;
         $.ajax({
@@ -891,16 +889,19 @@ var UI_Table_Create =
         var all_array = [];
         for (var i in list_sheets) {
             if (list_sheets[i].indicator_array.length > 0) {
+                
                 for (var j in list_sheets[i].indicator_array) {
                     all_array.push(list_sheets[i].indicator_array[j]);
                     var indicator_list = list_sheets[i].indicator_array[j].indicator_list;
                     for (var h in indicator_list) {
-                        indicator_list[h].Root =$('#sheets').find('input[t_id="'+list_sheets[i].t_Id+'"]').val();
+                        indicator_list[h].Root = $('#sheets').find('input[t_id="' + list_sheets[i].t_Id + '"]').val();
+                        indicator_list[h].Sort = Number(h) + 1;
+                        indicator_list[h].RootID = Number(i) + 1;
                     }
                 }
             }
         }
-        
+
         var Name = $("#Name").val();
         var IsScore = "0";
         //是否记分
@@ -1013,7 +1014,7 @@ var UI_Table_Create =
 
                 //加上序号
                 for (var i in _sheet.indicator_array[0].indicator_list) {
-                    
+
                     _sheet.indicator_array[0].indicator_list[i].Sort = Number(i) + 1;
                     _sheet.indicator_array[0].indicator_list[i].flg = Number(i) + 1;
                     _sheet.indicator_array[0].indicator_list[i].Root = _sheet.title;
@@ -1090,17 +1091,17 @@ var UI_Table_Create =
             dataType: "json",
             data: { Func: "Get_Eva_Table_Header_Custom_List" },
             success: function (json) {
-                retData = json.result.retData;
-                switch (UI_Table_Create.PageType) {
-                    case 'SelTabelHead':
-                        debugger;
-                        $("#item_check").tmpl(retData).appendTo("#list");
-                        UI_Table_Create.Get_Eva_Table_Header_Custom_List_Compleate(retData);
-                        break;
-                    default:
-
+                if (json.result.errMsg == "success") {
+                    retData = json.result.retData;
+                    switch (UI_Table_Create.PageType) {
+                        case 'SelTabelHead':
+                            
+                            $("#item_check").tmpl(retData).appendTo("#list");
+                            UI_Table_Create.Get_Eva_Table_Header_Custom_List_Compleate(retData);
+                            break;
+                        default:
+                    }
                 }
-
             },
             error: function () {
                 //接口错误时需要执行的
@@ -1112,70 +1113,53 @@ var UI_Table_Create =
 
 
 //=======================查看视图 ---系统设置用表============================================================
-
+var headerList = [];
 var UI_Table_View = {
     PageType: 'TableView',//TableView 答卷视图  AddEvalTable添加答卷
     IsPage_Display: false,
-    init_Prepare: function (retData) {
-        //为题目分类排题号
-        //var order_number = 0;//设置大的标题  比如  一、二、三等       
-        //$(".test_module").each(function () {
-        //    order_number++;
-        //    $(this).parent().find("h1").find(".order_num").html(Arabia_To_SimplifiedChinese(order_number) + '、');//h1 下的标题的序号
+    TableView_Init: function (retData) {
 
-        //})
-        //var h = 0;
-        //$('#table_view').find("li").each(function () {
-        //    var id = $(this).children("input[name='name_in']").val();//使用flg的原因防止有重复的id标签出现  比如有两个id=sp_1
-        //    $("#sp_f_" + id).html(h + 1);//为题目设置索引
-        //    h++;
-        //})
+        $("#table_view").empty();
 
-        //求最大分
-        //$("input[name='name_in']").each(function () {
-        //    var numbers1 = [];
-        //    $(this).parents('li').find(".numbers").each(function () {
-        //        numbers1.push($(this).html());
-        //    })
-        //    var max = Math.max.apply(null, numbers1);
-        //    $("#sp_" + $(this).val()).html('(<b id="b_' + $(this).val() + '">' + max + '</b>分)');
-        //})
-      
-        //求分类的总分
-        //var total = 0;
-        //$(".test_module").each(function () {
-        //    var Id = $(this).children("input[name='name_title']").val();
-        //    var all_array = [];
-        //    $(this).find('li').each(function () {
-        //        var titles = $(this).find("input[name='name_in']").val();
-        //        var QuesType_Id = $(this).find("input[name='name_QuesType_Id']").val();//找到问答题的值
-        //        if (QuesType_Id == 3)//3位问答题
-        //        {
-        //            all_array.push("0");
-        //        }
-        //        else {
-        //            all_array.push($("#b_" + titles).html());
-        //        }
+        $(".tablename").html(retData.Name);
+        for (var i in retData.Table_Detail_Dic_List) {
+            $("#item_table_view").tmpl(retData.Table_Detail_Dic_List[i]).appendTo("#table_view");
+        }
+        if (retData.IsScore == 1) {
+            $(".isscore").hide();
+        }
 
+        $('#list').empty();
+        headerList = retData.Table_Header_List.filter(function (item) { return item.CustomCode != null && item.CustomCode != '' });
+        var head_value = retData.Table_Header_List.filter(function (item) { return item.CustomCode == null || item.CustomCode == '' });
 
-        //    })
-        //    //对all_array进行遍历，进行求和
-        //    var sum = 0;
-        //    for (var i = 0; i < all_array.length; i++) {
-        //        sum = numAdd(sum, all_array[i]);//防止值为字符串 导致计算错误
-        //    }
-        //    total += sum;
-        //    $("#h_" + Id).html(sum);
-        //})
-        //总分
-        //$("#sp_total").html('总分' + total + '分')
-     
-        var head_value = retData.Table_Header_List.filter(function (item) { return item.CustomCode == '' });
-        var headerList = retData.Table_Header_List.filter(function (item) { return item.CustomCode != '' });
-        $("#item_check").tmpl(head_value).appendTo("#list");
-        $("#item_check2").tmpl(headerList).appendTo("#list");
+        $("#item_check").tmpl(headerList).appendTo("#list");
+        $("#item_check2").tmpl(head_value).appendTo("#list");
+
+        var sp_total = 0;
+        for (var i in retData.Table_Detail_Dic_List) {
+            var data = retData.Table_Detail_Dic_List[i];
+
+            for (var j in data.Eva_TableDetail_List) {
+
+                var child = data.Eva_TableDetail_List[j];
+                sp_total += child.OptionF_S_Max;
+            }
+        }
+        if (retData.IsScore == 0) {
+            $("#sp_total").html('总分' + sp_total + '分')
+        }
+        else {
+            $("#sp_total").html('不计分')
+        }
 
     },
+    selectTable_Init: function (retData) {
+        UI_Table_View.TableView_Init(retData);
+
+        console.log(headerList);
+    },
+
 
     //初始化表格列表
     Get_Eva_TableDetail: function () {
@@ -1186,21 +1170,15 @@ var UI_Table_View = {
             dataType: "json",
             data: { Func: "Get_Eva_TableDetail", "table_Id": table_Id, "IsPage_Display": UI_Table_View.IsPage_Display },
             success: function (json) {
+
                 var retData = json.result.retData;
-                
+
                 switch (UI_Table_View.PageType) {
                     case 'TableView':
-                        $("#table_view").empty();
-
-                        $(".tablename").html(retData.Name);
-                        for (var i in retData.Table_Detail_Dic_List) {
-                            $("#item_table_view").tmpl(retData.Table_Detail_Dic_List[i]).appendTo("#table_view");
-                        }
-                        if (retData.IsScore == 1) {
-                            $(".isscore").hide();
-                        }
-                       console.log(retData)
-                        UI_Table_View.init_Prepare(retData);
+                        UI_Table_View.TableView_Init(retData);
+                        break;
+                    case 'selectTable':
+                        UI_Table_View.selectTable_Init(retData);
                         break;
                     case 'AddEvalTable':
 
@@ -1229,13 +1207,13 @@ var UI_Table_View = {
                                 , indicator_type_type: '0', indicator_type_value: '', total_value: 0,
                                 indicator_list: retData.Table_Detail_Dic_List[i].Eva_TableDetail_List,
                             };
-                            
+
                             for (var j in indica.indicator_list) {
                                 indica.indicator_list[j].flg = indica.indicator_list[j].Sort;
 
                                 total_ += indica.indicator_list[j].OptionF_S_Max;
                             }
-                           
+
                             sheet.indicator_array.push(indica);
                             if (list_sheets.length == 0) {
                                 sheet.Num = 1;
@@ -1252,7 +1230,7 @@ var UI_Table_View = {
                         }
                         $('#total').text(total_)
                         UI_Table_Create.sheet_init();
-                        debugger;
+                        
                         retData.Table_Header_List = Enumerable.From(retData.Table_Header_List).OrderBy(function (item) { return item.Id }).ToArray();//按Id进行升序排列
 
                         //添加表头信息
@@ -1270,7 +1248,7 @@ var UI_Table_View = {
                                     header.Num = lisss[lisss.length - 1].Num + 1;
                                     header.t_Id = 't_' + header.Num;
                                 }
-                                lisss.push(header);                              
+                                lisss.push(header);
                                 $("#item_check2").tmpl(header).appendTo("#list2");
                             }
                             else {
@@ -1288,8 +1266,8 @@ var UI_Table_View = {
 
                         break;
                     default:
-
                 }
+                UI_Table_View.Get_Eva_TableDetail_Compleate();
 
             },
             error: function () {
@@ -1305,7 +1283,7 @@ var All_Array = [];
 var IsScore = false;
 var TableName = '';
 var head_value = [];
-function Refresh_View_Display  () {    
+function Refresh_View_Display() {
     //试题加载
     All_Array = [];
     for (var i in list_sheets) {
@@ -1314,11 +1292,11 @@ function Refresh_View_Display  () {
                 All_Array.push(list_sheets[i].indicator_array[j]);
                 var indicator_list = list_sheets[i].indicator_array[j].indicator_list;
                 for (var h in indicator_list) {
-                    indicator_list[h].Root =$('#sheets').find('input[t_id="'+list_sheets[i].t_Id+'"]').val();
+                    indicator_list[h].Root = $('#sheets').find('input[t_id="' + list_sheets[i].t_Id + '"]').val();
                 }
             }
         }
-    }        
+    }
     var lisss_IsNull = false;
     //表头信息填充
     for (var i in lisss) {
@@ -1329,7 +1307,7 @@ function Refresh_View_Display  () {
     head_value = UI_Table_Create.head_value;
     //启用或禁用
     IsScore = $("#IsScore").is(":checked") ? true : false;
-    
+
     TableName = $("#Name").val();
 }
 //===================================================================================

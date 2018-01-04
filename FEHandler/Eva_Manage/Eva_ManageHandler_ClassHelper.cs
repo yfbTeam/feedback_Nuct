@@ -311,6 +311,8 @@ namespace FEHandler.Eva_Manage
         /// </summary>
         public string Sort { get; set; }
 
+        public int RootID { get; set; }
+
         public string Root { get; set; }
 
         public int Table_Id { get; set; }
@@ -462,6 +464,8 @@ namespace FEHandler.Eva_Manage
         public int? Sort { get; set; }
 
         public decimal? OptionF_S_Max { get; set; }
+
+        public int? RootID { get; set; }
     }
 
 
@@ -950,6 +954,12 @@ namespace FEHandler.Eva_Manage
         public string CourseDepartmentName { get; set; }
 
         public int? SectionID { get; set; }
+
+        public string TeacherUID { get; set; }
+
+        public string CourseID { get; set; }
+
+        public string ClassID { get; set; }
     }
 
     public class ReModel
@@ -991,8 +1001,26 @@ namespace FEHandler.Eva_Manage
             return obj.TeacherUID.GetHashCode();
         }
     }
-    
-    
+
+    public class ClsModel
+    {
+        public string ClassID { get; set; }
+
+        public string ClassName { get; set; }
+    }
+
+    class ClsModelComparer : EqualityComparer<ClsModel>
+    {
+        public override bool Equals(ClsModel x, ClsModel y)
+        {
+            return x.ClassID == y.ClassID;
+        }
+        public override int GetHashCode(ClsModel obj)
+        {
+            return obj.ClassID.GetHashCode();
+        }
+    }
+
     #endregion
 
     

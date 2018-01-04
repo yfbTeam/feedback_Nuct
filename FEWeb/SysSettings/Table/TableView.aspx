@@ -34,22 +34,30 @@
                 margin-top: -9px;
                 margin-left: 20px;
             }
+
+
+        .tableheader .tablename {
+            height: 20px;
+        }
+
+        .tableheader .evalmes span {
+            line-height: 40px;
+        }
     </style>
 
 
 </head>
-<body>  
-     <div class="main">
-        <div class="tableheader" style="margin-bottom: 20px">
+<body>
+    <div class="main">
+        <div class="tableheader">
             <h1 class="tablename" style="font-weight: bold;"></h1>
-
+            <div class="evalmes" style="color: #999999; font-size: 14px">
+                <span id="sp_total"></span>
+                <span id="remark"></span>
+            </div>
             <div class="table_header_left clearfix" style="min-height: 49px" id="list">
             </div>
 
-            <div class="evalmes">
-                <span id="sp_total" style="float: left; margin-left: 20px"></span>
-                <span id="remark"></span>
-            </div>
         </div>
 
         <div class="content">
@@ -72,19 +80,23 @@
 <script src="../../Scripts/WebCenter/TableDesigin.js"></script>
 
 <script type="text/x-jquery-tmpl" id="item_table_view">
+    {{if Root.trim() !=''}}
     <div class="content">
         <div class="h1_div">
             <h1 class="test_title" style="display: inline-block">
                 <b class="order_num"></b><b>${Root}</b>
-                <%--<b class="isscore">(<span id="h_${indicator_type_tid}"></span> 分)</b>--%>
             </h1>
         </div>
+        {{else}}
+            <div class="content " style="margin-top: -20px;">
+                {{/if}}    
+
         <div class="test_module">
             <input type="hidden" value="${indicator_type_tid}" name="name_title" />
             <div class="test_lists">
                 <ul>
                     {{each Eva_TableDetail_List}}
-                <li>                 
+                <li>
                     <h2 class="title">${Sort}、${$value.Name}
                     {{if $value.QuesType_Id!=3}}
                        <b class="isscore">（<span class="isscore">${OptionF_S_Max}分</span>）</b>
@@ -147,7 +159,7 @@
                 </ul>
             </div>
         </div>
-    </div>
+            </div>
 </script>
 
 <%--固定表头--%>
