@@ -214,7 +214,14 @@ namespace FEHandler.TeaAchManage
                 }
                 string Year = context.Request["Year"].SafeToString();
                 model.Name = context.Request["Name"].SafeToString();
-                model.DefindDate = RequestHelper.DateTime_transfer(context.Request, "DefindDate");
+                string defindDate = context.Request["DefindDate"];
+                if (!string.IsNullOrEmpty(defindDate))
+                {
+                    model.DefindDate = RequestHelper.DateTime_transfer(context.Request, "DefindDate");
+                }else
+                {
+                    model.DefindDate = null;
+                }                
                 model.DefindDepart = context.Request["DefindDepart"].SafeToString();
                 model.DepartMent = context.Request["DepartMent"].SafeToString();
                 model.FileEdionNo = context.Request["FileEdionNo"].SafeToString();

@@ -139,7 +139,7 @@ namespace FEDAL
         public string AddAcheiveRewardInfo(TPM_AcheiveRewardInfo entity)
         {
 
-            SqlParameter[] param = { 
+            List<SqlParameter> param = new List<SqlParameter>() { 
                                   new SqlParameter("@Name",entity.Name),
                                   new SqlParameter("@Gid",entity.Gid),
                                   new SqlParameter("@GPid",entity.GPid),
@@ -153,13 +153,20 @@ namespace FEDAL
                                   new SqlParameter("@DepartMent",entity.DepartMent),
                                   new SqlParameter("@FileEdionNo",entity.FileEdionNo),
                                   new SqlParameter("@FileNames",entity.FileNames),
-                                  new SqlParameter("@DefindDepart",entity.DefindDepart),
-                                  new SqlParameter("@DefindDate",entity.DefindDate),
+                                  new SqlParameter("@DefindDepart",entity.DefindDepart),                                  
                                   new SqlParameter("@FileInfo",entity.FileInfo),
                                   new SqlParameter("@Status",entity.Status),
                                   new SqlParameter("@CreateUID",entity.CreateUID)
                                   };
-            object obj = SQLHelp.ExecuteScalar("TPM_AddAcheiveRewardInfo", CommandType.StoredProcedure, param);
+            if(entity.DefindDate == null)
+            {
+                param.Add(new SqlParameter("@DefindDate", DBNull.Value));
+            }
+            else
+            {
+                param.Add(new SqlParameter("@DefindDate", entity.DefindDate));
+            }           
+            object obj = SQLHelp.ExecuteScalar("TPM_AddAcheiveRewardInfo", CommandType.StoredProcedure, param.ToArray());
             return obj.ToString();
         }
 

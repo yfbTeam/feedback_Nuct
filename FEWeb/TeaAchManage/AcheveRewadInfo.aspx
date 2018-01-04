@@ -72,7 +72,7 @@
                     {{if  AchieveType==3}}
                     <div class="input_lable book fl">
                         <label for="">书名：</label>
-                        <select class="chosen-select" data-placeholder="书名" id="BookId" name="BookId" onchange="Get_OperReward_UserInfo();"></select>
+                        <select class="chosen-select" fl="书名" data-placeholder="书名" id="BookId" name="BookId" onchange="Get_OperReward_UserInfo();"></select>
                     </div>
                     <div class="input_lable book fl">
                         <label for="">书号：</label>
@@ -279,10 +279,10 @@
             if (s_type == 0) {
                 $("#Status").val("0");               
                 var judgeobj = $("#ResponsMan");
-                if (UrlDate.Type == "1" || UrlDate.Type == "2") { judgeobj = $("#Name"); } else {
+                if (UrlDate.Type == "1" || UrlDate.Type == "2") { judgeobj = $("#Name"); } else if (UrlDate.Type == "3") {
                     judgeobj = $("#BookId");
                 }
-                if (!judgeobj.val().trim().length) {
+                if (judgeobj.val()== undefined || !judgeobj.val().trim().length) {
                     layer.msg("请输入" + judgeobj.attr("fl") + "!");
                     return;
                 }
