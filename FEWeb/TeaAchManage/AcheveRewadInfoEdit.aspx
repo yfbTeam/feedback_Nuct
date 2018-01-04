@@ -37,7 +37,7 @@
                     </div>
                     <div class="input_lable fl">
                         <label for="">认定日期：</label>
-                        <input type="text" isrequired="true" fl="认定日期" name="DefindDate" id="DefindDate" value="${DateTimeConvert(DefindDate, '年月日')}" class="text Wdate" onclick="WdatePicker({ dateFmt: 'yyyy年MM月dd日', onpicking: function (dp) { ChangeLid(); } });"/>
+                        <input type="text" isrequired="true" fl="认定日期" name="DefindDate" id="DefindDate" value="${DateTimeConvert(DefindDate, '年月日')}" class="text Wdate" onclick="WdatePicker({ dateFmt: 'yyyy年MM月dd日', onpicked: function () { ChangeLid(); } });"/>
                     </div>
                     <div class="input_lable fl input_lable2">
                         <label for="">获奖扫描件：</label>
