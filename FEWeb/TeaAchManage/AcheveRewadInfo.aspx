@@ -37,7 +37,7 @@
                     </div>
                     <div class="input_lable fl">
                         <label for="">认定日期：</label>
-                        <input type="text" isrequired="true" fl="认定日期" name="DefindDate" id="DefindDate" class="text Wdate" onclick="WdatePicker({ dateFmt: 'yyyy年MM月dd日', onpicked: function () { ChangeLid(); } });"/>
+                        <input type="text" isrequired="true" fl="认定日期" name="DefindDate" id="DefindDate" class="text Wdate" readonly="readonly" onclick="WdatePicker({ dateFmt: 'yyyy年MM月dd日', onpicked: function () { ChangeLid(); }, oncleared: function () { ChangeLid(); } });"/>
                     </div>
                     <div class="clear"></div>
                     <div class="input_lable input_lable2">
