@@ -16,10 +16,10 @@
             <td>${EditName}</td>
             <td>{{if BookType==1}}立项教材{{else}} 出版教材{{/if}}</td> 
             <td>{{if IsPlanBook==0}}否{{else}}是{{/if}}</td>           
-            <td>${EditionNo}</td>
+            <td>{{if BookType==2}}${EditionNo}{{/if}}</td>
            <td>{{if BookType==2}}${DateTimeConvert(PublisthTime,"yyyy-MM")}{{/if}}</td>
             <td class="operate_wrap">
-                <div class="operate" onclick="OpenIFrameWindow('教材查看','CheckFail.aspx?Id=${Id}&Type=Look','700px', '800px');">
+                <div class="operate" onclick="OpenIFrameWindow('教材查看','CheckFail.aspx?Id=${Id}&Type=Look','750px', '80%');">
                     <i class="iconfont color_purple">&#xe60b;</i>
                     <span class="operate_none bg_purple">查看</span>
                 </div>

@@ -93,7 +93,11 @@
                             </div>
                         </div>
                     </div>
-                </div>                
+                </div>  
+                <div class="input_lable fl btnprojrct none">
+                    <label for="">立项信息：</label>
+                    <input type="button" id="btn_Project" name="name" value="查看立项教材信息" class="btn"/>
+                </div>               
             </div>
             <h2 class="cont_title none" id="congshut"><span>丛书信息</span></h2>
             <div class="area_form none clearfix" id="congshu">
@@ -236,6 +240,12 @@
             } else {
                 $(".publish").show();
                 $(".edition").hide();
+            }
+            if (model.BookType == 2 && model.IdentifyCol > 0) {
+                $(".btnprojrct").show();
+                $("#btn_Project").click(function () {
+                    OpenIFrameWindow('立项教材信息', 'CheckFail.aspx?Id=' + model.IdentifyCol + '&Type=Look', '700px', '60%');
+                });
             }
             if (model.IsOneVolum == "1") {
                 $("#congshut").hide();

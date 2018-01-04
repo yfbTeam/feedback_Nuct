@@ -37,7 +37,7 @@
                     </div>
                     <div class="input_lable fl">
                         <label for="">认定日期：</label>
-                        <input type="text" isrequired="true" fl="认定日期" name="DefindDate" id="DefindDate" class="text Wdate" onclick="WdatePicker({ dateFmt: 'yyyy年MM月dd日' });" onkeydown="ChangeLid();"/>
+                        <input type="text" isrequired="true" fl="认定日期" name="DefindDate" id="DefindDate" class="text Wdate" onclick="WdatePicker({ dateFmt: 'yyyy年MM月dd日', onpicking: function (dp){ ChangeLid(); }});"/>
                     </div>
                     <div class="clear"></div>
                     <div class="input_lable input_lable2">
@@ -117,8 +117,8 @@
                     <div class="clearfix">
                         <input type="button" name="name" id="" value="添加" class="btn fl" onclick="javascript: OpenIFrameWindow('添加成员','AddAchMember.aspx', '1000px', '700px');">
                         <input type="button" name="name" id="" value="删除" class="btn fl ml20" onclick="Del_HtmlMember();">
-                        <span class="fr status mr10">已分配：<span id="span_CurScore">0</span></span>
-                        <span class="fr status mr10">总分：<span id="span_AllScore">0</span></span>
+                        <span class="fr status">已分：<span id="span_CurScore">0</span>分</span>
+                        <span class="fr status">总分：<span id="span_AllScore">0</span>分，</span>
                     </div>
                     <table class="allot_table mt10">
                         <thead>
@@ -136,8 +136,8 @@
                 <h2 class="cont_title book"><span>作者信息</span></h2>
                 <div class="area_form book">
                     <div class="clearfix"> 
-                       <span class="fr status mr10">总分：<span id="span_BookScore">0</span></span>                      
-                       <span class="fr status mr10">总贡献字数：<span id="span_Words">0</span></span>                       
+                       <span class="fr status">总分：<span id="span_BookScore">0</span>分</span>                      
+                       <span class="fr status">总贡献字数：<span id="span_Words">0</span>万字，</span>                       
                     </div>
                     <table class="allot_table mt10">
                         <thead>
@@ -399,6 +399,8 @@
                             $(json.result.retData).each(function () {
                                 $("#Lid").append('<option value="' + this.Id + '">' + this.Name + '</option>');
                             })
+                        } else {
+                            layer.msg("该认定日期没有对应的业绩版本！");
                         }
                     },
                     error: function () {

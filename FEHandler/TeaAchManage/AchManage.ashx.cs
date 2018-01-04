@@ -394,8 +394,8 @@ namespace FEHandler.TeaAchManage
                     ht.Add("Id", Id);
                 }
                 if(!string.IsNullOrEmpty(DefindDate))
-                {
-                    ht.Add("DefindDate", RequestHelper.DateTime_transfer(context.Request, "DefindDate"));
+                {                    
+                    ht.Add("DefindDate", Convert.ToDateTime(context.Request["DefindDate"]).ToString("yyyy-MM-dd"));
                 }               
                 ht.Add("PageIndex", context.Request["PageIndex"].SafeToString());
                 ht.Add("PageSize", context.Request["PageSize"].SafeToString());

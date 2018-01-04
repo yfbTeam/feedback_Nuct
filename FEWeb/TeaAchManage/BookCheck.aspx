@@ -11,7 +11,7 @@
     <script type="text/x-jquery-tmpl" id="trBook">
         <tr>
             <td>${ISBN}</td>
-            <td>${Name}</td>
+            <td>${Name}{{if BookType==2&&IdentifyCol>0}}<i class="iconfont" style="color:#3c86e2">&#xe688;</i>{{/if}}</td>
             <td>{{if IsOneVolum==1}}单册{{else}} 多册{{/if}}</td>
             <td>${EditName}</td>
             <td>{{if BookType==1}}立项教材{{else}} 出版教材{{/if}}</td>           
@@ -24,10 +24,10 @@
                 {{/if}}{{/if}}{{/if}}
             </td>
             <td>{{if IsPlanBook==0}}否{{else}}是{{/if}}</td>
-            <td>${EditionNo}</td>
+            <td>{{if BookType==2}}${EditionNo}{{/if}}</td>
             <td>{{if BookType==2}}${DateTimeConvert(PublisthTime,"yyyy-MM")}{{/if}}</td>
             <td class="operate_wrap">
-                <div class="operate" onclick="OpenIFrameWindow('教材审核', 'CheckFail.aspx?Id=${Id}&Type=Check', '700px', '800px')">
+                <div class="operate" onclick="OpenIFrameWindow('教材审核', 'CheckFail.aspx?Id=${Id}&Type=Check', '750px', '80%')">
                     <i class="iconfont color_purple">&#xe624;</i>
                     <span class="operate_none bg_purple">审核</span>
                 </div>

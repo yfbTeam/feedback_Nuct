@@ -34,7 +34,7 @@
                     {{else AuditStatus==2}}<span class="nocheck">审核不通过</span>
                     {{else}} <span class="assigning">审核通过</span>{{/if}}
                 </div>
-                <div class="fr status">奖金${Money}，已分配<span>${HasAllot}</span></div>
+                <div class="fr status">奖金：${Money}万，已分：<span>${HasAllot}万</span></div>
             </div>
             <table class="allot_table mt10  ">
                 <thead>

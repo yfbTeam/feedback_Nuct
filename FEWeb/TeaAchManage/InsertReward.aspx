@@ -46,7 +46,7 @@
                 </div>
                 <div class="input_lable fl">
                     <label for="">认定日期：</label>
-                    <input type="text" isrequired="true" fl="认定日期" name="DefindDate" id="DefindDate" value="" class="text Wdate" onfocus="WdatePicker({dateFmt:'yyyy年MM月dd日'});" onkeydown="ChangeLid();"/>
+                    <input type="text" isrequired="true" fl="认定日期" name="DefindDate" id="DefindDate" value="" class="text Wdate" onfocus="WdatePicker({dateFmt:'yyyy年MM月dd日', onpicking: function (dp){ ChangeLid(); }});"/>
                 </div>
                 <div class="clear"></div>
                     <div class="input_lable input_lable2">
@@ -101,8 +101,8 @@
             <h2 class="cont_title members none"><span>成员信息</span></h2>
                 <div class="area_form members none">
                     <div class="clearfix">
-                        <span class="fr status mr10">已分配：<span id="span_CurScore">0</span></span>
-                        <span class="fr status mr10">总分：<span id="span_AllScore">0</span></span>
+                        <span class="fr status">已分：<span id="span_CurScore">0</span>分</span>
+                        <span class="fr status">总分：<span id="span_AllScore">0</span>分，</span>
                     </div>
                     <table class="allot_table mt10">
                         <thead>
@@ -293,6 +293,8 @@
                             $(json.result.retData).each(function () {
                                 $("#Lid").append('<option value="' + this.Id + '">' + this.Name + '</option>');
                             })
+                        } else {
+                            layer.msg("该认定日期没有对应的业绩版本！");
                         }
                     },
                     error: function () {

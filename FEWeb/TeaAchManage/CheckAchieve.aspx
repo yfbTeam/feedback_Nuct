@@ -110,8 +110,8 @@
                <h2 class="cont_title members {{if AchieveType!=2||Status>3}}none{{/if}}"><span>成员信息</span></h2>
             <div class="area_form members {{if AchieveType!=2||Status>3}}none{{/if}}">
                 <div class="clearfix" id="div_user_mem">                        
-                    <span class="fr status mr10">已分配：<span id="span_CurScore">0</span></span>
-                    <span class="fr status mr10">总分：<span id="span_AllScore">${TotalScore}</span></span>
+                    <span class="fr status">已分：<span id="span_CurScore">0</span>分</span>
+                    <span class="fr status">总分：<span id="span_AllScore">${TotalScore}</span>分，</span>
                 </div>
                 <table class="allot_table mt10">
                     <thead>
@@ -127,8 +127,8 @@
             <h2 class="cont_title book {{if AchieveType!=3||Status>3}}none{{/if}}"><span>作者信息</span></h2>
             <div class="area_form book {{if AchieveType!=3||Status>3}}none{{/if}}" >
                 <div class="clearfix" id="div_user_book"> 
-                    <span class="fr status mr10">总分：<span id="span_BookScore">0</span></span>                      
-                    <span class="fr status mr10">总贡献字数：<span id="span_Words">0</span></span>                       
+                    <span class="fr status">总分：<span id="span_BookScore">0</span>分</span>                      
+                    <span class="fr status">总贡献字数：<span id="span_Words">0</span>万字，</span>                       
                 </div>
                 <table class="allot_table mt10  ">
                     <thead>
@@ -149,7 +149,7 @@
                     <div class="fl status-left">
                          <label for="">状态：</label>
                         {{if Status==3}} <span class="assigning">待分配</span>
-                        {{else Status==4}}<span class="nosubmit">待提交</span>
+                        {{else Status==4}}<span class="nosubmit">{{if ResponsMan==$('#CreateUID').val()}}待提交{{else}}待分配{{/if}}</span>
                         {{else Status==5}}<span class="checking1">待审核</span>
                         {{else Status==6}}<span class="nocheck">审核不通过</span>
                         {{else Status==7}}<span class="pass">审核通过</span>{{/if}}
@@ -218,13 +218,13 @@
         </tr>
     </script>
     <script type="text/x-jquery-tmpl" id="tr_Info1">
-        <tr>
-            <td>${Name}</td>
+        <tr un="${UserNo}">
+            <td class="td_memname">${Name}</td>
             <td>{{if ULevel==0}}独著 {{else ULevel==1}}主编{{else ULevel==2}}参编{{else}}其他人员{{/if}}</td>            
             <td>${Sort}</td>
             <td>${Major_Name}</td>
             <td>${WordNum}</td>
-            <td>${UnitScore*WordNum}</td>
+            <td class="td_score">${UnitScore*WordNum}</td>
         </tr>
     </script>
     <script type="text/x-jquery-tmpl" id="div_item">
@@ -239,7 +239,7 @@
                     {{else AuditStatus==2}}<span class="nocheck">审核不通过</span>
                     {{else}} <span class="assigning">审核通过</span>{{/if}}
                 </div>
-                <div class="fr status">奖金${Money}，已分配<span>${HasAllot}</span></div>
+                <div class="fr status">奖金：${Money}万，已分：<span>${HasAllot}万</span></div>
             </div>
             <table class="allot_table mt10  ">
                 <thead>
