@@ -12,74 +12,7 @@ using System.Web;
 namespace FEHandler.Eva_Manage
 {
     partial class Eva_ManageHandler
-    {
-        #region 定期评价-分配-学期-课程-课堂
-
-        /// <summary>
-        /// 获取学生定期评价
-        /// </summary>
-        /// <returns></returns>
-        public static List<Regu_Student_Model> GetRegular()
-        {
-            List<Regu_Student_Model> regular_select = null;
-            try
-            {
-                #region 定期评价相关List
-                List<Eva_Regular> regular_list = Constant.Eva_Regular_List; //定期评价表
-                List<Eva_Distribution> distribution_list = Constant.Eva_Distribution_List; //定期评价分配表
-                List<CourseRel> courserel_list = Constant.CourseRel_List; //课程关系表
-                List<Course> course_list = Constant.Course_List; //课程表
-                var courseroom_list = (from room in Constant.CourseRoom_List
-                                       select new { room.Coures_Id, room.StudySection_Id, room.TeacherUID }).Distinct(); //课堂信息表
-                #endregion
-                List<Eva_Task> task_list = Constant.Eva_Task_List; //评价任务(即时、扫码)  
-                //公共List
-                List<StudySection> sec_list = Constant.StudySection_List;//学年学期
-                List<UserInfo> u_list = Constant.UserInfo_List;//用户
-
-
-                //定期评价
-                regular_select = (from reg in regular_list
-                                  join dis in distribution_list on reg.Id equals dis.Evaluate_Id
-                                  join sec in sec_list on Convert.ToInt32(reg.Section_Id) equals Convert.ToInt32(sec.Id)
-                                  join courel in courserel_list on dis.CousrseType_Id equals courel.CourseType_Id
-                                  join cou in course_list on courel.Course_Id equals cou.UniqueNo
-                                  join room in courseroom_list on new
-                                  {
-                                      SectionId = Convert.ToInt32(reg.Section_Id),
-                                      CourseId = courel.Course_Id
-                                  } equals new { SectionId = Convert.ToInt32(room.StudySection_Id), CourseId = room.Coures_Id }
-                                  join u in u_list on room.TeacherUID equals u.UniqueNo
-                                  orderby reg.Section_Id descending, reg.Id descending
-                                  select new Regu_Student_Model()
-                                  {
-                                      EvaName = reg.Name,
-                                      SectionId = sec.Id,
-                                      SectionName = sec.Academic + sec.Semester,
-                                      EvaType = "定期评价",
-                                      StartTime = reg.StartTime,
-                                      EndTime = reg.EndTime,
-                                      Table_Id = Convert.ToInt32(dis.Table_Id),
-                                      EvaId = 0,
-                                      TeacherUID = room.TeacherUID,
-                                      CourseName = cou.Name,
-                                      TeaName = u.Name,
-                                      SourType = "学生",
-                                      EvaCount = 300, //需要改
-                                      AveScore = reg.Name.IndexOf("期初") != -1 ? "无" : "96"  //需要改
-                                  }).ToList();
-
-
-            }
-            catch (Exception ex)
-            {
-                LogHelper.Error(ex);
-            }
-            return regular_select;
-        }
-
-
-        #endregion
+    {    
 
         #region  教师-课堂-学生
 
@@ -363,30 +296,7 @@ namespace FEHandler.Eva_Manage
 
         #endregion
 
-        #region 教师-课程-分配
-
-        public static object Teacher_Course_Dis(string TeacherUID, Eva_Distribution dis)
-        {
-            object teacher_course_dis = null;
-            try
-            {
-
-                teacher_course_dis = (from teacher in Constant.Teacher_List
-                                      where teacher.UniqueNo == TeacherUID
-                                      join room in Constant.CourseRoom_List.ToList().Distinct(new CourseRoomComparer()) on teacher.UniqueNo equals room.TeacherUID
-                                      join course in Constant.Course_List on room.Coures_Id equals course.UniqueNo
-                                      join cou_rel in Constant.CourseRel_List on course.UniqueNo equals cou_rel.Course_Id
-                                      join eva_dis in Constant.Eva_Distribution_List.Where(t => t.Evaluate_Id == dis.Evaluate_Id) on cou_rel.CourseType_Id equals eva_dis.CousrseType_Id
-                                      select new { course.UniqueNo, course.Name, course.DepartMentID, eva_dis.Table_Id }).Distinct().ToList();
-            }
-            catch (Exception ex)
-            {
-                LogHelper.Error(ex);
-            }
-            return teacher_course_dis;
-        }
-
-        #endregion
+        
 
         #region 学生-教师
 
@@ -582,33 +492,7 @@ namespace FEHandler.Eva_Manage
 
         #endregion     
 
-        #region 分配 + 课程 + 表
-
-        public static List<Sel_Model> Dis_Course_Table()
-        {
-            List<Sel_Model> dis_course_table = null;
-            try
-            {
-                dis_course_table = (from dis in Constant.Eva_Distribution_List
-                                    join dic in Constant.Sys_Dictionary_List on Convert.ToString(dis.CousrseType_Id) equals dic.Key
-                                    where types.Contains(dic.Type)
-                                    join table in Constant.Eva_Table_List on dis.Table_Id equals table.Id
-                                    select new Sel_Model()
-                                    {
-                                        dis = dis,
-                                        dic = dic,
-                                        table = table
-                                    }
-                             ).ToList();
-            }
-            catch (Exception ex)
-            {
-                LogHelper.Error(ex);
-            }
-            return dis_course_table;
-        }
-
-        #endregion
+       
 
      
         

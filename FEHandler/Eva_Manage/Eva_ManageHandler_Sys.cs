@@ -1554,19 +1554,19 @@ namespace FEHandler.Eva_Manage
             int intSuccess = (int)errNum.Success;
             try
             {
-                HttpRequest Request = context.Request;
-                string TeacherUID = RequestHelper.string_transfer(Request, "TeacherUID");
-                int distribution_Id = RequestHelper.int_transfer(Request, "Eva_Distribution_Id");
-                Eva_Distribution dis = Constant.Eva_Distribution_List.FirstOrDefault(t => t.Id == distribution_Id);
-                if (dis != null)
-                {
-                    var query = Teacher_Course_Dis(TeacherUID, dis);
-                    jsonModel = JsonModel.get_jsonmodel(intSuccess, "success", query);
-                }
-                else
-                {
-                    jsonModel = JsonModel.get_jsonmodel(3, "failed", "没有数据");
-                }
+                //HttpRequest Request = context.Request;
+                //string TeacherUID = RequestHelper.string_transfer(Request, "TeacherUID");
+                //int distribution_Id = RequestHelper.int_transfer(Request, "Eva_Distribution_Id");
+                //Eva_Distribution dis = Constant.Eva_Distribution_List.FirstOrDefault(t => t.Id == distribution_Id);
+                //if (dis != null)
+                //{
+                //    var query = Teacher_Course_Dis(TeacherUID, dis);
+                //    jsonModel = JsonModel.get_jsonmodel(intSuccess, "success", query);
+                //}
+                //else
+                //{
+                //    jsonModel = JsonModel.get_jsonmodel(3, "failed", "没有数据");
+                //}
             }
             catch (Exception ex)
             {

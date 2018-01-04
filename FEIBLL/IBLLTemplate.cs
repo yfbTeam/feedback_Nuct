@@ -37,6 +37,14 @@ namespace FEIBLL
 	/// </summary>
 	///	
 	/// </summary>
+    public interface IEva_Table_Header_CustomService:IBaseService<Eva_Table_Header_Custom>
+    {
+
+    }	
+
+	/// </summary>
+	///	
+	/// </summary>
     public interface IUserInfoService:IBaseService<UserInfo>
     {
 
@@ -77,14 +85,6 @@ namespace FEIBLL
 	/// </summary>
 	///	
 	/// </summary>
-    public interface IEva_Table_HeaderService:IBaseService<Eva_Table_Header>
-    {
-
-    }	
-
-	/// </summary>
-	///	
-	/// </summary>
     public interface IClassInfoService:IBaseService<ClassInfo>
     {
 
@@ -117,14 +117,6 @@ namespace FEIBLL
 	/// </summary>
 	///	
 	/// </summary>
-    public interface IEva_DistributionService:IBaseService<Eva_Distribution>
-    {
-
-    }	
-
-	/// </summary>
-	///	
-	/// </summary>
     public interface IExpert_Teacher_CourseService:IBaseService<Expert_Teacher_Course>
     {
 
@@ -133,23 +125,7 @@ namespace FEIBLL
 	/// </summary>
 	///	
 	/// </summary>
-    public interface IEva_QuestionAnswerService:IBaseService<Eva_QuestionAnswer>
-    {
-
-    }	
-
-	/// </summary>
-	///	
-	/// </summary>
     public interface ITPM_AllotRewardService:IBaseService<TPM_AllotReward>
-    {
-
-    }	
-
-	/// </summary>
-	///	
-	/// </summary>
-    public interface IEva_QuestionAnswer_DetailService:IBaseService<Eva_QuestionAnswer_Detail>
     {
 
     }	
@@ -182,6 +158,14 @@ namespace FEIBLL
 	///	
 	/// </summary>
     public interface ISys_DocumentService:IBaseService<Sys_Document>
+    {
+
+    }	
+
+	/// </summary>
+	///	
+	/// </summary>
+    public interface IEva_Table_HeaderService:IBaseService<Eva_Table_Header>
     {
 
     }	
@@ -229,23 +213,7 @@ namespace FEIBLL
 	/// </summary>
 	///	
 	/// </summary>
-    public interface ICourseRoomService:IBaseService<CourseRoom>
-    {
-
-    }	
-
-	/// </summary>
-	///	
-	/// </summary>
     public interface ITPM_RewardLevelService:IBaseService<TPM_RewardLevel>
-    {
-
-    }	
-
-	/// </summary>
-	///	
-	/// </summary>
-    public interface ICourseService:IBaseService<Course>
     {
 
     }	
@@ -293,6 +261,22 @@ namespace FEIBLL
 	/// </summary>
 	///	
 	/// </summary>
+    public interface ICourseService:IBaseService<Course>
+    {
+
+    }	
+
+	/// </summary>
+	///	
+	/// </summary>
+    public interface IEva_TableDetailService:IBaseService<Eva_TableDetail>
+    {
+
+    }	
+
+	/// </summary>
+	///	
+	/// </summary>
     public interface IMajorService:IBaseService<Major>
     {
 
@@ -309,6 +293,14 @@ namespace FEIBLL
 	/// </summary>
 	///	
 	/// </summary>
+    public interface IEva_QuestionAnswerService:IBaseService<Eva_QuestionAnswer>
+    {
+
+    }	
+
+	/// </summary>
+	///	
+	/// </summary>
     public interface IStudySectionService:IBaseService<StudySection>
     {
 
@@ -318,6 +310,14 @@ namespace FEIBLL
 	///	
 	/// </summary>
     public interface IGradeInfoService:IBaseService<GradeInfo>
+    {
+
+    }	
+
+	/// </summary>
+	///	专业部门名称业务类6
+	/// </summary>
+    public interface ICourseRoomService:IBaseService<CourseRoom>
     {
 
     }	
@@ -357,14 +357,6 @@ namespace FEIBLL
 	/// </summary>
 	///	
 	/// </summary>
-    public interface IEva_TableDetailService:IBaseService<Eva_TableDetail>
-    {
-
-    }	
-
-	/// </summary>
-	///	
-	/// </summary>
     public interface IIndicatorTypeService:IBaseService<IndicatorType>
     {
 
@@ -387,7 +379,7 @@ namespace FEIBLL
     }	
 
 	/// </summary>
-	///	菜单按钮类型业务类6
+	///	菜单按钮类型业务类7
 	/// </summary>
     public interface ISys_ButtonTypeService:IBaseService<Sys_ButtonType>
     {
@@ -413,15 +405,7 @@ namespace FEIBLL
 	/// </summary>
 	///	
 	/// </summary>
-    public interface IEva_CourseType_TableService:IBaseService<Eva_CourseType_Table>
-    {
-
-    }	
-
-	/// </summary>
-	///	系统日志业务类7
-	/// </summary>
-    public interface ISys_LogInfoService:IBaseService<Sys_LogInfo>
+    public interface IEva_QuestionAnswer_DetailService:IBaseService<Eva_QuestionAnswer_Detail>
     {
 
     }	
@@ -429,7 +413,15 @@ namespace FEIBLL
 	/// </summary>
 	///	
 	/// </summary>
-    public interface IEva_Table_Header_CustomService:IBaseService<Eva_Table_Header_Custom>
+    public interface IEva_CourseType_TableService:IBaseService<Eva_CourseType_Table>
+    {
+
+    }	
+
+	/// </summary>
+	///	系统日志业务类8
+	/// </summary>
+    public interface ISys_LogInfoService:IBaseService<Sys_LogInfo>
     {
 
     }	

@@ -73,7 +73,7 @@ namespace FEHandler
         /// </summary>
         public static IndicatorService IndicatorService = new IndicatorService();
         public static IndicatorTypeService IndicatorTypeService = new IndicatorTypeService();
-        public static Eva_DistributionService Eva_DistributionService = new Eva_DistributionService();
+     
         public static Eva_TableService Eva_TableService = new Eva_TableService();
         public static Eva_Table_HeaderService Eva_Table_HeaderService = new Eva_Table_HeaderService();
         public static Eva_Table_Header_CustomService Eva_Table_Header_CustomService = new Eva_Table_Header_CustomService();
@@ -129,27 +129,7 @@ namespace FEHandler
             set { Constant.indicatorType_List = value; }
         }
 
-        private static List<Eva_Distribution> eva_Distribution_List = null;
-        /// <summary>
-        /// 定期评价分配表
-        /// </summary>
-        public static List<Eva_Distribution> Eva_Distribution_List
-        {
-            get
-            {
-                if (eva_Distribution_List == null)
-                {
-                    //数据库获取
-                    Hashtable hs = new Hashtable();
-                    hs.Add("TableName", "Eva_Distribution");
-                    DataTable dt = Eva_DistributionService.GetData(hs, false, "and IsDelete =0");
-                    eva_Distribution_List = ConverList<Eva_Distribution>.ConvertToList(dt);
-                }
-                return eva_Distribution_List;
-            }
-            set { Constant.eva_Distribution_List = value; }
-        }
-
+    
         private static List<Eva_Regular> eva_Regular_List = null;
         /// <summary>
         /// 定期评价表

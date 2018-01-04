@@ -75,39 +75,39 @@ namespace FEHandler.student
         {
             try
             {
-                int intSuccess = (int)errNum.Success;
-                HttpRequest Request = context.Request;
-                string UserUniqueNo = RequestHelper.string_transfer(Request, "UserUniqueNo");
-                //List<Eva_Task> Eva_Task = Constant.Eva_Task_List;
-                //List<StudySection> StudySection = Constant.StudySection_List;
-                //List<Teacher> Teacher = Constant.Teacher_List;
-                var query = from ed in Constant.Eva_Distribution_List
-                            //获取评价名称
-                            join er in Constant.Eva_Regular_List on ed.Evaluate_Id equals er.Id
-                            //获取学期名称
-                            join ss in Constant.StudySection_List on er.Section_Id equals ss.Id
-                            //获取课程名称
-                            join sc in Constant.CourseRel_List on ed.CousrseType_Id equals sc.CourseType_Id
-                            join scr in Constant.CourseRoom_List  on sc.Course_Id equals scr.Coures_Id
-                            join cif in Constant.ClassInfo_List on scr.ClassID equals cif.ClassNO
-                            //获取教师名称
-                            join t in Constant.UserInfo_List on scr.TeacherUID equals t.UniqueNo
-                            //获取那些学生能看到
-                            join c in Constant.Course_List on scr.Coures_Id equals c.UniqueNo
-                            join csr in Constant.Class_StudentInfo_List on scr.ClassID equals csr.Class_Id
-                            where csr.UniqueNo == UserUniqueNo
-                            select new
-                            {
-                                Eva_Distribution_Id=ed.Id,
-                                Course_Id=c.Id,
-                                Type = er.Name,
-                                StudySection = ss.Academic + "年" + GetSemester(Convert.ToInt32(ss.Semester)),
-                                Course_Name = c.Name,
-                                TeacherName = t.Name,
-                            };
+                //int intSuccess = (int)errNum.Success;
+                //HttpRequest Request = context.Request;
+                //string UserUniqueNo = RequestHelper.string_transfer(Request, "UserUniqueNo");
+                ////List<Eva_Task> Eva_Task = Constant.Eva_Task_List;
+                ////List<StudySection> StudySection = Constant.StudySection_List;
+                ////List<Teacher> Teacher = Constant.Teacher_List;
+                //var query = from ed in Constant.Eva_Distribution_List
+                //            //获取评价名称
+                //            join er in Constant.Eva_Regular_List on ed.Evaluate_Id equals er.Id
+                //            //获取学期名称
+                //            join ss in Constant.StudySection_List on er.Section_Id equals ss.Id
+                //            //获取课程名称
+                //            join sc in Constant.CourseRel_List on ed.CousrseType_Id equals sc.CourseType_Id
+                //            join scr in Constant.CourseRoom_List  on sc.Course_Id equals scr.Coures_Id
+                //            join cif in Constant.ClassInfo_List on scr.ClassID equals cif.ClassNO
+                //            //获取教师名称
+                //            join t in Constant.UserInfo_List on scr.TeacherUID equals t.UniqueNo
+                //            //获取那些学生能看到
+                //            join c in Constant.Course_List on scr.Coures_Id equals c.UniqueNo
+                //            join csr in Constant.Class_StudentInfo_List on scr.ClassID equals csr.Class_Id
+                //            where csr.UniqueNo == UserUniqueNo
+                //            select new
+                //            {
+                //                Eva_Distribution_Id=ed.Id,
+                //                Course_Id=c.Id,
+                //                Type = er.Name,
+                //                StudySection = ss.Academic + "年" + GetSemester(Convert.ToInt32(ss.Semester)),
+                //                Course_Name = c.Name,
+                //                TeacherName = t.Name,
+                //            };
                  
-                //返回所有指标库数据
-                jsonModel = JsonModel.get_jsonmodel(intSuccess, "success", query);
+                ////返回所有指标库数据
+                //jsonModel = JsonModel.get_jsonmodel(intSuccess, "success", query);
             }
             catch (Exception ex)
             {
