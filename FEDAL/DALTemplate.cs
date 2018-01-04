@@ -66,6 +66,24 @@ namespace FEDAL
 	     /// </summary>
 	     ///	
 	     /// </summary>
+		 public partial class Eva_Table_Header_CustomDal:BaseDal<Eva_Table_Header_Custom>,IEva_Table_Header_CustomDal
+         {
+
+
+         }	
+
+        public partial class DalFactory
+        {
+            public static IEva_Table_Header_CustomDal GetEva_Table_Header_CustomDal()
+            {
+                return new Eva_Table_Header_CustomDal();
+            }
+	    }
+
+
+	     /// </summary>
+	     ///	
+	     /// </summary>
 		 public partial class UserInfoDal:BaseDal<UserInfo>,IUserInfoDal
          {
 
@@ -156,24 +174,6 @@ namespace FEDAL
 	     /// </summary>
 	     ///	
 	     /// </summary>
-		 public partial class Eva_Table_HeaderDal:BaseDal<Eva_Table_Header>,IEva_Table_HeaderDal
-         {
-
-
-         }	
-
-        public partial class DalFactory
-        {
-            public static IEva_Table_HeaderDal GetEva_Table_HeaderDal()
-            {
-                return new Eva_Table_HeaderDal();
-            }
-	    }
-
-
-	     /// </summary>
-	     ///	
-	     /// </summary>
 		 public partial class ClassInfoDal:BaseDal<ClassInfo>,IClassInfoDal
          {
 
@@ -246,24 +246,6 @@ namespace FEDAL
 	     /// </summary>
 	     ///	
 	     /// </summary>
-		 public partial class Eva_DistributionDal:BaseDal<Eva_Distribution>,IEva_DistributionDal
-         {
-
-
-         }	
-
-        public partial class DalFactory
-        {
-            public static IEva_DistributionDal GetEva_DistributionDal()
-            {
-                return new Eva_DistributionDal();
-            }
-	    }
-
-
-	     /// </summary>
-	     ///	
-	     /// </summary>
 		 public partial class Expert_Teacher_CourseDal:BaseDal<Expert_Teacher_Course>,IExpert_Teacher_CourseDal
          {
 
@@ -282,24 +264,6 @@ namespace FEDAL
 	     /// </summary>
 	     ///	
 	     /// </summary>
-		 public partial class Eva_QuestionAnswerDal:BaseDal<Eva_QuestionAnswer>,IEva_QuestionAnswerDal
-         {
-
-
-         }	
-
-        public partial class DalFactory
-        {
-            public static IEva_QuestionAnswerDal GetEva_QuestionAnswerDal()
-            {
-                return new Eva_QuestionAnswerDal();
-            }
-	    }
-
-
-	     /// </summary>
-	     ///	
-	     /// </summary>
 		 public partial class TPM_AllotRewardDal:BaseDal<TPM_AllotReward>,ITPM_AllotRewardDal
          {
 
@@ -311,24 +275,6 @@ namespace FEDAL
             public static ITPM_AllotRewardDal GetTPM_AllotRewardDal()
             {
                 return new TPM_AllotRewardDal();
-            }
-	    }
-
-
-	     /// </summary>
-	     ///	
-	     /// </summary>
-		 public partial class Eva_QuestionAnswer_DetailDal:BaseDal<Eva_QuestionAnswer_Detail>,IEva_QuestionAnswer_DetailDal
-         {
-
-
-         }	
-
-        public partial class DalFactory
-        {
-            public static IEva_QuestionAnswer_DetailDal GetEva_QuestionAnswer_DetailDal()
-            {
-                return new Eva_QuestionAnswer_DetailDal();
             }
 	    }
 
@@ -401,6 +347,24 @@ namespace FEDAL
             public static ISys_DocumentDal GetSys_DocumentDal()
             {
                 return new Sys_DocumentDal();
+            }
+	    }
+
+
+	     /// </summary>
+	     ///	
+	     /// </summary>
+		 public partial class Eva_Table_HeaderDal:BaseDal<Eva_Table_Header>,IEva_Table_HeaderDal
+         {
+
+
+         }	
+
+        public partial class DalFactory
+        {
+            public static IEva_Table_HeaderDal GetEva_Table_HeaderDal()
+            {
+                return new Eva_Table_HeaderDal();
             }
 	    }
 
@@ -498,24 +462,6 @@ namespace FEDAL
 	     /// </summary>
 	     ///	
 	     /// </summary>
-		 public partial class CourseRoomDal:BaseDal<CourseRoom>,ICourseRoomDal
-         {
-
-
-         }	
-
-        public partial class DalFactory
-        {
-            public static ICourseRoomDal GetCourseRoomDal()
-            {
-                return new CourseRoomDal();
-            }
-	    }
-
-
-	     /// </summary>
-	     ///	
-	     /// </summary>
 		 public partial class TPM_RewardLevelDal:BaseDal<TPM_RewardLevel>,ITPM_RewardLevelDal
          {
 
@@ -527,24 +473,6 @@ namespace FEDAL
             public static ITPM_RewardLevelDal GetTPM_RewardLevelDal()
             {
                 return new TPM_RewardLevelDal();
-            }
-	    }
-
-
-	     /// </summary>
-	     ///	
-	     /// </summary>
-		 public partial class CourseDal:BaseDal<Course>,ICourseDal
-         {
-
-
-         }	
-
-        public partial class DalFactory
-        {
-            public static ICourseDal GetCourseDal()
-            {
-                return new CourseDal();
             }
 	    }
 
@@ -642,6 +570,42 @@ namespace FEDAL
 	     /// </summary>
 	     ///	
 	     /// </summary>
+		 public partial class CourseDal:BaseDal<Course>,ICourseDal
+         {
+
+
+         }	
+
+        public partial class DalFactory
+        {
+            public static ICourseDal GetCourseDal()
+            {
+                return new CourseDal();
+            }
+	    }
+
+
+	     /// </summary>
+	     ///	
+	     /// </summary>
+		 public partial class Eva_TableDetailDal:BaseDal<Eva_TableDetail>,IEva_TableDetailDal
+         {
+
+
+         }	
+
+        public partial class DalFactory
+        {
+            public static IEva_TableDetailDal GetEva_TableDetailDal()
+            {
+                return new Eva_TableDetailDal();
+            }
+	    }
+
+
+	     /// </summary>
+	     ///	
+	     /// </summary>
 		 public partial class MajorDal:BaseDal<Major>,IMajorDal
          {
 
@@ -678,6 +642,24 @@ namespace FEDAL
 	     /// </summary>
 	     ///	
 	     /// </summary>
+		 public partial class Eva_QuestionAnswerDal:BaseDal<Eva_QuestionAnswer>,IEva_QuestionAnswerDal
+         {
+
+
+         }	
+
+        public partial class DalFactory
+        {
+            public static IEva_QuestionAnswerDal GetEva_QuestionAnswerDal()
+            {
+                return new Eva_QuestionAnswerDal();
+            }
+	    }
+
+
+	     /// </summary>
+	     ///	
+	     /// </summary>
 		 public partial class StudySectionDal:BaseDal<StudySection>,IStudySectionDal
          {
 
@@ -707,6 +689,24 @@ namespace FEDAL
             public static IGradeInfoDal GetGradeInfoDal()
             {
                 return new GradeInfoDal();
+            }
+	    }
+
+
+	     /// </summary>
+	     ///	专业部门名称数据处理类6
+	     /// </summary>
+		 public partial class CourseRoomDal:BaseDal<CourseRoom>,ICourseRoomDal
+         {
+
+
+         }	
+
+        public partial class DalFactory
+        {
+            public static ICourseRoomDal GetCourseRoomDal()
+            {
+                return new CourseRoomDal();
             }
 	    }
 
@@ -786,24 +786,6 @@ namespace FEDAL
 	     /// </summary>
 	     ///	
 	     /// </summary>
-		 public partial class Eva_TableDetailDal:BaseDal<Eva_TableDetail>,IEva_TableDetailDal
-         {
-
-
-         }	
-
-        public partial class DalFactory
-        {
-            public static IEva_TableDetailDal GetEva_TableDetailDal()
-            {
-                return new Eva_TableDetailDal();
-            }
-	    }
-
-
-	     /// </summary>
-	     ///	
-	     /// </summary>
 		 public partial class IndicatorTypeDal:BaseDal<IndicatorType>,IIndicatorTypeDal
          {
 
@@ -856,7 +838,7 @@ namespace FEDAL
 
 
 	     /// </summary>
-	     ///	菜单按钮类型数据处理类6
+	     ///	菜单按钮类型数据处理类7
 	     /// </summary>
 		 public partial class Sys_ButtonTypeDal:BaseDal<Sys_ButtonType>,ISys_ButtonTypeDal
          {
@@ -912,6 +894,24 @@ namespace FEDAL
 	     /// </summary>
 	     ///	
 	     /// </summary>
+		 public partial class Eva_QuestionAnswer_DetailDal:BaseDal<Eva_QuestionAnswer_Detail>,IEva_QuestionAnswer_DetailDal
+         {
+
+
+         }	
+
+        public partial class DalFactory
+        {
+            public static IEva_QuestionAnswer_DetailDal GetEva_QuestionAnswer_DetailDal()
+            {
+                return new Eva_QuestionAnswer_DetailDal();
+            }
+	    }
+
+
+	     /// </summary>
+	     ///	
+	     /// </summary>
 		 public partial class Eva_CourseType_TableDal:BaseDal<Eva_CourseType_Table>,IEva_CourseType_TableDal
          {
 
@@ -928,7 +928,7 @@ namespace FEDAL
 
 
 	     /// </summary>
-	     ///	系统日志数据处理类7
+	     ///	系统日志数据处理类8
 	     /// </summary>
 		 public partial class Sys_LogInfoDal:BaseDal<Sys_LogInfo>,ISys_LogInfoDal
          {
@@ -941,24 +941,6 @@ namespace FEDAL
             public static ISys_LogInfoDal GetSys_LogInfoDal()
             {
                 return new Sys_LogInfoDal();
-            }
-	    }
-
-
-	     /// </summary>
-	     ///	
-	     /// </summary>
-		 public partial class Eva_Table_Header_CustomDal:BaseDal<Eva_Table_Header_Custom>,IEva_Table_Header_CustomDal
-         {
-
-
-         }	
-
-        public partial class DalFactory
-        {
-            public static IEva_Table_Header_CustomDal GetEva_Table_Header_CustomDal()
-            {
-                return new Eva_Table_Header_CustomDal();
             }
 	    }
 }

@@ -144,8 +144,6 @@
                         parent.Reflesh();
                     };
                     Add_Eva_Regular(2);
-
-
                 }
             },
             mounted: function () {

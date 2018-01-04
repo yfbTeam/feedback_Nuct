@@ -20460,3 +20460,55 @@ ERROR 2018-01-03 18:20:08,044 97115ms service                Error              
    在 System.Collections.Generic.List`1..ctor(IEnumerable`1 collection)
    在 System.Linq.Enumerable.ToList[TSource](IEnumerable`1 source)
    在 FEHandler.SysClass.ClassInfoHandler.GetClassInfoSelect_Helper(Int32 SectionID, String TeacherUID, String CourseID) 位置 e:\feedback_Nuct\FEHandler\SysClass\ClassInfoHandler.ashx.cs:行号 340
+ERROR 2018-01-04 10:34:50,465    86ms service                Error              - “FEHandler.Constant”的类型初始值设定项引发异常。   在 FEHandler.Constant.get_Sys_MenuInfo_List() 位置 e:\feedback_Nuct\FEHandler\Constant.cs:行号 712
+   在 FEHandler.SetMenu.SetMenuHandler.TestGetMenuInfo(HttpContext context) 位置 e:\feedback_Nuct\FEHandler\SetMenu\SetMenuHandler.ashx.cs:行号 185
+ERROR 2018-01-04 10:34:50,486   107ms service                Error              - “FEHandler.Constant”的类型初始值设定项引发异常。   在 FEHandler.SetMenu.SetMenuHandler.TestGetMenuInfo(HttpContext context) 位置 e:\feedback_Nuct\FEHandler\SetMenu\SetMenuHandler.ashx.cs:行号 0
+   在 FEHandler.SetMenu.SetMenuHandler.ProcessRequest(HttpContext context) 位置 e:\feedback_Nuct\FEHandler\SetMenu\SetMenuHandler.ashx.cs:行号 29
+ERROR 2018-01-04 10:34:51,727  1348ms service                Error              - “FEHandler.Constant”的类型初始值设定项引发异常。   在 FEHandler.Constant.get_Course_List() 位置 e:\feedback_Nuct\FEHandler\Constant.cs:行号 524
+   在 FEHandler.SysClass.ClassInfoHandler.GetClassInfoSelect_Helper(Int32 SectionID, String TeacherUID, String CourseID) 位置 e:\feedback_Nuct\FEHandler\SysClass\ClassInfoHandler.ashx.cs:行号 283
+ERROR 2018-01-04 10:34:51,728  1349ms service                Error              - “FEHandler.Constant”的类型初始值设定项引发异常。   在 FEHandler.SysClass.ClassInfoHandler.GetClassInfoSelect(HttpContext context) 位置 e:\feedback_Nuct\FEHandler\SysClass\ClassInfoHandler.ashx.cs:行号 261
+   在 FEHandler.SysClass.ClassInfoHandler.ProcessRequest(HttpContext context) 位置 e:\feedback_Nuct\FEHandler\SysClass\ClassInfoHandler.ashx.cs:行号 43
+ERROR 2018-01-04 10:34:55,346  4967ms service                Error              - “FEHandler.Constant”的类型初始值设定项引发异常。   在 FEHandler.Constant.get_Sys_MenuInfo_List() 位置 e:\feedback_Nuct\FEHandler\Constant.cs:行号 712
+   在 FEHandler.SetMenu.SetMenuHandler.TestGetMenuInfo(HttpContext context) 位置 e:\feedback_Nuct\FEHandler\SetMenu\SetMenuHandler.ashx.cs:行号 185
+ERROR 2018-01-04 10:34:55,346  4967ms service                Error              - “FEHandler.Constant”的类型初始值设定项引发异常。   在 FEHandler.SetMenu.SetMenuHandler.TestGetMenuInfo(HttpContext context) 位置 e:\feedback_Nuct\FEHandler\SetMenu\SetMenuHandler.ashx.cs:行号 0
+   在 FEHandler.SetMenu.SetMenuHandler.ProcessRequest(HttpContext context) 位置 e:\feedback_Nuct\FEHandler\SetMenu\SetMenuHandler.ashx.cs:行号 29
+ERROR 2018-01-04 10:34:56,890  6510ms service                Error              - “FEHandler.Constant”的类型初始值设定项引发异常。   在 FEHandler.Constant.get_Course_List() 位置 e:\feedback_Nuct\FEHandler\Constant.cs:行号 524
+   在 FEHandler.SysClass.ClassInfoHandler.GetClassInfoSelect_Helper(Int32 SectionID, String TeacherUID, String CourseID) 位置 e:\feedback_Nuct\FEHandler\SysClass\ClassInfoHandler.ashx.cs:行号 283
+ERROR 2018-01-04 10:34:56,890  6510ms service                Error              - “FEHandler.Constant”的类型初始值设定项引发异常。   在 FEHandler.SysClass.ClassInfoHandler.GetClassInfoSelect(HttpContext context) 位置 e:\feedback_Nuct\FEHandler\SysClass\ClassInfoHandler.ashx.cs:行号 261
+   在 FEHandler.SysClass.ClassInfoHandler.ProcessRequest(HttpContext context) 位置 e:\feedback_Nuct\FEHandler\SysClass\ClassInfoHandler.ashx.cs:行号 43
+ERROR 2018-01-04 10:34:59,082  8702ms service                Error              - “FEHandler.Constant”的类型初始值设定项引发异常。   在 FEHandler.Constant.get_Sys_MenuInfo_List() 位置 e:\feedback_Nuct\FEHandler\Constant.cs:行号 712
+   在 FEHandler.SetMenu.SetMenuHandler.TestGetMenuInfo(HttpContext context) 位置 e:\feedback_Nuct\FEHandler\SetMenu\SetMenuHandler.ashx.cs:行号 185
+ERROR 2018-01-04 10:34:59,082  8702ms service                Error              - “FEHandler.Constant”的类型初始值设定项引发异常。   在 FEHandler.SetMenu.SetMenuHandler.TestGetMenuInfo(HttpContext context) 位置 e:\feedback_Nuct\FEHandler\SetMenu\SetMenuHandler.ashx.cs:行号 0
+   在 FEHandler.SetMenu.SetMenuHandler.ProcessRequest(HttpContext context) 位置 e:\feedback_Nuct\FEHandler\SetMenu\SetMenuHandler.ashx.cs:行号 29
+ERROR 2018-01-04 10:35:32,853 42474ms service                Error              - “FEHandler.Constant”的类型初始值设定项引发异常。   在 FEHandler.Constant.get_UserInfo_List() 位置 e:\feedback_Nuct\FEHandler\Constant.cs:行号 426
+   在 FEHandler.Login.LoginHandler.Login(HttpContext context) 位置 e:\feedback_Nuct\FEHandler\Login\LoginHandler.ashx.cs:行号 147
+ERROR 2018-01-04 10:35:32,854 42475ms service                Error              - “FEHandler.Constant”的类型初始值设定项引发异常。   在 FEHandler.Login.LoginHandler.Login(HttpContext context) 位置 e:\feedback_Nuct\FEHandler\Login\LoginHandler.ashx.cs:行号 142
+   在 FEHandler.Login.LoginHandler.ProcessRequest(HttpContext context) 位置 e:\feedback_Nuct\FEHandler\Login\LoginHandler.ashx.cs:行号 25
+ERROR 2018-01-04 10:35:34,375 43995ms service                Error              - “FEHandler.Constant”的类型初始值设定项引发异常。   在 FEHandler.Constant.get_UserInfo_List() 位置 e:\feedback_Nuct\FEHandler\Constant.cs:行号 426
+   在 FEHandler.Login.LoginHandler.Login(HttpContext context) 位置 e:\feedback_Nuct\FEHandler\Login\LoginHandler.ashx.cs:行号 147
+ERROR 2018-01-04 10:35:34,375 43995ms service                Error              - “FEHandler.Constant”的类型初始值设定项引发异常。   在 FEHandler.Login.LoginHandler.Login(HttpContext context) 位置 e:\feedback_Nuct\FEHandler\Login\LoginHandler.ashx.cs:行号 142
+   在 FEHandler.Login.LoginHandler.ProcessRequest(HttpContext context) 位置 e:\feedback_Nuct\FEHandler\Login\LoginHandler.ashx.cs:行号 25
+ERROR 2018-01-04 10:35:36,191 45811ms service                Error              - “FEHandler.Constant”的类型初始值设定项引发异常。   在 FEHandler.Constant.get_UserInfo_List() 位置 e:\feedback_Nuct\FEHandler\Constant.cs:行号 426
+   在 FEHandler.Login.LoginHandler.Login(HttpContext context) 位置 e:\feedback_Nuct\FEHandler\Login\LoginHandler.ashx.cs:行号 147
+ERROR 2018-01-04 10:35:36,191 45811ms service                Error              - “FEHandler.Constant”的类型初始值设定项引发异常。   在 FEHandler.Login.LoginHandler.Login(HttpContext context) 位置 e:\feedback_Nuct\FEHandler\Login\LoginHandler.ashx.cs:行号 142
+   在 FEHandler.Login.LoginHandler.ProcessRequest(HttpContext context) 位置 e:\feedback_Nuct\FEHandler\Login\LoginHandler.ashx.cs:行号 25
+ERROR 2018-01-04 10:35:36,405 46025ms service                Error              - “FEHandler.Constant”的类型初始值设定项引发异常。   在 FEHandler.Constant.get_UserInfo_List() 位置 e:\feedback_Nuct\FEHandler\Constant.cs:行号 426
+   在 FEHandler.Login.LoginHandler.Login(HttpContext context) 位置 e:\feedback_Nuct\FEHandler\Login\LoginHandler.ashx.cs:行号 147
+ERROR 2018-01-04 10:35:36,406 46026ms service                Error              - “FEHandler.Constant”的类型初始值设定项引发异常。   在 FEHandler.Login.LoginHandler.Login(HttpContext context) 位置 e:\feedback_Nuct\FEHandler\Login\LoginHandler.ashx.cs:行号 142
+   在 FEHandler.Login.LoginHandler.ProcessRequest(HttpContext context) 位置 e:\feedback_Nuct\FEHandler\Login\LoginHandler.ashx.cs:行号 25
+ERROR 2018-01-04 10:35:36,605 46226ms service                Error              - “FEHandler.Constant”的类型初始值设定项引发异常。   在 FEHandler.Constant.get_UserInfo_List() 位置 e:\feedback_Nuct\FEHandler\Constant.cs:行号 426
+   在 FEHandler.Login.LoginHandler.Login(HttpContext context) 位置 e:\feedback_Nuct\FEHandler\Login\LoginHandler.ashx.cs:行号 147
+ERROR 2018-01-04 10:35:36,606 46227ms service                Error              - “FEHandler.Constant”的类型初始值设定项引发异常。   在 FEHandler.Login.LoginHandler.Login(HttpContext context) 位置 e:\feedback_Nuct\FEHandler\Login\LoginHandler.ashx.cs:行号 142
+   在 FEHandler.Login.LoginHandler.ProcessRequest(HttpContext context) 位置 e:\feedback_Nuct\FEHandler\Login\LoginHandler.ashx.cs:行号 25
+ERROR 2018-01-04 10:35:36,798 46418ms service                Error              - “FEHandler.Constant”的类型初始值设定项引发异常。   在 FEHandler.Constant.get_UserInfo_List() 位置 e:\feedback_Nuct\FEHandler\Constant.cs:行号 426
+   在 FEHandler.Login.LoginHandler.Login(HttpContext context) 位置 e:\feedback_Nuct\FEHandler\Login\LoginHandler.ashx.cs:行号 147
+ERROR 2018-01-04 10:35:36,798 46418ms service                Error              - “FEHandler.Constant”的类型初始值设定项引发异常。   在 FEHandler.Login.LoginHandler.Login(HttpContext context) 位置 e:\feedback_Nuct\FEHandler\Login\LoginHandler.ashx.cs:行号 142
+   在 FEHandler.Login.LoginHandler.ProcessRequest(HttpContext context) 位置 e:\feedback_Nuct\FEHandler\Login\LoginHandler.ashx.cs:行号 25
+ERROR 2018-01-04 10:35:36,974 46594ms service                Error              - “FEHandler.Constant”的类型初始值设定项引发异常。   在 FEHandler.Constant.get_UserInfo_List() 位置 e:\feedback_Nuct\FEHandler\Constant.cs:行号 426
+   在 FEHandler.Login.LoginHandler.Login(HttpContext context) 位置 e:\feedback_Nuct\FEHandler\Login\LoginHandler.ashx.cs:行号 147
+ERROR 2018-01-04 10:35:36,974 46594ms service                Error              - “FEHandler.Constant”的类型初始值设定项引发异常。   在 FEHandler.Login.LoginHandler.Login(HttpContext context) 位置 e:\feedback_Nuct\FEHandler\Login\LoginHandler.ashx.cs:行号 142
+   在 FEHandler.Login.LoginHandler.ProcessRequest(HttpContext context) 位置 e:\feedback_Nuct\FEHandler\Login\LoginHandler.ashx.cs:行号 25
+ERROR 2018-01-04 10:35:37,165 46785ms service                Error              - “FEHandler.Constant”的类型初始值设定项引发异常。   在 FEHandler.Constant.get_UserInfo_List() 位置 e:\feedback_Nuct\FEHandler\Constant.cs:行号 426
+   在 FEHandler.Login.LoginHandler.Login(HttpContext context) 位置 e:\feedback_Nuct\FEHandler\Login\LoginHandler.ashx.cs:行号 147
+ERROR 2018-01-04 10:35:37,165 46785ms service                Error              - “FEHandler.Constant”的类型初始值设定项引发异常。   在 FEHandler.Login.LoginHandler.Login(HttpContext context) 位置 e:\feedback_Nuct\FEHandler\Login\LoginHandler.ashx.cs:行号 142
+   在 FEHandler.Login.LoginHandler.ProcessRequest(HttpContext context) 位置 e:\feedback_Nuct\FEHandler\Login\LoginHandler.ashx.cs:行号 25

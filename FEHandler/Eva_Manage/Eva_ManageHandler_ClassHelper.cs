@@ -596,17 +596,7 @@ namespace FEHandler.Eva_Manage
     #endregion
 
 
-    #region 区分学生对教师评价或专家对教师评价的实体
-
-    public class Regu_Model
-    {
-        public Sys_Dictionary dic { get; set; }
-        public Eva_Distribution dis { get; set; }
-        public Eva_Regular regu { get; set; }
-        public StudySection section { get; set; }
-    }
-
-    #endregion
+   
 
     #region 普通应用
 
@@ -626,8 +616,7 @@ namespace FEHandler.Eva_Manage
     }
 
     public class Sel_Model
-    {
-        public Eva_Distribution dis { get; set; }
+    {      
         public Sys_Dictionary dic { get; set; }
 
         public Eva_Table table { get; set; }
@@ -651,7 +640,7 @@ namespace FEHandler.Eva_Manage
         }
     }
 
-    
+
 
     public class T_C_Model
     {
@@ -704,7 +693,7 @@ namespace FEHandler.Eva_Manage
     {
         public override bool Equals(DepartmentSelect x, DepartmentSelect y)
         {
-            return x.DepartMentID == y.DepartMentID ;
+            return x.DepartMentID == y.DepartMentID;
         }
         public override int GetHashCode(DepartmentSelect obj)
         {
@@ -773,7 +762,7 @@ namespace FEHandler.Eva_Manage
 
 
     #region new
-    
+
     public class C_T
     {
         public UserInfo user { get; set; }
@@ -994,7 +983,7 @@ namespace FEHandler.Eva_Manage
     {
         public override bool Equals(TeModel x, TeModel y)
         {
-            return x.TeacherUID == y.TeacherUID ;
+            return x.TeacherUID == y.TeacherUID;
         }
         public override int GetHashCode(TeModel obj)
         {
@@ -1021,9 +1010,47 @@ namespace FEHandler.Eva_Manage
         }
     }
 
+    public class RegularDataModel
+    {
+
+        public int? Id { get; set; }
+
+        public string TeacherName { get; set; }
+
+        public string TeacherUID { get; set; }
+
+        public string ExpertName { get; set; }
+
+        public string ExpertUID { get; set; }
+
+        public string Course_Name { get; set; }
+
+        public string CourseID { get; set; }
+
+        public string Departent_Name { get; set; }
+
+        public string ReguName { get; set; }
+
+        public DateTime? StartTime { get; set; }
+
+        public DateTime? EndTime { get; set; }
+
+        public string State { get; set; }
+
+        public int StateType { get; set; }
+
+        public byte? LookType { get; set; }
+
+        public int? ReguId { get; set; }
+
+        public string DisPlayName { get; set; }
+
+        public int? SectionID { get; set; }
+    }
+
     #endregion
 
-    
+
 }
 
 #region 枚举类
@@ -1046,8 +1073,8 @@ enum IsAnswer
 
 enum LookType
 {
-    AllSchool=0,
-    DepartmentType =1,
+    AllSchool = 0,
+    DepartmentType = 1,
 }
 
 
@@ -1176,7 +1203,7 @@ enum QuesType_Type
 enum ReguState
 {
     未开始 = 1,
-    进行中 = 2,   
+    进行中 = 2,
     已结束 = 3,
 }
 
