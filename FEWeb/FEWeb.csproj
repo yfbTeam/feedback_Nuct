@@ -1027,7 +1027,6 @@
     <Content Include="SysSettings\Table\TableDesign.aspx" />
     <Content Include="SysSettings\UserMan.aspx" />
     <Content Include="TeaAchManage\AchManage.aspx" />
-    <Content Include="TeaAchManage\EditionAdd.aspx" />
     <Content Include="TeaAchManage\LeveAdd.aspx" />
     <Content Include="TeaAchManage\RewardAdd.aspx" />
     <Content Include="TeaAchManage\AcheveRewadInfo.aspx" />
@@ -1599,13 +1598,6 @@
     </Compile>
     <Compile Include="TeaAchManage\CheckFail.aspx.designer.cs">
       <DependentUpon>CheckFail.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="TeaAchManage\EditionAdd.aspx.cs">
-      <DependentUpon>EditionAdd.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="TeaAchManage\EditionAdd.aspx.designer.cs">
-      <DependentUpon>EditionAdd.aspx</DependentUpon>
     </Compile>
     <Compile Include="TeaAchManage\EditionEdit.aspx.cs">
       <DependentUpon>EditionEdit.aspx</DependentUpon>
