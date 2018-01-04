@@ -5,7 +5,7 @@
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <link href="/images/favicon.ico" rel="shortcut icon">
-    <title>编辑版本</title>
+    <title>版本管理</title>
     <link rel="stylesheet" href="../css/reset.css" />
     <link href="../css/layout.css" rel="stylesheet" />
     <script src="../Scripts/jquery-1.11.2.min.js"></script>
@@ -32,8 +32,9 @@
     <input type="hidden" id="hid_UploadFunc" value="Upload_RewardEdition"/>
     <div class="main">
         <div class="clearfix">
-            <div class="menu fl">
+            <div class="menu fl pr">
                 <ul class="menu_lists" id="ul_Edition"></ul>
+                <input type="button" value="新增版本"  class="new" id="btn_AddEdition" style="position:absolute;left:20px;bottom:0px;"/>
             </div>
             <div class="menu_right fr">
                 <div class="input-wrap">
@@ -92,6 +93,9 @@
         $("#LID").val(UrlDate.LID);
         BindFile_Plugin();
         BindEdition(UrlDate.id || 0);
+        $("#btn_AddEdition").click(function () {
+            AddEdition();
+        });
     });
     //奖项版本
     function BindEdition(id) {
@@ -124,7 +128,21 @@
             }
         });
     }
-    function SetControlValue(id) {       
+    function SetControlValue(id) {
+        var cur_li = $("#ul_Edition li[eid='0']");
+        if (cur_li.length) {
+            layer.confirm('新增版本是否保存？', {
+                btn: ['是', '否'],
+                title: '操作'
+            }, function (index) {
+                submit();
+            }, function () {
+                cur_li.remove();
+                SetValue(id);
+            });
+        } else { SetValue(id); }
+    }
+    function SetValue(id) {
         $("#id").val(id);
         $("#a_Delbtn").off('click');
         $("#a_Delbtn").on('click', function () { Del_RewardEdition(); });
@@ -134,7 +152,22 @@
         $("#Name").val(cur_e.Name);
         $("#BeginTime").val(DateTimeConvert(cur_e.BeginTime, 'yyyy-MM-dd'));
         $("#EndTime").val(DateTimeConvert(cur_e.EndTime, 'yyyy-MM-dd'));
-        Get_Sys_Document(1,$("#id").val());
+        Get_Sys_Document(1, $("#id").val());
+    }
+    function AddEdition() {
+        var cur_li = $("#ul_Edition li[eid='0']");
+        if (cur_li.length) {
+            layer.msg("请先保存新增版本！");
+        } else {
+            $("#id").val(0);
+            $("#ul_Edition").prepend('<li eid="0"><em title="新增版本">新增版本</em></li>');
+            cur_li = $("#ul_Edition li[eid='0']");
+            cur_li.addClass("selected").siblings().removeClass("selected");
+            $("#Name,#BeginTime,#EndTime").val("");
+            $('#uploader .queueList .filelist').html('');
+            $("#a_Delbtn").off('click');
+            $("#a_Delbtn").on('click', function () { cur_li.remove(); SetControlValue($("#ul_Edition li").eq(0).attr("eid")); });
+        }
     }
     //提交按钮
     function submit() {
