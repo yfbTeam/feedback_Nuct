@@ -440,8 +440,7 @@ function GetCur_RankScore() { //获取当前业绩分数
     $span_CurScore.html(newScore);
     return newScore;
 }
-//成员分数变化时
-function ChangeRankScore(obj) {  
+function ChangeRankScore(obj) {  //成员分数变化时
     var subscore = 0;
     var warning = '';
     if (obj.value) {
@@ -456,6 +455,36 @@ function ChangeRankScore(obj) {
     if (warning) {
         layer.msg(warning); 
     }  
+}
+function GetCur_UserMoney(objnum) { //获取当前成员奖金
+    var newMoney = 0;
+    var $span_HasAllot = $('#span_HasAllot_' + objnum);
+    $('#tb_Member_' + objnum + ' tr:visible').each(function (i, n) {
+        var c_score = $(this).find('.td_money input[type=number]').val();
+        if (c_score) {
+            newMoney = numAdd(newMoney, c_score);
+        }
+    });
+    newMoney = Num_Fixed(newMoney);
+    $span_HasAllot.html(newMoney);
+    return newMoney;
+}
+function Change_UserMoney(obj) {//成员奖金变化时
+    objnum = $(obj).parent().parent().parent().attr('id').replace('tb_Member_', '');
+    var subscore = 0;
+    var warning = '';
+    if (obj.value) {
+        subscore = Num_Fixed(obj.value);
+    } else {
+        warning = '请输入奖金';
+    }
+    var newMoney = GetCur_UserMoney(objnum);
+    if (Number($('#span_AllMoney_' + objnum).html()) < Number(newMoney)) {
+        warning += warning.length > 0 ? ',且已分配奖金不能大于总奖金！' : '已分配奖金不能大于总奖金！';
+    }
+    if (warning) {
+        layer.msg(warning);
+    }
 }
 /********************************************************业绩成员信息结束***************************************************/
 /********************************************************业绩-作者信息开始***************************************************/
@@ -532,9 +561,10 @@ function Get_AchieveStatus(status,obj) {
 
 /********************************************************业绩-奖金分配开始***************************************************/
 //绑定奖项奖金信息
-function Get_RewardBatchData(reasonobj, no_status) {
+function Get_RewardBatchData(reasonobj, no_status,ishistory) {
     reasonobj = arguments[0] || "";
     no_status = arguments[1] || ""; //不赋值的状态
+    ishistory = arguments[2] || "1"; //是否加载历史记录 1加载（默认）；2不加载
     $("#div_MoneyInfo").empty();
     $.ajax({
         url: HanderServiceUrl + "/TeaAchManage/AchRewardInfo.ashx",
@@ -556,7 +586,9 @@ function Get_RewardBatchData(reasonobj, no_status) {
                     Bind_AllotFile();
                 }               
             }
-            Get_ModifyRecordData();
+            if (ishistory == "1") {
+                Get_ModifyRecordData();
+            }            
         },
         error: function () {
             //接口错误时需要执行的

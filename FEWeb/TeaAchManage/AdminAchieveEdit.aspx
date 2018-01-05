@@ -45,7 +45,7 @@
                 </td>
             <td class="td_memname">${mem.Name}</td>
             <td>
-                <input type="number" name="score" value="${mem.Score}" oldsc="${mem.Score}" isrequired="true" regtype="money" fl="分数" min="0" step="0.01" /></td>
+                <input type="number" name="score" value="${mem.Score}" oldsc="${mem.Score}" isrequired="true" regtype="money" fl="分数" min="0" step="0.01" onblur="ChangeRankScore(this);"/></td>
             <td>${mem.Major_Name}</td>
             <td>${DateTimeConvert(mem.CreateTime,"yyyy-MM-dd")}</td>
             {{/if}}
@@ -59,7 +59,7 @@
                 <input type='checkbox' value="${UniqueNo}" name="ck_trsub" onclick="CheckSub(this);" /></td>
             <td class="td_memname">${Name}</td>
             <td>
-                <input type="number" name="score" value="" isrequired="true" regtype="money" fl="分数" min="0" step="0.01"></td>
+                <input type="number" name="score" value="" isrequired="true" regtype="money" fl="分数" min="0" step="0.01" onblur="ChangeRankScore(this);"></td>
             <td>${loginUser.Name}</td>
             <td>${DateTimeConvert(new Date(),"yyyy-MM-dd",false)}</td>
         </tr>
@@ -83,7 +83,7 @@
                    {{else AuditStatus==2}}<span class="nocheck">审核不通过</span>
                    {{else}} <span class="assigning">审核通过</span>{{/if}}
                </div>
-               <div class="fr status">奖金：${Money}万，已分：<span>{{if AuditStatus==10||AuditStatus==0}}0{{else}}${HasAllot}{{/if}}万</span></div>
+               <div class="fr status">奖金：<span id="span_AllMoney_${rowNum}">${Money}</span>万，已分：<span id="span_HasAllot_${rowNum}">{{if AuditStatus==10||AuditStatus==0}}0{{else}}${HasAllot}{{/if}}</span>万</div>
            </div>
            <table class="allot_table mt10  ">
                <thead>
@@ -113,10 +113,10 @@
                                 <td>${mem.Major_Name}</td>
                                 <td>${mem.WordNum}</td>
                                 <td class="td_money">
-                                    <input type="number" isrequired="true" regtype="money" oldre="0" fl="奖金" min="0" step="0.01"></td>
+                                    <input type="number" isrequired="true" regtype="money" oldre="0" fl="奖金" min="0" step="0.01" onblur="Change_UserMoney(this);"></td>
                                 {{else}}
                                 <td class="td_money">
-                                    <input type="number" isrequired="true" regtype="money" oldre="0" fl="奖金" min="0" step="0.01"></td>
+                                    <input type="number" isrequired="true" regtype="money" oldre="0" fl="奖金" min="0" step="0.01" onblur="Change_UserMoney(this);"></td>
                                 <td>${mem.Major_Name}</td>
                                 <td>${DateTimeConvert(mem.CreateTime,"yyyy-MM-dd")}</td>
                                 {{/if}}     
@@ -361,24 +361,7 @@
                 }
             });
         }
-        /***********************************************分数开始*************************************************/
-        //分数分配
-        function CheckScoreAndAward() {
-            var AllScore = $("#span_AllScore").html();
-            var ShareScore = 0;
-            $("#tb_Member").find("tr:visible").each(function () {
-                var Score = $(this).find('input[type=number][name=score]').val();
-                ShareScore = numAdd(ShareScore, Score);
-            });
-            if (AllScore == NaN && AllAward > ShareAward) {
-                return true;
-            }
-            else if (AllScore < ShareScore) {
-                layer.msg("分配的分数大于总分数");
-                return false;
-            }
-            else { return true; }
-        }
+        /***********************************************分数开始*************************************************/        
         //保存分数
         function Save_Score() {
             var object = { Func: "Add_AcheiveAllot", Id: cur_AchieveId, EditReason: $("#txt_Reasonscore").val().trim(), CreateUID: loginUser.UniqueNo };
@@ -392,42 +375,44 @@
                 return;
             }
             object.Reason_Path = add_path.length > 0 ? JSON.stringify(add_path) : "";
-            if (CheckScoreAndAward()) {
-                var addMemObj = Get_AddMember(), editMemObj = Get_EditMember();
-                var addArray = addMemObj.addarray;
-                object.MemberStr = addArray.length > 0 ? JSON.stringify(addArray) : '';
-                var recordArray = addMemObj.edithis;
-                var editArray = editMemObj.editarray;
-                object.MemberEdit = editArray.length > 0 ? JSON.stringify(editArray) : '';
-                recordArray = recordArray.concat(editMemObj.edithis);
-                if (recordArray.length <= 0) {
-                    layer.msg("没有修改内容!");
-                    return;
-                }
-                object.ResonRecord = JSON.stringify(recordArray);
-                var warnArray = [];
-                $.each(recordArray, function (i, n) {
-                    warnArray.push(n.Content);
-                });
-                layer.confirm(warnArray.join('、'), {
-                    btn: ['确定', '取消'], //按钮
-                    title: '操作'
-                }, function (index) {
-                    $.ajax({
-                        url: HanderServiceUrl + "/TeaAchManage/AchRewardInfo.ashx",
-                        type: "post",
-                        dataType: "json",
-                        data: object,
-                        success: function (json) {
-                            if (json.result.errNum == 0) {
-                                layer.msg('操作成功!');
-                                Get_RewardUserInfo();
-                            } else if (json.result.errNum == -1) { }
-                        },
-                        error: function (errMsg) { alert(errMsg); }
-                    });
-                }, function () { });
+            if (Number($('#span_AllScore').html()) < Number(GetCur_RankScore())) {
+                layer.msg("已分配分数不能大于总分！");
+                return;
             }
+            var addMemObj = Get_AddMember(), editMemObj = Get_EditMember();
+            var addArray = addMemObj.addarray;
+            object.MemberStr = addArray.length > 0 ? JSON.stringify(addArray) : '';
+            var recordArray = addMemObj.edithis;
+            var editArray = editMemObj.editarray;
+            object.MemberEdit = editArray.length > 0 ? JSON.stringify(editArray) : '';
+            recordArray = recordArray.concat(editMemObj.edithis);
+            if (recordArray.length <= 0) {
+                layer.msg("没有修改内容!");
+                return;
+            }
+            object.ResonRecord = JSON.stringify(recordArray);
+            var warnArray = [];
+            $.each(recordArray, function (i, n) {
+                warnArray.push(n.Content);
+            });
+            layer.confirm(warnArray.join('、'), {
+                btn: ['确定', '取消'], //按钮
+                title: '操作'
+            }, function (index) {
+                $.ajax({
+                    url: HanderServiceUrl + "/TeaAchManage/AchRewardInfo.ashx",
+                    type: "post",
+                    dataType: "json",
+                    data: object,
+                    success: function (json) {
+                        if (json.result.errNum == 0) {
+                            layer.msg('操作成功!');
+                            Get_RewardUserInfo();
+                        } else if (json.result.errNum == -1) { }
+                    },
+                    error: function (errMsg) { alert(errMsg); }
+                });
+            }, function () { });
         }
         function Get_AddMember() {
             var addArray = [], edithis = [];
@@ -482,6 +467,10 @@
             var valid_flag = validateForm($('#div_MoneyInfo tbody input[type="number"]'));
             if (valid_flag != "0") {
                 return false;
+            }
+            if (Number($('#span_AllMoney_' + rownum).html()) < Number($('#span_HasAllot_' + rownum).html())) {
+                layer.msg("已分配奖金不能大于总奖金！");
+                return;
             }
             var object = { Func: "Admin_EditAllotReward", CreateUID: loginUser.UniqueNo, EditReason: $("#txt_Reasonreward").val().trim() };
             var add_path = Get_AddFile(5, '#uploader_reward');

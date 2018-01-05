@@ -144,9 +144,9 @@
                     </td>
                     <td>${mem.Name}</td>
                     {{if $("#AchieveType").val()=="5"&&$('#hid_Status').val()=='3'}}
-                       <td><input type="number" name="score" value="${UnitScore}" regtype="money" fl="分数" min="0" step="0.01"/></td>
+                       <td><input type="number" name="score" value="${UnitScore}" isrequired="true" regtype="money" fl="分数" min="0" step="0.01" onblur="ChangeRankScore(this);"/></td>
                     {{else}}
-                      <td><input type="number" name="score" value="${mem.Score}" regtype="money" fl="分数" min="0" step="0.01"/></td>
+                      <td><input type="number" name="score" value="${mem.Score}" isrequired="true" regtype="money" fl="分数" min="0" step="0.01" onblur="ChangeRankScore(this);"/></td>
                     {{/if}}
                     <td>${mem.Major_Name}</td>
                     <td>${DateTimeConvert(mem.CreateTime,"yyyy-MM-dd")}</td>
@@ -159,7 +159,7 @@
         <tr class="memadd" un="${UniqueNo}">
             <td><input type='checkbox' value="${UniqueNo}" name="ck_trsub" onclick="CheckSub(this);" /></td>
             <td>${Name}</td>
-            <td><input type="number" name="score" value="" min="0" regtype="money" fl="分数" step="0.01"></td>          
+            <td><input type="number" name="score" value="" min="0" isrequired="true" regtype="money" fl="分数" step="0.01" onblur="ChangeRankScore(this);"></td>          
             <td>${loginUser.Name}</td>
             <td>${DateTimeConvert(new Date(),"yyyy-MM-dd",false)}</td>          
         </tr>
@@ -197,40 +197,32 @@
             BindFile_Plugin();
             Get_TPM_AcheiveMember(cur_AchieveId);            
             Get_Sys_Document(3, cur_AchieveId);
-        });        
-        function CheckScoreAndAward()
-        {          
-            var AllScore = $("#span_AllScore").html();
-            var ShareScore=0;          
-            $("#tb_Member").find("tr").each(function () {
-                var Score = $(this).find('input[type=number][name=score]').val();
-                ShareScore= numAdd(ShareScore,Score);
-            });          
-            if (AllScore<ShareScore) {
-                layer.msg("分配的分数大于总分数");
-                return false;
-            }            
-            else{  return true;}
-        }
+        });              
         var object = { Func: "Add_AcheiveAllot", Id: cur_AchieveId };
         function submit(status) {
             var add_path = Get_AddFile(3);
             object.Add_Path = add_path.length > 0 ? JSON.stringify(add_path) : "";
-            if (CheckScoreAndAward()) {                
-                if (status == 5) {                   
-                    if ($("#uploader .filelist li").length <= 0) {
-                        layer.msg("请上传附件!");
-                        return;
-                    }
-                    layer.confirm('确认提交吗？提交后将不能进行修改', {
-                        btn: ['确定', '取消'], //按钮
-                        title: '操作'
-                    }, function (index) {
-                        LastSave(status);
-                    }, function () { });
-                } else {
+            if (Number($('#span_AllScore').html()) < Number(GetCur_RankScore())) {
+                layer.msg("已分配分数不能大于总分！");
+                return;
+            }
+            if (status == 5) {
+                if ($("#uploader .filelist li").length <= 0) {
+                    layer.msg("请上传附件!");
+                    return;
+                }
+                var valid_flag = validateForm($('#tb_Member tr:visible input[type="number"]'));
+                if (valid_flag != "0") {
+                    return false;
+                }
+                layer.confirm('确认提交吗？提交后将不能进行修改', {
+                    btn: ['确定', '取消'], //按钮
+                    title: '操作'
+                }, function (index) {
                     LastSave(status);
-                }                
+                }, function () { });
+            } else {
+                LastSave(status);
             }
         }
         function LastSave(status) {            
