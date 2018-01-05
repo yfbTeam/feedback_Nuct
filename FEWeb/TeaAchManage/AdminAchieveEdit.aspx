@@ -458,7 +458,7 @@
                       , oldscore = Num_Fixed($(this).find('input[type=number][name=score]').attr('oldsc'));
                     if ($(this).is(":visible")) {
                         editArray.push({ Id: id, Score: score, Sort: i + 1, EditUID: loginUser.UniqueNo });
-                        if (Num_Fixed(score) != Num_Fixed(oldscore)) { //修改的
+                        if (Number(score) != Number(oldscore)) { //修改的
                             edithis.push({
                                 Type: 0, Acheive_Id: cur_AchieveId, RelationId: 0, Content: loginUser.Name + '将' + $(this).find('td.td_memname').html() + oldscore + "分" + "改为" + score + "分"
                                               , ModifyUID: userno, CreateUID: loginUser.UniqueNo
@@ -533,7 +533,7 @@
                     var userno = $(this).attr('un'), money = Num_Fixed($(this).find('.td_money input[type=number]').val())
                       , oldmoney = Num_Fixed($(this).find('.td_money input[type=number]').attr('oldre'));
                     subarray.push({ RewardUser_Id: $(this).attr('uid'), AllotMoney: money, CreateUID: loginUser.UniqueNo });
-                    if (Num_Fixed(money) != Num_Fixed(oldmoney)) { //修改的
+                    if (Number(money) != Number(oldmoney)) { //修改的
                         edithis.push({
                             Type: 1, Acheive_Id: cur_AchieveId, RelationId: rew_batchid, Content: "第" + rownum + "批奖金" + loginUser.Name + '将' + $(this).find('td.td_memname').html() + oldmoney + "万" + "改为" + money + "万"
                                           , ModifyUID: userno, CreateUID: loginUser.UniqueNo

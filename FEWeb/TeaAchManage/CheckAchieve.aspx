@@ -22,7 +22,7 @@
     </style>
     <%--业绩信息--%>
     <script type="text/x-jquery-tmpl" id="div_AchInfo">
-        {{if UrlDate.Type!='Check'}}
+        {{if UrlDate.Type!='Check'||(UrlDate.Type=='Check'&&Status==1)}}
              <h2 class="cont_title re_view"><span>获奖文件信息</span></h2>
             <div class="area_form clearfix re_view">
                 <div class="input_lable fl">
@@ -323,7 +323,7 @@
     <script src="BaseUse.js"></script>
     <script type="text/javascript">
         var UrlDate = new GetUrlDate();
-        var cur_AchieveId = UrlDate.Id,cur_AchieveType=1;
+        var cur_AchieveId = UrlDate.Id;
         $(function () {
             $("#CreateUID").val(GetLoginUser().UniqueNo);            
             var Id = UrlDate.Id;
@@ -354,12 +354,10 @@
                 if (model.Status <= 6) {
                     $(".btnwrap2").show();
                 }               
-                $(".re_view").hide();
             }
             else {
                 $(".checkmes").show();
                 $(".btnwrap2").hide();
-                $(".re_view").show();
             }
         }       
         //绑定成员信息
@@ -384,27 +382,12 @@
                         if (model.AchieveType == 3) { //教材建设类                          
                             $("#tr_Info").tmpl(json.result.retData).appendTo("#tb_info");                          
                             $("#tr_Info1").tmpl(json.result.retData).appendTo("#tb_Member1");
-                            var $span_Words = $('#span_Words');
-                            var curwords = 0;
-                            $(json.result.retData).each(function (i, n) {
-                                if (n.WordNum) {
-                                    curwords= numAdd(curwords,n.WordNum);
-                                }
-                            });
-                            $span_Words.html(curwords);
-                            Set_BookScore();
+                            GetAchieveUser_Score(json.result.retData);
                             $("#div_score_statis").html($("#div_user_book").html());
                         } else {  //其他类型
                             $("#tr_MemEdit").tmpl(json.result.retData).appendTo("#tb_Member");
                             $("#tr_MemEdit1").tmpl(json.result.retData).appendTo("#tb_Member1");
-                            var $span_CurScore = $('#span_CurScore');
-                            var curscore = 0;
-                            $(json.result.retData).each(function (i, n) {
-                                if (n.Score) {
-                                    curscore = numAdd(curscore,n.Score);
-                                }                                
-                            });
-                            $span_CurScore.html(curscore);
+                            GetAchieveUser_Score(json.result.retData);
                             $("#div_score_statis").html($("#div_user_mem").html());
                         }                        
                     }
@@ -413,18 +396,7 @@
                     layer.msg(errMsg);
                 }
             });
-        }
-        //为业绩赋总分
-        function SetScore_LooK(model) {
-            $(".score").html("分数：" + model.TotalScore + "分" + (model.AchieveType == "2" ? "/万字" : ""));
-            if (model.AchieveType == "3" && model.ScoreType == "2") {
-                Set_BookScore();
-            }
-            $span_AllScore = $('#span_AllScore');
-            if ($span_AllScore) {
-                $span_AllScore.html(model.TotalScore);
-            }
-        }
+        }        
         function Check(Status) {
             var responName=$("#ResponsMan").html();
             var hisArray=[];

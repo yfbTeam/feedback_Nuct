@@ -217,8 +217,8 @@
             var add_path = Get_AddFile(3);
             object.Add_Path = add_path.length > 0 ? JSON.stringify(add_path) : "";
             if (CheckScoreAndAward()) {                
-                if (status == 5) {
-                    if (add_path.length <= 0) {
+                if (status == 5) {                   
+                    if ($("#uploader .filelist li").length <= 0) {
                         layer.msg("请上传附件!");
                         return;
                     }
