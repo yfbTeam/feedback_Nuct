@@ -405,7 +405,7 @@
                     var memname=$(this).find('td.td_memname').html(),score=$(this).find('td.td_score').html();
                     hisArray.push({
                         Type: 0, Acheive_Id: cur_AchieveId, Content: responName+"给"+memname+"分配了"+score+"分"
-                         , ModifyUID: $(this).attr('un'), CreateUID: loginUser.UniqueNo
+                         , ModifyUID: $(this).attr('un'), CreateUID: cur_ResponUID
                     });
                 });
             }
@@ -437,7 +437,7 @@
                     var memname=$(this).find('td.td_memname').html(),money=$(this).find('td.td_money').html();
                     hisArray.push({
                         Type: 1, Acheive_Id: cur_AchieveId,RelationId: rew_batchid,Content:"第" + rownum + "批奖金"+ responName+"给"+memname+"分配了"+money+"万"
-                         , ModifyUID: $(this).attr('un'), CreateUID: loginUser.UniqueNo
+                         , ModifyUID: $(this).attr('un'), CreateUID: cur_ResponUID
                     });
                 });
             }
