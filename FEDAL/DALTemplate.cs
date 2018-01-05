@@ -120,6 +120,24 @@ namespace FEDAL
 	     /// </summary>
 	     ///	
 	     /// </summary>
+		 public partial class TMP_RewardRankDal:BaseDal<TMP_RewardRank>,ITMP_RewardRankDal
+         {
+
+
+         }	
+
+        public partial class DalFactory
+        {
+            public static ITMP_RewardRankDal GetTMP_RewardRankDal()
+            {
+                return new TMP_RewardRankDal();
+            }
+	    }
+
+
+	     /// </summary>
+	     ///	
+	     /// </summary>
 		 public partial class AssetManagementDal:BaseDal<AssetManagement>,IAssetManagementDal
          {
 
@@ -185,24 +203,6 @@ namespace FEDAL
             public static IClassInfoDal GetClassInfoDal()
             {
                 return new ClassInfoDal();
-            }
-	    }
-
-
-	     /// </summary>
-	     ///	
-	     /// </summary>
-		 public partial class TMP_RewardRankDal:BaseDal<TMP_RewardRank>,ITMP_RewardRankDal
-         {
-
-
-         }	
-
-        public partial class DalFactory
-        {
-            public static ITMP_RewardRankDal GetTMP_RewardRankDal()
-            {
-                return new TMP_RewardRankDal();
             }
 	    }
 
@@ -732,24 +732,6 @@ namespace FEDAL
 	     /// </summary>
 	     ///	
 	     /// </summary>
-		 public partial class Eva_QuestionAnswer_HeaderDal:BaseDal<Eva_QuestionAnswer_Header>,IEva_QuestionAnswer_HeaderDal
-         {
-
-
-         }	
-
-        public partial class DalFactory
-        {
-            public static IEva_QuestionAnswer_HeaderDal GetEva_QuestionAnswer_HeaderDal()
-            {
-                return new Eva_QuestionAnswer_HeaderDal();
-            }
-	    }
-
-
-	     /// </summary>
-	     ///	
-	     /// </summary>
 		 public partial class StudentDal:BaseDal<Student>,IStudentDal
          {
 
@@ -959,6 +941,24 @@ namespace FEDAL
             public static ISys_LogInfoDal GetSys_LogInfoDal()
             {
                 return new Sys_LogInfoDal();
+            }
+	    }
+
+
+	     /// </summary>
+	     ///	
+	     /// </summary>
+		 public partial class Eva_QuestionAnswer_HeaderDal:BaseDal<Eva_QuestionAnswer_Header>,IEva_QuestionAnswer_HeaderDal
+         {
+
+
+         }	
+
+        public partial class DalFactory
+        {
+            public static IEva_QuestionAnswer_HeaderDal GetEva_QuestionAnswer_HeaderDal()
+            {
+                return new Eva_QuestionAnswer_HeaderDal();
             }
 	    }
 }

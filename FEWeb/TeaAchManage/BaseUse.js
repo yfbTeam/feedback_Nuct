@@ -1,5 +1,5 @@
 ﻿var loginUser = GetLoginUser();
-var cur_ResponUID = "", cur_AchieveType = 1,achie_Score=0;
+var cur_ResponUID = "",cur_ResponName="",cur_AchieveType = 1,achie_Score=0,score_Words=0; //教材建设记分的总字数
 function Num_Fixed(num, count) {
     count = arguments[1] || 2;
     return Number(num||0).toFixed(count);
@@ -17,14 +17,14 @@ function GetAchieveDetailById(type) { //获取业绩详情
             if (json.result.errMsg == "success") {
                 var model = json.result.retData[0];
                 $("#div_AchInfo").tmpl(model).appendTo("#div_Achieve");
-                cur_ResponUID = model.ResponsMan;
+                cur_ResponUID = model.ResponsMan, cur_ResponName = model.ResponsName;
                 cur_AchieveType = model.AchieveType;
                 achie_Score = Num_Fixed(model.TotalScore);
+                $(".score").html("分数：" + model.TotalScore + "分" + (model.AchieveType == "2" ? "/万字" : ""));
                 if (type == 1) {
                   Get_RewardUserInfo(model);
                 } else if (type == 2) {
                     View_CheckInit(model);
-                    SetScore_LooK(model);
                     Get_RewardUserInfo(model);
                     Get_AchieveStatus(model.Status, ".checkmes");
                 }                
@@ -32,6 +32,30 @@ function GetAchieveDetailById(type) { //获取业绩详情
         },
         error: function () { }
     });
+}
+function GetAchieveUser_Score(userdata) { //获取初始时业绩分数
+    if (cur_AchieveType == "3") {
+        var $span_Words = $('#span_Words');
+        var curwords = 0, scorewords = 0;
+        $(userdata).each(function (i, n) {
+            if (n.WordNum) {
+                curwords = numAdd(curwords, n.WordNum);
+                if (n.ULevel != 3) { scorewords = numAdd(scorewords, n.WordNum); }
+            }
+        });
+        $span_Words.html(Num_Fixed(curwords));
+        score_Words = scorewords;
+        $('#span_BookScore').html(Num_Fixed(scorewords * Number(achie_Score)));
+    } else {
+        var $span_CurScore = $('#span_CurScore');
+        var curscore = 0;
+        $(userdata).each(function (i, n) {
+            if (n.Score) {
+                curscore = numAdd(curscore, n.Score);                
+            }
+        });
+        $span_CurScore.html(Num_Fixed(curscore));
+    }
 }
 function BindDepart(id,val) {
     val=arguments[1]||"";
@@ -296,11 +320,12 @@ function GetProfessInfo(objid) {
         }
     });
 }
-function ChangeLid() {
+function ChangeLid() { //认定日期修改时触发的方法
     if ($("#DefindDate").val().trim() == "") {
         $("#Lid").html('<option value="">请选择</option>');
         $("#Rid").html('<option value="" ss="0">请选择</option>');
         $("#Sort").html('<option value="" ss="0">请选择</option>');
+        SetScore();
     } else {
         if ($("#Gid").val() != "") {
             BindLinfo();
@@ -332,28 +357,6 @@ function Get_TPM_AcheiveMember(achid,tb_id) {
             layer.msg(errMsg);
         }
     });
-}
-function GetAchieveUser_Score(userdata) {
-    if (cur_AchieveType == "3") {
-        var $span_Words = $('#span_Words');
-        var curwords = 0;
-        $(userdata).each(function (i, n) {
-            if (n.WordNum) {
-                curwords = numAdd(curwords, n.WordNum);
-            }
-        });
-        $span_Words.html(curwords);
-        $('#span_BookScore').html(Num_Fixed(curwords * achie_Score));
-    } else {
-        var $span_CurScore = $('#span_CurScore');
-        var curscore = 0;
-        $(userdata).each(function (i, n) {
-            if (n.Score) {
-                curscore = numAdd(curscore, n.Score);
-            }
-        });
-        $span_CurScore.html(curscore);
-    }
 }
 //绑定教学成果，负责人信息
 function Bind_ResponsMan(selid) {
@@ -392,7 +395,7 @@ function Del_HtmlMember(type) {  //type 0删除；1隐藏
     GetCur_RankScore();
 }
 //添加教学成果成员
-function Rtn_AddMemArray(type) { 
+function Rtn_AddMemArray(type) {
     var addArray = [];
     var add_tr = $("#tb_Member tr");
     $(add_tr).each(function (i, n) {
@@ -407,34 +410,37 @@ function Rtn_AddMemArray(type) {
     });
     return addArray;
 }
-function GetCur_RankScore() {   
-    var newScore = 0;
-    var $span_CurScore = $('#span_CurScore');
-    $('#tb_Member tr:visible').each(function (i, n) {
-        var c_score = $(this).find('input[type=number]').val();
-        if (c_score) {
-            newScore = numAdd(newScore,c_score);
-        }
-    });
-    $span_CurScore.html(newScore);
-    return newScore;
-}
 //为业绩赋总分
-function SetScore(objid) {
-    objid = arguments[0] || "#Rid";
-    var Score =Num_Fixed($(objid).find("option:selected").attr("ss"));
+function SetScore() {
+    var objid = cur_AchieveType == "2" ? "#Sort" : "#Rid";
+    var Score = Num_Fixed($(objid).find("option:selected").attr("ss"));
+    achie_Score = Score;
     var ScoreType = $(objid).find("option:selected").attr("st");    
     $(".score").html("分数：" + Score + "分" + (ScoreType == "2" ? "/万字" : ""));
-    if (UrlDate.Type=="3"&&ScoreType == "2") {
-      Set_BookScore();
+    if (cur_AchieveType == "3") { //教材建设类 
+        if ($(objid).val() == "") { $('#span_BookScore').html(0); }
+        else if (ScoreType == "2") { $('#span_BookScore').html(Num_Fixed(score_Words * Number(Score))); }
+        else { $('#span_BookScore').html(Score); }
     }
     $span_AllScore = $('#span_AllScore');
     if ($span_AllScore) {
         $span_AllScore.html(Score);
     }
 }
-//业绩分数变化
-function ChangeRankScore(obj) {  
+function GetCur_RankScore() { //获取当前业绩分数
+    var newScore = 0;
+    var $span_CurScore = $('#span_CurScore');
+    $('#tb_Member tr:visible').each(function (i, n) {
+        var c_score = $(this).find('input[type=number]').val();
+        if (c_score) {
+            newScore = numAdd(newScore, c_score);
+        }
+    });
+    newScore = Num_Fixed(newScore);
+    $span_CurScore.html(newScore);
+    return newScore;
+}
+function ChangeRankScore(obj) {  //成员分数变化时
     var subscore = 0;
     var warning = '';
     if (obj.value) {
@@ -443,12 +449,42 @@ function ChangeRankScore(obj) {
         warning='请输入数字';       
     }      
     var newScore = GetCur_RankScore();       
-    if (Num_Fixed($('#span_AllScore').html()) < newScore) {
+    if (Number($('#span_AllScore').html()) < Number(newScore)) {
         warning += warning.length > 0 ? ',且已分配分数不能大于总分！' : '已分配分数不能大于总分！';
     } 
     if (warning) {
         layer.msg(warning); 
     }  
+}
+function GetCur_UserMoney(objnum) { //获取当前成员奖金
+    var newMoney = 0;
+    var $span_HasAllot = $('#span_HasAllot_' + objnum);
+    $('#tb_Member_' + objnum + ' tr:visible').each(function (i, n) {
+        var c_score = $(this).find('.td_money input[type=number]').val();
+        if (c_score) {
+            newMoney = numAdd(newMoney, c_score);
+        }
+    });
+    newMoney = Num_Fixed(newMoney);
+    $span_HasAllot.html(newMoney);
+    return newMoney;
+}
+function Change_UserMoney(obj) {//成员奖金变化时
+    objnum = $(obj).parent().parent().parent().attr('id').replace('tb_Member_', '');
+    var subscore = 0;
+    var warning = '';
+    if (obj.value) {
+        subscore = Num_Fixed(obj.value);
+    } else {
+        warning = '请输入奖金';
+    }
+    var newMoney = GetCur_UserMoney(objnum);
+    if (Number($('#span_AllMoney_' + objnum).html()) < Number(newMoney)) {
+        warning += warning.length > 0 ? ',且已分配奖金不能大于总奖金！' : '已分配奖金不能大于总奖金！';
+    }
+    if (warning) {
+        layer.msg(warning);
+    }
 }
 /********************************************************业绩成员信息结束***************************************************/
 /********************************************************业绩-作者信息开始***************************************************/
@@ -464,16 +500,8 @@ function Get_OperReward_UserInfo() {
                 if (json.result.errMsg == "success") {
                     var booktype = $("#BookId").find("option:selected").attr("bt");
                     $('#ISBN').val(booktype==1?'无':$("#BookId").find("option:selected").attr("isbn"));
-                    $("#tr_Info").tmpl(json.result.retData).appendTo("#tb_info");
-                    var $span_Words = $('#span_Words');
-                    var curwords = 0;
-                    $(json.result.retData).each(function (i, n) {
-                        if (n.WordNum) {
-                            curwords = numAdd(curwords,n.WordNum);
-                        }
-                    });
-                    $span_Words.html(curwords);
-                    Set_BookScore();
+                    $("#tr_Info").tmpl(json.result.retData).appendTo("#tb_info");                   
+                    GetAchieveUser_Score(json.result.retData);
                 }
             },
             error: function () {
@@ -483,11 +511,6 @@ function Get_OperReward_UserInfo() {
     } else {
         $('#ISBN').val('');
     }
-}
-function Set_BookScore() {    
-    var allwords = parseFloat($('#span_Words').html());
-    var everyscore =parseFloat($(".score").html().replace('分数：', '').replace('分/万字', ''));
-    $('#span_BookScore').html(allwords * everyscore);
 }
 /********************************************************业绩-作者信息结束***************************************************/
 function Get_AchieveStatus(status,obj) {
@@ -538,9 +561,10 @@ function Get_AchieveStatus(status,obj) {
 
 /********************************************************业绩-奖金分配开始***************************************************/
 //绑定奖项奖金信息
-function Get_RewardBatchData(reasonobj, no_status) {
+function Get_RewardBatchData(reasonobj, no_status,ishistory) {
     reasonobj = arguments[0] || "";
     no_status = arguments[1] || ""; //不赋值的状态
+    ishistory = arguments[2] || "1"; //是否加载历史记录 1加载（默认）；2不加载
     $("#div_MoneyInfo").empty();
     $.ajax({
         url: HanderServiceUrl + "/TeaAchManage/AchRewardInfo.ashx",
@@ -562,7 +586,9 @@ function Get_RewardBatchData(reasonobj, no_status) {
                     Bind_AllotFile();
                 }               
             }
-            Get_ModifyRecordData();
+            if (ishistory == "1") {
+                Get_ModifyRecordData();
+            }            
         },
         error: function () {
             //接口错误时需要执行的

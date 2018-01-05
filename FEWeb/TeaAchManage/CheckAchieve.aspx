@@ -22,7 +22,7 @@
     </style>
     <%--业绩信息--%>
     <script type="text/x-jquery-tmpl" id="div_AchInfo">
-        {{if UrlDate.Type!='Check'}}
+        {{if UrlDate.Type!='Check'||(UrlDate.Type=='Check'&&Status==1)}}
              <h2 class="cont_title re_view"><span>获奖文件信息</span></h2>
             <div class="area_form clearfix re_view">
                 <div class="input_lable fl">
@@ -152,7 +152,7 @@
                         {{else Status==4}}<span class="nosubmit">{{if ResponsMan==$('#CreateUID').val()}}待提交{{else}}待分配{{/if}}</span>
                         {{else Status==5}}<span class="checking1">待审核</span>
                         {{else Status==6}}<span class="nocheck">审核不通过</span>
-                        {{else Status==7}}<span class="pass">审核通过</span>{{/if}}
+                        {{else}}<span class="pass">审核通过</span>{{/if}}
                     </div>
                     <div id="div_score_statis" class="fr status"></div>
                 </div>
@@ -239,7 +239,7 @@
                     {{else AuditStatus==2}}<span class="nocheck">审核不通过</span>
                     {{else}} <span class="assigning">审核通过</span>{{/if}}
                 </div>
-                <div class="fr status">奖金：${Money}万，已分：<span>${HasAllot}万</span></div>
+                <div class="fr status">奖金：${Money}万，已分：<span>{{if AuditStatus==0&&cur_ResponUID!=$('#CreateUID').val()}}0{{else}}${HasAllot}{{/if}}万</span></div>
             </div>
             <table class="allot_table mt10  ">
                 <thead>
@@ -323,7 +323,7 @@
     <script src="BaseUse.js"></script>
     <script type="text/javascript">
         var UrlDate = new GetUrlDate();
-        var cur_AchieveId = UrlDate.Id,cur_AchieveType=1;
+        var cur_AchieveId = UrlDate.Id;
         $(function () {
             $("#CreateUID").val(GetLoginUser().UniqueNo);            
             var Id = UrlDate.Id;
@@ -354,12 +354,10 @@
                 if (model.Status <= 6) {
                     $(".btnwrap2").show();
                 }               
-                $(".re_view").hide();
             }
             else {
                 $(".checkmes").show();
                 $(".btnwrap2").hide();
-                $(".re_view").show();
             }
         }       
         //绑定成员信息
@@ -384,27 +382,12 @@
                         if (model.AchieveType == 3) { //教材建设类                          
                             $("#tr_Info").tmpl(json.result.retData).appendTo("#tb_info");                          
                             $("#tr_Info1").tmpl(json.result.retData).appendTo("#tb_Member1");
-                            var $span_Words = $('#span_Words');
-                            var curwords = 0;
-                            $(json.result.retData).each(function (i, n) {
-                                if (n.WordNum) {
-                                    curwords= numAdd(curwords,n.WordNum);
-                                }
-                            });
-                            $span_Words.html(curwords);
-                            Set_BookScore();
+                            GetAchieveUser_Score(json.result.retData);
                             $("#div_score_statis").html($("#div_user_book").html());
                         } else {  //其他类型
                             $("#tr_MemEdit").tmpl(json.result.retData).appendTo("#tb_Member");
                             $("#tr_MemEdit1").tmpl(json.result.retData).appendTo("#tb_Member1");
-                            var $span_CurScore = $('#span_CurScore');
-                            var curscore = 0;
-                            $(json.result.retData).each(function (i, n) {
-                                if (n.Score) {
-                                    curscore = numAdd(curscore,n.Score);
-                                }                                
-                            });
-                            $span_CurScore.html(curscore);
+                            GetAchieveUser_Score(json.result.retData);
                             $("#div_score_statis").html($("#div_user_mem").html());
                         }                        
                     }
@@ -413,20 +396,9 @@
                     layer.msg(errMsg);
                 }
             });
-        }
-        //为业绩赋总分
-        function SetScore_LooK(model) {
-            $(".score").html("分数：" + model.TotalScore + "分" + (model.AchieveType == "2" ? "/万字" : ""));
-            if (model.AchieveType == "3" && model.ScoreType == "2") {
-                Set_BookScore();
-            }
-            $span_AllScore = $('#span_AllScore');
-            if ($span_AllScore) {
-                $span_AllScore.html(model.TotalScore);
-            }
-        }
+        }        
         function Check(Status) {
-            var responName=$("#ResponsMan").html();
+            var responName=cur_ResponName;
             var hisArray=[];
             if(Status==7){
                 $("#tb_Member1 tr").each(function(){
@@ -457,7 +429,7 @@
         }
         //奖金分配审核
         function AllotAudit(status,id,rownum){
-            var responName=$("#ResponsMan").html();
+            var responName=cur_ResponName;
             var $cur_tb=$("#tb_Member_"+rownum),rew_batchid=$cur_tb.attr('rewid');//追加奖金Id
             var hisArray=[];
             if(status==3){

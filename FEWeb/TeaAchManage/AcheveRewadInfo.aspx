@@ -89,12 +89,12 @@
                     </div>
                     <div class="input_lable fl">
                         <label for="">奖励等级：</label>
-                        <select class="select" isrequired="true" fl="奖励等级" name="Rid" id="Rid" onchange="SetScore();BindRank();"></select>
+                        <select class="select" isrequired="true" fl="奖励等级" name="Rid" id="Rid" onchange="BindRank();"></select>
                     </div>
                      {{if AchieveType==2}}
                     <div class="input_lable fl">
                         <label for="">排名：</label>
-                        <select class="select" name="Sort" id="Sort" onchange="SetScore('#Sort');"></select>
+                        <select class="select" name="Sort" id="Sort" onchange="SetScore();"></select>
                     </div>
                     {{/if}}
                     <div class="input_lable fl">
@@ -207,6 +207,7 @@
         var UrlDate = new GetUrlDate();
         var achieve_add_noaudit = false;//无需审核
         var AchieveType = UrlDate.Type;
+        cur_AchieveType = AchieveType;
         $(function () {
             $("#CreateUID").val(GetLoginUser().UniqueNo);
             Get_PageBtn("/TeaAchManage/AchManage.aspx");
@@ -253,6 +254,7 @@
         }
         function BindRank() {
             $("#Sort").html('<option value="" ss="0">请选择</option>');
+            SetScore();
             if ($("#Rid").val() != "") {
                 $.ajax({
                     url: HanderServiceUrl + "/TeaAchManage/AchRewardInfo.ashx",
@@ -320,7 +322,7 @@
                         layer.msg("请至少添加五个成员信息!");
                         return;
                     }
-                    if (Num_Fixed($('#span_AllScore').html()) < Num_Fixed($('#span_CurScore').html())) {
+                    if (Number($('#span_AllScore').html()) < Number($('#span_CurScore').html())) {
                         layer.msg("已分配分数不能大于总分！");
                         return;
                     }
@@ -396,6 +398,7 @@
             $("#Lid").html('<option value="">请选择</option>');
             $("#Rid").html('<option value="" ss="0">请选择</option>');
             $("#Sort").html('<option value="" ss="0">请选择</option>');
+            SetScore();
             if (!$("#DefindDate").val().trim().length) {
                 layer.msg("请先指定认定日期");
                 return;
@@ -425,6 +428,7 @@
         function BindRewardInfo() {
             $("#Rid").html('<option value="" ss="0">请选择</option>');
             $("#Sort").html('<option value="" ss="0">请选择</option>');
+            SetScore();
             if ($("#Lid").val() != "") {
                 $.ajax({
                     url: HanderServiceUrl + "/TeaAchManage/AchManage.ashx",

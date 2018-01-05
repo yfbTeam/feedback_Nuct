@@ -64,7 +64,7 @@
                         <span class="operate_none bg_gray">分配</span>
                     </div>
                    {{/if}} 
-                    {{if Status==7||Status==8||Status==9||Status==11}} 
+                    {{if Status>=7}} 
                     <div class="operate" onclick="OpenIFrameWindow('奖金分配','RewardAllot.aspx?AcheiveId=${Id}&AchieveType=${AchieveType}','1000px','700px')">
                         <i class="iconfont color_purple">&#xe6c2;</i>
                         <span class="operate_none bg_purple">分配</span>

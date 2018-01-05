@@ -139,6 +139,7 @@
         var UrlDate = new GetUrlDate();
         var achieve_add_noaudit = false;//无需审核
         $(function () {
+            cur_AchieveType = 5;
             $("#CreateUID").val(GetLoginUser().UniqueNo);
             Get_PageBtn("/TeaAchManage/AchManage.aspx");
             achieve_add_noaudit = JudgeBtn_IsExist("achieve_add_noaudit");
@@ -149,53 +150,7 @@
             BindDepart("DepartMent");
             BindGInfo();
             var Id = UrlDate.Id;
-            if (Id != undefined) {
-                $("#Gid").attr("disabled", "disabled");
-                $("#Lid").attr("disabled", "disabled");
-                $("#Rid").attr("disabled", "disabled");
-                $("#Id").val(Id);
-                GetDataById(Id);
-            }
-        })
-        function GetDataById() {
-            $.ajax({
-                url: HanderServiceUrl + "/TeaAchManage/AchRewardInfo.ashx",
-                type: "post",
-                dataType: "json",
-                data: { "Func": "GetAcheiveRewardInfoData", "IsPage": "false", Id: UrlDate.Id },
-                success: function (json) {
-                    if (json.result.errMsg == "success") {
-                        $(json.result.retData).each(function () {
-                            $("#Name").val(this.Name);
-                            $("#Gid").val(this.Gid);
-                            BindLinfo();
-                            $("#Lid").val(this.Lid);
-                            BindRewardInfo();
-                            $("#Rid").val(this.Rid);
-                            SetScore();
-                            $("#Year").val(this.Year);
-                            $("#ResponsMan").val(this.ResponsMan);                          
-                            $("#DepartMent").val(this.DepartMent);
-                            $("#DepartMent").trigger("chosen:updated");
-                            $("#DepartMent").chosen();
-                            $("#FileEdionNo").val(this.FileEdionNo);
-                            $("#FileNames").val(this.FileNames);
-                            $("#DefindDate").val(this.DefindDate);
-                            $("#DefindDepart").val(this.DefindDepart);
-                            if (this.Status == "0") {
-                                $(".btn").show();
-                            }
-                            else {
-                                $(".btn").hide();
-                            }
-                        });
-                    }
-                },
-                error: function () {
-                    //接口错误时需要执行的
-                }
-            });
-        }
+        });
         //提交按钮
         function Save(s_type) {
             var department = $("#DepartMent").val();
@@ -254,7 +209,7 @@
         function BindGInfo() {
             $("#Gid").html('<option value="">请选择</option>');
             $("#Lid").html('<option value="">请选择</option>');
-            $("#Rid").html('<option value="" ss="0">请选择</option>');           
+            $("#Rid").html('<option value="" ss="0">请选择</option>');  
             $.ajax({
                 url: HanderServiceUrl + "/TeaAchManage/AchManage.ashx",
                 type: "post",
@@ -277,6 +232,7 @@
         function BindLinfo() {
             $("#Lid").html('<option value="">请选择</option>');
             $("#Rid").html('<option value="" ss="0">请选择</option>');
+            SetScore();
             if (!$("#DefindDate").val().trim().length) {
                 layer.msg("请先指定认定日期");
                 return;
@@ -306,6 +262,7 @@
         //奖励等级
         function BindRewardInfo() {
             $("#Rid").html('<option value="" ss="0">请选择</option>');
+            SetScore();
             if ($("#Lid").val() != "") {
                 $.ajax({
                     url: HanderServiceUrl + "/TeaAchManage/AchManage.ashx",

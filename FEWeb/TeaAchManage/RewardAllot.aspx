@@ -34,7 +34,7 @@
                     {{else AuditStatus==2}}<span class="nocheck">审核不通过</span>
                     {{else}} <span class="assigning">审核通过</span>{{/if}}
                 </div>
-                <div class="fr status">奖金：${Money}万，已分：<span>${HasAllot}万</span></div>
+                <div class="fr status">奖金：<span id="span_AllMoney_${rowNum}">${Money}</span>万，已分：<span id="span_HasAllot_${rowNum}">${HasAllot}</span>万</div>
             </div>
             <table class="allot_table mt10  ">
                 <thead>
@@ -63,12 +63,12 @@
                                 <td>${mem.Sort}</td>
                                 <td>${mem.Major_Name}</td>
                                 <td>${mem.WordNum}</td>
-                                <td class="td_money">{{if  AuditStatus==10||AuditStatus==0||AuditStatus==2}}<input type="number" isrequired="true" regtype="money" fl="奖金" min="0" step="0.01">{{/if}}</td>
+                                <td class="td_money">{{if  AuditStatus==10||AuditStatus==0||AuditStatus==2}}<input type="number" isrequired="true" regtype="money" fl="奖金" min="0" step="0.01" onblur="Change_UserMoney(this);">{{/if}}</td>
                                 {{else}}
                                  {{if UrlDate.AchieveType==5&&AuditStatus==10}}
                                    <td class="td_money"><input type="number" value="${Money}" isrequired="true" regtype="money" fl="奖金" min="0" step="0.01"></td>
                                  {{else}}
-                                 <td class="td_money">{{if  AuditStatus==10||AuditStatus==0||AuditStatus==2}}<input type="number" isrequired="true" regtype="money" fl="奖金" min="0" step="0.01">{{/if}}</td>
+                                 <td class="td_money">{{if  AuditStatus==10||AuditStatus==0||AuditStatus==2}}<input type="number" isrequired="true" regtype="money" fl="奖金" min="0" step="0.01" onblur="Change_UserMoney(this);">{{/if}}</td>
                                  {{/if}}
                                 <td>${mem.Major_Name}</td>
                                 <td>${DateTimeConvert(mem.CreateTime,"yyyy-MM-dd")}</td>
@@ -232,7 +232,7 @@
                     if (json.result.errNum.toString() == "0") {
                         Member_Data = json.result;
                     }
-                    Get_RewardBatchData();
+                    Get_RewardBatchData("","","2");       
                 },
                 error: function (errMsg) {
                     layer.msg(errMsg);
@@ -240,11 +240,19 @@
             });
         }        
         function SaveAllot(status,rownum){
+            if (Number($('#span_AllMoney_'+rownum).html()) < Number($('#span_HasAllot_'+rownum).html())) {
+                layer.msg("已分配奖金不能大于总奖金！");
+                return;
+            }
             if (status == 1) {
                 var valid_flag = validateForm($('#tb_Member_'+rownum+' input[type="number"]'));
                 if (valid_flag != "0")
                 {
                     return false;
+                }
+                if ($("#uploader_"+rownum+" .filelist li").length <= 0) {
+                    layer.msg("请上传附件!");
+                    return;
                 }
                 layer.confirm('确认提交吗？提交后将不能进行修改', {
                     btn: ['确定', '取消'], //按钮
@@ -278,7 +286,7 @@
                     if (json.result.errNum == 0) {
                         layer.msg('操作成功!');
                         Del_Document(upfileid);
-                        Get_RewardBatchData();                       
+                        Get_RewardBatchData("","","2");                       
                     } else if (json.result.errNum == -1) {
 
                     }
