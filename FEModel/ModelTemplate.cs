@@ -483,6 +483,62 @@ namespace FEModel
 	///	
 	/// </summary>
 	[Serializable]
+    public partial class TMP_RewardRank
+    {
+
+		/// <summary>
+		/// 
+		/// </summary>
+		public int? Id { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public int? RId { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public string Name { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public int? RankNum { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public decimal? Score { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public string CreateUID { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public DateTime? CreateTime { get; set; }
+
+          public override bool Equals(object obj)
+        {
+            bool result = false;
+            if (obj.GetType() == typeof(TMP_RewardRank))
+            {
+                TMP_RewardRank _obj = obj as TMP_RewardRank;
+                if (_obj.Id == this.Id)
+                {
+                    result = true;
+                }
+            }
+            return result;
+        }
+
+	    public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
+    }
+
+	/// </summary>
+	///	
+	/// </summary>
+	[Serializable]
     public partial class AssetManagement
     {
 
@@ -753,62 +809,6 @@ namespace FEModel
             if (obj.GetType() == typeof(ClassInfo))
             {
                 ClassInfo _obj = obj as ClassInfo;
-                if (_obj.Id == this.Id)
-                {
-                    result = true;
-                }
-            }
-            return result;
-        }
-
-	    public override int GetHashCode()
-        {
-            return base.GetHashCode();
-        }
-    }
-
-	/// </summary>
-	///	
-	/// </summary>
-	[Serializable]
-    public partial class TMP_RewardRank
-    {
-
-		/// <summary>
-		/// 
-		/// </summary>
-		public int? Id { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public int? RId { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public string Name { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public int? RankNum { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public int? Score { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public string CreateUID { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public DateTime? CreateTime { get; set; }
-
-          public override bool Equals(object obj)
-        {
-            bool result = false;
-            if (obj.GetType() == typeof(TMP_RewardRank))
-            {
-                TMP_RewardRank _obj = obj as TMP_RewardRank;
                 if (_obj.Id == this.Id)
                 {
                     result = true;

@@ -80,21 +80,21 @@
                      {{/if}}
                     <div class="input_lable fl">
                         <label for="">奖励项目：</label>
-                        <select class="select" isrequired="true" fl="奖励项目" name="Gid" id="Gid" onchange="BindLinfo()"></select>
+                        <select class="select" isrequired="true" fl="奖励项目" name="Gid" id="Gid" onchange="BindLinfo();SetScore();"></select>
                     </div>
                     <div class="input_lable fl">
                         <label for="">获奖级别：</label>
-                        <select class="select" isrequired="true" fl="获奖级别" name="Lid" id="Lid" onchange="BindRewardInfo()"></select>
+                        <select class="select" isrequired="true" fl="获奖级别" name="Lid" id="Lid" onchange="BindRewardInfo();SetScore();"></select>
                     </div>
 
                     <div class="input_lable fl">
                         <label for="">奖励等级：</label>
-                        <select class="select" isrequired="true" fl="奖励等级" name="Rid" id="Rid" onchange="SetScore();BindRank();"></select>
+                        <select class="select" isrequired="true" fl="奖励等级" name="Rid" id="Rid" onchange="BindRank();SetScore();"></select>
                     </div>
                      {{if AchieveType==2}}
                     <div class="input_lable fl">
                         <label for="">排名：</label>
-                        <select class="select" name="Sort" id="Sort" onchange="SetScore('#Sort');"></select>
+                        <select class="select" name="Sort" id="Sort" onchange="SetScore();"></select>
                     </div>
                      {{/if}}
                     <div class="input_lable fl">
@@ -118,7 +118,7 @@
                         <input type="button" name="name" id="" value="添加" class="btn fl" onclick="javascript: OpenIFrameWindow('添加成员','AddAchMember.aspx', '1000px', '700px');">
                         <input type="button" name="name" id="" value="删除" class="btn fl ml20" onclick="Del_HtmlMember();">
                         <span class="fr status">已分：<span id="span_CurScore">0</span>分</span>
-                        <span class="fr status">总分：<span id="span_AllScore">0</span>分，</span>
+                        <span class="fr status">总分：<span id="span_AllScore">${TotalScore}</span>分，</span>
                     </div>
                     <table class="allot_table mt10">
                         <thead>
@@ -257,8 +257,7 @@
                         BindRewardInfo();
                         $("#Rid").val(model.Rid);
                         BindRank();
-                        $("#Sort").val(model.Sort);
-                        SetScore();                                            
+                        $("#Sort").val(model.Sort);                                                                 
                         BindFile_Plugin();
                         Get_Sys_Document(0, $("#Id").val());
                         BindUser("ResponsMan");
@@ -310,7 +309,7 @@
             });
         }        
         function BindRank() {
-            $("#Sort").html('<option value="" ss="0">请选择</option>');
+            $("#Sort").html('<option value="" ss="0">请选择</option>');            
             if ($("#Rid").val() != "") {
                 $.ajax({
                     url: HanderServiceUrl + "/TeaAchManage/AchRewardInfo.ashx",
@@ -467,7 +466,7 @@
         function BindLinfo() {           
             $("#Lid").html('<option value="">请选择</option>');
             $("#Rid").html('<option value="" ss="0">请选择</option>');
-            $("#Sort").html('<option value="" ss="0">请选择</option>');
+            $("#Sort").html('<option value="" ss="0">请选择</option>');            
             if (!$("#DefindDate").val().trim().length) {
                 layer.msg("请先指定认定日期");
                 return;
@@ -497,7 +496,7 @@
         //奖励等级
         function BindRewardInfo() {
             $("#Rid").html('<option value="" ss="0">请选择</option>');
-            $("#Sort").html('<option value="" ss="0">请选择</option>');
+            $("#Sort").html('<option value="" ss="0">请选择</option>');            
             if ($("#Lid").val() != "") {
                 $.ajax({
                     url: HanderServiceUrl + "/TeaAchManage/AchManage.ashx",

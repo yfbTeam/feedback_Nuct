@@ -63,6 +63,14 @@ namespace FEIDAL
 	/// </summary>
 	///	
 	/// </summary>
+    public interface ITMP_RewardRankDal: IBaseDal<TMP_RewardRank>
+    {
+		
+    }
+
+	/// </summary>
+	///	
+	/// </summary>
     public interface IAssetManagementDal: IBaseDal<AssetManagement>
     {
 		
@@ -88,14 +96,6 @@ namespace FEIDAL
 	///	
 	/// </summary>
     public interface IClassInfoDal: IBaseDal<ClassInfo>
-    {
-		
-    }
-
-	/// </summary>
-	///	
-	/// </summary>
-    public interface ITMP_RewardRankDal: IBaseDal<TMP_RewardRank>
     {
 		
     }
@@ -335,14 +335,6 @@ namespace FEIDAL
 	/// </summary>
 	///	
 	/// </summary>
-    public interface IEva_QuestionAnswer_HeaderDal: IBaseDal<Eva_QuestionAnswer_Header>
-    {
-		
-    }
-
-	/// </summary>
-	///	
-	/// </summary>
     public interface IStudentDal: IBaseDal<Student>
     {
 		
@@ -432,6 +424,14 @@ namespace FEIDAL
 	///	系统日志数据处理接口类9
 	/// </summary>
     public interface ISys_LogInfoDal: IBaseDal<Sys_LogInfo>
+    {
+		
+    }
+
+	/// </summary>
+	///	
+	/// </summary>
+    public interface IEva_QuestionAnswer_HeaderDal: IBaseDal<Eva_QuestionAnswer_Header>
     {
 		
     }

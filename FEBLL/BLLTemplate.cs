@@ -82,6 +82,17 @@ namespace FEBLL
 	/// </summary>
 	///	
 	/// </summary>
+    public partial class TMP_RewardRankService:BaseService<TMP_RewardRank>,ITMP_RewardRankService
+    {
+	 public override void SetCurrentDal()
+        {
+            CurrentDal = DalFactory.GetTMP_RewardRankDal();
+        }
+    }	
+
+	/// </summary>
+	///	
+	/// </summary>
     public partial class AssetManagementService:BaseService<AssetManagement>,IAssetManagementService
     {
 	 public override void SetCurrentDal()
@@ -120,17 +131,6 @@ namespace FEBLL
 	 public override void SetCurrentDal()
         {
             CurrentDal = DalFactory.GetClassInfoDal();
-        }
-    }	
-
-	/// </summary>
-	///	
-	/// </summary>
-    public partial class TMP_RewardRankService:BaseService<TMP_RewardRank>,ITMP_RewardRankService
-    {
-	 public override void SetCurrentDal()
-        {
-            CurrentDal = DalFactory.GetTMP_RewardRankDal();
         }
     }	
 
@@ -456,17 +456,6 @@ namespace FEBLL
 	/// </summary>
 	///	
 	/// </summary>
-    public partial class Eva_QuestionAnswer_HeaderService:BaseService<Eva_QuestionAnswer_Header>,IEva_QuestionAnswer_HeaderService
-    {
-	 public override void SetCurrentDal()
-        {
-            CurrentDal = DalFactory.GetEva_QuestionAnswer_HeaderDal();
-        }
-    }	
-
-	/// </summary>
-	///	
-	/// </summary>
     public partial class StudentService:BaseService<Student>,IStudentService
     {
 	 public override void SetCurrentDal()
@@ -593,6 +582,17 @@ namespace FEBLL
 	 public override void SetCurrentDal()
         {
             CurrentDal = DalFactory.GetSys_LogInfoDal();
+        }
+    }	
+
+	/// </summary>
+	///	
+	/// </summary>
+    public partial class Eva_QuestionAnswer_HeaderService:BaseService<Eva_QuestionAnswer_Header>,IEva_QuestionAnswer_HeaderService
+    {
+	 public override void SetCurrentDal()
+        {
+            CurrentDal = DalFactory.GetEva_QuestionAnswer_HeaderDal();
         }
     }	
 }

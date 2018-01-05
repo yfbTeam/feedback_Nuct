@@ -61,6 +61,14 @@ namespace FEIBLL
 	/// </summary>
 	///	
 	/// </summary>
+    public interface ITMP_RewardRankService:IBaseService<TMP_RewardRank>
+    {
+
+    }	
+
+	/// </summary>
+	///	
+	/// </summary>
     public interface IAssetManagementService:IBaseService<AssetManagement>
     {
 
@@ -86,14 +94,6 @@ namespace FEIBLL
 	///	
 	/// </summary>
     public interface IClassInfoService:IBaseService<ClassInfo>
-    {
-
-    }	
-
-	/// </summary>
-	///	
-	/// </summary>
-    public interface ITMP_RewardRankService:IBaseService<TMP_RewardRank>
     {
 
     }	
@@ -333,14 +333,6 @@ namespace FEIBLL
 	/// </summary>
 	///	
 	/// </summary>
-    public interface IEva_QuestionAnswer_HeaderService:IBaseService<Eva_QuestionAnswer_Header>
-    {
-
-    }	
-
-	/// </summary>
-	///	
-	/// </summary>
     public interface IStudentService:IBaseService<Student>
     {
 
@@ -430,6 +422,14 @@ namespace FEIBLL
 	///	系统日志业务类9
 	/// </summary>
     public interface ISys_LogInfoService:IBaseService<Sys_LogInfo>
+    {
+
+    }	
+
+	/// </summary>
+	///	
+	/// </summary>
+    public interface IEva_QuestionAnswer_HeaderService:IBaseService<Eva_QuestionAnswer_Header>
     {
 
     }	
