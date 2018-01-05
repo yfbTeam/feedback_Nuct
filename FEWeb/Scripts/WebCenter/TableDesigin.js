@@ -1120,16 +1120,10 @@ var UI_Table_View = {
     IsPage_Display: false,
     TableView_Init: function (retData) {
 
-        $("#table_view").empty();
-
-        $(".tablename").html(retData.Name);
+        $("#table_view").empty();       
         for (var i in retData.Table_Detail_Dic_List) {
             $("#item_table_view").tmpl(retData.Table_Detail_Dic_List[i]).appendTo("#table_view");
-        }
-        if (retData.IsScore == 1) {
-            $(".isscore").hide();
-        }
-        UI_Table_View.IsScore = retData.IsScore;
+        }       
     },
 
     headerInit: function (retData) {
@@ -1142,6 +1136,12 @@ var UI_Table_View = {
     },
 
     scoreInit: function (retData) {
+
+        if (retData.IsScore == 1) {
+            $(".isscore").hide();
+        }
+        UI_Table_View.IsScore = retData.IsScore;
+
         var sp_total = 0;
         for (var i in retData.Table_Detail_Dic_List) {
             var data = retData.Table_Detail_Dic_List[i];
@@ -1173,12 +1173,13 @@ var UI_Table_View = {
 
                 var retData = json.result.retData;
                 console.log(retData);
+                $(".tablename").html(retData.Name);
                 switch (UI_Table_View.PageType) {
                     case 'TableView':
                         UI_Table_View.TableView_Init(retData);
                         UI_Table_View.headerInit(retData);
                         UI_Table_View.scoreInit(retData);
-                        scoreInit
+                        
                         break;
                     case 'selectTable':
                         UI_Table_View.TableView_Init(retData);
@@ -1191,6 +1192,10 @@ var UI_Table_View = {
                     case 'EvalTable':
                         UI_Table_View.TableView_Init(retData);
                         UI_Table_View.scoreInit(retData);
+                        break;
+
+                    case 'detailModal':
+                        
                         break;
                     case 'AddEvalTable':
 
@@ -1279,7 +1284,7 @@ var UI_Table_View = {
                         break;
                     default:
                 }
-                UI_Table_View.Get_Eva_TableDetail_Compleate();
+                UI_Table_View.Get_Eva_TableDetail_Compleate(retData);
 
             },
             error: function () {

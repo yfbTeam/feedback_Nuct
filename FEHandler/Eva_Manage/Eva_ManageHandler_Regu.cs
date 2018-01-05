@@ -362,6 +362,7 @@ namespace FEHandler.Eva_Manage
                                                        QuestionCount = 0,
                                                        QuestionAve = 0,
                                                        ScoreAve = 0,
+                                                       TableID = regu.TableID,
                                                    }).ToList();
 
 

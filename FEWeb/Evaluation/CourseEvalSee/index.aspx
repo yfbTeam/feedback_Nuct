@@ -111,9 +111,9 @@
             <td style="width: 7%">${StudentCount}</td>
             <td style="width: 5%">${QuestionCount}</td>
             <td style="width: 5%">${QuestionAve}</td>
-            <td style="width: 5 %">${ScoreAve}</td>
+            <td style="width: 5%">${ScoreAve}</td>
             <td class="operate_wrap">
-                <div class="operate" onclick="location.href='detailModal.aspx?Id='+getQueryString('Id')+'&Iid='+getQueryString('Iid')+''">
+                <div class="operate" onclick="location.href='detailModal.aspx?Id='+getQueryString('Id')+'&Iid='+getQueryString('Iid')+'&TableID='+'${TableID}'">
                     <i class="iconfont color_purple">&#xe60b;</i>
                     <span class="operate_none bg_purple">查看</span>
                 </div>

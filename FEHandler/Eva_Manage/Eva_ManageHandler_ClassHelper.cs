@@ -1096,6 +1096,8 @@ namespace FEHandler.Eva_Manage
         public int QuestionAve { get; set; }
 
         public int ScoreAve { get; set; }
+
+        public int? TableID { get; set; }
     }
 
     public class Eva_QuestionModel
