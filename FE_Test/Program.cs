@@ -22,7 +22,17 @@ namespace FE_Test
            //var d = Constant.IndicatorType_List;
 
             //CourseInfoHandler.GetCourseInfo_SelectHelper(1, "0");
-            Eva_ManageHandler.Get_Eva_TableHelper(1, "");
+            //Eva_ManageHandler.Get_Eva_TableHelper(1, "");
+
+            foreach (var item in Constant.CourseRoom_List)
+            {
+                var course = Constant.Course_List.FirstOrDefault(i => i.UniqueNo == item.Coures_Id);
+                if(course != null)
+                {
+                    item.CouresName = course.Name;
+                    Constant.CourseRoomService.Update(item);
+                }
+            }
 
         }
 

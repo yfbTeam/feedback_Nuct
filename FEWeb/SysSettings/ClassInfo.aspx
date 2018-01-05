@@ -165,6 +165,11 @@
 
             GetClassInfoSelect();
 
+            $("#DP,#CT,#CP,#TD,#TN,#MD,#GD,#CN").on('change', function () {
+                pageIndex = 0;
+                GetClassInfo(pageIndex);
+            });
+
             $("#section").on('change', function () {
                 pageIndex = 0;
                 GetClassInfo(pageIndex);

@@ -216,6 +216,8 @@ function EditQuestion(Id) {
 
 var pageSize = 10;
 var pageIndex = 0;
+var Mode = 1;  //Check  Record
+var AnswerUID = ''; //专家，不填则为管理员
 function Get_Eva_QuestionAnswer(PageIndex, SectionID, DepartmentID, Key, TableID) {
     index_layer = layer.load(1, {
         shade: [0.1, '#fff'] //0.1透明度的白色背景
@@ -227,7 +229,7 @@ function Get_Eva_QuestionAnswer(PageIndex, SectionID, DepartmentID, Key, TableID
         dataType: "json",
         data: {
             func: "Get_Eva_QuestionAnswer", "SectionID": SectionID, "DepartmentID": DepartmentID,
-            "TableID": TableID, "Key": Key,
+            "TableID": TableID, "Key": Key, "AnswerUID": AnswerUID, "Mode": Mode,
             "PageIndex": PageIndex, "PageSize": pageSize
         },
         dataType: "json",
@@ -292,7 +294,8 @@ function Remove_Eva_QuestionAnswer(Id) {
         dataType: "json",
         success: function (returnVal) {
             if (returnVal.result.errMsg == "success") {
-                layer.msg('操作成功!');               
+                layer.msg('操作成功!');
+                Reflesh();
                 Remove_Eva_QuestionAnswerCompleate();
             }
             else {
@@ -361,11 +364,39 @@ function Get_Eva_QuestionAnswerDetail(Id) {
                     default:
 
                 }
-
-
             }
             else {
 
+            }
+        },
+        error: function () {
+            //接口错误时需要执行的
+        }
+    });
+}
+
+
+function Change_Eva_QuestionAnswer_StateCompleate() { };
+function Change_Eva_QuestionAnswer_State(Id) {
+    $.ajax({
+        url: HanderServiceUrl + "/Eva_Manage/Eva_ManageHandler.ashx",
+        type: "post",
+        async: false,
+        dataType: "json",
+        data: {
+            func: "Change_Eva_QuestionAnswer_State", "Id": Id, "State": State
+        },
+        dataType: "json",
+        success: function (returnVal) {
+            if (returnVal.result.errMsg == "success") {
+                layer.msg('操作成功!');
+                parent.Reflesh();
+                Change_Eva_QuestionAnswer_StateCompleate();
+                setTimeout(function () { parent.CloseIFrameWindow(); }, 400);
+                
+            }
+            else {
+                layer.msg('操作失败!');
             }
         },
         error: function () {

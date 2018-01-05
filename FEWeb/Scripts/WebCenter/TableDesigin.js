@@ -1141,8 +1141,7 @@ var UI_Table_View = {
         $("#item_check2").tmpl(head_value).appendTo("#list");
     },
 
-    scoreInit: function (retData)
-    {
+    scoreInit: function (retData) {
         var sp_total = 0;
         for (var i in retData.Table_Detail_Dic_List) {
             var data = retData.Table_Detail_Dic_List[i];

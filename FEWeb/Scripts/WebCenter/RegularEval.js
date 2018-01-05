@@ -6,7 +6,10 @@ var select_sectionid = null;
 var pageSize = 10;
 var SelectUID = '';
 var SectionID = 0;
+var ReguID = 0;
 var Te = '';
+var RP = '';
+var Gr = '';
 
 //============================================================================================
 function PrepareInit() {
@@ -427,8 +430,71 @@ function Get_Eva_RegularData(Id, PageIndex) {
     });
 }
 
+
+function Get_Eva_RegularData_Room(PageIndex) {
+    var postData = {
+        func: "Get_Eva_RegularData_Room", "PageIndex": PageIndex,
+        "PageSize": pageSize,
+        "SectionID": SectionID, "ReguID": ReguID,
+        "Te": Te, "RP": RP, "Gr": Gr, "Key": $('#key').val(),
+    };
+    layer_index = layer.load(1, {
+        shade: [0.1, '#fff'] //0.1透明度的白色背景
+    });
+    $.ajax({
+        type: "Post",
+        url: HanderServiceUrl + "/Eva_Manage/Eva_ManageHandler.ashx",
+        data: postData,
+        dataType: "json",
+        success: function (returnVal) {
+            if (returnVal.result.errMsg == "success") {
+                var data = returnVal.result.retData;
+                debugger;
+                layer.close(layer_index);
+
+                $('#ShowCourseInfo').empty();
+
+                if (data.length <= 0) {
+                    nomessage('#ShowCourseInfo');
+                    $('#pageBar').hide();
+                    return;
+                }
+                else {
+                    $('#pageBar').show();
+                }
+                console.log(returnVal)
+                $("#itemData").tmpl(data).appendTo("#ShowCourseInfo");
+                tableSlide();
+                laypage({
+                    cont: 'pageBar', //容器。值支持id名、原生dom对象，jquery对象。【如该容器为】：<div id="page1"></div>
+                    pages: returnVal.result.PageCount, //通过后台拿到的总页数
+                    curr: returnVal.result.PageIndex || 1, //当前页
+                    skip: true, //是否开启跳页
+                    skin: '#CA90B0',
+                    groups: 10,
+                    jump: function (obj, first) { //触发分页后的回调
+                        if (!first) { //点击跳页触发函数自身，并传递当前页：obj.curr                                       
+                            Get_Eva_RegularData_Room(obj.curr)
+                            pageIndex = obj.curr;
+                        }
+                    }
+                });
+                $("#itemCount").tmpl(returnVal.result).appendTo(".laypage_total");
+            }
+            else {
+                layer.msg(returnVal.result.retData);
+            }
+        },
+        error: function (errMsg) {
+
+        }
+    });
+}
+
+
+
 function Get_Eva_RegularDataSelectCompleate() { }
-function Get_Eva_RegularDataSelect() {   
+function Get_Eva_RegularDataSelect() {
     var postData = {
         func: "Get_Eva_RegularDataSelect", "SelectUID": SelectUID, "SectionID": SectionID
     };
@@ -452,7 +518,7 @@ function Get_Eva_RegularDataSelect() {
                     $("#Te").append(str);
                 });
                 ChosenInit($('#Te'));
-              
+
                 Get_Eva_RegularDataSelectCompleate();
             }
             else {
@@ -482,6 +548,39 @@ function Delete_Eva_Regular(Id) {
             if (returnVal.result.errMsg == "success") {
                 layer.msg('操作成功');
                 Delete_Eva_RegularCompleate();
+            }
+            else {
+                layer.msg(returnVal.result.retData);
+            }
+        },
+        error: function (errMsg) {
+
+        }
+    });
+}
+
+
+var Type = 1;
+function Get_Eva_Regular_SelectCompleate() { };
+function Get_Eva_Regular_Select() {
+    var postData = {
+        func: "Get_Eva_Regular_Select", "Type": Type, "SectionID": SectionID
+    };
+    $.ajax({
+        type: "Post",
+        url: HanderServiceUrl + "/Eva_Manage/Eva_ManageHandler.ashx",
+        data: postData,
+        dataType: "json",
+        success: function (returnVal) {
+            if (returnVal.result.errMsg == "success") {
+
+                var obj = returnVal.result.retData;
+                obj.RgList.forEach(function (item) {
+                    var str = str = "<option value='" + item.ReguId + "'>" + item.ReguName + "</option>";
+                    $("#Rg").append(str);
+                });
+                ChosenInit($('#Rg'));
+                Get_Eva_Regular_SelectCompleate();
             }
             else {
                 layer.msg(returnVal.result.retData);

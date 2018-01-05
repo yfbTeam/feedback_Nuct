@@ -20,6 +20,11 @@
 
         .search_toobar .text {
             width: 165px;
+            margin-top: 1px;
+        }
+
+        .search {
+            margin-top: 1px;
         }
     </style>
 </head>
@@ -48,7 +53,7 @@
                     </select>
                 </div>
                 <div class="fl ml10">
-                    <input type="text" name="" id="Key" placeholder="请输入课程或教师关键字" value="" class="text fl">
+                    <input type="text" name="" id="Key" placeholder="请输入课程、教师关键字" value="" class="text fl">
                     <a class="search fl" href="javascript:;" id="select"><i class="iconfont"></i></a>
                 </div>
 
@@ -63,12 +68,14 @@
                         <tr>
                             <th>序号</th>
                             <th>学年学期</th>
+                            <th>部门</th>
                             <th>教师</th>
                             <th>课程</th>
-                            <th>部门</th>
+
                             <th>评价表名称</th>
-                            <th>状态</th>
+
                             <th>得分</th>
+                            <th>状态</th>
                             <th>操作</th>
                         </tr>
                     </thead>
@@ -99,19 +106,20 @@
         <tr>
             <td style="width: 5%">${Num}</td>
             <td style="width: 5%">${DisPlayName}</td>
+            <td title="${Departent_Name}" style="width: 15%">${cutstr(DepartmentName,30)}</td>
             <td style="width: 7%">${TeacherName}</td>
             <td title="${Course_Name}" style="width: 15%">${cutstr(CourseName,30)}</td>
-            <td title="${Departent_Name}" style="width: 15%">${cutstr(DepartmentName,30)}</td>
-            <td style="width: 30%" title="${TableName}">${cutstr(TableName,45)}</td>
 
+            <td style="width: 30%" title="${TableName}">${cutstr(TableName,45)}</td>
+            <td style="width: 5%">${Score}</td>
             {{if State == 1}}
             <td style="width: 5%"><span class="nosubmit">未提交</span></td>
             {{else State == 2}}
               <td style="width: 5%"><span class="checking1">待审核</span></td>
-            {{else State ==3}}
+            {{else State == 3}}
                <td style="width: 5%"><span class="pass">入库</span></td>
             {{/if}}             
-            <td style="width: 5%">${Score}</td>
+          
             {{if State == 1}}
        <td class="operate_wrap" style="width: 10px">
            <div class="operate" onclick="table_view('${TableID}','${Id}')">
@@ -174,13 +182,11 @@
     <script>
 
         var reguType = 1;
-
         $(function () {
             $('#top').load('/header.html');
             $('#footer').load('/footer.html');
-
+            Mode = 1;
             $('#select').on('click', search);
-
             Base.CheckHasExpertReguCompleate = function (result, data) {
                 if (result) {
                     $('.dian').show();
@@ -232,6 +238,7 @@
             var DepartmentID = $('#DepartMent').val();
             var TableID = $('#table').val();
 
+            AnswerUID = login_User.UniqueNo;
             Get_Eva_QuestionAnswer(pageIndex, SectionID, DepartmentID, Key, TableID);
         }
         function remove(id) {

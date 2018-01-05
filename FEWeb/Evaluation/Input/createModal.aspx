@@ -129,12 +129,19 @@
             $(function () {
                 $('#top').load('/header.html');
                 $('#footer').load('/footer.html');
-
+               
                 Base.bindStudySectionCompleate = function () {
                     $('#section').on('change', function () {
+
+                        SectionID = $('#section').val();
+                        $("#Rg").empty();
+                        $("#Rg").append("<option value=''>全部</option>");
+
                         Get_Eva_RegularDataSelect();
                         Reflesh();
                     });
+                  
+                    Get_Eva_RegularDataSelect();
                 };
                 Base.bindStudySection();
 
@@ -150,7 +157,7 @@
                         Reflesh();
                     });
                 };
-                Get_Eva_RegularDataSelect();
+              
 
                 Base.CheckHasExpertReguCompleate = function (result, data) {
                     $('#btCtrl').empty();
