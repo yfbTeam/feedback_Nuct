@@ -1,11 +1,11 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="NoMessage.aspx.cs" Inherits="FEWeb.NoMessage" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="NoPower.aspx.cs" Inherits="FEWeb.NoPower" %>
 
 <!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>没有内容</title>
+    <title>无权限访问</title>
     <link href="./css/reset.css" rel="stylesheet" />
     <link href="./css/layout.css" rel="stylesheet" />
     <script src="./Scripts/jquery-1.11.2.min.js"></script>   
@@ -15,7 +15,9 @@
     <div class="center" id="centerwrap">
         <div class="wrap">
             <div class="sort_nav" id="threenav"></div>
-            <div id="nomessage"></div>
+            <div style="width:100%;background:url(/images/nostart.jpg) no-repeat center center;height:480px;background-size:20% auto;position:relative">
+                <p style="text-align:center;line-height:30px;color:#999;width:100%;position:absolute;top:350px;">您无权限访问！！！</p>
+            </div>
         </div>
     </div>
     <footer id="footer"></footer>
@@ -25,7 +27,7 @@
         $(function () {
             $('#top').load('/header.html');
             $('#footer').load('/footer.html');
-            nomessage('#nomessage','div')
+            
         });
     </script>
 </body>

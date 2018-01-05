@@ -104,6 +104,7 @@
     <Content Include="js\moment.js" />
     <Content Include="js\vue.min.js" />
     <Content Include="NoMessage.aspx" />
+    <Content Include="NoPower.aspx" />
     <Content Include="Scripts\kkPage\Css.css" />
     <Content Include="Scripts\kkPage\jquery.kkPages.js" />
     <Content Include="Scripts\pdfjs\build\pdf.js" />
@@ -1121,6 +1122,13 @@
     </Compile>
     <Compile Include="NoMessage.aspx.designer.cs">
       <DependentUpon>NoMessage.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="NoPower.aspx.cs">
+      <DependentUpon>NoPower.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="NoPower.aspx.designer.cs">
+      <DependentUpon>NoPower.aspx</DependentUpon>
     </Compile>
     <Compile Include="SysSettings\AllotTable.aspx.cs">
       <DependentUpon>AllotTable.aspx</DependentUpon>

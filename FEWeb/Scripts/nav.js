@@ -47,7 +47,7 @@
                     $('#onenav').append('<li id="li_top_' + n.ID + '" class="' + (twoAry[0].Url == cururl ? "selected" : "") + '"><a href="' + twoAry[0].Url + '?Id=' + n.ID + '&Iid=' + twoAry[0].ID + '"><i class="iconfont">' + n.IconClass + '</i><span>' + n.Name + '</span></a></li>');
                 }
             } else {
-                $('#onenav').append('<li id="li_top_' + n.ID + '" class="' + (n.Url == cururl ? "selected" : "") + '"><a href="' + n.Url + '?Id=' + n.ID + '"><i class="iconfont">' + n.IconClass + '</i><span>' + n.Name + '</span></a></li>');
+                $('#onenav').append('<li id="li_top_' + n.ID + '" class="' + (n.Url == cururl ? "selected" : "") + '"><a href="' + n.Url + '"><i class="iconfont">' + n.IconClass + '</i><span>' + n.Name + '</span></a></li>');
             }
         })
         if ($('#ul_twonav')) {
