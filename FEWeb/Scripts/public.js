@@ -56,7 +56,27 @@ localStorage.setItem('navAry', JSON.stringify(getMenuByRoleid(login_User.Sys_Rol
 var items = JSON.parse(localStorage.getItem('navAry'));
 $(function () {
     BindThreeNav();
+    powerAssign();
 })
+//判断访问权限
+function powerAssign() {
+   var host = 'http://' + window.location.host;
+   var href = window.location.href;
+   var url = href.split(host);
+    if (url[1].indexOf('?') > -1) {
+        url = url[1].slice(0, url[1].indexOf('?'));
+    }
+    var aa  = items.filter(function (item) {
+        return item.Url == url;
+    })
+    if (aa.length == 0) {
+        if (window.location.href.indexOf('/NoPower.aspx') > -1) {
+            return;
+        } else {
+            window.location.href = '/NoPower.aspx';
+        }
+    }
+}
 //根据条件获取导航
 function getNav(Id) {
     return items.filter(function (item) {
