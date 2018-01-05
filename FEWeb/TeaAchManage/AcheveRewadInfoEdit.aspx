@@ -380,7 +380,7 @@
                     }                    
                 }
             }
-            if (UrlDate.Type == "2"&&(Num_Fixed($('#span_AllScore').html()) < Num_Fixed($('#span_CurScore').html()))) {               
+            if (UrlDate.Type == "2" && (Number($('#span_AllScore').html()) < Number($('#span_CurScore').html()))) {
                 layer.msg("已分配分数不能大于总分！");
                 return;
             }

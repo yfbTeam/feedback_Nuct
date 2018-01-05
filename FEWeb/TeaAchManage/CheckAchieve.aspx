@@ -22,7 +22,7 @@
     </style>
     <%--业绩信息--%>
     <script type="text/x-jquery-tmpl" id="div_AchInfo">
-        {{if UrlDate.Type!='Check'}}
+        {{if UrlDate.Type!='Check'||(UrlDate.Type=='Check'&&Status==1)}}
              <h2 class="cont_title re_view"><span>获奖文件信息</span></h2>
             <div class="area_form clearfix re_view">
                 <div class="input_lable fl">
@@ -354,12 +354,10 @@
                 if (model.Status <= 6) {
                     $(".btnwrap2").show();
                 }               
-                $(".re_view").hide();
             }
             else {
                 $(".checkmes").show();
                 $(".btnwrap2").hide();
-                $(".re_view").show();
             }
         }       
         //绑定成员信息

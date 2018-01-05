@@ -45,7 +45,7 @@ function GetAchieveUser_Score(userdata) { //获取初始时业绩分数
         });
         $span_Words.html(Num_Fixed(curwords));
         score_Words = scorewords;
-        $('#span_BookScore').html(Num_Fixed(scorewords * achie_Score));
+        $('#span_BookScore').html(Num_Fixed(scorewords * Number(achie_Score)));
     } else {
         var $span_CurScore = $('#span_CurScore');
         var curscore = 0;
@@ -419,8 +419,8 @@ function SetScore() {
     $(".score").html("分数：" + Score + "分" + (ScoreType == "2" ? "/万字" : ""));
     if (cur_AchieveType == "3") { //教材建设类 
         if ($(objid).val() == "") { $('#span_BookScore').html(0); }
-        else if (ScoreType == "2") {$('#span_BookScore').html(Num_Fixed(score_Words * Score)); }
-        else { $('#span_BookScore').html(Num_Fixed(Score)); }
+        else if (ScoreType == "2") { $('#span_BookScore').html(Num_Fixed(score_Words * Number(Score))); }
+        else { $('#span_BookScore').html(Score); }
     }
     $span_AllScore = $('#span_AllScore');
     if ($span_AllScore) {
@@ -450,7 +450,7 @@ function ChangeRankScore(obj) {
         warning='请输入数字';       
     }      
     var newScore = GetCur_RankScore();       
-    if (Num_Fixed($('#span_AllScore').html()) < newScore) {
+    if (Number($('#span_AllScore').html()) < Number(newScore)) {
         warning += warning.length > 0 ? ',且已分配分数不能大于总分！' : '已分配分数不能大于总分！';
     } 
     if (warning) {

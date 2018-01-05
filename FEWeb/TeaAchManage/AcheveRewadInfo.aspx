@@ -322,7 +322,7 @@
                         layer.msg("请至少添加五个成员信息!");
                         return;
                     }
-                    if (Num_Fixed($('#span_AllScore').html()) < Num_Fixed($('#span_CurScore').html())) {
+                    if (Number($('#span_AllScore').html()) < Number($('#span_CurScore').html())) {
                         layer.msg("已分配分数不能大于总分！");
                         return;
                     }
