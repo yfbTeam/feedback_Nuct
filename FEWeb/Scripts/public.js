@@ -56,7 +56,7 @@ localStorage.setItem('navAry', JSON.stringify(getMenuByRoleid(login_User.Sys_Rol
 var items = JSON.parse(localStorage.getItem('navAry'));
 $(function () {
     BindThreeNav();
-    powerAssign();
+    //powerAssign();
 })
 //判断访问权限
 function powerAssign() {
