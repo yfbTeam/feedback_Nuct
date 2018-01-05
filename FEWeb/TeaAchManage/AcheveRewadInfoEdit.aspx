@@ -193,7 +193,7 @@
     <div class="center" id="centerwrap">
         <div class="wrap clearfix" style="padding-bottom: 0px;">
             <h1 class="title">
-                <a onclick="javascript:window.history.go(-1)" style="cursor: pointer;">业绩修改</a><span>&gt;</span><a href="#" class="crumbs" id="GropName"></a>
+                <a href="#" id="a_ParUrl" style="cursor: pointer;">业绩修改</a><span>&gt;</span><a href="#" class="crumbs" id="GropName"></a>
             </h1>
             <div id="div_Achieve" class="cont"></div>
         </div>
@@ -221,6 +221,7 @@
         var achieve_add_noaudit = false;//无需审核
         $(function () {
             $("#CreateUID").val(GetLoginUser().UniqueNo);
+            $("#a_ParUrl").attr('href', UrlDate.Iid == 3 ? "AchManage.aspx?Id=2&Iid=3" : "MyPerformance.aspx?Id=2&Iid=4");
             Get_PageBtn("/TeaAchManage/AchManage.aspx");
             achieve_add_noaudit = JudgeBtn_IsExist("achieve_add_noaudit");
             $("#Group").val(UrlDate.Group);                     
@@ -430,12 +431,7 @@
                     if (json.result.errNum == 0) {
                         layer.msg('操作成功!');
                         Del_Document();
-                        //window.history.go(-1);       
-                        if (UrlDate.Iid == 3) {
-                            window.location.href = "AchManage.aspx?Id=2&Iid=3";
-                        } else {
-                            window.location.href = "MyPerformance.aspx?Id=2&Iid=4";
-                        }                                                               
+                        window.location.href = $("#a_ParUrl").attr('href');
                     } else if (json.result.errNum == -1) {}
                 },
                 error: function (errMsg) {}
