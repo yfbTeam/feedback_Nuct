@@ -200,11 +200,9 @@ namespace FEHandler.TeaAchManage
                 int BookId = RequestHelper.int_transfer(context.Request, "BookId");
                 bool isadd = Id == 0;
                 if (Id == 0)
-                {
+                {                    
                     model = new TPM_AcheiveRewardInfo();
-                    model.Gid = RequestHelper.int_transfer(context.Request, "Gid");
-                    model.Lid = RequestHelper.int_transfer(context.Request, "Lid");
-                    model.Rid = RequestHelper.int_transfer(context.Request, "Rid");
+                    model.Id = 0;
                     model.GPid = RequestHelper.int_transfer(context.Request, "Group");
                     model.CreateUID = context.Request["CreateUID"].SafeToString();
                 }
@@ -212,9 +210,20 @@ namespace FEHandler.TeaAchManage
                 {
                     model = bll.GetEntityById(Id).retData as TPM_AcheiveRewardInfo;
                 }
+               
+                model.Gid = RequestHelper.int_transfer(context.Request, "Gid");
+                model.Lid = RequestHelper.int_transfer(context.Request, "Lid");
+                model.Rid = RequestHelper.int_transfer(context.Request, "Rid");
                 string Year = context.Request["Year"].SafeToString();
                 model.Name = context.Request["Name"].SafeToString();
-                model.DefindDate = RequestHelper.DateTime_transfer(context.Request, "DefindDate");
+                string defindDate = context.Request["DefindDate"];
+                if (!string.IsNullOrEmpty(defindDate))
+                {
+                    model.DefindDate = RequestHelper.DateTime_transfer(context.Request, "DefindDate");
+                }else
+                {
+                    model.DefindDate = null;
+                }                
                 model.DefindDepart = context.Request["DefindDepart"].SafeToString();
                 model.DepartMent = context.Request["DepartMent"].SafeToString();
                 model.FileEdionNo = context.Request["FileEdionNo"].SafeToString();
@@ -243,7 +252,7 @@ namespace FEHandler.TeaAchManage
                 }
                 else
                 {
-                    jsonModel = bll.Update(model);
+                    jsonModel = bll.TPM_AcheiveLevelAdd(model);
                 }
                 if (jsonModel.errNum == 0)
                 {

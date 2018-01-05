@@ -37,7 +37,7 @@
                     </div>
                     <div class="input_lable fl">
                         <label for="">认定日期：</label>
-                        <input type="text" isrequired="true" fl="认定日期" name="DefindDate" id="DefindDate" class="text Wdate" onclick="WdatePicker({ dateFmt: 'yyyy年MM月dd日', onpicked: function () { ChangeLid(); } });"/>
+                        <input type="text" isrequired="true" fl="认定日期" name="DefindDate" id="DefindDate" class="text Wdate" readonly="readonly" onclick="WdatePicker({ dateFmt: 'yyyy年MM月dd日', onpicked: function () { ChangeLid(); }, oncleared: function () { ChangeLid(); } });"/>
                     </div>
                     <div class="clear"></div>
                     <div class="input_lable input_lable2">
@@ -72,7 +72,7 @@
                     {{if  AchieveType==3}}
                     <div class="input_lable book fl">
                         <label for="">书名：</label>
-                        <select class="chosen-select" data-placeholder="书名" id="BookId" name="BookId" onchange="Get_OperReward_UserInfo();"></select>
+                        <select class="chosen-select" fl="书名" data-placeholder="书名" id="BookId" name="BookId" onchange="Get_OperReward_UserInfo();"></select>
                     </div>
                     <div class="input_lable book fl">
                         <label for="">书号：</label>
@@ -253,7 +253,7 @@
         }
         function BindRank() {
             $("#Sort").html('<option value="" ss="0">请选择</option>');
-            if ($("#Rid").val() != 0) {
+            if ($("#Rid").val() != "") {
                 $.ajax({
                     url: HanderServiceUrl + "/TeaAchManage/AchRewardInfo.ashx",
                     type: "post",
@@ -279,10 +279,10 @@
             if (s_type == 0) {
                 $("#Status").val("0");               
                 var judgeobj = $("#ResponsMan");
-                if (UrlDate.Type == "1" || UrlDate.Type == "2") { judgeobj = $("#Name"); } else {
+                if (UrlDate.Type == "1" || UrlDate.Type == "2") { judgeobj = $("#Name"); } else if (UrlDate.Type == "3") {
                     judgeobj = $("#BookId");
                 }
-                if (!judgeobj.val().trim().length) {
+                if (judgeobj.val()== undefined || !judgeobj.val().trim().length) {
                     layer.msg("请输入" + judgeobj.attr("fl") + "!");
                     return;
                 }
@@ -325,9 +325,9 @@
                         return;
                     }
                 }
-            }                                            
+            }
             var object = getFromValue();//组合input标签 
-            object.DepartMent =department?$("#DepartMent").val().join(','):"";            
+            object.DepartMent = department ? $("#DepartMent").val().join(',') : "";
             object.MemberStr = '';
             object.AchieveType = UrlDate.Type;
             if (UrlDate.Type == "3") {
@@ -335,8 +335,20 @@
             }
             var addArray = Rtn_AddMemArray(0);
             object.MemberStr = JSON.stringify(addArray);
-            var add_path = Get_AddFile();                    
+            var add_path = Get_AddFile();
             object.Add_Path = add_path.length > 0 ? JSON.stringify(add_path) : "";
+            if (s_type == 1) {
+                layer.confirm('确认提交吗？提交后将不能进行修改', {
+                    btn: ['确定', '取消'], //按钮
+                    title: '操作'
+                }, function (index) {
+                    LastSave(object);
+                }, function () { });
+            } else {
+                LastSave(object);
+            }            
+        }
+        function LastSave(object) {
             $.ajax({
                 url: HanderServiceUrl + "/TeaAchManage/AchRewardInfo.ashx",
                 type: "post",
@@ -345,7 +357,7 @@
                 success: function (json) {
                     if (json.result.errMsg == "success") {
                         parent.layer.msg('操作成功!');
-                        window.location.href = "AchManage.aspx?Id=2";                        
+                        window.location.href = "AchManage.aspx?Id=2&Iid=3";
                     }
                     else {
                         layer.msg(json.result.errMsg);
@@ -388,7 +400,7 @@
                 layer.msg("请先指定认定日期");
                 return;
             }
-            if ($("#Gid").val() != 0) {
+            if ($("#Gid").val() != "") {
                 $.ajax({
                     url: HanderServiceUrl + "/TeaAchManage/AchManage.ashx",
                     type: "post",
@@ -413,7 +425,7 @@
         function BindRewardInfo() {
             $("#Rid").html('<option value="" ss="0">请选择</option>');
             $("#Sort").html('<option value="" ss="0">请选择</option>');
-            if ($("#Lid").val() != 0) {
+            if ($("#Lid").val() != "") {
                 $.ajax({
                     url: HanderServiceUrl + "/TeaAchManage/AchManage.ashx",
                     type: "post",

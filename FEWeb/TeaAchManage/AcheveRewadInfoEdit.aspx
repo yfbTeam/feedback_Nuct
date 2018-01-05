@@ -37,7 +37,7 @@
                     </div>
                     <div class="input_lable fl">
                         <label for="">认定日期：</label>
-                        <input type="text" isrequired="true" fl="认定日期" name="DefindDate" id="DefindDate" value="${DateTimeConvert(DefindDate, '年月日')}" class="text Wdate" onclick="WdatePicker({ dateFmt: 'yyyy年MM月dd日', onpicked: function () { ChangeLid(); } });"/>
+                        <input type="text" isrequired="true" fl="认定日期" name="DefindDate" id="DefindDate" value="${DateTimeConvert(DefindDate, '年月日')}" class="text Wdate" readonly="readonly" onclick="WdatePicker({ dateFmt: 'yyyy年MM月dd日', onpicked: function () { ChangeLid(); }, oncleared: function () { ChangeLid(); } });"/>
                     </div>
                     <div class="input_lable fl input_lable2">
                         <label for="">获奖扫描件：</label>
@@ -71,7 +71,7 @@
                     {{if  AchieveType==3}}
                     <div class="input_lable book fl">
                         <label for="">书名：</label>
-                        <select class="chosen-select" data-placeholder="书名" id="BookId" name="BookId" onchange="Get_OperReward_UserInfo();"></select>
+                        <select class="chosen-select" fl="书名" data-placeholder="书名" id="BookId" name="BookId" onchange="Get_OperReward_UserInfo();"></select>
                     </div>
                     <div class="input_lable book fl">
                         <label for="">书号：</label>
@@ -257,6 +257,7 @@
                         BindRewardInfo();
                         $("#Rid").val(model.Rid);
                         BindRank();
+                        $("#Sort").val(model.Sort);
                         SetScore();                                            
                         BindFile_Plugin();
                         Get_Sys_Document(0, $("#Id").val());
@@ -310,11 +311,12 @@
         }        
         function BindRank() {
             $("#Sort").html('<option value="" ss="0">请选择</option>');
-            if ($("#Rid").val() != 0) {
+            if ($("#Rid").val() != "") {
                 $.ajax({
                     url: HanderServiceUrl + "/TeaAchManage/AchRewardInfo.ashx",
                     type: "post",
                     dataType: "json",
+                    async: false,
                     data: { "Func": "GetRank", "IsPage": "false", "RId": $("#Rid").val() },
                     success: function (json) {
                         if (json.result.errMsg == "success") {
@@ -336,10 +338,10 @@
             if (s_type == 0) {
                 $("#Status").val("0");                
                 var judgeobj = $("#ResponsMan");
-                if (UrlDate.Type == "1" || UrlDate.Type == "2") { judgeobj = $("#Name"); } else {
+                if (UrlDate.Type == "1" || UrlDate.Type == "2") { judgeobj = $("#Name"); } else if (UrlDate.Type == "3") {
                     judgeobj = $("#BookId");
                 }
-                if (!judgeobj.val().trim().length) {
+                if (judgeobj.val() == undefined || !judgeobj.val().trim().length) {
                     layer.msg("请输入" + judgeobj.attr("fl")+ "!");
                     return;
                 }
@@ -408,26 +410,36 @@
             var add_path = Get_AddFile();
             object.Add_Path = add_path.length > 0 ? JSON.stringify(add_path) : "";
             object.Edit_PathId = Get_EditFileId();
+            if (s_type == 1) {
+                layer.confirm('确认提交吗？提交后将不能进行修改', {
+                    btn: ['确定', '取消'], //按钮
+                    title: '操作'
+                }, function (index) {
+                    LastSave(object);
+                }, function () { });
+            } else {
+                LastSave(object);
+            }
+        }
+        function LastSave(object) {
             $.ajax({
                 url: HanderServiceUrl + "/TeaAchManage/AchRewardInfo.ashx",
                 type: "post",
                 dataType: "json",
                 data: object,
                 success: function (json) {
-                    if (json.result.errNum ==0) {
-                        layer.msg('操作成功!');                        
+                    if (json.result.errNum == 0) {
+                        layer.msg('操作成功!');
                         Del_Document();
-                        //window.location.go(-1);
-                        window.history.go(-1);
-                       // window.location.href = "AcheveRewadSearch.aspx";
-                    } else if (json.result.errNum == -1) {
-
-                    }
+                        //window.history.go(-1);       
+                        if (UrlDate.Iid == 3) {
+                            window.location.href = "AchManage.aspx?Id=2&Iid=3";
+                        } else {
+                            window.location.href = "MyPerformance.aspx?Id=2&Iid=4";
+                        }                                                               
+                    } else if (json.result.errNum == -1) {}
                 },
-                error: function (errMsg) {
-                    //接口错误时需要执行的
-                    alert(errMsg);
-                }
+                error: function (errMsg) {}
             });
         }
         //奖励项目
@@ -460,7 +472,7 @@
                 layer.msg("请先指定认定日期");
                 return;
             }
-            if ($("#Gid").val() != 0) {
+            if ($("#Gid").val() != "") {
                 $.ajax({
                     url: HanderServiceUrl + "/TeaAchManage/AchManage.ashx",
                     type: "post",
@@ -486,7 +498,7 @@
         function BindRewardInfo() {
             $("#Rid").html('<option value="" ss="0">请选择</option>');
             $("#Sort").html('<option value="" ss="0">请选择</option>');
-            if ($("#Lid").val() != 0) {
+            if ($("#Lid").val() != "") {
                 $.ajax({
                     url: HanderServiceUrl + "/TeaAchManage/AchManage.ashx",
                     type: "post",

@@ -46,7 +46,7 @@
                 </div>
                 <div class="input_lable fl">
                     <label for="">认定日期：</label>
-                    <input type="text" isrequired="true" fl="认定日期" name="DefindDate" id="DefindDate" value="" class="text Wdate" onfocus="WdatePicker({dateFmt:'yyyy年MM月dd日', onpicked: function (){ ChangeLid(); }});"/>
+                    <input type="text" isrequired="true" fl="认定日期" name="DefindDate" id="DefindDate" value="" class="text Wdate" readonly="readonly" onclick="WdatePicker({ dateFmt: 'yyyy年MM月dd日', onpicked: function () { ChangeLid(); }, oncleared: function () { ChangeLid(); } });"/>
                 </div>
                 <div class="clear"></div>
                     <div class="input_lable input_lable2">
@@ -281,7 +281,7 @@
                 layer.msg("请先指定认定日期");
                 return;
             }
-            if ($("#Gid").val() != 0) {
+            if ($("#Gid").val() != "") {
                 $.ajax({
                     url: HanderServiceUrl + "/TeaAchManage/AchManage.ashx",
                     type: "post",
@@ -306,7 +306,7 @@
         //奖励等级
         function BindRewardInfo() {
             $("#Rid").html('<option value="" ss="0">请选择</option>');
-            if ($("#Lid").val() != 0) {
+            if ($("#Lid").val() != "") {
                 $.ajax({
                     url: HanderServiceUrl + "/TeaAchManage/AchManage.ashx",
                     type: "post",

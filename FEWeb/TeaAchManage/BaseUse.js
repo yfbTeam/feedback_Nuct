@@ -297,9 +297,15 @@ function GetProfessInfo(objid) {
     });
 }
 function ChangeLid() {
-    if ($("#Gid").val() != "") {
-        BindLinfo();
-    }
+    if ($("#DefindDate").val().trim() == "") {
+        $("#Lid").html('<option value="">请选择</option>');
+        $("#Rid").html('<option value="" ss="0">请选择</option>');
+        $("#Sort").html('<option value="" ss="0">请选择</option>');
+    } else {
+        if ($("#Gid").val() != "") {
+            BindLinfo();
+        }
+    }    
 }
 /********************************************************业绩成员信息开始***************************************************/
 //绑定成员信息
