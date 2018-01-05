@@ -152,7 +152,7 @@
                         {{else Status==4}}<span class="nosubmit">{{if ResponsMan==$('#CreateUID').val()}}待提交{{else}}待分配{{/if}}</span>
                         {{else Status==5}}<span class="checking1">待审核</span>
                         {{else Status==6}}<span class="nocheck">审核不通过</span>
-                        {{else Status==7}}<span class="pass">审核通过</span>{{/if}}
+                        {{else}}<span class="pass">审核通过</span>{{/if}}
                     </div>
                     <div id="div_score_statis" class="fr status"></div>
                 </div>
@@ -239,7 +239,7 @@
                     {{else AuditStatus==2}}<span class="nocheck">审核不通过</span>
                     {{else}} <span class="assigning">审核通过</span>{{/if}}
                 </div>
-                <div class="fr status">奖金：${Money}万，已分：<span>${HasAllot}万</span></div>
+                <div class="fr status">奖金：${Money}万，已分：<span>{{if AuditStatus==0&&cur_ResponUID!=$('#CreateUID').val()}}0{{else}}${HasAllot}{{/if}}万</span></div>
             </div>
             <table class="allot_table mt10  ">
                 <thead>
@@ -398,7 +398,7 @@
             });
         }        
         function Check(Status) {
-            var responName=$("#ResponsMan").html();
+            var responName=cur_ResponName;
             var hisArray=[];
             if(Status==7){
                 $("#tb_Member1 tr").each(function(){
@@ -429,7 +429,7 @@
         }
         //奖金分配审核
         function AllotAudit(status,id,rownum){
-            var responName=$("#ResponsMan").html();
+            var responName=cur_ResponName;
             var $cur_tb=$("#tb_Member_"+rownum),rew_batchid=$cur_tb.attr('rewid');//追加奖金Id
             var hisArray=[];
             if(status==3){

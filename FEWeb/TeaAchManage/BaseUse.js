@@ -1,5 +1,5 @@
 ﻿var loginUser = GetLoginUser();
-var cur_ResponUID = "", cur_AchieveType = 1,achie_Score=0,score_Words=0; //教材建设记分的总字数
+var cur_ResponUID = "",cur_ResponName="",cur_AchieveType = 1,achie_Score=0,score_Words=0; //教材建设记分的总字数
 function Num_Fixed(num, count) {
     count = arguments[1] || 2;
     return Number(num||0).toFixed(count);
@@ -17,7 +17,7 @@ function GetAchieveDetailById(type) { //获取业绩详情
             if (json.result.errMsg == "success") {
                 var model = json.result.retData[0];
                 $("#div_AchInfo").tmpl(model).appendTo("#div_Achieve");
-                cur_ResponUID = model.ResponsMan;
+                cur_ResponUID = model.ResponsMan, cur_ResponName = model.ResponsName;
                 cur_AchieveType = model.AchieveType;
                 achie_Score = Num_Fixed(model.TotalScore);
                 $(".score").html("分数：" + model.TotalScore + "分" + (model.AchieveType == "2" ? "/万字" : ""));
@@ -395,7 +395,7 @@ function Del_HtmlMember(type) {  //type 0删除；1隐藏
     GetCur_RankScore();
 }
 //添加教学成果成员
-function Rtn_AddMemArray(type) { 
+function Rtn_AddMemArray(type) {
     var addArray = [];
     var add_tr = $("#tb_Member tr");
     $(add_tr).each(function (i, n) {

@@ -75,8 +75,8 @@
         <div class="area_form clearfix">
                 <div class="clearfix"> 
                     {{if AchieveType==1||AchieveType==2}}                  
-                    <input type="button" name="memberbtn" value="添加" class="btn ml" style="display:none;" id="AddBtn" onclick="javascript: OpenIFrameWindow('添加成员','AddAchMember.aspx', '900px', '650px');"/>
-                    <input type="button" name="memberbtn" value="删除" class="btn ml10" style="display:none;" onclick="Del_HtmlMember();"/>
+                    <input type="button" name="memberbtn" value="添加" class="btn ml" id="AddBtn" onclick="javascript: OpenIFrameWindow('添加成员','AddAchMember.aspx', '900px', '650px');"/>
+                    <input type="button" name="memberbtn" value="删除" class="btn ml10" onclick="Del_HtmlMember();"/>
                     {{/if}}
                     {{if AchieveType==3}}
                     <span class="fr status">总贡献字数：<span id="span_Words">0</span>万字，总分：<span id="span_BookScore">0</span>分</span>

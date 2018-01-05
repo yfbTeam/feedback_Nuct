@@ -83,7 +83,7 @@
                    {{else AuditStatus==2}}<span class="nocheck">审核不通过</span>
                    {{else}} <span class="assigning">审核通过</span>{{/if}}
                </div>
-               <div class="fr status">奖金：${Money}万，已分：<span>${HasAllot}万</span></div>
+               <div class="fr status">奖金：${Money}万，已分：<span>{{if AuditStatus==10||AuditStatus==0}}0{{else}}${HasAllot}{{/if}}万</span></div>
            </div>
            <table class="allot_table mt10  ">
                <thead>
@@ -193,7 +193,7 @@
                     <input type="button" v-if="Info.AchieveType==1||Info.AchieveType==2" name="memberbtn" value="添加" class="btn ml" id="AddBtn" onclick="javascript: OpenIFrameWindow('添加成员', 'AddAchMember.aspx', '900px', '650px');" />
                     <input type="button" v-if="Info.AchieveType==1||Info.AchieveType==2" name="memberbtn" value="删除" class="btn ml10" onclick="Del_HtmlMember(1);" />
                     <span class="fr status" v-if="Info.AchieveType==3">总贡献字数：<span id="span_Words">0</span>万字，总分：<span id="span_BookScore">0</span>分</span>
-                    <span class="fr status" v-else>总分：<span id="span_AllScore"></span>分，<span id="span_CurScore"></span>分</span>
+                    <span class="fr status" v-else>总分：<span id="span_AllScore"></span>分，已分：<span id="span_CurScore"></span>分</span>
                 </div>
                 <table class="allot_table mt10  ">
                     <thead>
