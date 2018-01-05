@@ -171,6 +171,14 @@ namespace FEIBLL
     }	
 
 	/// </summary>
+	///	业务类4
+	/// </summary>
+    public interface IEva_QuestionAnswerService:IBaseService<Eva_QuestionAnswer>
+    {
+
+    }	
+
+	/// </summary>
 	///	
 	/// </summary>
     public interface IEva_TaskAnswerService:IBaseService<Eva_TaskAnswer>
@@ -227,7 +235,7 @@ namespace FEIBLL
     }	
 
 	/// </summary>
-	///	菜单信息业务类4
+	///	菜单信息业务类5
 	/// </summary>
     public interface ISys_MenuInfoService:IBaseService<Sys_MenuInfo>
     {
@@ -235,9 +243,17 @@ namespace FEIBLL
     }	
 
 	/// </summary>
-	///	角色用户关系业务类5
+	///	角色用户关系业务类6
 	/// </summary>
     public interface ISys_RoleOfUserService:IBaseService<Sys_RoleOfUser>
+    {
+
+    }	
+
+	/// </summary>
+	///	
+	/// </summary>
+    public interface IEva_QuestionAnswer_DetailService:IBaseService<Eva_QuestionAnswer_Detail>
     {
 
     }	
@@ -293,14 +309,6 @@ namespace FEIBLL
 	/// </summary>
 	///	
 	/// </summary>
-    public interface IEva_QuestionAnswerService:IBaseService<Eva_QuestionAnswer>
-    {
-
-    }	
-
-	/// </summary>
-	///	
-	/// </summary>
     public interface IStudySectionService:IBaseService<StudySection>
     {
 
@@ -315,9 +323,17 @@ namespace FEIBLL
     }	
 
 	/// </summary>
-	///	专业部门名称业务类6
+	///	专业部门名称业务类7
 	/// </summary>
     public interface ICourseRoomService:IBaseService<CourseRoom>
+    {
+
+    }	
+
+	/// </summary>
+	///	
+	/// </summary>
+    public interface IEva_QuestionAnswer_HeaderService:IBaseService<Eva_QuestionAnswer_Header>
     {
 
     }	
@@ -379,7 +395,7 @@ namespace FEIBLL
     }	
 
 	/// </summary>
-	///	菜单按钮类型业务类7
+	///	菜单按钮类型业务类8
 	/// </summary>
     public interface ISys_ButtonTypeService:IBaseService<Sys_ButtonType>
     {
@@ -405,21 +421,13 @@ namespace FEIBLL
 	/// </summary>
 	///	
 	/// </summary>
-    public interface IEva_QuestionAnswer_DetailService:IBaseService<Eva_QuestionAnswer_Detail>
-    {
-
-    }	
-
-	/// </summary>
-	///	
-	/// </summary>
     public interface IEva_CourseType_TableService:IBaseService<Eva_CourseType_Table>
     {
 
     }	
 
 	/// </summary>
-	///	系统日志业务类8
+	///	系统日志业务类9
 	/// </summary>
     public interface ISys_LogInfoService:IBaseService<Sys_LogInfo>
     {

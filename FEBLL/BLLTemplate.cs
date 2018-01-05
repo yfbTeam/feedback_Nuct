@@ -234,6 +234,17 @@ namespace FEBLL
     }	
 
 	/// </summary>
+	///	业务类4
+	/// </summary>
+    public partial class Eva_QuestionAnswerService:BaseService<Eva_QuestionAnswer>,IEva_QuestionAnswerService
+    {
+	 public override void SetCurrentDal()
+        {
+            CurrentDal = DalFactory.GetEva_QuestionAnswerDal();
+        }
+    }	
+
+	/// </summary>
 	///	
 	/// </summary>
     public partial class Eva_TaskAnswerService:BaseService<Eva_TaskAnswer>,IEva_TaskAnswerService
@@ -311,7 +322,7 @@ namespace FEBLL
     }	
 
 	/// </summary>
-	///	菜单信息业务类4
+	///	菜单信息业务类5
 	/// </summary>
     public partial class Sys_MenuInfoService:BaseService<Sys_MenuInfo>,ISys_MenuInfoService
     {
@@ -322,13 +333,24 @@ namespace FEBLL
     }	
 
 	/// </summary>
-	///	角色用户关系业务类5
+	///	角色用户关系业务类6
 	/// </summary>
     public partial class Sys_RoleOfUserService:BaseService<Sys_RoleOfUser>,ISys_RoleOfUserService
     {
 	 public override void SetCurrentDal()
         {
             CurrentDal = DalFactory.GetSys_RoleOfUserDal();
+        }
+    }	
+
+	/// </summary>
+	///	
+	/// </summary>
+    public partial class Eva_QuestionAnswer_DetailService:BaseService<Eva_QuestionAnswer_Detail>,IEva_QuestionAnswer_DetailService
+    {
+	 public override void SetCurrentDal()
+        {
+            CurrentDal = DalFactory.GetEva_QuestionAnswer_DetailDal();
         }
     }	
 
@@ -401,17 +423,6 @@ namespace FEBLL
 	/// </summary>
 	///	
 	/// </summary>
-    public partial class Eva_QuestionAnswerService:BaseService<Eva_QuestionAnswer>,IEva_QuestionAnswerService
-    {
-	 public override void SetCurrentDal()
-        {
-            CurrentDal = DalFactory.GetEva_QuestionAnswerDal();
-        }
-    }	
-
-	/// </summary>
-	///	
-	/// </summary>
     public partial class StudySectionService:BaseService<StudySection>,IStudySectionService
     {
 	 public override void SetCurrentDal()
@@ -432,13 +443,24 @@ namespace FEBLL
     }	
 
 	/// </summary>
-	///	专业部门名称业务类6
+	///	专业部门名称业务类7
 	/// </summary>
     public partial class CourseRoomService:BaseService<CourseRoom>,ICourseRoomService
     {
 	 public override void SetCurrentDal()
         {
             CurrentDal = DalFactory.GetCourseRoomDal();
+        }
+    }	
+
+	/// </summary>
+	///	
+	/// </summary>
+    public partial class Eva_QuestionAnswer_HeaderService:BaseService<Eva_QuestionAnswer_Header>,IEva_QuestionAnswer_HeaderService
+    {
+	 public override void SetCurrentDal()
+        {
+            CurrentDal = DalFactory.GetEva_QuestionAnswer_HeaderDal();
         }
     }	
 
@@ -520,7 +542,7 @@ namespace FEBLL
     }	
 
 	/// </summary>
-	///	菜单按钮类型业务类7
+	///	菜单按钮类型业务类8
 	/// </summary>
     public partial class Sys_ButtonTypeService:BaseService<Sys_ButtonType>,ISys_ButtonTypeService
     {
@@ -555,17 +577,6 @@ namespace FEBLL
 	/// </summary>
 	///	
 	/// </summary>
-    public partial class Eva_QuestionAnswer_DetailService:BaseService<Eva_QuestionAnswer_Detail>,IEva_QuestionAnswer_DetailService
-    {
-	 public override void SetCurrentDal()
-        {
-            CurrentDal = DalFactory.GetEva_QuestionAnswer_DetailDal();
-        }
-    }	
-
-	/// </summary>
-	///	
-	/// </summary>
     public partial class Eva_CourseType_TableService:BaseService<Eva_CourseType_Table>,IEva_CourseType_TableService
     {
 	 public override void SetCurrentDal()
@@ -575,7 +586,7 @@ namespace FEBLL
     }	
 
 	/// </summary>
-	///	系统日志业务类8
+	///	系统日志业务类9
 	/// </summary>
     public partial class Sys_LogInfoService:BaseService<Sys_LogInfo>,ISys_LogInfoService
     {

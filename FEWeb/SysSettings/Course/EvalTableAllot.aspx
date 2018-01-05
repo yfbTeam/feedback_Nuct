@@ -73,7 +73,7 @@
     <script src="../../Scripts/WebCenter/AllotTable.js"></script>
     <script type="text/x-jquery-tmpl" id="item_eva">
         <tr>
-            <td style="text-align: left; padding-left: 20px; width: 35%">${Name}</td>
+            <td style="text-align: left; padding-left: 20px; width: 35%" title="${Name}">${cutstr(Name,35)}</td>
             {{if IsScore ==0}}
             <td style="width: 5%">是</td>
             {{else}}

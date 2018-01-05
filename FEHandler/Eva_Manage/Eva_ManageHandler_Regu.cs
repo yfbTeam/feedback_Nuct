@@ -303,6 +303,7 @@ namespace FEHandler.Eva_Manage
                                                orderby exp.CreateTime descending
                                                select new RegularDataModel()
                                                {
+                                                   Num = 0,
                                                    Id = exp.Id,
                                                    TeacherName = exp.TeacherName,
                                                    TeacherUID = exp.TeacherUID,
@@ -346,6 +347,11 @@ namespace FEHandler.Eva_Manage
                 {
                     list = (from li in list where li.TeacherUID == Te select li).ToList();
                 }
+                for (int i = 0; i < list.Count; i++)
+                {
+                    list[i].Num = i + 1;
+                }
+
                 var query_last = (from an in list select an).Skip((PageIndex - 1) * PageSize).Take(PageSize).ToList();
                 foreach (var li in query_last)
                 {
@@ -364,6 +370,8 @@ namespace FEHandler.Eva_Manage
                     }
                     li.State = Convert.ToString(regustate);
                     li.StateType = (int)regustate;
+
+                    li.AnswerCount = Constant.Eva_QuestionAnswer_List.Count(q => q.ReguID == li.ReguId && q.CourseID == li.CourseID);
                 }
                 //返回所有表格数据
                 jsm = JsonModelNum.GetJsonModel_o(intSuccess, "success", query_last);
@@ -449,6 +457,34 @@ namespace FEHandler.Eva_Manage
                 LogHelper.Error(ex);
             }
             return jsm;
+        }
+
+        /// <summary>
+        /// 获取评价名称
+        /// </summary>
+        /// <param name="context"></param>
+        public void Get_Eva_Regular_Name(HttpContext context)
+        {
+            int intSuccess = (int)errNum.Success;
+            try
+            {
+                HttpRequest Request = context.Request;
+
+                var _list = (from t in Constant.Eva_Regular_List
+                             where t.StartTime < DateTime.Now
+                             select new { Name = t.Name }).Distinct();
+                //返回所有表格数据
+                jsonModel = JsonModel.get_jsonmodel(intSuccess, "success", _list);
+            }
+            catch (Exception ex)
+            {
+                LogHelper.Error(ex);
+            }
+            finally
+            {
+                //无论后端出现什么问题，都要给前端有个通知【为防止jsonModel 为空 ,全局字段 jsonModel 特意声明之后进行初始化】
+                context.Response.Write("{\"result\":" + Constant.jss.Serialize(jsonModel) + "}");
+            }
         }
 
         #endregion
@@ -801,40 +837,7 @@ namespace FEHandler.Eva_Manage
 
         #endregion
 
-        #region 定期评价管理
-
-
-
-
-
-
-        /// <summary>
-        /// 获取评价名称
-        /// </summary>
-        /// <param name="context"></param>
-        public void Get_Eva_Regular_Name(HttpContext context)
-        {
-            int intSuccess = (int)errNum.Success;
-            try
-            {
-                HttpRequest Request = context.Request;
-
-                var _list = (from t in Constant.Eva_Regular_List
-                             where t.StartTime < DateTime.Now
-                             select new { Name = t.Name }).Distinct();
-                //返回所有表格数据
-                jsonModel = JsonModel.get_jsonmodel(intSuccess, "success", _list);
-            }
-            catch (Exception ex)
-            {
-                LogHelper.Error(ex);
-            }
-            finally
-            {
-                //无论后端出现什么问题，都要给前端有个通知【为防止jsonModel 为空 ,全局字段 jsonModel 特意声明之后进行初始化】
-                context.Response.Write("{\"result\":" + Constant.jss.Serialize(jsonModel) + "}");
-            }
-        }
+        #region 答题管理
 
         //上锁int score
         static object obj_Add_Eva_QuestionAnswer = new object();
@@ -871,6 +874,7 @@ namespace FEHandler.Eva_Manage
                 int TableID = RequestHelper.int_transfer(Request, "TableID");
                 string TableName = RequestHelper.string_transfer(Request, "TableName");
 
+                int State = RequestHelper.int_transfer(Request, "State");
                 //得分
                 decimal Score = RequestHelper.decimal_transfer(Request, "Score");
                 //创建者
@@ -878,6 +882,12 @@ namespace FEHandler.Eva_Manage
 
                 int Type = RequestHelper.int_transfer(Request, "Type");
                 int Eva_Role = RequestHelper.int_transfer(Request, "Eva_Role");
+
+                //答题详情明细
+                string List = RequestHelper.string_transfer(Request, "List");
+
+                //表头明显
+                string HeaderList = RequestHelper.string_transfer(Request, "HeaderList");
 
                 //课程分类
                 var data = (from r in Constant.CourseRel_List
@@ -889,33 +899,27 @@ namespace FEHandler.Eva_Manage
                 {
                     var first = data.Count > 0 ? data[0] : null;
 
+                    #region 答题
                     //学生回答任务信息表
                     Eva_QuestionAnswer Eva_QuestionAnswer = new Eva_QuestionAnswer()
                     {
                         SectionID = SectionID,
                         DisPlayName = DisPlayName,
-
                         ReguID = ReguID,
                         ReguName = ReguName,
-
                         CourseTypeID = first != null ? first.c.Key : "",
                         CourseTypeName = first != null ? first.c.Value : "",
-
                         CourseID = CourseID,
                         CourseName = CourseName,
-
                         AnswerUID = AnswerUID,
                         AnswerName = AnswerName,
-
                         TeacherUID = TeacherUID,
                         TeacherName = TeacherName,
-
                         TableID = TableID,
                         TableName = TableName,
-                         
-                        Score = Score,                      
+                        Score = Score,
+                        State = State,
                         Eva_Role = Eva_Role,
-                         
                         CreateUID = CreateUID,
                         CreateTime = DateTime.Now,
                         EditTime = DateTime.Now,
@@ -923,46 +927,73 @@ namespace FEHandler.Eva_Manage
                         IsDelete = (int)IsDelete.No_Delete,
                         IsEnable = (int)IsEnable.Enable
                     };
-
-                    //表单明细
-                    string List = RequestHelper.string_transfer(Request, "List");
-                    //序列化表单详情列表
-                    List<Eva_QuestionAnswer_Detail> Eva_QuestionAnswer_Detail_List = JsonConvert.DeserializeObject<List<Eva_QuestionAnswer_Detail>>(List);
-
                     jsonModel = Constant.Eva_QuestionAnswerService.Add(Eva_QuestionAnswer);
+                    if (jsonModel.errNum == intSuccess)
+                    {
+                        Eva_QuestionAnswer.Id = Convert.ToInt32(jsonModel.retData);
+                    }
 
-                    Eva_QuestionAnswer.Id = Convert.ToInt32(jsonModel.retData);
+                    #endregion
+
                     if (jsonModel.errNum == intSuccess)
                     {
                         Constant.Eva_QuestionAnswer_List.Add(Eva_QuestionAnswer);
+
+                        #region 表头添加
+
+                        //序列化表单详情列表
+                        List<Eva_QuestionAnswer_Header> Eva_QuestionAnswer_Header_List = JsonConvert.DeserializeObject<List<Eva_QuestionAnswer_Header>>(HeaderList);
+
+                        //答题任务详情填充
+                        foreach (Eva_QuestionAnswer_Header item in Eva_QuestionAnswer_Header_List)
+                        {
+
+                            item.QuestionID = Eva_QuestionAnswer.Id;
+                            item.CreateTime = DateTime.Now;
+                            item.CreateUID = AnswerUID;
+                            item.EditUID = AnswerUID;
+                            item.EditTime = DateTime.Now;
+                            item.IsDelete = (int)IsDelete.No_Delete;
+                            item.IsEnable = (int)IsEnable.Enable;
+                            //数据库插入
+                            JsonModel jsm = Constant.Eva_QuestionAnswer_HeaderService.Add(item);
+                            //插入成功入缓存
+                            if (jsm.errNum == intSuccess)
+                            {
+                                item.Id = Convert.ToInt32(jsm.retData);
+                                Constant.Eva_QuestionAnswer_Header_List.Add(item);
+                            }
+                        }
+
+                        #endregion
+
+                        #region 答题详情
+
+
+                        //序列化表单详情列表
+                        List<Eva_QuestionAnswer_Detail> Eva_QuestionAnswer_Detail_List = JsonConvert.DeserializeObject<List<Eva_QuestionAnswer_Detail>>(List);
+
                         //答题任务详情填充
                         foreach (Eva_QuestionAnswer_Detail item in Eva_QuestionAnswer_Detail_List)
                         {
                             item.SectionID = SectionID;
                             item.DisPlayName = DisPlayName;
-
                             item.ReguID = ReguID;
                             item.ReguName = ReguName;
-
                             item.TeacherUID = TeacherUID;
                             item.TeacherName = TeacherName;
-
                             item.CourseTypeID = Eva_QuestionAnswer.CourseTypeID;
                             item.CourseTypeName = Eva_QuestionAnswer.CourseTypeName;
-
                             item.CourseID = CourseID;
                             item.CourseName = CourseName;
-
                             item.AnswerUID = AnswerUID;
                             item.AnswerName = AnswerName;
-
                             item.QuestionID = Eva_QuestionAnswer.Id;
-
                             item.TableID = TableID;
                             item.TableName = TableName;
-                          
                             item.Eva_Role = Eva_Role;
 
+                            item.State = State;
                             item.CreateTime = DateTime.Now;
                             item.CreateUID = AnswerUID;
                             item.EditUID = AnswerUID;
@@ -978,7 +1009,306 @@ namespace FEHandler.Eva_Manage
                                 Constant.Eva_QuestionAnswer_Detail_List.Add(item);
                             }
                         }
+
+                        #endregion
                     }
+                }
+                catch (Exception ex)
+                {
+                    LogHelper.Error(ex);
+                }
+                finally
+                {
+                    //无论后端出现什么问题，都要给前端有个通知【为防止jsonModel 为空 ,全局字段 jsonModel 特意声明之后进行初始化】
+                    context.Response.Write("{\"result\":" + Constant.jss.Serialize(jsonModel) + "}");
+                }
+            }
+        }
+
+        public void Edit_Eva_QuestionAnswer(HttpContext context)
+        {
+            int intSuccess = (int)errNum.Success;
+            HttpRequest Request = context.Request;
+            int Id = RequestHelper.int_transfer(Request, "Id");
+            int State = RequestHelper.int_transfer(Request, "State");
+            //得分
+            decimal Score = RequestHelper.decimal_transfer(Request, "Score");
+            //答题详情明细
+            string List = RequestHelper.string_transfer(Request, "List");
+            //表头明显
+            string HeaderList = RequestHelper.string_transfer(Request, "HeaderList");
+
+            try
+            {
+                Eva_QuestionAnswer Eva_QuestionAnswer = Constant.Eva_QuestionAnswer_List.FirstOrDefault(q => q.Id == Id);
+                List<Eva_QuestionAnswer_Header> headerList = (from h in Constant.Eva_QuestionAnswer_Header_List where h.QuestionID == Id select h).ToList();
+                List<Eva_QuestionAnswer_Detail> detailList = (from q in Constant.Eva_QuestionAnswer_Detail_List where q.QuestionID == Id select q).ToList();
+                Eva_QuestionAnswer Eva_QuestionAnswerClone = Constant.Clone(Eva_QuestionAnswer);
+                Eva_QuestionAnswerClone.EditTime = DateTime.Now;
+                Eva_QuestionAnswerClone.State = State;
+                Eva_QuestionAnswerClone.Score = Score;
+                jsonModel = Constant.Eva_QuestionAnswerService.Update(Eva_QuestionAnswerClone);
+
+                if (jsonModel.errNum == intSuccess)
+                {
+                    Eva_QuestionAnswer.EditTime = DateTime.Now;
+                    Eva_QuestionAnswer.State = State;
+                    Eva_QuestionAnswer.Score = Score;
+
+                    #region 表头添加
+
+                    //序列化表单详情列表
+                    List<Eva_QuestionAnswer_Header> Eva_QuestionAnswer_Header_List = JsonConvert.DeserializeObject<List<Eva_QuestionAnswer_Header>>(HeaderList);
+
+                    //答题任务详情填充
+                    foreach (Eva_QuestionAnswer_Header item in Eva_QuestionAnswer_Header_List)
+                    {
+                        Eva_QuestionAnswer_Header detail = headerList.FirstOrDefault(i => i.Id == item.Id);
+                        if (detail != null)
+                        {
+                            Eva_QuestionAnswer_Header detailClone = Constant.Clone(detail);
+                            detailClone.Value = item.Value;
+                            detailClone.ValueID = item.ValueID;
+                            detailClone.EditTime = DateTime.Now;
+                            var jsm = Constant.Eva_QuestionAnswer_HeaderService.Update(detailClone);
+                            if (jsm.errNum == 0)
+                            {
+                                detail.Value = item.Value;
+                                detail.ValueID = item.ValueID;
+                                detail.EditTime = DateTime.Now;
+                            }
+                        }
+                    }
+
+                    #endregion
+
+                    #region 答题详情
+
+
+                    //序列化表单详情列表
+                    List<Eva_QuestionAnswer_Detail> Eva_QuestionAnswer_Detail_List = JsonConvert.DeserializeObject<List<Eva_QuestionAnswer_Detail>>(List);
+
+                    //答题任务详情填充
+                    foreach (Eva_QuestionAnswer_Detail item in Eva_QuestionAnswer_Detail_List)
+                    {
+                        Eva_QuestionAnswer_Detail detail = detailList.FirstOrDefault(i => i.TableDetailID == item.TableDetailID);
+                        if (detail != null)
+                        {
+                            Eva_QuestionAnswer_Detail detailClone = Constant.Clone(detail);
+                            detailClone.Answer = item.Answer;
+                            detailClone.Score = item.Score;
+                            detailClone.State = State;
+                            detailClone.EditTime = DateTime.Now;
+                            var jsm = Constant.Eva_QuestionAnswer_DetailService.Update(detailClone);
+                            if (jsm.errNum == 0)
+                            {
+                                detail.Answer = item.Answer;
+                                detail.Score = item.Score;
+                                detail.State = State;
+                                detail.EditTime = DateTime.Now;
+                            }
+                        }
+                    }
+
+                    #endregion
+                }
+            }
+            catch (Exception ex)
+            {
+                LogHelper.Error(ex);
+            }
+            finally
+            {
+                //无论后端出现什么问题，都要给前端有个通知【为防止jsonModel 为空 ,全局字段 jsonModel 特意声明之后进行初始化】
+                context.Response.Write("{\"result\":" + Constant.jss.Serialize(jsonModel) + "}");
+            }
+        }
+
+        public void Remove_Eva_QuestionAnswer(HttpContext context)
+        {
+            int intSuccess = (int)errNum.Success;
+            HttpRequest Request = context.Request;
+            int Id = RequestHelper.int_transfer(Request, "Id");
+            try
+            {
+                jsonModel = Constant.Eva_QuestionAnswerService.Delete(Id);
+                if (jsonModel.errNum == intSuccess)
+                {
+                    Constant.Eva_QuestionAnswer_List.RemoveAll(i => i.Id == Id);
+
+                    var header_ids = (from h in Constant.Eva_QuestionAnswer_Header_List where h.QuestionID == Id select Convert.ToString(h.Id)).ToArray();
+                    var jsm = Constant.Eva_QuestionAnswer_HeaderService.DeleteBatch(header_ids);
+                    if (jsm.errNum == 0)
+                    {
+                        Constant.Eva_QuestionAnswer_Header_List.RemoveAll(i => i.QuestionID == Id);
+                    }
+
+                    var detail_ids = (from d in Constant.Eva_QuestionAnswer_Detail_List where d.QuestionID == Id select Convert.ToString(d.Id)).ToArray();
+                    var jsm2 = Constant.Eva_QuestionAnswer_DetailService.DeleteBatch(detail_ids);
+                    if (jsm2.errNum == 0)
+                    {
+                        Constant.Eva_QuestionAnswer_Detail_List.RemoveAll(i => i.QuestionID == Id);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                LogHelper.Error(ex);
+            }
+            finally
+            {
+                //无论后端出现什么问题，都要给前端有个通知【为防止jsonModel 为空 ,全局字段 jsonModel 特意声明之后进行初始化】
+                context.Response.Write("{\"result\":" + Constant.jss.Serialize(jsonModel) + "}");
+            }
+        }
+
+
+        /// <summary>
+        /// 获取答题列表
+        /// </summary>
+        /// <param name="context"></param>
+        public void Get_Eva_QuestionAnswer(HttpContext context)
+        {
+            lock (obj_Add_Eva_QuestionAnswer)
+            {
+
+                HttpRequest Request = context.Request;
+
+                //学年学期的ID
+                int SectionID = RequestHelper.int_transfer(Request, "SectionID");
+                string DepartmentID = RequestHelper.string_transfer(Request, "DepartmentID");
+                //课程的ID
+                string Key = RequestHelper.string_transfer(Request, "Key");
+                int TableID = RequestHelper.int_transfer(Request, "TableID");
+
+                int PageIndex = RequestHelper.int_transfer(Request, "PageIndex");
+                int PageSize = RequestHelper.int_transfer(Request, "PageSize");
+                try
+                {
+                    jsonModel = Get_Eva_QuestionAnswer_Helper(PageIndex, PageSize, SectionID, DepartmentID, Key, TableID);
+                }
+                catch (Exception ex)
+                {
+                    LogHelper.Error(ex);
+                }
+                finally
+                {
+                    //无论后端出现什么问题，都要给前端有个通知【为防止jsonModel 为空 ,全局字段 jsonModel 特意声明之后进行初始化】
+                    context.Response.Write("{\"result\":" + Constant.jss.Serialize(jsonModel) + "}");
+                }
+            }
+        }
+
+        /// <summary>
+        /// 获取答题列表
+        /// </summary>
+        /// <param name="context"></param>
+        public static JsonModel Get_Eva_QuestionAnswer_Helper(int PageIndex, int PageSize, int SectionID, string DepartmentID, string Key, int TableID)
+        {
+            int intSuccess = (int)errNum.Success;
+            JsonModelNum jsm = new JsonModelNum();
+            try
+            {
+                var list = (from q in Constant.Eva_QuestionAnswer_List
+                            join u in Constant.UserInfo_List on q.TeacherUID equals u.UniqueNo
+                            join d in Constant.Major_List on u.Major_ID equals d.Id
+                            select new Eva_QuestionModel()
+                            {
+                                Id = q.Id,
+                                SectionID = q.SectionID,
+                                DisPlayName = q.DisPlayName,
+                                TeacherUID = q.TeacherUID,
+                                TeacherName = q.TeacherName,
+                                CourseID = q.CourseID,
+                                CourseName = q.CourseName,
+                                DepartmentID = d.Id,
+                                DepartmentName = d.Major_Name,
+                                TableID = q.TableID,
+                                TableName = q.TableName,
+                                State = q.State,
+                                Score = q.Score,
+                                Num = 0,
+                                ReguID = q.ReguID,
+                                ReguName = q.ReguName,
+                                AnswerUID = q.AnswerUID,
+                                AnswerName = q.AnswerName,
+                            }).ToList();
+
+                if (SectionID > 0)
+                {
+                    list = (from li in list where li.SectionID == SectionID select li).ToList();
+                }
+                if (DepartmentID != "")
+                {
+                    list = (from li in list where li.DepartmentID == DepartmentID select li).ToList();
+                }
+                if (TableID > 0)
+                {
+                    list = (from li in list where li.TableID == TableID select li).ToList();
+                }
+
+                if (Key != "")
+                {
+                    list = (from li in list where li.CourseName.Contains(Key) || li.TeacherName.Contains(Key) select li).ToList();
+                }
+
+                for (int i = 0; i < list.Count; i++)
+                {
+                    list[i].Num = i + 1;
+                }
+
+                var query_last = (from an in list select an).Skip((PageIndex - 1) * PageSize).Take(PageSize).ToList();
+                //返回所有表格数据
+                jsm = JsonModelNum.GetJsonModel_o(intSuccess, "success", query_last);
+                jsm.PageIndex = PageIndex;
+                jsm.PageSize = PageSize;
+                jsm.PageCount = (int)Math.Ceiling((double)list.Count() / PageSize);
+                jsm.RowCount = list.Count();
+            }
+            catch (Exception ex)
+            {
+                LogHelper.Error(ex);
+            }
+            return jsm;
+        }
+
+
+        /// <summary>
+        /// 获取答题列表
+        /// </summary>
+        /// <param name="context"></param>
+        public void Get_Eva_QuestionAnswerDetail(HttpContext context)
+        {
+            lock (obj_Add_Eva_QuestionAnswer)
+            {
+
+                HttpRequest Request = context.Request;
+                int intSuccess = (int)errNum.Success;
+                int intFailed = (int)errNum.Failed;
+                //学年学期的ID
+                int Id = RequestHelper.int_transfer(Request, "Id");
+
+                try
+                {
+                    Eva_QuestionAnswer question = Constant.Eva_QuestionAnswer_List.FirstOrDefault(i => i.Id == Id);
+                    if (question != null)
+                    {
+                        List<Eva_QuestionAnswer_Detail> list = (from detail in Constant.Eva_QuestionAnswer_Detail_List where detail.QuestionID == question.Id select detail).ToList();
+                        List<Eva_QuestionAnswer_Header> headerList = (from header in Constant.Eva_QuestionAnswer_Header_List where header.QuestionID == question.Id select header).ToList();
+                        var data = new
+                        {
+                            HeaderList = (from h in headerList orderby h.Id select new { h.CustomCode, h.Name, h.ValueID, h.Value, h.Id }),
+                            DetailList = (from li in list select new { li.Answer, li.TableDetailID, li.QuestionType, li.Score }),
+                            TableName = question.TableName,
+                            Score = question.Score,
+                        };
+                        jsonModel = JsonModel.get_jsonmodel(intSuccess, "success", data);
+                    }
+                    else
+                    {
+                        jsonModel = JsonModel.get_jsonmodel(intFailed, "failed", "该答题不存在");
+                    }
+
                 }
                 catch (Exception ex)
                 {

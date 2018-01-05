@@ -116,6 +116,7 @@
 <script src="../../Scripts/WebCenter/SortCourse.js"></script>
 <script src="../../Scripts/WebCenter/CourSortMan.js"></script>
 <script src="../../Scripts/WebCenter/AllotPeople.js"></script>
+<script src="../../Scripts/WebCenter/Base.js"></script>
 <%--课程--%>
 <script type="text/x-jquery-tmpl" id="item_course">
     <tr>
@@ -190,7 +191,7 @@
                 layer.msg("失败2！");
             }
         };
-        GetCourseInfo_Select();
+        Base.BindCourse(select_sectionid);
     });
     //------------------------------------分配课程------------------------------------
     function SubmitUpdateCourseSort() {

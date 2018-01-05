@@ -370,6 +370,24 @@ namespace FEDAL
 
 
 	     /// </summary>
+	     ///	数据处理类4
+	     /// </summary>
+		 public partial class Eva_QuestionAnswerDal:BaseDal<Eva_QuestionAnswer>,IEva_QuestionAnswerDal
+         {
+
+
+         }	
+
+        public partial class DalFactory
+        {
+            public static IEva_QuestionAnswerDal GetEva_QuestionAnswerDal()
+            {
+                return new Eva_QuestionAnswerDal();
+            }
+	    }
+
+
+	     /// </summary>
 	     ///	
 	     /// </summary>
 		 public partial class Eva_TaskAnswerDal:BaseDal<Eva_TaskAnswer>,IEva_TaskAnswerDal
@@ -496,7 +514,7 @@ namespace FEDAL
 
 
 	     /// </summary>
-	     ///	菜单信息数据处理类4
+	     ///	菜单信息数据处理类5
 	     /// </summary>
 		 public partial class Sys_MenuInfoDal:BaseDal<Sys_MenuInfo>,ISys_MenuInfoDal
          {
@@ -514,7 +532,7 @@ namespace FEDAL
 
 
 	     /// </summary>
-	     ///	角色用户关系数据处理类5
+	     ///	角色用户关系数据处理类6
 	     /// </summary>
 		 public partial class Sys_RoleOfUserDal:BaseDal<Sys_RoleOfUser>,ISys_RoleOfUserDal
          {
@@ -527,6 +545,24 @@ namespace FEDAL
             public static ISys_RoleOfUserDal GetSys_RoleOfUserDal()
             {
                 return new Sys_RoleOfUserDal();
+            }
+	    }
+
+
+	     /// </summary>
+	     ///	
+	     /// </summary>
+		 public partial class Eva_QuestionAnswer_DetailDal:BaseDal<Eva_QuestionAnswer_Detail>,IEva_QuestionAnswer_DetailDal
+         {
+
+
+         }	
+
+        public partial class DalFactory
+        {
+            public static IEva_QuestionAnswer_DetailDal GetEva_QuestionAnswer_DetailDal()
+            {
+                return new Eva_QuestionAnswer_DetailDal();
             }
 	    }
 
@@ -642,24 +678,6 @@ namespace FEDAL
 	     /// </summary>
 	     ///	
 	     /// </summary>
-		 public partial class Eva_QuestionAnswerDal:BaseDal<Eva_QuestionAnswer>,IEva_QuestionAnswerDal
-         {
-
-
-         }	
-
-        public partial class DalFactory
-        {
-            public static IEva_QuestionAnswerDal GetEva_QuestionAnswerDal()
-            {
-                return new Eva_QuestionAnswerDal();
-            }
-	    }
-
-
-	     /// </summary>
-	     ///	
-	     /// </summary>
 		 public partial class StudySectionDal:BaseDal<StudySection>,IStudySectionDal
          {
 
@@ -694,7 +712,7 @@ namespace FEDAL
 
 
 	     /// </summary>
-	     ///	专业部门名称数据处理类6
+	     ///	专业部门名称数据处理类7
 	     /// </summary>
 		 public partial class CourseRoomDal:BaseDal<CourseRoom>,ICourseRoomDal
          {
@@ -707,6 +725,24 @@ namespace FEDAL
             public static ICourseRoomDal GetCourseRoomDal()
             {
                 return new CourseRoomDal();
+            }
+	    }
+
+
+	     /// </summary>
+	     ///	
+	     /// </summary>
+		 public partial class Eva_QuestionAnswer_HeaderDal:BaseDal<Eva_QuestionAnswer_Header>,IEva_QuestionAnswer_HeaderDal
+         {
+
+
+         }	
+
+        public partial class DalFactory
+        {
+            public static IEva_QuestionAnswer_HeaderDal GetEva_QuestionAnswer_HeaderDal()
+            {
+                return new Eva_QuestionAnswer_HeaderDal();
             }
 	    }
 
@@ -838,7 +874,7 @@ namespace FEDAL
 
 
 	     /// </summary>
-	     ///	菜单按钮类型数据处理类7
+	     ///	菜单按钮类型数据处理类8
 	     /// </summary>
 		 public partial class Sys_ButtonTypeDal:BaseDal<Sys_ButtonType>,ISys_ButtonTypeDal
          {
@@ -894,24 +930,6 @@ namespace FEDAL
 	     /// </summary>
 	     ///	
 	     /// </summary>
-		 public partial class Eva_QuestionAnswer_DetailDal:BaseDal<Eva_QuestionAnswer_Detail>,IEva_QuestionAnswer_DetailDal
-         {
-
-
-         }	
-
-        public partial class DalFactory
-        {
-            public static IEva_QuestionAnswer_DetailDal GetEva_QuestionAnswer_DetailDal()
-            {
-                return new Eva_QuestionAnswer_DetailDal();
-            }
-	    }
-
-
-	     /// </summary>
-	     ///	
-	     /// </summary>
 		 public partial class Eva_CourseType_TableDal:BaseDal<Eva_CourseType_Table>,IEva_CourseType_TableDal
          {
 
@@ -928,7 +946,7 @@ namespace FEDAL
 
 
 	     /// </summary>
-	     ///	系统日志数据处理类8
+	     ///	系统日志数据处理类9
 	     /// </summary>
 		 public partial class Sys_LogInfoDal:BaseDal<Sys_LogInfo>,ISys_LogInfoDal
          {

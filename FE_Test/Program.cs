@@ -22,9 +22,11 @@ namespace FE_Test
            //var d = Constant.IndicatorType_List;
 
             //CourseInfoHandler.GetCourseInfo_SelectHelper(1, "0");
+            Eva_ManageHandler.Get_Eva_TableHelper(1, "");
 
         }
 
+     
     }
 }
 

@@ -87,6 +87,30 @@ namespace FEHandler
         public static Eva_QuestionAnswer_DetailService Eva_QuestionAnswer_DetailService = new Eva_QuestionAnswer_DetailService();
         public static Eva_TeacherAnswerService Eva_TeacherAnswerService = new Eva_TeacherAnswerService();
 
+        public static Eva_QuestionAnswer_HeaderService Eva_QuestionAnswer_HeaderService = new Eva_QuestionAnswer_HeaderService();
+
+        private static List<Eva_QuestionAnswer_Header> eva_QuestionAnswer_Header_List = null;
+        /// <summary>
+        /// 指标库表
+        /// </summary>
+        public static List<Eva_QuestionAnswer_Header> Eva_QuestionAnswer_Header_List
+        {
+            get
+            {
+                if (eva_QuestionAnswer_Header_List == null)
+                {
+                    //数据库获取
+                    Hashtable hs = new Hashtable();
+                    hs.Add("TableName", "Eva_QuestionAnswer_Header");
+                    DataTable dt = Eva_QuestionAnswer_HeaderService.GetData(hs, false, "and IsDelete =0");
+                    eva_QuestionAnswer_Header_List = ConvertToList_Eva_QuestionAnswer_Header(dt);
+                }
+                return eva_QuestionAnswer_Header_List;
+            }
+            set { Constant.eva_QuestionAnswer_Header_List = value; }
+        }
+
+
         private static List<Indicator> indicator_List = null;
         /// <summary>
         /// 指标库表
@@ -165,7 +189,7 @@ namespace FEHandler
                     Hashtable hs = new Hashtable();
                     hs.Add("TableName", "Eva_Table");
                     DataTable dt = Eva_TableService.GetData(hs, false, "and IsDelete =0");
-                    eva_Table_List = ConverList<Eva_Table>.ConvertToList(dt);
+                    eva_Table_List = ConvertToList_Eva_Table(dt);
                 }
                 return eva_Table_List;
             }
@@ -229,7 +253,7 @@ namespace FEHandler
                     Hashtable hs = new Hashtable();
                     hs.Add("TableName", "Eva_TableDetail");
                     DataTable dt = Eva_TableDetailService.GetData(hs, false, "and IsDelete =0");
-                    eva_TableDetail_List = ConverList<Eva_TableDetail>.ConvertToList(dt);
+                    eva_TableDetail_List = ConvertToList_Eva_TableDetail(dt);
                 }
                 return eva_TableDetail_List;
             }
@@ -314,7 +338,7 @@ namespace FEHandler
                     Hashtable hs = new Hashtable();
                     hs.Add("TableName", "Eva_QuestionAnswer_Detail");
                     DataTable dt = Eva_QuestionAnswer_DetailService.GetData(hs, false, "and IsDelete =0");
-                    eva_QuestionAnswer_Detail_List = ConverList<Eva_QuestionAnswer_Detail>.ConvertToList(dt);
+                    eva_QuestionAnswer_Detail_List = ConvertToList_Eva_QuestionAnswer_Detail(dt);
                 }
                 return eva_QuestionAnswer_Detail_List;
             }
@@ -335,7 +359,7 @@ namespace FEHandler
                     Hashtable hs = new Hashtable();
                     hs.Add("TableName", "Eva_QuestionAnswer");
                     DataTable dt = Eva_QuestionAnswerService.GetData(hs, false, "and IsDelete =0");
-                    eva_QuestionAnswer_List = ConverList<Eva_QuestionAnswer>.ConvertToList(dt);
+                    eva_QuestionAnswer_List =  ConvertToList_Eva_QuestionAnswer(dt);
                 }
                 return eva_QuestionAnswer_List;
             }
@@ -1489,6 +1513,274 @@ namespace FEHandler
 
             return ts;
 
+        }
+
+        /// <summary>
+        /// 答题表头
+        /// </summary>
+        /// <param name="dt"></param>
+        /// <returns></returns>
+        public static List<Eva_QuestionAnswer_Header> ConvertToList_Eva_QuestionAnswer_Header(DataTable dt)
+        {
+
+            // 定义集合  
+            List<Eva_QuestionAnswer_Header> ts = new List<Eva_QuestionAnswer_Header>();
+
+            try
+            {
+                //遍历DataTable中所有的数据行  
+                foreach (DataRow dr in dt.Rows)
+                {
+                    Eva_QuestionAnswer_Header t = new Eva_QuestionAnswer_Header()
+                    {
+                        Id = Convert.ToInt32(dr["Id"]),
+                        Name = Convert.ToString(dr["Name"]),
+                        CustomCode = Convert.ToString(dr["CustomCode"]),
+                        QuestionID = Convert.ToInt32(dr["QuestionID"]),
+                        Value = Convert.ToString(dr["Value"]),
+                        ValueID = Convert.ToString(dr["ValueID"]),
+                        CreateTime = Convert.ToDateTime(dr["CreateTime"]),
+                        CreateUID = Convert.ToString(dr["CreateUID"]),
+                        EditTime = Convert.ToDateTime(dr["EditTime"]),
+                        EditUID = Convert.ToString(dr["EditUID"]),
+                        IsDelete = Convert.ToByte(dr["IsDelete"]),
+                        IsEnable = Convert.ToByte(dr["IsEnable"]),
+                    };
+                    //对象添加到泛型集合中  
+                    ts.Add(t);
+                }
+            }
+            catch (Exception ex)
+            {
+                LogHelper.Error(ex);
+            }
+            return ts;
+        }
+
+        /// <summary>
+        /// 答题
+        /// </summary>
+        /// <param name="dt"></param>
+        /// <returns></returns>
+        public static List<Eva_QuestionAnswer> ConvertToList_Eva_QuestionAnswer(DataTable dt)
+        {
+
+            // 定义集合  
+            List<Eva_QuestionAnswer> ts = new List<Eva_QuestionAnswer>();
+
+            try
+            {
+                //遍历DataTable中所有的数据行  
+                foreach (DataRow dr in dt.Rows)
+                {
+                    Eva_QuestionAnswer t = new Eva_QuestionAnswer()
+                    {
+                        Id = Convert.ToInt32(dr["Id"]),                      
+                        AnswerName = Convert.ToString(dr["AnswerName"]),
+                        Eva_Role = Convert.ToInt32(dr["Eva_Role"]),
+                        AnswerUID = Convert.ToString(dr["AnswerUID"]),
+                        CourseID = Convert.ToString(dr["CourseID"]),
+                        CourseName = Convert.ToString(dr["CourseName"]),
+                        CourseTypeID = Convert.ToString(dr["CourseTypeID"]),
+                        CourseTypeName = Convert.ToString(dr["CourseTypeName"]),
+                        DisPlayName = Convert.ToString(dr["DisPlayName"]),
+                        ReguID = Convert.ToInt32(dr["ReguID"]),
+                        ReguName = Convert.ToString(dr["ReguName"]),
+                        Score = Convert.ToDecimal(dr["Score"]),
+                        SectionID = Convert.ToInt32(dr["SectionID"]),
+                        State = Convert.ToInt32(dr["State"]),
+                        TableID = Convert.ToInt32(dr["TableID"]),
+                        TableName = Convert.ToString(dr["TableName"]),
+                        TeacherName = Convert.ToString(dr["TeacherName"]),
+                        TeacherUID = Convert.ToString(dr["TeacherUID"]),
+                        CreateTime = Convert.ToDateTime(dr["CreateTime"]),
+                        CreateUID = Convert.ToString(dr["CreateUID"]),
+                        EditTime = Convert.ToDateTime(dr["EditTime"]),
+                        EditUID = Convert.ToString(dr["EditUID"]),
+                        IsDelete = Convert.ToByte(dr["IsDelete"]),
+                        IsEnable = Convert.ToByte(dr["IsEnable"]),
+                    };
+                    //对象添加到泛型集合中  
+                    ts.Add(t);
+                }
+            }
+            catch (Exception ex)
+            {
+                LogHelper.Error(ex);
+            }
+
+            return ts;
+        }
+
+        /// <summary>
+        /// 答题详情
+        /// </summary>
+        /// <param name="dt"></param>
+        /// <returns></returns>
+        public static List<Eva_QuestionAnswer_Detail> ConvertToList_Eva_QuestionAnswer_Detail(DataTable dt)
+        {
+
+            // 定义集合  
+            List<Eva_QuestionAnswer_Detail> ts = new List<Eva_QuestionAnswer_Detail>();
+
+            try
+            {
+                //遍历DataTable中所有的数据行  
+                foreach (DataRow dr in dt.Rows)
+                {
+                    Eva_QuestionAnswer_Detail t = new Eva_QuestionAnswer_Detail()
+                    {
+                        Id = Convert.ToInt32(dr["Id"]),
+                        AnswerName = Convert.ToString(dr["AnswerName"]),
+                        Eva_Role = Convert.ToInt32(dr["Eva_Role"]),
+                        AnswerUID = Convert.ToString(dr["AnswerUID"]),
+                        CourseID = Convert.ToString(dr["CourseID"]),
+                        CourseName = Convert.ToString(dr["CourseName"]),
+                        CourseTypeID = Convert.ToString(dr["CourseTypeID"]),
+                        CourseTypeName = Convert.ToString(dr["CourseTypeName"]),
+                        DisPlayName = Convert.ToString(dr["DisPlayName"]),
+                        ReguID = Convert.ToInt32(dr["ReguID"]),
+                        ReguName = Convert.ToString(dr["ReguName"]),
+                        Score = Convert.ToDecimal(dr["Score"]),
+                        SectionID = Convert.ToInt32(dr["SectionID"]),
+                        State = Convert.ToInt32(dr["State"]),
+                        TableID = Convert.ToInt32(dr["TableID"]),
+                        TableName = Convert.ToString(dr["TableName"]),
+                        TeacherName = Convert.ToString(dr["TeacherName"]),
+                        TeacherUID = Convert.ToString(dr["TeacherUID"]),
+
+                        QuestionID = Convert.ToInt32(dr["QuestionID"]),
+                        Answer = Convert.ToString(dr["Answer"]),
+                        QuestionType = Convert.ToInt32(dr["QuestionType"]),
+                        TableDetailID = Convert.ToInt32(dr["TableDetailID"]),
+                          
+                        CreateTime = Convert.ToDateTime(dr["CreateTime"]),
+                        CreateUID = Convert.ToString(dr["CreateUID"]),
+                        EditTime = Convert.ToDateTime(dr["EditTime"]),
+                        EditUID = Convert.ToString(dr["EditUID"]),
+                        IsDelete = Convert.ToByte(dr["IsDelete"]),
+                        IsEnable = Convert.ToByte(dr["IsEnable"]),
+                    };
+                    //对象添加到泛型集合中  
+                    ts.Add(t);
+                }
+            }
+            catch (Exception ex)
+            {
+                LogHelper.Error(ex);
+            }
+
+            return ts;
+        }
+
+        /// <summary>
+        /// 表格
+        /// </summary>
+        /// <param name="dt"></param>
+        /// <returns></returns>
+        public static List<Eva_Table> ConvertToList_Eva_Table(DataTable dt)
+        {
+
+            // 定义集合  
+            List<Eva_Table> ts = new List<Eva_Table>();
+
+            try
+            {
+                //遍历DataTable中所有的数据行  
+                foreach (DataRow dr in dt.Rows)
+                {
+                    Eva_Table t = new Eva_Table()
+                    {
+                        Id = Convert.ToInt32(dr["Id"]),
+
+                        CousrseType_Id = Convert.ToString(dr["CousrseType_Id"]),
+                        IsScore = Convert.ToByte(dr["IsScore"]),
+                        Name = Convert.ToString(dr["Name"]),
+                        Remarks = Convert.ToString(dr["Remarks"]),
+                        UseTimes = Convert.ToInt32(dr["UseTimes"]),
+                        
+                        Eva_Role = Convert.ToInt32(dr["Eva_Role"]),                       
+                        CreateTime = Convert.ToDateTime(dr["CreateTime"]),
+                        CreateUID = Convert.ToString(dr["CreateUID"]),
+                        EditTime = Convert.ToDateTime(dr["EditTime"]),
+                        EditUID = Convert.ToString(dr["EditUID"]),
+                        IsDelete = Convert.ToByte(dr["IsDelete"]),
+                        IsEnable = Convert.ToByte(dr["IsEnable"]),
+                    };
+                    //对象添加到泛型集合中  
+                    ts.Add(t);
+                }
+            }
+            catch (Exception ex)
+            {
+                LogHelper.Error(ex);
+            }
+
+            return ts;
+        }
+
+        /// <summary>
+        /// 表格详情
+        /// </summary>
+        /// <param name="dt"></param>
+        /// <returns></returns>
+        public static List<Eva_TableDetail> ConvertToList_Eva_TableDetail(DataTable dt)
+        {
+
+            // 定义集合  
+            List<Eva_TableDetail> ts = new List<Eva_TableDetail>();
+
+            try
+            {
+                //遍历DataTable中所有的数据行  
+                foreach (DataRow dr in dt.Rows)
+                {
+                    Eva_TableDetail t = new Eva_TableDetail()
+                    {
+                        Id = Convert.ToInt32(dr["Id"]),
+
+                        Eva_table_Id = Convert.ToInt32(dr["Eva_table_Id"]),
+                        Indicator_Id = Convert.ToInt32(dr["Indicator_Id"]),
+                        IndicatorType_Id = Convert.ToInt32(dr["IndicatorType_Id"]),
+                        IndicatorType_Name = Convert.ToString(dr["IndicatorType_Name"]),
+                        Name = Convert.ToString(dr["Name"]),
+                        OptionA = Convert.ToString(dr["OptionA"]),
+                        OptionA_S = Convert.ToInt32(dr["OptionA_S"]),
+                        OptionB = Convert.ToString(dr["OptionB"]),
+                        OptionB_S = Convert.ToInt32(dr["OptionB_S"]),
+                        OptionC = Convert.ToString(dr["OptionC"]),
+                        OptionC_S = Convert.ToInt32(dr["OptionC_S"]),
+                        OptionD = Convert.ToString(dr["OptionD"]),
+                        OptionD_S = Convert.ToInt32(dr["OptionD_S"]),
+                        OptionE = Convert.ToString(dr["OptionE"]),
+                        OptionE_S = Convert.ToInt32(dr["OptionE_S"]),
+                        OptionF = Convert.ToString(dr["OptionF"]),
+                        OptionF_S = Convert.ToInt32(dr["OptionF_S"]),
+                        OptionF_S_Max = Convert.ToInt32(dr["OptionF_S_Max"]),
+                        QuesType_Id = Convert.ToInt32(dr["QuesType_Id"]),
+                        Remarks = Convert.ToString(dr["Remarks"]),
+                        Root = Convert.ToString(dr["Root"]),
+                        RootID = Convert.ToInt32(dr["RootID"]),
+                        Sort = Convert.ToInt32(dr["Sort"]),
+                        Type = Convert.ToString(dr["Type"]),
+
+                        CreateTime = Convert.ToDateTime(dr["CreateTime"]),
+                        CreateUID = Convert.ToString(dr["CreateUID"]),
+                        EditTime = Convert.ToDateTime(dr["EditTime"]),
+                        EditUID = Convert.ToString(dr["EditUID"]),
+                        IsDelete = Convert.ToByte(dr["IsDelete"]),
+                        IsEnable = Convert.ToByte(dr["IsEnable"]),
+                    };
+                    //对象添加到泛型集合中  
+                    ts.Add(t);
+                }
+            }
+            catch (Exception ex)
+            {
+                LogHelper.Error(ex);
+            }
+
+            return ts;
         }
 
         #endregion

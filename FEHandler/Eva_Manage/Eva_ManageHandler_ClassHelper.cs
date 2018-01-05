@@ -1046,7 +1046,64 @@ namespace FEHandler.Eva_Manage
         public string DisPlayName { get; set; }
 
         public int? SectionID { get; set; }
+
+        public int AnswerCount { get; set; }
+
+        public int Num { get; set; }
     }
+
+    public class Eva_QuestionModel
+    {
+
+        public int? SectionID { get; set; }
+
+        public string DisPlayName { get; set; }
+
+        public string TeacherUID { get; set; }
+
+        public string TeacherName { get; set; }
+
+        public string CourseID { get; set; }
+
+        public string CourseName { get; set; }
+
+        public string DepartmentID { get; set; }
+
+        public string DepartmentName { get; set; }
+
+        public int? TableID { get; set; }
+
+        public string TableName { get; set; }
+
+        public int? State { get; set; }
+
+        public decimal? Score { get; set; }
+
+        public int Num { get; set; }
+
+        public int? ReguID { get; set; }
+
+        public string ReguName { get; set; }
+
+        public string AnswerUID { get; set; }
+
+        public string AnswerName { get; set; }
+
+        public int? Id { get; set; }
+    }
+
+    class Eva_TableComparer : EqualityComparer<Eva_Table>
+    {
+        public override bool Equals(Eva_Table x, Eva_Table y)
+        {
+            return x.Id == y.Id;
+        }
+        public override int GetHashCode(Eva_Table obj)
+        {
+            return obj.Id.GetHashCode();
+        }
+    }
+    
 
     #endregion
 

@@ -1,4 +1,5 @@
-﻿/// <reference path="../../Evaluation/Input/selectTable.aspx" />
+﻿/// <reference path="../jquery-1.11.2.min.js" />
+/// <reference path="../../Evaluation/Input/selectTable.aspx" />
 //==========================评价===================================================
 var evaluate_Model = {
     //总数据
@@ -14,7 +15,7 @@ var evaluate_Model = {
     Is_AddQuesType: false, //是否保存题的类型
     Is_Required: true, //true提交   false 保存
 
-    AllScore:0,
+    AllScore: 0,
     Get_SubData: function () {
         var s_flg = 0;
         evaluate_Model.Submit_array = [];
@@ -55,7 +56,7 @@ var evaluate_Model = {
             sub_array.TableDetailID = TableDetailID;
             sub_array.Score = sub_Score;
             //总分
-            evaluate_Model.AllScore += sub_Score;
+            evaluate_Model.AllScore += Number(sub_Score);
 
             sub_array.Answer = Answer;
             sub_array.IsEnable = evaluate_Model.Is_Required ? 0 : 1
@@ -100,6 +101,8 @@ var evaluate_Model = {
 var Type = 1;
 var Eva_Role = 1;
 var Is_AddQuesType = false;
+var HeaderList = [];
+var State = 1;
 
 function SubmitQuestionCompleate() { };
 function SubmitQuestion() {
@@ -122,11 +125,14 @@ function SubmitQuestion() {
     obj.AnswerName = AnswerName;
 
     obj.TableID = table_Id;
-    obj.TableName = $('#table').find('option:selected').text();
+    obj.TableName = $('#table').find('option:selected').attr('title');
 
     obj.CreateUID = AnswerUID;
     obj.Type = Type;
     obj.Eva_Role = Eva_Role;
+    obj.State = State;
+
+    obj.HeaderList = JSON.stringify(HeaderList);;
 
     evaluate_Model.Submit_ele = $(".ti");
     evaluate_Model.Is_AddQuesType = Is_AddQuesType;
@@ -144,18 +150,17 @@ function SubmitQuestion() {
             dataType: "json",
             data: obj,//组合input标签
             success: function (json) {
-                //console.log(JSON.stringify(json));
+
                 if (json.result.errMsg == "success") {
                     var data = json.result.retData;
                     layer.msg('提交成功!', { offset: '400px' });
                     window.history.go(-1);
-                    SubmitQuestionCompleate();
                 }
                 else {
-                    layer.msg(json.result.retData, { offset: '400px' });                  
+                    layer.msg(json.result.retData, { offset: '400px' });
                 }
-               
-                layer.close(layer_index);
+
+                layer.close(index_layer);
             },
             error: function () {
                 //接口错误时需要执行的
@@ -165,4 +170,207 @@ function SubmitQuestion() {
     evaluate_Model.Get_SubData();
 }
 
+
+function EditQuestionCompleate() { };
+function EditQuestion(Id) {
+    var obj = new Object();
+    obj.func = "Edit_Eva_QuestionAnswer";
+    obj.Id = Id;
+    obj.State = State;
+    obj.HeaderList = JSON.stringify(HeaderList);;
+    evaluate_Model.Submit_ele = $(".ti");
+    evaluate_Model.Is_AddQuesType = Is_AddQuesType;
+    evaluate_Model.Submit_Data = function () {
+
+        obj.Score = evaluate_Model.AllScore;
+        obj.List = JSON.stringify(evaluate_Model.Submit_array);
+        var index_layer = layer.load(1, {
+            shade: [0.1, '#fff'] //0.1透明度的白色背景
+        });
+        $.ajax({
+            url: HanderServiceUrl + "/Eva_Manage/Eva_ManageHandler.ashx",
+            type: "post",
+            async: false,
+            dataType: "json",
+            data: obj,//组合input标签
+            success: function (json) {
+
+                if (json.result.errMsg == "success") {
+                    var data = json.result.retData;
+                    layer.msg('提交成功!', { offset: '400px' });
+                    window.history.go(-1);
+                }
+                else {
+                    layer.msg(json.result.retData, { offset: '400px' });
+                }
+
+                layer.close(index_layer);
+            },
+            error: function () {
+                //接口错误时需要执行的
+            }
+        });
+    }
+    evaluate_Model.Get_SubData();
+}
+
+var pageSize = 10;
+var pageIndex = 0;
+function Get_Eva_QuestionAnswer(PageIndex, SectionID, DepartmentID, Key, TableID) {
+    index_layer = layer.load(1, {
+        shade: [0.1, '#fff'] //0.1透明度的白色背景
+    });
+    $.ajax({
+        url: HanderServiceUrl + "/Eva_Manage/Eva_ManageHandler.ashx",
+        type: "post",
+        async: false,
+        dataType: "json",
+        data: {
+            func: "Get_Eva_QuestionAnswer", "SectionID": SectionID, "DepartmentID": DepartmentID,
+            "TableID": TableID, "Key": Key,
+            "PageIndex": PageIndex, "PageSize": pageSize
+        },
+        dataType: "json",
+        success: function (returnVal) {
+
+            if (returnVal.result.errMsg == "success") {
+                var data = returnVal.result.retData;
+                layer.close(index_layer);
+
+                $("#tbody").empty();
+                if (data.length <= 0) {
+                    nomessage('#tbody');
+                    $('#pageBar').hide();
+                    return;
+                }
+                else {
+                    $('#pageBar').show();
+                }
+
+
+                $("#itemData").tmpl(data).appendTo("#tbody");
+                tableSlide();
+
+                laypage({
+                    cont: 'pageBar', //容器。值支持id名、原生dom对象，jquery对象。【如该容器为】：<div id="page1"></div>
+                    pages: returnVal.result.PageCount, //通过后台拿到的总页数
+                    curr: returnVal.result.PageIndex || 1, //当前页
+                    skip: true, //是否开启跳页
+                    skin: '#CA90B0',
+                    groups: 10,
+                    jump: function (obj, first) { //触发分页后的回调
+                        if (!first) { //点击跳页触发函数自身，并传递当前页：obj.curr                                                                 
+                            Get_Eva_QuestionAnswer(obj.curr, SectionID, DepartmentID, Key, TableID)
+                            pageIndex = obj.curr;
+                        }
+                    }
+                });
+                $("#itemCount").tmpl(returnVal.result).appendTo(".laypage_total");
+            }
+            else {
+
+            }
+
+            layer.close(index_layer);
+        },
+        error: function () {
+            //接口错误时需要执行的
+        }
+    });
+}
+
+function Remove_Eva_QuestionAnswerCompleate() { };
+function Remove_Eva_QuestionAnswer(Id) {
+    $.ajax({
+        url: HanderServiceUrl + "/Eva_Manage/Eva_ManageHandler.ashx",
+        type: "post",
+        async: false,
+        dataType: "json",
+        data: {
+            func: "Remove_Eva_QuestionAnswer", "Id": Id,
+        },
+        dataType: "json",
+        success: function (returnVal) {
+            if (returnVal.result.errMsg == "success") {
+                layer.msg('操作成功!');               
+                Remove_Eva_QuestionAnswerCompleate();
+            }
+            else {
+                layer.msg('操作失败!');
+            }
+        },
+        error: function () {
+            //接口错误时需要执行的
+        }
+    });
+}
+
+
+
+var PageType = "EvalDetail";
+var HeaderList = [];
+function Get_Eva_QuestionAnswerDetail(Id) {
+    $.ajax({
+        url: HanderServiceUrl + "/Eva_Manage/Eva_ManageHandler.ashx",
+        type: "post",
+        async: false,
+        dataType: "json",
+        data: {
+            func: "Get_Eva_QuestionAnswerDetail", "Id": Id,
+        },
+        dataType: "json",
+        success: function (returnVal) {
+
+            if (returnVal.result.errMsg == "success") {
+                var data = returnVal.result.retData;
+                console.log(data);
+
+                data.DetailList.filter(function (item) {
+                    switch (item.QuestionType) {
+                        case 1:
+                            $('.test_lists').find('div[DetailID="' + item.TableDetailID + '"]').find('input[flv="' + item.Answer + '"]').attr("checked", true);
+                            break;
+                        case 2:
+
+                            break;
+                        case 3:
+                            $('.test_lists').find('div[DetailID="' + item.TableDetailID + '"]').find('textarea').text(item.Answer);
+                            break;
+
+                        default:
+
+                    }
+                });
+                switch (PageType) {
+                    case 'EvalDetail':
+                        $("#item_check").tmpl(data.HeaderList).appendTo(".table_header_left");
+
+                        if (IsScore == 0) {
+                            $("#sp_total").html('分数：' + data.Score + '分')
+                        }
+                        else {
+                            $("#sp_total").html('不计分')
+                        }
+
+                        break;
+                    case 'EvalTable':
+
+                        HeaderList = data.HeaderList;
+
+                        break;
+                    default:
+
+                }
+
+
+            }
+            else {
+
+            }
+        },
+        error: function () {
+            //接口错误时需要执行的
+        }
+    });
+}
 

@@ -809,12 +809,14 @@ namespace FEHandler.Eva_Manage
         /// <param name="context">当前上下文</param>
         public void Get_Eva_Table(HttpContext context)
         {
-            int intSuccess = (int)errNum.Success;
+
             HttpRequest Request = context.Request;
+
+            string CourseID = RequestHelper.string_transfer(Request, "CourseID");
+            int SectionID = RequestHelper.int_transfer(Request, "SectionID");
             try
             {
-                //返回所有表格数据
-                jsonModel = JsonModel.get_jsonmodel(intSuccess, "success", Constant.Eva_Table_List);
+                jsonModel = Get_Eva_TableHelper(SectionID, CourseID);
             }
             catch (Exception ex)
             {
@@ -826,6 +828,37 @@ namespace FEHandler.Eva_Manage
                 context.Response.Write("{\"result\":" + Constant.jss.Serialize(jsonModel) + "}");
             }
         }
+
+        public static JsonModel Get_Eva_TableHelper(int SectionID, string CourseID)
+        {
+            int intSuccess = (int)errNum.Success;
+            JsonModel jsmodel = new JsonModel();
+            try
+            {
+                List<Eva_Table> tableList = Constant.Eva_Table_List;
+                if ( SectionID > 0)
+                {
+                    tableList = (from dic in Constant.Sys_Dictionary_List
+                                 where dic.Type == "0" && dic.SectionId == SectionID
+                                 join cr in Constant.CourseRel_List on dic.Key equals cr.CourseType_Id
+                                 where (CourseID != "" && cr.Course_Id == CourseID) || CourseID == ""
+                                 join cb in Constant.Eva_CourseType_Table_List on dic.Key equals cb.CourseTypeId
+                                 join tb in tableList on cb.TableId equals tb.Id
+                                 select tb).Distinct(new Eva_TableComparer()).ToList();
+                                       
+                }
+
+                //返回所有表格数据
+                jsmodel = JsonModel.get_jsonmodel(intSuccess, "success", tableList);
+            }
+            catch (Exception ex)
+            {
+                jsmodel = JsonModel.get_jsonmodel(3, "failed", ex.Message);
+                LogHelper.Error(ex);
+            }
+            return jsmodel;
+        }
+
 
         /// <summary>
         /// 获取表格头部规则
@@ -910,7 +943,7 @@ namespace FEHandler.Eva_Manage
                     table_view.Table_Detail_Dic_List = (from ps in details
                                                         group ps by ps.RootID
                                                             into g
-                                                            select new Table_Detail_Dic { Root = g.FirstOrDefault(i=>i.RootID == g.Key).Root, Eva_TableDetail_List = g.ToList() }).ToList();
+                                                            select new Table_Detail_Dic { Root = g.FirstOrDefault(i => i.RootID == g.Key).Root, Eva_TableDetail_List = g.ToList() }).ToList();
 
                     //表头
                     table_view.Table_Header_List = (from header in Constant.Eva_Table_Header_List

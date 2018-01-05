@@ -179,8 +179,16 @@ namespace FEHandler.Eva_Manage
 
                     #region 答题
 
-                    //定期评价-学生答题表
+                    //定期评价-答题
                     case "Add_Eva_QuestionAnswer": Add_Eva_QuestionAnswer(context); break;
+                    case "Edit_Eva_QuestionAnswer": Edit_Eva_QuestionAnswer(context); break;
+                    case "Remove_Eva_QuestionAnswer": Remove_Eva_QuestionAnswer(context); break;
+                        
+                        
+                    //定期评价-答题获取
+                    case "Get_Eva_QuestionAnswer": Get_Eva_QuestionAnswer(context); break;
+                    //定期评价-答题获取
+                    case "Get_Eva_QuestionAnswerDetail": Get_Eva_QuestionAnswerDetail(context); break;
 
                     //获取设计表详情【学生答题的初始化答卷,已答卷】
                     case "Get_Eva_TableDetail_HasAnswer": Get_Eva_TableDetail_HasAnswer(context); break;

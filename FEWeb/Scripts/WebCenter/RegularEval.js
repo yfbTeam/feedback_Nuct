@@ -96,8 +96,8 @@ function Get_Eva_RegularS(SectionId, Type, PageIndex) {
     $.ajax({
         type: "Post",
         url: HanderServiceUrl + "/Eva_Manage/Eva_ManageHandler.ashx",
-        data: { func: "Get_Eva_RegularS", "SectionId": SectionId, "Type": Type, "PageIndex": PageIndex, "PageSize": pageSize },
-        dataType: "json", "Key": key,
+        data: { func: "Get_Eva_RegularS", "SectionId": SectionId, "Type": Type, "PageIndex": PageIndex, "PageSize": pageSize, "Key": key },
+        dataType: "json",
         async: false,
         success: function (returnVal) {
             if (returnVal.result.errMsg == "success") {
@@ -385,7 +385,7 @@ function Get_Eva_RegularData(Id, PageIndex) {
         success: function (returnVal) {
             if (returnVal.result.errMsg == "success") {
                 var data = returnVal.result.retData;
-                data.filter(function (item, index) { item.Num = index + 1 })
+                //data.filter(function (item, index) { item.Num = index + 1 })
                 layer.close(layer_index);
 
                 $('#ShowCourseInfo').empty();

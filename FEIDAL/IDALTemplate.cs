@@ -173,6 +173,14 @@ namespace FEIDAL
     }
 
 	/// </summary>
+	///	数据处理接口类4
+	/// </summary>
+    public interface IEva_QuestionAnswerDal: IBaseDal<Eva_QuestionAnswer>
+    {
+		
+    }
+
+	/// </summary>
 	///	
 	/// </summary>
     public interface IEva_TaskAnswerDal: IBaseDal<Eva_TaskAnswer>
@@ -229,7 +237,7 @@ namespace FEIDAL
     }
 
 	/// </summary>
-	///	菜单信息数据处理接口类4
+	///	菜单信息数据处理接口类5
 	/// </summary>
     public interface ISys_MenuInfoDal: IBaseDal<Sys_MenuInfo>
     {
@@ -237,9 +245,17 @@ namespace FEIDAL
     }
 
 	/// </summary>
-	///	角色用户关系数据处理接口类5
+	///	角色用户关系数据处理接口类6
 	/// </summary>
     public interface ISys_RoleOfUserDal: IBaseDal<Sys_RoleOfUser>
+    {
+		
+    }
+
+	/// </summary>
+	///	
+	/// </summary>
+    public interface IEva_QuestionAnswer_DetailDal: IBaseDal<Eva_QuestionAnswer_Detail>
     {
 		
     }
@@ -295,14 +311,6 @@ namespace FEIDAL
 	/// </summary>
 	///	
 	/// </summary>
-    public interface IEva_QuestionAnswerDal: IBaseDal<Eva_QuestionAnswer>
-    {
-		
-    }
-
-	/// </summary>
-	///	
-	/// </summary>
     public interface IStudySectionDal: IBaseDal<StudySection>
     {
 		
@@ -317,9 +325,17 @@ namespace FEIDAL
     }
 
 	/// </summary>
-	///	专业部门名称数据处理接口类6
+	///	专业部门名称数据处理接口类7
 	/// </summary>
     public interface ICourseRoomDal: IBaseDal<CourseRoom>
+    {
+		
+    }
+
+	/// </summary>
+	///	
+	/// </summary>
+    public interface IEva_QuestionAnswer_HeaderDal: IBaseDal<Eva_QuestionAnswer_Header>
     {
 		
     }
@@ -381,7 +397,7 @@ namespace FEIDAL
     }
 
 	/// </summary>
-	///	菜单按钮类型数据处理接口类7
+	///	菜单按钮类型数据处理接口类8
 	/// </summary>
     public interface ISys_ButtonTypeDal: IBaseDal<Sys_ButtonType>
     {
@@ -407,21 +423,13 @@ namespace FEIDAL
 	/// </summary>
 	///	
 	/// </summary>
-    public interface IEva_QuestionAnswer_DetailDal: IBaseDal<Eva_QuestionAnswer_Detail>
-    {
-		
-    }
-
-	/// </summary>
-	///	
-	/// </summary>
     public interface IEva_CourseType_TableDal: IBaseDal<Eva_CourseType_Table>
     {
 		
     }
 
 	/// </summary>
-	///	系统日志数据处理接口类8
+	///	系统日志数据处理接口类9
 	/// </summary>
     public interface ISys_LogInfoDal: IBaseDal<Sys_LogInfo>
     {

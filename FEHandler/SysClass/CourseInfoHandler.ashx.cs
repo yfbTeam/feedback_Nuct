@@ -319,15 +319,15 @@ namespace FEHandler.SysClass
         public static JsonModelNum GetCourseInfoHelper(int PageIndex, int PageSize, int SectionId, string Key, string CourseTypeID)
         {
             JsonModelNum jsm = new JsonModelNum();
+            DictionType_Enum dictiontype = DictionType_Enum.Course_Type;
             int intSuccess = (int)errNum.Success;
             try
             {
                 List<Course> Course_List = Constant.Course_List;
                 List<CourseRel> CourseRel_List = Constant.CourseRel_List;
-                DictionType_Enum dictiontype = DictionType_Enum.Course_Type;
                 List<Sys_Dictionary> Sys_Dictionary_List = Constant.Sys_Dictionary_List;
-                string dictiontypevalue = Convert.ToString((int)dictiontype);
 
+                string dictiontypevalue = Convert.ToString((int)dictiontype);
                 var courrel = (from CourseRel_ in CourseRel_List
                                where CourseRel_.StudySection_Id == SectionId && CourseRel_.CourseType_Id == CourseTypeID
                                join Sys_Dictionary_ in Sys_Dictionary_List.Where(i => i.Type == dictiontypevalue) on CourseRel_.CourseType_Id equals Sys_Dictionary_.Key
@@ -343,7 +343,7 @@ namespace FEHandler.SysClass
                 var query = (from Course_ in Course_List
                              join cr in courrel on Course_.UniqueNo equals cr.Course_Id
                              orderby Course_.IsEnable
-                             select new 
+                             select new
                              {
                                  Course_Id = Course_.Id,
                                  //课程名称
@@ -356,7 +356,7 @@ namespace FEHandler.SysClass
                                  PkType = Course_.PkType,
                                  Course_.TaskProperty,
                                  CourseRelID = cr == null ? 0 : cr.CourseRelID,
-                                 Course_.IsEnable,                               
+                                 Course_.IsEnable,
                                  DepartMentID = Course_.DepartMentID,
                                  DepartmentName = Course_.DepartmentName,
                                  SubDepartmentID = Course_.SubDepartmentID,
@@ -422,16 +422,21 @@ namespace FEHandler.SysClass
 
                 var courrel = (from CourseRel_ in CourseRel_List
                                //where CourseRel_.StudySection_Id == SectionId
-                               join Sys_Dictionary_ in Sys_Dictionary_List.Where(i => i.Type == dictiontypevalue) on CourseRel_.CourseType_Id equals Sys_Dictionary_.Key
-                               where Sys_Dictionary_.SectionId == SectionId
+                               join Sys_Dictionary_ in Sys_Dictionary_List.Where(i => i.Type == dictiontypevalue) on CourseRel_.CourseType_Id equals Sys_Dictionary_.Key                             
                                select new
                                {
+                                   SectionId,
                                    CourseRel_.CourseType_Id,
                                    CourseRel_.Course_Id,
                                    Sys_Dictionary_.Value,
                                    Sys_Dictionary_.IsEnable,
                                    CourseRelID = CourseRel_.Id
                                }).ToList();
+                if(SectionId >0)
+                {
+                    courrel = (from c in courrel where c.SectionId == SectionId select c).ToList();
+                }
+
                 var query = (from Course_ in Course_List
                              join cr in courrel on Course_.UniqueNo equals cr.Course_Id
                              orderby Course_.IsEnable
@@ -463,6 +468,7 @@ namespace FEHandler.SysClass
                     PkList = (from q in query select q.PkType).Distinct().ToList(),
                     TKList = (from q in query select q.TaskProperty).Distinct().ToList(),
                     CPList = (from q in query select q.CourseProperty).Distinct().ToList(),
+                    CNList = (from q in query select new { CourseID = q.Course_Id, CourseName = q.Course_Name }).Distinct().ToList(),
                     DPList = (from q in query
                               select new DepartmentSelect()
                               {
@@ -523,7 +529,7 @@ namespace FEHandler.SysClass
             try
             {
                 List<Course> Course_List = Constant.Course_List;
-                List<CourseRel> CourseRel_List = Constant.CourseRel_List;             
+                List<CourseRel> CourseRel_List = Constant.CourseRel_List;
                 if (Major_Id != "")
                 {
                     Course_List = (from course in Course_List where course.DepartMentID == Major_Id select course).ToList();
@@ -559,7 +565,7 @@ namespace FEHandler.SysClass
                                  UniqueNo = cr.Course_Id,
                                  SectionId = (int)cr.StudySection_Id
                              } into courelfs_
-                             from courel in courelfs_.DefaultIfEmpty()                           
+                             from courel in courelfs_.DefaultIfEmpty()
                              where courel == null
                              orderby Course_.IsEnable
                              select new

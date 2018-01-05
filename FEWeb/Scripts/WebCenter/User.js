@@ -10,6 +10,7 @@ function GetStudentsSelect(ClassID) {
         url: HanderServiceUrl + "/UserMan/UserManHandler.ashx",
         data: postData,
         dataType: "json",
+        async: false,
         success: function (returnVal) {
             if (returnVal.result.errMsg == "success") {
                 

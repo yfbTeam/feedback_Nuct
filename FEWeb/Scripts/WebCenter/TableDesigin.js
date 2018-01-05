@@ -889,7 +889,7 @@ var UI_Table_Create =
         var all_array = [];
         for (var i in list_sheets) {
             if (list_sheets[i].indicator_array.length > 0) {
-                
+
                 for (var j in list_sheets[i].indicator_array) {
                     all_array.push(list_sheets[i].indicator_array[j]);
                     var indicator_list = list_sheets[i].indicator_array[j].indicator_list;
@@ -1095,7 +1095,7 @@ var UI_Table_Create =
                     retData = json.result.retData;
                     switch (UI_Table_Create.PageType) {
                         case 'SelTabelHead':
-                            
+
                             $("#item_check").tmpl(retData).appendTo("#list");
                             UI_Table_Create.Get_Eva_Table_Header_Custom_List_Compleate(retData);
                             break;
@@ -1114,6 +1114,7 @@ var UI_Table_Create =
 
 //=======================查看视图 ---系统设置用表============================================================
 var headerList = [];
+var IsScore = 0;
 var UI_Table_View = {
     PageType: 'TableView',//TableView 答卷视图  AddEvalTable添加答卷
     IsPage_Display: false,
@@ -1128,14 +1129,20 @@ var UI_Table_View = {
         if (retData.IsScore == 1) {
             $(".isscore").hide();
         }
+        UI_Table_View.IsScore = retData.IsScore;
+    },
 
+    headerInit: function (retData) {
         $('#list').empty();
         headerList = retData.Table_Header_List.filter(function (item) { return item.CustomCode != null && item.CustomCode != '' });
         var head_value = retData.Table_Header_List.filter(function (item) { return item.CustomCode == null || item.CustomCode == '' });
 
         $("#item_check").tmpl(headerList).appendTo("#list");
         $("#item_check2").tmpl(head_value).appendTo("#list");
+    },
 
+    scoreInit: function (retData)
+    {
         var sp_total = 0;
         for (var i in retData.Table_Detail_Dic_List) {
             var data = retData.Table_Detail_Dic_List[i];
@@ -1146,18 +1153,12 @@ var UI_Table_View = {
                 sp_total += child.OptionF_S_Max;
             }
         }
-        if (retData.IsScore == 0) {
-            $("#sp_total").html('总分' + sp_total + '分')
+        if (UI_Table_View.IsScore == 0) {
+            $("#sp_total").html('总分：' + sp_total + '分')
         }
         else {
             $("#sp_total").html('不计分')
         }
-
-    },
-    selectTable_Init: function (retData) {
-        UI_Table_View.TableView_Init(retData);
-
-        
     },
 
 
@@ -1176,9 +1177,21 @@ var UI_Table_View = {
                 switch (UI_Table_View.PageType) {
                     case 'TableView':
                         UI_Table_View.TableView_Init(retData);
+                        UI_Table_View.headerInit(retData);
+                        UI_Table_View.scoreInit(retData);
+                        scoreInit
                         break;
                     case 'selectTable':
-                        UI_Table_View.selectTable_Init(retData);
+                        UI_Table_View.TableView_Init(retData);
+                        UI_Table_View.headerInit(retData);
+                        UI_Table_View.scoreInit(retData);
+                        break;
+                    case 'EvalDetail':
+                        UI_Table_View.TableView_Init(retData);
+                        break;
+                    case 'EvalTable':
+                        UI_Table_View.TableView_Init(retData);
+                        UI_Table_View.scoreInit(retData);
                         break;
                     case 'AddEvalTable':
 
@@ -1230,7 +1243,7 @@ var UI_Table_View = {
                         }
                         $('#total').text(total_)
                         UI_Table_Create.sheet_init();
-                        
+
                         retData.Table_Header_List = Enumerable.From(retData.Table_Header_List).OrderBy(function (item) { return item.Id }).ToArray();//按Id进行升序排列
 
                         //添加表头信息

@@ -115,6 +115,7 @@
             </div>
 
             <div class="btnwrap" style="">
+                <input type="button" value="提交" onclick="Submit()" class="btn">
                 <input type="button" value="保存" onclick="Save()" class="btn">
                 <input type="button" value="取消" class="btna ml10 n_uploadbtn" onclick="window.history.go(-1)">
             </div>
@@ -149,9 +150,9 @@
                     {{each Eva_TableDetail_List}}
                 <li class="ti">
 
-                 <input type="hidden" value="${$value.Eva_table_Id}" name="name_title" />
-                 <input type="hidden" value="${$value.Id}" name="name_id" />
-                 <input type="hidden" value="${QuesType_Id}"  name="name_QuesType_Id"  />
+                    <input type="hidden" value="${$value.Eva_table_Id}" name="name_title" />
+                    <input type="hidden" value="${$value.Id}" name="name_id" />
+                    <input type="hidden" value="${QuesType_Id}" name="name_QuesType_Id" />
 
                     <h2 class="title">${Sort}、${$value.Name}
                     {{if $value.QuesType_Id!=3}}
@@ -187,7 +188,8 @@
                         {{if $value.OptionD!=""}}
                         <span>
                             <input type="radio" name="inp_${$value.Id}" flv="OptionD" id="inp_${$value.Id}-4" value="${$value.OptionD_S}" />
-                            <label class="lbl" for="inp_${$value.Id}-4">D${$value.OptionD}
+                            <label class="lbl" for="inp_${$value.Id}-4">
+                                D${$value.OptionD}
                                 
                             <b class="isscore">(<span class="numbers">${$value.OptionD_S}</span>分)</b></label>
                         </span>
@@ -202,7 +204,8 @@
                          {{if $value.OptionF!=""}}
                         <span>
                             <input type="radio" name="inp_${$value.Id}" flv="OptionF" id="inp_${$value.Id}-6" value="${$value.OptionF_S}" />
-                            <label class="lbl" for="inp_${$value.Id}-6"> F${$value.OptionF}
+                            <label class="lbl" for="inp_${$value.Id}-6">
+                                F${$value.OptionF}
                                
                             <b class="isscore">(<span class="numbers">${$value.OptionF_S}</span>分)</b></label>
                         </span>
@@ -210,7 +213,7 @@
                     </div>
                     {{else $value.QuesType_Id==3}}
                     <div class="test_desc">
-                        <textarea readonly="readonly"></textarea>
+                        <textarea></textarea>
                     </div>
 
                     {{else}}
@@ -227,9 +230,10 @@
     <%--固定表头--%>
     <script type="text/x-jquery-tmpl" id="item_check">
         <div class="fl div_header">
-            <label for="">
+            <label class="lblheader" customcode="${CustomCode}" name="${Value}">
                 ${Value}：
               
+               
                 {{if CustomCode == 4}}
             <select id="major">
             </select>
@@ -245,6 +249,8 @@
            <input readonly="readonly" class="input_bottom" id="teacher" />
                 {{else  CustomCode == 2}}  
            <input readonly="readonly" class="input_bottom" id="course" />
+                {{else CustomCode == 1}}
+             <input readonly="readonly" class="input_bottom" id="dp" />
                 {{else 1==1}}
             【${Header}】
                 {{/if}}            
@@ -255,7 +261,7 @@
     <%--自由表头--%>
     <script type="text/x-jquery-tmpl" id="item_check2">
         <div class="fl" style="margin-bottom: 20px; margin-left: 20px">
-            <label for="">
+            <label class="lblheader" for="" customcode="" name="${Header}">
                 ${Header}：<input class="input_bottom" />
             </label>
         </div>
@@ -280,6 +286,8 @@
         var AnswerUID = getQueryString('AnswerUID');
         var AnswerName = getQueryString('AnswerName');
 
+        var DepartmentName = getQueryString('DepartmentName');
+
         $(function () {
             $('#top').load('/header.html');
             $('#footer').load('/footer.html');
@@ -288,6 +296,7 @@
                 $('#section').val(DisplayName);
                 $('#teacher').val(TeacherName);
                 $('#course').val(CourseName);
+                $('#dp').val(DepartmentName);
             };
             UI_Table_View.PageType = 'selectTable';
             Base.BindTableCompleate = function () {
@@ -295,13 +304,60 @@
                 UI_Table_View.IsPage_Display = true;
                 UI_Table_View.Get_Eva_TableDetail();
             };
-            Base.BindTable();
+            Base.BindTable(SectionID, CourseID);
             $('#table').on('change', function () {
                 table_Id = $('#table').val();
                 UI_Table_View.IsPage_Display = true;
                 UI_Table_View.Get_Eva_TableDetail();
+
+                Reflesh();
             });
 
+            Reflesh();
+        })
+
+        function Submit()
+        {
+            State = 2;
+            Save();
+        }
+
+        function Save() {
+            HeaderList = [];
+            $('.lblheader').each(function (index) {
+                var CustomCode = $(this).attr('CustomCode');
+                var Name = $(this).attr('Name');
+                var ValueID = '';
+                var Value = '';
+
+                CustomCode = (CustomCode != undefined && CustomCode != null) ? CustomCode.trim() : "";
+                Name = (Name != undefined && Name != null) ? Name.trim() : "";
+
+                if (CustomCode == "" || CustomCode == "2" || CustomCode == "3" || CustomCode == "7") {
+                    Value = $(this).find('input').val();
+                }
+                else {
+                    ValueID = $(this).find('select').find('option:selected').val();
+                    Value = $(this).find('select').find('option:selected').text();
+                }
+
+                var obj = { "CustomCode": CustomCode, "Name": Name, "ValueID": ValueID, "Value": Value };
+                HeaderList.push(obj);
+
+            });
+
+            Type = 1;
+            Eva_Role = 1;
+            Is_AddQuesType = true;
+            SubmitQuestionCompleate = function () {
+                parent.Reflesh();
+            }
+
+            //提交答案
+            SubmitQuestion();
+        }
+
+        function Reflesh() {
             GetClassInfoSelectCompleate = function () {
                 var ClassID = $('#Cls').val();
                 GetStudentsSelect(ClassID)
@@ -312,19 +368,6 @@
                 var ClassID = $('#Cls').val();
                 GetStudentsSelect(ClassID)
             });
-        })
-
-        function Save() {
-
-            Type = 1;
-            Eva_Role = 1;
-            Is_AddQuesType = true;
-            SubmitQuestionCompleate = function()
-            {
-                parent.Reflesh();
-            }
-            //提交答案
-            SubmitQuestion();
         }
 
     </script>

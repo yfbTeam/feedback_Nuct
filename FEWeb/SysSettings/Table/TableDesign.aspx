@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="../../css/reset.css" />
     <link rel="stylesheet" href="../../css/layout.css" />
     <script src="../../Scripts/jquery-1.11.2.min.js"></script>
-    
+
 
     <script type="text/x-jquery-tmpl" id="item_eva">
 
@@ -67,7 +67,7 @@
                     <span class="operate_none bg_gray">删除
                     </span>
                 </div>
-               
+
                 {{else}}
                  
                 {{/if}}
@@ -90,11 +90,10 @@
     </script>
 </head>
 <body>
-     <div id="top"></div>
+    <div id="top"></div>
     <div class="center" id="centerwrap">
         <div class="wrap clearfix">
-             <div class="sort_nav" id="threenav">
-                
+            <div class="sort_nav" id="threenav">
             </div>
             <div class="search_toobar clearfix mt10">
                 <div class="fl">
@@ -135,7 +134,7 @@
     <footer id="footer"></footer>
     <script src="../../Scripts/Common.js"></script>
     <script src="../../Scripts/public.js"></script>
-    
+
     <script src="../../Scripts/linq.min.js"></script>
     <script src="../../Scripts/layer/layer.js"></script>
     <script src="../../Scripts/jquery.tmpl.js"></script>
@@ -150,7 +149,7 @@
         var Eva_Role = get_Eva_Role_by_rid();
         $(function () {
             tableSlide();
-            initdata();           
+            initdata();
         })
         //搜索
         function search() {
@@ -158,18 +157,23 @@
         }
         function NewEval() {
             var index = $('#threenav>a.selected').index();
-            window.location.href = 'AddEvalTable.aspx' + '?Id=' + getQueryString('Id') + '&Iid=' + getQueryString('Iid')+'&selected='+index;
+            window.location.href = 'AddEvalTable.aspx' + '?Id=' + getQueryString('Id') + '&Iid=' + getQueryString('Iid') + '&selected=' + index;
         }
         function copy(id) {
             UI_Table.copy(id);
         }
         //删除表
         function delete_table(id) {
-            UI_Table.delete_table(id);
+            layer.confirm('确定要删除？', {
+                btn: ['确定', '取消'],//按钮
+                title: '操作'
+            }, function () {
+                UI_Table.delete_table(id);
+            });
         }
 
         function Enable_Eva_Table(id, IsEnable) {
-            IsEnable = IsEnable ? 0 : 1;          
+            IsEnable = IsEnable ? 0 : 1;
             UI_Table.Enable_Eva_Table(id, IsEnable);
         }
 
@@ -181,7 +185,7 @@
         function AddEvalTable() {
             OpenIFrameWindow('新增表格', 'AddEvalTable.aspx?typeid=' + 1 + '&Id=' + getQueryString('Id') + '&Iid=' + getQueryString('Iid'), '800px', '800px')
         }
-        function edit(id) {          
+        function edit(id) {
             window.location.href = 'AddEvalTable.aspx' + '?selected=1&Id=' + getQueryString('Id') + '&Iid=' + getQueryString('Iid') + '&table_id=' + id + '&type=1';
         }
         //初始化表格列表

@@ -51,6 +51,7 @@
                             <th>评价课程</th>
                             <th>被评价教师</th>
                             <th>部门</th>
+                            <th>已评价次数</th>
                             <th>操作</th>
                         </tr>
                     </thead>
@@ -99,20 +100,21 @@
                 <td title="${Course_Name}" style="width: 20%">${cutstr(Course_Name,30)}</td>
                 <td style="width: 7%">${TeacherName}</td>
                 <td title="${Departent_Name}" style="width: 20%">${cutstr(Departent_Name,30)}</td>
+                <td style="width: 6%">${AnswerCount}</td>
                 {{if StateType == 2}}
           <td style="width: 5%" class="operate_wrap">
               <div class="operate" onclick="window.location.href='./selectTable.aspx?Id='+getQueryString('Id')+'&Iid='+getQueryString('Iid') +'&TeacherUID='+'${TeacherUID}'+'&TeacherName='+'${TeacherName}'
                   +'&SectionID='+'${SectionID}'+'&DisPlayName='+'${DisPlayName}'+'&CourseID='+'${CourseID}'+'&CourseName='+'${Course_Name}'+'&ReguID='+'${ReguId}'+'&ReguName='+'${ReguName}'
-                  +'&AnswerUID='+'${ExpertUID}'+'&AnswerName='+'${ExpertName}'">
+                  +'&AnswerUID='+'${ExpertUID}'+'&AnswerName='+'${ExpertName}'+'&DepartmentName='+'${Departent_Name}'">
                   <i class="iconfont color_purple">&#xe617;</i>
-                  <span class="operate_none bg_purple">录入</span>
+                  <span class="operate_none bg_purple">评价</span>
               </div>
           </td>
                 {{else}}          
              <td style="width: 5%" class="operate_wrap">
                  <div class="operate">
                      <i class="iconfont color_gray">&#xe617;</i>
-                     <span class="operate_none bg_gray">录入</span>
+                     <span class="operate_none bg_gray">评价</span>
                  </div>
              </td>
                 {{/if}}
@@ -127,62 +129,45 @@
             $(function () {
                 $('#top').load('/header.html');
                 $('#footer').load('/footer.html');
-            })
-            var createInput = new Vue({
-                el: '#createInput',
-                data: {
-                    list: [
-                        {
 
-                        }
-                    ],
-                    key: '',
-                },
-                methods: {
-                    initList: function () {
-                        var that = this;
+                Base.bindStudySectionCompleate = function () {
+                    $('#section').on('change', function () {
+                        Get_Eva_RegularDataSelect();
+                        Reflesh();
+                    });
+                };
+                Base.bindStudySection();
+
+                SelectUID = login_User.UniqueNo;
+                SectionID = select_sectionid
+
+                Get_Eva_RegularDataSelectCompleate = function () {
+                    $('#Rg').on('change', function () {
+                        Reflesh();
+                    });
+
+                    $('#Te').on('change', function () {
+                        Reflesh();
+                    });
+                };
+                Get_Eva_RegularDataSelect();
+
+                Base.CheckHasExpertReguCompleate = function (result, data) {
+                    $('#btCtrl').empty();
+                    if (result) {
+                        $("#itembtn_Enable").tmpl(1).appendTo("#btCtrl");
+                        select_sectionid = data[0].Section_Id;
+                        select_reguid = data[0].Id;
                     }
-                },
-                mounted: function () {
-                    var that = this;
-                    Base.bindStudySectionCompleate = function () {
-                        $('#section').on('change', function () {
-                            Get_Eva_RegularDataSelect();
-                            Reflesh();
-                        });
-                    };
-                    Base.bindStudySection();
+                    else {
+                        $("#itembtn_No_Enable").tmpl(1).appendTo("#btCtrl");
+                    }
+                };
+                Base.CheckHasExpertRegu(reguType);
 
-                    SelectUID = login_User.UniqueNo;
-                    SectionID = select_sectionid
-
-                    Get_Eva_RegularDataSelectCompleate = function () {
-                        $('#Rg').on('change', function () {
-                            Reflesh();
-                        });
-
-                        $('#Te').on('change', function () {
-                            Reflesh();
-                        });
-                    };
-                    Get_Eva_RegularDataSelect();
-
-                    Base.CheckHasExpertReguCompleate = function (result, data) {
-                        $('#btCtrl').empty();
-                        if (result) {
-                            $("#itembtn_Enable").tmpl(1).appendTo("#btCtrl");
-                            select_sectionid = data[0].Section_Id;
-                            select_reguid = data[0].Id;
-                        }
-                        else {
-                            $("#itembtn_No_Enable").tmpl(1).appendTo("#btCtrl");
-                        }
-                    };
-                    Base.CheckHasExpertRegu(reguType);
-
-                    Get_Eva_RegularData(0, pageIndex);
-                }
+                Get_Eva_RegularData(0, pageIndex);
             })
+
 
             function Reflesh() {
                 pageIndex = 0;

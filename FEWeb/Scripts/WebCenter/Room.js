@@ -69,7 +69,7 @@ function GetClassInfo(PageIndex) {
 }
 
 
-function GetClassInfoSelectCompleate(){};
+function GetClassInfoSelectCompleate() { };
 function GetClassInfoSelect(SectionID, TeacherUID, CourseID) {
     var postData = {
         func: "GetClassInfoSelect",
@@ -79,6 +79,7 @@ function GetClassInfoSelect(SectionID, TeacherUID, CourseID) {
         type: "Post",
         url: HanderServiceUrl + "/SysClass/ClassInfoHandler.ashx",
         data: postData,
+        async: false,
         dataType: "json",
         success: function (returnVal) {
             if (returnVal.result.errMsg == "success") {

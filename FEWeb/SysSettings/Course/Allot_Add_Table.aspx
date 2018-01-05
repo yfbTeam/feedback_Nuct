@@ -88,7 +88,7 @@
             <td style="width: 5%">
                 <input no="${t.Id}" tableId ="${t.Table}" name="se" type="checkbox" /></td>
 
-            <td style="text-align: left; padding-left: 20px; width: 35%">${t.Name}</td>
+            <td style="text-align: left; padding-left: 20px; width: 35%"  title="${t.Name}">${cutstr(t.Name,35)}</td>
             {{if t.IsScore ==0}}
             <td style="width: 5%">是</td>
             {{else}}
