@@ -62,11 +62,9 @@ $(function () {
 function powerAssign() {
    var host = 'http://' + window.location.host;
    var href = window.location.href;
-   var url = href.split(host);
-    if (url[1].indexOf('?') > -1) {
-        url = url[1].slice(0, url[1].indexOf('?'));
-    } else {
-        url = url[1]
+   var url = href.split(host)[1];
+    if (url.indexOf('?') > -1) {
+        url = url.slice(0, url.indexOf('?'));
     }
     var aa  = items.filter(function (item) {
         return item.Url == url;
