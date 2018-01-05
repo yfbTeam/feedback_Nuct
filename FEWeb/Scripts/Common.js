@@ -689,7 +689,7 @@ function validateForm(elements) {
         if (($(this).attr("regtype") == "integer")) {
             var reg = /^[1-9]\d*$/;
             if ($(this).val() != "" && reg.test($(this).val()) == false) {
-                layer.msg('请在' + $(this).attr("fl") + '处输入正整数！');
+                layer.msg('请在' + $(this).attr("fl") + '处输入整数！');
                 flag++;
             }
         }
