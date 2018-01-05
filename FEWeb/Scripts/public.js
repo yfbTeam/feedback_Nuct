@@ -65,6 +65,8 @@ function powerAssign() {
    var url = href.split(host);
     if (url[1].indexOf('?') > -1) {
         url = url[1].slice(0, url[1].indexOf('?'));
+    } else {
+        url = url[1]
     }
     var aa  = items.filter(function (item) {
         return item.Url == url;
