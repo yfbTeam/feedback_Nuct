@@ -107,8 +107,6 @@
     <Content Include="NoPower.aspx" />
     <Content Include="Scripts\kkPage\Css.css" />
     <Content Include="Scripts\kkPage\jquery.kkPages.js" />
-    <Content Include="Scripts\pdfjs\build\pdf.js" />
-    <Content Include="Scripts\pdfjs\build\pdf.worker.js" />
     <Content Include="Scripts\pdfjs\web\compatibility.js" />
     <Content Include="Scripts\pdfjs\web\debugger.js" />
     <Content Include="Scripts\pdfjs\web\demo-canvas.html" />
@@ -366,6 +364,7 @@
     <Content Include="fonts\fontawesome-webfont.woff" />
     <Content Include="fonts\fontawesome-webfont.woff2" />
     <Content Include="fonts\FontAwesome.otf" />
+    <None Include="Properties\PublishProfiles\s.pubxml" />
     <None Include="Properties\PublishProfiles\web.pubxml" />
     <None Include="Scripts\jquery.linq-vsdoc.js" />
     <Content Include="Scripts\HoneySwitch\honeySwitch.css" />
@@ -1684,6 +1683,7 @@
   <ItemGroup>
     <Folder Include="FileManage\AcheiveReward\" />
     <Folder Include="FileManage\AuditReward\" />
+    <Folder Include="Scripts\pdfjs\build\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\FEBLL\FEBLL.csproj">

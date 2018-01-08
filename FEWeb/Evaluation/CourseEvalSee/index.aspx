@@ -113,9 +113,15 @@
             <td style="width: 5%">${QuestionAve}</td>
             <td style="width: 5%">${ScoreAve}</td>
             <td class="operate_wrap">
+
                 <div class="operate" onclick="location.href='detailModal.aspx?Id='+getQueryString('Id')+'&Iid='+getQueryString('Iid')+'&TableID='+'${TableID}'">
-                    <i class="iconfont color_purple">&#xe60b;</i>
+                    <i class="iconfont color_purple">&#xe606;</i>
                     <span class="operate_none bg_purple">查看</span>
+                </div>
+
+                <div class="operate" onclick="QRcode('${TableID}');">
+                    <i class="iconfont color_purple">&#xe609;</i>
+                    <span class="operate_none bg_purple">扫码</span>
                 </div>
             </td>
         </tr>
@@ -168,6 +174,11 @@
 
 
             Get_Eva_RegularData_Room(pageIndex);
+        }
+
+        //二维码
+        function QRcode(id) {
+            OpenIFrameWindow('二维码', 'Qcode.aspx?url=' + MobileUrl + 'Mobile/onlinetest.html?id=' + id, '300px', '300px');
         }
 
     </script>
