@@ -5,7 +5,7 @@
 <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>业绩管理</title>
+    <title>没有内容</title>
     <link href="./css/reset.css" rel="stylesheet" />
     <link href="./css/layout.css" rel="stylesheet" />
     <script src="./Scripts/jquery-1.11.2.min.js"></script>   

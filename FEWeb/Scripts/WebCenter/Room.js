@@ -95,11 +95,13 @@ function GetClassInfoSelect(SectionID, TeacherUID, CourseID) {
                     $("#CT").append(str);
                 });
                 ChosenInit($('#CT'));
+
                 obj.CPList.forEach(function (item) {
                     var str = str = "<option value='" + item + "'>" + item + "</option>";
                     $("#CP").append(str);
                 });
                 ChosenInit($('#CP'));
+
                 obj.TDList.forEach(function (item) {
                     var str = str = "<option value='" + item + "'>" + item + "</option>";
                     $("#TD").append(str);
@@ -117,11 +119,13 @@ function GetClassInfoSelect(SectionID, TeacherUID, CourseID) {
                     $("#MD").append(str);
                 });
                 ChosenInit($('#MD'));
+
                 obj.GDList.forEach(function (item) {
                     var str = str = "<option value='" + item + "'>" + item + "</option>";
                     $("#GD").append(str);
                 });
                 ChosenInit($('#GD'));
+
                 obj.CNList.forEach(function (item) {
                     var str = str = "<option value='" + item + "'>" + item + "</option>";
                     $("#CN").append(str);
@@ -134,11 +138,11 @@ function GetClassInfoSelect(SectionID, TeacherUID, CourseID) {
                 });
                 ChosenInit($('#Cls'));
 
-
-                $("#DP,#CT,#CP,#TD,#TN,#MD,#GD,#CN").on('change', function () {
-                    pageIndex = 0;
-                    GetClassInfo(pageIndex);
+                obj.RPList.forEach(function (item) {
+                    var str = str = "<option value='" + item + "'>" + item + "</option>";
+                    $("#RP").append(str);
                 });
+                ChosenInit($('#RP'));
 
                 GetClassInfoSelectCompleate();
             }

@@ -318,6 +318,8 @@ namespace FEHandler.SysClass
                                  //专业部门
                                  CourseDepartmentName = CourseRoom_.DepartmentName,
 
+                                 RoomDepartmentName = CourseRoom_.RoomDepartmentName,
+
                                  TeacherUID = CourseRoom_.TeacherUID,
                                  CourseID = CourseRoom_.Coures_Id,
                                  ClassID = CourseRoom_.ClassID,
@@ -348,7 +350,7 @@ namespace FEHandler.SysClass
                     MDList = (from qe in query where qe.CourseDepartmentName != "" select qe.CourseDepartmentName).Distinct().ToList(),
                     GDList = (from qe in query where qe.GradeInfo_Name != "" select qe.GradeInfo_Name).Distinct().ToList(),
                     CNList = (from qe in query where qe.ClassName != "" select qe.ClassName).Distinct().ToList(),
-
+                    RPList = (from qe in query where qe.RoomDepartmentName != "" select qe.RoomDepartmentName).Distinct().ToList(),
                     ClsList = (from qe in query where qe.ClassName != "" select new ClsModel() { ClassID = qe.ClassID, ClassName = qe.ClassName }).Distinct(new ClsModelComparer()).ToList(),
                 };
 

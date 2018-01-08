@@ -596,7 +596,7 @@ namespace FEHandler.Eva_Manage
     #endregion
 
 
-   
+
 
     #region 普通应用
 
@@ -616,7 +616,7 @@ namespace FEHandler.Eva_Manage
     }
 
     public class Sel_Model
-    {      
+    {
         public Sys_Dictionary dic { get; set; }
 
         public Eva_Table table { get; set; }
@@ -924,7 +924,7 @@ namespace FEHandler.Eva_Manage
 
         public string Teacher_Name { get; set; }
 
-        public string Teacher_JobTitle { get; set; }
+    
 
         public int Num { get; set; }
 
@@ -936,7 +936,7 @@ namespace FEHandler.Eva_Manage
 
         public string TeacherDepartmentName { get; set; }
 
-        public string TeacherRoomDepartmentName { get; set; }
+      
 
         public string ClassName { get; set; }
 
@@ -949,6 +949,8 @@ namespace FEHandler.Eva_Manage
         public string CourseID { get; set; }
 
         public string ClassID { get; set; }
+
+        public string RoomDepartmentName { get; set; }
     }
 
     public class ReModel
@@ -1052,6 +1054,52 @@ namespace FEHandler.Eva_Manage
         public int Num { get; set; }
     }
 
+    public class RegularDataRoomModel
+    {
+
+        public int? Id { get; set; }
+
+        public string TeacherName { get; set; }
+
+        public string TeacherUID { get; set; }
+
+        public int Num { get; set; }
+
+
+
+
+
+        public int? SectionID { get; set; }
+
+        public string DisPlayName { get; set; }
+
+        public int? ReguID { get; set; }
+
+        public string ReguName { get; set; }
+
+        public string CourseID { get; set; }
+
+        public string CourseName { get; set; }
+
+        public string DepartmentID { get; set; }
+
+        public string RoomDepartmentName { get; set; }
+
+        public string GradeName { get; set; }
+
+        public string ClassName { get; set; }
+
+        public int? StudentCount { get; set; }
+
+        public int QuestionCount { get; set; }
+
+        public int QuestionAve { get; set; }
+
+        public int ScoreAve { get; set; }
+
+        public int? TableID { get; set; }
+    }
+
     public class Eva_QuestionModel
     {
 
@@ -1103,7 +1151,7 @@ namespace FEHandler.Eva_Manage
             return obj.Id.GetHashCode();
         }
     }
-    
+
 
     #endregion
 
@@ -1183,25 +1231,11 @@ enum Regu_Eva_Role
     Expert_Eva = 2,
 }
 
-enum dis_Eva_Role
-{
-    //学生评
-    Student_Eva = 1,
-    //专家评
-    Expert_Eva = 2,
-    //教学信息员
-    Edu_Eva = 3,
-    //领导评
-    Leader_Eva = 4,
 
-}
-
-enum Table_Eva_Role
-{
-    //学生评
-    Student_Eva = 1,
-    //专家评
-    Expert_Eva = 2,
+enum ReguType
+{  
+    Expert = 1,   
+    Student = 2,
 
 }
 
@@ -1212,10 +1246,20 @@ enum errNum
     Failed = 3,
 }
 
-enum ReguType
+
+
+public enum ModeType
 {
-    Expert = 1,
-    CourseRoom = 2,
+    Record = 1,
+    Check = 2,
+    Look = 3,
+}
+
+public enum QueState
+{
+    Saved = 1,
+    Submited = 2,
+    Checked = 3,
 }
 
 enum Dictionary_Type
@@ -1246,16 +1290,6 @@ enum TableDetail_Type
     Check = 2,
 }
 
-
-enum QuesType_Type
-{
-    //单选
-    single_select,
-    //多选
-    muti_select,
-    //问答
-    answer,
-}
 
 enum ReguState
 {

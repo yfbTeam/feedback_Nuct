@@ -86,6 +86,7 @@
     <Content Include="TeaAchManage\AchManage.ashx" />
     <Content Include="SystemInfo\ClassInfoHandler.ashx" />
     <Content Include="TeaAchManage\AchRewardInfo.ashx" />
+    <None Include="Properties\PublishProfiles\q.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

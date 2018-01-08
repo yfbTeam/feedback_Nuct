@@ -159,12 +159,15 @@ namespace FEHandler.Eva_Manage
                     #region 定期设置
 
                     case "Get_Eva_Regular": Get_Eva_Regular(context); break;
+                    case "Get_Eva_Regular_Select": Get_Eva_Regular_Select(context); break;
+                        
                     case "Get_Eva_RegularS": Get_Eva_RegularS(context); break;
                     case "Get_Eva_RegularSingle": Get_Eva_RegularSingle(context); break;
                     case "Get_Eva_RegularData": Get_Eva_RegularData(context); break;
                     //筛选
                     case "Get_Eva_RegularDataSelect": Get_Eva_RegularDataSelect(context); break;
-
+                    case "Get_Eva_RegularData_Room": Get_Eva_RegularData_Room(context); break;
+                        
 
                     //新增定期评价
                     case "Add_Eva_Regular": Add_Eva_Regular(context); break;
@@ -183,6 +186,7 @@ namespace FEHandler.Eva_Manage
                     case "Add_Eva_QuestionAnswer": Add_Eva_QuestionAnswer(context); break;
                     case "Edit_Eva_QuestionAnswer": Edit_Eva_QuestionAnswer(context); break;
                     case "Remove_Eva_QuestionAnswer": Remove_Eva_QuestionAnswer(context); break;
+                    case "Change_Eva_QuestionAnswer_State": Change_Eva_QuestionAnswer_State(context); break;
                         
                         
                     //定期评价-答题获取
