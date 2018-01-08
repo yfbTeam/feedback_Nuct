@@ -268,9 +268,9 @@
                                 <td>${mem.Sort}</td>
                                 <td>${mem.Major_Name}</td>
                                 <td>${mem.WordNum}</td>
-                                <td class="td_money">0.00</td>
+                                <td class="td_money"></td>
                                 {{else}}
-                                <td class="td_money">0.00</td>
+                                <td class="td_money"></td>
                                 <td>${mem.Major_Name}</td>
                                 <td>${DateTimeConvert(mem.CreateTime,"yyyy-MM-dd")}</td>
                                 {{/if}}     
