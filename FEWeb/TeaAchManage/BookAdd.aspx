@@ -211,8 +211,8 @@
     <script src="../Scripts/jquery.tmpl.js"></script>
     <script src="../Scripts/Webuploader/dist/webuploader.js"></script>
     <link href="../Scripts/Webuploader/css/webuploader.css" rel="stylesheet" />
-    <script src="upload_batchfile.js"></script>
-    <script src="BaseUse.js"></script>
+    <script src="./upload_batchfile.js"></script>
+    <script src="./BaseUse.js"></script>
     <script>
         var UrlDate = new GetUrlDate();
         var btn_book_addall = false, btn_book_adddepart = false, btn_book_noaudit = false;//新增教材-全校范围,新增教材-院系范围,无需审核

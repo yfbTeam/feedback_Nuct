@@ -97,8 +97,8 @@
     </div>
     <footer id="footer"></footer>
     <script src="../../Scripts/Common.js"></script>
-    <script src="/Scripts/public.js"></script>
-    <script src="/Scripts/layer/layer.js"></script>
+    <script src="../../Scripts/public.js"></script>
+    <script src="../../Scripts/layer/layer.js"></script>
     <script src="../../Scripts/linq.min.js"></script>
     <script src="../../Scripts/jquery.tmpl.js"></script>
     <script src="../../Scripts/pagination/jquery.pagination.js"></script>
