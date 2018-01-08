@@ -103,14 +103,14 @@
             <td style="width: 5%">${Num}</td>
             <td style="width: 7%">${DisPlayName}</td>
             <td style="width: 7%" title="${ReguName}">${cutstr(ReguName,10)}</td>
-            <td title="${CourseName}" style="width: 15%">${cutstr(CourseName,30)}</td>
+            <td title="${CourseName}" style="width: 15%">${cutstr(CourseName,25)}</td>
             <td style="width: 7%">${TeacherName}</td>
             <td title="${RoomDepartmentName}" style="width: 15%">${cutstr(RoomDepartmentName,15)}</td>
             <td style="width: 6%">${GradeName}</td>
             <td title="${ClassName}" style="width: 10%">${cutstr(ClassName,10)}</td>
-            <td style="width: 7%">${StudentCount}</td>
-            <td style="width: 5%">${QuestionCount}</td>
-            <td style="width: 5%">${QuestionAve}</td>
+            <td style="width: 6%">${StudentCount}</td>
+            <td style="width: 6%">${QuestionCount}</td>
+            <td style="width: 4%">${QuestionAve}</td>
             <td style="width: 5%">${ScoreAve}</td>
             <td class="operate_wrap">
 

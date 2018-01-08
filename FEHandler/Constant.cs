@@ -1120,6 +1120,9 @@ namespace FEHandler
                         Sex = Convert.ToByte(dr["Sex"]),
                         UniqueNo = Convert.ToString(dr["UniqueNo"]),
                         UserType = Convert.ToByte(dr["UserType"]),
+                        DepartentName = Convert.ToString(dr["DepartentName"]),
+                        SubDepartmentID = Convert.ToString(dr["SubDepartmentID"]),
+                        SubDepartmentName = Convert.ToString(dr["SubDepartmentName"]),
 
 
                         CreateTime = Convert.ToDateTime(dr["CreateTime"]),

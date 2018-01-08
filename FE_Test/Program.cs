@@ -15,28 +15,57 @@ namespace FE_Test
     {
         static void Main(string[] args)
         {
-           //helper. Init_Course();
+            //helper. Init_Course();
             //var t = File.ReadAllLines(@"E:\vs_work2\FE_Test\TextFile1.txt");
             //var ksp = Eva_ManageHandler.Teacher_Course_ClassInfo();
-           //var s = Constant.Indicator_List;
-           //var d = Constant.IndicatorType_List;
+            //var s = Constant.Indicator_List;
+            //var d = Constant.IndicatorType_List;
 
             //CourseInfoHandler.GetCourseInfo_SelectHelper(1, "0");
             //Eva_ManageHandler.Get_Eva_TableHelper(1, "");
 
-            foreach (var item in Constant.CourseRoom_List)
+            //foreach (var item in Constant.CourseRoom_List)
+            //{
+            //    var course = Constant.Course_List.FirstOrDefault(i => i.UniqueNo == item.Coures_Id);
+            //    if(course != null)
+            //    {
+            //        item.CouresName = course.Name;
+            //        Constant.CourseRoomService.Update(item);
+            //    }
+            //}
+
+
+            var data = (from stu in Constant.Student_List
+                        join user in Constant.UserInfo_List on stu.UniqueNo equals user.UniqueNo
+                        select new { stu, user }).ToList();
+
+            var data2 = (from tea in Constant.Teacher_List
+                         join user in Constant.UserInfo_List on tea.UniqueNo equals user.UniqueNo
+                         select new { tea, user }).ToList();
+
+
+            foreach (var item in data)
             {
-                var course = Constant.Course_List.FirstOrDefault(i => i.UniqueNo == item.Coures_Id);
-                if(course != null)
-                {
-                    item.CouresName = course.Name;
-                    Constant.CourseRoomService.Update(item);
-                }
+                item.user.Major_ID = item.stu.Major_Id;
+                item.user.DepartentName = item.stu.Departent_Name;
+                item.user.SubDepartmentID = item.stu.SubDepartmentID;
+                item.user.SubDepartmentName = item.stu.SubDepartmentName;
+
+                Constant.UserInfoService.Update(item.user);
             }
 
+            foreach (var item in data2)
+            {
+                item.user.Major_ID = item.tea.Major_ID;
+                item.user.DepartentName = item.tea.Departent_Name;
+                item.user.SubDepartmentID = item.tea.SubDepartmentID;
+                item.user.SubDepartmentName = item.tea.SubDepartmentName;
+
+                Constant.UserInfoService.Update(item.user);
+            }
         }
 
-     
+
     }
 }
 
@@ -217,4 +246,56 @@ public class helper
             }
         }
     }
+
+
+    #region sysrole
+
+    public static void SysRole()
+    {
+        //foreach (var item in Constant.Student_List)
+        //{
+        //    var data = Constant.Sys_RoleOfUser_List.FirstOrDefault(i => i.UniqueNo == item.UniqueNo);
+        //    if(data == null)
+        //    {
+        //        Constant.Sys_RoleOfUserService.Add(new Sys_RoleOfUser() { UniqueNo =item.UniqueNo, CreateTime =DateTime.Now,EditTime =DateTime.Now, CreateUID="",EditUID="", IsDelete =0, Role_Id=2 });
+        //    }
+        //}
+
+        foreach (var item in Constant.Student_List)
+        {
+            var user = Constant.UserInfo_List.FirstOrDefault(h => h.UniqueNo == item.UniqueNo);
+            if (user == null)
+            {
+                Constant.UserInfoService.Add(new UserInfo()
+                {
+                    UniqueNo = item.UniqueNo,
+                    Name = item.Name,
+                    Address = "",
+                    Birthday = "",
+                    ClearPassword = "123456",
+                    Email = "",
+                    HeadPic = "",
+                    IDCard = "",
+                    IsEnable = 0,
+                    LoginName = item.UniqueNo,
+                    Major_ID = item.Major_Id,
+                    Nickname = "",
+                    Password = "123456",
+                    Phone = "",
+                    Pic = "",
+                    Remarks = "",
+                    Sex = 0,
+                    UserType = 2,
+
+                    CreateTime = DateTime.Now,
+                    EditTime = DateTime.Now,
+                    CreateUID = "",
+                    EditUID = "",
+                    IsDelete = 0,
+                });
+            }
+        }
+    }
+
+    #endregion
 }

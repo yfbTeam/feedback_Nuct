@@ -1,10 +1,11 @@
-﻿/// <reference path="../public.js" />
+﻿/// <reference path="../jquery-1.11.2.min.js" />
+/// <reference path="../public.js" />
 /// <reference path="../Common.js" />
 
 var UI_Power =
     {
         PageType: 'Power',  //Power用户组管理
-        CurrentRoleid: 3,
+        CurrentRoleid: 2,
         CurrentRoleName: '教师',
         num: function () {
             return pageNum++;
@@ -21,7 +22,7 @@ var UI_Power =
             //获取用户信息
             UI_Power.GetUserinfo();
             //获取学生
-            //UI_Power.GetStudents();
+            UI_Power.GetStudents();
             //获取教师
             UI_Power.GetTeachers();
         },
@@ -48,7 +49,7 @@ var UI_Power =
                                 $(this).addClass('selected').siblings().removeClass('selected');
                             })
                             tableSlide();
-                            $('#ShowUserGroup').find('li[roleid=' + UI_Power.CurrentRoleid + ']').trigger("click");
+
                             //$('#ShowUserGroup').find('li[roleid=' + UI_Power.CurrentRoleid + ']').removeClass("")
                         }
                     }
@@ -58,7 +59,7 @@ var UI_Power =
                 }
             });
         },
-        ShowUserGroup_Compleate:function(){},
+        ShowUserGroup_Compleate: function () { },
         //供子窗体使用
         GetCurrentRoleid: function () {
             return UI_Power.CurrentRoleid;
@@ -87,21 +88,32 @@ var UI_Power =
             });
         },
         GetUserinfoCompleate: function () {
-           
-            UI_Power.BindDataTo_GetUserinfo(3, '教师');
+
+            UI_Power.BindDataTo_GetUserinfo(2, '学生');
         },
         //绑定用户信息
         BindDataTo_GetUserinfo: function (RoleId, RoleName) {
-          
+
             UI_Power.CurrentRoleName = RoleName;
             UI_Power.CurrentRoleid = RoleId;
 
             //教师不可进行分配人员
-            if (UI_Power.CurrentRoleid != 3) {
+            if (UI_Power.CurrentRoleid != 3 && UI_Power.CurrentRoleid != 2) {
                 $('#allot').show();
             } else {
                 $('#allot').hide();
             }
+
+            if (UI_Power.CurrentRoleid == 2)
+            {
+                $('#div_Class,#div_Unit').show();
+            }
+            else
+            {
+                $('#div_Class').hide();
+                $('#div_Unit').show();
+            }
+
             reUserinfoByselect = Enumerable.From(reUserinfo).Where("x=>x.Roleid=='" + RoleId + "'").ToArray();
             pageCount = reUserinfoByselect.length;
             UI_Power.fenye(pageCount);
@@ -132,6 +144,7 @@ var UI_Power =
             if (index == 0) {
                 pageNum = 1;
             }
+
             $('#item_tr').tmpl(arrRes).appendTo('#ShowUserInfo');
         },
         //翻页调用
@@ -147,7 +160,10 @@ var UI_Power =
         //搜索
         SelectByWhere: function () {
             var sw = $("#select_where").val();
-            allDataMain_select = Enumerable.From(reUserinfoByselect).Where("x=>x.Name.indexOf('" + sw + "')!=-1").ToArray();
+
+            allDataMain_select = reUserinfoByselect.filter(function (item) { return item.Name.indexOf(sw) != -1 || item.UniqueNo.indexOf(sw) != -1 });
+
+
             $("#test1").pagination(allDataMain_select.length, {
                 callback: function (index, jq) {
                     var arrRes = Enumerable.From(allDataMain_select).Skip(index * pageSize).Take(pageSize).ToArray();
@@ -161,12 +177,12 @@ var UI_Power =
                 num_edge_entries: 1//两侧首尾分页条目数
             });
         },
-     
+
         get_teachers: function () {
             return teachers;
 
         },
-      
+
         GetTeachers: function () {
 
             var postData = { func: "GetTeachers" };
@@ -188,6 +204,43 @@ var UI_Power =
                 }
             });
         },
+
+        GetStudentsCompleate: function () { },
+        //-----------获取学生、教师---------------------------------------------------------------------------------------
+        GetStudents: function () {
+            var postData = { func: "GetStudents" };
+            $.ajax({
+                type: "Post",
+                url: HanderServiceUrl + "/UserMan/UserManHandler.ashx",
+                data: postData,
+                dataType: "json",
+                success: function (returnVal) {
+                    if (returnVal.result.errMsg == "success") {
+                        students = returnVal.result.retData;
+                        students = Enumerable.From(students).OrderBy(function (item) { return pinyinUtil.getFirstLetter(item.Name, ' ', true, false); }).ToArray();
+
+                        for (var i = 0; i < students.length; i++) {
+                            allDataMain.push(students[i]);
+
+                            allDataMain_select.push(students[i]);
+
+                            //var list = ClassInList.filter(function (item) { return item.ClassNo == students[i].ClassNo });
+                            //if (list.length == 0) {
+                            //    var cls = { ClassNo: students[i].ClassNo, ClassName: students[i].ClassName, Major_ID: students[i].Major_ID };
+                            //    ClassInList.push(cls);
+                            //}
+                        }
+
+                        //ClassSetting(ClassInList);
+
+                        UI_Power.GetStudentsCompleate();
+                    }
+                },
+                error: function (errMsg) {
+                }
+            });
+        },
+
         //-----//获取用户信息[配合子窗体]-------------------------------------------------------------------------      
         GetUserinfo_Select: function () {
 
@@ -198,7 +251,7 @@ var UI_Power =
 
             UI_Power.ShowUserGroup();
             UI_Power.GetTeachers();
-            //UI_Power.GetStudents();
+            UI_Power.GetStudents();
             //获取用户信息
             UI_Power.GetUserinfo();
 
@@ -218,11 +271,10 @@ var UI_Power =
                     success: function (returnVal) {
                         if (returnVal.result.errMsg == "success") {
                             layer.msg('操作成功!');
-                            UI_Power.remove_Compleate();                           
+                            UI_Power.remove_Compleate();
                         }
-                        else
-                        {                         
-                            layer.msg(returnVal.result.errMsg);                           
+                        else {
+                            layer.msg(returnVal.result.errMsg);
                         }
                         layer.close();
                     },
