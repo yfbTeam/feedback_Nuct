@@ -20639,3 +20639,6 @@ ERROR 2018-01-04 21:18:21,473 55371ms service                Error              
    在 System.Reflection.RuntimeMethodInfo.Invoke(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)
    在 System.Reflection.RuntimePropertyInfo.GetValue(Object obj, Object[] index)
    在 FEHandler.Constant.Clone[T](T data) 位置 e:\feedback_Nuct\FEHandler\Constant.cs:行号 1031
+ERROR 2018-01-07 12:41:26,826   125ms service                Error              - 未将对象引用设置到对象的实例。   在 FEHandler.Constant.ConvertToList_UserInfo(DataTable dt) 位置 f:\workplace\北方工业大学\feedback_nuct\FEHandler\Constant.cs:行号 1100
+ERROR 2018-01-07 12:41:26,867   166ms service                Error              - 未将对象引用设置到对象的实例。   在 FEUtility.ConverList`1.ConvertToList(DataTable dt) 位置 f:\workplace\北方工业大学\feedback_nuct\FEUtility\DataHelper\ConverList.cs:行号 26
+ERROR 2018-01-07 12:41:26,868   167ms service                Error              - 未将对象引用设置到对象的实例。   在 FEUtility.ConverList`1.ConvertToList(DataTable dt) 位置 f:\workplace\北方工业大学\feedback_nuct\FEUtility\DataHelper\ConverList.cs:行号 26

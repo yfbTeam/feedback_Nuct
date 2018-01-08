@@ -10,14 +10,17 @@
     <link href="../css/layout.css" rel="stylesheet" />
     <script src="../Scripts/jquery-1.11.2.min.js"></script>
     <style>
-         .menu .menu_lists li{position:relative;}
-        .menu .menu_lists li .operates {
-            position: absolute;
-            right: 10px;
-            top: 8px;
-            line-height: 22px;
-            z-index: 11;
+        .menu .menu_lists li {
+            position: relative;
         }
+
+            .menu .menu_lists li .operates {
+                position: absolute;
+                right: 10px;
+                top: 8px;
+                line-height: 22px;
+                z-index: 11;
+            }
     </style>
     <script type="text/x-jquery-tmpl" id="item_tr">
         <tr>
@@ -26,15 +29,15 @@
             <td>${Name}</td>
             <td>${Sex}</td>
             <td>${MajorName}</td>
-            <td></td>
+            <td>${SubDepartmentName}</td>
             <td></td>
         </tr>
     </script>
-    
+
     <script type="text/x-jquery-tmpl" id="li_role">
         <li roleid="${RoleId}" rolename="${RoleName}" onclick="BindDataTo_GetUserinfo(${RoleId},'${RoleName}');">
             <em title="${RoleName}">${RoleName}</em>
-                    
+
             <div class="operates">
                 <div class="operate" onclick="Group_User_Add(2,'${RoleId}','${RoleName}');">
                     <i class="iconfont color_purple">&#xe632;</i>
@@ -45,7 +48,7 @@
                     <a class='operate_none bg_purple'>删除</a>
                 </div>
             </div>
-           
+
         </li>
     </script>
 </head>
@@ -53,7 +56,7 @@
     <div id="top"></div>
     <div class="center" id="centerwrap">
         <div class="wrap clearfix">
-            
+
             <div class="sortwrap clearfix">
                 <div class="menu fl">
                     <h1 class="titlea">用户组管理
@@ -64,7 +67,16 @@
                 </div>
                 <div class="sort_right fr">
                     <div class="search_toobar clearfix">
-                        <div class="fl">
+                        <div id="div_Unit" class=" fl" style="display: none;">
+                            <label style="min-width: 20px">所属院(系、部)：</label>
+                            <select id="college" class="select" style="margin-bottom: 0px; width: 190px"></select>
+                        </div>
+                        <div id="div_Class" class="ml10 fl" style="display: none">
+                            <label>班级：</label>
+                            <select class="select chosen-select" style="width: 178px;" id="class"></select>
+                        </div>
+
+                        <div class="fl ml10">
                             <input type="text" name="" id="select_where" placeholder="请输入用户名" value="" class="text fl">
                             <a class="search fl" href="javascript:;" onclick="SelectByWhere()"><i class="iconfont">&#xe600;</i></a>
                         </div>
@@ -77,13 +89,13 @@
                         <table id="fenyeShowUserInfo">
                             <thead>
                                 <tr>
-                                    <th width="60px">序号	</th>
+                                    <th style="width: 60px">序号	</th>
                                     <th>教职工号</th>
                                     <th>用户名</th>
                                     <th>性别</th>
                                     <th>部门</th>
                                     <th>子部门</th>
-                                 <%--   <th>操作</th>--%>
+                                    <%--   <th>操作</th>--%>
                                 </tr>
                             </thead>
                             <tbody id="ShowUserInfo">
@@ -101,6 +113,11 @@
     <script src="../Scripts/layer/layer.js"></script>
     <script src="../Scripts/jquery.tmpl.js"></script>
     <script src="../Scripts/linq.js"></script>
+    <script src="../Scripts/pinying/pinyin_dict_firstletter.js"></script>
+    <script src="../Scripts/pinying/pinyin_dict_notone.js"></script>
+    <script src="../Scripts/pinying/pinyin_dict_polyphone.js"></script>
+    <script src="../Scripts/pinying/pinyin_dict_withtone.js"></script>
+    <script src="../Scripts/pinying/pinyinUtil.js"></script>
     <link href="../Scripts/pagination/pagination.css" rel="stylesheet" />
     <script src="../Scripts/pagination/jquery.pagination.js"></script>
     <script src="../Scripts/WebCenter/Power.js"></script>
@@ -129,6 +146,7 @@
         }
         //绑定用户信息
         function BindDataTo_GetUserinfo(RoleId, RoleName) {
+            
             UI_Power.BindDataTo_GetUserinfo(RoleId, RoleName);
         }
 

@@ -194,6 +194,11 @@
     <Content Include="Scripts\pdfjs\web\viewer.css" />
     <Content Include="Scripts\pdfjs\web\viewer.html" />
     <Content Include="Scripts\pdfjs\web\viewer.js" />
+    <Content Include="Scripts\pinying\pinyinUtil.js" />
+    <Content Include="Scripts\pinying\pinyin_dict_firstletter.js" />
+    <Content Include="Scripts\pinying\pinyin_dict_notone.js" />
+    <Content Include="Scripts\pinying\pinyin_dict_polyphone.js" />
+    <Content Include="Scripts\pinying\pinyin_dict_withtone.js" />
     <Content Include="Scripts\WebCenter\AllotPeople.js" />
     <Content Include="Scripts\WebCenter\AllotTable.js" />
     <Content Include="Scripts\WebCenter\AllotTask.js" />

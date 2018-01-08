@@ -337,7 +337,7 @@
                 HeaderList.push(obj);
 
             });
-            debugger;
+            
             Type = 1;
             Eva_Role = 1;
             Is_AddQuesType = true;

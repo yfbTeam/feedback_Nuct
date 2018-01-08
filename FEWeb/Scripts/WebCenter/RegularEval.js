@@ -449,7 +449,7 @@ function Get_Eva_RegularData_Room(PageIndex) {
         success: function (returnVal) {
             if (returnVal.result.errMsg == "success") {
                 var data = returnVal.result.retData;
-                debugger;
+                
                 layer.close(layer_index);
 
                 $('#ShowCourseInfo').empty();

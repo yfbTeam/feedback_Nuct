@@ -362,7 +362,9 @@ namespace FEHandler.UserMan
                      UniqueNo = ul.UniqueNo,
                      Pwd = ul.ClearPassword,
                      MajorName = "",
-                     Major_ID = ul.Major_ID
+                     Major_ID = ul.Major_ID,
+                     SubDepartmentID = ul.SubDepartmentID,
+                     SubDepartmentName = ul.SubDepartmentName,
                  };
 
                 var query1 = from q in query
@@ -384,7 +386,10 @@ namespace FEHandler.UserMan
                                  UniqueNo = q.UniqueNo,
                                  Pwd = q.Pwd,
                                  MajorName = (lf == null ? "" : lf.Major_Name),
-                                 Major_ID = q.Major_ID
+                                 Major_ID = q.Major_ID,
+                                 SubDepartmentID = q.SubDepartmentID,
+                                 SubDepartmentName = q.SubDepartmentName,
+
                              };
 
 
@@ -599,7 +604,9 @@ namespace FEHandler.UserMan
                                 UniqueNo = ul.UniqueNo,
                                 Pwd = ul.ClearPassword,
                                 MajorName = "",
-                                Major_ID = ul.Major_ID
+                                Major_ID = ul.Major_ID,
+                                s.SubDepartmentID,
+                                s.SubDepartmentName,
                             };
 
                 var query1 = from q in query
@@ -620,7 +627,9 @@ namespace FEHandler.UserMan
                                  UniqueNo = q.UniqueNo,
                                  Pwd = q.Pwd,
                                  MajorName = (lf == null ? "" : lf.Major_Name),
-                                 Major_ID = q.Major_ID
+                                 Major_ID = q.Major_ID,
+                                 q.SubDepartmentID,
+                                 q.SubDepartmentName,
                              };
 
 
@@ -731,7 +740,9 @@ namespace FEHandler.UserMan
                                 Pwd = ul.ClearPassword,
                                 //MajorName=SysMajor.Major_Name
                                 MajorName = "",
-                                Major_ID = ul.Major_ID
+                                Major_ID = ul.Major_ID,
+                                s.SubDepartmentID,
+                                s.SubDepartmentName,
                             };
 
                 var query1 = from q in query
