@@ -277,7 +277,7 @@
     <script src="../Scripts/jquery.tmpl.js"></script>
     <script src="../Scripts/My97DatePicker/WdatePicker.js"></script>
     <link href="../Scripts/Webuploader/css/webuploader.css" rel="stylesheet" />
-    <script src="BaseUse.js"></script>
+    <script src="./BaseUse.js"></script>
     <script type="text/javascript">
         var UrlDate = new GetUrlDate();
         var cur_AchieveId = UrlDate.Id;

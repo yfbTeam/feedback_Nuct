@@ -6,9 +6,9 @@
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <title>课堂评价</title>
-    <link href="../../css/reset.css" rel="stylesheet" />
-    <link href="../../css/layout.css" rel="stylesheet" />
-    <script src="../../Scripts/jquery-1.11.2.min.js"></script>
+    <link href="../css/reset.css" rel="stylesheet" />
+    <link href="../css/layout.css" rel="stylesheet" />
+    <script src="../Scripts/jquery-1.11.2.min.js"></script>
     <style>
         .test_module {
             border: none;
@@ -142,16 +142,16 @@
 
 </body>
 </html>
-<script src="../../Scripts/Common.js"></script>
-<script src="../../Scripts/public.js"></script>
+<script src="../Scripts/Common.js"></script>
+<script src="../Scripts/public.js"></script>
 
-<script src="../../Scripts/jquery.linq.js"></script>
-<script src="../../Scripts/linq.min.js"></script>
-<script src="../../Scripts/layer/layer.js"></script>
-<script src="../../Scripts/jquery.tmpl.js"></script>
-<link href="../../Scripts/kkPage/Css.css" rel="stylesheet" />
-<script src="../../Scripts/kkPage/jquery.kkPages.js"></script>
-<script src="../../Scripts/WebCenter/TableDesigin.js"></script>
+<script src="../Scripts/jquery.linq.js"></script>
+<script src="../Scripts/linq.min.js"></script>
+<script src="../Scripts/layer/layer.js"></script>
+<script src="../Scripts/jquery.tmpl.js"></script>
+<link href="../Scripts/kkPage/Css.css" rel="stylesheet" />
+<script src="../Scripts/kkPage/jquery.kkPages.js"></script>
+<script src="../Scripts/WebCenter/TableDesigin.js"></script>
 <script src="../Scripts/WebCenter/Evaluate.js"></script>
 <script type="text/x-jquery-tmpl" id="item_table_view">
     {{if Root.trim() !=''}}
