@@ -507,70 +507,6 @@ namespace FEModel
 	///	
 	/// </summary>
 	[Serializable]
-    public partial class Class_StudentInfo
-    {
-
-		/// <summary>
-		/// 
-		/// </summary>
-		public int? Id { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public string UniqueNo { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public string Class_Id { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public string CreateUID { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public DateTime? CreateTime { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public string EditUID { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public DateTime? EditTime { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public Byte? IsDelete { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public string DisPlayName { get; set; }
-
-          public override bool Equals(object obj)
-        {
-            bool result = false;
-            if (obj.GetType() == typeof(Class_StudentInfo))
-            {
-                Class_StudentInfo _obj = obj as Class_StudentInfo;
-                if (_obj.Id == this.Id)
-                {
-                    result = true;
-                }
-            }
-            return result;
-        }
-
-	    public override int GetHashCode()
-        {
-            return base.GetHashCode();
-        }
-    }
-
-	/// </summary>
-	///	
-	/// </summary>
-	[Serializable]
     public partial class TPM_RewardBatch
     {
 
@@ -613,78 +549,6 @@ namespace FEModel
             if (obj.GetType() == typeof(TPM_RewardBatch))
             {
                 TPM_RewardBatch _obj = obj as TPM_RewardBatch;
-                if (_obj.Id == this.Id)
-                {
-                    result = true;
-                }
-            }
-            return result;
-        }
-
-	    public override int GetHashCode()
-        {
-            return base.GetHashCode();
-        }
-    }
-
-	/// </summary>
-	///	
-	/// </summary>
-	[Serializable]
-    public partial class ClassInfo
-    {
-
-		/// <summary>
-		/// 
-		/// </summary>
-		public int? Id { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public string ClassNO { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public string Class_Name { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public int? Grade_Id { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public int? StudySection_Id { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public string Major_Id { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public string CreateUID { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public DateTime? CreateTime { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public string EditUID { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public DateTime? EditTime { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public Byte? IsDelete { get; set; }
-
-          public override bool Equals(object obj)
-        {
-            bool result = false;
-            if (obj.GetType() == typeof(ClassInfo))
-            {
-                ClassInfo _obj = obj as ClassInfo;
                 if (_obj.Id == this.Id)
                 {
                     result = true;
@@ -1637,7 +1501,7 @@ namespace FEModel
 		/// <summary>
 		///系名称 
 		/// </summary>
-		public string DepartentName { get; set; }
+		public string DepartmentName { get; set; }
 		/// <summary>
 		/// 
 		/// </summary>
@@ -2515,6 +2379,70 @@ namespace FEModel
 	///	
 	/// </summary>
 	[Serializable]
+    public partial class ClassInfo
+    {
+
+		/// <summary>
+		/// 
+		/// </summary>
+		public int? Id { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public string ClassNO { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public string Class_Name { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public int? StudySection_Id { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public string CreateUID { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public DateTime? CreateTime { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public string EditUID { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public DateTime? EditTime { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public Byte? IsDelete { get; set; }
+
+          public override bool Equals(object obj)
+        {
+            bool result = false;
+            if (obj.GetType() == typeof(ClassInfo))
+            {
+                ClassInfo _obj = obj as ClassInfo;
+                if (_obj.Id == this.Id)
+                {
+                    result = true;
+                }
+            }
+            return result;
+        }
+
+	    public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
+    }
+
+	/// </summary>
+	///	
+	/// </summary>
+	[Serializable]
     public partial class Sys_Dictionary
     {
 
@@ -2669,6 +2597,66 @@ namespace FEModel
             if (obj.GetType() == typeof(Course))
             {
                 Course _obj = obj as Course;
+                if (_obj.Id == this.Id)
+                {
+                    result = true;
+                }
+            }
+            return result;
+        }
+
+	    public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
+    }
+
+	/// </summary>
+	///	
+	/// </summary>
+	[Serializable]
+    public partial class Class_StudentInfo
+    {
+
+		/// <summary>
+		/// 
+		/// </summary>
+		public int? Id { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public string UniqueNo { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public string Class_Id { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public string CreateUID { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public DateTime? CreateTime { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public string EditUID { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public DateTime? EditTime { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public Byte? IsDelete { get; set; }
+
+          public override bool Equals(object obj)
+        {
+            bool result = false;
+            if (obj.GetType() == typeof(Class_StudentInfo))
+            {
+                Class_StudentInfo _obj = obj as Class_StudentInfo;
                 if (_obj.Id == this.Id)
                 {
                     result = true;

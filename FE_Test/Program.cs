@@ -2,6 +2,7 @@
 using FEHandler.Eva_Manage;
 using FEHandler.SysClass;
 using FEModel;
+using FEUtility;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -24,45 +25,10 @@ namespace FE_Test
             //CourseInfoHandler.GetCourseInfo_SelectHelper(1, "0");
             //Eva_ManageHandler.Get_Eva_TableHelper(1, "");
 
-            //foreach (var item in Constant.CourseRoom_List)
-            //{
-            //    var course = Constant.Course_List.FirstOrDefault(i => i.UniqueNo == item.Coures_Id);
-            //    if(course != null)
-            //    {
-            //        item.CouresName = course.Name;
-            //        Constant.CourseRoomService.Update(item);
-            //    }
-            //}
+            Eva_ManageHandler.Get_Backlog_Helper("12101020111");
 
+          
 
-            var data = (from stu in Constant.Student_List
-                        join user in Constant.UserInfo_List on stu.UniqueNo equals user.UniqueNo
-                        select new { stu, user }).ToList();
-
-            var data2 = (from tea in Constant.Teacher_List
-                         join user in Constant.UserInfo_List on tea.UniqueNo equals user.UniqueNo
-                         select new { tea, user }).ToList();
-
-
-            foreach (var item in data)
-            {
-                item.user.Major_ID = item.stu.Major_Id;
-                item.user.DepartentName = item.stu.Departent_Name;
-                item.user.SubDepartmentID = item.stu.SubDepartmentID;
-                item.user.SubDepartmentName = item.stu.SubDepartmentName;
-
-                Constant.UserInfoService.Update(item.user);
-            }
-
-            foreach (var item in data2)
-            {
-                item.user.Major_ID = item.tea.Major_ID;
-                item.user.DepartentName = item.tea.Departent_Name;
-                item.user.SubDepartmentID = item.tea.SubDepartmentID;
-                item.user.SubDepartmentName = item.tea.SubDepartmentName;
-
-                Constant.UserInfoService.Update(item.user);
-            }
         }
 
 
@@ -295,6 +261,81 @@ public class helper
                 });
             }
         }
+    }
+
+    #endregion
+
+    #region department
+
+    public static void departemt()
+    {
+        var data = (from stu in Constant.Student_List
+                    join user in Constant.UserInfo_List on stu.UniqueNo equals user.UniqueNo
+                    select new { stu, user }).ToList();
+
+        var data2 = (from tea in Constant.Teacher_List
+                     join user in Constant.UserInfo_List on tea.UniqueNo equals user.UniqueNo
+                     select new { tea, user }).ToList();
+
+
+        foreach (var item in data)
+        {
+            item.user.Major_ID = item.stu.Major_Id;
+            item.user.DepartmentName = item.stu.Departent_Name;
+            item.user.SubDepartmentID = item.stu.SubDepartmentID;
+            item.user.SubDepartmentName = item.stu.SubDepartmentName;
+
+            Constant.UserInfoService.Update(item.user);
+        }
+
+        foreach (var item in data2)
+        {
+            item.user.Major_ID = item.tea.Major_ID;
+            item.user.DepartmentName = item.tea.Departent_Name;
+            item.user.SubDepartmentID = item.tea.SubDepartmentID;
+            item.user.SubDepartmentName = item.tea.SubDepartmentName;
+
+            Constant.UserInfoService.Update(item.user);
+        }
+    }
+
+    #endregion
+
+    #region room
+
+    public static void room()
+    {
+        //foreach (var item in Constant.CourseRoom_List)
+        //{
+        //    var course = Constant.Course_List.FirstOrDefault(i => i.UniqueNo == item.Coures_Id);
+        //    if(course != null)
+        //    {
+        //        item.CouresName = course.Name;
+        //        Constant.CourseRoomService.Update(item);
+        //    }
+        //}
+
+    }
+
+    #endregion
+
+    #region cls\
+
+    public static void Cls()
+    {
+          //按80数量进行分组
+            var result = ListHelper.GetListGroup<Student>(Constant.Student_List, 15);
+
+            for (int i = 0; i < result.Count; i++)
+            {
+                for (int j = 0; j < result[i].Count; j++)
+                {
+                    var model = result[i][j];
+                    var cls = Constant.ClassInfo_List[i];
+                    Constant.Class_StudentInfoService.Add(new Class_StudentInfo() { UniqueNo = model.UniqueNo, Class_Id = cls.ClassNO, CreateTime = DateTime.Now, CreateUID = "admin", EditTime = DateTime.Now, EditUID = "", IsDelete = 0 });
+                }
+
+            }
     }
 
     #endregion

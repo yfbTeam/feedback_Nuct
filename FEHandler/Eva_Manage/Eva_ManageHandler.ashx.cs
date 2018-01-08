@@ -167,6 +167,8 @@ namespace FEHandler.Eva_Manage
                     //筛选
                     case "Get_Eva_RegularDataSelect": Get_Eva_RegularDataSelect(context); break;
                     case "Get_Eva_RegularData_Room": Get_Eva_RegularData_Room(context); break;
+
+                    case "Get_Backlog": Get_Backlog(context); break;
                         
 
                     //新增定期评价
@@ -2218,7 +2220,7 @@ namespace FEHandler.Eva_Manage
 
 
         /// <summary>
-        /// 定期评价  Eva_Role 1:学生评教师  2:专家评教师 【专家、领导、教学信息员】
+        /// 定期评价  Eva_Role 1:专家评价  2:课堂评价
         /// </summary>
         /// <param name="Eva_Role"></param>
         /// <returns></returns>

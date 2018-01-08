@@ -113,6 +113,7 @@
     <Compile Include="JsonHelper.cs" />
     <Compile Include="JsonTool.cs" />
     <Compile Include="key.cs" />
+    <Compile Include="ListHelper.cs" />
     <Compile Include="ListSortHelper.cs" />
     <Compile Include="LogCommon.cs" />
     <Compile Include="LogHelper.cs" />

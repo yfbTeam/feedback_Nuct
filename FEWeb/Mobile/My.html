@@ -31,13 +31,13 @@
                 <p class="name"><%=retData.Name%></p>
             </div>
         </div>
+        <!--<%=retData.Name%>-->
         <div class="input_row" id="photo">
             <label>头像</label>
             <div class="photo">
                 <img src="<%=HanderServiceUrl+retData.HeadPic%>" onerror="javascript: this.src = 'images/ren.jpg'"/>
             </div>
-            <!--<i class="iconfont">&#xe60c;</i>
-            <input type="file" name="fileToUpload" class="fileToUpload" accept="image/*" />-->
+           
         </div>
         <div class="input_row">
             <label>账号</label>
@@ -68,12 +68,7 @@
             <b></b>
             <p>首页</p>
         </a>
-        <a href="Feedback.html">
-            <i class="iconfont">&#xe6ce;</i>
-            <b></b>
-            <p>互动反馈</p>
-        </a>
-        <a href="My.html" class="active">
+        <a href="My.html" class="fr" style="float: right; ">
             <i class="iconfont">&#xe692;</i>
             <b></b>
             <p>我的</p>
@@ -88,7 +83,7 @@
             statusBarBackground: '#6a264b',
         });
         $(function () {
-            $("#div_MyInfo").append(ejs.render($("#item_MyInfo").html(), { retData: login_User}));
+            $("#div_MyInfo").append(ejs.render($("#item_MyInfo").html(), { retData: login_User[0]}));
             $('#loginOut').on('tap', function () {
                 localStorage.removeItem('Userinfo_LG');
                 window.location.href = "Login.html";

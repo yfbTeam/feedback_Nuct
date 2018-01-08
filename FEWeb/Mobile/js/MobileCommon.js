@@ -1,4 +1,4 @@
-﻿var HanderServiceUrl = "http://192.168.1.156:8012/Service/";
+﻿var HanderServiceUrl = "http://192.168.1.148:8010/Service/";
 var login_User = GetLoginUser();
 /**日期转换成时间字符串**/
 /** date日期  **/
@@ -159,33 +159,33 @@ $(function () {
     GetHead_ReadCount(); //设置底部互动反馈红点
 });
 function GetHead_ReadCount() {
-    var user = JSON.parse(localStorage.getItem('Userinfo_LG'));
-    var $feed_a = $('.footer a:nth-child(2)');
-    if ($feed_a) {
-        $.ajax({
-            type: "Post",
-            url: HanderServiceUrl + "/InteractFeed/Feed_DiscussHandler.ashx",
-            data: {
-                Func: "GetHead_ReadCount",
-                LoginUID: user.UniqueNo,
-            },
-            dataType: "json",
-            success: function (json) {
-                if (json.result.errNum.toString() == "0") {
-                    var rtndata = json.result.retData;
-                    if (parseInt(rtndata) > 0) {
-                        $feed_a.find('b').show();
-                    } else {
-                        $feed_a.find('b').hide();
-                    }
-                    if ($("#span_IxReadCount").length) {
-                        $("#span_IxReadCount").html(rtndata);
-                    }
-                }
-            },
-            error: function (errMsg) { }
-        });
-    }
+    //var user = JSON.parse(localStorage.getItem('Userinfo_LG'));
+    //var $feed_a = $('.footer a:nth-child(2)');
+    //if ($feed_a) {
+    //    $.ajax({
+    //        type: "Post",
+    //        url: HanderServiceUrl + "/InteractFeed/Feed_DiscussHandler.ashx",
+    //        data: {
+    //            Func: "GetHead_ReadCount",
+    //            LoginUID: user.UniqueNo,
+    //        },
+    //        dataType: "json",
+    //        success: function (json) {
+    //            if (json.result.errNum.toString() == "0") {
+    //                var rtndata = json.result.retData;
+    //                if (parseInt(rtndata) > 0) {
+    //                    $feed_a.find('b').show();
+    //                } else {
+    //                    $feed_a.find('b').hide();
+    //                }
+    //                if ($("#span_IxReadCount").length) {
+    //                    $("#span_IxReadCount").html(rtndata);
+    //                }
+    //            }
+    //        },
+    //        error: function (errMsg) { }
+    //    });
+    //}
 }
 //设置localStorage的值
 function setItem(key, value) {
@@ -216,31 +216,31 @@ function Position_LastDiscuss() {
     // $("#div_Discuss").parent().animate({ scrollTop: objDis.offsetTop }, "slow"); //定位
 
 }
-//添加新的讨论信息
-function AddToDiscuss(type) {
-    type = arguments[0] || 0; //0实名、教师匿名；1学生匿名 
-    $("#div_Discuss").append('<div class="myspeak_wrap useposition">'
-        + '<div class="ren"><i></i><img src="' + HanderServiceUrl + login_User.HeadPic + '" onerror="javascript:this.src=\'images/ren.jpg\'"/></div>'
-        + '<div class="myspeak">' + (type == 1 ? '<span style="color:#FC0301;">(待审核)</span>' : "") + $("#emojiInput").val().trim() + '<p>' + DateTimeConvert(new Date(), 'yyyy-MM-dd HH:mm:ss', false) + '</p></div></div>');
-    Position_LastDiscuss();
-    $("#emojiInput").val('');
-}
+////添加新的讨论信息
+//function AddToDiscuss(type) {
+//    type = arguments[0] || 0; //0实名、教师匿名；1学生匿名 
+//    $("#div_Discuss").append('<div class="myspeak_wrap useposition">'
+//        + '<div class="ren"><i></i><img src="' + HanderServiceUrl + login_User.HeadPic + '" onerror="javascript:this.src=\'images/ren.jpg\'"/></div>'
+//        + '<div class="myspeak">' + (type == 1 ? '<span style="color:#FC0301;">(待审核)</span>' : "") + $("#emojiInput").val().trim() + '<p>' + DateTimeConvert(new Date(), 'yyyy-MM-dd HH:mm:ss', false) + '</p></div></div>');
+//    Position_LastDiscuss();
+//    $("#emojiInput").val('');
+//}
 //匿名讨论设置为已读
-function SetAnonymity_DiscussRead(anoid) {
-    $.ajax({
-        url: HanderServiceUrl + "/InteractFeed/Feed_DiscussHandler.ashx",
-        type: "post",
-        dataType: "json",
-        data: {
-            Func: "SetAnonymity_DiscussRead",
-            AnonymityId: anoid
-        },
-        success: function (json) {
-            GetHead_ReadCount();
-        },
-        error: function (XMLHttpRequest, textStatus, errorThrown) { }
-    });
-}
+//function SetAnonymity_DiscussRead(anoid) {
+//    $.ajax({
+//        url: HanderServiceUrl + "/InteractFeed/Feed_DiscussHandler.ashx",
+//        type: "post",
+//        dataType: "json",
+//        data: {
+//            Func: "SetAnonymity_DiscussRead",
+//            AnonymityId: anoid
+//        },
+//        success: function (json) {
+//            GetHead_ReadCount();
+//        },
+//        error: function (XMLHttpRequest, textStatus, errorThrown) { }
+//    });
+//}
 /****************************************互动反馈结束*****************************************/
 
 /****************************************评价相关开始*****************************************/

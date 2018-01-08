@@ -45,14 +45,6 @@ namespace FEIDAL
     }
 
 	/// </summary>
-	///	
-	/// </summary>
-    public interface IUserInfoDal: IBaseDal<UserInfo>
-    {
-		
-    }
-
-	/// </summary>
 	///	系统账号数据处理接口类3
 	/// </summary>
     public interface ISys_SystemInfoDal: IBaseDal<Sys_SystemInfo>
@@ -79,23 +71,7 @@ namespace FEIDAL
 	/// </summary>
 	///	
 	/// </summary>
-    public interface IClass_StudentInfoDal: IBaseDal<Class_StudentInfo>
-    {
-		
-    }
-
-	/// </summary>
-	///	
-	/// </summary>
     public interface ITPM_RewardBatchDal: IBaseDal<TPM_RewardBatch>
-    {
-		
-    }
-
-	/// </summary>
-	///	
-	/// </summary>
-    public interface IClassInfoDal: IBaseDal<ClassInfo>
     {
 		
     }
@@ -191,6 +167,14 @@ namespace FEIDAL
 	/// </summary>
 	///	
 	/// </summary>
+    public interface IUserInfoDal: IBaseDal<UserInfo>
+    {
+		
+    }
+
+	/// </summary>
+	///	
+	/// </summary>
     public interface IEva_TeacherAnswerDal: IBaseDal<Eva_TeacherAnswer>
     {
 		
@@ -271,6 +255,14 @@ namespace FEIDAL
 	/// </summary>
 	///	
 	/// </summary>
+    public interface IClassInfoDal: IBaseDal<ClassInfo>
+    {
+		
+    }
+
+	/// </summary>
+	///	
+	/// </summary>
     public interface ISys_DictionaryDal: IBaseDal<Sys_Dictionary>
     {
 		
@@ -280,6 +272,14 @@ namespace FEIDAL
 	///	
 	/// </summary>
     public interface ICourseDal: IBaseDal<Course>
+    {
+		
+    }
+
+	/// </summary>
+	///	
+	/// </summary>
+    public interface IClass_StudentInfoDal: IBaseDal<Class_StudentInfo>
     {
 		
     }

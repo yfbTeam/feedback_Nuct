@@ -21,36 +21,13 @@
                 line-height: 22px;
                 z-index: 11;
             }
+
+
+        .search_toobar .text {
+            margin-top: 1px;
+        }
     </style>
-    <script type="text/x-jquery-tmpl" id="item_tr">
-        <tr>
-            <td>${num()}</td>
-            <td>${UniqueNo}</td>
-            <td>${Name}</td>
-            <td>${Sex}</td>
-            <td>${MajorName}</td>
-            <td>${SubDepartmentName}</td>
-            <td></td>
-        </tr>
-    </script>
 
-    <script type="text/x-jquery-tmpl" id="li_role">
-        <li roleid="${RoleId}" rolename="${RoleName}" onclick="BindDataTo_GetUserinfo(${RoleId},'${RoleName}');">
-            <em title="${RoleName}">${RoleName}</em>
-
-            <div class="operates">
-                <div class="operate" onclick="Group_User_Add(2,'${RoleId}','${RoleName}');">
-                    <i class="iconfont color_purple">&#xe632;</i>
-                    <a class='operate_none bg_purple'>设置</a>
-                </div>
-                <div class="operate ml5" onclick="remove(${RoleId});">
-                    <i class="iconfont color_purple">&#xe61b;</i>
-                    <a class='operate_none bg_purple'>删除</a>
-                </div>
-            </div>
-
-        </li>
-    </script>
 </head>
 <body>
     <div id="top"></div>
@@ -67,13 +44,17 @@
                 </div>
                 <div class="sort_right fr">
                     <div class="search_toobar clearfix">
-                        <div id="div_Unit" class=" fl" style="display: none;">
+                        <div id="div_Unit" class=" fl">
                             <label style="min-width: 20px">所属院(系、部)：</label>
-                            <select id="college" class="select" style="margin-bottom: 0px; width: 190px"></select>
+                            <select class="select" id="college" style="width: 190px">
+                                <option value="">全部</option>
+                            </select>
                         </div>
-                        <div id="div_Class" class="ml10 fl" style="display: none">
+                        <div id="div_Class" class="ml10 fl">
                             <label>班级：</label>
-                            <select class="select chosen-select" style="width: 178px;" id="class"></select>
+                            <select class="select" id="class" style="width: 178px;">
+                                <option value="">全部</option>
+                            </select>
                         </div>
 
                         <div class="fl ml10">
@@ -81,22 +62,13 @@
                             <a class="search fl" href="javascript:;" onclick="SelectByWhere()"><i class="iconfont">&#xe600;</i></a>
                         </div>
                         <div class="fr" id="">
-                            <input type="button" name="" id="" value="权限分配" class="btn" onclick="PowerAssign();">
+                            <input type="button" name="" id="allotlimit" value="权限分配" class="btn" onclick="PowerAssign();" style="display: none;">
                             <input type="button" name="" id="allot" value="分配人员" class="btn ml10" onclick="OpenIFrameWindow('分配人员', 'AllotPeople.aspx', '1000px', '700px')" style="display: none;">
                         </div>
                     </div>
                     <div class="table">
                         <table id="fenyeShowUserInfo">
-                            <thead>
-                                <tr>
-                                    <th style="width: 60px">序号	</th>
-                                    <th>教职工号</th>
-                                    <th>用户名</th>
-                                    <th>性别</th>
-                                    <th>部门</th>
-                                    <th>子部门</th>
-                                    <%--   <th>操作</th>--%>
-                                </tr>
+                            <thead id="header_th">
                             </thead>
                             <tbody id="ShowUserInfo">
                             </tbody>
@@ -118,9 +90,88 @@
     <script src="../Scripts/pinying/pinyin_dict_polyphone.js"></script>
     <script src="../Scripts/pinying/pinyin_dict_withtone.js"></script>
     <script src="../Scripts/pinying/pinyinUtil.js"></script>
+
+    <link href="../Scripts/choosen/prism.css" rel="stylesheet" />
+    <link href="../Scripts/choosen/chosen.css" rel="stylesheet" />
+    <script src="../Scripts/choosen/chosen.jquery.js"></script>
+    <script src="../Scripts/choosen/prism.js"></script>
+
     <link href="../Scripts/pagination/pagination.css" rel="stylesheet" />
     <script src="../Scripts/pagination/jquery.pagination.js"></script>
     <script src="../Scripts/WebCenter/Power.js"></script>
+
+    <script type="text/x-jquery-tmpl" id="item_tr">
+        <tr>
+            <td style="width: 5%">${num()}</td>
+            <td style="width: 15%">${UniqueNo}</td>
+            <td style="width: 10%">${Name}</td>
+            <td style="width: 10%">${Sex}</td>
+            <td style="width: 30%">${DepartmentName}</td>
+            <td style="width: 30%">${SubDepartmentName}</td>
+        </tr>
+    </script>
+
+    <script type="text/x-jquery-tmpl" id="item_tr_stu">
+        <tr>
+            <td style="width: 5%">${num()}</td>
+            <td style="width: 15%">${UniqueNo}</td>
+            <td style="width: 10%">${Name}</td>
+            <td style="width: 10%">${Sex}</td>
+            <td style="width: 25%">${DepartmentName}</td>
+            <td style="width: 25%">${SubDepartmentName}</td>
+            <td style="width: 10%">${ClassName}</td>
+        </tr>
+    </script>
+
+    <script type="text/x-jquery-tmpl" id="li_role">
+        <li roleid="${RoleId}" rolename="${RoleName}" onclick="BindDataTo_GetUserinfo(${RoleId},'${RoleName}');">
+            <em title="${RoleName}">${RoleName}</em>
+
+            <div class="operates">
+                <div class="operate" onclick="Group_User_Add(2,'${RoleId}','${RoleName}');">
+                    <i class="iconfont color_purple">&#xe632;</i>
+                    <a class='operate_none bg_purple'>设置</a>
+                </div>
+                <div class="operate ml5" onclick="remove(${RoleId});">
+                    <i class="iconfont color_purple">&#xe61b;</i>
+                    <a class='operate_none bg_purple'>删除</a>
+                </div>
+            </div>
+
+        </li>
+    </script>
+
+    <script type="text/x-jquery-tmpl" id="item_College">
+        <option value="${Major_ID}">${DepartmentName}</option>
+    </script>
+
+    <script type="text/x-jquery-tmpl" id="item_Class">
+        <option value="${ClassID}">${ClassName}</option>
+    </script>
+
+    <script type="text/x-jquery-tmpl" id="header_stu">
+        <tr>
+            <th>序号	</th>
+            <th>学号</th>
+            <th>用户名</th>
+            <th>性别</th>
+            <th>部门</th>
+            <th>子部门</th>
+            <th>班级</th>
+        </tr>
+    </script>
+
+    <script type="text/x-jquery-tmpl" id="header_tea">
+        <tr>
+            <th>序号	</th>
+            <th>教职工号</th>
+            <th>用户名</th>
+            <th>性别</th>
+            <th>部门</th>
+            <th>子部门</th>
+        </tr>
+    </script>
+
     <script>
         var reUserinfo,
             //点击选中的用户数据
@@ -146,7 +197,7 @@
         }
         //绑定用户信息
         function BindDataTo_GetUserinfo(RoleId, RoleName) {
-            
+
             UI_Power.BindDataTo_GetUserinfo(RoleId, RoleName);
         }
 
