@@ -47,8 +47,6 @@
     </style>
 </head>
 <body>
-    
-    <%--<input type="hidden" id="hidPreUrl" runat="server" />--%>
     <div class="header">
         <div class="container clearfix">
             <div class="logo pull-left">
