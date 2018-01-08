@@ -180,7 +180,7 @@
     <div class="center" id="centerwrap">
         <div class="wrap clearfix" style="padding-bottom: 0px;">
             <h1 class="title">
-                <a onclick="javascript:window.history.go(-1)" style="cursor: pointer;">业绩录入</a><span>&gt;</span><a href="#" class="crumbs" id="GropName"></a>
+                <a href="AchManage.aspx?Id=2&Iid=3" style="cursor: pointer;">业绩录入</a><span>&gt;</span><a href="#" class="crumbs" id="GropName"></a>
             </h1>
             <div id="div_Achieve" class="cont"></div>
         </div>

@@ -516,8 +516,7 @@ namespace FEHandler.TeaAchManage
                 {
                     TPM_RewardInfo model = new TPM_RewardInfo();
                     model.Name = context.Request["Name"];
-                    model.LID = RequestHelper.int_transfer(context.Request, "LID");
-                    model.Award = RequestHelper.decimal_transfer(context.Request, "Award");
+                    model.LID = RequestHelper.int_transfer(context.Request, "LID");                    
                     model.Score = RequestHelper.int_transfer(context.Request, "Score");
                     model.ScoreType = Convert.ToByte(context.Request["ScoreType"]);
                     model.Sort = RequestHelper.int_transfer(context.Request, "Sort");
@@ -545,29 +544,14 @@ namespace FEHandler.TeaAchManage
                     {
                         jsonModel = JsonModel.get_jsonmodel(-2, "该奖项分数已经被使用！", "");
                         return;
-                    }
-                    int money_Count = RewardInfo_bll.GetRewardMoney_UseCount(Batch_Id);//奖项金额是否已经引用
-                    if (money_Count > 0)
-                    {
-                        jsonModel = JsonModel.get_jsonmodel(-3, "该奖项金额已经被使用！", "");
-                        return;
-                    }
-                    TPM_RewardInfo model = RewardInfo_bll.GetEntityById(Id).retData as TPM_RewardInfo;
-                    decimal Award = RequestHelper.decimal_transfer(context.Request["Award"]);
-                    int Score = RequestHelper.int_transfer(context.Request, "Score");
-                    model.Award = Award;
+                    }                    
+                    TPM_RewardInfo model = RewardInfo_bll.GetEntityById(Id).retData as TPM_RewardInfo;                    
+                    int Score = RequestHelper.int_transfer(context.Request, "Score");                  
                     model.Score = Score;
                     model.Name = context.Request["Name"];
                     model.ScoreType = Convert.ToByte(context.Request["ScoreType"]);
                     model.Sort = RequestHelper.int_transfer(context.Request, "Sort");
-                    jsonModel = RewardInfo_bll.Update(model);
-                    if (jsonModel.errNum == 0)
-                    {                        
-                        TPM_RewardBatch r_batch = RewardBatch_bll.GetEntityById(Batch_Id).retData as TPM_RewardBatch;
-                        r_batch.Money= Award;
-                        RewardBatch_bll.Update(r_batch);
-                    }
-
+                    jsonModel = RewardInfo_bll.Update(model);                    
                 }
             }
             catch (Exception ex)
@@ -626,7 +610,7 @@ namespace FEHandler.TeaAchManage
                     }
                     TPM_RewardBatch model = RewardBatch_bll.GetEntityById(Id).retData as TPM_RewardBatch;                   
                     model.Money = AddAward;                   
-                    jsonModel = RewardBatch_bll.Update(model);
+                    jsonModel = RewardBatch_bll.Update(model);                    
                 }            
             }
             catch (Exception ex)

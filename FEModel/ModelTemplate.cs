@@ -1417,6 +1417,213 @@ namespace FEModel
 		/// <summary>
 		/// 
 		/// </summary>
+<<<<<<< HEAD
+=======
+		public int? Table_Id { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public string Name_Key { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public string Name_Value { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public int? Type { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public string Custom_Code { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public int? Sort { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public string CreateUID { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public DateTime? CreateTime { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public string EditUID { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public DateTime? EditTime { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public Byte? IsEnable { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public Byte? IsDelete { get; set; }
+
+          public override bool Equals(object obj)
+        {
+            bool result = false;
+            if (obj.GetType() == typeof(Eva_Table_Header))
+            {
+                Eva_Table_Header _obj = obj as Eva_Table_Header;
+                if (_obj.Id == this.Id)
+                {
+                    result = true;
+                }
+            }
+            return result;
+        }
+
+	    public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
+    }
+
+	/// </summary>
+	///	实体类
+	/// </summary>
+	[Serializable]
+    public partial class Eva_QuestionAnswer
+    {
+
+		/// <summary>
+		/// 
+		/// </summary>
+		public int? Id { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public int? SectionID { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public string DisPlayName { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public int? ReguID { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public string ReguName { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public int? TableID { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public string TableName { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public string TeacherUID { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public string TeacherName { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public string CourseTypeID { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public string CourseTypeName { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public string CourseID { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public string CourseName { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public string AnswerUID { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public string AnswerName { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public decimal? Score { get; set; }
+		/// <summary>
+		///身份类型（1、专家评价 2、课堂扫码评价） 
+		/// </summary>
+		public int? Eva_Role { get; set; }
+		/// <summary>
+		///审核状态（1:未提交 2:待审核 3:已入库） 
+		/// </summary>
+		public int? State { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public string CreateUID { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public DateTime? CreateTime { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public string EditUID { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public DateTime? EditTime { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public Byte? IsEnable { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public Byte? IsDelete { get; set; }
+
+          public override bool Equals(object obj)
+        {
+            bool result = false;
+            if (obj.GetType() == typeof(Eva_QuestionAnswer))
+            {
+                Eva_QuestionAnswer _obj = obj as Eva_QuestionAnswer;
+                if (_obj.Id == this.Id)
+                {
+                    result = true;
+                }
+            }
+            return result;
+        }
+
+	    public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
+    }
+
+	/// </summary>
+	///	
+	/// </summary>
+	[Serializable]
+    public partial class Eva_TaskAnswer
+    {
+
+		/// <summary>
+		/// 
+		/// </summary>
+		public int? Id { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+>>>>>>> 66f7e1b6d8fef0d08bbc1983281abcec4e05ccf6
 		public int? Task_Id { get; set; }
 		/// <summary>
 		/// 
@@ -1777,10 +1984,6 @@ namespace FEModel
 		/// <summary>
 		/// 
 		/// </summary>
-		public decimal? Award { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
 		public int? Sort { get; set; }
 		/// <summary>
 		/// 
@@ -1798,10 +2001,6 @@ namespace FEModel
 		/// 
 		/// </summary>
 		public DateTime? CreateTime { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public decimal? AddAward { get; set; }
 
           public override bool Equals(object obj)
         {

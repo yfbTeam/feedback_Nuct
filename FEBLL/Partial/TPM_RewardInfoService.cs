@@ -54,43 +54,6 @@ namespace FEBLL
         }
 
         #endregion
-        public JsonModel AddRewardDash(int Id, int Award)
-        {
-            JsonModel jsonModel = new JsonModel();
-            try
-            {
-                int result = dal.AddRewardDash(Id, Award);
-                if (result >0)
-                {
-                    jsonModel = new JsonModel()
-                    {
-                        errNum = 0,
-                        errMsg = "success",
-                        retData = ""
-                    };
-                }
-                else
-                {
-                    jsonModel = new JsonModel()
-                    {
-                        errNum = 999,
-                        errMsg = "数据更新失败",
-                        retData = ""
-                    };
-                }
-                return jsonModel;
-            }
-            catch (Exception ex)
-            {
-                jsonModel = new JsonModel()
-                {
-                    errNum = 400,
-                    errMsg = ex.Message,
-                    retData = ""
-                };
-                return jsonModel;
-            }
-        }
 
         #region 获取奖项是否使用
         public int GetReward_UseCount(int Reward_Id)
