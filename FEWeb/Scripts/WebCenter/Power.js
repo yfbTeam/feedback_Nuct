@@ -8,8 +8,13 @@ var ClsList = [];
 var UI_Power =
     {
         PageType: 'Power',  //Power用户组管理
+<<<<<<< HEAD
         CurrentRoleid: 2,
         CurrentRoleName: '学生',
+=======
+        CurrentRoleid: null,
+        CurrentRoleName: '',
+>>>>>>> 9d63c6e3b71dc59e0df411623493b3075d954255
         num: function () {
             return pageNum++;
         },
@@ -32,6 +37,7 @@ var UI_Power =
 
         //显示用户组
         ShowUserGroup: function () {
+            var that = this;
             var postData = { func: "Get_UserGroup" };
             $.ajax({
                 type: "Post",
@@ -44,11 +50,15 @@ var UI_Power =
                         $('#ShowUserGroup').empty();
                         var lists = returnVal.result.retData;
                         if (lists != null && lists.length > 0) {
-
                             $('#li_role').tmpl(lists).appendTo('#ShowUserGroup');
+<<<<<<< HEAD
                             $('#header_stu').tmpl(1).appendTo('#header_th');
                             $('.menu_lists li:eq(0)').addClass('selected');
                             
+=======
+                            that.CurrentRoleid = lists[0].RoleId;
+                            that.CurrentRoleName = lists[0].RoleName;
+>>>>>>> 9d63c6e3b71dc59e0df411623493b3075d954255
                             $('.menu_lists li').click(function () {
                                 $(this).addClass('selected').siblings().removeClass('selected');
 
@@ -62,8 +72,7 @@ var UI_Power =
                                 }
                             })
                             tableSlide();
-
-                            //$('#ShowUserGroup').find('li[roleid=' + UI_Power.CurrentRoleid + ']').removeClass("")
+                            $('#ShowUserGroup').find('li[roleid=' + UI_Power.CurrentRoleid + ']').trigger("click");
                         }
                     }
                 },
@@ -140,7 +149,7 @@ var UI_Power =
         },
         GetUserinfoCompleate: function () {
 
-            UI_Power.BindDataTo_GetUserinfo(2, '学生');
+            UI_Power.BindDataTo_GetUserinfo(this.CurrentRoleid, this.CurrentRoleName);
         },
         //绑定用户信息
         BindDataTo_GetUserinfo: function (RoleId, RoleName) {
@@ -198,6 +207,7 @@ var UI_Power =
             if (index == 0) {
                 pageNum = 1;
             }
+<<<<<<< HEAD
             else {
                 pageNum = pageSize * (index + 1) + 1;
             }
@@ -210,6 +220,9 @@ var UI_Power =
             {              
                 $('#item_tr').tmpl(arrRes).appendTo('#ShowUserInfo');
             }
+=======
+            $('#item_tr').tmpl(arrRes).appendTo('#ShowUserInfo');
+>>>>>>> 9d63c6e3b71dc59e0df411623493b3075d954255
         },
         //翻页调用
         PageCallback: function (index, jq) {
@@ -249,12 +262,12 @@ var UI_Power =
                 num_edge_entries: 1//两侧首尾分页条目数
             });
         },
-
+     
         get_teachers: function () {
             return teachers;
 
         },
-
+      
         GetTeachers: function () {
 
             var postData = { func: "GetTeachers" };
