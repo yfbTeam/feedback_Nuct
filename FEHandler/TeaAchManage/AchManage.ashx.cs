@@ -543,7 +543,7 @@ namespace FEHandler.TeaAchManage
                     int score_Count = RewardInfo_bll.GetRewardScore_UseCount(Id);//奖项分数是否已经引用
                     if (score_Count > 0)
                     {
-                        jsonModel = JsonModel.get_jsonmodel(-2, "该奖金分数已经被使用！", "");
+                        jsonModel = JsonModel.get_jsonmodel(-2, "该奖项分数已经被使用！", "");
                         return;
                     }
                     int money_Count = RewardInfo_bll.GetRewardMoney_UseCount(Batch_Id);//奖项金额是否已经引用
