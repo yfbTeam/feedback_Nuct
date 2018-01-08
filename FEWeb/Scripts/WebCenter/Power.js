@@ -8,15 +8,15 @@ var ClsList = [];
 var UI_Power =
     {
         PageType: 'Power',  //Power用户组管理
-<<<<<<< HEAD
+
 
         CurrentRoleid: null,
         CurrentRoleName: '',
 
-=======
+
         CurrentRoleid: null,
         CurrentRoleName: '',
->>>>>>> 551b8f24176e481000ee60c3a2915d7cff99813f
+
         num: function () {
             return pageNum++;
         },
@@ -35,12 +35,12 @@ var UI_Power =
             UI_Power.GetStudents();
             //获取教师
             UI_Power.GetTeachers();
-<<<<<<< HEAD
+
 
             $('#ShowUserGroup').find('li[roleid=' + UI_Power.CurrentRoleid + ']').trigger("click");     
-=======
+
             $('#ShowUserGroup').find('li[roleid=' + UI_Power.CurrentRoleid + ']').trigger("click");
->>>>>>> 551b8f24176e481000ee60c3a2915d7cff99813f
+
         },
 
         //显示用户组
@@ -61,15 +61,15 @@ var UI_Power =
                             $('#li_role').tmpl(lists).appendTo('#ShowUserGroup');
                             $('#header_stu').tmpl(1).appendTo('#header_th');
                             $('.menu_lists li:eq(0)').addClass('selected');
-<<<<<<< HEAD
+
 
                             that.CurrentRoleid = lists[0].RoleId;
                             that.CurrentRoleName = lists[0].RoleName;
 
-=======
+
                             that.CurrentRoleid = lists[0].RoleId;
                             that.CurrentRoleName = lists[0].RoleName;
->>>>>>> 551b8f24176e481000ee60c3a2915d7cff99813f
+
                             $('.menu_lists li').click(function () {
                                 $(this).addClass('selected').siblings().removeClass('selected');
 
@@ -83,11 +83,6 @@ var UI_Power =
                                 }
                             })
                             tableSlide();
-<<<<<<< HEAD
-                       
-=======
-                            
->>>>>>> 551b8f24176e481000ee60c3a2915d7cff99813f
                         }
                     }
                 },
@@ -229,18 +224,13 @@ var UI_Power =
             }
 
           
-            if (UI_Power.CurrentRoleid == 2)
-            {               
+            if (UI_Power.CurrentRoleid == 2) {
                 $('#item_tr_stu').tmpl(arrRes).appendTo('#ShowUserInfo');
             }
-            else
-            {              
+            else {
                 $('#item_tr').tmpl(arrRes).appendTo('#ShowUserInfo');
-<<<<<<< HEAD
-            }        
-=======
             }
->>>>>>> 551b8f24176e481000ee60c3a2915d7cff99813f
+
         },
         //翻页调用
         PageCallback: function (index, jq) {
