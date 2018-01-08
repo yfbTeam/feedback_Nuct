@@ -82,24 +82,6 @@ namespace FEDAL
 
 
 	     /// </summary>
-	     ///	
-	     /// </summary>
-		 public partial class UserInfoDal:BaseDal<UserInfo>,IUserInfoDal
-         {
-
-
-         }	
-
-        public partial class DalFactory
-        {
-            public static IUserInfoDal GetUserInfoDal()
-            {
-                return new UserInfoDal();
-            }
-	    }
-
-
-	     /// </summary>
 	     ///	系统账号数据处理类3
 	     /// </summary>
 		 public partial class Sys_SystemInfoDal:BaseDal<Sys_SystemInfo>,ISys_SystemInfoDal
@@ -156,24 +138,6 @@ namespace FEDAL
 	     /// </summary>
 	     ///	
 	     /// </summary>
-		 public partial class Class_StudentInfoDal:BaseDal<Class_StudentInfo>,IClass_StudentInfoDal
-         {
-
-
-         }	
-
-        public partial class DalFactory
-        {
-            public static IClass_StudentInfoDal GetClass_StudentInfoDal()
-            {
-                return new Class_StudentInfoDal();
-            }
-	    }
-
-
-	     /// </summary>
-	     ///	
-	     /// </summary>
 		 public partial class TPM_RewardBatchDal:BaseDal<TPM_RewardBatch>,ITPM_RewardBatchDal
          {
 
@@ -185,24 +149,6 @@ namespace FEDAL
             public static ITPM_RewardBatchDal GetTPM_RewardBatchDal()
             {
                 return new TPM_RewardBatchDal();
-            }
-	    }
-
-
-	     /// </summary>
-	     ///	
-	     /// </summary>
-		 public partial class ClassInfoDal:BaseDal<ClassInfo>,IClassInfoDal
-         {
-
-
-         }	
-
-        public partial class DalFactory
-        {
-            public static IClassInfoDal GetClassInfoDal()
-            {
-                return new ClassInfoDal();
             }
 	    }
 
@@ -408,6 +354,24 @@ namespace FEDAL
 	     /// </summary>
 	     ///	
 	     /// </summary>
+		 public partial class UserInfoDal:BaseDal<UserInfo>,IUserInfoDal
+         {
+
+
+         }	
+
+        public partial class DalFactory
+        {
+            public static IUserInfoDal GetUserInfoDal()
+            {
+                return new UserInfoDal();
+            }
+	    }
+
+
+	     /// </summary>
+	     ///	
+	     /// </summary>
 		 public partial class Eva_TeacherAnswerDal:BaseDal<Eva_TeacherAnswer>,IEva_TeacherAnswerDal
          {
 
@@ -588,6 +552,24 @@ namespace FEDAL
 	     /// </summary>
 	     ///	
 	     /// </summary>
+		 public partial class ClassInfoDal:BaseDal<ClassInfo>,IClassInfoDal
+         {
+
+
+         }	
+
+        public partial class DalFactory
+        {
+            public static IClassInfoDal GetClassInfoDal()
+            {
+                return new ClassInfoDal();
+            }
+	    }
+
+
+	     /// </summary>
+	     ///	
+	     /// </summary>
 		 public partial class Sys_DictionaryDal:BaseDal<Sys_Dictionary>,ISys_DictionaryDal
          {
 
@@ -617,6 +599,24 @@ namespace FEDAL
             public static ICourseDal GetCourseDal()
             {
                 return new CourseDal();
+            }
+	    }
+
+
+	     /// </summary>
+	     ///	
+	     /// </summary>
+		 public partial class Class_StudentInfoDal:BaseDal<Class_StudentInfo>,IClass_StudentInfoDal
+         {
+
+
+         }	
+
+        public partial class DalFactory
+        {
+            public static IClass_StudentInfoDal GetClass_StudentInfoDal()
+            {
+                return new Class_StudentInfoDal();
             }
 	    }
 

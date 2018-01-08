@@ -16,7 +16,7 @@
             <td>${ResponsName}</td>
             <td>${Year}</td>
             <td>{{if Status==1}}
-                 <span class="checking1">待审核</span>
+                 <span class="checking1">信息待审核</span>
                 {{else Status==5}}<span class="checking1">分数待审核</span>
                 {{else}}<span class="checking1">奖金待审核</span>
                 {{/if}}               

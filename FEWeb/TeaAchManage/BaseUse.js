@@ -619,6 +619,13 @@ function Get_AllotReward(no_status) {
                     }                                     
                 });
             }
+            if (cur_AchieveType == 5) {
+                $("#div_MoneyInfo tbody").each(function (i, n) {
+                    var tb_rownum= n.id.replace("tb_Member_", '');
+                    var audid = $(this).attr("autid");
+                    if (audid==0){GetCur_UserMoney(tb_rownum);}                        
+                });                
+            }
         },
         error: function () {
             //接口错误时需要执行的
