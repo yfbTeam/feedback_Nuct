@@ -21,14 +21,24 @@ namespace FEDAL
             try
             {
                 StringBuilder str = new StringBuilder();
-                str.Append(@"select a.*,uu.Name as ResponsName,u.Name as CreateName,l.name as GName,al.Name as GidName,
+                str.Append(@" select *,
+                         case when Status<=7 then Status 
+                         when 2 in(select value from func_split(AuditSts,',')) then 11 
+                         when 0 in (select value from func_split(AuditSts,',')) then 9
+                         when 10 in(select value from func_split(AuditSts,',')) then 8 
+	                     when 1 in (select value from func_split(AuditSts,',')) then 10 else 12 end as ComStatus
+                    from ( ");
+                str.Append(@" select a.*,uu.Name as ResponsName,u.Name as CreateName,l.name as GName,al.Name as GidName,
                     case when a.GPid=6 then bk.Name when l.Type=5 then uu.Name else a.Name end as AchiveName,
                     l.Type as AchieveType,ll.Name as LevelName,r.Name as RewadName,
                     (select STUFF((select ',' + CAST(Major_Name AS NVARCHAR(MAX)) from Major where Id in(select value from func_split(a.DepartMent,',')) FOR xml path('')), 1, 1, '')) as Major_Name,                   
                     case when a.GPid=1 then isnull((ran.Score),0) else r.Score end as TotalScore,ran.Name RankName,
                     r.ScoreType,(select top 1 Money from TPM_RewardBatch where Reward_Id=r.Id and IsDelete=0 order by Id) as Award
                     ,bk.Name as BookName,bk.BookType,case when bk.BookType=1 then '无' else bk.ISBN end as ISBN                  
-,isnull((select IsMoneyAllot from TPM_RewardEdition where LID=a.Gid and convert(varchar(10),a.DefindDate,21) between convert(varchar(10),BeginTime,21) and convert(varchar(10),EndTime,21)),0)as IsMoneyAllot ");
+                    ,isnull((select IsMoneyAllot from TPM_RewardEdition where LID=a.Gid and convert(varchar(10),a.DefindDate,21) between convert(varchar(10),BeginTime,21) and convert(varchar(10),EndTime,21)),0)as IsMoneyAllot
+                    ,STUFF((select ',' + CAST(isnull(aud.Status,10) AS NVARCHAR(MAX)) from TPM_RewardBatch r_bat
+                    left join TPM_AuditReward aud on r_bat.Id=aud.RewardBatch_Id and aud.Acheive_Id=a.Id and aud.IsDelete=0
+                    where r_bat.IsDelete=0 and r_bat.Reward_Id=a.Rid FOR xml path('')), 1, 1, '') as AuditSts ");
                 if (ht.ContainsKey("LoginMajor_ID") && !string.IsNullOrEmpty(ht["LoginMajor_ID"].SafeToString()))
                 {
                     str.Append(@",(select count(1) from TPM_RewardUserInfo ruser left join UserInfo u on ruser.UserNo = u.UniqueNo
@@ -129,6 +139,7 @@ namespace FEDAL
                     StartIndex = Convert.ToInt32(ht["StartIndex"].ToString());
                     EndIndex = Convert.ToInt32(ht["EndIndex"].ToString());
                 }
+                str.Append(@" ) Temp ");
                 dt = SQLHelp.GetListByPage("(" + str.ToString() + ")", Where, "", StartIndex, EndIndex, IsPage, pms.ToArray(), out RowCount);
             }
             catch (Exception ex)

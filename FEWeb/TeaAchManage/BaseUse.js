@@ -26,7 +26,7 @@ function GetAchieveDetailById(type) { //获取业绩详情
                 } else if (type == 2) {
                     View_CheckInit(model);
                     Get_RewardUserInfo(model);
-                    Get_AchieveStatus(model.Status, ".checkmes");
+                    Get_AchieveStatus(model.ComStatus, ".checkmes");
                 }                
             }
         },
