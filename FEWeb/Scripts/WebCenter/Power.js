@@ -1,12 +1,20 @@
-﻿/// <reference path="../jquery-1.11.2.min.js" />
+﻿/// <reference path="../public.js" />
+/// <reference path="../layer/layer.js" />
+/// <reference path="../jquery-1.11.2.min.js" />
 /// <reference path="../public.js" />
 /// <reference path="../Common.js" />
-
+var DPList = [];
+var ClsList = [];
 var UI_Power =
     {
         PageType: 'Power',  //Power用户组管理
+<<<<<<< HEAD
+        CurrentRoleid: 2,
+        CurrentRoleName: '学生',
+=======
         CurrentRoleid: null,
         CurrentRoleName: '',
+>>>>>>> 9d63c6e3b71dc59e0df411623493b3075d954255
         num: function () {
             return pageNum++;
         },
@@ -43,10 +51,25 @@ var UI_Power =
                         var lists = returnVal.result.retData;
                         if (lists != null && lists.length > 0) {
                             $('#li_role').tmpl(lists).appendTo('#ShowUserGroup');
+<<<<<<< HEAD
+                            $('#header_stu').tmpl(1).appendTo('#header_th');
+                            $('.menu_lists li:eq(0)').addClass('selected');
+                            
+=======
                             that.CurrentRoleid = lists[0].RoleId;
                             that.CurrentRoleName = lists[0].RoleName;
+>>>>>>> 9d63c6e3b71dc59e0df411623493b3075d954255
                             $('.menu_lists li').click(function () {
                                 $(this).addClass('selected').siblings().removeClass('selected');
+
+                                $('#header_th').empty();
+
+                                if (UI_Power.CurrentRoleid == 2) {
+                                    $('#header_stu').tmpl(1).appendTo('#header_th');                                   
+                                }
+                                else {
+                                    $('#header_tea').tmpl(1).appendTo('#header_th');                                   
+                                }
                             })
                             tableSlide();
                             $('#ShowUserGroup').find('li[roleid=' + UI_Power.CurrentRoleid + ']').trigger("click");
@@ -67,8 +90,16 @@ var UI_Power =
         GetCurrentRoleName: function () {
             return UI_Power.CurrentRoleName;
         },
+
+
         //获取用户信息
         GetUserinfo: function () {
+
+            layer_index = layer.load(1, {
+                shade: [0.1, '#fff'],   //0.1透明度的白色背景        
+
+            });
+
             var postData = { func: "Get_UserInfo_List" };
             $.ajax({
                 type: "Post",
@@ -77,9 +108,39 @@ var UI_Power =
                 dataType: "json",
                 success: function (returnVal) {
                     if (returnVal.result.errMsg == "success") {
-                        reUserinfo = returnVal.result.retData;
+                        reUserinfo = returnVal.result.retData.MainData;
+                        DPList = returnVal.result.retData.DPList;
+                        ClsList = returnVal.result.retData.ClsList;
+                        $("#item_College").tmpl(DPList).appendTo($('#college'));
+                        $("#item_Class").tmpl(ClsList).appendTo($('#class'));
+                        ChosenInit($('#class'));
+                        ChosenInit($('#college'));
+
+                        $('#college').on('change', function () {
+                            $('#class').empty();
+                            $("#class").append("<option value=''>全部</option>");
+                            var colloge = $('#college').val();
+                            if (colloge != '') {
+                                var list = ClsList.filter(function (item) { return item.Major_ID == colloge });
+                                $("#item_Class").tmpl(list).appendTo($('#class'));
+                            }
+                            else {
+                                $("#item_Class").tmpl(ClsList).appendTo($('#class'));
+
+                            }
+                            ChosenInit($('#class'));
+
+                            SelectByWhere();
+                        });
+
+                        $('#class').on('change', function () {
+                            SelectByWhere();
+                        });
+
                         UI_Power.GetUserinfoCompleate();
                     }
+                    layer.close(layer_index);
+
                 },
                 error: function (errMsg) {
 
@@ -97,18 +158,21 @@ var UI_Power =
             UI_Power.CurrentRoleid = RoleId;
 
             //教师不可进行分配人员
-            if (UI_Power.CurrentRoleid != 3 && UI_Power.CurrentRoleid != 2) {
-                $('#allot').show();
-            } else {
+            if (UI_Power.CurrentRoleid == 3) {               
                 $('#allot').hide();
+                $('#allotlimit').show();            
+            }
+            else if (UI_Power.CurrentRoleid == 2) {
+                $('#allot,#allotlimit').hide();             
+            }
+            else {
+                $('#allot,#allotlimit').show();
             }
 
-            if (UI_Power.CurrentRoleid == 2)
-            {
+            if (UI_Power.CurrentRoleid == 2) {
                 $('#div_Class,#div_Unit').show();
             }
-            else
-            {
+            else {
                 $('#div_Class').hide();
                 $('#div_Unit').show();
             }
@@ -143,7 +207,22 @@ var UI_Power =
             if (index == 0) {
                 pageNum = 1;
             }
+<<<<<<< HEAD
+            else {
+                pageNum = pageSize * (index + 1) + 1;
+            }
+
+            if (UI_Power.CurrentRoleid == 2)
+            {               
+                $('#item_tr_stu').tmpl(arrRes).appendTo('#ShowUserInfo');
+            }
+            else
+            {              
+                $('#item_tr').tmpl(arrRes).appendTo('#ShowUserInfo');
+            }
+=======
             $('#item_tr').tmpl(arrRes).appendTo('#ShowUserInfo');
+>>>>>>> 9d63c6e3b71dc59e0df411623493b3075d954255
         },
         //翻页调用
         PageCallback: function (index, jq) {
@@ -161,6 +240,14 @@ var UI_Power =
 
             allDataMain_select = reUserinfoByselect.filter(function (item) { return item.Name.indexOf(sw) != -1 || item.UniqueNo.indexOf(sw) != -1 });
 
+            var colloge = $('#college').val();
+            if (colloge != "") {
+                allDataMain_select = allDataMain_select.filter(function (item) { return item.Major_ID == colloge });
+            }
+            var cls = $('#class').val();
+            if (cls != "") {
+                allDataMain_select = allDataMain_select.filter(function (item) { return item.ClassID == cls });
+            }
 
             $("#test1").pagination(allDataMain_select.length, {
                 callback: function (index, jq) {
@@ -221,16 +308,7 @@ var UI_Power =
                             allDataMain.push(students[i]);
 
                             allDataMain_select.push(students[i]);
-
-                            //var list = ClassInList.filter(function (item) { return item.ClassNo == students[i].ClassNo });
-                            //if (list.length == 0) {
-                            //    var cls = { ClassNo: students[i].ClassNo, ClassName: students[i].ClassName, Major_ID: students[i].Major_ID };
-                            //    ClassInList.push(cls);
-                            //}
                         }
-
-                        //ClassSetting(ClassInList);
-
                         UI_Power.GetStudentsCompleate();
                     }
                 },

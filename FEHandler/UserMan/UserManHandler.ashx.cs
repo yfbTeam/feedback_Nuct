@@ -1,4 +1,5 @@
-﻿using FEModel;
+﻿using FEHandler.Eva_Manage;
+using FEModel;
 using FEUtility;
 using System;
 using System.Collections.Generic;
@@ -346,6 +347,8 @@ namespace FEHandler.UserMan
                 var query = from ul in UserInfo_List_
                             join SysRoleOfUser in Sys_RoleOfUser_List on ul.UniqueNo equals SysRoleOfUser.UniqueNo
                             join SysRole in Sys_Role_List on SysRoleOfUser.Role_Id equals SysRole.Id
+                            join stu in Constant.Student_List on ul.UniqueNo equals stu.UniqueNo into clasStus
+                            from stu_ in clasStus.DefaultIfEmpty()
                             where SysRole.Name != "超级管理员"
                             orderby SysRole.Sort
                             select new
@@ -361,42 +364,29 @@ namespace FEHandler.UserMan
                      RoleName = SysRole.Name,
                      UniqueNo = ul.UniqueNo,
                      Pwd = ul.ClearPassword,
-                     MajorName = "",
+
                      Major_ID = ul.Major_ID,
+                     DepartmentName = ul.DepartmentName,
+
                      SubDepartmentID = ul.SubDepartmentID,
                      SubDepartmentName = ul.SubDepartmentName,
+
+                     ClassID = stu_ != null ? stu_.ClassNo : "",
+                     ClassName = stu_ != null ? stu_.ClassName : "",
                  };
-
-                var query1 = from q in query
-                             join SysMajor in Major_List on q.Major_ID equals SysMajor.Id
-                             into gj
-                             from lf in gj.DefaultIfEmpty()
-
-                             select new
-                             {
-                                 id = q.id,
-                                 Name = (q.Name == null) ? string.Empty : q.Name,
-                                 Sex = q.Sex,
-                                 LoginName = (q.LoginName == null) ? string.Empty : q.LoginName,
-                                 Phone = (q.Phone == null) ? string.Empty : q.Phone,
-                                 Email = (q.Email == null) ? string.Empty : q.Email,
-                                 UserType = q.UserType,
-                                 Roleid = q.Roleid,
-                                 RoleName = q.RoleName,
-                                 UniqueNo = q.UniqueNo,
-                                 Pwd = q.Pwd,
-                                 MajorName = (lf == null ? "" : lf.Major_Name),
-                                 Major_ID = q.Major_ID,
-                                 SubDepartmentID = q.SubDepartmentID,
-                                 SubDepartmentName = q.SubDepartmentName,
-
-                             };
-
-
-
-                int count = query1.Count();
-
-                jsonModel = JsonModel.get_jsonmodel(intSuccess, "success", query1);
+                var data = new
+                {
+                    MainData = query,
+                    DPList = (from q in query
+                              where q.DepartmentName != ""
+                              select new DPModel()
+                                  {
+                                      Major_ID = q.Major_ID,
+                                      DepartmentName = q.DepartmentName,                                     
+                                  }).Distinct(new DPModelComparer()),
+                    ClsList = (from q in query where q.ClassID != "" select new ClsModel() { ClassID = q.ClassID, ClassName = q.ClassName,Major_ID = q.Major_ID }).Distinct(new ClsModelComparer()),
+                };              
+                jsonModel = JsonModel.get_jsonmodel(intSuccess, "success", data);
             }
             catch (Exception ex)
             {

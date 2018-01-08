@@ -998,6 +998,8 @@ namespace FEHandler.Eva_Manage
         public string ClassID { get; set; }
 
         public string ClassName { get; set; }
+
+        public string Major_ID { get; set; }
     }
 
     class ClsModelComparer : EqualityComparer<ClsModel>
@@ -1009,6 +1011,29 @@ namespace FEHandler.Eva_Manage
         public override int GetHashCode(ClsModel obj)
         {
             return obj.ClassID.GetHashCode();
+        }
+    }
+
+
+
+    public class DPModel
+    {
+        public string Major_ID { get; set; }
+
+        public string DepartmentName { get; set; }
+
+    
+    }
+
+    class DPModelComparer : EqualityComparer<DPModel>
+    {
+        public override bool Equals(DPModel x, DPModel y)
+        {
+            return x.Major_ID == y.Major_ID;
+        }
+        public override int GetHashCode(DPModel obj)
+        {
+            return obj.Major_ID.GetHashCode();
         }
     }
 
@@ -1098,6 +1123,10 @@ namespace FEHandler.Eva_Manage
         public int ScoreAve { get; set; }
 
         public int? TableID { get; set; }
+
+        public bool IsAnswer { get; set; }
+
+        public DateTime? CreateTime { get; set; }
     }
 
     public class Eva_QuestionModel
