@@ -314,6 +314,7 @@ namespace FEHandler.Eva_Manage
             string RP = RequestHelper.string_transfer(Request, "RP");
             string Gr = RequestHelper.string_transfer(Request, "Gr");
             string Key = RequestHelper.string_transfer(Request, "Key");
+
             int PageIndex = RequestHelper.int_transfer(Request, "PageIndex");
             int PageSize = RequestHelper.int_transfer(Request, "PageSize");
             try
@@ -350,7 +351,7 @@ namespace FEHandler.Eva_Manage
                                                        DisPlayName = section.DisPlayName,
                                                        ReguID = regu.Id,
                                                        ReguName = regu.Name,
-
+                                                       RoomID = room.Id,
                                                        CourseID = room.Coures_Id,
                                                        CourseName = room.CouresName,
                                                        TeacherUID = room.TeacherUID,
@@ -490,7 +491,7 @@ namespace FEHandler.Eva_Manage
                                                        ScoreAve = 0,
                                                        TableID = regu.TableID,
 
-                                                       CreateTime = q_ == null ? q_.CreateTime : null,
+                                                       CreateTime = q_ != null ? q_.CreateTime : null,
                                                        IsAnswer = q_ == null ? false : true,
                                                    }).ToList();
 

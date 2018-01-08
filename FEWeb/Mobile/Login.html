@@ -121,7 +121,7 @@
                     if (returnVal.result.errMsg == "success") {
                         var data = returnVal.result.retData;
                         //把用户信息存在cookie中
-                        localStorage.setItem('Userinfo_LG', JSON.stringify(data));
+                        localStorage.setItem('Userinfo_LG', JSON.stringify(data[0]));
                         if (document.referrer && document.referrer.toLocaleLowerCase().indexOf("onlinetest.html") > -1) {
                             window.location.href = document.referrer;
                             //openwindow(document.referrer, document.referrer, 'slide-in-right');

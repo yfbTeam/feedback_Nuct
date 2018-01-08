@@ -83,7 +83,7 @@
             statusBarBackground: '#6a264b',
         });
         $(function () {
-            $("#div_MyInfo").append(ejs.render($("#item_MyInfo").html(), { retData: login_User[0]}));
+            $("#div_MyInfo").append(ejs.render($("#item_MyInfo").html(), { retData: login_User }));
             $('#loginOut').on('tap', function () {
                 localStorage.removeItem('Userinfo_LG');
                 window.location.href = "Login.html";

@@ -78,7 +78,7 @@
                 MesTips("两次输入的密码不一致!");
                 return;
             }
-            var postData = { func: "SetPassWord", Userid: login_User[0].UniqueNo, OldPassWord: OldPassWord, NewPassWord: NewPassWord };
+            var postData = { func: "SetPassWord", Userid: login_User.UniqueNo, OldPassWord: OldPassWord, NewPassWord: NewPassWord };
             $.ajax({
                 type: "Post",
                 url: HanderServiceUrl + "/SetMenu/SetPassWordHandler.ashx",

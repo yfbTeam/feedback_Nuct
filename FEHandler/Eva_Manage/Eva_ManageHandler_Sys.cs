@@ -836,7 +836,7 @@ namespace FEHandler.Eva_Manage
             try
             {
                 List<Eva_Table> tableList = Constant.Eva_Table_List;
-                if ( SectionID > 0)
+                if (SectionID > 0)
                 {
                     tableList = (from dic in Constant.Sys_Dictionary_List
                                  where dic.Type == "0" && dic.SectionId == SectionID
@@ -845,7 +845,7 @@ namespace FEHandler.Eva_Manage
                                  join cb in Constant.Eva_CourseType_Table_List on dic.Key equals cb.CourseTypeId
                                  join tb in tableList on cb.TableId equals tb.Id
                                  select tb).Distinct(new Eva_TableComparer()).ToList();
-                                       
+
                 }
 
                 //返回所有表格数据
@@ -895,6 +895,10 @@ namespace FEHandler.Eva_Manage
             HttpRequest Request = context.Request;
             //表格ID
             int table_Id = RequestHelper.int_transfer(Request, "table_Id");
+
+            int RoomID = RequestHelper.int_transfer(Request, "RoomID");
+            int ReguID = RequestHelper.int_transfer(Request, "ReguID");
+
             //没有教学反馈
             bool no_eduType = RequestHelper.bool_transfer(Request, "no_eduType");
             Table_View table_view = new Table_View();
@@ -939,6 +943,38 @@ namespace FEHandler.Eva_Manage
                                                            Type = det.Type,
                                                            OptionF_S_Max = det.OptionF_S_Max,
                                                        }).ToList();
+
+                    if (RoomID > 0)
+                    {
+                        var model = (from r in Constant.CourseRoom_List
+                                     where r.Id == RoomID
+                                     join section in Constant.StudySection_List on r.StudySection_Id equals section.Id
+                                     join regu in Constant.Eva_Regular_List on ReguID equals regu.Id
+                                     select new { r, section, regu }).ToList();
+
+                        if (model.Count > 0)
+                        {
+                            var room = model[0].r;
+                            var section = model[0].section;
+                            var regu = model[0].regu;
+                            table_view.Info = new
+                            {
+                                
+                               
+                                SectionID = room.StudySection_Id,
+                                DisplayName = section.DisPlayName,
+                                ReguID = regu.Id,
+                                ReguName = regu.Name,
+
+                                CourseID = room.Coures_Id,
+                                CourseName = room.CouresName,
+
+                                TeacherUID = room.TeacherUID,
+                                TeacherName = room.TeacherName,
+                               
+                            };
+                        }
+                    }
                     //表详情
                     table_view.Table_Detail_Dic_List = (from ps in details
                                                         group ps by ps.RootID

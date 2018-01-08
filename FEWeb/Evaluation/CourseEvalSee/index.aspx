@@ -118,7 +118,7 @@
                     <span class="operate_none bg_purple">查看</span>
                 </div>
 
-                <div class="operate" onclick="QRcode('${TableID}');">
+                <div class="operate" onclick="QRcode('${TableID}','${RoomID}','${ReguID}');">
                     <i class="iconfont color_purple">&#xe609;</i>
                     <span class="operate_none bg_purple">扫码</span>
                 </div>
@@ -176,8 +176,8 @@
         }
 
         //二维码
-        function QRcode(id) {
-            OpenIFrameWindow('二维码', 'Qcode.aspx?url=' + MobileUrl + 'Mobile/onlinetest.html?id=' + id, '300px', '300px');
+        function QRcode(id, RoomID, ReguID) {
+            OpenIFrameWindow('二维码', 'Qcode.aspx?url=' + MobileUrl + 'Mobile/onlinetest.html?id=' + id + '&rId=' + RoomID + '&ReguID=' + ReguID, '300px', '300px');
         }
 
     </script>
