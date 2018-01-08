@@ -43,14 +43,6 @@ namespace FEIBLL
     }	
 
 	/// </summary>
-	///	
-	/// </summary>
-    public interface IUserInfoService:IBaseService<UserInfo>
-    {
-
-    }	
-
-	/// </summary>
 	///	系统账号业务类3
 	/// </summary>
     public interface ISys_SystemInfoService:IBaseService<Sys_SystemInfo>
@@ -77,23 +69,7 @@ namespace FEIBLL
 	/// </summary>
 	///	
 	/// </summary>
-    public interface IClass_StudentInfoService:IBaseService<Class_StudentInfo>
-    {
-
-    }	
-
-	/// </summary>
-	///	
-	/// </summary>
     public interface ITPM_RewardBatchService:IBaseService<TPM_RewardBatch>
-    {
-
-    }	
-
-	/// </summary>
-	///	
-	/// </summary>
-    public interface IClassInfoService:IBaseService<ClassInfo>
     {
 
     }	
@@ -189,6 +165,14 @@ namespace FEIBLL
 	/// </summary>
 	///	
 	/// </summary>
+    public interface IUserInfoService:IBaseService<UserInfo>
+    {
+
+    }	
+
+	/// </summary>
+	///	
+	/// </summary>
     public interface IEva_TeacherAnswerService:IBaseService<Eva_TeacherAnswer>
     {
 
@@ -269,6 +253,14 @@ namespace FEIBLL
 	/// </summary>
 	///	
 	/// </summary>
+    public interface IClassInfoService:IBaseService<ClassInfo>
+    {
+
+    }	
+
+	/// </summary>
+	///	
+	/// </summary>
     public interface ISys_DictionaryService:IBaseService<Sys_Dictionary>
     {
 
@@ -278,6 +270,14 @@ namespace FEIBLL
 	///	
 	/// </summary>
     public interface ICourseService:IBaseService<Course>
+    {
+
+    }	
+
+	/// </summary>
+	///	
+	/// </summary>
+    public interface IClass_StudentInfoService:IBaseService<Class_StudentInfo>
     {
 
     }	

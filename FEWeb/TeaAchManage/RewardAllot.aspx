@@ -66,7 +66,7 @@
                                 <td class="td_money">{{if  AuditStatus==10||AuditStatus==0||AuditStatus==2}}<input type="number" isrequired="true" regtype="money" fl="奖金" min="0" step="0.01" onblur="Change_UserMoney(this);">{{/if}}</td>
                                 {{else}}
                                  {{if UrlDate.AchieveType==5&&AuditStatus==10}}
-                                   <td class="td_money"><input type="number" value="${Money}" isrequired="true" regtype="money" fl="奖金" min="0" step="0.01"></td>
+                                   <td class="td_money"><input type="number" value="${Money}" isrequired="true" regtype="money" fl="奖金" min="0" step="0.01" onblur="Change_UserMoney(this);"></td>
                                  {{else}}
                                  <td class="td_money">{{if  AuditStatus==10||AuditStatus==0||AuditStatus==2}}<input type="number" isrequired="true" regtype="money" fl="奖金" min="0" step="0.01" onblur="Change_UserMoney(this);">{{/if}}</td>
                                  {{/if}}
@@ -204,6 +204,7 @@
                         success: function (json) {
                             if (json.result.errMsg == "success") {
                                 that.Info = json.result.retData[0];
+                                cur_AchieveType = that.Info.AchieveType;
                                 cur_ResponUID = that.Info.ResponsMan;
                                 Get_RewardUserInfo(); 
                             }

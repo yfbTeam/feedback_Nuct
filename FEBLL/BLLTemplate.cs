@@ -58,17 +58,6 @@ namespace FEBLL
     }	
 
 	/// </summary>
-	///	
-	/// </summary>
-    public partial class UserInfoService:BaseService<UserInfo>,IUserInfoService
-    {
-	 public override void SetCurrentDal()
-        {
-            CurrentDal = DalFactory.GetUserInfoDal();
-        }
-    }	
-
-	/// </summary>
 	///	系统账号业务类3
 	/// </summary>
     public partial class Sys_SystemInfoService:BaseService<Sys_SystemInfo>,ISys_SystemInfoService
@@ -104,33 +93,11 @@ namespace FEBLL
 	/// </summary>
 	///	
 	/// </summary>
-    public partial class Class_StudentInfoService:BaseService<Class_StudentInfo>,IClass_StudentInfoService
-    {
-	 public override void SetCurrentDal()
-        {
-            CurrentDal = DalFactory.GetClass_StudentInfoDal();
-        }
-    }	
-
-	/// </summary>
-	///	
-	/// </summary>
     public partial class TPM_RewardBatchService:BaseService<TPM_RewardBatch>,ITPM_RewardBatchService
     {
 	 public override void SetCurrentDal()
         {
             CurrentDal = DalFactory.GetTPM_RewardBatchDal();
-        }
-    }	
-
-	/// </summary>
-	///	
-	/// </summary>
-    public partial class ClassInfoService:BaseService<ClassInfo>,IClassInfoService
-    {
-	 public override void SetCurrentDal()
-        {
-            CurrentDal = DalFactory.GetClassInfoDal();
         }
     }	
 
@@ -258,6 +225,17 @@ namespace FEBLL
 	/// </summary>
 	///	
 	/// </summary>
+    public partial class UserInfoService:BaseService<UserInfo>,IUserInfoService
+    {
+	 public override void SetCurrentDal()
+        {
+            CurrentDal = DalFactory.GetUserInfoDal();
+        }
+    }	
+
+	/// </summary>
+	///	
+	/// </summary>
     public partial class Eva_TeacherAnswerService:BaseService<Eva_TeacherAnswer>,IEva_TeacherAnswerService
     {
 	 public override void SetCurrentDal()
@@ -368,6 +346,17 @@ namespace FEBLL
 	/// </summary>
 	///	
 	/// </summary>
+    public partial class ClassInfoService:BaseService<ClassInfo>,IClassInfoService
+    {
+	 public override void SetCurrentDal()
+        {
+            CurrentDal = DalFactory.GetClassInfoDal();
+        }
+    }	
+
+	/// </summary>
+	///	
+	/// </summary>
     public partial class Sys_DictionaryService:BaseService<Sys_Dictionary>,ISys_DictionaryService
     {
 	 public override void SetCurrentDal()
@@ -384,6 +373,17 @@ namespace FEBLL
 	 public override void SetCurrentDal()
         {
             CurrentDal = DalFactory.GetCourseDal();
+        }
+    }	
+
+	/// </summary>
+	///	
+	/// </summary>
+    public partial class Class_StudentInfoService:BaseService<Class_StudentInfo>,IClass_StudentInfoService
+    {
+	 public override void SetCurrentDal()
+        {
+            CurrentDal = DalFactory.GetClass_StudentInfoDal();
         }
     }	
 

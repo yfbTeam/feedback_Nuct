@@ -66,13 +66,6 @@ namespace FEDAL
         }
 
         #endregion
-        #region 追加奖金
-        public int AddRewardDash(int Id, int Award)
-        {
-            string str = "update TPM_RewardInfo set AddAward=AddAward+" + Award + " where Id=" + Id;
-            return SQLHelp.ExecuteNonQuery(str, CommandType.Text, null);
-        }
-        #endregion
 
         #region 获取奖项是否使用
         public int GetReward_UseCount(int Reward_Id)
