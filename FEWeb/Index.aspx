@@ -17,18 +17,18 @@
             <td>${Year}</td>           
             <td>${Score}</td>
             <td>{{if ResponsMan == $('#CreateUID').val()}}                  
-                    {{if Status==0}}<span class="nosubmit">待提交</span>
-                    {{else Status==1}}<span class="checking1">信息待审核</span>
-                    {{else Status==2}}<span class="nocheck">信息不通过</span>
-                    {{else Status==3}}<span class="assigning">分数待分配</span>
-                    {{else Status==4}}<span class="nosubmit">分数待提交</span>
-                    {{else Status==5}}<span class="checking1">分数待审核</span>
-                    {{else Status==6}}<span class="nocheck">分数不通过</span>
-                    {{else Status==7}}<span class="assigning">审核通过</span>
-                    {{else Status==8}}<span class="assigning">奖金待分配</span>
-                    {{else Status==9}}<span class="nosubmit">奖金待提交</span>
-                    {{else Status==10}}<span class="checking1">奖金待审核</span>
-                    {{else Status==11}}<span class="nocheck">奖金不通过</span>
+                    {{if ComStatus==0}}<span class="nosubmit">待提交</span>
+                    {{else ComStatus==1}}<span class="checking1">信息待审核</span>
+                    {{else ComStatus==2}}<span class="nocheck">信息不通过</span>
+                    {{else ComStatus==3}}<span class="assigning">分数待分配</span>
+                    {{else ComStatus==4}}<span class="nosubmit">分数待提交</span>
+                    {{else ComStatus==5}}<span class="checking1">分数待审核</span>
+                    {{else ComStatus==6}}<span class="nocheck">分数不通过</span>
+                    {{else ComStatus==7}}<span class="assigning">审核通过</span>
+                    {{else ComStatus==8}}<span class="assigning">奖金待分配</span>
+                    {{else ComStatus==9}}<span class="nosubmit">奖金待提交</span>
+                    {{else ComStatus==10}}<span class="checking1">奖金待审核</span>
+                    {{else ComStatus==11}}<span class="nocheck">奖金不通过</span>
                     {{else}} <span class="assigning">审核通过</span>
                     {{/if}}
                 {{else}}

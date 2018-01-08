@@ -867,7 +867,7 @@ namespace FEHandler.TeaAchManage
                 jsonModel = bll.Oper_AuditAllotReward(audModel, allotlist);
                 if (jsonModel.errNum == 0)
                 {
-                    bll.Edit_AchieveStatus(Convert.ToInt32(audModel.Acheive_Id),10);
+                    if (audModel.Status == 1) { bll.Edit_AchieveStatus(Convert.ToInt32(audModel.Acheive_Id),10);}                    
                     string add_Path = RequestHelper.string_transfer(context.Request, "Add_Path");
                     string edit_PathId = RequestHelper.string_transfer(context.Request, "Edit_PathId");
                     if (!string.IsNullOrEmpty(add_Path) || !string.IsNullOrEmpty(edit_PathId))
@@ -951,15 +951,18 @@ namespace FEHandler.TeaAchManage
             int oldstatus = Convert.ToInt32(model.Status);
             model.Status = Convert.ToByte(context.Request["Status"]);
             jsonModel= rauditbll.Update(model);
-            string hisrecord = RequestHelper.string_transfer(context.Request, "HisRecord");
-            if (oldstatus != 3 && model.Status == 3 && !string.IsNullOrEmpty(hisrecord))
-            {
-                List<TPM_ModifyRecord> reclist = JsonConvert.DeserializeObject<List<TPM_ModifyRecord>>(hisrecord);
-                foreach (TPM_ModifyRecord item in reclist)
+            if (jsonModel.errNum == 0)
+            { 
+                string hisrecord = RequestHelper.string_transfer(context.Request, "HisRecord");
+                if (oldstatus != 3 && model.Status == 3 && !string.IsNullOrEmpty(hisrecord))
                 {
-                    jsonModel = mrecordbll.Add(item);
+                    List<TPM_ModifyRecord> reclist = JsonConvert.DeserializeObject<List<TPM_ModifyRecord>>(hisrecord);
+                    foreach (TPM_ModifyRecord item in reclist)
+                    {
+                        jsonModel = mrecordbll.Add(item);
+                    }
                 }
-            }
+            }            
         }
         #endregion
 
