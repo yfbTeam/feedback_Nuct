@@ -107,9 +107,9 @@
                 <span>${Major_Name}</span>
             </div>
         </div>         
-               <h2 class="cont_title members {{if AchieveType!=2||Status>3}}none{{/if}}"><span>成员信息</span></h2>
-            <div class="area_form members {{if AchieveType!=2||Status>3}}none{{/if}}">
-                <div class="clearfix" id="div_user_mem">                        
+               <h2 class="cont_title members {{if AchieveType!=2||((ResponsMan!=$('#CreateUID').val()&&Status>6)||(ResponsMan==$('#CreateUID').val()&&Status>3))}}none{{/if}}"><span>成员信息</span></h2>
+            <div class="area_form members {{if AchieveType!=2||((ResponsMan!=$('#CreateUID').val()&&Status>6)||(ResponsMan==$('#CreateUID').val()&&Status>3))}}none{{/if}}">
+                <div class="clearfix {{if ResponsMan!=$('#CreateUID').val()&&UrlDate.Type!='Check'}}none{{/if}}" id="div_user_mem">                        
                     <span class="fr status">已分：<span id="span_CurScore">0</span>分</span>
                     <span class="fr status">总分：<span id="span_AllScore">${TotalScore}</span>分，</span>
                 </div>
@@ -118,14 +118,14 @@
                         <tr>                               
                             <th>姓名</th>
                             <th>部门</th>
-                            <th>分数</th>
+                            <th {{if ResponsMan!=$('#CreateUID').val()&&UrlDate.Type!='Check'}}style="display:none;"{{/if}}>分数</th>
                         </tr>
                     </thead>
                     <tbody id="tb_Member"></tbody>
                 </table>
             </div>
-            <h2 class="cont_title book {{if AchieveType!=3||Status>3}}none{{/if}}"><span>作者信息</span></h2>
-            <div class="area_form book {{if AchieveType!=3||Status>3}}none{{/if}}" >
+            <h2 class="cont_title book {{if AchieveType!=3||((ResponsMan!=$('#CreateUID').val()&&Status>6)||(ResponsMan==$('#CreateUID').val()&&Status>3))}}none{{/if}}"><span>作者信息</span></h2>
+            <div class="area_form book {{if AchieveType!=3||((ResponsMan!=$('#CreateUID').val()&&Status>6)||(ResponsMan==$('#CreateUID').val()&&Status>3))}}none{{/if}}" >
                 <div class="clearfix" id="div_user_book"> 
                     <span class="fr status">总分：<span id="span_BookScore">0</span>分</span>                      
                     <span class="fr status">总贡献字数：<span id="span_Words">0</span>万字，</span>                       
@@ -143,8 +143,8 @@
                     <tbody id="tb_info"></tbody>
                 </table>
             </div>    
-            <h2 class="cont_title re_score none"><span>分数分配</span></h2> 
-            <div class="area_form re_score none">
+            <h2 class="cont_title {{if Status < 4}}none{{/if}}"><span>分数分配</span></h2> 
+            <div class="area_form {{if Status < 4}}none{{/if}}">
                 <div class="clearfix">
                     <div class="fl status-left">
                          <label for="">状态：</label>
@@ -154,9 +154,9 @@
                         {{else Status==6}}<span class="nocheck">审核不通过</span>
                         {{else}}<span class="pass">审核通过</span>{{/if}}
                     </div>
-                    <div id="div_score_statis" class="fr status"></div>
+                    <div id="div_score_statis" class="fr status {{if ResponsMan!=$('#CreateUID').val()&&UrlDate.Type!='Check'&&Status<7}}none{{/if}}"></div>
                 </div>
-                <table class="allot_table mt10">
+                <table class="allot_table mt10 {{if ResponsMan!=$('#CreateUID').val()&&UrlDate.Type!='Check'&&Status<7}}none{{/if}}">
                     <thead>
                         <tr class="user_mem none">
                             <th>成员</th>
@@ -175,7 +175,7 @@
                     </thead>
                     <tbody id="tb_Member1"></tbody>
                 </table>               
-                <div class="clearfix mt10 Enclosure">
+                <div class="clearfix mt10 Enclosure {{if ResponsMan!=$('#CreateUID').val()&&UrlDate.Type!='Check'&&Status<7}}none{{/if}}">
                     <div class="status-left">
                         <label for="" class="fl">附件：</label>
                         <div class="fl">
@@ -196,7 +196,7 @@
         <tr class="memedit" un="${UserNo}">
             <td class="td_memname">${Name}</td>
             <td>${Major_Name}</td>
-            <td class="td_score">${Score}</td>           
+            <td class="td_score" {{if cur_ResponUID!=$('#CreateUID').val()&&UrlDate.Type!='Check'}}style="display:none;"{{/if}}>${Score}</td>           
         </tr>
     </script>
     <%--成员信息--%>
@@ -224,7 +224,7 @@
             <td>${Sort}</td>
             <td>${Major_Name}</td>
             <td>${WordNum}</td>
-            <td class="td_score">${UnitScore*WordNum}</td>
+            <td class="td_score">{{if ULevel==3}}0{{else}}${Num_Fixed(UnitScore* WordNum)}{{/if}}</td>
         </tr>
     </script>
     <script type="text/x-jquery-tmpl" id="div_item">
@@ -334,18 +334,14 @@
         });        
         function View_CheckInit(model) { //查看、审核初始化
             var yesstatus = 3, nostatus = 2;
-            if (model.Status >= 0 && model.Status <= 3) {//信息
-                yesstatus = 3, nostatus = 2;
-                //if (model.AchieveType == 3) { yesstatus =7}//教材建设类直接跳过分数审核
-            } else if (model.Status > 3 && model.Status <= 6) {//分数
-                yesstatus = 7, nostatus = 6;
-                $(".re_score").show();
+            if (model.ComStatus >= 0 && model.ComStatus <= 3) {//信息
+                yesstatus = 3, nostatus = 2;               
+            } else{//分数
+                yesstatus = 7, nostatus = 6;               
                 Get_LookPage_Document(3, model.Id, $("#ul_ScoreFile"));
-            } else {  //奖金
-                yesstatus = 12, nostatus = 11;
-                $(".re_score").show();
-                $(".re_reward").show();
-                Get_LookPage_Document(3, model.Id, $("#ul_ScoreFile"));
+            }
+            if(model.ComStatus>7){  //奖金               
+                $(".re_reward").show();                
             }
             if (UrlDate.Type == "Check") {
                 $("#btn_Pass").click(function () { Check(yesstatus); });
@@ -387,7 +383,7 @@
                         } else {  //其他类型
                             $("#tr_MemEdit").tmpl(json.result.retData).appendTo("#tb_Member");
                             $("#tr_MemEdit1").tmpl(json.result.retData).appendTo("#tb_Member1");
-                            GetAchieveUser_Score(json.result.retData);
+                            GetAchieveUser_Score(json.result.retData);                           
                             $("#div_score_statis").html($("#div_user_mem").html());
                         }                        
                     }
@@ -450,7 +446,9 @@
                 success: function (json) {
                     if (json.result.errMsg == "success") {
                         layer.msg('操作成功!');
-                        Get_RewardBatchData("",cur_ResponUID==$('#CreateUID').val()?"":"0");                       
+                        //Get_RewardBatchData("",cur_ResponUID==$('#CreateUID').val()?"":"0"); 
+                        parent.BindAchieve(1, 10); 
+                        parent.CloseIFrameWindow();
                     }
                 },
                 error: function () {
