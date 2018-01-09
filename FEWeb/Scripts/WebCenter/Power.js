@@ -8,8 +8,15 @@ var ClsList = [];
 var UI_Power =
     {
         PageType: 'Power',  //Power用户组管理
+
+
         CurrentRoleid: null,
         CurrentRoleName: '',
+
+
+        CurrentRoleid: null,
+        CurrentRoleName: '',
+
         num: function () {
             return pageNum++;
         },
@@ -28,7 +35,12 @@ var UI_Power =
             UI_Power.GetStudents();
             //获取教师
             UI_Power.GetTeachers();
+
+
+            $('#ShowUserGroup').find('li[roleid=' + UI_Power.CurrentRoleid + ']').trigger("click");     
+
             $('#ShowUserGroup').find('li[roleid=' + UI_Power.CurrentRoleid + ']').trigger("click");
+
         },
 
         //显示用户组
@@ -49,8 +61,15 @@ var UI_Power =
                             $('#li_role').tmpl(lists).appendTo('#ShowUserGroup');
                             $('#header_stu').tmpl(1).appendTo('#header_th');
                             $('.menu_lists li:eq(0)').addClass('selected');
+
+
                             that.CurrentRoleid = lists[0].RoleId;
                             that.CurrentRoleName = lists[0].RoleName;
+
+
+                            that.CurrentRoleid = lists[0].RoleId;
+                            that.CurrentRoleName = lists[0].RoleName;
+
                             $('.menu_lists li').click(function () {
                                 $(this).addClass('selected').siblings().removeClass('selected');
 
@@ -64,7 +83,6 @@ var UI_Power =
                                 }
                             })
                             tableSlide();
-                            
                         }
                     }
                 },
@@ -103,6 +121,8 @@ var UI_Power =
                         reUserinfo = returnVal.result.retData.MainData;
                         DPList = returnVal.result.retData.DPList;
                         ClsList = returnVal.result.retData.ClsList;
+
+                        debugger;
                         $("#item_College").tmpl(DPList).appendTo($('#college'));
                         $("#item_Class").tmpl(ClsList).appendTo($('#class'));
                         ChosenInit($('#class'));
@@ -203,14 +223,14 @@ var UI_Power =
                 pageNum = pageSize * (index + 1) + 1;
             }
 
-            if (UI_Power.CurrentRoleid == 2)
-            {               
+          
+            if (UI_Power.CurrentRoleid == 2) {
                 $('#item_tr_stu').tmpl(arrRes).appendTo('#ShowUserInfo');
             }
-            else
-            {              
+            else {
                 $('#item_tr').tmpl(arrRes).appendTo('#ShowUserInfo');
             }
+
         },
         //翻页调用
         PageCallback: function (index, jq) {

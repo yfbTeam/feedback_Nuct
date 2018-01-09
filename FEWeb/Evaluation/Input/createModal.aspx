@@ -12,6 +12,7 @@
     <link href="../../css/layout.css" rel="stylesheet" />
     <script src="../../Scripts/jquery-1.11.2.min.js"></script>
 
+   
 </head>
 <body>
     <div id="top"></div>
@@ -129,7 +130,7 @@
             $(function () {
                 $('#top').load('/header.html');
                 $('#footer').load('/footer.html');
-               
+
                 Base.bindStudySectionCompleate = function () {
                     $('#section').on('change', function () {
 
@@ -140,7 +141,7 @@
                         Get_Eva_RegularDataSelect();
                         Reflesh();
                     });
-                  
+
                     Get_Eva_RegularDataSelect();
                 };
                 Base.bindStudySection();
@@ -157,7 +158,7 @@
                         Reflesh();
                     });
                 };
-              
+
 
                 Base.CheckHasExpertReguCompleate = function (result, data) {
                     $('#btCtrl').empty();

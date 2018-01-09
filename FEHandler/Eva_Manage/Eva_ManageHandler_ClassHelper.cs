@@ -351,6 +351,8 @@ namespace FEHandler.Eva_Manage
             get { return table_Detail_Dic_List; }
             set { table_Detail_Dic_List = value; }
         }
+
+        public object Info { get; set; }
     }
 
     public class Table_Header
@@ -1127,6 +1129,8 @@ namespace FEHandler.Eva_Manage
         public bool IsAnswer { get; set; }
 
         public DateTime? CreateTime { get; set; }
+
+        public int? RoomID { get; set; }
     }
 
     public class Eva_QuestionModel

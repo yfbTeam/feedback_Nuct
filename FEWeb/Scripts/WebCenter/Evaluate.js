@@ -24,9 +24,14 @@ var evaluate_Model = {
 
         //初始化所有答题都未完成
         var hasAnswerQuestion3 = false;
+
+
         var question_3_Count = 0;
+        var question_answer_Count = 0;
 
         evaluate_Model.Submit_ele.each(function (i, n) {
+
+            s_flg++;
             var sub_array = new Object();
             var TableDetailID = $(this).find("input[name='name_id']").val();
             var sub_Score = $(this).find("input[type='radio']:checked").val();
@@ -42,16 +47,15 @@ var evaluate_Model = {
 
                 if (Answer != null && Answer != '') {
                     //其中有答过一个
-                    hasAnswerQuestion3 = true;
+                    //hasAnswerQuestion3 = true;
+                    question_answer_Count++;                  
                 }
             }
             else {
                 Answer = $(this).find("input[type='radio']:checked").attr('flv');
-                radioCount++;
+
                 if (first_option == Answer) { sameCount++; }
             }
-
-
 
             sub_array.TableDetailID = TableDetailID;
             sub_array.Score = sub_Score;
@@ -63,33 +67,35 @@ var evaluate_Model = {
             if (evaluate_Model.Is_AddQuesType) {
                 sub_array.QuestionType = QuestionType;
             }
-            if ($(this).find("input[type='radio']").length != 0 && $(this).find("input[type='radio']").is(":checked") == false) {
-                s_flg++;
-                //layer.msg("请答题完整", { icon: 2, offset: '400px' });
+            if ($(this).find("input[type='radio']").length != 0 && $(this).find("input:checked").length == 1) {
+                radioCount++;              
                 return;
             }
-            //if ($(this).find("textarea").length != 0 && Answer == "" && Q_Type != "2") {
-            //    s_flg++;
-            //    layer.msg("请答题完整", { icon: 2 });
-            //    return;
-            //}           
+           
             evaluate_Model.Submit_array.push(sub_array);
         });
 
-        if (question_3_Count > 0 && radioCount == 0 && !hasAnswerQuestion3) {
-            layer.msg('请至少填写一道题目!', { offset: '400px' });
-            return;
-        }
-
         if (evaluate_Model.Is_Required) {
-            if (s_flg == 0) {
-                if (radioCount > 1 && radioCount == sameCount) {
-                    layer.msg('答题选项选择均一致，不允许提交!', { offset: '400px' });
+            if (s_flg == radioCount + question_answer_Count) {
+                if (radioCount > 1 && radioCount == sameCount && ((question_3_Count > 0 && question_answer_Count == question_3_Count) || (question_3_Count == 0))) {
+                    if (Eva_Role == 1) {
+                        layer.msg('答题选项选择均一致，不允许提交!', { offset: '400px' });
+                    }
+                    else {
+                        alert('答题选项选择均一致，不允许提交!')
+                    }
                     return;
                 }
                 evaluate_Model.Submit_Data();
             } else {
-                layer.msg('请填写未提交项', { offset: '400px' });
+
+
+                if (Eva_Role == 1) {
+                    layer.msg('请填写未提交项', { offset: '400px' });
+                }
+                else {
+                    alert('请填写未提交项')
+                }
             }
         }
         else {
@@ -125,7 +131,8 @@ function SubmitQuestion() {
     obj.AnswerName = AnswerName;
 
     obj.TableID = table_Id;
-    obj.TableName = $('#table').find('option:selected').attr('title');
+
+    obj.TableName = Eva_Role == 2 ? TableName : $('#table').find('option:selected').attr('title');
 
     obj.CreateUID = AnswerUID;
     obj.Type = Type;
@@ -133,8 +140,12 @@ function SubmitQuestion() {
     obj.State = State;
 
     obj.HeaderList = JSON.stringify(HeaderList);;
-
-    evaluate_Model.Submit_ele = $(".ti");
+    if (Eva_Role == 2) {
+        evaluate_Model.Submit_ele = $(".indicatype");
+    }
+    else {
+        evaluate_Model.Submit_ele = $(".ti");
+    }
     evaluate_Model.Is_AddQuesType = Is_AddQuesType;
     evaluate_Model.Submit_Data = function () {
 
@@ -143,29 +154,30 @@ function SubmitQuestion() {
         var index_layer = layer.load(1, {
             shade: [0.1, '#fff'] //0.1透明度的白色背景
         });
-        $.ajax({
-            url: HanderServiceUrl + "/Eva_Manage/Eva_ManageHandler.ashx",
-            type: "post",
-            async: false,
-            dataType: "json",
-            data: obj,//组合input标签
-            success: function (json) {
+        //$.ajax({
+        //    url: HanderServiceUrl + "/Eva_Manage/Eva_ManageHandler.ashx",
+        //    type: "post",
+        //    async: false,
+        //    dataType: "json",
+        //    data: obj,//组合input标签
+        //    success: function (json) {
 
-                if (json.result.errMsg == "success") {
-                    var data = json.result.retData;
-                    layer.msg('提交成功!', { offset: '400px' });
-                    window.history.go(-1);
-                }
-                else {
-                    layer.msg(json.result.retData, { offset: '400px' });
-                }
+        //        if (json.result.errMsg == "success") {
+        //            var data = json.result.retData;
+        //            layer.msg('提交成功!', { offset: '400px' });
+        //            window.history.go(-1);
+        //        }
+        //        else {
+        //            layer.msg(json.result.retData, { offset: '400px' });
+        //        }
 
-                layer.close(index_layer);
-            },
-            error: function () {
-                //接口错误时需要执行的
-            }
-        });
+        //        layer.close(index_layer);
+        //    },
+        //    error: function () {
+        //        //接口错误时需要执行的
+        //    }
+        //});
+        debugger;
     }
     evaluate_Model.Get_SubData();
 }
@@ -177,8 +189,14 @@ function EditQuestion(Id) {
     obj.func = "Edit_Eva_QuestionAnswer";
     obj.Id = Id;
     obj.State = State;
-    obj.HeaderList = JSON.stringify(HeaderList);;
-    evaluate_Model.Submit_ele = $(".ti");
+    obj.HeaderList = JSON.stringify(HeaderList);
+
+    if (Eva_Role == 2) {
+        evaluate_Model.Submit_ele = $(".indicatype");
+    }
+    else {
+        evaluate_Model.Submit_ele = $(".ti");
+    }
     evaluate_Model.Is_AddQuesType = Is_AddQuesType;
     evaluate_Model.Submit_Data = function () {
 
@@ -210,6 +228,7 @@ function EditQuestion(Id) {
                 //接口错误时需要执行的
             }
         });
+
     }
     evaluate_Model.Get_SubData();
 }
@@ -393,7 +412,7 @@ function Change_Eva_QuestionAnswer_State(Id) {
                 parent.Reflesh();
                 Change_Eva_QuestionAnswer_StateCompleate();
                 setTimeout(function () { parent.CloseIFrameWindow(); }, 400);
-                
+
             }
             else {
                 layer.msg('操作失败!');

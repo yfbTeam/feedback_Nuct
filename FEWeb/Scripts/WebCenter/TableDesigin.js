@@ -1115,6 +1115,8 @@ var UI_Table_Create =
 //=======================查看视图 ---系统设置用表============================================================
 var headerList = [];
 var IsScore = 0;
+var RoomID = 0;
+var ReguID = 0;
 var UI_Table_View = {
     PageType: 'TableView',//TableView 答卷视图  AddEvalTable添加答卷
     IsPage_Display: false,
@@ -1168,7 +1170,7 @@ var UI_Table_View = {
             type: "post",
             async: false,
             dataType: "json",
-            data: { Func: "Get_Eva_TableDetail", "table_Id": table_Id, "IsPage_Display": UI_Table_View.IsPage_Display },
+            data: { Func: "Get_Eva_TableDetail", "table_Id": table_Id, "IsPage_Display": UI_Table_View.IsPage_Display, "RoomID": RoomID, "ReguID": ReguID },
             success: function (json) {
 
                 var retData = json.result.retData;
@@ -1197,6 +1199,10 @@ var UI_Table_View = {
                     case 'detailModal':
                         
                         break;
+                    case 'onlinetest':
+                      
+                        break;
+
                     case 'AddEvalTable':
 
                         if (retData.IsScore == 0) {

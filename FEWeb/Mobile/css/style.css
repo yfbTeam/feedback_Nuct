@@ -1,5 +1,5 @@
 body{background:#f2f2f2;}
-.test_time{width:100%;height:40px;background:rgba(7,163,131,0.6);padding:0px 10px;font-size:1.1rem;color:#fff;line-height:40px;text-align:center;position:fixed;top:45px;left:0;z-index:9999;}
+.test_time{width:100%;height:40px;background:#C374A9;padding:0px 10px;font-size:1.1rem;color:#fff;line-height:40px;text-align:center;position:fixed;top:45px;left:0;z-index:9999;}
 .ti{width:100%;padding:85px 10px 60px 10px}
 .test_area{width:100%;}
 .test_area .test_type{color:#666666;font-size:1rem;font-weight:normal;line-height:20px;padding:10px 0px;}

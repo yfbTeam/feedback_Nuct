@@ -102,24 +102,24 @@
 
     <script type="text/x-jquery-tmpl" id="item_tr">
         <tr>
-            <td style="width: 5%">${num()}</td>
-            <td style="width: 15%">${UniqueNo}</td>
-            <td style="width: 10%">${Name}</td>
-            <td style="width: 10%">${Sex}</td>
-            <td style="width: 30%">${DepartmentName}</td>
-            <td style="width: 30%">${SubDepartmentName}</td>
+            <td >${num()}</td>
+            <td >${UniqueNo}</td>
+            <td >${Name}</td>
+            <td >${Sex}</td>
+            <td >${DepartmentName}</td>
+            <td >${SubDepartmentName}</td>
         </tr>
     </script>
 
     <script type="text/x-jquery-tmpl" id="item_tr_stu">
         <tr>
-            <td style="width: 5%">${num()}</td>
-            <td style="width: 15%">${UniqueNo}</td>
-            <td style="width: 10%">${Name}</td>
-            <td style="width: 10%">${Sex}</td>
-            <td style="width: 25%">${DepartmentName}</td>
-            <td style="width: 25%">${SubDepartmentName}</td>
-            <td style="width: 10%">${ClassName}</td>
+            <td >${num()}</td>
+            <td >${UniqueNo}</td>
+            <td >${Name}</td>
+            <td >${Sex}</td>
+            <td >${DepartmentName}</td>
+            <td >${SubDepartmentName}</td>
+            <td >${ClassName}</td>
         </tr>
     </script>
 
@@ -151,24 +151,24 @@
 
     <script type="text/x-jquery-tmpl" id="header_stu">
         <tr>
-            <th>序号	</th>
-            <th>学号</th>
-            <th>用户名</th>
-            <th>性别</th>
-            <th>部门</th>
-            <th>子部门</th>
-            <th>班级</th>
+            <th style="width: 5%">序号	</th>
+            <th style="width: 15%">学号</th>
+            <th style="width: 10%">用户名</th>
+            <th style="width: 10%">性别</th>
+            <th style="width: 25%">部门</th>
+            <th style="width: 25%">子部门</th>
+            <th style="width: 10%">班级</th>
         </tr>
     </script>
 
     <script type="text/x-jquery-tmpl" id="header_tea">
         <tr>
-            <th>序号	</th>
-            <th>教职工号</th>
-            <th>用户名</th>
-            <th>性别</th>
-            <th>部门</th>
-            <th>子部门</th>
+            <th style="width: 5%">序号	</th>
+            <th style="width: 15%">教职工号</th>
+            <th style="width: 10%">用户名</th>
+            <th style="width: 10%">性别</th>
+            <th style="width: 30%">部门</th>
+            <th style="width: 30%">子部门</th>
         </tr>
     </script>
 
@@ -189,6 +189,7 @@
         $(function () {
             $('#top').load('/header.html');
             $('#footer').load('/footer.html');
+           
             UI_Power.BeginInit();
         })
 

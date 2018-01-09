@@ -40,7 +40,7 @@
 
 
         function makeCode() {
-            var elText = getQueryString("url");
+            var elText = getQueryString("url") + '&rId=' + getQueryString("rID") + '&ReguID=' + getQueryString("ReguID");
             qrcode.makeCode(elText);
         }
         //var StartTime = getQueryString("StartTime");
