@@ -460,7 +460,13 @@ namespace FEHandler.TeaAchManage
             }
             model.Name = context.Request["Name"].SafeToString();
             model.BookType = Convert.ToByte(context.Request["BookType"]);
-            model.EditionNo = RequestHelper.int_transfer(context.Request, "EditionNo");
+            if (!string.IsNullOrEmpty(context.Request["EditionNo"]))
+            {
+                model.EditionNo = RequestHelper.int_transfer(context.Request, "EditionNo");
+            }else
+            {
+                model.EditionNo = null;
+            }            
             model.FileInfo = context.Request["FileInfo"].SafeToString();
             model.ISBN = context.Request["ISBN"].SafeToString(); 
             if (model.BookType == 2&&!string.IsNullOrEmpty(model.ISBN)&&IsExistSameISBN(model.ISBN,Id) >0)
@@ -470,14 +476,34 @@ namespace FEHandler.TeaAchManage
             }            
             model.IsOneVolum = Convert.ToByte(context.Request["IsOneVolum"]);
             model.IsPlanBook = Convert.ToByte(context.Request["PlanBook"]);
-            model.ProjectType = Convert.ToByte(context.Request["ProjectType"]??"0");
+            if (!string.IsNullOrEmpty(context.Request["ProjectType"]))
+            {
+                model.ProjectType = Convert.ToByte(context.Request["ProjectType"]);
+            }else
+            {
+                model.ProjectType = null;
+            }           
             model.MainISBN = context.Request["MainISBN"].SafeToString();
             model.MEditor = MEditor;
             model.MEditorDepart = context.Request["MEditorDepart"].SafeToString();
-            model.Publisher = context.Request["Publisher"].SafeToString();
-            model.PublisthTime = RequestHelper.DateTime_transfer(context.Request["PublisthTime"]);
-            model.SeriesBookName = context.Request["SeriesBookName"].SafeToString();
-            model.SeriesBookNum = RequestHelper.int_transfer(context.Request, "SeriesBookNum");
+            model.Publisher = context.Request["Publisher"].SafeToString();                   
+            if (!string.IsNullOrEmpty(context.Request["PublisthTime"]))
+            {
+                model.PublisthTime = RequestHelper.DateTime_transfer(context.Request, "PublisthTime");
+            }
+            else
+            {
+                model.PublisthTime = null;
+            }
+            model.SeriesBookName = context.Request["SeriesBookName"].SafeToString();            
+            if (!string.IsNullOrEmpty(context.Request["SeriesBookNum"]))
+            {
+                model.SeriesBookNum = RequestHelper.int_transfer(context.Request, "SeriesBookNum");
+            }
+            else
+            {
+                model.SeriesBookNum = null;
+            }
             model.UseObj = context.Request["UseObj"].SafeToString();
             model.IsOneAuthor = Convert.ToByte(context.Request["OneAuthor"]);
             model.Status = Convert.ToInt32(context.Request["Status"]);
@@ -866,8 +892,7 @@ namespace FEHandler.TeaAchManage
                 }
                 jsonModel = bll.Oper_AuditAllotReward(audModel, allotlist);
                 if (jsonModel.errNum == 0)
-                {
-                    if (audModel.Status == 1) { bll.Edit_AchieveStatus(Convert.ToInt32(audModel.Acheive_Id),10);}                    
+                {                  
                     string add_Path = RequestHelper.string_transfer(context.Request, "Add_Path");
                     string edit_PathId = RequestHelper.string_transfer(context.Request, "Edit_PathId");
                     if (!string.IsNullOrEmpty(add_Path) || !string.IsNullOrEmpty(edit_PathId))

@@ -244,13 +244,8 @@
                     if (json.result.errMsg == "success") {
                         $(json.result.retData).each(function () {
                             $("#Name").val(this.Name);
-                            $("#BookType").val(this.BookType);
-                            //只有未提交状态的教材，修改教材才能修改教材类型
-                            if (this.Status != "0") {//未提交
-                                $("#BookType").attr("disabled", "disabled");
-                                $("#Save").hide();
-                            }
-                            else {
+                            $("#BookType").val(this.BookType);                                                                                  
+                            if (this.Status!= "3") {
                                 $("#Save").show();
                             }
                             $("#IsOneVolum").val(this.IsOneVolum);

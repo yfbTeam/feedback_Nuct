@@ -110,22 +110,21 @@
                 <span>${Major_Name}</span>
             </div>
         </div>
-        {{if AchieveType==2&&Status <= 3}}  
+        {{if AchieveType!=3}}  
             <h2 class="cont_title members"><span>成员信息</span></h2>
         <div class="area_form members">
             <table class="allot_table mt10">
                 <thead>
                     <tr>
                         <th>姓名</th>
-                        <th>部门</th>
-                        <th>分数</th>
+                        <th>部门</th>                       
                     </tr>
                 </thead>
                 <tbody id="tb_Member"></tbody>
             </table>
         </div>
         {{/if}}
-         {{if AchieveType==3&&Status <= 3}}
+         {{if AchieveType==3}}
             <h2 class="cont_title book"><span>作者信息</span></h2>
         <div class="area_form book">
             <table class="allot_table mt10">
@@ -147,8 +146,7 @@
     <script type="text/x-jquery-tmpl" id="tr_MemEdit">
         <tr class="memedit" un="${UserNo}">
             <td class="td_memname">${Name}</td>
-            <td>${Major_Name}</td>
-            <td class="td_score">${Score}</td>
+            <td>${Major_Name}</td>           
         </tr>
     </script>
     <%--成员信息--%>
@@ -176,7 +174,7 @@
             <td>${Sort}</td>
             <td>${Major_Name}</td>
             <td>${WordNum}</td>
-            <td>${UnitScore*WordNum}</td>
+            <td>{{if ULevel==3}}0{{else}}${Num_Fixed(UnitScore*WordNum)}{{/if}}</td>
         </tr>
     </script>
     <script type="text/x-jquery-tmpl" id="div_item">
@@ -319,13 +317,10 @@
                             $(".re_score").show();
                             var curMemData = Enumerable.From(json.result.retData).Where("x=>x.UserNo=='" + loginUser.UniqueNo + "'").FirstOrDefault();
                             $(type_tr).tmpl(curMemData).appendTo("#tb_Member1");
-                            if (model.Status > 7) {
-                                Member_Data = [curMemData];
-                                $(".re_reward").show();
+                            if (model.ComStatus > 7) {
+                                Member_Data = [curMemData];                                
                                 Get_SelfRewardData();
-                            }
-                            $(".re_history").show();
-                            Get_ModifyRecordData(loginUser.UniqueNo);
+                            }                            
                         }
                     }
                 },
@@ -341,12 +336,17 @@
                 url: HanderServiceUrl + "/TeaAchManage/AchRewardInfo.ashx",
                 type: "post",
                 dataType: "json",
-                data: { "Func": "Get_RewardBatchData", "IsPage": "false", AchieveId: cur_AchieveId, AuditStatus: "=3" },
+                data: { "Func": "Get_RewardBatchData", "IsPage": "false", AchieveId: cur_AchieveId},
                 success: function (json) {
                     if (json.result.errMsg == "success") {
-                        $(".re_reward").show();
-                        $("#div_item").tmpl(json.result.retData).appendTo("#div_MoneyInfo");
-                        Get_SelfAllot();
+                        var auditlist = json.result.retData.filter(function (item) { return item.AuditStatus == 3 })//查找审核通过的奖金批次
+                        if (auditlist.length > 0) {
+                            $(".re_reward").show();
+                            $("#div_item").tmpl(auditlist).appendTo("#div_MoneyInfo");
+                            Get_SelfAllot();
+                            $(".re_history").show();
+                            Get_ModifyRecordData(loginUser.UniqueNo);
+                        }                        
                     }
                 },
                 error: function () {

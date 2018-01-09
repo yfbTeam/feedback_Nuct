@@ -87,7 +87,7 @@
                 url: HanderServiceUrl + "/TeaAchManage/AchRewardInfo.ashx",
                 type: "post",
                 dataType: "json",
-                data: { "Func": "GetAcheiveRewardInfoData", "Status": "1,5,10", PageIndex: startIndex, pageSize: pageSize, AuditMajor_ID: loginUser.Major_ID, Level_DepartIds: departArray.join(','), Level_AllIds: allArray.join(',') },
+                data: { "Func": "GetAcheiveRewardInfoData", PageIndex: startIndex, pageSize: pageSize, AuditMajor_ID: loginUser.Major_ID, Level_DepartIds: departArray.join(','), Level_AllIds: allArray.join(',') },
                 success: function (json) {
                     if (json.result.errMsg == "success") {
                         $("#trAcheive").tmpl(json.result.retData.PagedData).appendTo("#tb_Acheive");

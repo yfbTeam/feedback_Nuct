@@ -118,10 +118,7 @@
                     $("#ul_Edition li").click(function (i, n) {                       
                         SetControlValue($(this).attr("eid"));
                     });
-                }
-                else {
-                    $("#ul_Edition").html("<li>暂无版本</li>");
-                }
+                }                
             },
             error: function () {
                 //接口错误时需要执行的

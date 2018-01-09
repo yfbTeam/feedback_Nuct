@@ -134,7 +134,7 @@
                     <td>${Sort}</td>
                     <td>${Major_Name}</td>
                     <td>${WordNum}</td>          
-                    <td class="td_score">${Num_Fixed(mem.UnitScore* mem.WordNum)}</td>           
+                    <td class="td_score">{{if ULevel==3}}0{{else}}${Num_Fixed(mem.UnitScore* mem.WordNum)}{{/if}}</td>           
                 {{else}}
                     <td>{{if $("#AchieveType").val()=="2"}}
                           {{if i>4}}<input type="checkbox" name="ck_trsub" value="${mem.UserNo}" onclick="CheckSub(this);"/>{{/if}}

@@ -240,6 +240,8 @@
                 success: function (json) {
                     if (json.result.errMsg == "success") {
                         var model = json.result.retData[0];
+                        $(".score").html("分数：" + model.TotalScore + "分" + (model.AchieveType == "3" ? "/万字" : ""));
+                        achie_Score = Num_Fixed(model.TotalScore);
                         $("#div_AchInfo").tmpl(model).appendTo("#div_Achieve");
                         cur_ResponUID = model.ResponsMan;
                         cur_AchieveType = model.AchieveType;

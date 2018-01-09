@@ -287,7 +287,8 @@
                     if (json.result.errNum == 0) {
                         layer.msg('操作成功!');
                         Del_Document(upfileid);
-                        Get_RewardBatchData("","","2");                       
+                        Get_RewardBatchData("","","2"); 
+                        parent.BindData(1, 10);
                     } else if (json.result.errNum == -1) {
 
                     }

@@ -35,7 +35,7 @@
             <td>${Sort}</td>
             <td>${Major_Name}</td>
             <td>${WordNum}</td>
-            <td class="td_score">${Num_Fixed(mem.UnitScore* mem.WordNum)}</td>
+            <td class="td_score">{{if ULevel==3}}0{{else}}${Num_Fixed(mem.UnitScore* mem.WordNum)}{{/if}}</td>
             {{else}}          
                 <td>{{if $("#AchieveType").val()=="2"}}
                         {{if i>4}}<input type="checkbox" name="ck_trsub" value="${mem.UserNo}" onclick="CheckSub(this);" />{{/if}}
@@ -325,7 +325,7 @@
                                 cur_AchieveType = that.Info.AchieveType;
                                 $("#AchieveType").val(that.Info.AchieveType);
                                 achie_Score = Num_Fixed(that.Info.TotalScore);
-                                Get_RewardUserInfo();
+                                Get_RewardUserInfo(that.Info);
                             }
                         },
                         error: function () {
@@ -341,7 +341,7 @@
         });
         //绑定成员信息
         var Member_Data = [];
-        function Get_RewardUserInfo() {
+        function Get_RewardUserInfo(ach_model) {
             $("#tb_Member").empty();
             $.ajax({
                 type: "Post",
@@ -354,7 +354,7 @@
                         $("#tr_MemEdit").tmpl(json.result).appendTo("#tb_Member");
                         GetAchieveUser_Score(json.result.retData);
                     }
-                    Get_RewardBatchData($(".RewardReason"));
+                    if (ach_model.ComStatus > 7){Get_RewardBatchData($(".RewardReason"));}                    
                 },
                 error: function (errMsg) {
                     layer.msg(errMsg);
