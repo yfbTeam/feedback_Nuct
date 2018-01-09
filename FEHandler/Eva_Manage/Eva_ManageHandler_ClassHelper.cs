@@ -1120,9 +1120,9 @@ namespace FEHandler.Eva_Manage
 
         public int QuestionCount { get; set; }
 
-        public int QuestionAve { get; set; }
+        public decimal QuestionAve { get; set; }
 
-        public int ScoreAve { get; set; }
+        public decimal ScoreAve { get; set; }
 
         public int? TableID { get; set; }
 
@@ -1131,6 +1131,12 @@ namespace FEHandler.Eva_Manage
         public DateTime? CreateTime { get; set; }
 
         public int? RoomID { get; set; }
+
+        public DateTime? EndTime { get; set; }
+
+        public DateTime? StartTime { get; set; }
+
+        public bool IsOverTime { get; set; }
     }
 
     public class Eva_QuestionModel
@@ -1256,13 +1262,6 @@ enum IndicatorType_Type
     Edu_Back = 1,
 }
 
-enum Regu_Eva_Role
-{
-    //学生评
-    Student_Eva = 1,
-    //专家评
-    Expert_Eva = 2,
-}
 
 
 enum ReguType
@@ -1286,6 +1285,7 @@ public enum ModeType
     Record = 1,
     Check = 2,
     Look = 3,
+
 }
 
 public enum QueState
@@ -1307,11 +1307,6 @@ enum Dictionary_Type
     Leader_Course_Type = 2,
 }
 
-enum Eva_Task_Type
-{
-    //调查与检测
-    Check = 0,
-}
 
 enum TableDetail_Type
 {

@@ -118,6 +118,8 @@
               <td style="width: 5%"><span class="checking1">待审核</span></td>
             {{else State == 3}}
                <td style="width: 5%"><span class="pass">入库</span></td>
+            {{else State == 4}}
+               <td style="width: 5%"><span class="nopass">不入库</span></td>
             {{/if}}             
           
             {{if State == 1}}
@@ -155,7 +157,7 @@
                      </span>
                  </div>
              </td>
-            {{else State ==3}}
+            {{else State ==3 || State ==4}}
              <td class="operate_wrap" style="width: 10px">
                  <div class="operate" onclick="table_view('${TableID}','${Id}')">
                      <i class="iconfont color_purple">&#xe60b;</i>

@@ -142,7 +142,7 @@
 
         <div class="btnwrap">
             <input type="button" value="入库" onclick="submit()" class="btn">
-            <input type="button" value="不入库" onclick="parent.CloseIFrameWindow()" class="btn ml10">
+            <input type="button" value="不入库" onclick="submit_No()" class="btn ml10">
         </div>
     </div>
 
@@ -283,6 +283,11 @@
 
     function submit() {
         State = 3;
+        Change_Eva_QuestionAnswer_State(QuestionID);
+    }
+
+    function submit_No() {
+        State = 4;
         Change_Eva_QuestionAnswer_State(QuestionID);
     }
 

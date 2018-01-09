@@ -1199,7 +1199,7 @@ var UI_Table_View = {
             type: "post",
             async: false,
             dataType: "json",
-            data: { Func: "Get_Eva_TableDetail", "table_Id": table_Id, "IsPage_Display": UI_Table_View.IsPage_Display, "RoomID": RoomID, "ReguID": ReguID },
+            data: { Func: "Get_Eva_TableDetail", "table_Id": table_Id, "IsPage_Display": UI_Table_View.IsPage_Display, "RoomID": RoomID, "ReguID": ReguID,"UserID":login_User.UniqueNo },
             success: function (json) {
 
                 var retData = json.result.retData;

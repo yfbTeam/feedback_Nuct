@@ -308,52 +308,21 @@ function InitControl(isscore) { //答题-控件初始化
         $(this).addClass('on').siblings().removeClass('on');
         $(this).find('input').prop('checked', true);
         if (isscore == 0) {
-            var realTotal = 0;//实时总分
-            $(".radios li").each(function () {
-
-                if ($(this).hasClass('on')) {
-                    realTotal = numAdd(realTotal, $(this).find('b.numbers').html());
-                }
-            });
-
-            $(".test_detail").find('input[class="number"]').each(function () {
-                var score = $(this).val() == '' ? 0 : Number($(this).val());
-                var max = $(this).attr('maxscore') == '' ? 0 : Number($(this).attr('maxscore'));
-                if (score > 0 && score < max) {
-                    realTotal = numAdd(realTotal, $(this).val());
-                }
-                else {
-                    $(this).val(0);
-                }
-            });
-
-            $("#sp_realtotal").html(realTotal);
+            inicontrol_helper();
         }
     });
 
     $('.test_detail').find('input[class="number"]').on('blur', function () {
 
         if (isscore == 0) {
-            var realTotal = 0;//实时总分
-            $(".radios li").each(function () {
+            inicontrol_helper();
+        }
+    });
 
-                if ($(this).hasClass('on')) {
-                    realTotal = numAdd(realTotal, $(this).find('b.numbers').html());
-                }
-            });
+    $('.test_detail').find('input[class="number"]').on('tap', function () {
 
-            $(".test_detail").find('input[class="number"]').each(function () {
-                var score = $(this).val() == '' ? 0 : Number($(this).val());
-                var max = $(this).attr('maxscore') == '' ? 0 : Number($(this).attr('maxscore'));
-                if (score > 0 && score < max) {
-                    realTotal = numAdd(realTotal, $(this).val());
-                }
-                else {
-                    $(this).val(0);
-                }
-            });
-
-            $("#sp_realtotal").html(realTotal);
+        if (isscore == 0) {
+            inicontrol_helper();
         }
     });
 
@@ -363,6 +332,29 @@ function InitControl(isscore) { //答题-控件初始化
         $('.header,.test_time').css('position', 'fixed');
     })
 }
+function inicontrol_helper() {
+    var realTotal = 0;//实时总分
+    $(".radios li").each(function () {
+
+        if ($(this).hasClass('on')) {
+            realTotal = numAdd(realTotal, $(this).find('b.numbers').html());
+        }
+    });
+
+    $(".test_detail").find('input[class="number"]').each(function () {
+        var score = $(this).val() == '' ? 0 : Number($(this).val());
+        var max = $(this).attr('maxscore') == '' ? 0 : Number($(this).attr('maxscore'));
+        if (score > 0 && score < max) {
+            realTotal = numAdd(realTotal, $(this).val());
+        }
+        else {
+            $(this).val(0);
+        }
+    });
+
+    $("#sp_realtotal").html(realTotal);
+}
+
 function InitControl_Answer() { //查看试卷-控件初始化
     $('textarea').each(function () {
         $(this).attr("disabled", "disabled");

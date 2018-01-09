@@ -23326,3 +23326,103 @@ ERROR 2018-01-09 16:20:40,658   144ms service                Error              
    在 System.Reflection.RuntimeMethodInfo.Invoke(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)
    在 System.Reflection.RuntimePropertyInfo.GetValue(Object obj, Object[] index)
    在 FEHandler.Constant.Clone[T](T data) 位置 e:\feedback_Nuct\FEHandler\Constant.cs:行号 1031
+ERROR 2018-01-09 18:19:09,869    82ms service                Error              - 非静态方法需要一个目标。   在 System.Reflection.RuntimeMethodInfo.CheckConsistency(Object target)
+   在 System.Reflection.RuntimeMethodInfo.InvokeArgumentsCheck(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)
+   在 System.Reflection.RuntimeMethodInfo.Invoke(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)
+   在 System.Reflection.RuntimePropertyInfo.GetValue(Object obj, Object[] index)
+   在 FEHandler.Constant.Clone[T](T data) 位置 e:\feedback_Nuct\FEHandler\Constant.cs:行号 1031
+ERROR 2018-01-09 18:19:09,891   104ms service                Error              - 非静态方法需要一个目标。   在 System.Reflection.RuntimeMethodInfo.CheckConsistency(Object target)
+   在 System.Reflection.RuntimeMethodInfo.InvokeArgumentsCheck(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)
+   在 System.Reflection.RuntimeMethodInfo.Invoke(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)
+   在 System.Reflection.RuntimePropertyInfo.GetValue(Object obj, Object[] index)
+   在 FEHandler.Constant.Clone[T](T data) 位置 e:\feedback_Nuct\FEHandler\Constant.cs:行号 1031
+ERROR 2018-01-09 18:19:09,893   105ms service                Error              - 非静态方法需要一个目标。   在 System.Reflection.RuntimeMethodInfo.CheckConsistency(Object target)
+   在 System.Reflection.RuntimeMethodInfo.InvokeArgumentsCheck(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)
+   在 System.Reflection.RuntimeMethodInfo.Invoke(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)
+   在 System.Reflection.RuntimePropertyInfo.GetValue(Object obj, Object[] index)
+   在 FEHandler.Constant.Clone[T](T data) 位置 e:\feedback_Nuct\FEHandler\Constant.cs:行号 1031
+ERROR 2018-01-09 18:19:09,894   107ms service                Error              - 非静态方法需要一个目标。   在 System.Reflection.RuntimeMethodInfo.CheckConsistency(Object target)
+   在 System.Reflection.RuntimeMethodInfo.InvokeArgumentsCheck(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)
+   在 System.Reflection.RuntimeMethodInfo.Invoke(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)
+   在 System.Reflection.RuntimePropertyInfo.GetValue(Object obj, Object[] index)
+   在 FEHandler.Constant.Clone[T](T data) 位置 e:\feedback_Nuct\FEHandler\Constant.cs:行号 1031
+ERROR 2018-01-09 18:19:09,895   107ms service                Error              - 非静态方法需要一个目标。   在 System.Reflection.RuntimeMethodInfo.CheckConsistency(Object target)
+   在 System.Reflection.RuntimeMethodInfo.InvokeArgumentsCheck(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)
+   在 System.Reflection.RuntimeMethodInfo.Invoke(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)
+   在 System.Reflection.RuntimePropertyInfo.GetValue(Object obj, Object[] index)
+   在 FEHandler.Constant.Clone[T](T data) 位置 e:\feedback_Nuct\FEHandler\Constant.cs:行号 1031
+ERROR 2018-01-09 18:19:09,911   124ms service                Error              - 非静态方法需要一个目标。   在 System.Reflection.RuntimeMethodInfo.CheckConsistency(Object target)
+   在 System.Reflection.RuntimeMethodInfo.InvokeArgumentsCheck(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)
+   在 System.Reflection.RuntimeMethodInfo.Invoke(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)
+   在 System.Reflection.RuntimePropertyInfo.GetValue(Object obj, Object[] index)
+   在 FEHandler.Constant.Clone[T](T data) 位置 e:\feedback_Nuct\FEHandler\Constant.cs:行号 1031
+ERROR 2018-01-09 18:19:09,914   127ms service                Error              - 非静态方法需要一个目标。   在 System.Reflection.RuntimeMethodInfo.CheckConsistency(Object target)
+   在 System.Reflection.RuntimeMethodInfo.InvokeArgumentsCheck(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)
+   在 System.Reflection.RuntimeMethodInfo.Invoke(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)
+   在 System.Reflection.RuntimePropertyInfo.GetValue(Object obj, Object[] index)
+   在 FEHandler.Constant.Clone[T](T data) 位置 e:\feedback_Nuct\FEHandler\Constant.cs:行号 1031
+ERROR 2018-01-09 18:19:09,919   132ms service                Error              - 非静态方法需要一个目标。   在 System.Reflection.RuntimeMethodInfo.CheckConsistency(Object target)
+   在 System.Reflection.RuntimeMethodInfo.InvokeArgumentsCheck(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)
+   在 System.Reflection.RuntimeMethodInfo.Invoke(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)
+   在 System.Reflection.RuntimePropertyInfo.GetValue(Object obj, Object[] index)
+   在 FEHandler.Constant.Clone[T](T data) 位置 e:\feedback_Nuct\FEHandler\Constant.cs:行号 1031
+ERROR 2018-01-09 18:19:09,929   141ms service                Error              - 非静态方法需要一个目标。   在 System.Reflection.RuntimeMethodInfo.CheckConsistency(Object target)
+   在 System.Reflection.RuntimeMethodInfo.InvokeArgumentsCheck(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)
+   在 System.Reflection.RuntimeMethodInfo.Invoke(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)
+   在 System.Reflection.RuntimePropertyInfo.GetValue(Object obj, Object[] index)
+   在 FEHandler.Constant.Clone[T](T data) 位置 e:\feedback_Nuct\FEHandler\Constant.cs:行号 1031
+ERROR 2018-01-09 18:19:09,931   143ms service                Error              - 非静态方法需要一个目标。   在 System.Reflection.RuntimeMethodInfo.CheckConsistency(Object target)
+   在 System.Reflection.RuntimeMethodInfo.InvokeArgumentsCheck(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)
+   在 System.Reflection.RuntimeMethodInfo.Invoke(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)
+   在 System.Reflection.RuntimePropertyInfo.GetValue(Object obj, Object[] index)
+   在 FEHandler.Constant.Clone[T](T data) 位置 e:\feedback_Nuct\FEHandler\Constant.cs:行号 1031
+ERROR 2018-01-09 18:24:10,633    90ms service                Clone              - 非静态方法需要一个目标。   在 System.Reflection.RuntimeMethodInfo.CheckConsistency(Object target)
+   在 System.Reflection.RuntimeMethodInfo.InvokeArgumentsCheck(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)
+   在 System.Reflection.RuntimeMethodInfo.Invoke(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)
+   在 System.Reflection.RuntimePropertyInfo.GetValue(Object obj, Object[] index)
+   在 FEHandler.Constant.Clone[T](T data) 位置 e:\feedback_Nuct\FEHandler\Constant.cs:行号 1030
+ERROR 2018-01-09 18:24:10,655   112ms service                Clone              - 非静态方法需要一个目标。   在 System.Reflection.RuntimeMethodInfo.CheckConsistency(Object target)
+   在 System.Reflection.RuntimeMethodInfo.InvokeArgumentsCheck(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)
+   在 System.Reflection.RuntimeMethodInfo.Invoke(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)
+   在 System.Reflection.RuntimePropertyInfo.GetValue(Object obj, Object[] index)
+   在 FEHandler.Constant.Clone[T](T data) 位置 e:\feedback_Nuct\FEHandler\Constant.cs:行号 1030
+ERROR 2018-01-09 18:24:10,656   113ms service                Clone              - 非静态方法需要一个目标。   在 System.Reflection.RuntimeMethodInfo.CheckConsistency(Object target)
+   在 System.Reflection.RuntimeMethodInfo.InvokeArgumentsCheck(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)
+   在 System.Reflection.RuntimeMethodInfo.Invoke(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)
+   在 System.Reflection.RuntimePropertyInfo.GetValue(Object obj, Object[] index)
+   在 FEHandler.Constant.Clone[T](T data) 位置 e:\feedback_Nuct\FEHandler\Constant.cs:行号 1030
+ERROR 2018-01-09 18:24:10,657   114ms service                Clone              - 非静态方法需要一个目标。   在 System.Reflection.RuntimeMethodInfo.CheckConsistency(Object target)
+   在 System.Reflection.RuntimeMethodInfo.InvokeArgumentsCheck(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)
+   在 System.Reflection.RuntimeMethodInfo.Invoke(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)
+   在 System.Reflection.RuntimePropertyInfo.GetValue(Object obj, Object[] index)
+   在 FEHandler.Constant.Clone[T](T data) 位置 e:\feedback_Nuct\FEHandler\Constant.cs:行号 1030
+ERROR 2018-01-09 18:24:10,658   115ms service                Clone              - 非静态方法需要一个目标。   在 System.Reflection.RuntimeMethodInfo.CheckConsistency(Object target)
+   在 System.Reflection.RuntimeMethodInfo.InvokeArgumentsCheck(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)
+   在 System.Reflection.RuntimeMethodInfo.Invoke(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)
+   在 System.Reflection.RuntimePropertyInfo.GetValue(Object obj, Object[] index)
+   在 FEHandler.Constant.Clone[T](T data) 位置 e:\feedback_Nuct\FEHandler\Constant.cs:行号 1030
+ERROR 2018-01-09 18:24:10,680   137ms service                Clone              - 非静态方法需要一个目标。   在 System.Reflection.RuntimeMethodInfo.CheckConsistency(Object target)
+   在 System.Reflection.RuntimeMethodInfo.InvokeArgumentsCheck(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)
+   在 System.Reflection.RuntimeMethodInfo.Invoke(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)
+   在 System.Reflection.RuntimePropertyInfo.GetValue(Object obj, Object[] index)
+   在 FEHandler.Constant.Clone[T](T data) 位置 e:\feedback_Nuct\FEHandler\Constant.cs:行号 1030
+ERROR 2018-01-09 18:24:10,682   139ms service                Clone              - 非静态方法需要一个目标。   在 System.Reflection.RuntimeMethodInfo.CheckConsistency(Object target)
+   在 System.Reflection.RuntimeMethodInfo.InvokeArgumentsCheck(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)
+   在 System.Reflection.RuntimeMethodInfo.Invoke(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)
+   在 System.Reflection.RuntimePropertyInfo.GetValue(Object obj, Object[] index)
+   在 FEHandler.Constant.Clone[T](T data) 位置 e:\feedback_Nuct\FEHandler\Constant.cs:行号 1030
+ERROR 2018-01-09 18:24:10,683   140ms service                Clone              - 非静态方法需要一个目标。   在 System.Reflection.RuntimeMethodInfo.CheckConsistency(Object target)
+   在 System.Reflection.RuntimeMethodInfo.InvokeArgumentsCheck(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)
+   在 System.Reflection.RuntimeMethodInfo.Invoke(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)
+   在 System.Reflection.RuntimePropertyInfo.GetValue(Object obj, Object[] index)
+   在 FEHandler.Constant.Clone[T](T data) 位置 e:\feedback_Nuct\FEHandler\Constant.cs:行号 1030
+ERROR 2018-01-09 18:24:10,684   141ms service                Clone              - 非静态方法需要一个目标。   在 System.Reflection.RuntimeMethodInfo.CheckConsistency(Object target)
+   在 System.Reflection.RuntimeMethodInfo.InvokeArgumentsCheck(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)
+   在 System.Reflection.RuntimeMethodInfo.Invoke(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)
+   在 System.Reflection.RuntimePropertyInfo.GetValue(Object obj, Object[] index)
+   在 FEHandler.Constant.Clone[T](T data) 位置 e:\feedback_Nuct\FEHandler\Constant.cs:行号 1030
+ERROR 2018-01-09 18:24:10,685   141ms service                Clone              - 非静态方法需要一个目标。   在 System.Reflection.RuntimeMethodInfo.CheckConsistency(Object target)
+   在 System.Reflection.RuntimeMethodInfo.InvokeArgumentsCheck(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)
+   在 System.Reflection.RuntimeMethodInfo.Invoke(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)
+   在 System.Reflection.RuntimePropertyInfo.GetValue(Object obj, Object[] index)
+   在 FEHandler.Constant.Clone[T](T data) 位置 e:\feedback_Nuct\FEHandler\Constant.cs:行号 1030

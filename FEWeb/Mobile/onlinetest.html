@@ -67,23 +67,29 @@
 
         .div_header1 {
             margin: 5px;
-            width: 46%;
+            width: 45%;
             margin-left: 10px;
         }
 
             .div_header1 select {
                 width: 210px;
             }
-
+            .div_header1 label {
+                text-overflow: ellipsis;
+            }
         .div_header2 {
             margin: 5px;
             width: 100%;
             margin-left: 10px;
         }
-
-            .div_header2 select {
-                width: 210px;
+            .div_header2 label {
+                text-overflow: ellipsis;
             }
+        
+        
+         .div_header2 select {
+            width: 210px;
+        }
     </style>
 </head>
 <body>
@@ -135,8 +141,8 @@
 
                 <% $.each(retData.head_value,function(hindex,child){ %>
                 <div class="fl div_header2">
-                    <label class="lblheader" code="<%=child.Id %>" name="<%=child.Header%>">
-                        <%=child.Header%>：<input class="input_bottom" value=" <%=child.Value%>" />
+                    <label  class="lblheader" code="<%=child.Id %>" name="<%=child.Header%>">
+                        <%=child.Header%>：<input class="input_bottom" value="<%=child.Value%>" />
                     </label>
                 </div>
                 <% }) %>
@@ -271,41 +277,48 @@
             UI_Table_View.PageType = 'onlinetest';
             UI_Table_View.IsPage_Display = true;
             UI_Table_View.Get_Eva_TableDetail_Compleate = function (retData) {
+                
+                if (retData.Info.IsInClass)
+                {
+                    $("#main").append(ejs.render($('#item_table_view').html(), { retData: retData }));
+                    GetTask_Score(0, retData.IsScore);
+                    InitControl(retData.IsScore);
 
-                $("#main").append(ejs.render($('#item_table_view').html(), { retData: retData }));
-                GetTask_Score(0, retData.IsScore);
-                InitControl(retData.IsScore);
+                    var info = retData.Info;
 
-                var info = retData.Info;
+                    SectionID = info.SectionID;
+                    DisplayName = info.DisplayName;
+                    ReguID = info.ReguID;
+                    ReguName = info.ReguName;
+                    CourseID = info.CourseID;
+                    CourseName = info.CourseName;
+                    TeacherUID = info.TeacherUID;
+                    TeacherName = info.TeacherName;
 
-                SectionID = info.SectionID;
-                DisplayName = info.DisplayName;
-                ReguID = info.ReguID;
-                ReguName = info.ReguName;
-                CourseID = info.CourseID;
-                CourseName = info.CourseName;
-                TeacherUID = info.TeacherUID;
-                TeacherName = info.TeacherName;
+                    AnswerUID = login_User.UniqueNo;
+                    AnswerName = login_User.Name;
+                    TableName = retData.Name;
 
-                AnswerUID = login_User.UniqueNo;
-                AnswerName = login_User.Name;
-                TableName = retData.Name;
+                    var DepartmentName = info.DepartmentName;
 
-                var DepartmentName = info.DepartmentName;
-             
-                Eva_Role = 2;
-                HeaderList = [];
+                    Eva_Role = 2;
+                    HeaderList = [];
 
-                $('#section').text(DisplayName);
-                $('#teacher').text(TeacherName);
-                $('#course').text(CourseName);
-                $('#dp').text(DepartmentName);
+                    $('#section').text(cutstr(DisplayName, 8));
+                    $('#teacher').text(cutstr(TeacherName, 8));
+                    $('#course').text(cutstr(CourseName, 8));
+                    $('#dp').text(cutstr(DepartmentName, 8));
 
-                UI_Table_View.scoreInit(retData);
+                    UI_Table_View.scoreInit(retData);
 
-                $('#list').css('height', (retData.headerList.length / 2) * 20 + retData.head_value.length * 35 + 'px');
+                    $('#list').css('height', (retData.headerList.length / 2) * 20 + retData.head_value.length * 35 + 'px');
 
-                Reflesh();
+                    Reflesh();
+                }
+                else {
+                    location.href = '../Mobile/NoCode.html?te=5';
+                }
+               
                 
             };
             UI_Table_View.Get_Eva_TableDetail();

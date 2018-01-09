@@ -36,7 +36,6 @@
                 <div class="fl">
                     <label for="">学年学期:</label>
                     <select class="select" id="section" style="width: 198px;">
-                       
                     </select>
                 </div>
                 <div class="fl ml10">
@@ -57,7 +56,7 @@
                     <a class="search fl" href="javascript:;" id="select"><i class="iconfont"></i></a>
                 </div>
 
-              
+
             </div>
             <div class="table">
                 <table>
@@ -71,7 +70,7 @@
 
                             <th>评价表名称</th>
 
-                            <th>得分</th>                          
+                            <th>得分</th>
                             <th>操作</th>
                         </tr>
                     </thead>
@@ -108,35 +107,18 @@
 
             <td style="width: 30%" title="${TableName}">${cutstr(TableName,45)}</td>
             <td style="width: 5%">${Score}</td>
-            
-          
-            {{if State == 1}}
-       <td style="width: 5%" class="operate_wrap" style="width: 10px">
-           <div class="operate" onclick="table_view('${TableID}','${Id}')">
-               <i class="iconfont color_purple">&#xe60b;</i>
-               <span class="operate_none bg_purple">查看</span>
-           </div>          
-       </td>
 
-            {{else State == 2}}          
-             <td style="width: 5%" class="operate_wrap" style="width: 10px">
-                 <div class="operate" onclick="table_view('${TableID}','${Id}')">
-                     <i class="iconfont color_purple">&#xe60b;</i>
-                     <span class="operate_none bg_purple">查看</span>
-                 </div>                
-             </td>
-            {{else State ==3}}
-             <td style="width: 5%" class="operate_wrap" style="width: 10px">
-                 <div class="operate" onclick="table_view('${TableID}','${Id}')">
-                     <i class="iconfont color_purple">&#xe60b;</i>
-                     <span class="operate_none bg_purple">查看</span>
-                 </div>                
-             </td>
-            {{/if}}
+
+            <td style="width: 5%" class="operate_wrap" style="width: 10px">
+                <div class="operate" onclick="table_view('${TableID}','${Id}')">
+                    <i class="iconfont color_purple">&#xe60b;</i>
+                    <span class="operate_none bg_purple">查看</span>
+                </div>
+            </td>
         </tr>
     </script>
 
-     <script type="text/x-jquery-tmpl" id="itemData_Admin">
+    <script type="text/x-jquery-tmpl" id="itemData_Admin">
         <tr>
             <td style="width: 5%">${Num}</td>
             <td style="width: 5%">${DisPlayName}</td>
@@ -159,7 +141,7 @@
            <div class="operate" onclick="table_view('${TableID}','${Id}')">
                <i class="iconfont color_purple">&#xe60b;</i>
                <span class="operate_none bg_purple">查看</span>
-           </div>          
+           </div>
        </td>
 
             {{else State == 2}}          
@@ -167,14 +149,14 @@
                  <div class="operate" onclick="table_view('${TableID}','${Id}')">
                      <i class="iconfont color_purple">&#xe60b;</i>
                      <span class="operate_none bg_purple">查看</span>
-                 </div>                
+                 </div>
              </td>
             {{else State ==3}}
              <td class="operate_wrap" style="width: 10px">
                  <div class="operate" onclick="table_view('${TableID}','${Id}')">
                      <i class="iconfont color_purple">&#xe60b;</i>
                      <span class="operate_none bg_purple">查看</span>
-                 </div>                
+                 </div>
              </td>
             {{/if}}
         </tr>
@@ -193,7 +175,7 @@
             $('#footer').load('/footer.html');
             Mode = 1;
             $('#select').on('click', search);
-           
+
 
             Base.bindStudySectionCompleate = function () {
                 var SectionID = $('#section').val();

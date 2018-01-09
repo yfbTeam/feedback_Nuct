@@ -349,6 +349,8 @@
                 Get_Eva_QuestionAnswerDetail(QuestionID);
 
                 InitControl(retdata.IsScore);
+
+                evaluate_Model.IsScore = retdata.IsScore;
             };
             UI_Table_View.PageType = 'EvalTable';
             UI_Table_View.IsPage_Display = true;

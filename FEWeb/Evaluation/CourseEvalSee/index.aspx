@@ -109,10 +109,23 @@
             <td title="${ClassName}" style="width: 10%">${cutstr(ClassName,10)}</td>
             <td style="width: 6%">${StudentCount}</td>
             <td style="width: 6%">${QuestionCount}</td>
-            <td style="width: 4%">${QuestionAve}</td>
+            <td style="width: 4%">${QuestionAve*100}%</td>
             <td style="width: 5%">${ScoreAve}</td>
-            <td class="operate_wrap">
 
+            {{if IsOverTime == true}}
+            <td class="operate_wrap">
+                <div class="operate" onclick="location.href='detailModal.aspx?Id='+getQueryString('Id')+'&Iid='+getQueryString('Iid')+'&TableID='+'${TableID}'">
+                    <i class="iconfont color_purple">&#xe606;</i>
+                    <span class="operate_none bg_purple">查看</span>
+                </div>
+
+                <div class="operate" >
+                    <i class="iconfont color_gray">&#xe609;</i>
+                    <span class="operate_none bg_gray">扫码</span>
+                </div>
+            </td>
+            {{else IsOverTime == false}}
+            <td class="operate_wrap">
                 <div class="operate" onclick="location.href='detailModal.aspx?Id='+getQueryString('Id')+'&Iid='+getQueryString('Iid')+'&TableID='+'${TableID}'">
                     <i class="iconfont color_purple">&#xe606;</i>
                     <span class="operate_none bg_purple">查看</span>
@@ -123,6 +136,9 @@
                     <span class="operate_none bg_purple">扫码</span>
                 </div>
             </td>
+            {{/if}}
+
+            
         </tr>
     </script>
     <script type="text/x-jquery-tmpl" id="itemCount">
