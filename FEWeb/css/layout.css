@@ -146,7 +146,7 @@ z-index: 9999;width:100%;
 .table table{width:100%;}
 .table table thead tr th{background: #f8f2f5;height:40px;color:#333333;text-align: center;vertical-align: middle;}
 .table table tbody tr{background: #fcfbfc;}
-.table table tbody tr td{height:39px;border-bottom:1px solid #ededed;text-align: center;vertical-align: middle;color:#666666;}
+.table table tbody tr td{border-bottom:1px solid #ededed;text-align: center;vertical-align: middle;color:#666666;padding:10px 0px;height:20px;line-height:20px}
 .table table tbody tr:nth-child(2n+1){background: #fff;}
 .table table tbody tr:hover{background: #fcfbfc;}
 .operate{position:relative;min-width:36px;display: inline-block;height: 22px;cursor: pointer;}
@@ -174,7 +174,7 @@ z-index: 9999;width:100%;
 .search_toobar .calendar{border:1px solid #cccccc;border-radius:2px;height:26px;width:90px;padding-left:10px;color:#333;}
 .search_toobar .select{min-width:90px;color:#333;border:1px solid #ccc;height:33px;border-radius:2px;float:none;}
 .search_toobar .text{border:1px solid #cccccc;border-radius:2px 0px 0px 2px;height:31px;border-right:none;width:130px;outline:none;color:#333;}
-.search_toobar .search{text-align:center;line-height:31px;width:40px;height:31px;border-radius:0px 2px 2px 0px;border:1px solid #cccccc;border-left:none;}
+.search_toobar .search{text-align:center;line-height:31px;width:40px;height:31px;border-radius:0px 2px 2px 0px;border:1px solid #cccccc;border-left:none;cursor:pointer}
 .search_toobar .search .iconfont{color: #6a264b;font-size:20px;}
 .search_toobar input[type=checkbox] {
     width:18px;height:18px;
