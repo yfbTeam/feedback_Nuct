@@ -85,6 +85,37 @@
         .lbl {
             vertical-align: middle;
         }
+
+        .tableheader {
+            font-size: 16px;
+        }
+
+        .evalmes2 {
+            top:35%;
+            padding: 10px 0;
+            position: fixed;
+            right: 12%;
+            z-index: 99999;
+            height: 70px;
+            width: 110px;
+            background: #A66894;
+        }
+
+            .evalmes2 .div1 {
+                text-align: center;
+                color: white;
+                line-height: 35px;
+            }
+
+            .evalmes2 .div2 {
+                text-align: center;
+                line-height: 35px;
+                color: white;
+            }
+
+                .evalmes2 .div2 label {
+                    font-size: 18px;
+                }
     </style>
 </head>
 <body>
@@ -95,15 +126,29 @@
                 <a href="javascript:window.history.go(-1)">全部评价</a><span>&gt;</span><a href="#" class="crumbs" id="GropName">北方工业大学实验教学课堂检查表（专家用表）</a>
             </h1>
 
+            <div class="evalmes2" style="color: #999999; font-size: 14px">
+                <div class="div1">
+                    <label>
+                        实时总分
+                    </label>
+                </div>
+
+                <div class="div2">
+                    <label id="sp_realtotal">0</label>
+                </div>
+            </div>
+
             <div class="tableheader">
                 <h1 class="tablename1">
                     <select v-model="" class="tableheader_select" id="table">
                     </select>
                 </h1>
+
                 <div class="evalmes" style="color: #999999; font-size: 14px">
                     <span id="sp_total"></span>
                     <span id="remark"></span>
                 </div>
+
                 <div class="table_header_left" style="min-height: 49px" id="list">
                 </div>
 
@@ -159,7 +204,7 @@
                        <b class="isscore">（<span class="isscore">${OptionF_S_Max}分</span>）</b>
                         {{/if}}
                     </h2>
-                    {{if $value.QuesType_Id!=3}}
+                    {{if $value.QuesType_Id ==1}}
                     <div class="test_desc" detailid="${Id}">
                         {{if $value.OptionA!=""}}
                         <span>
@@ -215,8 +260,10 @@
                     <div class="test_desc" detailid="${Id}">
                         <textarea></textarea>
                     </div>
-
-                    {{else}}
+                    {{else $value.QuesType_Id==4 }}
+                    <div class="test_desc" detailid="${Id}" maxscore="${OptionF_S_Max}">
+                        <input type="number" onkeydown="onlyNum();" class="number" maxscore="${OptionF_S_Max}" name="Name" value="0" style="width: 98%;  height: 35px;" />
+                    </div>
                     {{/if}}
                 </li>
                     {{/each}}
@@ -230,7 +277,7 @@
     <%--固定表头--%>
     <script type="text/x-jquery-tmpl" id="item_check">
         <div class="fl div_header">
-            <label class="lblheader" customcode="${CustomCode}" Code="${Id}" name="${Name}">
+            <label class="lblheader" customcode="${CustomCode}" code="${Id}" name="${Name}">
                 ${Name}：
               
                 {{if CustomCode == 4}}
@@ -260,7 +307,7 @@
     <%--自由表头--%>
     <script type="text/x-jquery-tmpl" id="item_check2">
         <div class="fl" style="margin-bottom: 20px; margin-left: 20px">
-            <label class="lblheader" Code="${Id}" name="${Name}">
+            <label class="lblheader" code="${Id}" name="${Name}">
                 ${Name}：<input class="input_bottom" value="${Value}" />
             </label>
         </div>
@@ -298,14 +345,18 @@
 
             $('.tablename1').text(TableName);
 
-            UI_Table_View.Get_Eva_TableDetail_Compleate = function () {
+            UI_Table_View.Get_Eva_TableDetail_Compleate = function (retdata) {
                 Get_Eva_QuestionAnswerDetail(QuestionID);
+
+                InitControl(retdata.IsScore);
             };
             UI_Table_View.PageType = 'EvalTable';
             UI_Table_View.IsPage_Display = true;
             UI_Table_View.Get_Eva_TableDetail();
 
             Reflesh();
+
+
         })
 
         function Submit() {
@@ -325,7 +376,7 @@
                 CustomCode = (CustomCode != undefined && CustomCode != null) ? CustomCode.trim() : "";
                 Name = (Name != undefined && Name != null) ? Name.trim() : "";
 
-                if (CustomCode == "" || CustomCode == "2" || CustomCode == "3" || CustomCode == "7") {
+                if (CustomCode == "" || CustomCode == "1" || CustomCode == "2" || CustomCode == "3" || CustomCode == "7") {
                     Value = $(this).find('input').val();
                 }
                 else {
@@ -337,7 +388,7 @@
                 HeaderList.push(obj);
 
             });
-            
+
             Type = 1;
             Eva_Role = 1;
             Is_AddQuesType = true;
@@ -356,6 +407,8 @@
 
             $("#item_check").tmpl(headerList).appendTo("#list");
             $("#item_check2").tmpl(head_value).appendTo("#list");
+
+            $('.table_header_left').css('height', (HeaderList.length / 5) * 25 + 'px');
 
             GetClassInfoSelectCompleate = function () {
                 var ClassID = $('#Cls').val();

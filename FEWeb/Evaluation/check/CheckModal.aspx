@@ -182,7 +182,7 @@
                        <b class="isscore">（<span class="isscore">${OptionF_S_Max}分</span>）</b>
                         {{/if}}
                     </h2>
-                    {{if $value.QuesType_Id!=3}}
+                    {{if $value.QuesType_Id ==1}}
                     <div class="test_desc" detailid="${Id}">
                         {{if $value.OptionA!=""}}
                         <span>
@@ -239,7 +239,11 @@
                         <textarea readonly="readonly"></textarea>
                     </div>
 
-                    {{else}}
+                    {{else $value.QuesType_Id==4 }}
+                    <div class="test_desc" detailid="${Id}" maxscore="${OptionF_S_Max}">
+                        <input readonly="readonly" name="Name" style="width: 98%; height: 35px;" />
+                    </div>
+
                     {{/if}}
                 </li>
                     {{/each}}
@@ -277,8 +281,7 @@
         Get_Eva_QuestionAnswerDetail(QuestionID)
     })
 
-    function submit()
-    {
+    function submit() {
         State = 3;
         Change_Eva_QuestionAnswer_State(QuestionID);
     }

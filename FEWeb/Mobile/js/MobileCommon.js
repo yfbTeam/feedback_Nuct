@@ -302,6 +302,7 @@ function InitControl(isscore) { //答题-控件初始化
             $(this).find('input').prop('checked', true);
         }
     });
+
     //单选题
     $('.radios li').on('tap', function () {
         $(this).addClass('on').siblings().removeClass('on');
@@ -309,14 +310,53 @@ function InitControl(isscore) { //答题-控件初始化
         if (isscore == 0) {
             var realTotal = 0;//实时总分
             $(".radios li").each(function () {
+
                 if ($(this).hasClass('on')) {
                     realTotal = numAdd(realTotal, $(this).find('b.numbers').html());
                 }
             });
-         
+
+            $(".test_detail").find('input[class="number"]').each(function () {
+                var score = $(this).val() == '' ? 0 : Number($(this).val());
+                var max = $(this).attr('maxscore') == '' ? 0 : Number($(this).attr('maxscore'));
+                if (score > 0 && score < max) {
+                    realTotal = numAdd(realTotal, $(this).val());
+                }
+                else {
+                    $(this).val(0);
+                }
+            });
+
             $("#sp_realtotal").html(realTotal);
         }
     });
+
+    $('.test_detail').find('input[class="number"]').on('blur', function () {
+
+        if (isscore == 0) {
+            var realTotal = 0;//实时总分
+            $(".radios li").each(function () {
+
+                if ($(this).hasClass('on')) {
+                    realTotal = numAdd(realTotal, $(this).find('b.numbers').html());
+                }
+            });
+
+            $(".test_detail").find('input[class="number"]').each(function () {
+                var score = $(this).val() == '' ? 0 : Number($(this).val());
+                var max = $(this).attr('maxscore') == '' ? 0 : Number($(this).attr('maxscore'));
+                if (score > 0 && score < max) {
+                    realTotal = numAdd(realTotal, $(this).val());
+                }
+                else {
+                    $(this).val(0);
+                }
+            });
+
+            $("#sp_realtotal").html(realTotal);
+        }
+    });
+
     $('textarea').on("focus", function () {
         $('.header,.test_time').css('position', 'absolute');
     }).on('blur', function () {
@@ -412,7 +452,6 @@ function cutstr(str, len) {
     }
 }
 
-function ChosenInit()
-{
+function ChosenInit() {
 
 }

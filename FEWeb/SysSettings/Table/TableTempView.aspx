@@ -47,10 +47,10 @@
 </head>
 <body>
     <div class="main">
-        <div class="tableheader" >
+        <div class="tableheader">
             <h1 class="tablename" style="font-weight: bold;"></h1>
-              <div class="evalmes" style="color: #999999; font-size: 14px">
-                <span id="sp_total" ></span>
+            <div class="evalmes" style="color: #999999; font-size: 14px">
+                <span id="sp_total"></span>
                 <span id="remark"></span>
             </div>
             <div class="table_header_left clearfix" style="min-height: 49px" id="list">
@@ -98,7 +98,7 @@
                       <b class="isscore">（<span class="isscore">${OptionF_S_Max}分</span>）</b>
                         {{/if}}
                     </h2>
-                    {{if $value.QuesType_Id!=3}}
+                    {{if $value.QuesType_Id ==1}}
                     <div class="test_desc">
                         {{if $value.OptionA!=""}}
                         <span>
@@ -143,12 +143,16 @@
                         </span>
                         {{/if}}
                     </div>
-                    {{else $value.QuesType_Id==3}}
+
+                    {{else $value.QuesType_Id==3 }}
                     <div class="test_desc">
                         <textarea readonly="readonly"></textarea>
                     </div>
 
-                    {{else}}
+                    {{else $value.QuesType_Id==4 }}
+                    <div class="test_desc">
+                         <input type="text" class="text" name="Name" style="width: 98%; height: 35px;" readonly="readonly" />
+                    </div>
                     {{/if}}
                 </li>
                     {{/each}}

@@ -44,19 +44,11 @@
 
         .table_header_left {
             /*min-height: 49px;*/
-            margin-top: 90px;
+            /*margin-top: 90px;*/
             /*margin-bottom: 60px;*/
         }
 
         .input_bottom {
-            width: 210px;
-            border: 0;
-            border-bottom: 1px solid #000;
-            text-align: center;
-            background: transparent;
-        }
-
-        .input_bottom_lbl {
             /* width: 45px; */
             width: 50%;
             border: 0;
@@ -65,24 +57,15 @@
             background: transparent;
         }
 
-        .div_header1 {
+
+        .div_header2 {
             margin: 5px;
             width: 46%;
             margin-left: 10px;
         }
 
-            .div_header1 select {
-                width: 210px;
-            }
-
-        .div_header2 {
-            margin: 5px;
-            width: 100%;
-            margin-left: 10px;
-        }
-
             .div_header2 select {
-                width: 210px;
+                /*width: 210px;*/
             }
     </style>
 </head>
@@ -103,46 +86,15 @@
             <a href="Index.html" class="back"><i class="iconfont">&#xe647;</i></a>
             <span class="title"><%=retData.Name%> 扫码评价</span>
         </div>
-
-        <div class="table_header_left" id="list">
-
-
-            <% $.each(retData.headerList,function(hindex,child){ %>
-            <div class="fl div_header1">
-                <label class="lblheader" customcode="<%=child.CustomCode%>" code="<%=child.Id%>" name="<%=child.Value%>">
-                    <%=child.Value%>：
-                    <% if(child.CustomCode == 4){ %>
-                    <select id="major"></select>
-                    <% }else if(child.CustomCode == 5){ %>
-                    <select id="Cls"></select>
-                    <% }else if(child.CustomCode == 6){ %>
-                    <select id="Stu"></select>
-                    <% }else if(child.CustomCode == 7){ %>
-                    <label class="input_bottom_lbl" id="section" />
-                    <% }else if(child.CustomCode == 3){ %>
-                    <label class="input_bottom_lbl" id="teacher" />
-                    <% }else if(child.CustomCode == 2){ %>
-                    <label class="input_bottom_lbl" id="course" />
-                    <% }else if(child.CustomCode == 1){ %>
-                    <label class="input_bottom_lbl" id="dp" />
-                    <% } %>
-                </label>
-            </div>
-            <% }) %>
-
-            <% $.each(retData.head_value,function(hindex,child){ %>
-            <div class="fl div_header2">
-                <label class="lblheader" code="<%=child.Id %>" name="<%=child.Header%>">
-                    <%=child.Header%>：<input class="input_bottom" value=" <%=child.Value%>" />
-                </label>
-            </div>
-            <% }) %>
-        </div>
-
         <div class="test_time ">
-            实时总分：<b id="sp_realtotal" style="color:white;">0</b>分
+            <b id="sp_total" style="color:white;"></b>
         </div>
-        <div class="ti">
+
+        <div class="ti test_lists">
+
+            <div class="table_header_left" id="list">
+            </div>
+
             <% $.each(retData.Table_Detail_Dic_List,function(hederindex,child){ %>
             <div class="h1_div">
                 <h1 class="test_title" style="display: inline-block">
@@ -155,9 +107,9 @@
                 <input type="hidden" value="<%=titem.Eva_table_Id%>" name="name_title" />
                 <input type="hidden" value="<%=titem.Id%>" name="name_id" />
                 <input type="hidden" value="<%=titem.QuesType_Id%>" name="name_QuesType_Id" />
-
-                <% if(titem.QuesType_Id!=3){ %>
-                <div id="div_ques_<%=titem.Id%>" class="test_detail">
+                
+                <% if(titem.QuesType_Id ==1){ %>
+                <div id="div_ques_<%=titem.Id%>" class="test_detail" DetailID="<%=titem.Id%>">
                     <h1 class="test_type">
                         <b class="order_num"><%=(++tindex)%>.</b><b><%=titem.Name%></b>
                         <% if(retData.IsScore==0){ %><b>(<span><%=titem.OptionF_S_Max%></span>分)</b><%}%>
@@ -213,12 +165,19 @@
                         <% } %>
                     </ul>
                 </div>
-                <% }else{ %>
-                <div id="div_ques_<%=titem.Id%>" class="test_detail">
+                <% }else if(titem.QuesType_Id ==3){ %>
+                <div id="div_ques_<%=titem.Id%>" class="test_detail" detailid="<%=titem.Id%>">
                     <h1 class="test_type">
                         <b class="order_num"><%=(++tindex)%>.</b><b><%=titem.Name%></b>
                     </h1>
                     <textarea name="" id="" class="textarea" placeholder="请输入内容"></textarea>
+                </div>
+                <% }else if(titem.QuesType_Id ==4){ %>
+                <div id="div_ques_<%=titem.Id%>" class="test_detail" detailid="<%=titem.Id%>">
+                    <h1 class="test_type">
+                        <b class="order_num"><%=(++tindex)%>.</b><b><%=titem.Name%></b>
+                    </h1>
+                    <input readonly="readonly" name="Name" style="width: 98%; height: 35px;" />
                 </div>
                 <%} %>
             </div>
@@ -226,6 +185,18 @@
 
             <% }) %>
         </div>
+    </script>
+
+    <script type="text/template" id="item_check">
+
+        <% $.each(retData,function(hindex,child){ %>
+        <div class="fl div_header2">
+            <label class="lblheader" customcode="<%=child.CustomCode%>" name="<%=child.Name%>">
+                <%=child.Name%>：<%=child.Value%>
+            </label>
+        </div>
+        <% }) %>
+
     </script>
 
     <script type="text/javascript">
@@ -247,16 +218,15 @@
             UI_Table_View.PageType = 'RegularEva_View';
             UI_Table_View.IsPage_Display = true;
 
-            UI_Table_View.Get_Eva_TableDetail_Compleate = function (retData) {
-                debugger;
+            UI_Table_View.Get_Eva_TableDetail_Compleate = function (retData) {             
                 $("#main").append(ejs.render($('#item_table_view').html(), { retData: retData }));
             };
             UI_Table_View.Get_Eva_TableDetail();
             IsScore = UI_Table_View.IsScore;
-
+            PageType = 'RegularEva_View';
             Get_Eva_QuestionAnswerDetail(QuestionID)
-        });        
-      
+        });
+
     </script>
 </body>
 </html>

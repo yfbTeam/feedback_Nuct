@@ -16,22 +16,21 @@ var evaluate_Model = {
     Is_Required: true, //true提交   false 保存
 
     AllScore: 0,
+
+    IsScore: 0,
+
     Get_SubData: function () {
-        var s_flg = 0;
+        var questioncount = 0;
         evaluate_Model.Submit_array = [];
-        var first_option = evaluate_Model.Submit_ele.find("input[type='radio']:checked").eq(0).attr('flv');
-        var radioCount = 0, sameCount = 0;
+        var ques_count1 = 0;
+        var ques_count3 = 0;
+        var ques_count4 = 0;
 
-        //初始化所有答题都未完成
-        var hasAnswerQuestion3 = false;
-
-
-        var question_3_Count = 0;
-        var question_answer_Count = 0;
+        var err4_count = 0;
 
         evaluate_Model.Submit_ele.each(function (i, n) {
 
-            s_flg++;
+            questioncount++;
             var sub_array = new Object();
             var TableDetailID = $(this).find("input[name='name_id']").val();
             var sub_Score = $(this).find("input[type='radio']:checked").val();
@@ -43,25 +42,73 @@ var evaluate_Model = {
             var Answer = '';
             if (QuestionType == 3) {
                 Answer = $(this).find("textarea").val().replace(/(^\s*)|(\s*$)/g, "");
-                question_3_Count++;
-
                 if (Answer != null && Answer != '') {
-                    //其中有答过一个
-                    //hasAnswerQuestion3 = true;
-                    question_answer_Count++;                  
+                    //其中有答过一个                  
+                    ques_count3++;
+                }
+                else
+                {
+                    if (Eva_Role == 1) {
+                        layer.msg('请填写未提交项', { offset: '400px' });
+                    }
+                    else {
+                        MesTips('请填写未提交项')
+                    }
+                    return false;
                 }
             }
-            else {
+            else if (QuestionType == 4) {
+                var sco_str = $(this).find("div").find('input').val();
+                var score = sco_str == '' ? 0 : Number(sco_str);
+
+                var maxscore_str = $(this).find("div").attr('MaxScore');
+                var maxScore = maxscore_str == '' ? 0 : Number(maxscore_str);
+                if (evaluate_Model.IsScore == 0) {
+                    if (score > 0 && score <= maxScore) {
+                        Answer = score;
+                        sub_Score = score;
+                        ques_count4++;
+                    }
+                    else {
+                        err4_count++;
+
+                        if (Eva_Role == 1) {
+                            layer.msg('填分项输入格式有误', { offset: '400px' });
+                        }
+                        else {
+                            MesTips('填分项输入格式有误')
+                        }
+                        return false;
+                    }
+                }
+                else {
+                    Answer = 0;
+                    sub_Score = 0;
+                    ques_count4++;
+                }
+            }
+            else if (QuestionType == 1) {
                 Answer = $(this).find("input[type='radio']:checked").attr('flv');
 
-                if (first_option == Answer) { sameCount++; }
+                if ($(this).find("input[type='radio']").length != 0 && $(this).find("input:checked").length == 1) {
+                    ques_count1++;
+                }
+                else {
+                    if (Eva_Role == 1) {
+                        layer.msg('请填写未提交项', { offset: '400px' });
+                    }
+                    else {
+                        MesTips('请填写未提交项')
+                    }
+                    return false;
+                }
             }
 
             sub_array.TableDetailID = TableDetailID;
             sub_array.Score = sub_Score;
 
             sub_Score = sub_Score == '' ? 0 : sub_Score;
-           
+
             //总分
             evaluate_Model.AllScore += Number(sub_Score);
 
@@ -71,35 +118,18 @@ var evaluate_Model = {
                 sub_array.QuestionType = QuestionType;
             }
             evaluate_Model.Submit_array.push(sub_array);
-            if ($(this).find("input[type='radio']").length != 0 && $(this).find("input:checked").length == 1) {
-                radioCount++;              
-                return;
-            }
-           
           
         });
 
         if (evaluate_Model.Is_Required) {
-            if (s_flg == radioCount + question_answer_Count) {
-                if (radioCount > 1 && radioCount == sameCount && ((question_3_Count > 0 && question_answer_Count == question_3_Count) || (question_3_Count == 0))) {
-                    if (Eva_Role == 1) {
-                        layer.msg('答题选项选择均一致，不允许提交!', { offset: '400px' });
-                    }
-                    else {
-                        MesTips('答题选项选择均一致，不允许提交!')
-                    }
-                    return;
+            if (State == 2) {
+
+                if (questioncount == ques_count1 + ques_count3 + ques_count4) {
+                    evaluate_Model.Submit_Data();
                 }
+            }
+            else {
                 evaluate_Model.Submit_Data();
-            } else {
-
-
-                if (Eva_Role == 1) {
-                    layer.msg('请填写未提交项', { offset: '400px' });
-                }
-                else {
-                    MesTips('请填写未提交项')
-                }
             }
         }
         else {
@@ -139,7 +169,7 @@ function SubmitQuestion() {
     obj.TableName = Eva_Role == 2 ? TableName : $('#table').find('option:selected').attr('title');
 
     obj.CreateUID = AnswerUID;
-    obj.Type = Type;
+
     obj.Eva_Role = Eva_Role;
     obj.State = State;
 
@@ -159,7 +189,7 @@ function SubmitQuestion() {
             var index_layer = layer.load(1, {
                 shade: [0.1, '#fff'] //0.1透明度的白色背景
             });
-        }      
+        }
         $.ajax({
             url: HanderServiceUrl + "/Eva_Manage/Eva_ManageHandler.ashx",
             type: "post",
@@ -174,8 +204,7 @@ function SubmitQuestion() {
                         layer.msg('提交成功!', { offset: '400px' });
                         window.history.go(-1);
                     }
-                    else
-                    {
+                    else {
                         SubmitQuestionCompleate();
                     }
                 }
@@ -189,7 +218,7 @@ function SubmitQuestion() {
                 //接口错误时需要执行的
             }
         });
-      
+
     }
     evaluate_Model.Get_SubData();
 }
@@ -265,7 +294,7 @@ function Get_Eva_QuestionAnswer(PageIndex, SectionID, DepartmentID, Key, TableID
         },
         dataType: "json",
         success: function (returnVal) {
-
+            console.log(returnVal);
             if (returnVal.result.errMsg == "success") {
                 var data = returnVal.result.retData;
                 layer.close(index_layer);
@@ -362,7 +391,12 @@ function Get_Eva_QuestionAnswerDetail(Id) {
                 data.DetailList.filter(function (item) {
                     switch (item.QuestionType) {
                         case 1:
-                            $('.test_lists').find('div[DetailID="' + item.TableDetailID + '"]').find('input[flv="' + item.Answer + '"]').attr("checked", true);
+                            if (PageType == 'RegularEva_View') {
+                                $('.test_lists').find('div[DetailID="' + item.TableDetailID + '"]').find('li[lioption="' + item.Answer + '"]').addClass("on");
+                            }
+                            else {
+                                $('.test_lists').find('div[DetailID="' + item.TableDetailID + '"]').find('input[flv="' + item.Answer + '"]').attr("checked", true);
+                            }
                             break;
                         case 2:
 
@@ -370,7 +404,9 @@ function Get_Eva_QuestionAnswerDetail(Id) {
                         case 3:
                             $('.test_lists').find('div[DetailID="' + item.TableDetailID + '"]').find('textarea').text(item.Answer);
                             break;
-
+                        case 4:
+                            $('.test_lists').find('div[DetailID="' + item.TableDetailID + '"]').find('input').val(item.Answer);
+                            break;
                         default:
 
                     }
@@ -378,7 +414,6 @@ function Get_Eva_QuestionAnswerDetail(Id) {
                 switch (PageType) {
                     case 'EvalDetail':
                         $("#item_check").tmpl(data.HeaderList).appendTo(".table_header_left");
-
                         if (IsScore == 0) {
                             $("#sp_total").html('分数：' + data.Score + '分')
                         }
@@ -391,6 +426,18 @@ function Get_Eva_QuestionAnswerDetail(Id) {
 
                         HeaderList = data.HeaderList;
 
+                        break;
+                    case 'RegularEva_View':
+                        $("#list").append(ejs.render($('#item_check').html(), { retData: data.HeaderList }));
+
+                        $('#list').css('height', (data.HeaderList.length / 2) * 20 + 'px');
+                        if (IsScore == 0) {
+                            $("#sp_total").html('分数：' + data.Score + '分')
+                        }
+                        else {
+                            $("#sp_total").html('不计分')
+                            $('.isscore').hide();
+                        }
                         break;
                     default:
 
@@ -436,3 +483,14 @@ function Change_Eva_QuestionAnswer_State(Id) {
     });
 }
 
+
+function onlyNum() {
+    if (event.keyCode == 190) {
+        event.returnValue = true;
+        return;
+    }
+    if (!(event.keyCode == 46) && !(event.keyCode == 8) && !(event.keyCode == 37) && !(event.keyCode == 39))
+        if (!((event.keyCode >= 48 && event.keyCode <= 57) || (event.keyCode >= 96 && event.keyCode <= 105)))
+            event.returnValue = false;
+
+};

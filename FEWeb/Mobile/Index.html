@@ -31,7 +31,7 @@
     <script type="text/template" id="item_HasEva">
         <% $.each(retData,function(index,item){ %>
         <li>
-            <a href="RegularEva_View.html?table_Id='+<%=item.TableID%>+'&QuestionID='+'<%=item.TableID%>''">
+            <a href="RegularEva_View.html?table_Id=<%=item.TableID%>&QuestionID=<%=item.Id%>">
                 <h2 class="title"><%=item.ReguName%></h2>
                 <p>
                     <span class="type"><%=item.CourseName%>-<%=item.TeacherName%></span>

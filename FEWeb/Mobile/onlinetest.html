@@ -44,7 +44,7 @@
 
         .table_header_left {
             /*min-height: 49px;*/
-            margin-top: 90px;
+            /*margin-top: 90px;*/
             /*margin-bottom: 60px;*/
         }
 
@@ -104,45 +104,44 @@
             <span class="title"><%=retData.Name%> 扫码评价</span>
         </div>
 
-        <div class="table_header_left" id="list">
-
-
-            <% $.each(retData.headerList,function(hindex,child){ %>
-            <div class="fl div_header1">
-                <label class="lblheader" customcode="<%=child.CustomCode%>" code="<%=child.Id%>" name="<%=child.Value%>">
-                    <%=child.Value%>：
-                    <% if(child.CustomCode == 4){ %>
-                    <select id="major"></select>
-                    <% }else if(child.CustomCode == 5){ %>
-                    <select id="Cls"></select>
-                    <% }else if(child.CustomCode == 6){ %>
-                    <select id="Stu"></select>
-                    <% }else if(child.CustomCode == 7){ %>
-                    <label class="input_bottom_lbl" id="section" />
-                    <% }else if(child.CustomCode == 3){ %>
-                    <label class="input_bottom_lbl" id="teacher" />
-                    <% }else if(child.CustomCode == 2){ %>
-                    <label class="input_bottom_lbl" id="course" />
-                    <% }else if(child.CustomCode == 1){ %>
-                    <label class="input_bottom_lbl" id="dp" />
-                    <% } %>
-                </label>
-            </div>
-            <% }) %>
-
-            <% $.each(retData.head_value,function(hindex,child){ %>
-            <div class="fl div_header2">
-                <label class="lblheader" code="<%=child.Id %>" name="<%=child.Header%>">
-                    <%=child.Header%>：<input class="input_bottom" value=" <%=child.Value%>" />
-                </label>
-            </div>
-            <% }) %>
-        </div>
-
         <div class="test_time ">
             实时总分：<b id="sp_realtotal" style="color:white;">0</b>分
         </div>
+
         <div class="ti">
+            <div class="table_header_left" id="list">
+                <% $.each(retData.headerList,function(hindex,child){ %>
+                <div class="fl div_header1">
+                    <label class="lblheader" customcode="<%=child.CustomCode%>" code="<%=child.Id%>" name="<%=child.Value%>">
+                        <%=child.Value%>：
+                        <% if(child.CustomCode == 4){ %>
+                        <select id="major"></select>
+                        <% }else if(child.CustomCode == 5){ %>
+                        <select id="Cls"></select>
+                        <% }else if(child.CustomCode == 6){ %>
+                        <select id="Stu"></select>
+                        <% }else if(child.CustomCode == 7){ %>
+                        <label class="input_bottom_lbl" id="section" />
+                        <% }else if(child.CustomCode == 3){ %>
+                        <label class="input_bottom_lbl" id="teacher" />
+                        <% }else if(child.CustomCode == 2){ %>
+                        <label class="input_bottom_lbl" id="course" />
+                        <% }else if(child.CustomCode == 1){ %>
+                        <label class="input_bottom_lbl" id="dp" />
+                        <% } %>
+                    </label>
+                </div>
+                <% }) %>
+
+                <% $.each(retData.head_value,function(hindex,child){ %>
+                <div class="fl div_header2">
+                    <label class="lblheader" code="<%=child.Id %>" name="<%=child.Header%>">
+                        <%=child.Header%>：<input class="input_bottom" value=" <%=child.Value%>" />
+                    </label>
+                </div>
+                <% }) %>
+            </div>
+
             <% $.each(retData.Table_Detail_Dic_List,function(hederindex,child){ %>
             <div class="h1_div">
                 <h1 class="test_title" style="display: inline-block">
@@ -156,7 +155,7 @@
                 <input type="hidden" value="<%=titem.Id%>" name="name_id" />
                 <input type="hidden" value="<%=titem.QuesType_Id%>" name="name_QuesType_Id" />
 
-                <% if(titem.QuesType_Id!=3){ %>
+                <% if(titem.QuesType_Id ==1){ %>
                 <div id="div_ques_<%=titem.Id%>" class="test_detail">
                     <h1 class="test_type">
                         <b class="order_num"><%=(++tindex)%>.</b><b><%=titem.Name%></b>
@@ -213,12 +212,19 @@
                         <% } %>
                     </ul>
                 </div>
-                <% }else{ %>
+                <% }else if(titem.QuesType_Id ==3){ %>
                 <div id="div_ques_<%=titem.Id%>" class="test_detail">
                     <h1 class="test_type">
                         <b class="order_num"><%=(++tindex)%>.</b><b><%=titem.Name%></b>
                     </h1>
                     <textarea name="" id="" class="textarea" placeholder="请输入内容"></textarea>
+                </div>
+                <% }else if(titem.QuesType_Id ==4){ %>
+                <div id="div_ques_<%=titem.Id%>" class="test_detail" maxscore="<%=titem.OptionF_S_Max%>">
+                    <h1 class="test_type">
+                        <b class="order_num"><%=(++tindex)%>.</b><b><%=titem.Name%></b><b class="isscore">(<b class="numbers"><%=titem.OptionF_S_Max%></b>分)</b>
+                    </h1>
+                    <input type="number" onkeydown="onlyNum();" maxscore="<%=titem.OptionF_S_Max%>" class="number" value="0" name="Name" style="width: 98%; height: 35px;" />
                 </div>
                 <%} %>
             </div>
@@ -245,13 +251,15 @@
         var SectionID = 0;
 
         $(function () {
+
+            State = 2;
             initdata();
 
             $('#btn_submit').on('tap', function () {
                 SaveEvlData();
             });
         });
-       
+
         //初始化表格列表
         function initdata() {
             $("#btn_submit").show();
@@ -284,8 +292,7 @@
                 TableName = retData.Name;
 
                 var DepartmentName = info.DepartmentName;
-
-                Type = 3;
+             
                 Eva_Role = 2;
                 HeaderList = [];
 
@@ -296,7 +303,10 @@
 
                 UI_Table_View.scoreInit(retData);
 
+                $('#list').css('height', (retData.headerList.length / 2) * 20 + retData.head_value.length * 35 + 'px');
+
                 Reflesh();
+                
             };
             UI_Table_View.Get_Eva_TableDetail();
         }
@@ -312,8 +322,11 @@
                 CustomCode = (CustomCode != undefined && CustomCode != null) ? CustomCode.trim() : "";
                 Name = (Name != undefined && Name != null) ? Name.trim() : "";
 
-                if (CustomCode == "" || CustomCode == "2" || CustomCode == "3" || CustomCode == "7") {
-                    Value = $(this).find('input').val();
+                if (CustomCode == "") {
+                    Value = $(this).find('input').val().trim();
+                }
+                else if (CustomCode == "1"||CustomCode == "2" || CustomCode == "3" || CustomCode == "7") {
+                    Value = $(this).find('label').text().trim();
                 }
                 else {
                     ValueID = $(this).find('select').find('option:selected').val();
@@ -345,10 +358,11 @@
                 if (type != 0) {
                     var realTotal = 0;//实时总分
                     $(".radios li").each(function () {
-
+                        debugger;
                         if ($(this).hasClass('on')) {
-                            debugger;
-                            realTotal = numAdd(realTotal, $(this).find('b.numbers').html());
+                           
+                            var score =$(this).find('b.numbers').html()
+                            realTotal = numAdd(realTotal, score);
                         }
                     });
                     $("#sp_realtotal").html(realTotal);

@@ -102,7 +102,7 @@
                        <b class="isscore">（<span class="isscore">${OptionF_S_Max}分</span>）</b>
                         {{/if}}
                     </h2>
-                    {{if $value.QuesType_Id!=3}}
+                    {{if $value.QuesType_Id ==1}}
                     <div class="test_desc">
                         {{if $value.OptionA!=""}}
                         <span>
@@ -151,8 +151,10 @@
                     <div class="test_desc">
                         <textarea readonly="readonly"></textarea>
                     </div>
-
-                    {{else}}
+                   {{else $value.QuesType_Id==4 }}
+                    <div class="test_desc">
+                         <input type="text" class="text" name="Name" style="width: 98%; height: 35px;" readonly="readonly" />
+                    </div>
                     {{/if}}
                 </li>
                     {{/each}}
@@ -190,8 +192,6 @@
         UI_Table_View.PageType = 'TableView';
         UI_Table_View.IsPage_Display = true;
         UI_Table_View.Get_Eva_TableDetail();
-
-
     })
 
 </script>

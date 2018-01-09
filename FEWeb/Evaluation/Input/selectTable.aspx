@@ -159,7 +159,7 @@
                        <b class="isscore">（<span class="isscore">${OptionF_S_Max}分</span>）</b>
                         {{/if}}
                     </h2>
-                    {{if $value.QuesType_Id!=3}}
+                    {{if $value.QuesType_Id == 1}}
                     <div class="test_desc">
                         {{if $value.OptionA!=""}}
                         <span>
@@ -216,7 +216,10 @@
                         <textarea></textarea>
                     </div>
 
-                    {{else}}
+                    {{else $value.QuesType_Id==4 }}
+                    <div class="test_desc" MaxScore="${OptionF_S_Max}">
+                         <input type="number" onkeydown="onlyNum();" class="number" name="Name" style="width: 98%; height: 35px;"  />
+                    </div>
                     {{/if}}
                 </li>
                     {{/each}}
@@ -231,9 +234,7 @@
     <script type="text/x-jquery-tmpl" id="item_check">
         <div class="fl div_header">
             <label class="lblheader" customcode="${CustomCode}" name="${Value}">
-                ${Value}：
-              
-               
+                ${Value}：              
                 {{if CustomCode == 4}}
             <select id="major">
             </select>
@@ -292,11 +293,12 @@
             $('#top').load('/header.html');
             $('#footer').load('/footer.html');
 
-            UI_Table_View.Get_Eva_TableDetail_Compleate = function () {
+            UI_Table_View.Get_Eva_TableDetail_Compleate = function (retdata) {
                 $('#section').val(DisplayName);
                 $('#teacher').val(TeacherName);
                 $('#course').val(CourseName);
-                $('#dp').val(DepartmentName);
+                $('#dp').val(DepartmentName);               
+                evaluate_Model.IsScore = retdata.IsScore;
             };
             UI_Table_View.PageType = 'selectTable';
             Base.BindTableCompleate = function () {
@@ -323,6 +325,7 @@
         }
 
         function Save() {
+            State = 1;
             HeaderList = [];
             $('.lblheader').each(function (index) {
                 var CustomCode = $(this).attr('CustomCode');

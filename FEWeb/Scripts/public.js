@@ -458,3 +458,59 @@ function ChosenInit(select) {
     }  
 }
 
+function InitControl(isscore) { //答题-控件初始化
+    isscore = arguments[0] || 0;
+   
+    //单选题
+    $('.test_desc').find('input[type="radio"]').on('click', function () {
+     
+        if (isscore == 0) {
+            var realTotal = 0;//实时总分
+            $('.test_desc').find('input:checked').each(function () {
+                realTotal = numAdd(realTotal, $(this).val());
+            });
+
+            $(".test_desc").find('input[class="number"]').each(function () {
+                var score = $(this).val() == '' ? 0 : Number($(this).val());
+                var max = $(this).attr('maxscore') == '' ? 0 : Number($(this).attr('maxscore'));
+                if (score > 0 && score < max) {
+                    realTotal = numAdd(realTotal, $(this).val());
+                }
+                else {
+                    $(this).val(0);
+                }
+            });
+
+            $("#sp_realtotal").html(realTotal);
+        }
+    });
+
+    $('.test_desc').find('input[class="number"]').on('click', function () {
+
+        if (isscore == 0) {
+            var realTotal = 0;//实时总分
+            $('.test_desc').find('input:checked').each(function () {
+                realTotal = numAdd(realTotal, $(this).val());
+            });
+
+            $(".test_desc").find('input[class="number"]').each(function () {
+                var score = $(this).val() == '' ? 0 : Number($(this).val());
+                var max = $(this).attr('maxscore') == '' ? 0 : Number($(this).attr('maxscore'));
+                if (score > 0 && score < max) {
+                    realTotal = numAdd(realTotal, $(this).val());
+                }
+                else {
+                    $(this).val(0);
+                }
+            });
+
+            $("#sp_realtotal").html(realTotal);
+        }
+    });
+
+    $('textarea').on("focus", function () {
+        $('.header,.test_time').css('position', 'absolute');
+    }).on('blur', function () {
+        $('.header,.test_time').css('position', 'fixed');
+    })
+}

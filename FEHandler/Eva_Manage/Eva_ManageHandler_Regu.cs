@@ -1149,8 +1149,7 @@ namespace FEHandler.Eva_Manage
                 decimal Score = RequestHelper.decimal_transfer(Request, "Score");
                 //创建者
                 string CreateUID = RequestHelper.string_transfer(Request, "CreateUID");
-
-                int Type = RequestHelper.int_transfer(Request, "Type");
+             
                 int Eva_Role = RequestHelper.int_transfer(Request, "Eva_Role");
 
                 //答题详情明细
