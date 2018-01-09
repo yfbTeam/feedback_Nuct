@@ -165,7 +165,7 @@
             Get_PageBtn("/Index.aspx");
             navTab('.sort_nav', '.sort_item');
             getmyPrize(1, 10);
-            Book();
+            Get_IndexData();
             var lens = $('.query_lists>a:visible').length;
             if (lens < 4) {
                 $('.query_lists>a').width(100 / lens + '%');
@@ -181,8 +181,6 @@
                 data: { "Func": "GetAcheiveRewardInfoData", "MyUno": $("#CreateUID").val(), MyAch_LoginUID: $("#CreateUID").val(), PageIndex: startIndex, pageSize: pageSize, "Name": $("#Name").val() },
                 success: function (json) {
                     if (json.result.errMsg == "success") {
-
-                        $('#myAcheiveNumber').html(json.result.retData.RowCount);
                         $("#my_prize_detail_Item").tmpl(json.result.retData.PagedData).appendTo("#myPirze_table");
                        
                         laypage({
@@ -198,8 +196,7 @@
                             }
                         });
                         tableSlide();
-                    } else {
-                        $('#myAcheiveNumber').html('0');
+                    } else {                       
                         nomessage('#myPirze_table');
                     }
                 },
@@ -208,26 +205,26 @@
                 }
             });
         }
-        //获取我的教材数据
-        function Book() {
-            var parmsData = { "Func": "GetTPM_BookStory","IsPage" : false,Author_SelfNo: $("#CreateUID").val() };
+        //获取统计信息
+        function Get_IndexData() {
             $.ajax({
                 url: HanderServiceUrl + "/TeaAchManage/AchRewardInfo.ashx",
                 type: "post",
                 dataType: "json",
-                data: parmsData,
+                data: { "Func": "Get_IndexData", LoginUID: $("#CreateUID").val() },
                 success: function (json) {
                     if (json.result.errMsg == "success") {
-                        $('#myStoryNumber').html(json.result.retData.length);
-                    } else {
-                        $('#myStoryNumber').html('0');
-                    }
+                        var model = json.result.retData[0];
+                        $('#checkNumber').html(model.AuditCount);
+                        $('#myAcheiveNumber').html(model.MyCount);
+                        $('#myStoryNumber').html(model.BookCount);
+                    } 
                 },
                 error: function () {
                     //接口错误时需要执行的
                 }
             });
-        }  
+        }
     </script>
 </body>
 </html>

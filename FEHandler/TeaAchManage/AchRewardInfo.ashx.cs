@@ -110,6 +110,10 @@ namespace FEHandler.TeaAchManage
                     case "Get_ModifyRecordData":
                         Get_ModifyRecordData(context);
                         break;
+                    /*首页统计信息*/
+                    case "Get_IndexData":
+                        Get_IndexData(context);
+                        break;
                     default:
                         jsonModel = JsonModel.get_jsonmodel(5, "没有此方法", "");
                         break;
@@ -1010,6 +1014,50 @@ namespace FEHandler.TeaAchManage
                 ht.Add("Type", context.Request["Type"].SafeToString());
                 ht.Add("RelationId", context.Request["RelationId"].SafeToString());
                 jsonModel = mrecordbll.GetPage(ht, IsPage);
+            }
+            catch (Exception ex)
+            {
+                jsonModel = new JsonModel()
+                {
+                    errNum = 400,
+                    errMsg = ex.Message,
+                    retData = ""
+                };
+                LogService.WriteErrorLog(ex.Message);
+            }
+        }
+        #endregion
+
+        #region 首页统计信息
+        private void Get_IndexData(HttpContext context)
+        {
+            try
+            {
+                string LoginUID = RequestHelper.string_transfer(context.Request,"LoginUID");
+                int aud_RowCount = 0;
+                Hashtable aud_ht = new Hashtable();
+                aud_ht.Add("Respon_LoginUID", LoginUID);
+                DataTable audDt = new TPM_AcheiveRewardInfoDal().GetListByPage(aud_ht, out aud_RowCount, false, "");
+                int aduCount = (audDt == null|| audDt.Rows.Count <= 0) ?0: audDt.Rows.Count;//待审核业绩
+                int my_RowCount = 0;
+                Hashtable my_ht = new Hashtable();
+                my_ht.Add("MyIndex_LoginUID", LoginUID);
+                DataTable myDt= new TPM_AcheiveRewardInfoDal().GetListByPage(my_ht, out my_RowCount, false, "");
+                int myCount =(myDt==null || myDt.Rows.Count <= 0) ? 0: myDt.Rows.Count;//我的业绩
+                int book_RowCount = 0;
+                Hashtable book_ht = new Hashtable();
+                book_ht.Add("AuthorNo", LoginUID);
+                book_ht.Add("Status", 3);
+                DataTable bookDt = new TPM_AcheiveRewardInfoDal().GetListByPage(aud_ht, out book_RowCount, false, "");
+               int bookCount = (bookDt == null || bookDt.Rows.Count <= 0)?0: bookDt.Rows.Count;//我的教材
+                List<Dictionary<string, object>> rtnList = new List<Dictionary<string, object>> {
+                     new Dictionary<string, object> { { "AuditCount", aduCount },{ "MyCount",  myCount },{ "BookCount", bookCount } }};        
+                jsonModel =new JsonModel()
+                {
+                    errNum = 0,
+                    errMsg ="success",
+                    retData = rtnList
+                };
             }
             catch (Exception ex)
             {
