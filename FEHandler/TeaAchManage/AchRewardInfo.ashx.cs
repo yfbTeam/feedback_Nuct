@@ -463,7 +463,7 @@ namespace FEHandler.TeaAchManage
             model.EditionNo = RequestHelper.int_transfer(context.Request, "EditionNo");
             model.FileInfo = context.Request["FileInfo"].SafeToString();
             model.ISBN = context.Request["ISBN"].SafeToString(); 
-            if (model.BookType == 2&&IsExistSameISBN(model.ISBN,Id) >0)
+            if (model.BookType == 2&&!string.IsNullOrEmpty(model.ISBN)&&IsExistSameISBN(model.ISBN,Id) >0)
             {
                 jsonModel = JsonModel.get_jsonmodel(-1, "已存在相同的书号！", "");
                 return;
