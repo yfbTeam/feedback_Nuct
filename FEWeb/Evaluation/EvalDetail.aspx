@@ -268,7 +268,7 @@
         //$('#header').load('../../header.html');
         $('#footer').load('../../footer.html');
         UI_Table_View.PageType = 'EvalDetail';
-        UI_Table_View.IsPage_Display = true;
+        UI_Table_View.IsPage_Display = true;       
         UI_Table_View.Get_Eva_TableDetail();
         IsScore = UI_Table_View.IsScore;
 

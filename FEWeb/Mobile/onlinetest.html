@@ -43,9 +43,9 @@
         }
 
         .table_header_left {
-            min-height: 49px;
+            /*min-height: 49px;*/
             margin-top: 90px;
-            margin-bottom: 60px;
+            /*margin-bottom: 60px;*/
         }
 
         .input_bottom {
@@ -65,11 +65,23 @@
             background: transparent;
         }
 
-        .div_header {
+        .div_header1 {
             margin: 5px;
+            width: 46%;
+            margin-left: 10px;
         }
 
-            .div_header select {
+            .div_header1 select {
+                width: 210px;
+            }
+
+        .div_header2 {
+            margin: 5px;
+            width: 100%;
+            margin-left: 10px;
+        }
+
+            .div_header2 select {
                 width: 210px;
             }
     </style>
@@ -96,7 +108,7 @@
 
 
             <% $.each(retData.headerList,function(hindex,child){ %>
-            <div class="fl div_header">
+            <div class="fl div_header1">
                 <label class="lblheader" customcode="<%=child.CustomCode%>" code="<%=child.Id%>" name="<%=child.Value%>">
                     <%=child.Value%>：
                     <% if(child.CustomCode == 4){ %>
@@ -119,7 +131,7 @@
             <% }) %>
 
             <% $.each(retData.head_value,function(hindex,child){ %>
-            <div class="fl div_header">
+            <div class="fl div_header2">
                 <label class="lblheader" code="<%=child.Id %>" name="<%=child.Header%>">
                     <%=child.Header%>：<input class="input_bottom" value=" <%=child.Value%>" />
                 </label>
@@ -216,144 +228,6 @@
         </div>
     </script>
 
-
-
-
-    <!--试卷展示-->
-    <script type="text/template" id="item_table_show">
-        <div class="header" style="position:fixed;">
-            <a href="Index.html" class="back"><i class="iconfont">&#xe647;</i></a>
-            <span class="title"><%=retData.Name%> 调查与测验</span>
-        </div>
-        <div class="test_time">
-            实时总分：<b id="sp_realtotal" style="color:white;">0</b>分
-        </div>
-        <div class="ti">
-            <% $.each(retData.Table_Detail_Dic_List[0].Eva_TableDetail_List,function(tindex,titem){ %>
-            <div class="test_area indicatype">
-                <% if(titem.QuesType_Id!=3){ %>
-                <div id="div_ques_<%=titem.Id%>" class="test_detail">
-                    <h1 class="test_type">
-                        <b class="order_num"><%=(++tindex)%>.</b><b><%=titem.Name%></b>
-                        <% if(retData.IsScore==0){ %><b>(<span id="sp_<%=titem.Id%>"></span>分)</b><%}%>
-                    </h1>
-                    <% if(retData.IsScore==0){ %>
-                    <ul id="ul_ques_<%=titem.Id%>" class="radios maxques">
-                        <% if(titem.OptionA!=""){ %>
-                        <li lioption="OptionA" class='<%=titem.Answer=="OptionA"?"on":""%>'>
-                            <span>
-                                A<input type="radio" name="name_<%=titem.Id%>" value="" />
-                            </span>
-                            <div><%=titem.OptionA%>(<b class="numbers"><%=titem.OptionA_S%></b>分)</div>
-                        </li>
-                        <% } %>
-                        <% if(titem.OptionB!=""){ %>
-                        <li lioption="OptionB" class='<%=titem.Answer=="OptionB"?"on":""%>'>
-                            <span>
-                                B<input type="radio" name="name_<%=titem.Id%>" value="" />
-                            </span>
-                            <div><%=titem.OptionB%>(<b class="numbers"><%=titem.OptionB_S%></b>分)</div>
-                        </li>
-                        <% } %>
-                        <% if(titem.OptionC!=""){ %>
-                        <li lioption="OptionC" class='<%=titem.Answer=="OptionC"?"on":""%>'>
-                            <span>
-                                C<input type="radio" name="name_<%=titem.Id%>" value="" />
-                            </span>
-                            <div><%=titem.OptionC%><b class="numbers">(<%=titem.OptionC_S%>分)</b></div>
-                        </li>
-                        <% } %>
-                        <% if(titem.OptionD!=""){ %>
-                        <li lioption="OptionD" class='<%=titem.Answer=="OptionD"?"on":""%>'>
-                            <span>
-                                D<input type="radio" name="name_<%=titem.Id%>" value="" />
-                            </span>
-                            <div><%=titem.OptionD%>(<b class="numbers"><%=titem.OptionD_S%></b>分)</div>
-                        </li>
-                        <% } %>
-                        <% if(titem.OptionE!=""){ %>
-                        <li lioption="OptionE" class='<%=titem.Answer=="OptionE"?"on":""%>'>
-                            <span>
-                                E<input type="radio" name="name_<%=titem.Id%>" value="" />
-                            </span>
-                            <div><%=titem.OptionE%>(<b class="numbers"><%=titem.OptionE_S%></b>分)</div>
-                        </li>
-                        <% } %>
-                        <% if(titem.OptionF!=""){ %>
-                        <li lioption="OptionF" class='<%=titem.Answer=="OptionF"?"on":""%>'>
-                            <span>
-                                F<input type="radio" name="name_<%=titem.Id%>" value="" />
-                            </span>
-                            <div><%=titem.OptionF%>(<b class="numbers"><%=titem.OptionF_S%></b>分)</div>
-                        </li>
-                        <% } %>
-                    </ul>
-                    <% }else{ %>
-                    <ul id="ul_ques_<%=titem.Id%>" class="radios maxques">
-                        <% if(titem.OptionA!=""){ %>
-                        <li lioption="OptionA" class='<%=titem.Answer=="OptionA"?"on":""%>'>
-                            <span>
-                                A<input type="radio" name="name_<%=titem.Id%>" value="" />
-                            </span>
-                            <div><%=titem.OptionA%></div>
-                        </li>
-                        <% } %>
-                        <% if(titem.OptionB!=""){ %>
-                        <li lioption="OptionB" class='<%=titem.Answer=="OptionB"?"on":""%>'>
-                            <span>
-                                B<input type="radio" name="name_<%=titem.Id%>" value="" />
-                            </span>
-                            <div><%=titem.OptionB%></div>
-                        </li>
-                        <% } %>
-                        <% if(titem.OptionC!=""){ %>
-                        <li lioption="OptionC" class='<%=titem.Answer=="OptionC"?"on":""%>'>
-                            <span>
-                                C<input type="radio" name="name_<%=titem.Id%>" value="" />
-                            </span>
-                            <div><%=titem.OptionC%></div>
-                        </li>
-                        <% } %>
-                        <% if(titem.OptionD!=""){ %>
-                        <li lioption="OptionD" class='<%=titem.Answer=="OptionD"?"on":""%>'>
-                            <span>
-                                D<input type="radio" name="name_<%=titem.Id%>" value="" />
-                            </span>
-                            <div><%=titem.OptionD%></div>
-                        </li>
-                        <% } %>
-                        <% if(titem.OptionE!=""){ %>
-                        <li lioption="OptionE" class='<%=titem.Answer=="OptionE"?"on":""%>'>
-                            <span>
-                                E<input type="radio" name="name_<%=titem.Id%>" value="" />
-                            </span>
-                            <div><%=titem.OptionE%></div>
-                        </li>
-                        <% } %>
-                        <% if(titem.OptionF!=""){ %>
-                        <li lioption="OptionF" class='<%=titem.Answer=="OptionF"?"on":""%>'>
-                            <span>
-                                F<input type="radio" name="name_<%=titem.Id%>" value="" />
-                            </span>
-                            <div><%=titem.OptionF%></div>
-                        </li>
-                        <% } %>
-                    </ul>
-                    <%} %>
-                </div>
-                <% }else{ %>
-                <div id="div_ques_<%=titem.Id%>" class="test_detail">
-                    <h1 class="test_type">
-                        <b class="order_num"><%=(++tindex)%>.</b><b><%=titem.Name%></b>
-                    </h1>
-                    <textarea class="textarea"><%=titem.Answer%></textarea>
-                </div>
-                <%} %>
-            </div>
-            <% }) %>
-        </div>
-    </script>
-
     <script type="text/javascript">
         mui.init({
             swipeBack: true,//启用右滑关闭功能
@@ -363,48 +237,21 @@
             statusBarBackground: '#6a264b',
         });
         var UrlDate = new GetUrlDate();
-        var task_Id = UrlDate.id;
+        //var task_Id = UrlDate.id;
         var table_Id = UrlDate.id;
         var isAnswer = 0; //是否答题 0未答题；1已答题
         var total = 0;//试卷总分数
 
-
-        var SectionID =
+        var SectionID = 0;
 
         $(function () {
-            if (isAnswer == 1) { //已答题
-                Get_Eva_TaskAnswer_ById();
-            } else {
-                if (isAnswer == 0) { //从手机端首页进入
-                    initdata();
-                } else {
-                    GetIsAnswer_Eva_ById(); //扫码后，判断是否答题
-                }
-            }
+            initdata();
+
             $('#btn_submit').on('tap', function () {
                 SaveEvlData();
             });
         });
-        //判断是否已经答过题
-        function GetIsAnswer_Eva_ById() {
-            $.ajax({
-                url: HanderServiceUrl + "/Eva_Manage/Eva_ManageHandler.ashx",
-                type: "post",
-                async: false,
-                dataType: "json",
-                data: { Func: "GetIsAnswer_Eva_ById", "Id": task_Id, StudentUID: login_User.UniqueNo },
-                success: function (json) {
-                    if (json.result.errNum == 0) { //未答题
-                        initdata();
-                    } else if (json.result.errNum == 1) { //已经答过
-                        Get_Eva_TaskAnswer_ById();
-                    } else {
-                        window.location.href = "NoCode.html?te=" + json.result.errNum;
-                    }
-                },
-                error: function () { } //接口错误时需要执行的
-            });
-        }
+       
         //初始化表格列表
         function initdata() {
             $("#btn_submit").show();
@@ -475,7 +322,6 @@
 
                 var obj = { "CustomCode": CustomCode, "Name": Name, "ValueID": ValueID, "Value": Value };
                 HeaderList.push(obj);
-
             });
 
             Type = 3;
@@ -492,31 +338,6 @@
             SubmitQuestion();
         }
 
-        //学生查看试卷
-        function Get_Eva_TaskAnswer_ById() {
-            $("#btn_submit").parent().hide();
-            $("#main").empty();
-            var params = { Func: "Get_Eva_TaskAnswer_ById_Mobile", "Id": task_Id, StudentUID: login_User.UniqueNo };
-            $.ajax({
-                url: HanderServiceUrl + "/Eva_Manage/Eva_ManageHandler.ashx",
-                type: "post",
-                async: false,
-                dataType: "json",
-                data: params,
-                success: function (json) {
-                    if (json.result.errNum == 0) {
-                        var retData = json.result.retData;
-                        $("#main").append(ejs.render($('#item_table_show').html(), { retData: retData }));
-                        $('.ti').css('paddingBottom', '10px');
-                        GetTask_Score(1, retData.Eva_Task.IsScore);
-                        InitControl_Answer();
-                    }
-                },
-                error: function () {
-                    //接口错误时需要执行的
-                }
-            });
-        }
         function GetTask_Score(type, isscore) { //答题-设置分数
             type = arguments[0] || 0;
             if (isscore == 0) {
@@ -537,7 +358,6 @@
                 $("#sp_realtotal").html("不计");
             }
         }
-
 
         function Reflesh() {
             GetClassInfoSelectCompleate = function () {

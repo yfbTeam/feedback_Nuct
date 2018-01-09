@@ -420,14 +420,12 @@ namespace FEHandler.Eva_Manage
 
 
         public void Get_Backlog(HttpContext context)
-        {
-            int intSuccess = (int)errNum.Success;
+        {           
             HttpRequest Request = context.Request;
             string StudentUID = RequestHelper.string_transfer(Request, "StudentUID");
 
             try
             {
-
                 jsonModel = Get_Backlog_Helper(StudentUID);
             }
             catch (Exception ex)
@@ -498,7 +496,6 @@ namespace FEHandler.Eva_Manage
                 var list = (from li in Constant.Eva_QuestionAnswer_List
                             join regu in Constant.Eva_Regular_List on li.ReguID equals regu.Id
                              join section in Constant.StudySection_List on regu.Section_Id equals section.Id
-
                             where li.AnswerUID == StudentUID
                             select
                                 new RegularDataRoomModel()
@@ -508,7 +505,7 @@ namespace FEHandler.Eva_Manage
                                     DisPlayName = section.DisPlayName,
                                     ReguID = regu.Id,
                                     ReguName = regu.Name,
-
+                                    Id=li.Id,
                                     CourseID = li.CourseID,
                                     CourseName = li.CourseName,
                                     TeacherUID = li.TeacherUID,
