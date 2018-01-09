@@ -22,11 +22,13 @@ namespace FEDAL
             {
                 StringBuilder str = new StringBuilder();
                 str.Append(@" select *,
-                         case when Status<=7 then Status 
-                         when 2 in(select value from func_split(AuditSts,',')) then 11 
-                         when 0 in (select value from func_split(AuditSts,',')) then 9
-                         when 10 in(select value from func_split(AuditSts,',')) then 8 
-	                     when 1 in (select value from func_split(AuditSts,',')) then 10 else 12 end as ComStatus
+                         case when Status<7 then Status
+                         when Status>=7 and IsMoneyAllot=0 then 7
+                         when Status>=7 and IsMoneyAllot=1 then
+                            case when 2 in(select value from func_split(AuditSts,',')) then 11 
+                             when 0 in (select value from func_split(AuditSts,',')) then 9
+                             when 10 in(select value from func_split(AuditSts,',')) then 8 
+	                         when 1 in (select value from func_split(AuditSts,',')) then 10 else 12 end end as ComStatus
                     from ( ");
                 str.Append(@" select a.*,uu.Name as ResponsName,u.Name as CreateName,l.name as GName,al.Name as GidName,
                     case when a.GPid=6 then bk.Name when l.Type=5 then uu.Name else a.Name end as AchiveName,
@@ -75,7 +77,7 @@ namespace FEDAL
                 }
                 if (ht.ContainsKey("MyUno") && !string.IsNullOrEmpty(ht["MyUno"].SafeToString()))
                 {
-                    str.Append(" and (a.ResponsMan = '" + ht["MyUno"].SafeToString() + "' or (a.Id in(select distinct RIId from TPM_RewardUserInfo where IsDelete = 0 and UserNo = '" + ht["MyUno"].SafeToString() + "')))");
+                    str.Append(" and (a.ResponsMan = '" + ht["MyUno"].SafeToString() + "' or (a.Status>6 and a.Id in(select distinct RIId from TPM_RewardUserInfo where IsDelete = 0 and UserNo = '" + ht["MyUno"].SafeToString() + "')))");
                 }
                 if (ht.ContainsKey("CreateUID") && !string.IsNullOrEmpty(ht["CreateUID"].SafeToString()))
                 {
@@ -124,6 +126,7 @@ namespace FEDAL
                 }
                 if (ht.ContainsKey("AuditMajor_ID") && !string.IsNullOrEmpty(ht["AuditMajor_ID"].SafeToString())) //业绩审核处的查询
                 {
+                    str.Append(@" and (a.Status in(1,5) or a.Id in(select distinct Acheive_Id from TPM_AuditReward where IsDelete=0 and Status=1))");
                     str.Append(@" and (a.GPid in("+ ht["Level_AllIds"].SafeToString() + ") or (a.GPid in ("+ ht["Level_DepartIds"].SafeToString() + @") and a.Id in(select distinct ruser.RIId from TPM_RewardUserInfo ruser
                               left join UserInfo u on ruser.UserNo = u.UniqueNo
                               where ruser.IsDelete = 0 and ruser.RIId!= 0 and u.Major_ID=@AuditMajor_ID))) ");

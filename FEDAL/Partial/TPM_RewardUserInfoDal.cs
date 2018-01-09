@@ -186,7 +186,14 @@ namespace FEDAL
                     pms.Add(new SqlParameter("@Id" + i, item.Id));
                     pms.Add(new SqlParameter("@ULevel" + i, item.ULevel));
                     pms.Add(new SqlParameter("@Sort" + i, item.Sort));
-                    pms.Add(new SqlParameter("@WordNum" + i, item.WordNum));
+                    if (item.WordNum == null)
+                    {
+                        pms.Add(new SqlParameter("@WordNum" + i, DBNull.Value));
+                    }
+                    else
+                    {
+                        pms.Add(new SqlParameter("@WordNum" + i, item.WordNum));
+                    }                   
                     pms.Add(new SqlParameter("@EditUID" + i, item.EditUID));
                 }
                 result = SQLHelp.ExecuteNonQuery(str, CommandType.Text, pms.ToArray());
