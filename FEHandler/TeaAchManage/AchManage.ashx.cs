@@ -517,7 +517,7 @@ namespace FEHandler.TeaAchManage
                     TPM_RewardInfo model = new TPM_RewardInfo();
                     model.Name = context.Request["Name"];
                     model.LID = RequestHelper.int_transfer(context.Request, "LID");                    
-                    model.Score = RequestHelper.int_transfer(context.Request, "Score");
+                    model.Score = RequestHelper.decimal_transfer(context.Request, "Score");
                     model.ScoreType = Convert.ToByte(context.Request["ScoreType"]);
                     model.Sort = RequestHelper.int_transfer(context.Request, "Sort");
                     jsonModel = RewardInfo_bll.Add(model);
@@ -545,9 +545,8 @@ namespace FEHandler.TeaAchManage
                         jsonModel = JsonModel.get_jsonmodel(-2, "该奖项分数已经被使用！", "");
                         return;
                     }                    
-                    TPM_RewardInfo model = RewardInfo_bll.GetEntityById(Id).retData as TPM_RewardInfo;                    
-                    int Score = RequestHelper.int_transfer(context.Request, "Score");                  
-                    model.Score = Score;
+                    TPM_RewardInfo model = RewardInfo_bll.GetEntityById(Id).retData as TPM_RewardInfo;                                         
+                    model.Score = RequestHelper.decimal_transfer(context.Request, "Score");
                     model.Name = context.Request["Name"];
                     model.ScoreType = Convert.ToByte(context.Request["ScoreType"]);
                     model.Sort = RequestHelper.int_transfer(context.Request, "Sort");

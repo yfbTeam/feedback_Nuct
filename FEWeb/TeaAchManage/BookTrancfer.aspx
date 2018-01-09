@@ -198,8 +198,8 @@
         </div>
     </div>
     <div class="btnwrap" style="background: #fafafa; padding: 15px 0px;">
-        <input type="button" value="保存" onclick="submit(0);" class="btn" />
-        <input type="button" value="提交" class="btn ml10" onclick="submit(1);"/>
+        <input type="button" value="保存" onclick="Save(0);" class="btn" />
+        <input type="button" value="提交" class="btn ml10" onclick="Save(1);"/>
     </div>
 
     <link href="../Scripts/choosen/chosen.css" rel="stylesheet" />
@@ -311,74 +311,76 @@
                 $("#AddAuthor").show();
             }
             Set_FirstAuthor();
-        }
-        function submit(status) {
-            if (status == 1) {
+        }        
+        //提交按钮
+        function Save(s_type) {
+            if (s_type == 1) {
                 $("#Status").val(btn_book_noaudit ? "3" : "1");
             } else {
                 $("#Status").val("0");
             }
-            Save(status);
-        }
-        //提交按钮
-        function Save(s_type) {
-            //验证为空项或其他          
-            var valid_flag = validateForm($('select,input[type="text"]:visible'));
-            if (valid_flag != 0)////验证失败的情况  需要表单的input控件 有 isrequired 值为true或false 和fl 值为不为空的名称两个属性
-            {
-                return false;
-            }
-            if($("#IsOneVolum").val() == "2"){                
-                if (!$("#MainISBN").val().trim().length) {layer.msg("请输入丛书名称！");return;}
-                if (!$("#SeriesBookName").val().trim().length) {layer.msg("请输入代表ISBN号！");return;}
-                if (!$("#SeriesBookNum").val().trim().length) { layer.msg("请输入本丛书本数！"); return; }
-            }
-            if ($("input[name='IsOneAuthor']:checked").val() == "0" && $("#AuthorInfo tr").length == 1) {
-                layer.msg("该教材非独著，请添加作者后提交！");
-                return;
-            }
-            var au_count = 0;
-            $("#AuthorInfo tr input[type='number']").each(function () {
-                if ($(this).val().trim() == "") {
-                    au_count++;
-                    return false;
-                }
-            });
-            if (au_count > 0) { layer.msg("请填写作者信息处的排名及贡献字数！"); return; }
-            var o = getFromValue();
-            if (o["OneAuthor"]) {
-                if (!o["OneAuthor"].push) {
-                    o["OneAuthor"] = [o["OneAuthor"]];
-                }
-                o["OneAuthor"].push($("input[name='IsOneAuthor']:checked").val());
-            } else {
-                o["OneAuthor"] = $("input[name='IsOneAuthor']:checked").val();
-            }
-
-            if (o["PlanBook"]) {
-                if (!o["PlanBook"].push) {
-                    o["PlanBook"] = [o["PlanBook"]];
-                }
-                o["PlanBook"].push($("input[name='IsPlanBook']:checked").val());
-            } else {
-                o["PlanBook"] = $("input[name='IsPlanBook']:checked").val();
-            }
-            var addArray = Rtn_AddAuthorArray();
-            o.MemberStr = addArray.length > 0 ? JSON.stringify(addArray) : '';
-            var editArray = Rtn_EditAuthorArray();
-            o.MemberEdit = editArray.length > 0 ? JSON.stringify(editArray) : '';
-            var add_path = Get_AddFile(2);
-            o.Add_Path = add_path.length > 0 ? JSON.stringify(add_path) : "";
-            o.Edit_PathId = Get_EditFileId();
+            var selBook = $("#SelBook").val(), name = $("#Name").val().trim(), meditor = $("#MEditor").val();
+            if (!selBook.length) { layer.msg("请选择立项教材！"); return; }
+            if (!name.length) { layer.msg("请填写书名！"); return; }
+            if (!meditor.length) { layer.msg("请选择主编姓名！"); return; }
+            var valid_flag = 0
             if (s_type == 1) {
-                layer.confirm('确认提交吗？提交后将不能进行修改', {
-                    btn: ['确定', '取消'], //按钮
-                    title: '操作'
-                }, function (index) {
+                valid_flag = validateForm($('select,input[type="text"]:visible'));
+                if (valid_flag != 0){return false;}
+                if ($("#IsOneVolum").val() == "2") {
+                    if (!$("#MainISBN").val().trim().length) { layer.msg("请输入丛书名称！"); return; }
+                    if (!$("#SeriesBookName").val().trim().length) { layer.msg("请输入代表ISBN号！"); return; }
+                    if (!$("#SeriesBookNum").val().trim().length) { layer.msg("请输入本丛书本数！"); return; }
+                }
+                if ($("input[name='IsOneAuthor']:checked").val() == "0" && $("#AuthorInfo tr").length == 1) {
+                    layer.msg("该教材非独著，请添加作者后提交！");
+                    return;
+                }
+                var au_count = 0;
+                $("#AuthorInfo tr input[type='number']").each(function () {
+                    if ($(this).val().trim() == "") {
+                        au_count++;
+                        return false;
+                    }
+                });
+                if (au_count > 0) { layer.msg("请填写作者信息处的排名及贡献字数！"); return; }
+            }
+            if (valid_flag == 0) {
+                var o = getFromValue();
+                if (o["OneAuthor"]) {
+                    if (!o["OneAuthor"].push) {
+                        o["OneAuthor"] = [o["OneAuthor"]];
+                    }
+                    o["OneAuthor"].push($("input[name='IsOneAuthor']:checked").val());
+                } else {
+                    o["OneAuthor"] = $("input[name='IsOneAuthor']:checked").val();
+                }
+
+                if (o["PlanBook"]) {
+                    if (!o["PlanBook"].push) {
+                        o["PlanBook"] = [o["PlanBook"]];
+                    }
+                    o["PlanBook"].push($("input[name='IsPlanBook']:checked").val());
+                } else {
+                    o["PlanBook"] = $("input[name='IsPlanBook']:checked").val();
+                }
+                var addArray = Rtn_AddAuthorArray();
+                o.MemberStr = addArray.length > 0 ? JSON.stringify(addArray) : '';
+                var editArray = Rtn_EditAuthorArray();
+                o.MemberEdit = editArray.length > 0 ? JSON.stringify(editArray) : '';
+                var add_path = Get_AddFile(2);
+                o.Add_Path = add_path.length > 0 ? JSON.stringify(add_path) : "";
+                o.Edit_PathId = Get_EditFileId();
+                if (s_type == 1) {
+                    layer.confirm('确认提交吗？提交后将不能进行修改', {
+                        btn: ['确定', '取消'], //按钮
+                        title: '操作'
+                    }, function (index) {
+                        LastSave(o);
+                    }, function () { });
+                } else {
                     LastSave(o);
-                }, function () { });
-            } else {
-                LastSave(o);
+                }
             }
         }
         function LastSave(o) {
