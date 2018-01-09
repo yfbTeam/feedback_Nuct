@@ -161,7 +161,6 @@
                         BindSubData();
                         animation();                                            
                     } else {
-                        debugger;
                         $("#lbl_AllScore").html("总分：0分");
                         $('#tb_info_page').hide();
                         nomessage('#tb_info','li');
