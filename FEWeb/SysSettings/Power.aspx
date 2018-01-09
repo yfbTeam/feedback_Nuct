@@ -212,7 +212,7 @@
 
         function get_reUserinfoByselect_Ids() {
             var UniqueNos = [];
-            reUserinfoByselect.filter(function (item) { UniqueNos.push(item.UniqueNo) });
+            reUserinfoByselect.forEach(function (item) { UniqueNos.push(item.UniqueNo) });
             return UniqueNos;
         }
 
