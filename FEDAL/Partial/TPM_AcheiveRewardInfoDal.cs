@@ -77,7 +77,8 @@ namespace FEDAL
                 }
                 if (ht.ContainsKey("MyUno") && !string.IsNullOrEmpty(ht["MyUno"].SafeToString()))
                 {
-                    str.Append(" and (a.ResponsMan = '" + ht["MyUno"].SafeToString() + "' or (a.Status>6 and a.Id in(select distinct RIId from TPM_RewardUserInfo where IsDelete = 0 and UserNo = '" + ht["MyUno"].SafeToString() + "')))");
+                    str.Append(" and (a.ResponsMan=@MyUno or (a.Status>6 and a.Id in(select distinct RIId from TPM_RewardUserInfo where IsDelete = 0 and UserNo=@MyUno)))");
+                    pms.Add(new SqlParameter("@MyUno", ht["MyUno"].SafeToString()));
                 }
                 if (ht.ContainsKey("CreateUID") && !string.IsNullOrEmpty(ht["CreateUID"].SafeToString()))
                 {
@@ -136,6 +137,16 @@ namespace FEDAL
                 {
                     str.Append(@" and ((a.GPid!=2 and a.Status>2) or (a.GPid=2 and ((a.CreateUID=@MyAch_LoginUID) or (a.CreateUID!=@MyAch_LoginUID and a.Status>0)))) ");
                     pms.Add(new SqlParameter("@MyAch_LoginUID", ht["MyAch_LoginUID"].SafeToString()));
+                }
+                if (ht.ContainsKey("Respon_LoginUID") && !string.IsNullOrEmpty(ht["Respon_LoginUID"].SafeToString())) //首页统计信息-负责人待审核
+                {
+                    str.Append(@" and a.ResponsMan=@MyAch_LoginUID and (a.Status in(1,5) or a.Id in(select distinct Acheive_Id from TPM_AuditReward where IsDelete=0 and Status=1))");
+                    pms.Add(new SqlParameter("@Respon_LoginUID", ht["Respon_LoginUID"].SafeToString()));
+                }
+                if (ht.ContainsKey("MyIndex_LoginUID") && !string.IsNullOrEmpty(ht["MyIndex_LoginUID"].SafeToString()))//首页统计信息-我的业绩
+                {
+                    str.Append(" and a.Status>6 and a.Id in(select distinct RIId from TPM_RewardUserInfo where IsDelete =0 and UserNo=@MyIndex_LoginUID)");
+                    pms.Add(new SqlParameter("@MyIndex_LoginUID", ht["MyIndex_LoginUID"].SafeToString()));
                 }
                 if (IsPage)
                 {
