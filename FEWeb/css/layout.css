@@ -146,7 +146,7 @@ z-index: 9999;width:100%;
 .table table{width:100%;}
 .table table thead tr th{background: #f8f2f5;height:40px;color:#333333;text-align: center;vertical-align: middle;}
 .table table tbody tr{background: #fcfbfc;}
-.table table tbody tr td{border-bottom:1px solid #ededed;text-align: center;vertical-align: middle;color:#666666;padding:8px 0px;}
+.table table tbody tr td{border-bottom:1px solid #ededed;text-align: center;vertical-align: middle;color:#666666;padding:10px 0px;height:20px;line-height:20px}
 .table table tbody tr:nth-child(2n+1){background: #fff;}
 .table table tbody tr:hover{background: #fcfbfc;}
 .operate{position:relative;min-width:36px;display: inline-block;height: 22px;cursor: pointer;}
