@@ -8,15 +8,8 @@ var ClsList = [];
 var UI_Power =
     {
         PageType: 'Power',  //Power用户组管理
-
-
         CurrentRoleid: null,
         CurrentRoleName: '',
-
-
-        CurrentRoleid: null,
-        CurrentRoleName: '',
-
         num: function () {
             return pageNum++;
         },
@@ -39,8 +32,6 @@ var UI_Power =
 
             $('#ShowUserGroup').find('li[roleid=' + UI_Power.CurrentRoleid + ']').trigger("click");     
 
-            $('#ShowUserGroup').find('li[roleid=' + UI_Power.CurrentRoleid + ']').trigger("click");
-
         },
 
         //显示用户组
@@ -61,12 +52,6 @@ var UI_Power =
                             $('#li_role').tmpl(lists).appendTo('#ShowUserGroup');
                             $('#header_stu').tmpl(1).appendTo('#header_th');
                             $('.menu_lists li:eq(0)').addClass('selected');
-
-
-                            that.CurrentRoleid = lists[0].RoleId;
-                            that.CurrentRoleName = lists[0].RoleName;
-
-
                             that.CurrentRoleid = lists[0].RoleId;
                             that.CurrentRoleName = lists[0].RoleName;
 
