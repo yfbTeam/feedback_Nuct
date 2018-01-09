@@ -447,53 +447,75 @@ namespace FEHandler.Eva_Manage
             JsonModelNum jsm = new JsonModelNum();
             try
             {
-                List<RegularDataRoomModel> list = (from regu in Constant.Eva_Regular_List
-                                                   where regu.StartTime < DateTime.Now && ((DateTime)regu.EndTime).AddDays(1) > DateTime.Now && regu.Type == (int)ReguType.Student
-                                                   join section in Constant.StudySection_List on regu.Section_Id equals section.Id
-                                                   from room in Constant.CourseRoom_List
-                                                   where (regu.DepartmentIDs.Contains(room.Major_Id)) || regu.DepartmentIDs == ""
-                                                   join cls in Constant.Class_StudentInfo_List on room.ClassID equals cls.Class_Id
-                                                   join stu in Constant.Student_List on cls.UniqueNo equals stu.UniqueNo
-                                                   where stu.UniqueNo == StudentUID
-                                                   join q in Constant.Eva_QuestionAnswer_List on new
-                                                   {
-                                                       ReguID = regu.Id,
-                                                       AnswerUID = stu.UniqueNo,
-                                                       TeacherUID = room.TeacherUID,
-                                                       CourseID = room.Coures_Id,
-                                                   } equals new
-                                                   {
-                                                       ReguID = q.ReguID,
-                                                       AnswerUID = q.AnswerUID,
-                                                       TeacherUID = q.TeacherUID,
-                                                       CourseID = q.CourseID,
-                                                   } into ques
-                                                   from q_ in ques.DefaultIfEmpty()
-                                                   orderby regu.EndTime
-                                                   select new RegularDataRoomModel()
-                                                   {
-                                                       Num = 0,
-                                                       SectionID = section.Id,
-                                                       DisPlayName = section.DisPlayName,
-                                                       ReguID = regu.Id,
-                                                       ReguName = regu.Name,
+                //List<RegularDataRoomModel> list = (from regu in Constant.Eva_Regular_List
+                //                                   where regu.StartTime < DateTime.Now && ((DateTime)regu.EndTime).AddDays(1) > DateTime.Now && regu.Type == (int)ReguType.Student
+                //                                   join section in Constant.StudySection_List on regu.Section_Id equals section.Id
+                //                                   from room in Constant.CourseRoom_List
+                //                                   where (regu.DepartmentIDs.Contains(room.Major_Id)) || regu.DepartmentIDs == ""
+                //                                   join cls in Constant.Class_StudentInfo_List on room.ClassID equals cls.Class_Id
+                //                                   join stu in Constant.Student_List on cls.UniqueNo equals stu.UniqueNo
+                //                                   where stu.UniqueNo == StudentUID
+                //                                   join q in Constant.Eva_QuestionAnswer_List on new
+                //                                   {
+                //                                       ReguID = regu.Id,
+                //                                       AnswerUID = stu.UniqueNo,
+                //                                       TeacherUID = room.TeacherUID,
+                //                                       CourseID = room.Coures_Id,
+                //                                   } equals new
+                //                                   {
+                //                                       ReguID = q.ReguID,
+                //                                       AnswerUID = q.AnswerUID,
+                //                                       TeacherUID = q.TeacherUID,
+                //                                       CourseID = q.CourseID,
+                //                                   } into ques
+                //                                   from q_ in ques.DefaultIfEmpty()
+                //                                   orderby regu.EndTime
+                //                                   select new RegularDataRoomModel()
+                //                                   {
+                //                                       Num = 0,
+                //                                       SectionID = section.Id,
+                //                                       DisPlayName = section.DisPlayName,
+                //                                       ReguID = regu.Id,
+                //                                       ReguName = regu.Name,
 
-                                                       CourseID = room.Coures_Id,
-                                                       CourseName = room.CouresName,
-                                                       TeacherUID = room.TeacherUID,
-                                                       TeacherName = room.TeacherName,
-                                                       RoomDepartmentName = room.RoomDepartmentName,
-                                                       GradeName = room.GradeName,
-                                                       ClassName = room.ClassName,
-                                                       StudentCount = room.StudentCount,
-                                                       QuestionCount = 0,
-                                                       QuestionAve = 0,
-                                                       ScoreAve = 0,
-                                                       TableID = regu.TableID,
+                //                                       CourseID = room.Coures_Id,
+                //                                       CourseName = room.CouresName,
+                //                                       TeacherUID = room.TeacherUID,
+                //                                       TeacherName = room.TeacherName,
+                //                                       RoomDepartmentName = room.RoomDepartmentName,
+                //                                       GradeName = room.GradeName,
+                //                                       ClassName = room.ClassName,
+                //                                       StudentCount = room.StudentCount,
+                //                                       QuestionCount = 0,
+                //                                       QuestionAve = 0,
+                //                                       ScoreAve = 0,
+                //                                       TableID = regu.TableID,
 
-                                                       CreateTime = q_ != null ? q_.CreateTime : null,
-                                                       IsAnswer = q_ == null ? false : true,
-                                                   }).ToList();
+                //                                       CreateTime = q_ != null ? q_.CreateTime : null,
+                //                                       IsAnswer = q_ == null ? false : true,
+                //                                   }).ToList();
+
+                var list = (from li in Constant.Eva_QuestionAnswer_List
+                            join regu in Constant.Eva_Regular_List on li.ReguID equals regu.Id
+                             join section in Constant.StudySection_List on regu.Section_Id equals section.Id
+
+                            where li.AnswerUID == StudentUID
+                            select
+                                new RegularDataRoomModel()
+                                {
+                                    Num = 0,
+                                    SectionID = li.SectionID,
+                                    DisPlayName = section.DisPlayName,
+                                    ReguID = regu.Id,
+                                    ReguName = regu.Name,
+
+                                    CourseID = li.CourseID,
+                                    CourseName = li.CourseName,
+                                    TeacherUID = li.TeacherUID,
+                                    TeacherName = li.TeacherName,                                                                                                    
+                                    TableID = regu.TableID,
+                                    CreateTime = li.CreateTime,                                  
+                                }).ToList();
 
                 //返回所有表格数据
                 jsm = JsonModelNum.GetJsonModel_o(intSuccess, "success", list);

@@ -971,7 +971,8 @@ namespace FEHandler.Eva_Manage
 
                                 TeacherUID = room.TeacherUID,
                                 TeacherName = room.TeacherName,
-                               
+
+                                DepartmentName =room.DepartmentName,
                             };
                         }
                     }

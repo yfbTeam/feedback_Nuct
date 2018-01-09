@@ -154,9 +154,9 @@
                     //}
 
                     //筛选已评价的
-                    var hasList = retDataCache.filter(function (item) { return item.IsAnswer == true });
-                    if (hasList.length > 0) {
-                        $("#ul_HasEva").append(ejs.render($('#item_HasEva').html(), { retData: hasList }));
+                    //var hasList = retDataCache.filter(function (item) { return item.IsAnswer == true });
+                    if (retDataCache.length > 0) {
+                        $("#ul_HasEva").append(ejs.render($('#item_HasEva').html(), { retData: retDataCache }));
                     } else {
                         nomessage('ul_HasEva');
                     }

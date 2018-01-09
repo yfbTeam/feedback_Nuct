@@ -59,6 +59,9 @@ var evaluate_Model = {
 
             sub_array.TableDetailID = TableDetailID;
             sub_array.Score = sub_Score;
+
+            sub_Score = sub_Score == '' ? 0 : sub_Score;
+           
             //总分
             evaluate_Model.AllScore += Number(sub_Score);
 
@@ -67,12 +70,13 @@ var evaluate_Model = {
             if (evaluate_Model.Is_AddQuesType) {
                 sub_array.QuestionType = QuestionType;
             }
+            evaluate_Model.Submit_array.push(sub_array);
             if ($(this).find("input[type='radio']").length != 0 && $(this).find("input:checked").length == 1) {
                 radioCount++;              
                 return;
             }
            
-            evaluate_Model.Submit_array.push(sub_array);
+          
         });
 
         if (evaluate_Model.Is_Required) {
@@ -82,7 +86,7 @@ var evaluate_Model = {
                         layer.msg('答题选项选择均一致，不允许提交!', { offset: '400px' });
                     }
                     else {
-                        alert('答题选项选择均一致，不允许提交!')
+                        MesTips('答题选项选择均一致，不允许提交!')
                     }
                     return;
                 }
@@ -94,7 +98,7 @@ var evaluate_Model = {
                     layer.msg('请填写未提交项', { offset: '400px' });
                 }
                 else {
-                    alert('请填写未提交项')
+                    MesTips('请填写未提交项')
                 }
             }
         }
@@ -151,33 +155,41 @@ function SubmitQuestion() {
 
         obj.Score = evaluate_Model.AllScore;
         obj.List = JSON.stringify(evaluate_Model.Submit_array);
-        var index_layer = layer.load(1, {
-            shade: [0.1, '#fff'] //0.1透明度的白色背景
+        if (Eva_Role == 1) {
+            var index_layer = layer.load(1, {
+                shade: [0.1, '#fff'] //0.1透明度的白色背景
+            });
+        }      
+        $.ajax({
+            url: HanderServiceUrl + "/Eva_Manage/Eva_ManageHandler.ashx",
+            type: "post",
+            async: false,
+            dataType: "json",
+            data: obj,//组合input标签
+            success: function (json) {
+
+                if (json.result.errMsg == "success") {
+                    if (Eva_Role == 1) {
+                        var data = json.result.retData;
+                        layer.msg('提交成功!', { offset: '400px' });
+                        window.history.go(-1);
+                    }
+                    else
+                    {
+                        SubmitQuestionCompleate();
+                    }
+                }
+                else {
+                    layer.msg(json.result.retData, { offset: '400px' });
+                }
+
+                layer.close(index_layer);
+            },
+            error: function () {
+                //接口错误时需要执行的
+            }
         });
-        //$.ajax({
-        //    url: HanderServiceUrl + "/Eva_Manage/Eva_ManageHandler.ashx",
-        //    type: "post",
-        //    async: false,
-        //    dataType: "json",
-        //    data: obj,//组合input标签
-        //    success: function (json) {
-
-        //        if (json.result.errMsg == "success") {
-        //            var data = json.result.retData;
-        //            layer.msg('提交成功!', { offset: '400px' });
-        //            window.history.go(-1);
-        //        }
-        //        else {
-        //            layer.msg(json.result.retData, { offset: '400px' });
-        //        }
-
-        //        layer.close(index_layer);
-        //    },
-        //    error: function () {
-        //        //接口错误时需要执行的
-        //    }
-        //});
-        debugger;
+      
     }
     evaluate_Model.Get_SubData();
 }

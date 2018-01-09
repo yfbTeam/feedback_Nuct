@@ -1122,10 +1122,10 @@ var UI_Table_View = {
     IsPage_Display: false,
     TableView_Init: function (retData) {
 
-        $("#table_view").empty();       
+        $("#table_view").empty();
         for (var i in retData.Table_Detail_Dic_List) {
             $("#item_table_view").tmpl(retData.Table_Detail_Dic_List[i]).appendTo("#table_view");
-        }       
+        }
     },
 
     headerInit: function (retData) {
@@ -1174,14 +1174,14 @@ var UI_Table_View = {
             success: function (json) {
 
                 var retData = json.result.retData;
-                console.log(retData);
+              
                 $(".tablename").html(retData.Name);
                 switch (UI_Table_View.PageType) {
                     case 'TableView':
                         UI_Table_View.TableView_Init(retData);
                         UI_Table_View.headerInit(retData);
                         UI_Table_View.scoreInit(retData);
-                        
+
                         break;
                     case 'selectTable':
                         UI_Table_View.TableView_Init(retData);
@@ -1197,10 +1197,11 @@ var UI_Table_View = {
                         break;
 
                     case 'detailModal':
-                        
+
                         break;
                     case 'onlinetest':
-                      
+                        retData.headerList = retData.Table_Header_List.filter(function (item) { return item.CustomCode != null && item.CustomCode != '' });
+                        retData.head_value = retData.Table_Header_List.filter(function (item) { return item.CustomCode == null || item.CustomCode == '' });
                         break;
 
                     case 'AddEvalTable':
@@ -1290,6 +1291,7 @@ var UI_Table_View = {
                         break;
                     default:
                 }
+                console.log(retData);
                 UI_Table_View.Get_Eva_TableDetail_Compleate(retData);
 
             },
