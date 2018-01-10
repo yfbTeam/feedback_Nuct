@@ -53,6 +53,7 @@ namespace FEDAL
                 {
                     str.Append(@"select a.*,b.Name,m.Major_Name,u.Name as CreateName,ri.Year,r.Score as UnitScore,l.name as GName
                                 ,al.Name as GidName,uu.Name as ResponsName,case when ri.GPid=6 then bk.Name when l.Type=5 then uu.Name else ri.Name end as AchiveName
+                                ,(select STUFF((select ',' + CAST(Major_Name AS NVARCHAR(MAX)) from Major where Id in(select value from func_split(ri.DepartMent,',')) FOR xml path('')), 1, 1, '')) as Dep_Major_Name                   
                                 from TPM_RewardUserInfo a 
                                 inner join UserInfo b on a.UserNo=b.UniqueNo 
                                 left join Major m on b.Major_ID=m.Id 
@@ -203,21 +204,28 @@ namespace FEDAL
         #endregion
 
         #region 批量修改成员
-        public int Edit_AcheiveMember(List<TPM_RewardUserInfo> items, int riid, int bookId)
+        public int Edit_AcheiveMember(List<TPM_RewardUserInfo> items, int riid, int bookId,bool isUpSort)
         {
             int result = 1;
             List<SqlParameter> up_pms = new List<SqlParameter>(), pms = new List<SqlParameter>();
             up_pms.Add(new SqlParameter("@RIId", riid));
             SQLHelp.ExecuteNonQuery("update TPM_RewardUserInfo set IsDelete=1 where RIId=@RIId ", CommandType.Text, up_pms.ToArray());
             string str = "";
-            if (bookId == 0) //非教材建设类
+            if (bookId == 0) //人员修改
             {
                 if (items.Count() > 0)
                 {
                     for (int i = 0; i < items.Count; i++)
                     {
                         TPM_RewardUserInfo item = items[i];
-                        str += "update TPM_RewardUserInfo set Score=@Score" + i + ",Sort=@Sort" + i + ",EditUID=@EditUID" + i + ",IsDelete=0 where Id=@Id" + i + ";";
+                        if (isUpSort) //非教材建设类
+                        {
+                            str += "update TPM_RewardUserInfo set Score=@Score" + i + ",Sort=@Sort" + i + ",EditUID=@EditUID" + i + ",EditTime=getdate(),IsDelete=0 where Id=@Id" + i + ";";
+                        }
+                        else
+                        {
+                            str += "update TPM_RewardUserInfo set Score=@Score" + i + ",EditUID=@EditUID" + i + ",EditTime=getdate(),IsDelete=0 where Id=@Id" + i + ";";
+                        }                        
                         pms.Add(new SqlParameter("@Id" + i, item.Id));
                         if (item.Score == null)
                         {

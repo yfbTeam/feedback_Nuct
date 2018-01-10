@@ -440,7 +440,7 @@
             $("#tb_Member tr").each(function (i, n) {
                 if ($(this).hasClass('memedit')) {
                     var id = n.id.replace('tr_mem_', ''), userno = $(this).attr('un')
-                      , score = Num_Fixed($(this).find('input[type=number][name=score]').val())
+                      , score = cur_AchieveType == "3" ? $(this).find('td.td_score').html() : Num_Fixed($(this).find('input[type=number][name=score]').val())
                       , oldscore = Num_Fixed($(this).find('input[type=number][name=score]').attr('oldsc'));
                     if ($(this).is(":visible")) {
                         editArray.push({ Id: id, Score: score, Sort: i + 1, EditUID: loginUser.UniqueNo });

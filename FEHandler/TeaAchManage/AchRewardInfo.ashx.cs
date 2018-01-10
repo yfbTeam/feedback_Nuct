@@ -353,7 +353,7 @@ namespace FEHandler.TeaAchManage
                     {
                         editlist = JsonConvert.DeserializeObject<List<TPM_RewardUserInfo>>(MemberEdit);
                     }
-                    jsonModel = bll.Edit_AcheiveMember(editlist, Id);
+                    jsonModel = bll.Edit_AcheiveMember(editlist, Id,0,model.BookId>0?false:true);
                     if (!string.IsNullOrEmpty(memberStr))
                     {
                         List<TPM_RewardUserInfo> memlist = JsonConvert.DeserializeObject<List<TPM_RewardUserInfo>>(memberStr);

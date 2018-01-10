@@ -260,7 +260,7 @@
                 if ($(this).hasClass('memadd')) {
                     var sub_m = new Object();
                     sub_m.UserNo = $(this).attr('un');
-                    sub_m.Score =cur_AchieveType=="3"?$(this).find('td.td_score').html():$(this).find('input[type=number][name=score]').val();                   
+                    sub_m.Score =$(this).find('input[type=number][name=score]').val();                   
                     sub_m.Sort = i + 1;
                     sub_m.CreateUID = loginUser.UniqueNo;
                     addArray.push(sub_m);
@@ -274,7 +274,7 @@
                 if ($(this).hasClass('memedit')) {
                     var sub_e = new Object();
                     sub_e.Id = n.id.replace('tr_mem_', '');
-                    sub_e.Score = $(this).find('input[type=number][name=score]').val();                   
+                    sub_e.Score = cur_AchieveType == "3" ? $(this).find('td.td_score').html() : $(this).find('input[type=number][name=score]').val();
                     sub_e.Sort = i + 1;
                     sub_e.EditUID = loginUser.UniqueNo;
                     editArray.push(sub_e);

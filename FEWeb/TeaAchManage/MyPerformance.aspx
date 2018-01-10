@@ -15,7 +15,7 @@
             <td>${Major_Name}</td>
             <td>${ResponsName}</td>
             <td>${Year}</td>           
-            <td>${Score}</td>
+            <td>${SelfScore}</td>
             <td>{{if ResponsMan == $('#CreateUID').val()}}                  
                     {{if ComStatus==0}}<span class="nosubmit">待提交</span>
                     {{else ComStatus==1}}<span class="checking1">信息待审核</span>
