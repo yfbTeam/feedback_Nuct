@@ -491,7 +491,7 @@ function incontorl_helper(isscore)
     $(".test_desc").find('input[class="number"]').each(function () {
         var score = $(this).val() == '' ? 0 : Number($(this).val());
         var max = $(this).attr('maxscore') == '' ? 0 : Number($(this).attr('maxscore'));
-        if (score > 0 && score < max) {
+        if (score > 0 && score <= max) {
             realTotal = numAdd(realTotal, $(this).val());
         }
         else {

@@ -1,5 +1,7 @@
 ﻿using FEHandler.Eva_Manage;
 using FEModel;
+using FEModel.Entity;
+using FEModel.Enum;
 using FEUtility;
 using System;
 using System.Collections.Generic;

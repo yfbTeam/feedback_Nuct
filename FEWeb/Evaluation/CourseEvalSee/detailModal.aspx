@@ -54,6 +54,10 @@
             text-align: center;
             margin-bottom: 15px;
         }
+
+        .allot_table .th_score {
+            width: 5%;
+        }
     </style>
 </head>
 <body>
@@ -79,18 +83,16 @@
     <script src="../../Scripts/Common.js"></script>
     <script src="../../Scripts/layer/layer.js"></script>
     <script src="../../Scripts/public.js"></script>
+
     <script src="../../Scripts/jquery.tmpl.js"></script>
+    <script src="../../Scripts/nav.js"></script>
     <script src="../../Scripts/WebCenter/TableDesigin.js"></script>
+    <script src="../../Scripts/WebCenter/Evaluate.js"></script>
 
     <%--固定表头--%>
     <script type="text/x-jquery-tmpl" id="item_check">
         <div class="fl" style="margin-bottom: 20px; margin-left: 20px">
-            {{if CustomCode == ""|| CustomCode == null}}
-             <label for="">${Header}：【】</label>
-            {{else  1==1}}
-             <label for="">${Value}：【】</label>
-            {{/if}}
-           
+            <label  for="">${Value}：【<label id="${CustomCode}"></label>】</label>
         </div>
     </script>
 
@@ -103,29 +105,54 @@
                             <thead>
                                 <tr>
                                     <th>调查项目</th>
-                                    <th width="5%">A</th>
-                                    <th width="5%">B</th>
-                                    <th width="5%">C</th>
-                                    <th width="5%">D</th>
+                                    {{if Que1_M.OptionA !=''}}
+                                     <th class="th_score">A</th>
+                                    {{/if}}
+                                    {{if Que1_M.OptionB !=''}}
+                                     <th class="th_score">B</th>
+                                    {{/if}}
+                                    {{if Que1_M.OptionC !=''}}
+                                     <th class="th_score">C</th>
+                                    {{/if}}
+                                    {{if Que1_M.OptionD !=''}}
+                                     <th class="th_score">D</th>
+                                    {{/if}}
+                                    {{if Que1_M.OptionE !=''}}
+                                     <th class="th_score">E</th>
+                                    {{/if}}
                                 </tr>
                             </thead>
                             <tbody>
                                 {{each Eva_TableDetail_List}}
-                                {{if }}
+                                    {{if QuesType_Id ==1}}
                                         <tr>
-                                            <td class="tl">1.按时上下课</td>
-                                            <td>12人</td>
-                                            <td>12人</td>
-                                            <td>12人</td>
-                                            <td>12人</td>
-                                        </tr>                               
+                                            <td class="tl">${Sort}.${Name}</td>
+                                            {{if OptionA !='' }}
+                                     <td id="${Id}_A">0人</td>
+                                            {{/if}}
+                                     {{if  OptionB !=''}}
+                                     <td id="${Id}_B">0人</td>
+                                            {{/if}}
+                                     {{if OptionC !=''}}
+                                      <td id="${Id}_C">0人</td>
+                                            {{/if}}
+                                    {{if OptionD !=''}}
+                                    <td id="${Id}_D">0人</td>
+                                            {{/if}}
+                                     {{if OptionE !=''}}
+                                    <td id="${Id}_E">0人</td>
+                                            {{/if}}                                  
+                                        </tr>
+                                {{/if}}                            
                                 {{/each}}                                   
                             </tbody>
                         </table>
                     {{/if}}
 
-             
+                   {{if HasQue3 == true}}
                     <ul class="objective_lists">
+                        {{each Eva_TableDetail_List}}
+                       {{if QuesType_Id ==3}}
                         <li>
                             <dt style="border: none;" class="clearfix">
                                 <div class="objective_name fl">7.希望与要求</div>
@@ -133,17 +160,55 @@
                                 <i class="toggle iconfont">&#xe643;</i>
                             </dt>
                             <dd>
-                                <div class="lists_row">
-                                    <span>11111111111111111111111111111<b class="fr">2017-08-12</b></span>
-                                </div>
-                                <div class="lists_row">
-                                    <span>11111111111111111111111111111<b class="fr">2017-08-12</b></span>
-                                </div>
-                                <div class="pagebar" id="page_bottom"></div>
+                                <table class="allot_table mt10">
+                                    <tbody>
+                                        <tr>
+                                            <td style="border: 0; float: left">11111111111111111111111111111</td>
+                                            <td style="border: 0; width: 8%; float: right">2017-08-12</td>
+                                        </tr>
+                                        <tr>
+                                            <td style="border: 0; float: left">11111111111111111111111111111</td>
+                                            <td style="border: 0; width: 8%; float: right">2017-08-12</td>
+                                        </tr>
+                                        <tr>
+                                            <td style="border: 0; float: left">11111111111111111111111111111</td>
+                                            <td style="border: 0; width: 8%; float: right">2017-08-12</td>
+                                        </tr>
+                                        <tr>
+                                            <td style="border: 0; float: left">11111111111111111111111111111</td>
+                                            <td style="border: 0; width: 8%; float: right">2017-08-12</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+
                             </dd>
                         </li>
+                        {{/if}}                            
+                        {{/each}}       
                     </ul>
+                    {{/if}}
 
+                    {{if HasQue4 == true}}
+                        <table class="allot_table mt10">
+                            <thead>
+                                <tr>
+                                    <th>调查项目</th>
+                                    <th width="20%">平均分</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {{each Eva_TableDetail_List}}
+                                {{if QuesType_Id ==4}}
+                                        <tr>
+                                            <td class="tl">${Sort}.${Name}</td>
+                                            <td id="${Id}_AnswerScore">0</td>
+
+                                        </tr>
+                                {{/if}}                            
+                                {{/each}}                                   
+                            </tbody>
+                        </table>
+                    {{/if}}
 
                 </dd>
             </dl>
@@ -154,6 +219,14 @@
     <script>
 
         var table_Id = getQueryString('TableID');
+
+        SectionID = getQueryString('SectionID');
+        ReguID = getQueryString('ReguID');
+        CourseID = getQueryString('CourseID');
+        TeacherUID = getQueryString('TeacherUID');
+        Eva_Role = 2;
+        State = 1;
+
         $(function () {
             $('#top').load('/header.html');
             $('#footer').load('/footer.html');
@@ -162,12 +235,9 @@
             UI_Table_View.IsPage_Display = true;
             UI_Table_View.Get_Eva_TableDetail_Compleate = function (retData) {
 
-                var headerList = retData.Table_Header_List.filter(function (item) { return item.CustomCode != null && item.CustomCode != '' });
-                var head_value = retData.Table_Header_List.filter(function (item) { return item.CustomCode == null || item.CustomCode == '' });
-
+                var headerList = retData.Table_Header_List.filter(function (item) { return item.CustomCode != null && item.CustomCode != '' });               
                 $("#item_check").tmpl(headerList).appendTo("#list");
-                $("#item_check").tmpl(head_value).appendTo("#list");
-
+               
                 var list = retData.Table_Detail_Dic_List;
 
                 for (var i in list) {
@@ -178,22 +248,35 @@
                         var child = list[i].Eva_TableDetail_List[j];
                         if (child.QuesType_Id == 3) {
                             list[i].HasQue3 = true;
+                            list[i].Que3_M = child;
                         }
                         else if (child.QuesType_Id == 1) {
                             list[i].HasQue1 = true;
+                            list[i].Que1_M = child;
                         }
                         else if (child.QuesType_Id == 4) {
                             list[i].HasQue4 = true;
+                            list[i].Que4_M = child;
                         }
                     }
                 }
                 console.log(list)
                 $("#itemdata").tmpl(list).appendTo(".details_lists");
-
+                animate();
             };
             UI_Table_View.Get_Eva_TableDetail();
 
-            animate();
+            Get_Eva_RegularData_RoomDetailListCompleate = function (data) {
+
+                for (var i in data.HeaderModelList) {
+                    var obj = data.HeaderModelList[i];
+                    //debugger
+                    $('#' + obj.CustomCode).text(obj.Value);
+                }
+            };
+
+            Get_Eva_RegularData_RoomDetailList();
+
         })
         function animate() {
             $('.objective_lists').find('li:has(dt)').find('dt').click(function () {

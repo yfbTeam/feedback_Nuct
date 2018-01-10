@@ -170,17 +170,6 @@ namespace FEBLL
 	/// </summary>
 	///	
 	/// </summary>
-    public partial class Eva_TaskService:BaseService<Eva_Task>,IEva_TaskService
-    {
-	 public override void SetCurrentDal()
-        {
-            CurrentDal = DalFactory.GetEva_TaskDal();
-        }
-    }	
-
-	/// </summary>
-	///	
-	/// </summary>
     public partial class Sys_DocumentService:BaseService<Sys_Document>,ISys_DocumentService
     {
 	 public override void SetCurrentDal()
@@ -214,33 +203,11 @@ namespace FEBLL
 	/// </summary>
 	///	
 	/// </summary>
-    public partial class Eva_TaskAnswerService:BaseService<Eva_TaskAnswer>,IEva_TaskAnswerService
-    {
-	 public override void SetCurrentDal()
-        {
-            CurrentDal = DalFactory.GetEva_TaskAnswerDal();
-        }
-    }	
-
-	/// </summary>
-	///	
-	/// </summary>
     public partial class UserInfoService:BaseService<UserInfo>,IUserInfoService
     {
 	 public override void SetCurrentDal()
         {
             CurrentDal = DalFactory.GetUserInfoDal();
-        }
-    }	
-
-	/// </summary>
-	///	
-	/// </summary>
-    public partial class Eva_TeacherAnswerService:BaseService<Eva_TeacherAnswer>,IEva_TeacherAnswerService
-    {
-	 public override void SetCurrentDal()
-        {
-            CurrentDal = DalFactory.GetEva_TeacherAnswerDal();
         }
     }	
 

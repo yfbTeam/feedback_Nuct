@@ -77,6 +77,7 @@
     <Content Include="SysClass\ProfessInfoHandler.ashx" />
     <Content Include="SetMenu\SetMenuHandler.ashx" />
     <Content Include="Email\EmailHandler.ashx" />
+    <Content Include="ClassDiagram1.cd" />
     <None Include="Properties\PublishProfiles\handle.pubxml" />
     <Content Include="SetMenu\SetPassWordHandler.ashx" />
     <Content Include="SetMenu\SetUserPicHandler.ashx" />
@@ -111,12 +112,13 @@
     <Compile Include="Email\EmailHandler.ashx.cs">
       <DependentUpon>EmailHandler.ashx</DependentUpon>
     </Compile>
-    <Compile Include="Eva_Manage\Eva_ManageHandler_Dal.cs" />
+    <Compile Include="Eva_Manage\Eva_ManageHandler_Course.cs" />
+    <Compile Include="Eva_Manage\Eva_ManageHandler_Question.cs" />
+    <Compile Include="Eva_Manage\Eva_ManageHandler_Table.cs" />
     <Compile Include="Eva_Manage\Eva_ManageHandler_Regu.cs" />
     <Compile Include="Eva_Manage\Eva_ManageHandler.ashx.cs">
       <DependentUpon>Eva_ManageHandler.ashx</DependentUpon>
     </Compile>
-    <Compile Include="Eva_Manage\Eva_ManageHandler_ClassHelper.cs" />
     <Compile Include="Eva_Manage\Eva_ManageHandler_Sys.cs" />
     <Compile Include="Login\LoginHandler.ashx.cs">
       <DependentUpon>LoginHandler.ashx</DependentUpon>

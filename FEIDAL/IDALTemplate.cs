@@ -127,14 +127,6 @@ namespace FEIDAL
 	/// </summary>
 	///	
 	/// </summary>
-    public interface IEva_TaskDal: IBaseDal<Eva_Task>
-    {
-		
-    }
-
-	/// </summary>
-	///	
-	/// </summary>
     public interface ISys_DocumentDal: IBaseDal<Sys_Document>
     {
 		
@@ -159,23 +151,7 @@ namespace FEIDAL
 	/// </summary>
 	///	
 	/// </summary>
-    public interface IEva_TaskAnswerDal: IBaseDal<Eva_TaskAnswer>
-    {
-		
-    }
-
-	/// </summary>
-	///	
-	/// </summary>
     public interface IUserInfoDal: IBaseDal<UserInfo>
-    {
-		
-    }
-
-	/// </summary>
-	///	
-	/// </summary>
-    public interface IEva_TeacherAnswerDal: IBaseDal<Eva_TeacherAnswer>
     {
 		
     }

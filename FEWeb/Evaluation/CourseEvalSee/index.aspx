@@ -112,33 +112,30 @@
             <td style="width: 4%">${QuestionAve*100}%</td>
             <td style="width: 5%">${ScoreAve}</td>
 
-            {{if IsOverTime == true}}
-            <td class="operate_wrap">
-                <div class="operate" onclick="location.href='detailModal.aspx?Id='+getQueryString('Id')+'&Iid='+getQueryString('Iid')+'&TableID='+'${TableID}'">
-                    <i class="iconfont color_purple">&#xe606;</i>
-                    <span class="operate_none bg_purple">查看</span>
-                </div>
 
-                <div class="operate" >
+            <td class="operate_wrap">{{if QuestionCount >0}}
+                <div class="operate" onclick="location.href='detailModal.aspx?Id='+getQueryString('Id')+'&Iid='+getQueryString('Iid')+'&TableID='+'${TableID}'+'&SectionID='+'${SectionID}'+'&ReguID='+'${ReguID}'+'&CourseID='+'${CourseID}'+'&TeacherUID='+'${TeacherUID}'">
+                    <i class="iconfont color_purple">&#xe606;</i>
+                    <span class="operate_none bg_purple">详情</span>
+                </div>
+                {{else}}
+                 <div class="operate" >
+                     <i class="iconfont color_gray">&#xe606;</i>
+                     <span class="operate_none bg_gray">详情</span>
+                 </div>
+                {{/if}}
+                {{if IsOverTime == true}}
+                <div class="operate">
                     <i class="iconfont color_gray">&#xe609;</i>
                     <span class="operate_none bg_gray">扫码</span>
                 </div>
-            </td>
-            {{else IsOverTime == false}}
-            <td class="operate_wrap">
-                <div class="operate" onclick="location.href='detailModal.aspx?Id='+getQueryString('Id')+'&Iid='+getQueryString('Iid')+'&TableID='+'${TableID}'">
-                    <i class="iconfont color_purple">&#xe606;</i>
-                    <span class="operate_none bg_purple">查看</span>
-                </div>
-
+                {{else IsOverTime == false}}
                 <div class="operate" onclick="QRcode('${TableID}','${RoomID}','${ReguID}');">
                     <i class="iconfont color_purple">&#xe609;</i>
                     <span class="operate_none bg_purple">扫码</span>
                 </div>
+                {{/if}}
             </td>
-            {{/if}}
-
-            
         </tr>
     </script>
     <script type="text/x-jquery-tmpl" id="itemCount">

@@ -445,6 +445,7 @@ function NameLengthUpdate(Name, Length) {
 * @param len: 需要截取的长度 
 */
 function cutstr(str, len) {
+    if (str == null) return '';
     var str_length = 0;
     var str_len = 0;
     str_cut = new String();

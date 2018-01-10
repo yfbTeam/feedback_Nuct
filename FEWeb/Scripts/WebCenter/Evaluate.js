@@ -46,8 +46,7 @@ var evaluate_Model = {
                     //其中有答过一个                  
                     ques_count3++;
                 }
-                else
-                {
+                else {
                     if (Eva_Role == 1) {
                         layer.msg('请填写未提交项', { offset: '400px' });
                     }
@@ -118,7 +117,7 @@ var evaluate_Model = {
                 sub_array.QuestionType = QuestionType;
             }
             evaluate_Model.Submit_array.push(sub_array);
-          
+
         });
 
         if (evaluate_Model.Is_Required) {
@@ -430,7 +429,7 @@ function Get_Eva_QuestionAnswerDetail(Id) {
                     case 'RegularEva_View':
                         $("#list").append(ejs.render($('#item_check').html(), { retData: data.HeaderList }));
 
-                        $('#list').css('height', (data.HeaderList.length / 2) * 20 + 'px');
+                        $('#list').css('height', (data.HeaderList.length / 2) * 25 + 'px');
                         if (IsScore == 0) {
                             $("#sp_total").html('分数：' + data.Score + '分')
                         }
@@ -483,6 +482,48 @@ function Change_Eva_QuestionAnswer_State(Id) {
     });
 }
 
+function Get_Eva_RegularData_RoomDetailListCompleate() { };
+function Get_Eva_RegularData_RoomDetailList() {
+    $.ajax({
+        url: HanderServiceUrl + "/Eva_Manage/Eva_ManageHandler.ashx",
+        type: "post",
+        async: false,
+        dataType: "json",
+        data: {
+            func: "Get_Eva_RegularData_RoomDetailList", "SectionID": SectionID, "ReguID": ReguID,
+            "TableID": table_Id, "TeacherUID": TeacherUID, "CourseID": CourseID, "Eva_Role": Eva_Role, "State": State,
+        },
+        dataType: "json",
+        success: function (returnVal) {
+
+            if (returnVal.result.errMsg == "success") {
+                var data = returnVal.result.retData;
+                console.log(data)
+                for (var i in data.Score_ModelList) {
+                    var obj = data.Score_ModelList[i];                   
+                    $('#' + obj.TableDetialID + '_A').text(obj.A);
+                    $('#' + obj.TableDetialID + '_B').text(obj.B);
+                    $('#' + obj.TableDetialID + '_C').text(obj.C);
+                    $('#' + obj.TableDetialID + '_D').text(obj.D);
+                    $('#' + obj.TableDetialID + '_E').text(obj.E);
+                }
+
+                for (var i in data.AnswerScore_ModelList) {
+                    var obj = data.AnswerScore_ModelList[i];
+                    $('#' + obj.TableDetialID + '_AnswerScore').text(obj.ScoreAve);
+                }
+
+                Get_Eva_RegularData_RoomDetailListCompleate(data);
+            }
+            else {
+
+            }
+        },
+        error: function () {
+            //接口错误时需要执行的
+        }
+    });
+}
 
 function onlyNum() {
     if (event.keyCode == 190) {

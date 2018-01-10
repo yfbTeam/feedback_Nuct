@@ -344,7 +344,7 @@ function inicontrol_helper() {
     $(".test_detail").find('input[class="number"]').each(function () {
         var score = $(this).val() == '' ? 0 : Number($(this).val());
         var max = $(this).attr('maxscore') == '' ? 0 : Number($(this).attr('maxscore'));
-        if (score > 0 && score < max) {
+        if (score > 0 && score <= max) {
             realTotal = numAdd(realTotal, $(this).val());
         }
         else {
@@ -421,6 +421,7 @@ XBack.listen(function(){
       * @param len: 需要截取的长度 
       */
 function cutstr(str, len) {
+    if (str == null) return '';
     var str_length = 0;
     var str_len = 0;
     str_cut = new String();

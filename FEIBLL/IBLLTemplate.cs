@@ -125,14 +125,6 @@ namespace FEIBLL
 	/// </summary>
 	///	
 	/// </summary>
-    public interface IEva_TaskService:IBaseService<Eva_Task>
-    {
-
-    }	
-
-	/// </summary>
-	///	
-	/// </summary>
     public interface ISys_DocumentService:IBaseService<Sys_Document>
     {
 
@@ -157,23 +149,7 @@ namespace FEIBLL
 	/// </summary>
 	///	
 	/// </summary>
-    public interface IEva_TaskAnswerService:IBaseService<Eva_TaskAnswer>
-    {
-
-    }	
-
-	/// </summary>
-	///	
-	/// </summary>
     public interface IUserInfoService:IBaseService<UserInfo>
-    {
-
-    }	
-
-	/// </summary>
-	///	
-	/// </summary>
-    public interface IEva_TeacherAnswerService:IBaseService<Eva_TeacherAnswer>
     {
 
     }	

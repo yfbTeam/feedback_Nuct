@@ -1,5 +1,7 @@
 ﻿using FEBLL;
 using FEModel;
+using FEModel.Entity;
+using FEModel.Enum;
 using FEUtility;
 using Newtonsoft.Json;
 using System;
@@ -218,8 +220,8 @@ namespace FEHandler.Eva_Manage
                     Table_CourseType.Course_Value = item.Value;
                     Table_CourseType.Eva_Role = Eva_Role;
                     Table_CourseType.Eva_Table_List = (from table in Constant.Eva_Table_List
-                                                       where table.Eva_Role == Eva_Role && table.IsDelete == (int)IsDelete.No_Delete
-                                                       //where Convert.ToString(table.CourseType_Id) == item.Key || table.CourseType_Id == 4//不用一一对应  显示四张表即可（2017.3.30新改动，总监让改的）
+                                                       where table.Eva_Role == Eva_Role && table.IsDelete == (int)IsDelete.No_Delete && table.IsEnable == (int)IsEnable.Enable
+                                                      
                                                        select table).ToList();
                     Table_CourseType_List.Add(Table_CourseType);
                 }
@@ -237,7 +239,7 @@ namespace FEHandler.Eva_Manage
                         Table_CourseType.Course_Value = item.Value;
                         Table_CourseType.Eva_Role = 3;
                         Table_CourseType.Eva_Table_List = (from table in Constant.Eva_Table_List
-                                                           where table.Eva_Role == Eva_Role
+                                                           where table.Eva_Role == Eva_Role && table.IsEnable == (int)IsEnable.Enable
                                                            select table).ToList();
                         Table_CourseType_List.Add(Table_CourseType);
                     }
@@ -767,689 +769,26 @@ namespace FEHandler.Eva_Manage
         }
 
         #endregion
+            
+        #region 获取教师信息【携带 课程-授课班】
 
-        #region 表格设计管理
-
-        /// <summary>
-        /// 获取表格
-        /// </summary>
-        /// <param name="context">当前上下文</param>
-        public void Get_Eva_Table_S(HttpContext context)
+        public void GetTeacherInfo_Course_Cls(HttpContext context)
         {
             int intSuccess = (int)errNum.Success;
             HttpRequest Request = context.Request;
+            string teacherUID = RequestHelper.string_transfer(Request, "TeacherUID");
+            string ReguId = RequestHelper.string_transfer(Request, "ReguId");
             try
             {
-                var table_submiter = (from t in Constant.Eva_Table_List
-
-                                      join u in Constant.UserInfo_List on t.CreateUID equals u.UniqueNo
-                                      select new
-                                      {
-                                          t,
-                                          u,
-                                      }).ToList();
-                //返回所有表格数据
-                jsonModel = JsonModel.get_jsonmodel(intSuccess, "success", table_submiter);
-            }
-            catch (Exception ex)
-            {
-                LogHelper.Error(ex);
-            }
-            finally
-            {
-                //无论后端出现什么问题，都要给前端有个通知【为防止jsonModel 为空 ,全局字段 jsonModel 特意声明之后进行初始化】
-                context.Response.Write("{\"result\":" + Constant.jss.Serialize(jsonModel) + "}");
-            }
-        }
-
-
-        /// <summary>
-        /// 获取表格
-        /// </summary>
-        /// <param name="context">当前上下文</param>
-        public void Get_Eva_Table(HttpContext context)
-        {
-
-            HttpRequest Request = context.Request;
-
-            string CourseID = RequestHelper.string_transfer(Request, "CourseID");
-            int SectionID = RequestHelper.int_transfer(Request, "SectionID");
-            try
-            {
-                jsonModel = Get_Eva_TableHelper(SectionID, CourseID);
-            }
-            catch (Exception ex)
-            {
-                LogHelper.Error(ex);
-            }
-            finally
-            {
-                //无论后端出现什么问题，都要给前端有个通知【为防止jsonModel 为空 ,全局字段 jsonModel 特意声明之后进行初始化】
-                context.Response.Write("{\"result\":" + Constant.jss.Serialize(jsonModel) + "}");
-            }
-        }
-
-        public static JsonModel Get_Eva_TableHelper(int SectionID, string CourseID)
-        {
-            int intSuccess = (int)errNum.Success;
-            JsonModel jsmodel = new JsonModel();
-            try
-            {
-                List<Eva_Table> tableList = Constant.Eva_Table_List;
-                if (SectionID > 0)
+                List<T_C_Model> list = Teacher_Course_ClassInfo(ReguId);
+                if (list.Count > 0)
                 {
-                    tableList = (from dic in Constant.Sys_Dictionary_List
-                                 where dic.Type == "0" && dic.SectionId == SectionID
-                                 join cr in Constant.CourseRel_List on dic.Key equals cr.CourseType_Id
-                                 where (CourseID != "" && cr.Course_Id == CourseID) || CourseID == ""
-                                 join cb in Constant.Eva_CourseType_Table_List on dic.Key equals cb.CourseTypeId
-                                 join tb in tableList on cb.TableId equals tb.Id
-                                 select tb).Distinct(new Eva_TableComparer()).ToList();
-
+                    jsonModel = JsonModel.get_jsonmodel(intSuccess, "success", list);
                 }
 
-                //返回所有表格数据
-                jsmodel = JsonModel.get_jsonmodel(intSuccess, "success", tableList);
-            }
-            catch (Exception ex)
-            {
-                jsmodel = JsonModel.get_jsonmodel(3, "failed", ex.Message);
-                LogHelper.Error(ex);
-            }
-            return jsmodel;
-        }
-
-
-        /// <summary>
-        /// 获取表格头部规则
-        /// </summary>
-        /// <param name="context">当前上下文</param>
-        public void Get_Eva_Table_Header_Custom_List(HttpContext context)
-        {
-            int intSuccess = (int)errNum.Success;
-            HttpRequest Request = context.Request;
-            try
-            {
-                var list = (from c in Constant.Eva_Table_Header_Custom_List orderby c.Sort select new { Code = c.Code, id = c.Code, name = c.Header, description = c.Header_Value }).ToList();
-                //返回所有表格数据
-                jsonModel = JsonModel.get_jsonmodel(intSuccess, "success", list);
-            }
-            catch (Exception ex)
-            {
-                LogHelper.Error(ex);
-            }
-            finally
-            {
-                //无论后端出现什么问题，都要给前端有个通知【为防止jsonModel 为空 ,全局字段 jsonModel 特意声明之后进行初始化】
-                context.Response.Write("{\"result\":" + Constant.jss.Serialize(jsonModel) + "}");
-            }
-        }
-
-        /// <summary>
-        /// 获取设计表详情【学生答题的初始化答卷】
-        /// </summary>
-        /// <param name="context"></param>
-        public void Get_Eva_TableDetail(HttpContext context)
-        {
-            int intSuccess = (int)errNum.Success;
-            HttpRequest Request = context.Request;
-            //表格ID
-            int table_Id = RequestHelper.int_transfer(Request, "table_Id");
-
-            int RoomID = RequestHelper.int_transfer(Request, "RoomID");
-            int ReguID = RequestHelper.int_transfer(Request, "ReguID");
-
-
-            string UserID = RequestHelper.string_transfer(Request, "UserID");
-            //没有教学反馈
-            bool no_eduType = RequestHelper.bool_transfer(Request, "no_eduType");
-            Table_View table_view = new Table_View();
-            try
-            {
-                //首先指定试卷
-                var table = Constant.Eva_Table_List.FirstOrDefault(i => i.Id == table_Id);
-                if (table != null)
-                {
-                    table_view.Table_Id = (int)table.Id;
-                    table_view.IsEnable = (int)table.IsEnable;
-                    table_view.Name = table.Name;
-                    table_view.IsScore = (int)table.IsScore;
-                    //搜集试卷题
-                    List<Eva_TableDetail_S> details = (from det in Constant.Eva_TableDetail_List
-                                                       where det.Eva_table_Id == table_Id
-                                                       orderby det.Id
-                                                       select new Eva_TableDetail_S()
-                                                       {
-                                                           Id = det.Id,
-                                                           Indicator_Id = det.Indicator_Id,
-                                                           IndicatorType_Id = det.IndicatorType_Id,
-                                                           Eva_table_Id = det.Eva_table_Id,
-                                                           IndicatorType_Name = det.IndicatorType_Name,
-                                                           Name = det.Name,
-                                                           OptionA = det.OptionA,
-                                                           OptionA_S = det.OptionA_S,
-                                                           OptionB = det.OptionB,
-                                                           OptionB_S = det.OptionB_S,
-                                                           OptionC = det.OptionC,
-                                                           OptionC_S = det.OptionC_S,
-                                                           OptionD = det.OptionD,
-                                                           OptionD_S = det.OptionD_S,
-                                                           OptionE = det.OptionE,
-                                                           OptionE_S = det.OptionE_S,
-                                                           OptionF = det.OptionF,
-                                                           OptionF_S = det.OptionF_S,
-                                                           QuesType_Id = det.QuesType_Id,
-                                                           RootID = det.RootID,
-                                                           Root = det.Root,
-                                                           Sort = det.Sort,
-                                                           Type = det.Type,
-                                                           OptionF_S_Max = det.OptionF_S_Max,
-                                                       }).ToList();
-
-                    if (RoomID > 0)
-                    {
-                        var model = (from r in Constant.CourseRoom_List
-                                     where r.Id == RoomID
-                                     join section in Constant.StudySection_List on r.StudySection_Id equals section.Id
-                                     join regu in Constant.Eva_Regular_List on ReguID equals regu.Id
-                                     select new { r, section, regu }).ToList();
-
-                        if (model.Count > 0)
-                        {
-                            var room = model[0].r;
-                            var section = model[0].section;
-                            var regu = model[0].regu;
-                            table_view.Info = new
-                            {
-                                SectionID = room.StudySection_Id,
-                                DisplayName = section.DisPlayName,
-                                ReguID = regu.Id,
-                                ReguName = regu.Name,
-                                CourseID = room.Coures_Id,
-                                CourseName = room.CouresName,
-                                TeacherUID = room.TeacherUID,
-                                TeacherName = room.TeacherName,
-                                DepartmentName = room.DepartmentName,
-                                RoomID =RoomID,
-                                IsInClass = Constant.Class_StudentInfo_List.Count(i => i.UniqueNo == UserID && i.Class_Id == room.ClassID) > 0 ? true : false,
-                            };
-                        }
-                    }
-                    //表详情
-                    table_view.Table_Detail_Dic_List = (from ps in details
-                                                        group ps by ps.RootID
-                                                            into g
-                                                            select new Table_Detail_Dic { Root = g.FirstOrDefault(i => i.RootID == g.Key).Root, Eva_TableDetail_List = g.ToList() }).ToList();
-
-                    //表头
-                    table_view.Table_Header_List = (from header in Constant.Eva_Table_Header_List
-                                                    where header.Table_Id == table.Id
-                                                    orderby header.Sort
-                                                    select new
-                                                        Table_Header { Header = header.Name_Key, CustomCode = header.Custom_Code, Value = header.Name_Value, Type = (int)header.Type, Id = (int)header.Id }).ToList();
-                }
-
-                //返回所有表格数据
-                jsonModel = JsonModel.get_jsonmodel(intSuccess, "success", table_view);
-            }
-            catch (Exception ex)
-            {
-                LogHelper.Error(ex);
-            }
-            finally
-            {
-                //无论后端出现什么问题，都要给前端有个通知【为防止jsonModel 为空 ,全局字段 jsonModel 特意声明之后进行初始化】
-                context.Response.Write("{\"result\":" + Constant.jss.Serialize(jsonModel) + "}");
-            }
-        }
-
-        //上锁
-        static object obj_Add_Eva_Table = new object();
-        /// <summary>
-        /// 新增表格
-        /// </summary>
-        /// <param name="context">当前上下文</param>
-        public void Add_Eva_Table(HttpContext context)
-        {
-            lock (obj_Add_Eva_Table)
-            {
-                int intSuccess = (int)errNum.Success;
-                HttpRequest Request = context.Request;
-                string Name = RequestHelper.string_transfer(Request, "Name");
-                int IsScore = RequestHelper.int_transfer(Request, "IsScore");
-                int IsEnable = RequestHelper.int_transfer(Request, "IsEnable");
-                string Remarks = RequestHelper.string_transfer(Request, "Remarks");
-                string CreateUID = RequestHelper.string_transfer(Request, "CreateUID");
-                string EditUID = RequestHelper.string_transfer(Request, "EditUID");
-                string CourseType_Id = RequestHelper.string_transfer(Request, "CourseType_Id");
-                int Eva_Role = RequestHelper.int_transfer(Request, "Eva_Role");
-                try
-                {
-                    Eva_Table Eva_Table_Add = new Eva_Table()
-                    {
-                        Name = Name,
-                        IsScore = (byte)IsScore,
-                        CousrseType_Id = CourseType_Id,
-                        Eva_Role = Eva_Role,
-                        //Type = 2,//新加的  主要区别于即时(1)和扫码(0)
-                        Remarks = Remarks,
-                        UseTimes = 0,
-                        CreateTime = DateTime.Now,
-                        CreateUID = CreateUID,
-                        EditTime = DateTime.Now,
-                        EditUID = EditUID,
-                        IsEnable = (byte)IsEnable,
-                        IsDelete = (int)IsDelete.No_Delete
-                    };
-
-                    //表单明细
-                    string List = RequestHelper.string_transfer(Request, "List");
-                    //序列化表单详情列表
-                    List<Table_A> Table_A_List = JsonConvert.DeserializeObject<List<Table_A>>(List);
-
-                    //数据库添加
-                    jsonModel = Constant.Eva_TableService.Add(Eva_Table_Add);
-                    if (jsonModel.errNum == 0)
-                    {
-                        //从数据库返回的ID绑定
-                        Eva_Table_Add.Id = RequestHelper.int_transfer(Convert.ToString(jsonModel.retData));
-                        string head_value = RequestHelper.string_transfer(Request, "head_value");
-                        string lisss = RequestHelper.string_transfer(Request, "lisss");
-                        //添加头部内容
-                        Table_Header((int)Eva_Table_Add.Id, head_value, lisss);
-                        if (jsonModel.errNum == intSuccess)
-                        {
-                            //缓存添加
-                            Constant.Eva_Table_List.Add(Eva_Table_Add);
-                            //解析正常才可进行操作
-                            if (Table_A_List != null)
-                            {
-                                //表格详情表创建添加
-                                Eva_TableAdd_Helper(CreateUID, EditUID, Eva_Table_Add, Table_A_List);
-                            }
-                        }
-                        else
-                        {
-                            jsonModel = JsonModel.get_jsonmodel(3, "failed", "添加失败");
-                        }
-                    }
-                    else
-                    {
-                        jsonModel = JsonModel.get_jsonmodel(3, "failed", "添加失败");
-                    }
-                }
-                catch (Exception ex)
-                {
-                    LogHelper.Error(ex);
-                }
-                finally
-                {
-                    //无论后端出现什么问题，都要给前端有个通知【为防止jsonModel 为空 ,全局字段 jsonModel 特意声明之后进行初始化】
-                    context.Response.Write("{\"result\":" + Constant.jss.Serialize(jsonModel) + "}");
-                }
-            }
-        }
-
-        static object obj_Copy_Eva_Table = new object();
-        /// <summary>
-        /// 复制表格
-        /// </summary>
-        /// <param name="context">当前上下文</param>
-        public void Copy_Eva_Table(HttpContext context)
-        {
-            lock (obj_Copy_Eva_Table)
-            {
-                HttpRequest Request = context.Request;
-                int table_Id = RequestHelper.int_transfer(Request, "table_Id");
-                try
-                {
-                    Eva_Table Eva_Table_Need_Copy = Constant.Eva_Table_List.FirstOrDefault(t => t.Id == table_Id);
-                    if (Eva_Table_Need_Copy != null)
-                    {
-                        Eva_Table Eva_Table_Copy_Clone = Constant.Clone<Eva_Table>(Eva_Table_Need_Copy);
-                        Eva_Table_Copy_Clone.Id = null;
-                        Eva_Table_Copy_Clone.UseTimes = 0;
-                        jsonModel = Constant.Eva_TableService.Add(Eva_Table_Copy_Clone);
-                        if (jsonModel.errNum == 0)
-                        {
-                            Eva_Table_Copy_Clone.Id = Convert.ToInt32(jsonModel.retData);
-
-                            //添加克隆出来的表
-                            Constant.Eva_Table_List.Add(Eva_Table_Copy_Clone);
-
-                            //表头复制
-                            var table_headers = (from t_h in Constant.Eva_Table_Header_List where t_h.Table_Id == table_Id select t_h).ToList();
-                            foreach (var header in table_headers)
-                            {
-                                Eva_Table_Header h_Clone = Constant.Clone<Eva_Table_Header>(header);
-                                h_Clone.Table_Id = Eva_Table_Copy_Clone.Id;
-                                h_Clone.Id = null;
-                                var jsonmodel = Constant.Eva_Table_HeaderService.Add(h_Clone);
-                                if (jsonmodel.errNum == 0)
-                                {
-                                    h_Clone.Id = Convert.ToInt32(jsonmodel.retData);
-                                    Constant.Eva_Table_Header_List.Add(h_Clone);
-                                }
-                            }
-
-                            //详情题干添加
-                            var table_details = (from detail in Constant.Eva_TableDetail_List where detail.Eva_table_Id == table_Id select detail).ToList();
-                            foreach (var detail in table_details)
-                            {
-                                Eva_TableDetail detail_clone = Constant.Clone<Eva_TableDetail>(detail);
-                                detail_clone.Eva_table_Id = Eva_Table_Copy_Clone.Id;
-                                detail_clone.Id = null;
-                                var jsonmodel = Constant.Eva_TableDetailService.Add(detail_clone);
-                                if (jsonmodel.errNum == 0)
-                                {
-                                    detail_clone.Id = Convert.ToInt32(jsonmodel.retData);
-                                    Constant.Eva_TableDetail_List.Add(detail_clone);
-                                }
-                            }
-
-                        }
-                    }
-                }
-                catch (Exception ex)
-                {
-                    LogHelper.Error(ex);
-                }
-                finally
-                {
-                    //无论后端出现什么问题，都要给前端有个通知【为防止jsonModel 为空 ,全局字段 jsonModel 特意声明之后进行初始化】
-                    context.Response.Write("{\"result\":" + Constant.jss.Serialize(jsonModel) + "}");
-                }
-            }
-        }
-
-        /// <summary>
-        /// 移除头部内容
-        /// </summary>
-        /// <param name="table_Id"></param>
-        /// <param name="Request"></param>
-        public static void Remove_Header(int table_Id)
-        {
-            try
-            {
-                List<Eva_Table_Header> headers = (from h in Constant.Eva_Table_Header_List where h.Table_Id == table_Id select h).ToList();
-                foreach (var item in headers)
-                {
-                    var model = Constant.Eva_Table_HeaderService.Delete((int)item.Id);
-                    if (model.errNum == 0)
-                    {
-                        Constant.Eva_Table_Header_List.Remove(item);
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                LogHelper.Error(ex);
-            }
-        }
-
-        /// <summary>
-        /// 添加头部内容
-        /// </summary>
-        /// <param name="table_Id"></param>
-        /// <param name="Request"></param>
-        public static void Table_Header(int table_Id, string head_value, string lisss)
-        {
-            try
-            {
-
-                if (!string.IsNullOrEmpty(head_value))
-                {
-                    //序列化表表头固化
-                    List<head_value> head_values = JsonConvert.DeserializeObject<List<head_value>>(head_value);
-                    int i = 0;
-                    foreach (var item in head_values)
-                    {
-                        Eva_Table_Header header = new Eva_Table_Header()
-                        {
-                            Custom_Code = (item.Code == null || item.Code == "") ? item.CustomCode : item.Code,
-                            Name_Key = item.description,
-                            Name_Value = item.name,
-                            Table_Id = table_Id,
-                            Type = Convert.ToInt32(item.id),
-                            CreateTime = DateTime.Now,
-                            CreateUID = "",
-                            EditTime = DateTime.Now,
-                            EditUID = "",
-                            IsDelete = (int)IsDelete.No_Delete,
-                            IsEnable = (int)IsEnable.Enable,
-                            Sort = i,
-                        };
-                        var josnmodel = Constant.Eva_Table_HeaderService.Add(header);
-                        if (josnmodel.errNum == 0)
-                        {
-                            header.Id = Convert.ToInt32(josnmodel.retData);
-                            Constant.Eva_Table_Header_List.Add(header);
-                        }
-                        i++;
-                    }
-
-                }
-
-
-                if (!string.IsNullOrEmpty(lisss))
-                {
-                    //序列化表表头固化
-                    List<lisss> lisss_s = JsonConvert.DeserializeObject<List<lisss>>(lisss);
-
-                    foreach (var item in lisss_s)
-                    {
-                        Eva_Table_Header header = new Eva_Table_Header() { Name_Key = item.title, Name_Value = item.name, Table_Id = table_Id, Type = 0 };
-                        var josnmodel = Constant.Eva_Table_HeaderService.Add(header);
-                        if (josnmodel.errNum == 0)
-                        {
-                            header.Id = Convert.ToInt32(josnmodel.retData);
-                            Constant.Eva_Table_Header_List.Add(header);
-                        }
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                LogHelper.Error(ex);
-            }
-        }
-
-        /// <summary>
-        /// 表格详情表创建添加
-        /// </summary>
-        /// <param name="CreateUID"></param>
-        /// <param name="EditUID"></param>
-        /// <param name="Eva_Table_Add"></param>
-        /// <param name="Table_A_List"></param>
-        private static void Eva_TableAdd_Helper(string CreateUID, string EditUID, Eva_Table Eva_Table_Add, List<Table_A> Table_A_List)
-        {
-            var Table_Id = Eva_Table_Add.Id;
-            //开启线程操作数据库
-            new Thread(() =>
-            {
-
-                try
-                {
-                    foreach (Table_A table_A in Table_A_List)
-                    {
-                        //表明细列表保证不为null513
-                        if (table_A.indicator_list == null) continue;
-                        foreach (indicator_list item in table_A.indicator_list)
-                        {
-                            Eva_TableDetail Eva_TableDetail = new Eva_TableDetail()
-                            {
-                                CreateTime = DateTime.Now,
-                                EditTime = DateTime.Now,
-                                CreateUID = CreateUID,
-                                EditUID = EditUID,
-                                Indicator_Id = (int)item.Id,
-                                IndicatorType_Id = (int)item.IndicatorType_Id,
-                                IndicatorType_Name = item.IndicatorType_Name,
-                                OptionA = item.OptionA,
-                                OptionB = item.OptionB,
-                                OptionC = item.OptionC,
-                                OptionD = item.OptionD,
-                                OptionE = item.OptionE,
-                                OptionF = item.OptionF,
-                                OptionA_S = RequestHelper.decimal_transfer(item.OptionA_S),
-                                OptionB_S = RequestHelper.decimal_transfer(item.OptionB_S),
-                                OptionC_S = RequestHelper.decimal_transfer(item.OptionC_S),
-                                OptionD_S = RequestHelper.decimal_transfer(item.OptionD_S),
-                                OptionE_S = RequestHelper.decimal_transfer(item.OptionE_S),
-                                OptionF_S = RequestHelper.decimal_transfer(item.OptionF_S),
-                                //Indicator_Name = item.Name,
-                                IsDelete = (int)IsDelete.No_Delete,
-                                IsEnable = (int)IsEnable.Enable,
-                                Name = item.Name,
-                                QuesType_Id = (int)item.QuesType_Id,
-                                Remarks = item.Remarks,
-                                Sort = RequestHelper.int_transfer(item.Sort),
-                                Root = item.Root,
-                                RootID = item.RootID,
-                                Eva_table_Id = Table_Id,
-                                //评价任务 1，表格设计 0
-                                Type = Convert.ToString((int)TableDetail_Type.Table),
-                                OptionF_S_Max = item.OptionF_S_Max,
-
-                            };
-
-                            //入库
-                            JsonModel model2 = Constant.Eva_TableDetailService.Add(Eva_TableDetail);
-                            if (model2.errNum == 0)
-                            {
-                                //添加到缓存
-                                Constant.Eva_TableDetail_List.Add(Eva_TableDetail);
-                                Eva_TableDetail.Id = RequestHelper.int_transfer(Convert.ToString(model2.retData));
-
-                                Indicate_Using_Add((int)item.Id);
-                            }
-                        }
-                    }
-                }
-                catch (Exception ex)
-                {
-                    LogHelper.Error(ex);
-                }
-            }) { IsBackground = true }.Start();
-        }
-
-        /// <summary>
-        /// 指标库引用增1
-        /// </summary>
-        /// <param name="Id"></param>
-        private static void Indicate_Using_Add(int Id)
-        {
-            try
-            {
-                //指标库的计数
-                Indicator Indicator = Constant.Indicator_List.FirstOrDefault(t => t.Id == Id);
-                Indicator Indicator_clone = Constant.Clone<Indicator>(Indicator);
-                Indicator_clone.UseTimes += 1;
-                //直接进行更改
-                if (Indicator_clone != null)
-                {
-                    JsonModel m = Constant.IndicatorService.Update(Indicator);
-                    if (m.errNum == 0)
-                    {
-                        Indicator.UseTimes += 1;
-                    }
-                }
-
-            }
-            catch (Exception ex)
-            {
-                LogHelper.Error(ex);
-            }
-        }
-        /// <summary>
-        /// 指标库引用减1
-        /// </summary>
-        /// <param name="Id"></param>
-        private static void Indicate_Using_Reduce(int Id)
-        {
-            try
-            {
-                //指标库的计数
-                Indicator Indicator = Constant.Indicator_List.FirstOrDefault(t => t.Id == Id);
-                Indicator Indicator_clone = Constant.Clone<Indicator>(Indicator);
-                Indicator_clone.UseTimes -= 1;
-                //直接进行更改
-                if (Indicator_clone != null)
-                {
-                    JsonModel m = Constant.IndicatorService.Update(Indicator);
-                    if (m.errNum == 0)
-                    {
-                        Indicator.UseTimes -= 1;
-                    }
-                }
-
-            }
-            catch (Exception ex)
-            {
-                LogHelper.Error(ex);
-            }
-        }
-
-        /// <summary>
-        /// 删除表格
-        /// </summary>
-        public void Delete_Eva_Table(HttpContext context)
-        {
-            int intSuccess = (int)errNum.Success;
-            HttpRequest Request = context.Request;
-            //指标的ID
-            int Id = RequestHelper.int_transfer(Request, "Id");
-            try
-            {
-
-                //获取指定要删除的表格
-                Eva_Table Eva_Table_delete = Constant.Eva_Table_List.FirstOrDefault(i => i.Id == Id);
-                if (Eva_Table_delete != null)
-                {
-                    //克隆该表格
-                    Eva_Table indic = Constant.Clone<Eva_Table>(Eva_Table_delete);
-                    indic.IsDelete = (int)IsDelete.Delete;
-                    //数据库操作成功再改缓存
-                    jsonModel = Constant.Eva_TableService.Update(indic);
-                    if (jsonModel.errNum == intSuccess)
-                    {
-                        Eva_Table_delete.IsDelete = (int)IsDelete.Delete;
-
-                        //开启线程操作数据库
-                        new Thread(() =>
-                        {
-                            List<Eva_Table_Header> Eva_Table_Header_List = Constant.Eva_Table_Header_List.Where(t => t.Table_Id == Id).ToList();
-                            foreach (Eva_Table_Header item in Eva_Table_Header_List)
-                            {
-                                item.IsDelete = (int)IsDelete.Delete;
-                                var jm = Constant.Eva_Table_HeaderService.Update(item);
-                                if (jm.errNum == 0)
-                                {
-                                    Constant.Eva_Table_Header_List.Remove(item);
-                                }
-                            }
-
-                            List<Eva_TableDetail> Eva_TableDetail_List = Constant.Eva_TableDetail_List.Where(t => t.Eva_table_Id == Id).ToList();
-                            foreach (Eva_TableDetail item in Eva_TableDetail_List)
-                            {
-                                item.IsDelete = (int)IsDelete.Delete;
-                                var jsonmodel = Constant.Eva_TableDetailService.Update(item);
-                                if (jsonmodel.errNum == 0)
-                                {
-                                    Constant.Eva_TableDetail_List.Remove(item);
-                                    Indicate_Using_Reduce((int)item.Indicator_Id);
-                                }
-                            }
-                        }) { IsBackground = true }.Start();
-                    }
-                    else
-                    {
-                        jsonModel = JsonModel.get_jsonmodel(3, "failed", "删除失败");
-                    }
-                }
                 else
                 {
-                    jsonModel = JsonModel.get_jsonmodel(3, "failed", "该表格不存在");
+                    jsonModel = JsonModel.get_jsonmodel(3, "failed", "没有数据");
                 }
             }
             catch (Exception ex)
@@ -1463,386 +802,73 @@ namespace FEHandler.Eva_Manage
             }
         }
 
-        //上锁
-        static object obj_Edit_Eva_Table = new object();
-        /// <summary>
-        /// 编辑表格
-        /// </summary>
-        public void Edit_Eva_Table(HttpContext context)
+        public static List<T_C_Model> Teacher_Course_ClassInfo(string ReguId)
         {
-            lock (obj_Edit_Eva_Table)
+            List<T_C_Model> t_List = new List<T_C_Model>();
+            List<T_C_Model> modelList = new List<T_C_Model>();
+            try
             {
-                int intSuccess = (int)errNum.Success;
-                HttpRequest Request = context.Request;
-                //表格Id
-                int table_Id = RequestHelper.int_transfer(Request, "table_Id");
-                try
+                var rooms = Constant.CourseRoom_List;
+                var courses = Constant.Course_List;
+                var clss = Constant.ClassInfo_List;
+
+                t_List = (from teacher in Constant.Teacher_List
+                          join user in Constant.UserInfo_List on teacher.UniqueNo equals user.UniqueNo
+                          join department in Constant.Major_List on teacher.Major_ID equals department.Id
+                          select new T_C_Model()
+                          {
+                              Teacher_Name = user.Name,
+                              UniqueNo = user.UniqueNo,
+                              Department_Name = department.Major_Name,
+                              Department_UniqueNo = department.Id,
+                              T_C_Model_Childs = new List<T_C_Model_Child>(),
+                          }).ToList();
+
+                List<T_C_Model_Child> list = (from room in rooms
+                                              join cls in clss on room.ClassID equals cls.ClassNO
+                                              join course in courses on room.Coures_Id equals course.UniqueNo
+                                              join exp in Constant.Expert_Teacher_Course_List on new
+                                              {
+                                                  ReguId,
+                                                  room.TeacherUID,
+                                                  UniqueNo = course.UniqueNo
+                                              } equals new
+                                              {
+                                                  exp.ReguId,
+                                                  exp.TeacherUID,
+                                                  UniqueNo = exp.CourseId
+                                              } into exps
+                                              from exp_ in exps.DefaultIfEmpty()
+                                              select new T_C_Model_Child()
+                                              {
+                                                  TeacherUID = room.TeacherUID,
+                                                  Course_Name = course.Name,
+                                                  Course_UniqueNo = course.UniqueNo,
+
+                                                  Selected = exp_ == null ? false : true,
+                                                  SelectedExperUID = exp_ == null ? "" : exp_.ExpertUID,
+                                                  SelectedExperName = exp_ == null ? "" : exp_.ExpertName,
+                                              }).Distinct(new T_C_Model_ChildComparer()).ToList();
+
+                foreach (var child in t_List)
                 {
-                    //获取指定要删除的表格
-                    Eva_Table Eva_Table_edit = Constant.Eva_Table_List.FirstOrDefault(i => i.Id == table_Id);
-                    if (Eva_Table_edit != null)
+                    var liis = (from s in list where s.TeacherUID == child.UniqueNo select s).ToList();
+                    if (liis.Count > 0)
                     {
-                        string Name = RequestHelper.string_transfer(Request, "Name");
-
-                        int IsScore = RequestHelper.int_transfer(Request, "IsScore");
-                        string Remarks = RequestHelper.string_transfer(Request, "Remarks");
-                        string EditUID = RequestHelper.string_transfer(Request, "EditUID");
-                        string CourseType_Id = RequestHelper.string_transfer(Request, "CourseType_Id");
-
-                        int IsEnable = RequestHelper.int_transfer(Request, "IsEnable");
-                        //克隆该表格
-                        Eva_Table Eva_Table_clone = Constant.Clone<Eva_Table>(Eva_Table_edit);
-                        Eva_Table_clone.Name = Name;
-                        Eva_Table_clone.IsScore = (byte)IsScore;
-                        Eva_Table_clone.Remarks = Remarks;
-                        Eva_Table_clone.EditTime = DateTime.Now;
-                        Eva_Table_clone.EditUID = EditUID;
-                        Eva_Table_clone.IsEnable = (byte)IsEnable;
-                        //数据库操作成功再改缓存
-                        jsonModel = Constant.Eva_TableService.Update(Eva_Table_clone);
-                        if (jsonModel.errNum == intSuccess)
-                        {
-                            Eva_Table_edit.Name = Name;
-                            Eva_Table_edit.IsScore = (byte)IsScore;
-                            Eva_Table_edit.Remarks = Remarks;
-                            Eva_Table_edit.EditTime = DateTime.Now;
-                            Eva_Table_edit.EditUID = EditUID;
-                            Eva_Table_edit.IsEnable = (byte)IsEnable;
-                            //表单明细
-                            string List = RequestHelper.string_transfer(Request, "List");
-
-                            //序列化表单详情列表
-                            List<Table_A> Table_A_List = JsonConvert.DeserializeObject<List<Table_A>>(List);
-                            //先进行删除，然后进行添加
-                            List<Eva_TableDetail> table_list = (from t in Constant.Eva_TableDetail_List where t.Eva_table_Id == Eva_Table_edit.Id select t).ToList();
-
-                            //删除详情表
-                            foreach (Eva_TableDetail item in table_list)
-                            {
-                                JsonModel m = Constant.Eva_TableDetailService.Delete((int)item.Id);
-                                if (m.errNum == intSuccess)
-                                {
-                                    Constant.Eva_TableDetail_List.Remove(item);
-                                    Indicate_Using_Reduce((int)item.Indicator_Id);
-                                }
-                            }
-                            Remove_Header((int)Eva_Table_edit.Id);
-
-                            //解析正常才可进行操作
-                            if (Table_A_List != null)
-                            {
-                                //表格详情表创建添加
-                                Eva_TableAdd_Helper(Eva_Table_edit.EditUID, EditUID, Eva_Table_edit, Table_A_List);
-
-                                string head_value = RequestHelper.string_transfer(Request, "head_value");
-                                string lisss = RequestHelper.string_transfer(Request, "lisss");
-                                //表头信息添加
-                                Table_Header((int)Eva_Table_edit.Id, head_value, lisss);
-                            }
-                        }
-                        else
-                        {
-                            jsonModel = JsonModel.get_jsonmodel(3, "failed", "编辑失败");
-                        }
+                        child.T_C_Model_Childs = liis;
+                        modelList.Add(child);
                     }
-                    else
-                    {
-                        jsonModel = JsonModel.get_jsonmodel(3, "failed", "该表格不存在");
-                    }
-                }
-                catch (Exception ex)
-                {
-                    LogHelper.Error(ex);
-                }
-                finally
-                {
-                    //无论后端出现什么问题，都要给前端有个通知【为防止jsonModel 为空 ,全局字段 jsonModel 特意声明之后进行初始化】
-                    context.Response.Write("{\"result\":" + Constant.jss.Serialize(jsonModel) + "}");
                 }
             }
-        }
-
-        //上锁
-        static object obj_Enable_Eva_Table = new object();
-        /// <summary>
-        /// 编辑表格
-        /// </summary>
-        public void Enable_Eva_Table(HttpContext context)
-        {
-            lock (obj_Enable_Eva_Table)
+            catch (Exception ex)
             {
-                int intSuccess = (int)errNum.Success;
-                HttpRequest Request = context.Request;
-                //表格Id
-                int table_Id = RequestHelper.int_transfer(Request, "table_Id");
-                int IsEnable = RequestHelper.int_transfer(Request, "IsEnable");
-                try
-                {
-                    //获取指定要删除的表格
-                    Eva_Table Eva_Table_edit = Constant.Eva_Table_List.FirstOrDefault(i => i.Id == table_Id);
-                    if (Eva_Table_edit != null)
-                    {
-
-                        //克隆该表格
-                        Eva_Table Eva_Table_clone = Constant.Clone<Eva_Table>(Eva_Table_edit);
-                        Eva_Table_clone.IsEnable = (byte)IsEnable;
-                        //数据库操作成功再改缓存
-                        jsonModel = Constant.Eva_TableService.Update(Eva_Table_clone);
-                        if (jsonModel.errNum == intSuccess)
-                        {
-                            Eva_Table_edit.IsEnable = (byte)IsEnable;
-                        }
-                        else
-                        {
-                            jsonModel = JsonModel.get_jsonmodel(3, "failed", "编辑失败");
-                        }
-                    }
-                    else
-                    {
-                        jsonModel = JsonModel.get_jsonmodel(3, "failed", "该表格不存在");
-                    }
-                }
-                catch (Exception ex)
-                {
-                    LogHelper.Error(ex);
-                }
-                finally
-                {
-                    //无论后端出现什么问题，都要给前端有个通知【为防止jsonModel 为空 ,全局字段 jsonModel 特意声明之后进行初始化】
-                    context.Response.Write("{\"result\":" + Constant.jss.Serialize(jsonModel) + "}");
-                }
+                LogHelper.Error(ex);
             }
+
+            return modelList;
         }
 
         #endregion
-
-        #region 根据老师获取课程
-
-        public void GetCourseByTeacherUID(HttpContext context)
-        {
-            int intSuccess = (int)errNum.Success;
-            try
-            {
-                //HttpRequest Request = context.Request;
-                //string TeacherUID = RequestHelper.string_transfer(Request, "TeacherUID");
-                //int distribution_Id = RequestHelper.int_transfer(Request, "Eva_Distribution_Id");
-                //Eva_Distribution dis = Constant.Eva_Distribution_List.FirstOrDefault(t => t.Id == distribution_Id);
-                //if (dis != null)
-                //{
-                //    var query = Teacher_Course_Dis(TeacherUID, dis);
-                //    jsonModel = JsonModel.get_jsonmodel(intSuccess, "success", query);
-                //}
-                //else
-                //{
-                //    jsonModel = JsonModel.get_jsonmodel(3, "failed", "没有数据");
-                //}
-            }
-            catch (Exception ex)
-            {
-                LogHelper.Error(ex);
-            }
-            finally
-            {
-                //无论后端出现什么问题，都要给前端有个通知【为防止jsonModel 为空 ,全局字段 jsonModel 特意声明之后进行初始化】
-                context.Response.Write("{\"result\":" + Constant.jss.Serialize(jsonModel) + "}");
-            }
-        }
-
-        #endregion
-
-        #region 课程类型-表管理
-
-        public void GetCourseType_Table(HttpContext context)
-        {
-            HttpRequest Request = context.Request;
-            string CourseTypeId = RequestHelper.string_transfer(Request, "CourseTypeId");
-            int SectionId = RequestHelper.int_transfer(Request, "SectionId");
-
-            try
-            {
-                var data = (from s in Constant.Sys_Dictionary_List
-                            where s.Key == CourseTypeId && s.Type == "0" && s.SectionId == SectionId
-                            join tb in Constant.Eva_CourseType_Table_List on s.Key equals tb.CourseTypeId
-                            where tb.StudySection_Id == SectionId
-                            join b in Constant.Eva_Table_List on tb.TableId equals b.Id
-                            where b.IsEnable == (int)IsEnable.Enable
-                            join user in Constant.UserInfo_List on b.CreateUID equals user.UniqueNo into users_
-                            from u in users_.DefaultIfEmpty()
-                            select new { tb.Id, b.Name, b.IsScore, b.UseTimes, b.CreateUID, b.CreateTime, b.IsEnable, UserName = u != null ? u.Name : "", TableId = b.Id, CourseTypeId = s.Key }).ToList();
-                jsonModel = JsonModel.get_jsonmodel(0, "success", data);
-            }
-            catch (Exception ex)
-            {
-                LogHelper.Error(ex);
-            }
-            finally
-            {
-                //无论后端出现什么问题，都要给前端有个通知【为防止jsonModel 为空 ,全局字段 jsonModel 特意声明之后进行初始化】
-                context.Response.Write("{\"result\":" + Constant.jss.Serialize(jsonModel) + "}");
-            }
-        }
-
-        public void AddCourseType_Table(HttpContext context)
-        {
-            HttpRequest Request = context.Request;
-            string CourseTypeId = RequestHelper.string_transfer(Request, "CourseTypeId");
-            //表格列表
-            string TableList = RequestHelper.string_transfer(Request, "TableList");
-            string CreateUID = RequestHelper.string_transfer(Request, "CreateUID");
-            int SectionId = RequestHelper.int_transfer(Request, "SectionId");
-            try
-            {
-                //序列化表单详情列表
-                List<int> Table_A_List = JsonConvert.DeserializeObject<List<int>>(TableList);
-                jsonModel = AddCourseType_TableHelper(CourseTypeId, CreateUID, Table_A_List, SectionId);
-            }
-            catch (Exception ex)
-            {
-                LogHelper.Error(ex);
-            }
-            finally
-            {
-                //无论后端出现什么问题，都要给前端有个通知【为防止jsonModel 为空 ,全局字段 jsonModel 特意声明之后进行初始化】
-                context.Response.Write("{\"result\":" + Constant.jss.Serialize(jsonModel) + "}");
-            }
-        }
-
-        public JsonModel AddCourseType_TableHelper(string CourseTypeId, string CreateUID, List<int> tableList, int SectionId)
-        {
-            int intSuccess = (int)errNum.Success;
-            JsonModel jsmodel = new JsonModel();
-            try
-            {
-                jsmodel = JsonModel.get_jsonmodel(intSuccess, "success", 0);
-
-                var tablss_add = (from vir_t in tableList
-                                  join tab_c in Constant.Eva_CourseType_Table_List on new
-                                  {
-                                      TableId = vir_t,
-                                      CourseTypeId = CourseTypeId
-                                  } equals new
-                                  {
-                                      TableId = (int)tab_c.TableId,
-                                      CourseTypeId = tab_c.CourseTypeId
-                                  } into tabc_cs
-                                  from tac_ in tabc_cs.DefaultIfEmpty()
-                                  where tac_ == null
-                                  select new { tac_, vir_t }).ToList();
-
-                var tablss_delete = (from tab_c in Constant.Eva_CourseType_Table_List
-                                     where tab_c.CourseTypeId == CourseTypeId && tab_c.StudySection_Id == SectionId
-                                     join t in Constant.Eva_Table_List on tab_c.TableId equals t.Id
-                                     join vir_t in tableList on t.Id equals vir_t into vir_ts
-                                     from vir_t_ in vir_ts.DefaultIfEmpty()
-                                     where vir_t_ == 0
-                                     select new { tab_c, vir_t_ }).ToList();
-
-                foreach (var item in tablss_add)
-                {
-                    Eva_CourseType_Table ect = new Eva_CourseType_Table()
-                    {
-                        CourseTypeId = CourseTypeId,
-                        CreateTime = DateTime.Now,
-                        CreateUID = CreateUID,
-                        IsDelete = (int)IsDelete.No_Delete,
-                        TableId = item.vir_t,
-                        StudySection_Id = SectionId,
-                    };
-                    var jsmo = Constant.Eva_CourseType_TableService.Add(ect);
-                    if (jsmo.errNum == 0)
-                    {
-                        Constant.Eva_CourseType_Table_List.Add(ect);
-                        ect.Id = Convert.ToInt32(jsmo.retData);
-                        TableUsingAdd(ect.TableId);
-                    }
-                    else
-                    {
-                        jsonModel = JsonModel.get_jsonmodel(3, "failed", "内部错误");
-                        break;
-                    }
-                }
-
-                foreach (var item in tablss_delete)
-                {
-                    Eva_CourseType_Table eva_CourseType_Table_clone = Constant.Clone<Eva_CourseType_Table>(item.tab_c);
-                    eva_CourseType_Table_clone.IsDelete = (int)IsDelete.Delete;
-                    var jsm = Constant.Eva_CourseType_TableService.Update(eva_CourseType_Table_clone);
-                    if (jsm.errNum == 0)
-                    {
-                        Constant.Eva_CourseType_Table_List.Remove(item.tab_c);
-                    }
-                    else
-                    {
-                        jsonModel = JsonModel.get_jsonmodel(3, "failed", "内部错误");
-                        break;
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                jsonModel = JsonModel.get_jsonmodel(3, "failed", ex.Message);
-                LogHelper.Error(ex);
-            }
-            return jsmodel;
-        }
-
-
-        public void DeleteCourseType_Table(HttpContext context)
-        {
-            HttpRequest Request = context.Request;
-            int Id = RequestHelper.int_transfer(Request, "Id");
-            try
-            {
-                jsonModel = DeleteCourseType_TableHelper(Id);
-            }
-            catch (Exception ex)
-            {
-                LogHelper.Error(ex);
-            }
-            finally
-            {
-                //无论后端出现什么问题，都要给前端有个通知【为防止jsonModel 为空 ,全局字段 jsonModel 特意声明之后进行初始化】
-                context.Response.Write("{\"result\":" + Constant.jss.Serialize(jsonModel) + "}");
-            }
-        }
-
-        public JsonModel DeleteCourseType_TableHelper(int Id)
-        {
-            int intSuccess = (int)errNum.Success;
-            JsonModel jsmodel = new JsonModel();
-            try
-            {
-                Eva_CourseType_Table delete_Eva_CourseType_Table = Constant.Eva_CourseType_Table_List.FirstOrDefault(i => i.Id == Id);
-
-                if (delete_Eva_CourseType_Table != null)
-                {
-                    Eva_CourseType_Table delete_Eva_CourseType_Table_clone = Constant.Clone<Eva_CourseType_Table>(delete_Eva_CourseType_Table);
-                    delete_Eva_CourseType_Table_clone.IsDelete = (int)IsDelete.Delete;
-                    var jsmo = Constant.Eva_CourseType_TableService.Update(delete_Eva_CourseType_Table_clone);
-                    if (jsmo.errNum == 0)
-                    {
-                        Constant.Eva_CourseType_Table_List.Remove(delete_Eva_CourseType_Table);
-                        jsmodel = JsonModel.get_jsonmodel(intSuccess, "success", 0);
-
-                        TableUsingReduce(delete_Eva_CourseType_Table_clone.TableId);
-                    }
-                    else
-                    {
-                        jsonModel = JsonModel.get_jsonmodel(3, "failed", "该项分配不存在");
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                jsonModel = JsonModel.get_jsonmodel(3, "failed", ex.Message);
-                LogHelper.Error(ex);
-            }
-            return jsmodel;
-        }
-
-        #endregion
-
-
 
     }
 }

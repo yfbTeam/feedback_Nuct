@@ -264,24 +264,6 @@ namespace FEDAL
 	     /// </summary>
 	     ///	
 	     /// </summary>
-		 public partial class Eva_TaskDal:BaseDal<Eva_Task>,IEva_TaskDal
-         {
-
-
-         }	
-
-        public partial class DalFactory
-        {
-            public static IEva_TaskDal GetEva_TaskDal()
-            {
-                return new Eva_TaskDal();
-            }
-	    }
-
-
-	     /// </summary>
-	     ///	
-	     /// </summary>
 		 public partial class Sys_DocumentDal:BaseDal<Sys_Document>,ISys_DocumentDal
          {
 
@@ -336,24 +318,6 @@ namespace FEDAL
 	     /// </summary>
 	     ///	
 	     /// </summary>
-		 public partial class Eva_TaskAnswerDal:BaseDal<Eva_TaskAnswer>,IEva_TaskAnswerDal
-         {
-
-
-         }	
-
-        public partial class DalFactory
-        {
-            public static IEva_TaskAnswerDal GetEva_TaskAnswerDal()
-            {
-                return new Eva_TaskAnswerDal();
-            }
-	    }
-
-
-	     /// </summary>
-	     ///	
-	     /// </summary>
 		 public partial class UserInfoDal:BaseDal<UserInfo>,IUserInfoDal
          {
 
@@ -365,24 +329,6 @@ namespace FEDAL
             public static IUserInfoDal GetUserInfoDal()
             {
                 return new UserInfoDal();
-            }
-	    }
-
-
-	     /// </summary>
-	     ///	
-	     /// </summary>
-		 public partial class Eva_TeacherAnswerDal:BaseDal<Eva_TeacherAnswer>,IEva_TeacherAnswerDal
-         {
-
-
-         }	
-
-        public partial class DalFactory
-        {
-            public static IEva_TeacherAnswerDal GetEva_TeacherAnswerDal()
-            {
-                return new Eva_TeacherAnswerDal();
             }
 	    }
 

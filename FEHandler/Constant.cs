@@ -80,12 +80,10 @@ namespace FEHandler
 
         public static Eva_TableDetailService Eva_TableDetailService = new Eva_TableDetailService();
         public static Eva_RegularService Eva_RegularService = new Eva_RegularService();
-        public static Eva_TaskService Eva_TaskService = new Eva_TaskService();
-        public static Eva_TaskAnswerService Eva_TaskAnswerService = new Eva_TaskAnswerService();
-
+      
         public static Eva_QuestionAnswerService Eva_QuestionAnswerService = new Eva_QuestionAnswerService();
         public static Eva_QuestionAnswer_DetailService Eva_QuestionAnswer_DetailService = new Eva_QuestionAnswer_DetailService();
-        public static Eva_TeacherAnswerService Eva_TeacherAnswerService = new Eva_TeacherAnswerService();
+     
 
         public static Eva_QuestionAnswer_HeaderService Eva_QuestionAnswer_HeaderService = new Eva_QuestionAnswer_HeaderService();
 
@@ -260,69 +258,9 @@ namespace FEHandler
             set { Constant.eva_TableDetail_List = value; }
         }
 
-        private static List<Eva_Task> eva_Task_List = null;
-        /// <summary>
-        /// 评价任务表
-        /// </summary>
-        public static List<Eva_Task> Eva_Task_List
-        {
-            get
-            {
-                if (eva_Task_List == null)
-                {
-                    //数据库获取
-                    Hashtable hs = new Hashtable();
-                    hs.Add("TableName", "Eva_Task");
-                    DataTable dt = Eva_TaskService.GetData(hs, false, "and IsDelete =0");
-                    eva_Task_List = ConverList<Eva_Task>.ConvertToList(dt);
-                }
-                return eva_Task_List;
-            }
-            set { Constant.eva_Task_List = value; }
-        }
+     
 
-        private static List<Eva_TaskAnswer> eva_TaskAnswer_List = null;
-        /// <summary>
-        /// 评价答题表
-        /// </summary>
-        public static List<Eva_TaskAnswer> Eva_TaskAnswer_List
-        {
-            get
-            {
-                if (eva_TaskAnswer_List == null)
-                {
-                    //数据库获取
-                    Hashtable hs = new Hashtable();
-                    hs.Add("TableName", "Eva_TaskAnswer");
-                    DataTable dt = Eva_TaskAnswerService.GetData(hs, false, "and IsDelete =0");
-                    eva_TaskAnswer_List = ConverList<Eva_TaskAnswer>.ConvertToList(dt);
-                }
-                return eva_TaskAnswer_List;
-            }
-            set { Constant.eva_TaskAnswer_List = value; }
-        }
-
-
-        private static List<Eva_TeacherAnswer> eva_TeacherAnswer_List = null;
-        /// <summary>
-        /// 教师反馈表
-        /// </summary>
-        public static List<Eva_TeacherAnswer> Eva_TeacherAnswer_List
-        {
-            get
-            {
-                if (eva_TeacherAnswer_List == null)
-                {
-                    //数据库获取
-                    Hashtable hs = new Hashtable();
-                    hs.Add("TableName", "Eva_TeacherAnswer");
-                    DataTable dt = Eva_TeacherAnswerService.GetData(hs, false, "and IsDelete =0");
-                    eva_TeacherAnswer_List = ConverList<Eva_TeacherAnswer>.ConvertToList(dt);
-                }
-                return eva_TeacherAnswer_List;
-            }
-            set { Constant.eva_TeacherAnswer_List = value; }
-        }
+    
 
         private static List<Eva_QuestionAnswer_Detail> eva_QuestionAnswer_Detail_List = null;
         /// <summary>
@@ -1052,32 +990,7 @@ namespace FEHandler
         #region 辅助工具
 
 
-        /// <summary>
-        ///
-        /// </summary>
-        public static void Update_StudentMajorByTeacher()
-        {
-            try
-            {
-                foreach (var item in Constant.Student_List)
-                {
-                    var t = Eva_ManageHandler.Get_Teacher_List2(item.UniqueNo);
-
-                    if (t.Count > 0)
-                    {
-                        item.Major_Id = t[0].Major_ID;
-                    }
-                    Constant.StudentService.Update(item);
-
-
-                }
-
-            }
-            catch (Exception ex)
-            {
-                LogHelper.Error(ex);
-            }
-        }
+       
 
         #endregion
 
