@@ -65,6 +65,7 @@
             var cookie_Userinfo = localStorage.getItem('Userinfo_LG');
             if (cookie_Userinfo != null) {
                 if (document.referrer && document.referrer.toLocaleLowerCase().indexOf("onlinetest.html") > -1) {
+                    
                     window.location.href = document.referrer;                    
                 } else {
                     window.location.href = "Index.html";

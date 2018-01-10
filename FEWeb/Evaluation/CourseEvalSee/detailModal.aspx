@@ -70,65 +70,6 @@
             </div>
             <div class="mt10">
                 <ul class="details_lists">
-                    <li>
-                        <dl>
-                            <dt>实验条件</dt>
-                            <dd>
-                                <table class="allot_table mt10">
-                                    <thead>
-                                        <tr>
-                                            <th>调查项目</th>
-                                            <th width="5%">A</th>
-                                            <th width="5%">B</th>
-                                            <th width="5%">C</th>
-                                            <th width="5%">D</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td class="tl">1.按时上下课</td>
-                                            <td>12人</td>
-                                            <td>12人</td>
-                                            <td>12人</td>
-                                            <td>12人</td>
-                                        </tr>
-                                        <tr>
-                                            <td class="tl">1.按时上下课</td>
-                                            <td>12人</td>
-                                            <td>12人</td>
-                                            <td>12人</td>
-                                            <td>12人</td>
-                                        </tr>
-                                        <tr>
-                                            <td class="tl">1.按时上下课</td>
-                                            <td>12人</td>
-                                            <td>12人</td>
-                                            <td>12人</td>
-                                            <td>12人</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                                <ul class="objective_lists">
-                                    <li>
-                                        <dt style="border: none;" class="clearfix">
-                                            <div class="objective_name fl">7.希望与要求</div>
-                                            <div class="fl pagebar" id="page_top"></div>
-                                            <i class="toggle iconfont">&#xe643;</i>
-                                        </dt>
-                                        <dd>
-                                            <div class="lists_row">
-                                                <span>11111111111111111111111111111<b class="fr">2017-08-12</b></span>
-                                            </div>
-                                            <div class="lists_row">
-                                                <span>11111111111111111111111111111<b class="fr">2017-08-12</b></span>
-                                            </div>
-                                            <div class="pagebar" id="page_bottom"></div>
-                                        </dd>
-                                    </li>
-                                </ul>
-                            </dd>
-                        </dl>
-                    </li>
                 </ul>
             </div>
 
@@ -153,6 +94,72 @@
         </div>
     </script>
 
+    <script type="text/x-jquery-tmpl" id="itemdata">
+        <li>
+            <dl>
+                <dt>${Root}</dt>
+                <dd>
+                    {{each Eva_TableDetail_List}}
+
+                    <table class="allot_table mt10">
+                        <thead>
+                            <tr>
+                                <th>调查项目</th>
+                                <th width="5%">A</th>
+                                <th width="5%">B</th>
+                                <th width="5%">C</th>
+                                <th width="5%">D</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="tl">1.按时上下课</td>
+                                <td>12人</td>
+                                <td>12人</td>
+                                <td>12人</td>
+                                <td>12人</td>
+                            </tr>
+                            <tr>
+                                <td class="tl">1.按时上下课</td>
+                                <td>12人</td>
+                                <td>12人</td>
+                                <td>12人</td>
+                                <td>12人</td>
+                            </tr>
+                            <tr>
+                                <td class="tl">1.按时上下课</td>
+                                <td>12人</td>
+                                <td>12人</td>
+                                <td>12人</td>
+                                <td>12人</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <ul class="objective_lists">
+                        <li>
+                            <dt style="border: none;" class="clearfix">
+                                <div class="objective_name fl">7.希望与要求</div>
+                                <div class="fl pagebar" id="page_top"></div>
+                                <i class="toggle iconfont">&#xe643;</i>
+                            </dt>
+                            <dd>
+                                <div class="lists_row">
+                                    <span>11111111111111111111111111111<b class="fr">2017-08-12</b></span>
+                                </div>
+                                <div class="lists_row">
+                                    <span>11111111111111111111111111111<b class="fr">2017-08-12</b></span>
+                                </div>
+                                <div class="pagebar" id="page_bottom"></div>
+                            </dd>
+                        </li>
+                    </ul>
+
+                    {{/each}}
+                </dd>
+            </dl>
+        </li>
+    </script>
+
 
     <script>
 
@@ -170,6 +177,9 @@
 
                 $("#item_check").tmpl(headerList).appendTo("#list");
                 $("#item_check").tmpl(head_value).appendTo("#list");
+
+                $("#itemdata").tmpl(retData.Table_Detail_Dic_List).appendTo(".details_lists");
+                
             };
             UI_Table_View.Get_Eva_TableDetail();
 

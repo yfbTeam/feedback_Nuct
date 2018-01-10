@@ -343,7 +343,7 @@ namespace FEHandler.Eva_Manage
                                                    join section in Constant.StudySection_List on regu.Section_Id equals section.Id
                                                    from room in Constant.CourseRoom_List
                                                    where (regu.DepartmentIDs.Contains(room.Major_Id)) || regu.DepartmentIDs == ""
-                                                   orderby regu.EndTime
+                                                   orderby regu.EndTime descending
                                                    select new RegularDataRoomModel()
                                                    {
                                                        Num = 0,
@@ -364,17 +364,30 @@ namespace FEHandler.Eva_Manage
                                                        QuestionAve = 0,
                                                        ScoreAve = 0,
                                                        TableID = regu.TableID,
+                                                       StartTime = regu.StartTime,
+                                                       EndTime = regu.EndTime,
+                                                       IsOverTime = true,
                                                    }).ToList();
 
-
+                var questionList = (from q in Constant.Eva_QuestionAnswer_List
+                                    where q.Eva_Role == (int)ReguType.Student
+                                    select q).ToList();
                 if (SectionID > 0)
                 {
                     list = (from li in list where li.SectionID == SectionID select li).ToList();
+
+                    questionList = (from q in questionList
+                                    where q.SectionID == SectionID
+                                    select q).ToList();
                 }
 
                 if (ReguID > 0)
                 {
                     list = (from li in list where li.ReguID == ReguID select li).ToList();
+
+                    questionList = (from q in questionList
+                                    where q.ReguID == ReguID
+                                    select q).ToList();
                 }
                 if (Te != "")
                 {
@@ -400,8 +413,28 @@ namespace FEHandler.Eva_Manage
                 }
 
                 var query_last = (from an in list select an).Skip((PageIndex - 1) * PageSize).Take(PageSize).ToList();
+
+
                 foreach (var li in query_last)
                 {
+                    if (li.StartTime < DateTime.Now && ((DateTime)li.EndTime).AddDays(1) > DateTime.Now)
+                    {
+                        li.IsOverTime = false;
+                    }
+
+                    var chilist = (from q in questionList
+                                   where q.TeacherUID == li.TeacherUID
+                                   select q).ToList();
+                    int que_count = chilist.Count;
+                    if (que_count > 0)
+                    {
+                        decimal que_allScore = (decimal)chilist.Sum(i => i.Score);
+
+                        li.QuestionCount = que_count;
+                        li.QuestionAve = que_count > 0 ? (decimal)Math.Round(que_count / (decimal)li.StudentCount, 2) : 0;
+                        //计算平均分
+                        li.ScoreAve = que_count > 0 ? (decimal)Math.Round(que_allScore / (decimal)que_count, 2) : 0;
+                    }
 
                 }
                 //返回所有表格数据
@@ -421,13 +454,11 @@ namespace FEHandler.Eva_Manage
 
         public void Get_Backlog(HttpContext context)
         {
-            int intSuccess = (int)errNum.Success;
             HttpRequest Request = context.Request;
             string StudentUID = RequestHelper.string_transfer(Request, "StudentUID");
 
             try
             {
-
                 jsonModel = Get_Backlog_Helper(StudentUID);
             }
             catch (Exception ex)
@@ -497,8 +528,7 @@ namespace FEHandler.Eva_Manage
 
                 var list = (from li in Constant.Eva_QuestionAnswer_List
                             join regu in Constant.Eva_Regular_List on li.ReguID equals regu.Id
-                             join section in Constant.StudySection_List on regu.Section_Id equals section.Id
-
+                            join section in Constant.StudySection_List on regu.Section_Id equals section.Id
                             where li.AnswerUID == StudentUID
                             select
                                 new RegularDataRoomModel()
@@ -508,13 +538,13 @@ namespace FEHandler.Eva_Manage
                                     DisPlayName = section.DisPlayName,
                                     ReguID = regu.Id,
                                     ReguName = regu.Name,
-
+                                    Id = li.Id,
                                     CourseID = li.CourseID,
                                     CourseName = li.CourseName,
                                     TeacherUID = li.TeacherUID,
-                                    TeacherName = li.TeacherName,                                                                                                    
+                                    TeacherName = li.TeacherName,
                                     TableID = regu.TableID,
-                                    CreateTime = li.CreateTime,                                  
+                                    CreateTime = li.CreateTime,
                                 }).ToList();
 
                 //返回所有表格数据
@@ -1153,7 +1183,6 @@ namespace FEHandler.Eva_Manage
                 //创建者
                 string CreateUID = RequestHelper.string_transfer(Request, "CreateUID");
 
-                int Type = RequestHelper.int_transfer(Request, "Type");
                 int Eva_Role = RequestHelper.int_transfer(Request, "Eva_Role");
 
                 //答题详情明细
@@ -1595,7 +1624,7 @@ namespace FEHandler.Eva_Manage
                         }
                         break;
                     case ModeType.Check:
-                        list = (from li in list where li.State != (int)QueState.Saved select li).ToList();
+                        list = (from li in list where li.State == (int)QueState.Submited select li).ToList();
                         if (Key != "")
                         {
                             list = (from li in list where li.CourseName.Contains(Key) || li.TeacherName.Contains(Key) || li.AnswerName.Contains(Key) select li).ToList();

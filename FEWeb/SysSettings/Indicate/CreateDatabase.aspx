@@ -16,16 +16,14 @@
             <ul class="option_lists clearfix" id="item_list">
                 <li>
                     <i class="radio"></i>
-                    <input type="text" <%--name="OptionA"--%> placeholder="请填写选项A" isrequired="true" fl="选项A" value="" class="text" />
-                    <%-- <i class="iconfont" onclick="remove(this)">&#xe611;</i>--%>
+                    <input type="text"  placeholder="请填写选项A" isrequired="true" fl="选项A" value="" class="text" />                
                 </li>
                 <li>
                     <i class="radio"></i>
-                    <input type="text" <%--name="OptionB"--%> placeholder="请填写选项B" value="" isrequired="true" fl="选项B" class="text" />
-                    <%--  <i class="iconfont" onclick="remove(this)">&#xe611;</i>--%>
+                    <input type="text"  placeholder="请填写选项B" value="" isrequired="true" fl="选项B" class="text" />                  
                 </li>
                 <li><i class="radio"></i>
-                    <input type="text" <%--name="OptionC"--%> placeholder="请填写选项C" value="" isrequired="true" fl="选项C" class="text" /><%--<i class="iconfont" onclick="remove(this)">&#xe611;</i>--%></li>
+                    <input type="text"  placeholder="请填写选项C" value="" isrequired="true" fl="选项C" class="text" /><%--<i class="iconfont" onclick="remove(this)">&#xe611;</i>--%></li>
             </ul>
             <a href="javascript:newItem();" class="newoption"><i class="iconfont">&#xe61b;</i>新增选项</a>
         </div>
@@ -52,23 +50,11 @@
 
     <div class="selectwrap clearfix">
         <span class="fl cursele">当前选择：</span>
-        <div class="search_toobar clearfix fl">
-            <%-- <div class="fl">
-                <label for="">指标分类:</label>
-                <select class="select" name="IndicatorType_Id_2" isrequired="true" fl="指标分类" id="indicator_type">
-                    <option value="0">--请选择--</option>
-                </select>
-            </div>
-            <div class="fl ml10">
-                <select class="select" name="IndicatorType_Id" isrequired="true" fl="指标分类" id="indicator_type_2">
-                    <option value="0">--请选择--</option>
-                </select>
-            </div>--%>
+        <div class="search_toobar clearfix fl">          
             <div class="fl ml10">
                 <label for="">题型:</label>
                 <select class="select" name="QuesType_Id" id="QuesType_Id">
-                    <option value="1">单选题</option>
-                    <%--<option value="2">多选题</option>--%>
+                    <option value="1">单选题</option>                  
                     <option value="3">问答题</option>
                 </select>
             </div>
@@ -78,24 +64,7 @@
             </div>
         </div>
     </div>
-    <div class="main" style=" min-height: 270px;">
-        <%--<div class="input-wrap" id="indicator">
-            <label>指标名称：</label><input type="text" name="Name" class="text" placeholder="学生对课程的满意度调查" value="" style="width:500px;" />
-            <ul class="option_lists clearfix" id="item_list">
-                <li>
-                    <i class="radio"></i>
-                    <input type="text" name="OptionA" placeholder="非常满意" value="" class="text" />
-                     <i  class="iconfont">&#xe611;</i>
-                </li>
-                <li>
-                    <i class="radio"></i>
-                    <input type="text" name="OptionB" placeholder="满意" value="" class="text" />
-                    <i class="iconfont">&#xe611;</i>
-                </li>
-                <li><i class="radio"></i><input type="text" name="OptionC" placeholder="一般" value="" class="text" /><i class="iconfont">&#xe611;</i></li>
-            </ul>
-            <a href="javascript:newItem();" class="newoption"><i class="iconfont">&#xe649;</i>新增选项</a>
-        </div>--%>
+    <div class="main" style=" min-height: 270px;">        
     </div>
     <div class="btnwrap">
         <input type="button" value="保存" onclick="submit()" class="btn" />

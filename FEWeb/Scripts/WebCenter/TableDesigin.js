@@ -860,6 +860,20 @@ var UI_Table_Create =
         }
         //启用或禁用
         var IsEnable = $("#disalbe").is(":checked") ? 0 : 1;
+
+        for (var h in all_array) {
+            for (var f in all_array[h].indicator_list) {
+                var obj = all_array[h].indicator_list[f];
+                obj.OptionF_S_Max = obj.OptionF_S_Max == '' ? 0 : obj.OptionF_S_Max;
+
+                obj.OptionA_S = obj.OptionA_S == '' ? 0 : obj.OptionA_S;
+                obj.OptionB_S = obj.OptionB_S == '' ? 0 : obj.OptionB_S;
+                obj.OptionC_S = obj.OptionC_S == '' ? 0 : obj.OptionC_S;
+                obj.OptionD_S = obj.OptionD_S == '' ? 0 : obj.OptionD_S;
+                obj.OptionE_S = obj.OptionE_S == '' ? 0 : obj.OptionE_S;
+                obj.OptionF_S = obj.OptionF_S == '' ? 0 : obj.OptionF_S;
+            }
+        }
         $.ajax({
             url: HanderServiceUrl + "/Eva_Manage/Eva_ManageHandler.ashx",
             type: "post",
@@ -944,6 +958,21 @@ var UI_Table_Create =
 
         //启用或禁用
         var IsEnable = $("#disalbe").is(":checked") ? 0 : 1;
+
+        for (var h in all_array) {
+            for (var f in all_array[h].indicator_list) {
+                var obj = all_array[h].indicator_list[f];
+                obj.OptionF_S_Max = obj.OptionF_S_Max == '' ? 0 : obj.OptionF_S_Max;
+
+                obj.OptionA_S = obj.OptionA_S == '' ? 0 : obj.OptionA_S;
+                obj.OptionB_S = obj.OptionB_S == '' ? 0 : obj.OptionB_S;
+                obj.OptionC_S = obj.OptionC_S == '' ? 0 : obj.OptionC_S;
+                obj.OptionD_S = obj.OptionD_S == '' ? 0 : obj.OptionD_S;
+                obj.OptionE_S = obj.OptionE_S == '' ? 0 : obj.OptionE_S;
+                obj.OptionF_S = obj.OptionF_S == '' ? 0 : obj.OptionF_S;
+            }
+        }
+
         $.ajax({
             url: HanderServiceUrl + "/Eva_Manage/Eva_ManageHandler.ashx",
             type: "post",
@@ -1135,15 +1164,15 @@ var UI_Table_View = {
 
         $("#item_check").tmpl(headerList).appendTo("#list");
         $("#item_check2").tmpl(head_value).appendTo("#list");
+
+      
     },
 
     scoreInit: function (retData) {
 
         if (retData.IsScore == 1) {
             $(".isscore").hide();
-        }
-        UI_Table_View.IsScore = retData.IsScore;
-
+        }        
         var sp_total = 0;
         for (var i in retData.Table_Detail_Dic_List) {
             var data = retData.Table_Detail_Dic_List[i];
@@ -1170,12 +1199,13 @@ var UI_Table_View = {
             type: "post",
             async: false,
             dataType: "json",
-            data: { Func: "Get_Eva_TableDetail", "table_Id": table_Id, "IsPage_Display": UI_Table_View.IsPage_Display, "RoomID": RoomID, "ReguID": ReguID },
+            data: { Func: "Get_Eva_TableDetail", "table_Id": table_Id, "IsPage_Display": UI_Table_View.IsPage_Display, "RoomID": RoomID, "ReguID": ReguID,"UserID":login_User.UniqueNo },
             success: function (json) {
 
                 var retData = json.result.retData;
               
                 $(".tablename").html(retData.Name);
+                UI_Table_View.IsScore = retData.IsScore;
                 switch (UI_Table_View.PageType) {
                     case 'TableView':
                         UI_Table_View.TableView_Init(retData);
@@ -1199,9 +1229,13 @@ var UI_Table_View = {
                     case 'detailModal':
 
                         break;
+                    case 'RegularEva_View':
+
+                        break;
                     case 'onlinetest':
                         retData.headerList = retData.Table_Header_List.filter(function (item) { return item.CustomCode != null && item.CustomCode != '' });
                         retData.head_value = retData.Table_Header_List.filter(function (item) { return item.CustomCode == null || item.CustomCode == '' });
+
                         break;
 
                     case 'AddEvalTable':

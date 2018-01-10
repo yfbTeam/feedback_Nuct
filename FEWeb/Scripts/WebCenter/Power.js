@@ -106,8 +106,6 @@ var UI_Power =
                         reUserinfo = returnVal.result.retData.MainData;
                         DPList = returnVal.result.retData.DPList;
                         ClsList = returnVal.result.retData.ClsList;
-
-                        debugger;
                         $("#item_College").tmpl(DPList).appendTo($('#college'));
                         $("#item_Class").tmpl(ClsList).appendTo($('#class'));
                         ChosenInit($('#class'));

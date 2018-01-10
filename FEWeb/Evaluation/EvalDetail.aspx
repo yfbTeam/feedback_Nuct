@@ -176,7 +176,7 @@
                        <b class="isscore">（<span class="isscore">${OptionF_S_Max}分</span>）</b>
                         {{/if}}
                     </h2>
-                    {{if $value.QuesType_Id!=3}}
+                    {{if $value.QuesType_Id ==1}}
                     <div class="test_desc" DetailID="${Id}">
                         {{if $value.OptionA!=""}}
                         <span>
@@ -233,7 +233,11 @@
                         <textarea readonly="readonly"></textarea>
                     </div>
 
-                    {{else}}
+                    {{else $value.QuesType_Id==4 }}
+                    <div class="test_desc" detailid="${Id}" maxscore="${OptionF_S_Max}">
+                        <input  readonly="readonly" name="Name" style="width: 98%; height: 35px;" />
+                    </div>
+                   
                     {{/if}}
                 </li>
                     {{/each}}
@@ -268,7 +272,7 @@
         //$('#header').load('../../header.html');
         $('#footer').load('../../footer.html');
         UI_Table_View.PageType = 'EvalDetail';
-        UI_Table_View.IsPage_Display = true;
+        UI_Table_View.IsPage_Display = true;       
         UI_Table_View.Get_Eva_TableDetail();
         IsScore = UI_Table_View.IsScore;
 

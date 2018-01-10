@@ -142,7 +142,9 @@
                 data: parmsData,
                 success: function (json) {
                     if (json.result.errNum == 0) {
+                        $('#tb_info_page').show();
                         $("#lbl_AllScore").html("总分：" + json.result.errMsg + "分");
+                       
                         $("#li_User").tmpl(json.result.retData.PagedData).appendTo("#tb_info");                       
                         laypage({
                             cont: 'tb_info_page', //容器。值支持id名、原生dom对象，jquery对象。【如该容器为】：<div id="page1"></div>
@@ -160,6 +162,7 @@
                         animation();                                            
                     } else {
                         $("#lbl_AllScore").html("总分：0分");
+                        $('#tb_info_page').hide();
                         nomessage('#tb_info','li');
                     }
                 },

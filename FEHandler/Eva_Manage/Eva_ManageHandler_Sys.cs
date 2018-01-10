@@ -899,6 +899,8 @@ namespace FEHandler.Eva_Manage
             int RoomID = RequestHelper.int_transfer(Request, "RoomID");
             int ReguID = RequestHelper.int_transfer(Request, "ReguID");
 
+
+            string UserID = RequestHelper.string_transfer(Request, "UserID");
             //没有教学反馈
             bool no_eduType = RequestHelper.bool_transfer(Request, "no_eduType");
             Table_View table_view = new Table_View();
@@ -959,20 +961,17 @@ namespace FEHandler.Eva_Manage
                             var regu = model[0].regu;
                             table_view.Info = new
                             {
-                                
-                               
                                 SectionID = room.StudySection_Id,
                                 DisplayName = section.DisPlayName,
                                 ReguID = regu.Id,
                                 ReguName = regu.Name,
-
                                 CourseID = room.Coures_Id,
                                 CourseName = room.CouresName,
-
                                 TeacherUID = room.TeacherUID,
                                 TeacherName = room.TeacherName,
-
-                                DepartmentName =room.DepartmentName,
+                                DepartmentName = room.DepartmentName,
+                                RoomID =RoomID,
+                                IsInClass = Constant.Class_StudentInfo_List.Count(i => i.UniqueNo == UserID && i.Class_Id == room.ClassID) > 0 ? true : false,
                             };
                         }
                     }

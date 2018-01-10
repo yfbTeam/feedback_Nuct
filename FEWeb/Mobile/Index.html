@@ -27,28 +27,11 @@
         }
     </style>
 
-    <!--href="<% if(item.type==1){ %> RegularEva_Table.html?Id=<%=item.dis_Id%>&Course_Id=<%=item.course_UniqueNo%>&course_Name=<%=item.course_Name.replace(/(^\s*)|(\s*$)/g,'')%>&Teacher_Id=<%=item.teacher_Unique%>&Teacher_Name=<%=item.teacher_Name%>&section=<%=item.section_Id%>&Table_Id=<%=item.table_Id%> <% }else if(item.type==2||item.type==3){%> onlinetest.html?id=<%=item.task_Id%>&isaw=0 <% } %>"-->
-    <!--href="<% if(item.type==1){ %> RegularEva_View.html?Id=<%=item.dis_Id%>&Course_Id=<%=item.course_UniqueNo%>&course_Name=<%=item.course_Name.replace(/(^\s*)|(\s*$)/g,'')%>&Teacher_Id=<%=item.teacher_Unique%>&Teacher_Name=<%=item.teacher_Name%>&section=<%=item.section_Id%>&Table_Id=<%=item.table_Id%> <% }else if(item.type==2||item.type==3){%> onlinetest.html?id=<%=item.task_Id%>&isaw=1 <% } %>"-->
-    <!--待评价表-->
-    <script type="text/template" id="item_WaitEva">
-        <% $.each(retData,function(index,item){ %>
-        <li>
-            <a >
-                <h2 class="title"><%=item.ReguName%></h2>
-                <p>
-                    <span class="type"><%=item.CourseName%>-<%=item.TeacherName%></span>
-                    <span class="time"><%=DateTimeConvert(item.CreateTime)%></span>
-                </p>
-            </a>
-            <i class="iconfont">&#xe60c;</i>
-        </li>
-        <% }) %>
-    </script>
     <!--已评价表-->
     <script type="text/template" id="item_HasEva">
         <% $.each(retData,function(index,item){ %>
         <li>
-            <a >
+            <a href="RegularEva_View.html?table_Id=<%=item.TableID%>&QuestionID=<%=item.Id%>">
                 <h2 class="title"><%=item.ReguName%></h2>
                 <p>
                     <span class="type"><%=item.CourseName%>-<%=item.TeacherName%></span>
@@ -62,27 +45,11 @@
 </head>
 <body>
     <header class="header">
-        <!--<div class="photo">
-            <img src="images/ren.jpg" alt="" />
-        </div>-->
         <span class="title">首页</span>
     </header>
     <div class="message_wrap">
-        <!--<a href="Feedback.html" class="active">
-            <span id="span_IxReadCount"></span>
-            <p>未读消息</p>
-        </a>
-        <a href="javascript:;">
-            <span id="span_WaitEva_Count"></span>
-            <p>待评价表</p>
-        </a>-->
         <h1 style="vertical-align: middle; text-align: center; margin-top: 18px">课堂评价-已评价</h1>
-
     </div>
-    <!--<nav class="nav">
-        <a href="javascript:;" class="active">待评价表</a>
-        <a href="javascript:;" class="active">已评价表</a>
-    </nav>-->
     <div class="content" style="top:100px;">
 
         <div class="lists_wrap">
@@ -96,11 +63,6 @@
             <b></b>
             <p>首页</p>
         </a>
-        <!--<a href="Feedback.html">
-            <i class="iconfont">&#xe6ce;</i>
-            <b></b>
-            <p>互动反馈</p>
-        </a>-->
         <a href="My.html" class="fr" style="float: right; ">
             <i class="iconfont">&#xe692;</i>
             <b></b>
@@ -128,7 +90,7 @@
         function Get_Backlog() {
             $("#ul_WaitEva").empty();
             $("#ul_HasEva").empty();
-           
+
             var StudentUID = login_User.UniqueNo;
             $.ajax({
                 url: HanderServiceUrl + "/Eva_Manage/Eva_ManageHandler.ashx",
@@ -138,27 +100,15 @@
                 data: { Func: "Get_Backlog", StudentUID: StudentUID },
                 success: function (json) {
                     var retDataCache = json.result.retData;
+                    console.log(retDataCache);
                     if (retDataCache.length == 0) {
                         nomessage('ul_WaitEva');
                         $("#span_WaitEva_Count").html(0);
                         nomessage('ul_HasEva');
                         return;
                     }
-                    ////筛选待评价的
-                    //var waitList = retDataCache.filter(function (item) { return item.IsAnswer == false });
-                    //$("#span_WaitEva_Count").html(waitList.length);
-                    //if (waitList.length > 0) {
-                    //    $("#ul_WaitEva").append(ejs.render($('#item_WaitEva').html(), { retData: waitList }));
-                    //} else {
-                    //    nomessage('ul_WaitEva');
-                    //}
-
-                    //筛选已评价的
-                    //var hasList = retDataCache.filter(function (item) { return item.IsAnswer == true });
-                    if (retDataCache.length > 0) {
+                    else {
                         $("#ul_HasEva").append(ejs.render($('#item_HasEva').html(), { retData: retDataCache }));
-                    } else {
-                        nomessage('ul_HasEva');
                     }
                 },
                 error: function () {
