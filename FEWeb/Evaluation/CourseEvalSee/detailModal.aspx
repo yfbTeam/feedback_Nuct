@@ -98,43 +98,33 @@
         <li>
             <dl>
                 <dt>${Root}</dt>
-                <dd>
-                    {{each Eva_TableDetail_List}}
+                <dd>{{if HasQue1 == true}}
+                        <table class="allot_table mt10">
+                            <thead>
+                                <tr>
+                                    <th>调查项目</th>
+                                    <th width="5%">A</th>
+                                    <th width="5%">B</th>
+                                    <th width="5%">C</th>
+                                    <th width="5%">D</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {{each Eva_TableDetail_List}}
+                                {{if }}
+                                        <tr>
+                                            <td class="tl">1.按时上下课</td>
+                                            <td>12人</td>
+                                            <td>12人</td>
+                                            <td>12人</td>
+                                            <td>12人</td>
+                                        </tr>                               
+                                {{/each}}                                   
+                            </tbody>
+                        </table>
+                    {{/if}}
 
-                    <table class="allot_table mt10">
-                        <thead>
-                            <tr>
-                                <th>调查项目</th>
-                                <th width="5%">A</th>
-                                <th width="5%">B</th>
-                                <th width="5%">C</th>
-                                <th width="5%">D</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td class="tl">1.按时上下课</td>
-                                <td>12人</td>
-                                <td>12人</td>
-                                <td>12人</td>
-                                <td>12人</td>
-                            </tr>
-                            <tr>
-                                <td class="tl">1.按时上下课</td>
-                                <td>12人</td>
-                                <td>12人</td>
-                                <td>12人</td>
-                                <td>12人</td>
-                            </tr>
-                            <tr>
-                                <td class="tl">1.按时上下课</td>
-                                <td>12人</td>
-                                <td>12人</td>
-                                <td>12人</td>
-                                <td>12人</td>
-                            </tr>
-                        </tbody>
-                    </table>
+             
                     <ul class="objective_lists">
                         <li>
                             <dt style="border: none;" class="clearfix">
@@ -154,7 +144,7 @@
                         </li>
                     </ul>
 
-                    {{/each}}
+
                 </dd>
             </dl>
         </li>
@@ -178,8 +168,28 @@
                 $("#item_check").tmpl(headerList).appendTo("#list");
                 $("#item_check").tmpl(head_value).appendTo("#list");
 
-                $("#itemdata").tmpl(retData.Table_Detail_Dic_List).appendTo(".details_lists");
-                
+                var list = retData.Table_Detail_Dic_List;
+
+                for (var i in list) {
+                    list[i].HasQue1 = false;
+                    list[i].HasQue3 = false;
+                    list[i].HasQue4 = false;
+                    for (var j in list[i].Eva_TableDetail_List) {
+                        var child = list[i].Eva_TableDetail_List[j];
+                        if (child.QuesType_Id == 3) {
+                            list[i].HasQue3 = true;
+                        }
+                        else if (child.QuesType_Id == 1) {
+                            list[i].HasQue1 = true;
+                        }
+                        else if (child.QuesType_Id == 4) {
+                            list[i].HasQue4 = true;
+                        }
+                    }
+                }
+                console.log(list)
+                $("#itemdata").tmpl(list).appendTo(".details_lists");
+
             };
             UI_Table_View.Get_Eva_TableDetail();
 
