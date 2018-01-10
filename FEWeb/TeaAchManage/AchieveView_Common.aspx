@@ -320,7 +320,9 @@
                             if (model.ComStatus > 7) {
                                 Member_Data = [curMemData];                                
                                 Get_SelfRewardData();
-                            }                            
+                            }
+                            $(".re_history").show();
+                            Get_ModifyRecordData(loginUser.UniqueNo);
                         }
                     }
                 },
@@ -343,9 +345,7 @@
                         if (auditlist.length > 0) {
                             $(".re_reward").show();
                             $("#div_item").tmpl(auditlist).appendTo("#div_MoneyInfo");
-                            Get_SelfAllot();
-                            $(".re_history").show();
-                            Get_ModifyRecordData(loginUser.UniqueNo);
+                            Get_SelfAllot();                            
                         }                        
                     }
                 },

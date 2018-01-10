@@ -118,7 +118,10 @@
                     $("#ul_Edition li").click(function (i, n) {                       
                         SetControlValue($(this).attr("eid"));
                     });
-                }                
+                } else {
+                    $("#Name,#BeginTime,#EndTime").val("");
+                    $('#uploader .queueList .filelist').html('');
+                }
             },
             error: function () {
                 //接口错误时需要执行的
@@ -217,7 +220,7 @@
                 type: "post",
                 async: false,
                 dataType: "json",
-                data: { Func: "Del_RewardEdition",LID:$("#LID").val(), ItemId: $("#id").val(), BeginTime: $("#BeginTime").val(), EndTime: $("#EndTime").val() },
+                data: { Func: "Del_RewardEdition",ItemId: $("#id").val()},
                 success: function (json) {
                     if (json.result.errNum == 0) {                        
                         layer.close(index);

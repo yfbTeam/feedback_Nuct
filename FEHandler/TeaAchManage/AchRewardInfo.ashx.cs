@@ -770,9 +770,8 @@ namespace FEHandler.TeaAchManage
         }
         private void DelRank(HttpContext context)
         {
-            int Id = Convert.ToInt32(context.Request["Id"]);
-            //是否已经引用
-            int useCount = Convert.ToInt32(SQLHelp.ExecuteScalar("select count(1) from TPM_AcheiveRewardInfo where IsDelete=0 and sort='" + Id + "'", CommandType.Text, null));
+            int Id = Convert.ToInt32(context.Request["Id"]);            
+            int useCount = Convert.ToInt32(SQLHelp.ExecuteScalar("select count(1) from TPM_AcheiveRewardInfo where IsDelete=0 and sort='" + Id + "'", CommandType.Text, null));//是否已经引用
             if (useCount > 0)
             {
                 jsonModel = JsonModel.get_jsonmodel(-1, "该排名已经被使用！", "");
@@ -1048,7 +1047,7 @@ namespace FEHandler.TeaAchManage
                 Hashtable book_ht = new Hashtable();
                 book_ht.Add("AuthorNo", LoginUID);
                 book_ht.Add("Status", 3);
-                DataTable bookDt = new TPM_AcheiveRewardInfoDal().GetListByPage(aud_ht, out book_RowCount, false, "");
+                DataTable bookDt = new TPM_BookStoryDal().GetListByPage(book_ht, out book_RowCount, false, "");
                int bookCount = (bookDt == null || bookDt.Rows.Count <= 0)?0: bookDt.Rows.Count;//我的教材
                 List<Dictionary<string, object>> rtnList = new List<Dictionary<string, object>> {
                      new Dictionary<string, object> { { "AuditCount", aduCount },{ "MyCount",  myCount },{ "BookCount", bookCount } }};        

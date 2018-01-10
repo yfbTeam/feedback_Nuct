@@ -25,7 +25,6 @@ namespace FEDAL
                 isnull((select STUFF((select '+' + CAST(Money AS NVARCHAR(MAX)) from TPM_RewardBatch where IsDelete=0 and Reward_Id=R_Info.Id and Id!=R_Info.FirstId FOR xml path('')), 1, 1, '')),0) as AddMoney
                 ,(select count(1) from TPM_AcheiveRewardInfo where IsDelete=0 and (Status=1 or Status>2) and Rid=R_Info.Id)RewardCount
                 ,(select count(1) from TPM_AcheiveRewardInfo where IsDelete=0 and (Status=5 or Status>6) and Rid=R_Info.Id)ScoreCount
-                ,(select count(1) from TPM_AuditReward where IsDelete=0 and Status in(1,3) and RewardBatch_Id=FirstId)AddRewCount
                 from
                 (select *,(select top 1 Id from TPM_RewardBatch where Reward_Id=info.Id and IsDelete=0 order by Id) as FirstId
                  from TPM_RewardInfo info) as R_Info where 1=1");

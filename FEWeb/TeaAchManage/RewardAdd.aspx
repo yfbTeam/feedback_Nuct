@@ -79,11 +79,9 @@
                         $("#Name").val(this.Name);
                         if (this.RewardCount > 0) {
                             $("#ScoreType").attr('disabled', 'disabled');
-                        }
-                        $("#ScoreType").val(this.ScoreType);
-                        if (this.ScoreCount > 0) {
                             $("#Score").attr('disabled', 'disabled');
                         }
+                        $("#ScoreType").val(this.ScoreType);                        
                         $("#Score").val(this.Score);                        
                         $("#Sort").val(this.Sort);
                     })
