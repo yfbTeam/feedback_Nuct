@@ -561,10 +561,9 @@ function Get_AchieveStatus(status,obj) {
 
 /********************************************************业绩-奖金分配开始***************************************************/
 //绑定奖项奖金信息
-function Get_RewardBatchData(reasonobj, no_status,ishistory) {
+function Get_RewardBatchData(reasonobj, no_status) {
     reasonobj = arguments[0] || "";
-    no_status = arguments[1] || ""; //不赋值的状态
-    ishistory = arguments[2] || "1"; //是否加载历史记录 1加载（默认）；2不加载
+    no_status = arguments[1] || ""; //不赋值的状态    
     $("#div_MoneyInfo").empty();
     $.ajax({
         url: HanderServiceUrl + "/TeaAchManage/AchRewardInfo.ashx",
@@ -585,10 +584,7 @@ function Get_RewardBatchData(reasonobj, no_status,ishistory) {
                     Get_AllotReward(no_status);
                     Bind_AllotFile();
                 }               
-            }
-            if (ishistory == "1") {
-                Get_ModifyRecordData();
-            }            
+            }           
         },
         error: function () {
             //接口错误时需要执行的

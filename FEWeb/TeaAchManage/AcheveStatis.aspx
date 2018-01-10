@@ -40,7 +40,7 @@
         <tr>
             <td>${GidName}</td>
             <td>${AchiveName}</td>
-            <td>${Major_Name}</td>
+            <td>${Dep_Major_Name}</td>
             <td>${ResponsName}</td>
             <td>${Year}</td>        
             <td>${Score}</td>

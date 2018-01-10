@@ -337,9 +337,8 @@ namespace FEHandler.TeaAchManage
         {
             try
             {
-                int itemid = Convert.ToInt32(context.Request["ItemId"]);
-                //是否已经引用
-                int useCount = Convert.ToInt32(SQLHelp.ExecuteScalar("select count(1) from TPM_AcheiveRewardInfo where IsDelete=0 and LID=" + RequestHelper.int_transfer(context.Request, "LID")+" and convert(varchar(10),DefindDate,21) between '" + context.Request["beginTime"] + "' and '"+ context.Request["endTime"] + "'", CommandType.Text, null));
+                int itemid = Convert.ToInt32(context.Request["ItemId"]);                
+                int useCount = Convert.ToInt32(SQLHelp.ExecuteScalar("select count(1) from TPM_AcheiveRewardInfo a left join TPM_RewardLevel lev on lev.Id = a.Lid where a.IsDelete = 0 and lev.EID ="+ itemid, CommandType.Text, null));//是否已经引用
                 if (useCount > 0)
                 {
                     jsonModel = JsonModel.get_jsonmodel(-1, "该版本已经被使用！", "");

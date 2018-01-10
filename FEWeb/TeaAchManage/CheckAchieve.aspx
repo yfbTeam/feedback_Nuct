@@ -107,8 +107,8 @@
                 <span>${Major_Name}</span>
             </div>
         </div>         
-               <h2 class="cont_title members {{if AchieveType!=2||((ResponsMan!=$('#CreateUID').val()&&Status>6)||(ResponsMan==$('#CreateUID').val()&&Status>3))}}none{{/if}}"><span>成员信息</span></h2>
-            <div class="area_form members {{if AchieveType!=2||((ResponsMan!=$('#CreateUID').val()&&Status>6)||(ResponsMan==$('#CreateUID').val()&&Status>3))}}none{{/if}}">
+               <h2 class="cont_title members {{if AchieveType!=2||(UrlDate.Type=='Check'&&Status!=1)||(UrlDate.Type!='Check'&&((ResponsMan!=$('#CreateUID').val()&&Status>6)||(ResponsMan==$('#CreateUID').val()&&Status>3)))}}none{{/if}}"><span>成员信息</span></h2>
+            <div class="area_form members {{if AchieveType!=2||(UrlDate.Type=='Check'&&Status!=1)||(UrlDate.Type!='Check'&&((ResponsMan!=$('#CreateUID').val()&&Status>6)||(ResponsMan==$('#CreateUID').val()&&Status>3)))}}none{{/if}}">
                 <div class="clearfix {{if ResponsMan!=$('#CreateUID').val()&&UrlDate.Type!='Check'}}none{{/if}}" id="div_user_mem">                        
                     <span class="fr status">已分：<span id="span_CurScore">0</span>分</span>
                     <span class="fr status">总分：<span id="span_AllScore">${TotalScore}</span>分，</span>
@@ -124,8 +124,8 @@
                     <tbody id="tb_Member"></tbody>
                 </table>
             </div>
-            <h2 class="cont_title book {{if AchieveType!=3||((ResponsMan!=$('#CreateUID').val()&&Status>6)||(ResponsMan==$('#CreateUID').val()&&Status>3))}}none{{/if}}"><span>作者信息</span></h2>
-            <div class="area_form book {{if AchieveType!=3||((ResponsMan!=$('#CreateUID').val()&&Status>6)||(ResponsMan==$('#CreateUID').val()&&Status>3))}}none{{/if}}" >
+            <h2 class="cont_title book {{if AchieveType!=3||(UrlDate.Type=='Check'&&Status!=1)||(UrlDate.Type!='Check'&&((ResponsMan!=$('#CreateUID').val()&&Status>6)||(ResponsMan==$('#CreateUID').val()&&Status>3)))}}none{{/if}}"><span>作者信息</span></h2>
+            <div class="area_form book {{if AchieveType!=3||(UrlDate.Type=='Check'&&Status!=1)||(UrlDate.Type!='Check'&&((ResponsMan!=$('#CreateUID').val()&&Status>6)||(ResponsMan==$('#CreateUID').val()&&Status>3)))}}none{{/if}}" >
                 <div class="clearfix" id="div_user_book"> 
                     <span class="fr status">总分：<span id="span_BookScore">0</span>分</span>                      
                     <span class="fr status">总贡献字数：<span id="span_Words">0</span>万字，</span>                       
@@ -186,8 +186,8 @@
             </div>
             <h2 class="cont_title re_reward none"><span>奖金分配</span></h2> 
             <div class="area_form re_reward none" id="div_MoneyInfo"></div>        
-            <h2 class="cont_title re_reward none"><span>分配历史</span></h2>
-            <div class="area_form re_reward none">
+            <h2 class="cont_title re_history none"><span>分配历史</span></h2>
+            <div class="area_form re_history none">
                 <ul class="history" id="ul_Record"></ul>
             </div>
     </script>
@@ -355,6 +355,7 @@
                 $(".checkmes").show();
                 $(".btnwrap2").hide();
             }
+            if (model.ComStatus > 6) { $(".re_history").show(); Get_ModifyRecordData(); }
         }       
         //绑定成员信息
         var Member_Data = [];

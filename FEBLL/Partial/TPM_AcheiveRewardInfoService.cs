@@ -62,12 +62,12 @@ namespace FEBLL
         #endregion
 
         #region 批量修改成员
-        public JsonModel Edit_AcheiveMember(List<TPM_RewardUserInfo> items, int riid = 0,int bookId = 0)
+        public JsonModel Edit_AcheiveMember(List<TPM_RewardUserInfo> items, int riid = 0,int bookId = 0,bool isUpSort=true)
         {
             JsonModel jsonModel = new JsonModel();
             try
             {
-                int result = new TPM_RewardUserInfoDal().Edit_AcheiveMember(items, riid, bookId);
+                int result = new TPM_RewardUserInfoDal().Edit_AcheiveMember(items, riid, bookId, isUpSort);
                 if (result > 0)
                 {
                     jsonModel = new JsonModel()

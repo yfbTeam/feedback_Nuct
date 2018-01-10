@@ -280,8 +280,8 @@
                 <input type="button" value="提交" class="btn" onclick="Save_Reward();" />
             </div>
         </div>
-        <h2 class="cont_title re_reward none RewardReason"><span>分配历史</span></h2>
-        <div class="area_form re_reward none RewardReason">
+        <h2 class="cont_title re_history none"><span>分配历史</span></h2>
+        <div class="area_form re_history none">
             <ul class="history" id="ul_Record"></ul>
         </div>
     </div>
@@ -354,7 +354,8 @@
                         $("#tr_MemEdit").tmpl(json.result).appendTo("#tb_Member");
                         GetAchieveUser_Score(json.result.retData);
                     }
-                    if (ach_model.ComStatus > 7){Get_RewardBatchData($(".RewardReason"));}                    
+                    if (ach_model.ComStatus > 7) { Get_RewardBatchData($(".RewardReason")); }
+                    if (ach_model.ComStatus > 6) { $(".re_history").show(); Get_ModifyRecordData(); }
                 },
                 error: function (errMsg) {
                     layer.msg(errMsg);
@@ -406,8 +407,8 @@
                     data: object,
                     success: function (json) {
                         if (json.result.errNum == 0) {
-                            layer.msg('操作成功!');
-                            Get_RewardUserInfo();
+                            parent.layer.msg('操作成功!');
+                            parent.CloseIFrameWindow();
                         } else if (json.result.errNum == -1) { }
                     },
                     error: function (errMsg) { alert(errMsg); }
@@ -439,7 +440,7 @@
             $("#tb_Member tr").each(function (i, n) {
                 if ($(this).hasClass('memedit')) {
                     var id = n.id.replace('tr_mem_', ''), userno = $(this).attr('un')
-                      , score = Num_Fixed($(this).find('input[type=number][name=score]').val())
+                      , score = cur_AchieveType == "3" ? $(this).find('td.td_score').html() : Num_Fixed($(this).find('input[type=number][name=score]').val())
                       , oldscore = Num_Fixed($(this).find('input[type=number][name=score]').attr('oldsc'));
                     if ($(this).is(":visible")) {
                         editArray.push({ Id: id, Score: score, Sort: i + 1, EditUID: loginUser.UniqueNo });
@@ -464,14 +465,21 @@
         /***********************************************分数结束*************************************************/
         /***********************************************奖金开始*************************************************/
         function Save_Reward() {
-            var valid_flag = validateForm($('#div_MoneyInfo tbody input[type="number"]'));
+            var valid_flag = validateForm($('#div_MoneyInfo tbody input[type="number"],#txt_Reasonreward'));
             if (valid_flag != "0") {
                 return false;
             }
-            if (Number($('#span_AllMoney_' + rownum).html()) < Number($('#span_HasAllot_' + rownum).html())) {
+            var overcount = 0;
+            $('#div_MoneyInfo tbody').each(function (i, n) {               
+                var rownum = n.id.replace('tb_Member_', '');
+                if (Number($('#span_AllMoney_' + rownum).html()) < Number($('#span_HasAllot_' + rownum).html())) {
+                    overcount++;
+                }
+            }); 
+            if (overcount > 0) {
                 layer.msg("已分配奖金不能大于总奖金！");
-                return;
-            }
+                return false;
+            } 
             var object = { Func: "Admin_EditAllotReward", CreateUID: loginUser.UniqueNo, EditReason: $("#txt_Reasonreward").val().trim() };
             var add_path = Get_AddFile(5, '#uploader_reward');
             if (add_path.length <= 0) {
@@ -502,8 +510,8 @@
                     data: object,
                     success: function (json) {
                         if (json.result.errNum == 0) {
-                            layer.msg('操作成功!');
-                            Get_RewardUserInfo();
+                            parent.layer.msg('操作成功!');
+                            parent.CloseIFrameWindow();
                         } else if (json.result.errNum == -1) { }
                     },
                     error: function (errMsg) { alert(errMsg); }
@@ -516,20 +524,18 @@
                 var $cur_tb = $("#" + n.id);
                 var rownum = n.id.replace('tb_Member_', '');
                 var rew_batchid = $cur_tb.attr('rewid'); //追加奖金Id                
-                var auditid = $cur_tb.attr('autid'); //审核Id  
-                var subarray = [];
+                var auditid = $cur_tb.attr('autid'); //审核Id               
                 $cur_tb.find('tr').each(function () {
                     var userno = $(this).attr('un'), money = Num_Fixed($(this).find('.td_money input[type=number]').val())
                       , oldmoney = Num_Fixed($(this).find('.td_money input[type=number]').attr('oldre'));
-                    subarray.push({ RewardUser_Id: $(this).attr('uid'), AllotMoney: money, CreateUID: loginUser.UniqueNo });
+                    editArray.push({ Audit_Id: auditid, RewardUser_Id: $(this).attr('uid'), AllotMoney: money, EditUID: loginUser.UniqueNo });
                     if (Number(money) != Number(oldmoney)) { //修改的
                         edithis.push({
                             Type: 1, Acheive_Id: cur_AchieveId, RelationId: rew_batchid, Content: "第" + rownum + "批奖金" + loginUser.Name + '将' + $(this).find('td.td_memname').html() + oldmoney + "万" + "改为" + money + "万"
                                           , ModifyUID: userno, CreateUID: loginUser.UniqueNo
                         });
                     }
-                });
-                editArray.push({ Id: $(this).attr('uid'), AllotInfo: subarray, EditUID: loginUser.UniqueNo });
+                });              
             });
             return { editarray: editArray, edithis: edithis };
         }

@@ -47,6 +47,10 @@ namespace FEDAL
              where ruser.IsDelete=0 and ruser.RIId=a.Id and u.Major_ID=@LoginMajor_ID) MajorCount ");
                     pms.Add(new SqlParameter("@LoginMajor_ID", ht["LoginMajor_ID"].SafeToString()));
                 }
+                if (ht.ContainsKey("MyUno") && !string.IsNullOrEmpty(ht["MyUno"].SafeToString()))
+                {
+                    str.Append(" ,case when a.Status>6 then (select top 1 Score from TPM_RewardUserInfo where RIId=a.Id and UserNo=@MyUno) else NULL end as SelfScore ");
+                }
                 str.Append(@" from TPM_AcheiveRewardInfo a 
                     inner join UserInfo u on a.CreateUID=u.UniqueNo 
                     left join UserInfo uu on a.ResponsMan=uu.UniqueNo

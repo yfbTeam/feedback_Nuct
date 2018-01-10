@@ -206,7 +206,7 @@
                                 that.Info = json.result.retData[0];
                                 cur_AchieveType = that.Info.AchieveType;
                                 cur_ResponUID = that.Info.ResponsMan;
-                                Get_RewardUserInfo(); 
+                                Get_RewardUserInfo();                                
                             }
                         },
                         error: function () {
@@ -233,7 +233,7 @@
                     if (json.result.errNum.toString() == "0") {
                         Member_Data = json.result;
                     }
-                    Get_RewardBatchData("","","2");       
+                    Get_RewardBatchData();       
                 },
                 error: function (errMsg) {
                     layer.msg(errMsg);
@@ -285,10 +285,10 @@
                 data: object,
                 success: function (json) {
                     if (json.result.errNum == 0) {
-                        layer.msg('操作成功!');
-                        Del_Document(upfileid);
-                        Get_RewardBatchData("","","2"); 
+                        parent.layer.msg('操作成功!');
+                        Del_Document(upfileid);                       
                         parent.BindData(1, 10);
+                        parent.CloseIFrameWindow();
                     } else if (json.result.errNum == -1) {
 
                     }
