@@ -94,10 +94,9 @@
                             <th>分数</th>  
                             {{else}}
                             <th width="16px"><input type="checkbox" name="ck_tball" onclick="CheckAll(this)"/></th>
-                            <th>成员</th>
-                            <th>分数</th>                          
+                            <th>成员</th>                                                  
                             <th>部门</th>
-                            <th>录入日期</th>   
+                            <th>分数</th>   
                             {{/if}}                                          
                         </tr>
                     </thead>
@@ -143,13 +142,12 @@
                         {{/if}}
                     </td>
                     <td>${mem.Name}</td>
+                    <td>${mem.Major_Name}</td>
                     {{if $("#AchieveType").val()=="5"&&$('#hid_Status').val()=='3'}}
                        <td><input type="number" name="score" value="${UnitScore}" isrequired="true" regtype="money" fl="分数" min="0" step="0.01" onblur="ChangeRankScore(this);"/></td>
                     {{else}}
                       <td><input type="number" name="score" value="${mem.Score}" isrequired="true" regtype="money" fl="分数" min="0" step="0.01" onblur="ChangeRankScore(this);"/></td>
                     {{/if}}
-                    <td>${mem.Major_Name}</td>
-                    <td>${DateTimeConvert(mem.CreateTime,"yyyy-MM-dd")}</td>
                 {{/if}}
             </tr>
         {{/each}}  
@@ -158,10 +156,9 @@
     <script type="text/x-jquery-tmpl" id="itemData">
         <tr class="memadd" un="${UniqueNo}">
             <td><input type='checkbox' value="${UniqueNo}" name="ck_trsub" onclick="CheckSub(this);" /></td>
-            <td>${Name}</td>
+            <td>${Name}</td>           
+            <td>${MajorName}</td>
             <td><input type="number" name="score" value="" min="0" isrequired="true" regtype="money" fl="分数" step="0.01" onblur="ChangeRankScore(this);"></td>          
-            <td>${loginUser.Name}</td>
-            <td>${DateTimeConvert(new Date(),"yyyy-MM-dd",false)}</td>          
         </tr>
     </script>
 </head>

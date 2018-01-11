@@ -104,7 +104,7 @@
     <script src="../Scripts/linq.min.js"></script>
     <script src="../Scripts/jquery.tmpl.js"></script>
     <script src="../Scripts/laypage/laypage.js"></script>
-    <script src="./BaseUse.js"></script>
+    <script src="BaseUse.js"></script>
     <script>
         $(function () {
             $("#CreateUID").val(GetLoginUser().UniqueNo);

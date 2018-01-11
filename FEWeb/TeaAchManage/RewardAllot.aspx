@@ -47,10 +47,9 @@
                         <th>贡献字数（万字）</th>
                         <th>奖金</th>
                         {{else}}
-                        <th>成员</th>
-                        <th>奖金</th>
-                        <th>部门</th>
-                        <th>录入日期</th>
+                        <th>成员</th>                       
+                        <th>部门</th> 
+                        <th>奖金</th>                      
                         {{/if}}
                     </tr>
                 </thead>
@@ -65,13 +64,13 @@
                                 <td>${mem.WordNum}</td>
                                 <td class="td_money">{{if  AuditStatus==10||AuditStatus==0||AuditStatus==2}}<input type="number" isrequired="true" regtype="money" fl="奖金" min="0" step="0.01" onblur="Change_UserMoney(this);">{{/if}}</td>
                                 {{else}}
+                                 <td>${mem.Major_Name}</td>
                                  {{if UrlDate.AchieveType==5&&AuditStatus==10}}
                                    <td class="td_money"><input type="number" value="${Money}" isrequired="true" regtype="money" fl="奖金" min="0" step="0.01" onblur="Change_UserMoney(this);"></td>
                                  {{else}}
                                  <td class="td_money">{{if  AuditStatus==10||AuditStatus==0||AuditStatus==2}}<input type="number" isrequired="true" regtype="money" fl="奖金" min="0" step="0.01" onblur="Change_UserMoney(this);">{{/if}}</td>
-                                 {{/if}}
-                                <td>${mem.Major_Name}</td>
-                                <td>${DateTimeConvert(mem.CreateTime,"yyyy-MM-dd")}</td>
+                                 {{/if}}                                
+                                
                                 {{/if}}     
                             </tr>
                     {{/each}}    

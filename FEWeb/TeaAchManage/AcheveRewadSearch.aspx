@@ -95,7 +95,7 @@
     <script src="../Scripts/linq.min.js"></script>
     <script src="../Scripts/jquery.tmpl.js"></script>
     <script src="../Scripts/laypage/laypage.js"></script>
-    <script src="./BaseUse.js"></script>
+    <script src="BaseUse.js"></script>
     <script>
         $(function () {
             $("#CreateUID").val(GetLoginUser().UniqueNo);
@@ -133,6 +133,7 @@
                 success: function (json) {
                     if (json.result.errMsg == "success") {                       
                         $("#tr_Info").tmpl(json.result.retData.PagedData).appendTo("#tb_info");
+                        $("#class_table_wrap").show();
                         laypage({
                             cont: 'class_table_wrap', //容器。值支持id名、原生dom对象，jquery对象。【如该容器为】：<div id="page1"></div>
                             pages: json.result.retData.PageCount, //通过后台拿到的总页数
@@ -148,6 +149,7 @@
                        
                         tableSlide();
                     } else {
+                        $("#class_table_wrap").hide();
                         nomessage('#tb_info');
                     }
                 },

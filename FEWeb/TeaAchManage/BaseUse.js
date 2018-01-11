@@ -85,11 +85,8 @@ function BindDepart(id,val) {
             });                        
             $("#" + id).trigger("chosen:updated");
             $("#" + id).chosen();
-
         },
-        error: function (errMsg) {
-            //layer.msg(errMsg);
-        }
+        error: function (errMsg) {}
     });
 }
 function Chose_Mult_set_ini(select, values) {
@@ -129,9 +126,7 @@ function BindUser(id) {
             $("#" + id).trigger("chosen:updated");
             $("#" + id).chosen();
         },
-        error: function (errMsg) {
-            //layer.msg(errMsg);
-        }
+        error: function (errMsg) {}
     });
 }
 /********************************************************教材作者信息开始***************************************************/
@@ -194,6 +189,7 @@ function GetTPM_RewardUserInfo() {
             if (json.result.errMsg == "success") {
                 RewardUserInfo_data = json.result;
                 $("#tr_Info").tmpl(json.result).appendTo("#AuthorInfo");
+                GetInit_WordNum(json.result.retData);
             }
             IsOneAuthor();
             IsDisabled_IsOneAuthor();            
@@ -215,7 +211,7 @@ function BindDepartInfo(selid, depid, depname) {
         } else {
             first_tr += '<td><select><option value="1" selected="selected">主编</option></select></td>';
         }
-        first_tr += '<td><input type="number" disabled="disabled" value="1"/></td><td mid=' + $curoption.attr('mid') + '>' + $curoption.attr('mname') + '</td><td><input type="number" value=""/></td></tr>';
+        first_tr += '<td><input type="number" disabled="disabled" value="1"/></td><td mid=' + $curoption.attr('mid') + '>' + $curoption.attr('mname') + '</td><td><input type="number" value="" regtype="money" fl="贡献字数（万字）" step="0.01"/></td></tr>';
         var $existobj = $("#AuthorInfo tr[un='" + $curoption.val() + "']");
         if (!$existobj.length) { //列表中没有选择的用户
             $("#AuthorInfo .meditor").remove();
@@ -243,6 +239,7 @@ function Set_FirstAuthor() {
 }
 //是否开启/禁用 是否独著
 function IsDisabled_IsOneAuthor() {
+    GetCur_WordNum();
     var author_len = $("#AuthorInfo tr").length;
     if (author_len > 1) {
         $("input[name='IsOneAuthor']").attr("disabled", "disabled");
@@ -295,6 +292,27 @@ function Rtn_EditAuthorArray() {
     });
     return editArray;
 }
+//初始化时，获取总贡献字数
+function GetInit_WordNum(userdata) {
+    var curwords = 0;
+    $(userdata).each(function (i, n) {
+        if (n.WordNum) {
+            curwords = numAdd(curwords, n.WordNum);            
+        }
+    });
+    $('#span_Words').html(Num_Fixed(curwords));
+}
+//作者信息变化时，获取当前总贡献字数
+function GetCur_WordNum() {
+    var curwords = 0;
+    $("#AuthorInfo tr").each(function (i, n) {
+        var c_word = $(this).find('td').eq(5).find("input").val();
+        if (c_word) {
+            curwords = numAdd(curwords, c_word);
+        }
+    });
+    $('#span_Words').html(Num_Fixed(curwords));
+}
 /********************************************************教材作者信息结束***************************************************/
 //绑定系(院)
 function GetProfessInfo(objid) {
@@ -320,7 +338,8 @@ function GetProfessInfo(objid) {
         }
     });
 }
-function ChangeLid() { //认定日期修改时触发的方法
+//认定日期修改时触发的方法
+function ChangeLid() { 
     if ($("#DefindDate").val().trim() == "") {
         $("#Lid").html('<option value="">请选择</option>');
         $("#Rid").html('<option value="" ss="0">请选择</option>');
@@ -427,7 +446,8 @@ function SetScore() {
         $span_AllScore.html(Score);
     }
 }
-function GetCur_RankScore() { //获取当前业绩分数
+//获取当前业绩分数
+function GetCur_RankScore() { 
     var newScore = 0;
     var $span_CurScore = $('#span_CurScore');
     $('#tb_Member tr:visible').each(function (i, n) {
@@ -440,7 +460,8 @@ function GetCur_RankScore() { //获取当前业绩分数
     $span_CurScore.html(newScore);
     return newScore;
 }
-function ChangeRankScore(obj) {  //成员分数变化时
+//成员分数变化时
+function ChangeRankScore(obj) {  
     var subscore = 0;
     var warning = '';
     if (obj.value) {
@@ -456,7 +477,8 @@ function ChangeRankScore(obj) {  //成员分数变化时
         layer.msg(warning); 
     }  
 }
-function GetCur_UserMoney(objnum) { //获取当前成员奖金
+//获取当前成员奖金
+function GetCur_UserMoney(objnum) { 
     var newMoney = 0;
     var $span_HasAllot = $('#span_HasAllot_' + objnum);
     $('#tb_Member_' + objnum + ' tr:visible').each(function (i, n) {
@@ -469,7 +491,8 @@ function GetCur_UserMoney(objnum) { //获取当前成员奖金
     $span_HasAllot.html(newMoney);
     return newMoney;
 }
-function Change_UserMoney(obj) {//成员奖金变化时
+//成员奖金变化时
+function Change_UserMoney(obj) {
     objnum = $(obj).parent().parent().parent().attr('id').replace('tb_Member_', '');
     var subscore = 0;
     var warning = '';

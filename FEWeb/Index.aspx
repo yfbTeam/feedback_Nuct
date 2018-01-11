@@ -173,7 +173,7 @@
         });
         //获取我的业绩数据
         function getmyPrize(startIndex, pageSize) {
-            $("#tb_info").empty();
+            $("#myPirze_table").empty();
             $.ajax({
                 url: HanderServiceUrl + "/TeaAchManage/AchRewardInfo.ashx",
                 type: "post",
@@ -182,7 +182,7 @@
                 success: function (json) {
                     if (json.result.errMsg == "success") {
                         $("#my_prize_detail_Item").tmpl(json.result.retData.PagedData).appendTo("#myPirze_table");
-                       
+                        $("#myTable").show();
                         laypage({
                             cont: 'myTable', //容器。值支持id名、原生dom对象，jquery对象。【如该容器为】：<div id="page1"></div>
                             pages: json.result.retData.PageCount, //通过后台拿到的总页数
@@ -196,7 +196,8 @@
                             }
                         });
                         tableSlide();
-                    } else {                       
+                    } else {
+                        $("#myTable").hide();
                         nomessage('#myPirze_table');
                     }
                 },

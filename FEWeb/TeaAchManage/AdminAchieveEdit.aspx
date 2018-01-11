@@ -30,7 +30,7 @@
         {{each(i, mem) Member_Data.retData}}  
         <tr id="tr_mem_${mem.Id}" class="memedit" un="${mem.UserNo}">
             {{if $("#AchieveType").val()=="3"}}             
-                    <td>${mem.Name}</td>
+            <td class="td_memname">${mem.Name}</td>
             <td>{{if ULevel==0}}独著 {{else ULevel==1}}主编{{else ULevel==2}}参编{{else}}其他人员{{/if}}</td>
             <td>${Sort}</td>
             <td>${Major_Name}</td>
@@ -44,10 +44,8 @@
                     {{/if}}
                 </td>
             <td class="td_memname">${mem.Name}</td>
-            <td>
-                <input type="number" name="score" value="${mem.Score}" oldsc="${mem.Score}" isrequired="true" regtype="money" fl="分数" min="0" step="0.01" onblur="ChangeRankScore(this);"/></td>
             <td>${mem.Major_Name}</td>
-            <td>${DateTimeConvert(mem.CreateTime,"yyyy-MM-dd")}</td>
+            <td><input type="number" name="score" value="${mem.Score}" oldsc="${mem.Score}" isrequired="true" regtype="money" fl="分数" min="0" step="0.01" onblur="ChangeRankScore(this);"/></td>
             {{/if}}
         </tr>
         {{/each}}  
@@ -58,10 +56,8 @@
             <td>
                 <input type='checkbox' value="${UniqueNo}" name="ck_trsub" onclick="CheckSub(this);" /></td>
             <td class="td_memname">${Name}</td>
-            <td>
-                <input type="number" name="score" value="" isrequired="true" regtype="money" fl="分数" min="0" step="0.01" onblur="ChangeRankScore(this);"></td>
-            <td>${loginUser.Name}</td>
-            <td>${DateTimeConvert(new Date(),"yyyy-MM-dd",false)}</td>
+            <td>${MajorName}</td>
+            <td><input type="number" name="score" value="" isrequired="true" regtype="money" fl="分数" min="0" step="0.01" onblur="ChangeRankScore(this);"></td>
         </tr>
     </script>
     <%--分配历史记录--%>
@@ -96,10 +92,9 @@
                        <th>贡献字数（万字）</th>
                        <th>奖金</th>
                        {{else}}
-                        <th>成员</th>
-                       <th>奖金</th>
-                       <th>部门</th>
-                       <th>录入日期</th>
+                        <th>成员</th>                      
+                        <th>部门</th>
+                        <th>奖金</th>
                        {{/if}}
                    </tr>
                </thead>
@@ -112,14 +107,10 @@
                                 <td>${mem.Sort}</td>
                                 <td>${mem.Major_Name}</td>
                                 <td>${mem.WordNum}</td>
-                                <td class="td_money">
-                                    <input type="number" isrequired="true" regtype="money" oldre="0" fl="奖金" min="0" step="0.01" onblur="Change_UserMoney(this);"></td>
                                 {{else}}
-                                <td class="td_money">
-                                    <input type="number" isrequired="true" regtype="money" oldre="0" fl="奖金" min="0" step="0.01" onblur="Change_UserMoney(this);"></td>
-                                <td>${mem.Major_Name}</td>
-                                <td>${DateTimeConvert(mem.CreateTime,"yyyy-MM-dd")}</td>
-                                {{/if}}     
+                                <td>${mem.Major_Name}</td>                                                             
+                                {{/if}}  
+                                <td class="td_money"><input type="number" isrequired="true" regtype="money" oldre="0" fl="奖金" min="0" step="0.01" onblur="Change_UserMoney(this);"></td>    
                             </tr>
                    {{/each}}    
                </tbody>
@@ -208,10 +199,9 @@
                         <tr v-else>
                             <th width="16px">
                                 <input type="checkbox" name="ck_tball" onclick="CheckAll(this)" /></th>
-                            <th>成员</th>
-                            <th>分数</th>
+                            <th>成员</th>                            
                             <th>部门</th>
-                            <th>录入日期</th>
+                            <th>分数</th>
                         </tr>
                     </thead>
                     <tbody id="tb_Member"></tbody>
@@ -224,7 +214,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="EditResult">
+                <div class="EditResult" v-if="Info.AchieveType!=3" v-cloak>
                     <textarea id="txt_Reasonscore" class="textarea" placeholder="请输入修改原因" isrequired="true" fl="修改原因"></textarea>
                     <div class="input_lable input_lable2">
                         <label for="" style="min-width: 46px;">附件：</label>
@@ -294,13 +284,12 @@
     <script src="../Scripts/Webuploader/dist/webuploader.js"></script>
     <link href="../Scripts/Webuploader/css/webuploader.css" rel="stylesheet" />
     <script src="./upload_batchfile.js"></script>
-    <script src="./BaseUse.js"></script>
+    <script src="BaseUse.js"></script>
     <script type="text/javascript">
         var UrlDate = new GetUrlDate();
         var cur_AchieveId = UrlDate.AcheiveId;
         $(function () {
-            $("#CreateUID").val(GetLoginUser().UniqueNo);
-            BindFile_Plugin();
+            $("#CreateUID").val(GetLoginUser().UniqueNo);            
             Get_LookPage_Document(3, cur_AchieveId, $("#ul_ScoreFile"));
         });
         //基本信息
@@ -326,6 +315,9 @@
                                 $("#AchieveType").val(that.Info.AchieveType);
                                 achie_Score = Num_Fixed(that.Info.TotalScore);
                                 Get_RewardUserInfo(that.Info);
+                                if (that.Info.Status > 6 && that.Info.AchieveType!=3) {
+                                    BindFile_Plugin();
+                                }                                
                             }
                         },
                         error: function () {
@@ -440,7 +432,7 @@
             $("#tb_Member tr").each(function (i, n) {
                 if ($(this).hasClass('memedit')) {
                     var id = n.id.replace('tr_mem_', ''), userno = $(this).attr('un')
-                      , score = cur_AchieveType == "3" ? $(this).find('td.td_score').html() : Num_Fixed($(this).find('input[type=number][name=score]').val())
+                      , score = Num_Fixed($(this).find('input[type=number][name=score]').val())
                       , oldscore = Num_Fixed($(this).find('input[type=number][name=score]').attr('oldsc'));
                     if ($(this).is(":visible")) {
                         editArray.push({ Id: id, Score: score, Sort: i + 1, EditUID: loginUser.UniqueNo });

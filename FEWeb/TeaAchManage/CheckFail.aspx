@@ -121,6 +121,7 @@
                         <span class="fl status mr10">是否独著：</span>
                         <label id="IsOneAuthor"></label>
                     </div>
+                    <span class="fr status mr10">总贡献字数：<span id="span_Words">0</span>万字</span>
                 </div>
                 <table class="allot_table mt10  ">
                     <thead>
@@ -161,6 +162,7 @@
     <script src="../Scripts/jquery.tmpl.js"></script>    
     <script src="../Scripts/My97DatePicker/WdatePicker.js"></script>
     <link href="../Scripts/Webuploader/css/webuploader.css" rel="stylesheet" />
+    <script src="BaseUse.js"></script>
     <script type="text/javascript">
         var UrlDate = new GetUrlDate();
         $(function () {
@@ -265,6 +267,7 @@
                 success: function (json) {
                     if (json.result.errMsg == "success") {
                         $("#tr_Info").tmpl(json.result.retData).appendTo("#AuthorInfo");
+                        GetInit_WordNum(json.result.retData);
                     }
                 },
                 error: function () {
