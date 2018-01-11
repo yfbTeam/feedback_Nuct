@@ -33,18 +33,29 @@
             }
         });
     }
+   
     //绑定一级导航
     function BindOneNav() {
+        var hasfirst = "&Id=";
+        var hasnofirst = "?Id=";
+
         $('#onenav,#ul_twonav').html('');
         var oneNav = getNav(0);
-        $(oneNav).each(function (i, n) {
+        $(oneNav).each(function (i, n) {         
             var twoAry = getNav(n.ID);
             if (twoAry.length > 0) {
                 var threeAry = get3rdNavBy1st(n.ID);
+                var part = hasnofirst;
                 if (threeAry.length > 0) {
-                    $('#onenav').append('<li id="li_top_' + n.ID + '" class="' + (threeAry[0].Url == cururl ? "selected" : "") + '"><a href="' + threeAry[0].Url + '?Id=' + n.ID + '&Iid=' + twoAry[0].ID + '"><i class="iconfont">' + n.IconClass + '</i><span>' + n.Name + '</span></a></li>');
+                    if (isHasElement(threeAry[0].Url, "?") >= 0) {
+                        part = hasfirst;
+                    }
+                    $('#onenav').append('<li id="li_top_' + n.ID + '" class="' + (threeAry[0].Url == cururl ? "selected" : "") + '"><a href="' + threeAry[0].Url + part + n.ID + '&Iid=' + twoAry[0].ID + '"><i class="iconfont">' + n.IconClass + '</i><span>' + n.Name + '</span></a></li>');
                 } else {
-                    $('#onenav').append('<li id="li_top_' + n.ID + '" class="' + (twoAry[0].Url == cururl ? "selected" : "") + '"><a href="' + twoAry[0].Url + '?Id=' + n.ID + '&Iid=' + twoAry[0].ID + '"><i class="iconfont">' + n.IconClass + '</i><span>' + n.Name + '</span></a></li>');
+                    if (isHasElement(twoAry[0].Url, "?") >= 0) {
+                        part = hasfirst;
+                    }
+                    $('#onenav').append('<li id="li_top_' + n.ID + '" class="' + (twoAry[0].Url == cururl ? "selected" : "") + '"><a href="' + twoAry[0].Url + part + n.ID + '&Iid=' + twoAry[0].ID + '"><i class="iconfont">' + n.IconClass + '</i><span>' + n.Name + '</span></a></li>');
                 }
             } else {
                 $('#onenav').append('<li id="li_top_' + n.ID + '" class="' + (n.Url == cururl ? "selected" : "") + '"><a href="' + n.Url + '"><i class="iconfont">' + n.IconClass + '</i><span>' + n.Name + '</span></a></li>');
@@ -57,14 +68,24 @@
     }
     //绑定二级导航
     function BindTwoNav() {
+        var hasfirst = "&Id=";
+        var hasnofirst = "?Id=";
+
         var Id = getQueryString('Id'), Iid = getQueryString('Iid');
         var twoNav = getNav(Id);
-        $(twoNav).each(function (i, item) {
+        $(twoNav).each(function (i, item) {         
             var threeAry = getNav(item.ID);
+            var part = hasnofirst;
             if (threeAry.length > 0) {
-                $("#ul_twonav").append('<li id="li_twonav_' + item.ID + '" class="' + (threeAry[0].Url == cururl ? "selected" : "") + '"><a href="' + threeAry[0].Url + '?Id=' + item.Pid + '&Iid=' + item.ID + '"><div><i class="iconfont">' + item.IconClass + '</i><span>' + item.Name + '</span></div></a></li>')
+                if (isHasElement(threeAry[0].Url, "?") >= 0) {
+                    part = hasfirst;
+                }
+                $("#ul_twonav").append('<li id="li_twonav_' + item.ID + '" class="' + (threeAry[0].Url == cururl ? "selected" : "") + '"><a href="' + threeAry[0].Url + part + item.Pid + '&Iid=' + item.ID + '"><div><i class="iconfont">' + item.IconClass + '</i><span>' + item.Name + '</span></div></a></li>')
             } else {
-                $("#ul_twonav").append('<li id="li_twonav_' + item.ID + '" class="' + (item.Url == cururl ? "selected" : "") + '"><a href="' + item.Url + '?Id=' + item.Pid + '&Iid=' + item.ID + '"><div><i class="iconfont">' + item.IconClass + '</i><span>' + item.Name + '</span></div></a></li>')
+                if (isHasElement(item.Url, "?") >= 0) {
+                    part = hasfirst;
+                }
+                $("#ul_twonav").append('<li id="li_twonav_' + item.ID + '" class="' + (item.Url == cururl ? "selected" : "") + '"><a href="' + item.Url + part + item.Pid + '&Iid=' + item.ID + '"><div><i class="iconfont">' + item.IconClass + '</i><span>' + item.Name + '</span></div></a></li>')
             }
         })
         $("#li_top_" + Id).addClass('selected').siblings().removeClass('selected');
@@ -108,3 +129,18 @@
     }
 
 })();
+
+//辅助方法---------------------------------------------------------------------------------------------------------------------------------------------------
+function isHasElement(arr, value) {
+    var str = arr.toString();
+    var index = str.indexOf(value);
+    if (index >= 0) {
+        //存在返回索引 
+        //"(^"+value+",)|(,"+value+",)|(,"+value+"$)" 
+        value = value.toString().replace(/(\[|\])/g, "\\$1");
+        var reg1 = new RegExp("((^|,)" + value + "(,|$))", "gi");
+        return str.replace(reg1, "$2@$3").replace(/[^,@]/g, "").indexOf("@");
+    } else {
+        return -1;//不存在此项 
+    }
+}

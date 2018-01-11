@@ -91,13 +91,28 @@ function get3rdNavBy1st(fristnavId) {
     }
 }
 function BindThreeNav() {
+
+    var hasfirst = "&Id=";
+    var hasnofirst = "?Id=";
+
     $('#threenav').html('');
     var Id = getQueryString('Id'), Iid = getQueryString('Iid');
-    var threeNav = getNav(Iid);
+    var threeNav = getNav(Iid);   
     if (threeNav.length > 0) {
         $('#threenav').show();
         $(threeNav).each(function (i, item) {
-            $('#threenav').append('<a href="' + item.Url + '?Id=' + Id + '&Iid=' + Iid + '" class="' + (item.Url == cururl ? "selected" : "") + '">' + item.Name + '</a>')
+            var part = hasnofirst;
+            if (isHasElement(item.Url, "?") >= 0) {
+                part = hasfirst;
+            }
+            if (isHasElement(item.Url, "?")>=0)
+            {
+                $('#threenav').append('<a href="' + item.Url + part + Id + '&Iid=' + Iid + '" class="' + (item.Url == cururl ? "selected" : "") + '">' + item.Name + '</a>')
+            }
+            else
+            {
+                $('#threenav').append('<a href="' + item.Url + part + Id + '&Iid=' + Iid + '" class="' + (item.Url == cururl ? "selected" : "") + '">' + item.Name + '</a>')
+            }
         })
     } else {
         $('#threenav').hide();
