@@ -20,12 +20,12 @@
     <input type="hidden" name="Batch_Id" id="Batch_Id" value=""/>
     <div class="main">
             <div class="input-wrap">
-                <label for="">获奖项目名称:</label>
-                <input type="text" class="text" name="Name" id="Name" isrequired="true" fl="获奖项目名称" placeholder="请输入获奖项目名称" />
+                <label for="">奖项名称:</label>
+                <input type="text" class="text" name="Name" id="Name" isrequired="true" fl="奖项名称" placeholder="请输入奖项名称" />
             </div>
             <div class="input-wrap">
                 <label for="">记分标准:</label>
-                <select class="select fl ml10" style="width: 252px" name="ScoreType" id="ScoreType" isrequired="true" fl="记分规则" onchange="ChangeUnit()">
+                <select class="select fl ml10" style="width: 252px" name="ScoreType" id="ScoreType" disabled="disabled" isrequired="true" fl="记分规则" onchange="ChangeUnit()">
                     <option value="1">固定分数</option>
                     <option value="2">分/万字</option>
                     <option value="3">等级递减</option>
@@ -60,13 +60,16 @@
     var index = parent.layer.getFrameIndex(window.name);
     $(function () {
         $("#CreateUID").val(GetLoginUser().UniqueNo);
-        $("#Batch_Id").val(UrlDate.batid||0);
+        $("#Batch_Id").val(UrlDate.batid || 0);
         $("#LID").val(UrlDate.LID);
         if (UrlDate.Id != undefined && UrlDate.Id != "") {
             $("#Id").val(UrlDate.Id);
             BindData();
+        } else {
+            $("#ScoreType").val(UrlDate.stype);
+            ChangeUnit();
         }
-    })
+    });
     function BindData() {
         $.ajax({
             url: HanderServiceUrl + "/TeaAchManage/AchManage.ashx",
@@ -76,14 +79,14 @@
             success: function (json) {
                 if (json.result.errMsg == "success") {
                     $(json.result.retData).each(function () {
-                        $("#Name").val(this.Name);
-                        if (this.RewardCount > 0) {
-                            $("#ScoreType").attr('disabled', 'disabled');
+                        $("#Name").val(this.Name);                        
+                        if (this.RewardCount > 0) {                            
                             $("#Score").attr('disabled', 'disabled');
                         }
                         $("#ScoreType").val(this.ScoreType);                        
                         $("#Score").val(this.Score);                        
                         $("#Sort").val(this.Sort);
+                        ChangeUnit()();
                     })
                 }
             },
