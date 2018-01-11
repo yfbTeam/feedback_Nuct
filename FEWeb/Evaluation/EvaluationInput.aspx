@@ -30,11 +30,10 @@
 </head>
 <body>
     <div id="top"></div>
-   
+
     <div class="center" id="centerwrap">
         <div class="wrap clearfix" id="EvaluationInput">
-             <div class="sort_nav" id="threenav">
-                
+            <div class="sort_nav" id="threenav">
             </div>
 
             <div class="search_toobar clearfix">
@@ -63,7 +62,7 @@
                 </div>
 
                 <div class="fr pr">
-                    <button class="btn" onclick="window.location.href='./Input/createModal.aspx?Id='+getQueryString('Id')+'&Iid='+getQueryString('Iid')">评价任务</button>
+                    <button class="btn" onclick="window.location.href='./Input/createModal.aspx?Id='+getQueryString('Id')+'&Iid='+getQueryString('Iid')+'&IsAllSchool='+IsAllSchool">评价任务</button>
                     <b class="dian" style="display: none"></b>
                 </div>
             </div>
@@ -189,6 +188,7 @@
     <script>
 
         var reguType = 1;
+         IsAllSchool = getQueryString('IsAllSchool');
         $(function () {
             $('#top').load('/header.html');
             $('#footer').load('/footer.html');
@@ -232,6 +232,10 @@
             });
 
             Base.BindDepart('188px');
+
+            if (IsAllSchool == 0) {
+
+            }
         })
 
         function search() {

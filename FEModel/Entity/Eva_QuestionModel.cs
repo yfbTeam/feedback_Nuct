@@ -44,5 +44,7 @@ namespace FEModel.Entity
         public string AnswerName { get; set; }
 
         public int? Id { get; set; }
+
+        public int? RoleID { get; set; }
     }
 }

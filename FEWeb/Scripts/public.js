@@ -283,11 +283,22 @@ function get_Eva_Role_by_rid() {
 }
 //获取地址栏页面链接
 function getUrl(cururl) {
+    
     var host = 'http://' + window.location.host || 'https://'+window.location.host;
     var href = window.location.href;
     cururl = href.split(host)[1];
-    if (cururl.indexOf("?") != -1) {
-        var queindex = cururl.lastIndexOf("?");
+    //if (cururl.indexOf("?") != -1) {
+     
+    //    var queindex = cururl.lastIndexOf("?");
+    //    //var queindex = cururl.indexOf("&");
+    //    cururl = cururl.substring(0, queindex);
+    //}
+    if (cururl.indexOf("?Id=") != -1) {
+        var queindex = cururl.lastIndexOf("?Id=");        
+        cururl = cururl.substring(0, queindex);
+    }
+    if (cururl.indexOf("&Id=") != -1) {
+        var queindex = cururl.lastIndexOf("&Id=");
         cururl = cururl.substring(0, queindex);
     }
     return cururl;
