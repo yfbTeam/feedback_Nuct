@@ -58,6 +58,10 @@
         .allot_table .th_score {
             width: 5%;
         }
+
+        .page {
+            padding: 0;
+        }
     </style>
 </head>
 <body>
@@ -88,11 +92,11 @@
     <script src="../../Scripts/nav.js"></script>
     <script src="../../Scripts/WebCenter/TableDesigin.js"></script>
     <script src="../../Scripts/WebCenter/Evaluate.js"></script>
-
+    <script src="../../Scripts/laypage/laypage.js"></script>
     <%--固定表头--%>
     <script type="text/x-jquery-tmpl" id="item_check">
         <div class="fl" style="margin-bottom: 20px; margin-left: 20px">
-            <label  for="">${Value}：【<label id="${CustomCode}"></label>】</label>
+            <label for="">${Value}：【<label id="${CustomCode}"></label>】</label>
         </div>
     </script>
 
@@ -149,46 +153,7 @@
                         </table>
                     {{/if}}
 
-                   {{if HasQue3 == true}}
-                    <ul class="objective_lists">
-                        {{each Eva_TableDetail_List}}
-                       {{if QuesType_Id ==3}}
-                        <li>
-                            <dt style="border: none;" class="clearfix">
-                                <div class="objective_name fl">7.希望与要求</div>
-                                <div class="fl pagebar" id="page_top"></div>
-                                <i class="toggle iconfont">&#xe643;</i>
-                            </dt>
-                            <dd>
-                                <table class="allot_table mt10">
-                                    <tbody>
-                                        <tr>
-                                            <td style="border: 0; float: left">11111111111111111111111111111</td>
-                                            <td style="border: 0; width: 8%; float: right">2017-08-12</td>
-                                        </tr>
-                                        <tr>
-                                            <td style="border: 0; float: left">11111111111111111111111111111</td>
-                                            <td style="border: 0; width: 8%; float: right">2017-08-12</td>
-                                        </tr>
-                                        <tr>
-                                            <td style="border: 0; float: left">11111111111111111111111111111</td>
-                                            <td style="border: 0; width: 8%; float: right">2017-08-12</td>
-                                        </tr>
-                                        <tr>
-                                            <td style="border: 0; float: left">11111111111111111111111111111</td>
-                                            <td style="border: 0; width: 8%; float: right">2017-08-12</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-
-                            </dd>
-                        </li>
-                        {{/if}}                            
-                        {{/each}}       
-                    </ul>
-                    {{/if}}
-
-                    {{if HasQue4 == true}}
+                  {{if HasQue4 == true}}
                         <table class="allot_table mt10">
                             <thead>
                                 <tr>
@@ -210,11 +175,45 @@
                         </table>
                     {{/if}}
 
+                   {{if HasQue3 == true}}
+                    <ul class="objective_lists">
+                        {{each Eva_TableDetail_List}}
+                       {{if QuesType_Id ==3}}
+                        <li>
+                            <dt tabledetailid="${Id}" style="border: none;" class="clearfix">
+                                <div class="objective_name fl">7.希望与要求</div>
+                                <div class="fl pagebar"></div>
+                                <i class="toggle iconfont">&#xe643;</i>
+                            </dt>
+                            <dd>
+                                <table class="allot_table mt10">
+                                    <tbody id="${Id}_tbody">
+                                    </tbody>
+                                </table>
+                                <div id="${Id}_pageBar" class="page"></div>
+                            </dd>
+                        </li>
+                        {{/if}}                            
+                        {{/each}}       
+                    </ul>
+                    {{/if}}
+
+                  
+
                 </dd>
             </dl>
         </li>
     </script>
 
+    <script type="text/x-jquery-tmpl" id="itemData">
+        <tr>
+            <td style="border: 0; float: left">${Answer}</td>
+            <td style="border: 0; width: 8%; float: right">${DateTimeConvert(CreateTime,'yyyy-MM-dd',true)}</td>
+        </tr>
+    </script>
+    <script type="text/x-jquery-tmpl" id="itemCount">
+        <span style="margin-left: 5px; font-size: 14px;">共${RowCount}条，共${PageCount}页</span>
+    </script>
 
     <script>
 
@@ -226,7 +225,7 @@
         TeacherUID = getQueryString('TeacherUID');
         Eva_Role = 2;
         State = 1;
-
+        var pageIndex = 0;
         $(function () {
             $('#top').load('/header.html');
             $('#footer').load('/footer.html');
@@ -235,9 +234,9 @@
             UI_Table_View.IsPage_Display = true;
             UI_Table_View.Get_Eva_TableDetail_Compleate = function (retData) {
 
-                var headerList = retData.Table_Header_List.filter(function (item) { return item.CustomCode != null && item.CustomCode != '' });               
+                var headerList = retData.Table_Header_List.filter(function (item) { return item.CustomCode != null && item.CustomCode != '' });
                 $("#item_check").tmpl(headerList).appendTo("#list");
-               
+
                 var list = retData.Table_Detail_Dic_List;
 
                 for (var i in list) {
@@ -260,7 +259,7 @@
                         }
                     }
                 }
-                console.log(list)
+                //console.log(list)
                 $("#itemdata").tmpl(list).appendTo(".details_lists");
                 animate();
             };
@@ -294,6 +293,13 @@
                 } else {
                     $(this).parent('li').removeClass('active');
                     $next.stop().slideUp();
+                }
+
+                var $next = $(this).parent().find('dd').eq(0);
+                if ($next.prop('clientHeight') == 1) {
+
+                    var TableDetailID = $(this).attr('TableDetailID');
+                    Get_Eva_RoomDetailAnswerList(pageIndex, TableDetailID);
                 }
 
             })

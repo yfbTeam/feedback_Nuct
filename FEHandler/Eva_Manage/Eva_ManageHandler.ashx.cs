@@ -143,6 +143,7 @@ namespace FEHandler.Eva_Manage
                     case "Get_Eva_RegularDataSelect": Get_Eva_RegularDataSelect(context); break;
                     case "Get_Eva_RegularData_Room": Get_Eva_RegularData_Room(context); break;
                     case "Get_Eva_RegularData_RoomDetailList": Get_Eva_RegularData_RoomDetailList(context); break;
+                    case "Get_Eva_RoomDetailAnswerList": Get_Eva_RoomDetailAnswerList(context); break;
 
                     case "Get_Backlog": Get_Backlog(context); break;
                         

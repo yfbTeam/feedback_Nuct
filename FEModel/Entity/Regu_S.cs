@@ -25,9 +25,7 @@ namespace FEModel.Entity
 
         public DateTime? CreateTime { get; set; }
 
-        public string State { get; set; }
-
-        public int StateType { get; set; }
+        public string State { get; set; }     
 
         public string TableName { get; set; }
 

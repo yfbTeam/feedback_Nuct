@@ -37,7 +37,7 @@ namespace FEHandler.Eva_Manage
                                 join user in Constant.UserInfo_List on regu.CreateUID equals user.UniqueNo
                                 join table in Constant.Eva_Table_List on regu.TableID equals table.Id
                                 where regu.Type == Type && table.IsEnable == (int)IsEnable.Enable
-                               
+
                                 select new Regu_S()
                                 {
                                     SectionId = section.Id,
@@ -49,7 +49,6 @@ namespace FEHandler.Eva_Manage
                                     EndTime = regu.EndTime,
                                     CreateTime = regu.CreateTime,
                                     State = "",
-                                    StateType = 0,
                                     TableName = table.Name,
                                     Id = regu.Id,
                                     LookType = regu.LookType,
@@ -255,7 +254,7 @@ namespace FEHandler.Eva_Manage
                 Eva_Regular regu = Constant.Eva_Regular_List.FirstOrDefault(i => i.Id == Id);
                 if (regu != null)
                 {
-                    Eva_Table table = Constant.Eva_Table_List.FirstOrDefault(t => t.Id == regu.TableID );
+                    Eva_Table table = Constant.Eva_Table_List.FirstOrDefault(t => t.Id == regu.TableID);
                     StudySection section = Constant.StudySection_List.FirstOrDefault(s => s.Id == regu.Section_Id);
                     List<Major> departments = new List<Major>();
                     List<string> departmentids = new List<string>();
@@ -548,11 +547,84 @@ namespace FEHandler.Eva_Manage
                 if (detail != null)
                 {
                     List<Eva_QuestionAnswer_Header> Headers = (from h in Constant.Eva_QuestionAnswer_Header_List where h.CustomCode != "" && h.CustomCode != null && h.QuestionID == detail.QuestionID select h).ToList();
-                    data.HeaderModelList =(from h in Headers orderby h.Id select new HeaderModel() { CustomCode = h.CustomCode, Name = h.Name,  Value = h.Value }).ToList();
+                    data.HeaderModelList = (from h in Headers orderby h.Id select new HeaderModel() { CustomCode = h.CustomCode, Name = h.Name, Value = h.Value }).ToList();
                 }
 
                 //返回所有表格数据
                 jsm = JsonModelNum.GetJsonModel_o(intSuccess, "success", data);
+            }
+            catch (Exception ex)
+            {
+                LogHelper.Error(ex);
+            }
+            return jsm;
+        }
+
+        /// <summary>
+        /// 获取课堂评价答题详情列表
+        /// </summary>
+        public void Get_Eva_RoomDetailAnswerList(HttpContext context)
+        {
+            HttpRequest Request = context.Request;
+
+            int SectionID = RequestHelper.int_transfer(Request, "SectionID");
+            int ReguID = RequestHelper.int_transfer(Request, "ReguID");
+            int TableID = RequestHelper.int_transfer(Request, "TableID");
+            int TableDetailID = RequestHelper.int_transfer(Request, "TableDetailID");
+            string TeacherUID = RequestHelper.string_transfer(Request, "TeacherUID");
+            string CourseID = RequestHelper.string_transfer(Request, "CourseID");
+            int Eva_Role = RequestHelper.int_transfer(Request, "Eva_Role");
+            int State = RequestHelper.int_transfer(Request, "State");
+
+            int PageIndex = RequestHelper.int_transfer(Request, "PageIndex");
+            int PageSize = RequestHelper.int_transfer(Request, "PageSize");
+            try
+            {
+                jsonModel = Get_Eva_RoomDetailAnswerList_Helper(PageIndex, PageSize, SectionID, ReguID, TableID, TableDetailID, TeacherUID, CourseID, Eva_Role, State);
+            }
+            catch (Exception ex)
+            {
+                LogHelper.Error(ex);
+            }
+            finally
+            {
+                //无论后端出现什么问题，都要给前端有个通知【为防止jsonModel 为空 ,全局字段 jsonModel 特意声明之后进行初始化】
+                context.Response.Write("{\"result\":" + Constant.jss.Serialize(jsonModel) + "}");
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="SectionID"></param>
+        /// <param name="ReguID"></param>
+        /// <param name="TableID"></param>
+        /// <param name="TeacherUID"></param>
+        /// <param name="CourseID"></param>
+        /// <param name="Eva_Role"></param>
+        /// <param name="State"></param>
+        /// <returns></returns>
+        public static JsonModel Get_Eva_RoomDetailAnswerList_Helper(int PageIndex, int PageSize, int SectionID, int ReguID, int TableID, int TableDetailID, string TeacherUID, string CourseID, int Eva_Role, int State)
+        {
+            int intSuccess = (int)errNum.Success;
+            JsonModelNum jsm = new JsonModelNum();
+            try
+            {
+                var data = (from q in Constant.Eva_QuestionAnswer_Detail_List
+                            where q.SectionID == SectionID && q.ReguID == ReguID && q.TableID == TableID && q.TableDetailID == TableDetailID && q.TeacherUID == TeacherUID
+                                && q.CourseID == CourseID && q.Eva_Role == Eva_Role
+                            select new { q.Answer,q.CreateTime}
+                             ).ToList();
+
+                var query_last = (from an in data select an).Skip((PageIndex - 1) * PageSize).Take(PageSize).ToList();
+
+
+                //返回所有表格数据
+                jsm = JsonModelNum.GetJsonModel_o(intSuccess, "success", query_last);
+                jsm.PageIndex = PageIndex;
+                jsm.PageSize = PageSize;
+                jsm.PageCount = (int)Math.Ceiling((double)data.Count() / PageSize);
+                jsm.RowCount = data.Count();
             }
             catch (Exception ex)
             {
@@ -1157,7 +1229,7 @@ namespace FEHandler.Eva_Manage
                                     DepartmentIDs = DepartmentIDs,
 
                                 };
-                                if(TableID >0)
+                                if (TableID > 0)
                                 {
                                     TableUsingAdd(TableID);
                                 }
