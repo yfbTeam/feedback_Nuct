@@ -87,10 +87,19 @@
                     <i class="iconfont color_purple">&#xe602;</i>
                     <span class="operate_none bg_purple">编辑</span>
                 </div>
-                <div class="operate" onclick="remove_data(${Id});">
+
+                {{if ReguState == 2}}
+                 <div class="operate" >
+                    <i class="iconfont color_gray">&#xe61b;</i>
+                    <span class="operate_none bg_gray">删除</span>
+                </div>
+                {{else}}
+             <div class="operate" onclick="remove_data(${Id});">
                     <i class="iconfont color_purple">&#xe61b;</i>
                     <span class="operate_none bg_purple">删除</span>
                 </div>
+                {{/if}}
+               
             </td>
         </tr>
     </script>

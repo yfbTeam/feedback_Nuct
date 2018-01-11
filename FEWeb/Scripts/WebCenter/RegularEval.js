@@ -106,6 +106,7 @@ function Get_Eva_RegularS(SectionId, Type, PageIndex) {
             if (returnVal.result.errMsg == "success") {
 
                 var data = returnVal.result.retData;
+                console.log(data);
                 data.filter(function (item, index) { item.Num = index + 1 })
                 layer.close(layer_index);
 
