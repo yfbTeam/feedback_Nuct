@@ -24,6 +24,7 @@ function GetAchieveDetailById(type) { //获取业绩详情
                 if (type == 1) {
                   Get_RewardUserInfo(model);
                 } else if (type == 2) {
+                    cur_AchCreateUID = model.CreateUID;
                     View_CheckInit(model);
                     Get_RewardUserInfo(model);
                     Get_AchieveStatus(model.ComStatus, ".checkmes");
@@ -433,13 +434,11 @@ function Rtn_AddMemArray(type) {
 function SetScore() {
     var objid = cur_AchieveType == "2" ? "#Sort" : "#Rid";
     var Score = Num_Fixed($(objid).find("option:selected").attr("ss"));
-    achie_Score = Score;
-    var ScoreType = $(objid).find("option:selected").attr("st");    
-    $(".score").html("分数：" + Score + "分" + (ScoreType == "3" ? "/万字" : ""));
+    achie_Score = Score;    
+    $(".score").html("分数：" + Score + "分" + (cur_AchieveType == "3" ? "/万字" : ""));
     if (cur_AchieveType == "3") { //教材建设类 
-        if ($(objid).val() == "") { $('#span_BookScore').html(0); }
-        else if (ScoreType == "2") { $('#span_BookScore').html(Num_Fixed(score_Words * Number(Score))); }
-        else { $('#span_BookScore').html(Score); }
+        if ($(objid).val() == "") { $('#span_BookScore').html(0); }        
+        else { $('#span_BookScore').html(Num_Fixed(score_Words * Number(Score))); }
     }
     $span_AllScore = $('#span_AllScore');
     if ($span_AllScore) {

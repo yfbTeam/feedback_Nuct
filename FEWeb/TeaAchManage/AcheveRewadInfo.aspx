@@ -438,7 +438,7 @@
                     success: function (json) {
                         if (json.result.errMsg == "success") {
                             $(json.result.retData).each(function () {
-                                $("#Rid").append('<option value="' + this.Id + '" ss="' + this.Score + '" st="' + this.ScoreType + '">' + this.Name + '</option>');
+                                $("#Rid").append('<option value="' + this.Id + '" ss="' + this.Score + '">' + this.Name + '</option>');
                             })
                         }
                     },
