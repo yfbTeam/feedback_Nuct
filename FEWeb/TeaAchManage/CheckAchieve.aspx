@@ -109,7 +109,7 @@
         </div>         
                <h2 class="cont_title members {{if AchieveType!=2||(UrlDate.Type=='Check'&&Status!=1)||(UrlDate.Type!='Check'&&((ResponsMan!=$('#CreateUID').val()&&Status>6)||(ResponsMan==$('#CreateUID').val()&&Status>3)))}}none{{/if}}"><span>成员信息</span></h2>
             <div class="area_form members {{if AchieveType!=2||(UrlDate.Type=='Check'&&Status!=1)||(UrlDate.Type!='Check'&&((ResponsMan!=$('#CreateUID').val()&&Status>6)||(ResponsMan==$('#CreateUID').val()&&Status>3)))}}none{{/if}}">
-                <div class="clearfix {{if ResponsMan!=$('#CreateUID').val()&&UrlDate.Type!='Check'}}none{{/if}}" id="div_user_mem">                        
+                <div class="clearfix {{if ResponsMan!=$('#CreateUID').val()&&CreateUID!=$('#CreateUID').val()&&UrlDate.Type!='Check'}}none{{/if}}" id="div_user_mem">                        
                     <span class="fr status">已分：<span id="span_CurScore">0</span>分</span>
                     <span class="fr status">总分：<span id="span_AllScore">${TotalScore}</span>分，</span>
                 </div>
@@ -118,7 +118,7 @@
                         <tr>                               
                             <th>姓名</th>
                             <th>部门</th>
-                            <th {{if ResponsMan!=$('#CreateUID').val()&&UrlDate.Type!='Check'}}style="display:none;"{{/if}}>分数</th>
+                            <th {{if ResponsMan!=$('#CreateUID').val()&&CreateUID!=$('#CreateUID').val()&&UrlDate.Type!='Check'}}style="display:none;"{{/if}}>分数</th>
                         </tr>
                     </thead>
                     <tbody id="tb_Member"></tbody>
@@ -195,7 +195,7 @@
         <tr class="memedit" un="${UserNo}">
             <td class="td_memname">${Name}</td>
             <td>${Major_Name}</td>
-            <td class="td_score" {{if cur_ResponUID!=$('#CreateUID').val()&&UrlDate.Type!='Check'}}style="display:none;"{{/if}}>${Score}</td>           
+            <td class="td_score" {{if cur_ResponUID!=$('#CreateUID').val()&&cur_AchCreateUID!=$('#CreateUID').val()&&UrlDate.Type!='Check'}}style="display:none;"{{/if}}>${Score}</td>           
         </tr>
     </script>
     <%--成员信息--%>
@@ -318,7 +318,7 @@
     <script src="BaseUse.js"></script>
     <script type="text/javascript">
         var UrlDate = new GetUrlDate();
-        var cur_AchieveId = UrlDate.Id;
+        var cur_AchieveId = UrlDate.Id,cur_AchCreateUID="";
         $(function () {
             $("#CreateUID").val(GetLoginUser().UniqueNo);            
             var Id = UrlDate.Id;

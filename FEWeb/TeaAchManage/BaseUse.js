@@ -24,6 +24,7 @@ function GetAchieveDetailById(type) { //获取业绩详情
                 if (type == 1) {
                   Get_RewardUserInfo(model);
                 } else if (type == 2) {
+                    cur_AchCreateUID = model.CreateUID;
                     View_CheckInit(model);
                     Get_RewardUserInfo(model);
                     Get_AchieveStatus(model.ComStatus, ".checkmes");
