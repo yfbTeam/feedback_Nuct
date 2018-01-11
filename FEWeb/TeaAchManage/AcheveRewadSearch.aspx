@@ -71,14 +71,14 @@
                 <table>
                     <thead>
                         <tr>
-                            <th>奖励项目</th>
-                            <th>获奖项目名称</th>
-                            <th>负责单位</th>
-                            <th>负责人</th>                         
-                            <th>获奖年度</th>
-                            <th>录入人</th>
-                            <th>录入时间</th>
-                            <th>操作</th>
+                            <th  width="22%">奖励项目</th>
+                            <th  width="23%">获奖项目名称</th>
+                            <th  width="22%">负责单位</th>
+                            <th  width="5%">负责人</th>                         
+                            <th  width="5%">获奖年度</th>
+                            <th  width="5%">录入人</th>
+                            <th  width="10%">录入时间</th>
+                            <th width="8%">操作</th>
                         </tr>
                     </thead>
                     <tbody id="tb_info">
