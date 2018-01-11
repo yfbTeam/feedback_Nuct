@@ -198,6 +198,8 @@
                         warn += "与版本-" + n.Name + "时间交叉（" + DateTimeConvert(n.BeginTime, 'yyyy-MM-dd') + "~" + DateTimeConvert(n.EndTime, 'yyyy-MM-dd') + "）；";
                     });
                     layer.msg(warn);
+                } else {
+                    layer.msg(json.result.errMsg);
                 }
             },
             error: function () {

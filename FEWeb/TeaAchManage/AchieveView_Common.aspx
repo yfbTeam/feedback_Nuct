@@ -153,9 +153,8 @@
     <script type="text/x-jquery-tmpl" id="tr_MemEdit1">
         <tr id="tr_mem_${Id}" class="memedit" un="${UserNo}">
             <td class="td_memname">${Name}</td>
-            <td class="td_score">${Score}</td>
             <td>${Major_Name}</td>
-            <td>${DateTimeConvert(CreateTime,"yyyy-MM-dd")}</td>
+            <td class="td_score">${Score}</td>
         </tr>
     </script>
     <script type="text/x-jquery-tmpl" id="tr_Info">
@@ -195,10 +194,9 @@
                         <th>贡献字数（万字）</th>
                         <th>奖金</th>
                         {{else}}
-                        <th>成员</th>
-                        <th>奖金</th>
-                        <th>部门</th>
-                        <th>录入日期</th>
+                        <th>成员</th>                        
+                        <th>部门</th> 
+                        <th>奖金</th>                      
                         {{/if}}
                     </tr>
                 </thead>
@@ -210,13 +208,11 @@
                                 <td>{{if mem.ULevel==0}}独著 {{else mem.ULevel==1}}主编{{else mem.ULevel==2}}参编{{else}}其他人员{{/if}}</td>
                                 <td>${mem.Sort}</td>
                                 <td>${mem.Major_Name}</td>
-                                <td>${mem.WordNum}</td>
-                                <td class="td_money"></td>
+                                <td>${mem.WordNum}</td>                                
                                 {{else}}
-                                <td class="td_money"></td>
-                                <td>${mem.Major_Name}</td>
-                                <td>${DateTimeConvert(mem.CreateTime,"yyyy-MM-dd")}</td>
-                                {{/if}}     
+                                <td>${mem.Major_Name}</td>                               
+                                {{/if}} 
+                                <td class="td_money"></td>    
                             </tr>
                     {{/each}}    
                 </tbody>
@@ -242,10 +238,9 @@
                 <table class="allot_table mt10">
                     <thead>
                         <tr class="user_mem none">
-                            <th>成员</th>
-                            <th>分数</th>
-                            <th>部门</th>
-                            <th>录入日期</th>
+                            <th>成员</th>                           
+                            <th>部门</th>  
+                            <th>分数</th>                          
                         </tr>
                         <tr class="user_book none">
                             <th>姓名</th>
@@ -275,7 +270,7 @@
     <script src="../Scripts/jquery.tmpl.js"></script>
     <script src="../Scripts/My97DatePicker/WdatePicker.js"></script>
     <link href="../Scripts/Webuploader/css/webuploader.css" rel="stylesheet" />
-    <script src="./BaseUse.js"></script>
+    <script src="BaseUse.js"></script>
     <script type="text/javascript">
         var UrlDate = new GetUrlDate();
         var cur_AchieveId = UrlDate.Id;

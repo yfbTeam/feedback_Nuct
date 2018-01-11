@@ -62,7 +62,7 @@
 
 <link href="../Scripts/pagination/pagination.css" rel="stylesheet" />
 <script src="../Scripts/pagination/jquery.pagination.js"></script>
-<script src="./BaseUse.js"></script>
+<script src="BaseUse.js"></script>
 <script>
     var Teacher_Data = [], select_uniques = [];
     var pageIndex = 0, pageSize = 10;

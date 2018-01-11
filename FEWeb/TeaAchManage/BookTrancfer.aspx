@@ -25,7 +25,7 @@
             </td>
             <td><input type="number" value="${auth.Sort}" min="0" {{if i==0}}disabled="disabled"{{/if}}/></td>
             <td>${auth.Major_Name}</td>
-            <td><input type="number" value="${auth.WordNum}" /></td>
+            <td><input type="number" regtype="money" fl="贡献字数（万字）" step="0.01" value="${auth.WordNum}" onblur="GetCur_WordNum();"/></td>
         </tr>
         {{/each}}        
     </script>
@@ -42,7 +42,7 @@
                 </select></td>
             <td><input type="number" value="" min="0" step="1"/></td>
             <td mid="${Major_ID}">${MajorName}</td>
-            <td><input type="number" value=""/></td>          
+            <td><input type="number" value="" regtype="money" fl="贡献字数（万字）" step="0.01" onblur="GetCur_WordNum();"/></td>          
         </tr>
     </script>
 </head>
@@ -178,7 +178,7 @@
                     </div>
                     <input type="button" name="name" id="DelAuthor" value="删除" class="btn fr" onclick="Del_HtmlAuthor();"/>
                     <input type="button" name="name" id="AddAuthor" value="添加" class="btn fr mr10" onclick="javascript: OpenIFrameWindow('添加作者','AddAchMember.aspx?tb=AuthorInfo', '900px', '650px');" />
-                    <%--<select class="chosen-select fr" data-placeholder="作者" id="UserNo"></select>--%>
+                    <span class="fr status mr10">总贡献字数：<span id="span_Words">0</span>万字</span>
                 </div>
                 <table class="allot_table mt10  ">
                     <thead>
@@ -325,7 +325,7 @@
             if (!meditor.length) { layer.msg("请选择主编姓名！"); return; }
             var valid_flag = 0
             if (s_type == 1) {
-                valid_flag = validateForm($('select,input[type="text"]:visible'));
+                valid_flag = validateForm($('select,input[type="text"]:visible,input[type="number"]'));
                 if (valid_flag != 0){return false;}
                 if ($("#IsOneVolum").val() == "2") {
                     if (!$("#MainISBN").val().trim().length) { layer.msg("请输入丛书名称！"); return; }

@@ -28,7 +28,7 @@
             </td>
             <td><input type="number" value="${auth.Sort}" min="0" {{if i==0}}disabled="disabled"{{/if}}/></td>
             <td>${auth.Major_Name}</td>
-            <td><input type="number" value="${auth.WordNum}" regtype="money" fl="贡献字数（万字）" step="0.01"/></td>
+            <td><input type="number" value="${auth.WordNum}" regtype="money" fl="贡献字数（万字）" step="0.01" onblur="GetCur_WordNum();"/></td>
         </tr>
         {{/each}}        
     </script>
@@ -45,7 +45,7 @@
                 </select></td>
             <td><input type="number" value="" min="0" step="1"/></td>
             <td mid="${Major_ID}">${MajorName}</td>
-            <td><input type="number" value="" regtype="money" fl="贡献字数（万字）" step="0.01"/></td>          
+            <td><input type="number" value="" regtype="money" fl="贡献字数（万字）" step="0.01" onblur="GetCur_WordNum();"/></td>          
         </tr>
     </script>
     <style>
@@ -180,6 +180,7 @@
                     </div>
                     <input type="button" name="name" id="DelAuthor" value="删除" class="btn fr" onclick="Del_HtmlAuthor();"/>
                     <input type="button" name="name" id="AddAuthor" value="添加" onclick="javascript: OpenIFrameWindow('添加作者','AddAchMember.aspx?tb=AuthorInfo', '900px', '650px');" class="btn fr mr10" />
+                    <span class="fr status mr10">总贡献字数：<span id="span_Words">0</span>万字</span>
                 </div>
                 <table class="allot_table mt10  ">
                     <thead>
@@ -212,7 +213,7 @@
     <script src="../Scripts/Webuploader/dist/webuploader.js"></script>
     <link href="../Scripts/Webuploader/css/webuploader.css" rel="stylesheet" />
     <script src="./upload_batchfile.js"></script>
-    <script src="./BaseUse.js"></script>
+    <script src="BaseUse.js"></script>
     <script>
         var UrlDate = new GetUrlDate();
         var btn_book_addall = false, btn_book_adddepart = false, btn_book_noaudit = false;//新增教材-全校范围,新增教材-院系范围,无需审核
@@ -334,7 +335,7 @@
             if (!meditor.length) { layer.msg("请选择主编姓名！"); return; }
             var valid_flag = 0;
             if (s_type == 1) {
-                if ($("#BookType").val() != "1") {
+                if ($("#BookType").val() != "1") {                   
                     valid_flag = validateForm($('select,input[type="text"]:visible'));
                     if (valid_flag != 0) { return false; }
                 }
@@ -342,14 +343,18 @@
                     layer.msg("该教材非独著，请添加作者后提交！");
                     return;
                 }
-                var au_count = 0;
+                var au_count = 0,wn_count=0;
+                var word_reg = /(^[1-9]([0-9]+)?(\.[0-9]{1,2})?$)|(^(0){1}$)|(^[0-9]\.[0-9]([0-9])?$)/;                
                 $("#AuthorInfo tr input[type='number']").each(function () {
                     if ($(this).val().trim() == "") {
-                        au_count++;
-                        return false;
+                        au_count++;return false;
+                    }
+                    if ($(this).attr("regtype") == "money"&&$(this).val()!= "" && word_reg.test($(this).val()) == false) {                        
+                        wn_count++; return false;
                     }
                 });
                 if (au_count > 0) { layer.msg("请填写作者信息处的排名及贡献字数！"); return; }
+                if (wn_count > 0) { layer.msg("请输入正确的贡献字数！"); return; }
             }
             if (valid_flag== 0)
             {

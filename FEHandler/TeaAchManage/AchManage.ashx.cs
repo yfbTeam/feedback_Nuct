@@ -276,6 +276,15 @@ namespace FEHandler.TeaAchManage
                 }
                 else
                 {
+                    //版本编辑时判断时间（时间、时间已在业绩中使用）
+                    string definddates = SQLHelp.ExecuteScalar(@"select STUFF((select '、' + CAST(CONVERT(varchar(10),a.DefindDate,21) AS NVARCHAR(MAX)) from TPM_AcheiveRewardInfo a  
+                                 left join TPM_RewardLevel lev on lev.Id = a.Lid
+                                  where a.IsDelete = 0 and lev.EID ="+ lid + " and(a.DefindDate < '"+context.Request["beginTime"]+"' or a.DefindDate > '"+context.Request["endTime"]+"') FOR xml path('')), 1, 1, '')", CommandType.Text, null).ToString();
+                    if (!string.IsNullOrEmpty(definddates))
+                    {
+                        jsonModel = JsonModel.get_jsonmodel(-2, "日期"+definddates+"已在业绩中使用！", "");
+                        return;
+                    }
                     TPM_RewardEdition model = RewardEdition_bll.GetEntityById(Id).retData as TPM_RewardEdition;
                     model.Name = context.Request["Name"];
                     model.BeginTime = beginTime;
