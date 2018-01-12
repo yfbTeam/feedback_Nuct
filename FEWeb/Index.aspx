@@ -129,14 +129,14 @@
                         <table>
                             <thead>
                                 <tr>
-                                    <th>奖励项目</th>
-                                    <th width="320px">获奖项目名称</th>
-                                    <th>负责单位</th>
-                                    <th>负责人</th>
-                                    <th>获奖年度</th>                                    
-                                    <th>个人分数</th>
-                                    <th>状态</th>                                    
-                                    <th>操作</th>
+                                    <th width="18%">奖励项目</th>
+                                    <th width="22%">获奖项目名称</th>
+                                    <th width="20%">负责单位</th>
+                                    <th width="5%">负责人</th>
+                                    <th width="5%">获奖年度</th>                                    
+                                    <th width="5%">个人分数</th>
+                                    <th width="7%">状态</th>                                    
+                                    <th width="18%">操作</th>
                                 </tr>                               
                             </thead>
                             <tbody id="myPirze_table"></tbody>

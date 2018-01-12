@@ -102,9 +102,9 @@
                     </thead>
                     <tbody id="tb_Member"></tbody>
                 </table>
-                <div class="input_lable fl input_lable2">
+                <div class="input_lable input_lable2">
                         <label for="" style="min-width:46px;">附件：</label>
-                        <div class="fl uploader_container" style="padding-left:55px;">
+                        <div class="fl uploader_container">
                             <div id="uploader">
                                 <div class="queueList">
                                     <div id="dndArea" class="placeholder photo_lists">

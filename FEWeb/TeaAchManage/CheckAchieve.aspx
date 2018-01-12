@@ -41,7 +41,7 @@
                     <label for="">认定日期：</label>
                     <span>${DateTimeConvert(DefindDate, '年月日')}</span>
                 </div>
-                <div class="input_lable fl input_lable2">
+                <div class="input_lable input_lable2">
                     <label for="">获奖扫描件：</label>
                     <div class="fl uploader_container">
                         <div id="uploader">

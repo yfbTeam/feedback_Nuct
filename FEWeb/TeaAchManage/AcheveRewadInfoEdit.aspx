@@ -39,7 +39,7 @@
                         <label for="">认定日期：</label>
                         <input type="text" isrequired="true" fl="认定日期" name="DefindDate" id="DefindDate" value="${DateTimeConvert(DefindDate, '年月日')}" class="text Wdate" readonly="readonly" onclick="WdatePicker({ dateFmt: 'yyyy年MM月dd日', onpicked: function () { ChangeLid(); }, oncleared: function () { ChangeLid(); } });"/>
                     </div>
-                    <div class="input_lable fl input_lable2">
+                    <div class="input_lable input_lable2">
                         <label for="">获奖扫描件：</label>
                         <div class="fl uploader_container">
                             <div id="uploader">
