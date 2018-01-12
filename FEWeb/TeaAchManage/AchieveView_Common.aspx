@@ -347,7 +347,7 @@
                                 Get_SelfRewardData();
                             }
                             $(".re_history").show();
-                            Get_ModifyRecordData(loginUser.UniqueNo, model.IsMoneyAllot==0?0:"");
+                            Get_ModifyRecordData(loginUser.UniqueNo, model.IsMoneyAllot==0?"0":"");
                         }
                     }
                 },

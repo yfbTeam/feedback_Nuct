@@ -443,7 +443,7 @@
                 $(".checkmes").show();
                 $(".btnwrap2").hide();
             }
-            if (model.ComStatus > 6) { $(".re_history").show(); Get_ModifyRecordData("", model.IsMoneyAllot==0?0:""); }
+            if (model.ComStatus > 6) { $(".re_history").show(); Get_ModifyRecordData("", model.IsMoneyAllot==0?"0":""); }
         }       
         //绑定成员信息
         var Member_Data = [];
