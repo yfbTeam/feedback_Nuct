@@ -36,11 +36,11 @@
             <table>
                 <thead>
                     <tr>
-                        <th style="text-align: center; width: 40px;"><input type="checkbox" id="ck_head"/></th>
-                        <th style="width: 200px">学号/教工编号</th>
-                        <th style="width: 150px">用户名</th>
-                        <th style="width: 150px">性别</th>
-                        <th>系(院)</th>
+                        <th width="4%"><input type="checkbox" id="ck_head"/></th>
+                        <th width="24%">学号/教工编号</th>
+                        <th width="24%">用户名</th>
+                        <th width="24%">性别</th>
+                        <th width="24%">系(院)</th>
                     </tr>
                 </thead>
                 <tbody id="tb_indicator"></tbody>
@@ -65,7 +65,7 @@
 <script src="BaseUse.js"></script>
 <script>
     var Teacher_Data = [], select_uniques = [];
-    var pageIndex = 0, pageSize = 10;
+    var pageIndex = 0, pageSize =5;
     var UrlDate = new GetUrlDate();
     var par_tb = UrlDate.tb || 'tb_Member';
     $(function () {

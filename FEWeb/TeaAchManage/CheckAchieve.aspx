@@ -14,7 +14,7 @@
             padding: 0px 0px 20px 0px;
         } 
         .file-ary .title1{
-            float:left;line-height:30px;
+            float:left;line-height:35px;
         } 
         .file-ary .file-panel{
             float:left;margin-left:10px;cursor:pointer;
