@@ -104,7 +104,7 @@
                 </table>
                 <div class="input_lable input_lable2">
                         <label for="" style="min-width:46px;">附件：</label>
-                        <div class="fl uploader_container">
+                        <div class="fl uploader_container" style="padding-left:56px;">
                             <div id="uploader">
                                 <div class="queueList">
                                     <div id="dndArea" class="placeholder photo_lists">
