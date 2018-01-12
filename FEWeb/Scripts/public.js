@@ -442,7 +442,7 @@ function Get_LookPage_Document(type, relationid, ul_file) {
                                  '</div></li>');
                 });
             } else {
-                ul_file.append('<li><p>无</p></li>');
+                ul_file.append('<li><p class="title1">无</p></li>');
             }
         }
     });

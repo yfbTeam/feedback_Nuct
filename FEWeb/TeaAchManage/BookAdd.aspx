@@ -130,9 +130,9 @@
                         第<input type="text" isrequired="true" fl="版次" name="EditionNo" id="EditionNo" value="" />版
                     </div>
                 </div>
-                <div class="input_lable fl input_lable2">
+                <div class="input_lable input_lable2">
                     <label for="">扫描文件：</label>
-                     <div class="fl uploader_container" style="padding-left:200px;">
+                     <div class="fl uploader_container">
                             <div id="uploader">
                                 <div class="queueList">
                                     <div id="dndArea" class="placeholder photo_lists">
