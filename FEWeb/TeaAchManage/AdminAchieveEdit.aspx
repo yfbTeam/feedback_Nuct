@@ -17,7 +17,7 @@
 
         .file-ary .title1 {
             float: left;
-            line-height: 30px;
+            line-height: 35px;
         }
 
         .file-ary .file-panel {
