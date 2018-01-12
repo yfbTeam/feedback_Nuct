@@ -7,9 +7,11 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <link href="/images/favicon.ico" rel="shortcut icon">
     <title>业绩查看审核</title>
+    <link href="../css/bootstrap.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="../css/reset.css" />
     <link href="../css/layout.css" rel="stylesheet" />
     <script src="../Scripts/jquery-1.11.2.min.js"></script>
+    <script src="../js/bootstrap.min.js"></script>
     <style>
         .area_form {
             padding: 0px 0px 20px 0px;
@@ -133,48 +135,110 @@
     <input type="hidden" id="hid_UploadFunc" value="Upload_AcheiveReward" />
     <div class="main" id="RewardAllot">
         <h2 class="cont_title"><span>基本信息</span></h2>
-        <div class="area_form clearfix" style="min-height: 165px;">
-            <div class="input_lable fl" v-if="Info.AchieveType==1||Info.AchieveType==2" v-cloak>
-                <label for="">获奖项目名称：</label>
-                <span id="Name">{{Info.AchiveName}}</span>
+        <div class="area_form clearfix">
+            <div class="col-xs-4" v-if="Info.AchieveType==1||Info.AchieveType==2" v-cloak>
+                <div class="row msg_item">
+                    <div class="col-xs-5 msg_label">
+                        获奖项目名称：
+                    </div>
+                    <div class="col-xs-7 msg_control">
+                         <span id="Name">{{Info.AchiveName}}</span>
+                    </div>
+                </div>
             </div>
-            <div class="input_lable book fl" v-if="Info.AchieveType==3" v-cloak>
-                <label for="">书名：</label>
-                <span id="BookName">{{Info.BookName}}</span>
-                <input type="hidden" id="BookId" name="BookId" v-model="Info.BookId" />
+            <div class="col-xs-4 book" v-if="Info.AchieveType==3" v-cloak>
+                <div class="row msg_item">
+                    <div class="col-xs-5 msg_label">
+                        书名：
+                    </div>
+                    <div class="col-xs-7 msg_control">
+                         <span id="BookName">{{Info.BookName}}</span>
+                         <input type="hidden" id="BookId" name="BookId" v-model="Info.BookId" />
+                    </div>
+                </div>
             </div>
-            <div class="input_lable book fl" v-if="Info.AchieveType==3" v-cloak>
-                <label for="">书号：</label>
-                <span id="ISBN">{{Info.ISBN}}</span>
+            <div class="col-xs-4 book" v-if="Info.AchieveType==3" v-cloak>
+                <div class="row msg_item">
+                    <div class="col-xs-5 msg_label">
+                        书号：
+                    </div>
+                    <div class="col-xs-7 msg_control">
+                         <span id="ISBN">{{Info.ISBN}}</span>
+                    </div>
+                </div>
             </div>
-            <div class="input_lable fl" v-cloak>
-                <label for="">奖励项目：</label>
-                <span id="Gid">{{Info.GidName}}</span>
+            <div class="col-xs-4" v-cloak>
+                <div class="row msg_item">
+                    <div class="col-xs-5 msg_label">
+                        奖励项目：
+                    </div>
+                    <div class="col-xs-7 msg_control">
+                        <span id="Gid">{{Info.GidName}}</span>
+                    </div>
+                </div>
             </div>
-            <div class="input_lable fl" v-cloak>
-                <label for="">获奖级别：</label>
-                <span id="Lid">{{Info.LevelName}}</span>
+           <div class="col-xs-4" v-cloak>
+                <div class="row msg_item">
+                    <div class="col-xs-5 msg_label">
+                        获奖级别：
+                    </div>
+                    <div class="col-xs-7 msg_control">
+                        <span id="Lid">{{Info.LevelName}}</span>
+                    </div>
+                </div>
             </div>
-            <div class="input_lable fl" v-cloak>
-                <label for="">奖励等级：</label>
-                <span id="Rid">{{Info.RewadName}}</span>
+           <div class="col-xs-4" v-cloak>
+                <div class="row msg_item">
+                    <div class="col-xs-5 msg_label">
+                        奖励等级：
+                    </div>
+                    <div class="col-xs-7 msg_control">
+                        <span id="Rid">{{Info.RewadName}}</span>
+                    </div>
+                </div>
             </div>
-            <div class="input_lable fl" v-if="Info.AchieveType==2" v-cloak>
-                <label for="">排名：</label>
-                <span id="Sort">{{Info.RankName}}</span>
+            <div class="col-xs-4" v-if="Info.AchieveType==2"  v-cloak>
+                <div class="row msg_item">
+                    <div class="col-xs-5 msg_label">
+                        排名：
+                    </div>
+                    <div class="col-xs-7 msg_control">
+                       <span id="Sort">{{Info.RankName}}</span>
+                    </div>
+                </div>
             </div>
-            <div class="input_lable fl" v-cloak>
-                <label for="">获奖年度：</label>
-                <span id="Year">{{Info.Year}}</span>
+           <div class="col-xs-4"   v-cloak>
+                <div class="row msg_item">
+                    <div class="col-xs-5 msg_label">
+                        获奖年度：
+                    </div>
+                    <div class="col-xs-7 msg_control">
+                       <span id="Year">{{Info.Year}}</span>
+                    </div>
+                </div>
             </div>
-            <div class="input_lable fl" v-if="Info.AchieveType!=3" v-cloak>
-                <label for="" v-if="Info.AchieveType==5">获奖教师：</label>
-                <label for="" v-else>负责人：</label>
-                <span id="ResponsMan">{{Info.ResponsMan}}</span>
+           <div class="col-xs-4"  v-if="Info.AchieveType!=3" v-cloak>
+                <div class="row msg_item">
+                    <div class="col-xs-5 msg_label" v-if="Info.AchieveType==5">
+                        获奖教师：
+                    </div>
+                    <div class="col-xs-5 msg_label" v-else>
+                        负责人：
+                    </div>
+                    <div class="col-xs-7 msg_control">
+                       <span id="Year">{{Info.Year}}</span>
+                    </div>
+                </div>
             </div>
-            <div class="input_lable fl" v-cloak>
-                <label for="">负责单位：</label>
-                <span id="DepartMent">{{Info.Major_Name}}</span>
+            <div class="col-xs-4" v-cloak>
+                <div class="row msg_item">
+                    <div class="col-xs-5 msg_label">
+                        负责单位：
+                    </div>
+                    <div class="col-xs-7 msg_control">
+                       <span id="DepartMent">{{Info.Major_Name}}</span>
+                    </div>
+                </div>
             </div>
         </div>
         <div v-show="Info.Status>6" v-cloak>

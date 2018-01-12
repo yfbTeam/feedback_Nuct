@@ -1,6 +1,15 @@
-﻿#threenav{
-    display:none;
+﻿.msg_label, .msg_control{
+    line-height:25px;padding:5px 15px;
 }
+.msg_label {
+    text-align:right;
+}
+.btn:hover{
+    color:#fff;
+}
+    #threenav {
+        display: none;
+    }
 .menu .menu_lists li em {
 	display: block;
 	overflow: hidden;
@@ -1016,7 +1025,8 @@ z-index: 9999;width:100%;
     float:left;margin:0px 10px;
 }
 .radio_wrap input[type=text]{
-    width: 100px;
+    margin:0px 10px;
+    width: 80px;
     text-indent: 10px;
     height: 33px;
     border: 1px solid #dcdcdc;

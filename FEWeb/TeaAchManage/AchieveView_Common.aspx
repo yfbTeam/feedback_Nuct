@@ -29,29 +29,59 @@
     <script type="text/x-jquery-tmpl" id="div_AchInfo">
         <h2 class="cont_title re_view"><span>获奖文件信息</span></h2>
         <div class="area_form clearfix re_view">
-            <div class="input_lable fl">
-                <label for="">发文号：</label>
-                <span>${FileEdionNo}</span>
+            <div class="col-xs-6">
+                <div class="row msg_item">
+                    <div class="col-xs-5 msg_label">
+                        发文号：
+                    </div>
+                    <div class="col-xs-7 msg_control">
+                       <span>${FileEdionNo}</span>
+                    </div>
+                </div>
             </div>
-            <div class="input_lable fl">
-                <label for="">文件名称：</label>
-                <span>${FileNames}</span>
+            <div class="col-xs-6">
+                <div class="row msg_item">
+                    <div class="col-xs-5 msg_label">
+                        文件名称：
+                    </div>
+                    <div class="col-xs-7 msg_control">
+                       <span>${FileNames}</span>
+                    </div>
+                </div>
             </div>
-            <div class="input_lable fl">
-                <label for="">认定机构：</label>
-                <span>${DefindDepart}</span>
+           <div class="col-xs-6" >
+                <div class="row msg_item">
+                    <div class="col-xs-5 msg_label">
+                        认定机构：
+                    </div>
+                    <div class="col-xs-7 msg_control">
+                       <span>${DefindDepart}</span>
+                    </div>
+                </div>
             </div>
-            <div class="input_lable fl">
-                <label for="">认定日期：</label>
-                <span>${DateTimeConvert(DefindDate, '年月日')}</span>
+           <div class="col-xs-6">
+                <div class="row msg_item">
+                    <div class="col-xs-5 msg_label">
+                        认定日期：
+                    </div>
+                    <div class="col-xs-7 msg_control">
+                       <span>${DateTimeConvert(DefindDate, '年月日')}</span>
+                    </div>
+                </div>
             </div>
-            <div class="input_lable input_lable2">
-                <label for="">获奖扫描件：</label>
-                <div class="fl uploader_container">
-                    <div id="uploader">
-                        <div class="queueList">
-                            <div id="dndArea" class="placeholder photo_lists">
-                                <ul class="filelist clearfix"></ul>
+            <div class="col-xs-6 input_lable2">
+                <div class="row msg_item">
+                    <div class="col-xs-5 msg_label">
+                        获奖扫描件：
+                    </div>
+                    <div class="col-xs-7">
+                       <div class="fl uploader_container" style="padding-left:0px;">
+                            <div id="uploader">
+                                <div class="queueList">
+                                    <div id="dndArea" class="placeholder photo_lists">
+                                        <ul class="filelist clearfix"></ul>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>

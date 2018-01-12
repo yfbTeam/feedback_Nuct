@@ -6,9 +6,11 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <link href="/images/favicon.ico" rel="shortcut icon">
     <title>业绩查看审核</title>
+    <link href="../css/bootstrap.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="../css/reset.css" />
     <link href="../css/layout.css" rel="stylesheet" />
     <script src="../Scripts/jquery-1.11.2.min.js"></script>
+    <script src="../js/bootstrap.min.js"></script>
     <style>
         .area_form {
             padding: 0px 0px 20px 0px;
@@ -25,86 +27,177 @@
         {{if UrlDate.Type!='Check'||(UrlDate.Type=='Check'&&Status==1)}}
              <h2 class="cont_title re_view"><span>获奖文件信息</span></h2>
             <div class="area_form clearfix re_view">
-                <div class="input_lable fl">
-                    <label for="">发文号：</label>
-                    <span>${FileEdionNo}</span>
+                <div class="col-xs-6">
+                    <div class="row msg_item">
+                        <div class="col-xs-5 msg_label">
+                            发文号：
+                        </div>
+                        <div class="col-xs-7 msg_control">
+                             <span>${FileEdionNo}</span>
+                        </div>
+                    </div>
                 </div>
-                <div class="input_lable fl">
-                    <label for="">文件名称：</label>
-                    <span>${FileNames}</span>
+                <div class="col-xs-6">
+                    <div class="row msg_item">
+                        <div class="col-xs-5 msg_label">
+                            文件名称：
+                        </div>
+                        <div class="col-xs-7 msg_control">
+                            <span>${FileNames}</span>
+                        </div>
+                    </div>
                 </div>
-                <div class="input_lable fl">
-                    <label for="">认定机构：</label>
-                    <span>${DefindDepart}</span>
+                <div class="col-xs-6">
+                    <div class="row msg_item">
+                        <div class="col-xs-5 msg_label">
+                            认定机构：
+                        </div>
+                        <div class="col-xs-7 msg_control">
+                            <span>${DefindDepart}</span>
+                        </div>
+                    </div>
                 </div>
-                <div class="input_lable fl">
-                    <label for="">认定日期：</label>
-                    <span>${DateTimeConvert(DefindDate, '年月日')}</span>
+                <div class="col-xs-6">
+                    <div class="row msg_item">
+                        <div class="col-xs-5 msg_label">
+                            认定日期：
+                        </div>
+                        <div class="col-xs-7 msg_control">
+                           <span>${DateTimeConvert(DefindDate, '年月日')}</span>
+                        </div>
+                    </div>
                 </div>
-                <div class="input_lable input_lable2">
-                    <label for="">获奖扫描件：</label>
-                    <div class="fl uploader_container">
-                        <div id="uploader">
-                            <div class="queueList">
-                                <div id="dndArea" class="placeholder photo_lists">
-                                    <ul class="filelist clearfix"></ul>
+                <div class="col-xs-12">
+                    <div class="row msg_item">
+                        <div class=" msg_label fl" style="width:200px;">
+                            获奖扫描件：
+                        </div>
+                        <div class="col-xs-9">
+                           <div class="uploader_container" style="padding-left:0px;">
+                                <div id="uploader">
+                                    <div class="queueList">
+                                        <div id="dndArea" class="placeholder photo_lists">
+                                            <ul class="filelist clearfix"></ul>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
+                
             </div>
         {{/if}}
            <h2 class="cont_title"><span>基本信息</span></h2>
         <div class="area_form clearfix">
-            {{if AchieveType==1||AchieveType==2}}             
-                <div class="input_lable fl">
-                    <label for="">获奖项目名称：</label>
-                    <span>${AchiveName}</span>
+            {{if AchieveType==1||AchieveType==2}}
+            <div class="col-xs-6">
+                <div class="row msg_item">
+                    <div class="col-xs-5 msg_label">
+                        获奖项目名称：
+                    </div>
+                    <div class="col-xs-7 msg_control">
+                        <span>${AchiveName}</span>
+                    </div>
                 </div>
-            {{/if}}
-                {{if  AchieveType==3}}
-                <div class="input_lable book fl">
-                    <label for="">书名：</label>
-                    <span>${BookName}</span>
-                    <input type="hidden" id="BookId" name="BookId" value="${BookId}" />
-                </div>
-            <div class="input_lable book fl">
-                <label for="">书号：</label>
-                <span>${ISBN}</span>
             </div>
             {{/if}}
-                <div class="input_lable fl">
-                    <label for="">奖励项目：</label>
-                    <span>${GidName}</span>
+            {{if  AchieveType==3}}
+            <div class="col-xs-6 book">
+                <div class="row msg_item">
+                    <div class="col-xs-5 msg_label">
+                        书名：
+                    </div>
+                    <div class="col-xs-7 msg_control">
+                        <span>${BookName}</span>
+                        <input type="hidden" id="BookId" name="BookId" value="${BookId}" />
+                    </div>
                 </div>
-            <div class="input_lable fl">
-                <label for="">获奖级别：</label>
-                <span>${LevelName}</span>
             </div>
-            <div class="input_lable fl">
-                <label for="">奖励等级：</label>
-                <span>${RewadName}</span>
+            <div class="col-xs-6 book">
+                <div class="row msg_item">
+                    <div class="col-xs-5 msg_label">
+                        书号：
+                    </div>
+                    <div class="col-xs-7 msg_control">
+                        <span>${ISBN}</span>
+                    </div>
+                </div>
+            </div>
+            {{/if}}
+            <div class="col-xs-6">
+                <div class="row msg_item">
+                    <div class="col-xs-5 msg_label">
+                        奖励项目：
+                    </div>
+                    <div class="col-xs-7 msg_control">
+                        <span>${GidName}</span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-6">
+                <div class="row msg_item">
+                    <div class="col-xs-5 msg_label">
+                        获奖级别：
+                    </div>
+                    <div class="col-xs-7 msg_control">
+                        <span>${LevelName}</span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-6">
+                <div class="row msg_item">
+                    <div class="col-xs-5 msg_label">
+                        奖励等级：
+                    </div>
+                    <div class="col-xs-7 msg_control">
+                        <span>${RewadName}</span>
+                    </div>
+                </div>
             </div>
             {{if AchieveType==2}}
-                <div class="input_lable fl">
-                    <label for="">排名：</label>
-                    <span>${RankName}</span>
+            <div class="col-xs-6">
+                <div class="row msg_item">
+                    <div class="col-xs-5 msg_label">
+                        排名：
+                    </div>
+                    <div class="col-xs-7 msg_control">
+                        <span>${RankName}</span>
+                    </div>
                 </div>
+            </div>
             {{/if}}
-                <div class="input_lable fl">
-                    <label for="">获奖年度：</label>
-                    <span>${Year}</span>
+            <div class="col-xs-6">
+                <div class="row msg_item">
+                    <div class="col-xs-5 msg_label">
+                        获奖年度：
+                    </div>
+                    <div class="col-xs-7 msg_control">
+                        <span>${Year}</span>
+                    </div>
                 </div>
-             {{if AchieveType!=3}}
-                <div class="input_lable fl">
-                    <label for="">{{if AchieveType==5}}获奖教师{{else}}负责人{{/if}}：</label>
-                    <span>${ResponsName}</span>
+            </div>
+            {{if AchieveType!=3}}
+            <div class="col-xs-6">
+                <div class="row msg_item">
+                    <div class="col-xs-5 msg_label">
+                        {{if AchieveType==5}}获奖教师{{else}}负责人{{/if}}：
+                    </div>
+                    <div class="col-xs-7 msg_control">
+                        <span>${ResponsName}</span>
+                    </div>
                 </div>
+            </div>
              {{/if}}
-            <div class="input_lable fl">
-                <label for="">负责单位：</label>
-                <span>${Major_Name}</span>
+             <div class="col-xs-6">
+                <div class="row msg_item">
+                    <div class="col-xs-5 msg_label">
+                        负责单位：
+                    </div>
+                    <div class="col-xs-7 msg_control">
+                        <span>${Major_Name}</span>
+                    </div>
+                </div>
             </div>
         </div>         
                <h2 class="cont_title members {{if AchieveType!=2||(UrlDate.Type=='Check'&&Status!=1)||(UrlDate.Type!='Check'&&((ResponsMan!=$('#CreateUID').val()&&Status>6)||(ResponsMan==$('#CreateUID').val()&&Status>3)))}}none{{/if}}"><span>成员信息</span></h2>
