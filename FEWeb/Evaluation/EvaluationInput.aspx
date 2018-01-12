@@ -62,7 +62,7 @@
                 </div>
 
                 <div class="fr pr">
-                    <button class="btn" onclick="window.location.href='./Input/createModal.aspx?Id='+getQueryString('Id')+'&Iid='+getQueryString('Iid')+'&IsAllSchool='+IsAllSchool">评价任务</button>
+                    <button class="btn" onclick="window.location.href='./Input/createModal.aspx?IsAllSchool='+IsAllSchool+'&Id='+getQueryString('Id')+'&Iid='+getQueryString('Iid')">评价任务</button>
                     <b class="dian" style="display: none"></b>
                 </div>
             </div>
@@ -231,11 +231,7 @@
                 Reflesh();
             });
 
-            Base.BindDepart('188px');
-
-            if (IsAllSchool == 0) {
-
-            }
+            Base.BindDepart('188px');            
         })
 
         function search() {

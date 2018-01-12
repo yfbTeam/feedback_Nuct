@@ -27,7 +27,7 @@ var Base = {
     },
 
     BindDepartCompleate: function () { },
-    BindDepart: function (width) {
+    BindDepart: function (width,nochonse) {
         var that = this;
         $.ajax({
             url: HanderServiceUrl + "/UserMan/UserManHandler.ashx",
@@ -41,14 +41,21 @@ var Base = {
                     $(json.result.retData).each(function () {
                         $("#DepartMent").append('<option value="' + this.Id + '">' + this.Major_Name + '</option>');
                     });
-                    width = (width == undefined || width == null) ? '335px' : width;
+                    if (nochonse == false)
+                    {
 
-                    $("#DepartMent").chosen({
-                        allow_single_deselect: true,
-                        disable_search_threshold: 6,
-                        no_results_text: '未找到',
-                        width: width,
-                    })
+                    } else
+                    {
+                        width = (width == undefined || width == null) ? '335px' : width;
+
+                        $("#DepartMent").chosen({
+                            allow_single_deselect: true,
+                            disable_search_threshold: 6,
+                            no_results_text: '未找到',
+                            width: width,
+                        })
+                    }
+                  
                     that.BindDepartCompleate();
                 }
             },
