@@ -3,401 +3,202 @@
 /// <reference path="../jquery-1.11.2.min.js" />
 /// <reference path="../public.js" />
 /// <reference path="../Common.js" />
+
+var PageType = 'Power';  //Power用户组管理
+var CurrentRoleid = null;
+var CurrentRoleName = '';
 var DPList = [];
 var ClsList = [];
-var UI_Power =
-    {
-        PageType: 'Power',  //Power用户组管理
-        CurrentRoleid: null,
-        CurrentRoleName: '',
-        num: function () {
-            return pageNum++;
-        },
-
-        BeginInit: function () {
-
-            UI_Power.GetUserinfoCompleate = function () {
-                UI_Power.BindDataTo_GetUserinfo(UI_Power.CurrentRoleid, UI_Power.CurrentRoleName);
-            }
-
-            //显示用户组
-            UI_Power.ShowUserGroup();
-            //获取用户信息
-            UI_Power.GetUserinfo();
-            //获取学生
-            UI_Power.GetStudents();
-            //获取教师
-            UI_Power.GetTeachers();
 
 
-            $('#ShowUserGroup').find('li[roleid=' + UI_Power.CurrentRoleid + ']').trigger("click");     
+function ShowUserGroup_Compleate() { };
+//显示用户组
+function ShowUserGroup() {
+    var postData = { func: "Get_UserGroup" };
+    $.ajax({
+        type: "Post",
+        url: HanderServiceUrl + "/UserMan/UserManHandler.ashx",
+        data: postData,
+        dataType: "json",
+        async: true,
+        success: function (returnVal) {
+            if (returnVal.result.errMsg == "success") {
+                $('#ShowUserGroup').empty();
+                var lists = returnVal.result.retData;
+                if (lists != null && lists.length > 0) {
+                    $('#li_role').tmpl(lists).appendTo('#ShowUserGroup');
+                    $('#header_th').empty();
+                    $('#header_stu').tmpl(1).appendTo('#header_th');
+                    CurrentRoleid = lists[0].RoleId;
+                    CurrentRoleName = lists[0].RoleName;
+                    $('.menu_lists li').click(function () {
+                        $(this).addClass('selected').siblings().removeClass('selected');
+                    })
+                    tableSlide();
 
-        },
-
-        //显示用户组
-        ShowUserGroup: function () {
-            var that = this;
-            var postData = { func: "Get_UserGroup" };
-            $.ajax({
-                type: "Post",
-                url: HanderServiceUrl + "/UserMan/UserManHandler.ashx",
-                data: postData,
-                dataType: "json",
-                async: true,
-                success: function (returnVal) {
-                    if (returnVal.result.errMsg == "success") {
-                        $('#ShowUserGroup').empty();
-                        var lists = returnVal.result.retData;
-                        if (lists != null && lists.length > 0) {
-                            $('#li_role').tmpl(lists).appendTo('#ShowUserGroup');
-                            $('#header_stu').tmpl(1).appendTo('#header_th');
-                            $('.menu_lists li:eq(0)').addClass('selected');
-                            that.CurrentRoleid = lists[0].RoleId;
-                            that.CurrentRoleName = lists[0].RoleName;
-
-                            $('.menu_lists li').click(function () {
-                                $(this).addClass('selected').siblings().removeClass('selected');
-
-                                $('#header_th').empty();
-
-                                if (UI_Power.CurrentRoleid == 2) {
-                                    $('#header_stu').tmpl(1).appendTo('#header_th');                                   
-                                }
-                                else {
-                                    $('#header_tea').tmpl(1).appendTo('#header_th');                                   
-                                }
-                            })
-                            tableSlide();
-                        }
-                    }
-                },
-                error: function (errMsg) {
-                    alert("失败2");
+                    $('#ShowUserGroup').find('li[roleid=' + CurrentRoleid + ']').trigger("click");
                 }
-            });
-        },
-        ShowUserGroup_Compleate: function () { },
-        //供子窗体使用
-        GetCurrentRoleid: function () {
-            return UI_Power.CurrentRoleid;
-        },
-        //供子窗体使用
-        GetCurrentRoleName: function () {
-            return UI_Power.CurrentRoleName;
-        },
-
-
-        //获取用户信息
-        GetUserinfo: function () {
-
-            layer_index = layer.load(1, {
-                shade: [0.1, '#fff'],   //0.1透明度的白色背景        
-
-            });
-
-            var postData = { func: "Get_UserInfo_List" };
-            $.ajax({
-                type: "Post",
-                url: HanderServiceUrl + "/UserMan/UserManHandler.ashx",
-                data: postData,
-                dataType: "json",
-                success: function (returnVal) {
-                    if (returnVal.result.errMsg == "success") {
-                        reUserinfo = returnVal.result.retData.MainData;
-                        DPList = returnVal.result.retData.DPList;
-                        ClsList = returnVal.result.retData.ClsList;
-                        $("#item_College").tmpl(DPList).appendTo($('#college'));
-                        $("#item_Class").tmpl(ClsList).appendTo($('#class'));
-                        ChosenInit($('#class'));
-                        ChosenInit($('#college'));
-
-                        $('#college').on('change', function () {
-                            $('#class').empty();
-                            $("#class").append("<option value=''>全部</option>");
-                            var colloge = $('#college').val();
-                            if (colloge != '') {
-                                var list = ClsList.filter(function (item) { return item.Major_ID == colloge });
-                                $("#item_Class").tmpl(list).appendTo($('#class'));
-                            }
-                            else {
-                                $("#item_Class").tmpl(ClsList).appendTo($('#class'));
-
-                            }
-                            ChosenInit($('#class'));
-
-                            SelectByWhere();
-                        });
-
-                        $('#class').on('change', function () {
-                            SelectByWhere();
-                        });
-
-                        UI_Power.GetUserinfoCompleate();
-                    }
-                    layer.close(layer_index);
-
-                },
-                error: function (errMsg) {
-
-                }
-            });
-        },
-        GetUserinfoCompleate: function () {
-
-            UI_Power.BindDataTo_GetUserinfo(this.CurrentRoleid, this.CurrentRoleName);
-        },
-        //绑定用户信息
-        BindDataTo_GetUserinfo: function (RoleId, RoleName) {
-
-            UI_Power.CurrentRoleName = RoleName;
-            UI_Power.CurrentRoleid = RoleId;
-
-            //教师不可进行分配人员
-            if (UI_Power.CurrentRoleid == 3) {               
-                $('#allot').hide();
-                $('#allotlimit').show();            
-            }
-            else if (UI_Power.CurrentRoleid == 2) {
-                $('#allot,#allotlimit').hide();             
-            }
-            else {
-                $('#allot,#allotlimit').show();
-            }
-
-            if (UI_Power.CurrentRoleid == 2) {
-                $('#div_Class,#div_Unit').show();
-            }
-            else {
-                $('#div_Class').hide();
-                $('#div_Unit').show();
-            }
-
-            reUserinfoByselect = Enumerable.From(reUserinfo).Where("x=>x.Roleid=='" + RoleId + "'").ToArray();
-            pageCount = reUserinfoByselect.length;
-            UI_Power.fenye(pageCount);
-        },
-        fenye: function (pageCount) {
-            $("#test1").pagination(pageCount, {
-                callback: UI_Power.PageCallback,
-                prev_text: '上一页',
-                next_text: '下一页',
-                items_per_page: pageSize,
-                num_display_entries: 4,//连续分页主体部分分页条目数
-                current_page: pageIndex,//当前页索引
-                num_edge_entries: 1//两侧首尾分页条目数
-            });
-        },
-        initclear: function (index, arrRes) {
-            $("#ShowUserInfo").html('');
-            if (reUserinfoByselect.length < pageSize) {
-                $('.pagination').hide();
-            }
-            else {
-                $('.pagination').show();
-            }
-            if (arrRes.length == 0) {
-                nomessage('#ShowUserInfo');
-                return;
-            }
-            if (index == 0) {
-                pageNum = 1;
-            }
-            else {
-                pageNum = pageSize * (index + 1) + 1;
-            }
-
-          
-            if (UI_Power.CurrentRoleid == 2) {
-                $('#item_tr_stu').tmpl(arrRes).appendTo('#ShowUserInfo');
-            }
-            else {
-                $('#item_tr').tmpl(arrRes).appendTo('#ShowUserInfo');
-            }
-
-        },
-        //翻页调用
-        PageCallback: function (index, jq) {
-            var arrRes = Enumerable.From(reUserinfoByselect).Skip(index * pageSize).Take(pageSize).ToArray();
-            UI_Power.initclear(index, arrRes);
-        },
-        PowerAssign: function () {
-            if (UI_Power.CurrentRoleid != null) {
-                OpenIFrameWindow('权限分配', 'PowerAssign.aspx?type=' + UI_Power.CurrentRoleid + '', '600px', '500px')
             }
         },
-        //搜索
-        SelectByWhere: function () {
-            var sw = $("#select_where").val();
+        error: function (errMsg) {
+            alert("失败2");
+        }
+    });
+};
 
-            allDataMain_select = reUserinfoByselect.filter(function (item) { return item.Name.indexOf(sw) != -1 || item.UniqueNo.indexOf(sw) != -1 });
 
-            var colloge = $('#college').val();
-            if (colloge != "") {
-                allDataMain_select = allDataMain_select.filter(function (item) { return item.Major_ID == colloge });
-            }
-            var cls = $('#class').val();
-            if (cls != "") {
-                allDataMain_select = allDataMain_select.filter(function (item) { return item.ClassID == cls });
-            }
-
-            $("#test1").pagination(allDataMain_select.length, {
-                callback: function (index, jq) {
-                    var arrRes = Enumerable.From(allDataMain_select).Skip(index * pageSize).Take(pageSize).ToArray();
-                    UI_Power.initclear(index, arrRes);
-                },
-                prev_text: '上一页',
-                next_text: '下一页',
-                items_per_page: pageSize,
-                num_display_entries: 4,//连续分页主体部分分页条目数
-                current_page: pageIndex,//当前页索引
-                num_edge_entries: 1//两侧首尾分页条目数
-            });
-        },
-     
-        get_teachers: function () {
-            return teachers;
-
-        },
-      
-        GetTeachers: function () {
-
-            var postData = { func: "GetTeachers" };
-            $.ajax({
-                type: "Post",
-                url: HanderServiceUrl + "/UserMan/UserManHandler.ashx",
-                data: postData,
-                dataType: "json",
-                success: function (returnVal) {
-                    if (returnVal.result.errMsg == "success") {
-                        teachers = returnVal.result.retData;
-                        for (var i = 0; i < teachers.length; i++) {
-                            allDataMain.push(teachers[i]);
-                            allDataMain_select.push(teachers[i]);
-                        }
-                    }
-                },
-                error: function (errMsg) {
-                }
-            });
-        },
-
-        GetStudentsCompleate: function () { },
-        //-----------获取学生、教师---------------------------------------------------------------------------------------
-        GetStudents: function () {
-            var postData = { func: "GetStudents" };
-            $.ajax({
-                type: "Post",
-                url: HanderServiceUrl + "/UserMan/UserManHandler.ashx",
-                data: postData,
-                dataType: "json",
-                success: function (returnVal) {
-                    if (returnVal.result.errMsg == "success") {
-                        students = returnVal.result.retData;
-                        students = Enumerable.From(students).OrderBy(function (item) { return pinyinUtil.getFirstLetter(item.Name, ' ', true, false); }).ToArray();
-
-                        for (var i = 0; i < students.length; i++) {
-                            allDataMain.push(students[i]);
-
-                            allDataMain_select.push(students[i]);
-                        }
-                        UI_Power.GetStudentsCompleate();
-                    }
-                },
-                error: function (errMsg) {
-                }
-            });
-        },
-
-        //-----//获取用户信息[配合子窗体]-------------------------------------------------------------------------      
-        GetUserinfo_Select: function () {
-
-            allDataMain = [];
-            allDataMain_select = []
-            other_data_otherRole = []
-            other_data_otherRole = []
-
-            UI_Power.ShowUserGroup();
-            UI_Power.GetTeachers();
-            UI_Power.GetStudents();
-            //获取用户信息
-            UI_Power.GetUserinfo();
-
-        },
-
-        remove: function (Id) {
+function Ope_UserGourp_Compleate() { };
+function Ope_UserGourp(Id, Name, Type) {
+    switch (Type) {
+        case 1:
+            Ope_UserGourp_Helper(Id, Name, Type);
+            break;
+        case 2:
+            Ope_UserGourp_Helper(Id, Name, Type);
+            break;
+        case 3:
             layer.confirm('确定要删除？', {
                 btn: ['确定', '取消'], //按钮
                 title: '操作'
             }, function () {
-                var postData = { func: "Ope_UserGourp", Type: 3, Id: Id, UniqueNo: cookie_Userinfo.UniqueNo };
-                $.ajax({
-                    type: "Post",
-                    url: HanderServiceUrl + "/UserMan/UserManHandler.ashx",
-                    data: postData,
-                    dataType: "json",
-                    success: function (returnVal) {
-                        if (returnVal.result.errMsg == "success") {
-                            layer.msg('操作成功!');
-                            UI_Power.remove_Compleate();
+                Ope_UserGourp_Helper(Id, Name, Type);
+            });
+
+            break;
+        default:
+    }
+};
+function Ope_UserGourp_Helper(Id, Name, Type) {
+    var postData = { func: "Ope_UserGourp", Type: Type, Id: Id, Name: Name, UniqueNo: cookie_Userinfo.UniqueNo };
+    $.ajax({
+        type: "Post",
+        url: HanderServiceUrl + "/UserMan/UserManHandler.ashx",
+        data: postData,
+        dataType: "json",
+        success: function (returnVal) {
+            if (returnVal.result.errMsg == "success") {
+                layer.msg('操作成功!');
+                Ope_UserGourp_Compleate();
+            }
+            else {
+                layer.msg(returnVal.result.errMsg);
+            }
+            layer.close();
+        },
+        error: function (errMsg) {
+        }
+    });
+}
+
+
+var Dp = '';
+var Cls = '';
+var key ='';
+var pageSize = 10;
+function Get_UserByRoleID(PageIndex) {
+
+    Dp = $('#college').val();
+    Cls = $('#class').val();
+    key =  $('#key').val()
+    
+    var postData = {
+        func: "Get_UserByRoleID", "RoleID": CurrentRoleid, "PageIndex": PageIndex,
+        "PageSize": pageSize, "Key": key, "Dp": Dp, "Cls": Cls,
+    };
+    layer_index = layer.load(1, {
+        shade: [0.1, '#fff'] //0.1透明度的白色背景
+    });
+    $.ajax({
+        type: "Post",
+        url: HanderServiceUrl + "/UserMan/UserManHandler.ashx",
+        data: postData,
+        dataType: "json",
+        success: function (returnVal) {
+            if (returnVal.result.errMsg == "success") {
+                var data = returnVal.result.retData;
+                layer.close(layer_index);
+             
+                $('#ShowUserInfo').empty();
+
+                if (data.length <= 0) {
+                    nomessage('#ShowUserInfo');
+                    $('#pageBar').hide();
+                    return;
+                }
+                else {
+                    $('#pageBar').show();
+                }
+                console.log(returnVal)
+
+                $('#ShowUserInfo').empty();
+                if (CurrentRoleid == 2) {
+                    $('#item_tr_stu').tmpl(data).appendTo('#ShowUserInfo');
+                }
+                else {
+                    $('#item_tr').tmpl(data).appendTo('#ShowUserInfo');
+                }
+
+                tableSlide();
+                laypage({
+                    cont: 'pageBar', //容器。值支持id名、原生dom对象，jquery对象。【如该容器为】：<div id="page1"></div>
+                    pages: returnVal.result.PageCount, //通过后台拿到的总页数
+                    curr: returnVal.result.PageIndex || 1, //当前页
+                    skip: true, //是否开启跳页
+                    skin: '#CA90B0',
+                    groups: 10,
+                    jump: function (obj, first) { //触发分页后的回调
+                        if (!first) { //点击跳页触发函数自身，并传递当前页：obj.curr                                       
+                            Get_UserByRoleID(obj.curr)
+                            pageIndex = obj.curr;
                         }
-                        else {
-                            layer.msg(returnVal.result.errMsg);
-                        }
-                        layer.close();
-                    },
-                    error: function (errMsg) {
                     }
                 });
-            });
-
+                $("#itemCount").tmpl(returnVal.result).appendTo(".laypage_total");
+            }
+            else {
+                layer.msg(returnVal.result.retData);
+            }
         },
-        remove_Compleate: function () { },
-        Edit: function (Id, Name) {
+        error: function (errMsg) {
 
-            var postData = { func: "Ope_UserGourp", Type: 2, Id: Id, Name: Name, UniqueNo: cookie_Userinfo.UniqueNo };
-            $.ajax({
-                type: "Post",
-                url: HanderServiceUrl + "/UserMan/UserManHandler.ashx",
-                data: postData,
-                dataType: "json",
-                success: function (returnVal) {
-                    if (returnVal.result.errMsg == "success") {
-                        UI_Power.Edit_Compleate();
-                    }
-                },
-                error: function (errMsg) {
-                }
-            });
-        },
-        Edit_Compleate: function () { },
-        Add: function (Name) {
+        }
+    });
+}
 
-            var postData = { func: "Ope_UserGourp", Type: 1, Name: Name, UniqueNo: cookie_Userinfo.UniqueNo };
-            $.ajax({
-                type: "Post",
-                url: HanderServiceUrl + "/UserMan/UserManHandler.ashx",
-                data: postData,
-                dataType: "json",
-                success: function (returnVal) {
-                    if (returnVal.result.errMsg == "success") {
-                        UI_Power.Add_Compleate();
-                    }
-                },
-                error: function (errMsg) {
-                }
-            });
+function Get_UserByRole_SelectCompleate() { };
+function Get_UserByRole_Select() {   
+    $.ajax({
+        type: "Post",
+        url: HanderServiceUrl + "/UserMan/UserManHandler.ashx",
+        data: {
+            func: "Get_UserByRole_Select"
         },
-        Add_Compleate: function () { },
+        dataType: "json",
+        success: function (returnVal) {
+            if (returnVal.result.errMsg == "success") {               
+                var data = returnVal.result.retData;
+                ClsList = data.ClsList;
+                DPList = data.DPList;
+                $("#item_College").tmpl(DPList).appendTo($('#college'));
+                $("#item_Class").tmpl(ClsList).appendTo($('#class'));
+                ChosenInit($('#class'));
+                ChosenInit($('#college'));
 
-        Save: function () {
-            sessionStorage.setItem('UI_Power', JSON.stringify(UI_Power));
+                Get_UserByRole_SelectCompleate();                
+            }
+            else {             
+                layer.msg(returnVal.result.retData);
+            }
         },
-        Get: function () {
-            var data = JSON.parse(sessionStorage.getItem('UI_Power'));
-            UI_Power.CurrentRoleid = data.CurrentRoleid;
-            UI_Power.CurrentRoleName = data.CurrentRoleName;
-            UI_Power.Type = data.Type;
-        },
+        error: function (errMsg) {
 
-    };
+        }
+    });
+}
+
+
+
+
+//DPList = returnVal.result.retData.DPList;
+//                       
 

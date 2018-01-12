@@ -21,7 +21,7 @@
             </div>
             <div class="input-wrap clearfix">
                 <label>角色类型：</label>
-                    <span class="ml10">
+                <span class="ml10">
                     <input type="radio" name="role" id="teacher" class="magic-radio" checked value="1">
                     <label for="teacher">教师</label>
                 </span>
@@ -50,37 +50,34 @@
 <script>
     var type = Number(getQueryString('type'));
     var index = parent.layer.getFrameIndex(window.name);
+    var CurrentRoleid = getQueryString('CurrentRoleid');
+    var CurrentRoleName = getQueryString('CurrentRoleName');
     $(function () {
-    
+
+        Ope_UserGourp_Compleate = function () {
+            parent.ShowUserGroup();
+            layer.msg('操作成功!');
+            parent.layer.close(index);
+        };
+
         switch (type) {
             case 1: //添加
                 $('.btn').on('click', function () {
-                    UI_Power.Add_Compleate = function () {                       
-                        parent.SelectGourp_Init();
-                        layer.msg('操作成功!');
-                        parent.layer.close(index);
-                    };
-                    UI_Power.Add($('#btn_Group_User_Add').val());                   
+                    Ope_UserGourp('', $('#btn_Group_User_Add').val(), type);
                 });
                 break;
             case 2:  //编辑
-                UI_Power.Get();
-
-                $('#btn_Group_User_Add').val(UI_Power.CurrentRoleName);
+               
+                $('#btn_Group_User_Add').val(CurrentRoleName);
                 $('.btn').on('click', function () {
-                    UI_Power.Edit_Compleate = function () {
-                        parent.SelectGourp_Init();
-                        layer.msg('操作成功!');
-                        parent.layer.close(index);
-                    };
-                    UI_Power.Edit(UI_Power.CurrentRoleid, $('#btn_Group_User_Add').val());                                     
+                    Ope_UserGourp(CurrentRoleid, $('#btn_Group_User_Add').val(), type);
                 });
                 break;
             default:
         }
     });
 
-    function cancel() {     
+    function cancel() {
         parent.layer.close(index);
     }
 

@@ -6,7 +6,7 @@ var UI_Allot =
     prepare_init: function () {
         $("#rolenametext").text(CurrentRoleName);
         $('#teacher_student').on('change', function () {
-            
+
             roleid = $('#teacher_student').val();
             UI_Allot.data_init(roleid);
         });
@@ -49,13 +49,13 @@ var UI_Allot =
 
     all_change: function () {
         reUserinfoByselect = selectreUserinfoAll;
-      
+
         //课程类型
         var college = $("#college").val();
         if (college != "" && college != null && college != undefined) {
             reUserinfoByselect = Enumerable.From(reUserinfoByselect).Where("x=>x.Major_ID=='" + college + "'").ToArray();
         }
-     
+
         var sw = $("#key").val();
         if (sw != "") {
             reUserinfoByselect = Enumerable.From(reUserinfoByselect).Where("x=>x.Roleid=='" + roleid + "'&&x.Name.indexOf('" + sw + "')!=-1").ToArray();
@@ -63,11 +63,7 @@ var UI_Allot =
         else {
             //reUserinfoByselect = Enumerable.From(reUserinfoByselect).ToArray();
         }
-      
-     
         UI_Allot.fenye(reUserinfoByselect.length);
-
-        
         if (IsAll_Select) {
             select_uniques = [];
             reUserinfoByselect.filter(function (item) { select_uniques.push(item.UniqueNo) });
@@ -90,42 +86,31 @@ var UI_Allot =
 
     //翻页调用
     PageCallback: function (index, jq) {
-      
+
         var arrRes = Enumerable.From(reUserinfoByselect).Skip(index * pageSize).Take(pageSize).ToArray();
         UI_Allot.BindDataTo_GetUserinfo(arrRes);
         UI_Allot.PageChange_Check();
     },
-    data_init: function (roleid) {
+    data_init: function (roleid) {        
+        reUserinfoByselect = reUserinfoAll;
 
-        //reUserinfoByselect = Enumerable.From(reUserinfoAll).Where("x=>x.Roleid=='" + roleid + "'").ToArray();
-
-        reUserinfoByselect = reUserinfoAll.filter(function (item) { return item.Roleid != 2 });
-        //alert(roleid);
-        //alert(reUserinfoByselect.length)
         select_uniques = [];
         //数组合并
         for (var i = 0; i < reUserinfoByselect.length; i++) {
             var index = isHasElement(reUserinfoByselect_uniques, reUserinfoByselect[i].UniqueNo);
             if (index > -1) {
+                
                 select_uniques.push(reUserinfoByselect[i].UniqueNo);
                 reUserinfoByselect[i].Roleid = CurrentRoleid;
             }
         }
-
-        
-
-
         //临时集合存储
         selectreUserinfoAll = reUserinfoByselect;
-       
         UI_Allot.all_change();
     },
 
     //-----------绑定数据--------------------------------------------------------------------------------------
     BindDataTo_GetUserinfo: function (bindData) {
-
-        
-
         $("#tb_indicator").empty();
         $("#itemData").tmpl(bindData).appendTo("#tb_indicator");
         //$("#tb_indicator").append(strall);
@@ -134,18 +119,29 @@ var UI_Allot =
         }
         tableSlide();
         $('input:checkbox[name=se]').each(function () {
-            ;
+         
             $(this).on('click', function () {
                 var check = $(this).attr('checked');
                 var UniqueNo = $(this).attr('UniqueNo');
                 if (check != undefined) {
                     select_uniques.remove(UniqueNo);
                     $(this).removeAttr('checked');
+                    debugger;
+                    var data = reUserinfoAll.filter(function (item) { return item.UniqueNo == UniqueNo });
+                    if(data.length>0)
+                    {
+                        data[0].Roleid = 0;
+                    }
 
                 }
                 else {
                     select_uniques.push(UniqueNo)
                     $(this).attr('checked', 'checked');
+
+                    var data = reUserinfoAll.filter(function (item) { return item.UniqueNo == UniqueNo });
+                    if (data.length > 0) {
+                        data[0].Roleid = CurrentRoleid;
+                    }
                 }
             })
         });
@@ -185,7 +181,7 @@ var UI_Allot =
     Check_All: function () {
         select_uniques = [];
         if (IsAll_Select) {
-            $('.table').find('input[type="checkbox"]').attr('checked', false);            
+            $('.table').find('input[type="checkbox"]').attr('checked', false);
             IsAll_Select = false;
         }
         else {
@@ -204,13 +200,73 @@ var UI_Allot =
     },
 };
 
-////--------指定元素进删除---------------------------------------------------------------
-//Array.prototype.remove = function (val) {
-//    var index = this.indexOf(val);
-//    if (index > -1) {
-//        this.splice(index, 1);
-//    }
-//};
+//--------指定元素进删除---------------------------------------------------------------
+Array.prototype.remove = function (val) {
+    var index = this.indexOf(val);
+    if (index > -1) {
+        this.splice(index, 1);
+    }
+};
+
+function GetTeachers_ByRoleIDCompleate() { };
+function GetTeachers_ByRoleID() {
+
+    var postData = { func: "GetTeachers_ByRoleID", "RoleID": CurrentRoleid };
+    $.ajax({
+        type: "Post",
+        url: HanderServiceUrl + "/UserMan/UserManHandler.ashx",
+        data: postData,
+        dataType: "json",
+        success: function (returnVal) {
+            if (returnVal.result.errMsg == "success") {
+                reUserinfoAll = returnVal.result.retData;
+               
+                for (var i in reUserinfoAll) {
+                    var info = reUserinfoAll[i];
+                    if(info.Roleid == CurrentRoleid)
+                    {                      
+                        reUserinfoByselect_uniques.push(info.UniqueNo);
+                    }
+                }
+               
+                GetTeachers_ByRoleIDCompleate();
+            }
+        },
+        error: function (errMsg) {
+        }
+    });
+};
+
+
+function IsMutex() {
+    //var CurrentRoleName = parent.GetCurrentRoleName();
+    var UniqueNos = "";
+    for (var i = 0; i < select_uniques.length; i++) {
+        if (i == 0) {
+            UniqueNos = select_uniques[i];
+        } else {
+            UniqueNos += ("," + select_uniques[i]);
+        }
+    }
+    var postData = { func: "IsMutex", UniqueNo: UniqueNos, Roleid: CurrentRoleid };
+    $.ajax({
+        type: "Post",
+        url: HanderServiceUrl + "/UserMan/UserManHandler.ashx",
+        data: postData,
+        dataType: "json",
+        async: true,
+        success: function (returnVal) {
+            if (returnVal.result.errMsg == "success") {
+                var data = returnVal.result.retData;
+                debugger;
+            }
+        },
+        error: function (errMsg) {
+           
+        }
+    });
+};
+
 
 
 

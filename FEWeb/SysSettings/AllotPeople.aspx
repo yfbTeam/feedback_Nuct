@@ -102,16 +102,16 @@
 <script src="../Scripts/pagination/jquery.pagination.js"></script>
 <script src="../Scripts/WebCenter/AllotPeople.js"></script>
 <script>
-
-    var CurrentRoleid = parent.GetCurrentRoleid();
-    var CurrentRoleName = parent.GetCurrentRoleName();
+    
+    var CurrentRoleid = getQueryString('CurrentRoleid');
+    var CurrentRoleName = getQueryString('CurrentRoleName');
     //从子窗体筛选之后获取的数据【未处理】
-    var reUserinfoAll = parent.get_teachers();
+    var reUserinfoAll = [];
     
    
     var index = parent.layer.getFrameIndex(window.name);
     //从子窗体获取相关角色已有的用户
-    var reUserinfoByselect_uniques = parent.get_reUserinfoByselect_Ids();
+    var reUserinfoByselect_uniques = [];
     //选中的用户
     var select_uniques = [];
     //绑定的数据【UI】
@@ -129,17 +129,21 @@
 
     //-----------初始化--------------------------------------------------------------------------------------
     $(function () {
-       
-        UI_Allot.prepare_init();
-        UI_Allot.data_init(3);
-        UI_Allot.PageType = 'AllotPeople';
-        //UI_Course.PageType = 'AllotPeople';
-        UI_Allot.GetProfessInfo();
+
+        GetTeachers_ByRoleIDCompleate = function () {
+            UI_Allot.prepare_init();
+            UI_Allot.data_init(3);
+            UI_Allot.PageType = 'AllotPeople';
+            //UI_Course.PageType = 'AllotPeople';
+            UI_Allot.GetProfessInfo();
+        };
+        GetTeachers_ByRoleID();
+      
 
         UI_Allot.SubmitUserinfo_Compleate = function (result) {
             if (result) {
                 parent.layer.msg('分配成功');
-                parent.SelectGourp_Init();
+                parent.Reflesh();
                 parent.layer.close(index);
             }
             else {
@@ -151,6 +155,7 @@
 
     //-----------提交信息---------------------------------------------------------------------------------------  
     function SubmitUserinfo() {
+        IsMutex();
         UI_Allot.SubmitUserinfo();
     }
     //-----------取消---------------------------------------------------------------------------------------

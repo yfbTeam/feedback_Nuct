@@ -15,6 +15,7 @@ namespace FEHandler.UserMan
     /// </summary>
     public class UserManHandler : IHttpHandler
     {
+        #region 中心入口
 
         JsonModel jsonModel = new JsonModel();
         public void ProcessRequest(HttpContext context)
@@ -25,8 +26,13 @@ namespace FEHandler.UserMan
             {
                 switch (func)
                 {
-                    //获取学生
+                    //获取用户
                     case "Get_UserInfo_List": Get_UserInfo_List(context); break;
+                    //根据用户组获取用户
+                    case "Get_UserByRoleID": Get_UserByRoleID(context); break;
+                    case "Get_UserByRole_Select": Get_UserByRole_Select(context); break;
+
+
                     //操作用户组
                     case "Ope_UserGourp": Ope_UserGourp(context); break;
 
@@ -37,7 +43,12 @@ namespace FEHandler.UserMan
                     //获取用户信息【根据类型】+课程【教师组】
                     case "GetUserByType_Course": GetUserByType_Course(context); break;
                     case "SetUserToRole": SetUserToRole(context); break;
+
+                    case "IsMutex": IsMutex(context); break;
+                        
                     case "GetTeachers": GetTeachers(context); break;
+                    case "GetTeachers_ByRoleID": GetTeachers_ByRoleID(context); break;
+
                     case "GetStudents": GetStudents(context); break;
                     case "GetStudentsSelect": GetStudentsSelect(context); break;
                     case "GetMajors": GetMajors(context); break;
@@ -56,6 +67,9 @@ namespace FEHandler.UserMan
                 context.Response.Write("{\"result\":" + Constant.jss.Serialize(jsonModel) + "}");
             }
         }
+
+        #endregion
+
         #region 部门
         public void GetMajors(HttpContext context)
         {
@@ -64,7 +78,10 @@ namespace FEHandler.UserMan
             jsonModel = JsonModel.get_jsonmodel(intSuccess, "success", Major_List);
             context.Response.Write("{\"result\":" + Constant.jss.Serialize(jsonModel) + "}");
         }
+
         #endregion
+
+        #region 角色设置
 
         public void SetUserToRole(HttpContext context)
         {
@@ -76,63 +93,64 @@ namespace FEHandler.UserMan
                 int Roleid = RequestHelper.int_transfer(Request, "Roleid");
                 string[] us = Split_Hepler.str_to_stringss(UniqueNos);
 
-                //-----------------------------------------------------------------------
-                //先把选中的 角色进行判断性的变更【若不为改类型则设置为该类型】
-                foreach (var unique in us)
-                {
-                    Sys_RoleOfUser roleofuser = Constant.Sys_RoleOfUser_List.FirstOrDefault(r => r.UniqueNo == unique);
-                    if (roleofuser != null && roleofuser.Role_Id != Roleid)
-                    {
-                        Sys_RoleOfUser RoleOfUser_Clone = Constant.Clone<Sys_RoleOfUser>(roleofuser);
-                        RoleOfUser_Clone.Role_Id = Roleid;
-                        //改数据库
-                        JsonModel m1 = Constant.Sys_RoleOfUserService.Update(RoleOfUser_Clone);
-                        if (m1.errNum == 0)
-                        {
-                            //改缓存
-                            roleofuser.Role_Id = Roleid;
-                        }
-                    }
-                }
+                bool IsMutexCombine = RequestHelper.bool_transfer(Request, "IsMutexCombine");
 
-                //-----------------------------------------------------------------------
-                //若不为改类型则进行剔除（获取已存在的该类型角色 查看这次是否剔除）
-                var roles = (from r in Constant.Sys_RoleOfUser_List where r.Role_Id == Roleid select r).ToList();
-                foreach (Sys_RoleOfUser role in roles)
+                //互斥
+                if (IsMutexCombine)
                 {
-                    //Sys_RoleOfUser Sys_RoleOfUser_=new Sys_RoleOfUser();
-                    //Sys_RoleOfUser_.UniqueNo=
-                    if (!us.Contains(role.UniqueNo))
+                    //-----------------------------------------------------------------------
+                    //先把选中的 角色进行判断性的变更【若不为改类型则设置为该类型】
+                    foreach (var unique in us)
                     {
-                        Teacher teacher = Constant.Teacher_List.FirstOrDefault(t => t.UniqueNo == role.UniqueNo);
-                        Student student = Constant.Student_List.FirstOrDefault(s => s.UniqueNo == role.UniqueNo);
-
-                        int roleID = 2;
-                        if (teacher != null)
+                        Sys_RoleOfUser Sys_RoleOfUser = Constant.Sys_RoleOfUser_List.FirstOrDefault(r => r.UniqueNo == unique);
+                        if (Sys_RoleOfUser != null)
                         {
-                            roleID = 3;
-                        }
-                        else if (student != null)
-                        {
-                            roleID = 2;
-                        }
-                        Sys_RoleOfUser edit_RoleOfUser = Constant.Sys_RoleOfUser_List.FirstOrDefault(u => u.UniqueNo == role.UniqueNo);
-                        if (edit_RoleOfUser != null)
-                        {
-                            Sys_RoleOfUser role_u_clone = Constant.Clone<Sys_RoleOfUser>(edit_RoleOfUser);
-                            role_u_clone.Role_Id = roleID;
+                            Sys_RoleOfUser Sys_RoleOfUser_Clone = Constant.Clone(Sys_RoleOfUser);
+                            Sys_RoleOfUser_Clone.Role_Id = Roleid;
                             //改数据库
-                            JsonModel m2 = Constant.Sys_RoleOfUserService.Update(role_u_clone);
-                            if (m2.errNum == 0)
+                            JsonModel m1 = Constant.Sys_RoleOfUserService.Update(Sys_RoleOfUser_Clone);
+                            if (m1.errNum == 0)
                             {
-                                //改缓存
-                                edit_RoleOfUser.Role_Id = roleID;
+                                Sys_RoleOfUser.Role_Id = Roleid;
                             }
-
+                        }
+                    }
+                }
+                else
+                {
+                    //-----------------------------------------------------------------------
+                    //先把选中的 角色进行判断性的变更【若不为改类型则设置为该类型】
+                    foreach (var unique in us)
+                    {
+                        int count = Constant.Sys_RoleOfUser_List.Count(r => r.UniqueNo == unique && r.Role_Id == Roleid);
+                        if (count == 0)
+                        {
+                            Sys_RoleOfUser r = new Sys_RoleOfUser()
+                            {
+                                Role_Id = Roleid,
+                                IsDelete = (int)IsDelete.No_Delete,
+                                CreateTime = DateTime.Now,
+                                EditTime = DateTime.Now,
+                                UniqueNo = unique,
+                                CreateUID = "",
+                                EditUID = "",
+                            };
+                            //改数据库
+                            JsonModel m1 = Constant.Sys_RoleOfUserService.Add(r);
+                            if (m1.errNum == 0)
+                            {
+                                Constant.Sys_RoleOfUser_List.Add(r);
+                            }
                         }
                     }
                 }
 
+
+                string[] deleteDatas = (from r in Constant.Sys_RoleOfUser_List where !us.Contains(r.UniqueNo) && r.Role_Id == Roleid select Convert.ToString(r.Id)).ToArray();
+                if (deleteDatas.Count() > 0)
+                {
+                    Constant.Sys_RoleOfUserService.DeleteBatch(deleteDatas);
+                }
                 jsonModel = JsonModel.get_jsonmodel(intSuccess, "success", "0");
 
             }
@@ -146,6 +164,57 @@ namespace FEHandler.UserMan
                 context.Response.Write("{\"result\":" + Constant.jss.Serialize(jsonModel) + "}");
             }
         }
+
+        public void IsMutex(HttpContext context)
+        {
+            int intSuccess = (int)errNum.Success;
+            try
+            {
+                HttpRequest Request = context.Request;
+                string UniqueNos = RequestHelper.string_transfer(Request, "UniqueNo");
+                string[] us = Split_Hepler.str_to_stringss(UniqueNos);
+                int Roleid = RequestHelper.int_transfer(Request, "Roleid");
+                //-----------------------------------------------------------------------
+                RoleType roleType = (RoleType)Roleid;
+
+                bool reuslt = true;
+                string info = string.Empty;
+                if (roleType == RoleType.department_mange || roleType == RoleType.school_manage)
+                {
+                    reuslt = false;
+                    //先把选中的 角色进行判断性的变更【若不为改类型则设置为该类型】
+                    var inf = (from uni in us
+                               join r_u in Constant.Sys_RoleOfUser_List on uni equals r_u.UniqueNo
+                               join r in Constant.Sys_Role_List on r_u.Role_Id equals r.Id
+                               join user in Constant.UserInfo_List on uni equals user.Nickname
+                               where r.Id == (int)RoleType.department_mange || r.Id == (int)RoleType.school_manage
+                               select new {UserName = user.Name,RoleName = r.Name }).ToList();
+
+                    var data = new { IsMutex = reuslt, inf };
+                    jsonModel = JsonModel.get_jsonmodel(intSuccess, "success", data);
+                }
+                else
+                {
+                    var data = new { IsMutex = reuslt, Info = "" };
+                    jsonModel = JsonModel.get_jsonmodel(intSuccess, "success", data);
+                }
+             
+            }
+            catch (Exception ex)
+            {
+                LogHelper.Error(ex);
+            }
+            finally
+            {
+                //无论后端出现什么问题，都要给前端有个通知【为防止jsonModel 为空 ,全局字段 jsonModel 特意声明之后进行初始化】
+                context.Response.Write("{\"result\":" + Constant.jss.Serialize(jsonModel) + "}");
+            }
+        }
+
+        #endregion
+
+        #region 获取用户组
+
         public void Get_UserGroup(HttpContext context)
         {
             int intSuccess = (int)errNum.Success;
@@ -178,6 +247,8 @@ namespace FEHandler.UserMan
             }
             //LogHelper.Info("Get_UserGroup:结束");
         }
+
+        #endregion
 
         #region 添加\编辑\删除 用户组
 
@@ -333,6 +404,8 @@ namespace FEHandler.UserMan
 
         #endregion
 
+        #region 获取用户信息
+
         //获取用户信息
         public void Get_UserInfo_List(HttpContext context)
         {
@@ -384,10 +457,10 @@ namespace FEHandler.UserMan
                               select new DPModel()
                                   {
                                       Major_ID = q.Major_ID,
-                                      DepartmentName = q.DepartmentName,                                     
+                                      DepartmentName = q.DepartmentName,
                                   }).Distinct(new DPModelComparer()),
-                    ClsList = (from q in query where q.ClassID != "" select new ClsModel() { ClassID = q.ClassID, ClassName = q.ClassName,Major_ID = q.Major_ID }).Distinct(new ClsModelComparer()),
-                };              
+                    ClsList = (from q in query where q.ClassID != "" select new ClsModel() { ClassID = q.ClassID, ClassName = q.ClassName, Major_ID = q.Major_ID }).Distinct(new ClsModelComparer()),
+                };
                 jsonModel = JsonModel.get_jsonmodel(intSuccess, "success", data);
             }
             catch (Exception ex)
@@ -414,6 +487,7 @@ namespace FEHandler.UserMan
             }
         }
 
+        #endregion
 
         #region 指定类型获取用户信息
 
@@ -719,14 +793,11 @@ namespace FEHandler.UserMan
                                 id = ul.Id,
                                 Name = (ul.Name == null) ? string.Empty : ul.Name,
                                 Sex = GetSex(Convert.ToString(ul.Sex)),
-                                //Department_Name = (ul.Department_Name == null) ? string.Empty : ul.Department_Name,
-                                //Major_Name = (ul.Major_Name == null) ? string.Empty : ul.Major_Name,
-                                //College_Name = (ul.College_Name == null) ? string.Empty : ul.College_Name,
                                 LoginName = (ul.LoginName == null) ? string.Empty : ul.LoginName,
                                 Phone = (ul.Phone == null) ? string.Empty : ul.Phone,
                                 Email = (ul.Email == null) ? string.Empty : ul.Email,
                                 UserType = ul.UserType,
-                                Roleid = 3,
+                                Roleid = 0,
                                 RoleName = "教师",
                                 UniqueNo = ul.UniqueNo,
                                 Pwd = ul.ClearPassword,
@@ -735,6 +806,7 @@ namespace FEHandler.UserMan
                                 Major_ID = ul.Major_ID,
                                 s.SubDepartmentID,
                                 s.SubDepartmentName,
+
                             };
 
                 var query1 = from q in query
@@ -779,6 +851,252 @@ namespace FEHandler.UserMan
                 context.Response.Write("{\"result\":" + Constant.jss.Serialize(jsonModel) + "}");
             }
         }
+
+        public void GetTeachers_ByRoleID(HttpContext context)
+        {
+            int intSuccess = (int)errNum.Success;
+            try
+            {
+                HttpRequest Request = context.Request;
+                string Major_ID = RequestHelper.string_transfer(context.Request, "Major_ID");
+                int RoleID = RequestHelper.int_transfer(context.Request, "RoleID");
+
+                //返回所有用户信息
+                List<UserInfo> UserInfo_List_ = Constant.UserInfo_List;
+                List<Major> Major_List = Constant.Major_List;
+                if (!string.IsNullOrEmpty(Major_ID))
+                {
+                    UserInfo_List_ = UserInfo_List_.Where(t => t.Major_ID == Major_ID).ToList();
+                }
+
+                var query = from ul in UserInfo_List_
+                            join s in Constant.Teacher_List on ul.UniqueNo equals s.UniqueNo
+                            join sr in Constant.Sys_RoleOfUser_List on new { s.UniqueNo, RoleID = RoleID } equals new { sr.UniqueNo, RoleID = (int)sr.Role_Id } into srs
+                            from sr_ in srs.DefaultIfEmpty()
+                            select new
+                            {
+                                id = ul.Id,
+                                Name = (ul.Name == null) ? string.Empty : ul.Name,
+                                Sex = GetSex(Convert.ToString(ul.Sex)),
+
+                                LoginName = (ul.LoginName == null) ? string.Empty : ul.LoginName,
+                                Phone = (ul.Phone == null) ? string.Empty : ul.Phone,
+                                Email = (ul.Email == null) ? string.Empty : ul.Email,
+                                UserType = ul.UserType,
+                                Roleid = sr_ != null ? sr_.Role_Id : 0,
+                                RoleName = "教师",
+                                UniqueNo = ul.UniqueNo,
+                                Pwd = ul.ClearPassword,
+                                MajorName = "",
+                                Major_ID = ul.Major_ID,
+                                s.SubDepartmentID,
+                                s.SubDepartmentName,
+
+                            };
+
+                var query1 = from q in query
+                             join SysMajor in Major_List on q.Major_ID equals SysMajor.Id
+                             into gj
+                             from lf in gj.DefaultIfEmpty()
+
+                             select new
+                             {
+                                 id = q.id,
+                                 Name = (q.Name == null) ? string.Empty : q.Name,
+                                 Sex = q.Sex,
+                                 //Department_Name = (ul.Department_Name == null) ? string.Empty : ul.Department_Name,
+                                 //Major_Name = (ul.Major_Name == null) ? string.Empty : ul.Major_Name,
+                                 //College_Name = (ul.College_Name == null) ? string.Empty : ul.College_Name,
+                                 LoginName = (q.LoginName == null) ? string.Empty : q.LoginName,
+                                 Phone = (q.Phone == null) ? string.Empty : q.Phone,
+                                 Email = (q.Email == null) ? string.Empty : q.Email,
+                                 UserType = q.UserType,
+                                 Roleid = q.Roleid,
+                                 RoleName = q.RoleName,
+                                 UniqueNo = q.UniqueNo,
+                                 Pwd = q.Pwd,
+                                 //MajorName=SysMajor.Major_Name
+                                 MajorName = (lf == null ? "" : lf.Major_Name),
+                                 Major_ID = q.Major_ID
+                             };
+
+
+
+                int count = query1.Count();
+
+                jsonModel = JsonModel.get_jsonmodel(intSuccess, "success", query1);
+            }
+            catch (Exception ex)
+            {
+                LogHelper.Error(ex);
+            }
+            finally
+            {
+                //无论后端出现什么问题，都要给前端有个通知【为防止jsonModel 为空 ,全局字段 jsonModel 特意声明之后进行初始化】
+                context.Response.Write("{\"result\":" + Constant.jss.Serialize(jsonModel) + "}");
+            }
+        }
+
+
+
+        #endregion
+
+        #region 根据角色获取用户信息
+
+        /// <summary>
+        /// 获取定期评价列表数据
+        /// </summary>
+        public void Get_UserByRoleID(HttpContext context)
+        {
+            HttpRequest Request = context.Request;
+            string Key = RequestHelper.string_transfer(Request, "Key");
+            string Dp = RequestHelper.string_transfer(Request, "Dp");
+            string Cls = RequestHelper.string_transfer(Request, "Cls");
+            int RoleID = RequestHelper.int_transfer(Request, "RoleID");
+
+            int PageIndex = RequestHelper.int_transfer(Request, "PageIndex");
+            int PageSize = RequestHelper.int_transfer(Request, "PageSize");
+            try
+            {
+                jsonModel = Get_UserByRoleID_Helper(PageIndex, PageSize, RoleID, Key, Dp, Cls);
+            }
+            catch (Exception ex)
+            {
+                LogHelper.Error(ex);
+            }
+            finally
+            {
+                //无论后端出现什么问题，都要给前端有个通知【为防止jsonModel 为空 ,全局字段 jsonModel 特意声明之后进行初始化】
+                context.Response.Write("{\"result\":" + Constant.jss.Serialize(jsonModel) + "}");
+            }
+        }
+
+        public static JsonModel Get_UserByRoleID_Helper(int PageIndex, int PageSize, int RoleID, string Key, string Dp, string Cls)
+        {
+            int intSuccess = (int)errNum.Success;
+            JsonModelNum jsm = new JsonModelNum();
+            try
+            {
+                var list = (from user in Constant.UserInfo_List
+                            join stu in Constant.Student_List on user.UniqueNo equals stu.UniqueNo into stus
+                            from stu_ in stus.DefaultIfEmpty()
+                            join ru in Constant.Sys_RoleOfUser_List on user.UniqueNo equals ru.UniqueNo
+                            join role in Constant.Sys_Role_List on ru.Role_Id equals role.Id
+                            where role.Id == RoleID
+                            select new UserModel
+                            {
+                                Num = 0,
+                                UniqueNo = user.UniqueNo,
+                                Name = user.Name,
+                                Sex = user.Sex,
+                                DepartmentID = user.Major_ID,
+                                DepartmentName = user.DepartmentName,
+                                SubDepartmentName = user.SubDepartmentName,
+                                ClassID = stu_ != null ? stu_.ClassNo : "",
+                                ClassName = stu_ != null ? stu_.ClassName : "",
+                            }).ToList();
+
+                if (Dp != "")
+                {
+                    list = (from li in list where li.DepartmentID == Dp select li).ToList();
+                }
+
+                if (Cls != "")
+                {
+                    list = (from li in list where li.ClassID == Cls select li).ToList();
+                }
+                if (Key != "")
+                {
+                    list = (from li in list where li.Name.Contains(Key) || li.UniqueNo.Contains(Key) select li).ToList();
+                }
+                for (int i = 0; i < list.Count; i++)
+                {
+                    list[i].Num = i + 1;
+                }
+
+                var query_last = (from an in list select an).Skip((PageIndex - 1) * PageSize).Take(PageSize).ToList();
+
+                //返回所有表格数据
+                jsm = JsonModelNum.GetJsonModel_o(intSuccess, "success", query_last);
+                jsm.PageIndex = PageIndex;
+                jsm.PageSize = PageSize;
+                jsm.PageCount = (int)Math.Ceiling((double)list.Count() / PageSize);
+                jsm.RowCount = list.Count();
+            }
+            catch (Exception ex)
+            {
+                LogHelper.Error(ex);
+            }
+            return jsm;
+        }
+
+
+        /// <summary>
+        /// 获取定期评价列表数据
+        /// </summary>
+        public void Get_UserByRole_Select(HttpContext context)
+        {
+            HttpRequest Request = context.Request;
+            try
+            {
+                jsonModel = Get_UserByRole_Select_Helper();
+            }
+            catch (Exception ex)
+            {
+                LogHelper.Error(ex);
+            }
+            finally
+            {
+                //无论后端出现什么问题，都要给前端有个通知【为防止jsonModel 为空 ,全局字段 jsonModel 特意声明之后进行初始化】
+                context.Response.Write("{\"result\":" + Constant.jss.Serialize(jsonModel) + "}");
+            }
+        }
+
+        public static JsonModel Get_UserByRole_Select_Helper()
+        {
+            int intSuccess = (int)errNum.Success;
+            JsonModel jsm = new JsonModel();
+            try
+            {
+                var list = (from user in Constant.UserInfo_List
+                            join stu in Constant.Student_List on user.UniqueNo equals stu.UniqueNo into stus
+                            from stu_ in stus.DefaultIfEmpty()
+                            join ru in Constant.Sys_RoleOfUser_List on user.UniqueNo equals ru.UniqueNo
+                            join role in Constant.Sys_Role_List on ru.Role_Id equals role.Id
+                            select new UserModel
+                            {
+                                Num = 0,
+                                UniqueNo = user.UniqueNo,
+                                Name = user.Name,
+                                Sex = user.Sex,
+                                DepartmentID = user.Major_ID,
+                                DepartmentName = user.DepartmentName,
+                                SubDepartmentName = user.SubDepartmentName,
+                                ClassID = stu_ != null ? stu_.ClassNo : "",
+                                ClassName = stu_ != null ? stu_.ClassName : "",
+                            }).ToList();
+
+                var data = new
+                {
+                    DPList = (from q in list
+                              where q.DepartmentName != ""
+                              select new DPModel()
+                              {
+                                  Major_ID = q.DepartmentID,
+                                  DepartmentName = q.DepartmentName,
+                              }).Distinct(new DPModelComparer()),
+                    ClsList = (from q in list where q.ClassID != "" select new ClsModel() { ClassID = q.ClassID, ClassName = q.ClassName, Major_ID = q.DepartmentID }).Distinct(new ClsModelComparer()),
+                };
+
+                jsm = JsonModel.get_jsonmodel(intSuccess, "success", data);
+            }
+            catch (Exception ex)
+            {
+                LogHelper.Error(ex);
+            }
+            return jsm;
+        }
+
 
         #endregion
     }

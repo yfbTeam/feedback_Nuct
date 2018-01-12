@@ -26,6 +26,10 @@
         .search_toobar .text {
             margin-top: 1px;
         }
+
+        .search_toobar .search {
+            margin-top: 1px;
+        }
     </style>
 
 </head>
@@ -58,12 +62,12 @@
                         </div>
 
                         <div class="fl ml10">
-                            <input type="text" name="" id="select_where" placeholder="请输入用户名" value="" class="text fl">
+                            <input type="text" name="" id="key" placeholder="请输入用户名" value="" class="text fl">
                             <a class="search fl" href="javascript:;" onclick="SelectByWhere()"><i class="iconfont">&#xe600;</i></a>
                         </div>
                         <div class="fr" id="">
                             <input type="button" name="" id="allotlimit" value="权限分配" class="btn" onclick="PowerAssign();" style="display: none;">
-                            <input type="button" name="" id="allot" value="分配人员" class="btn ml10" onclick="OpenIFrameWindow('分配人员', 'AllotPeople.aspx', '1000px', '700px')" style="display: none;">
+                            <input type="button" name="" id="allot" value="分配人员" class="btn ml10" onclick="allotpeople()" style="display: none;">
                         </div>
                     </div>
                     <div class="table">
@@ -74,7 +78,7 @@
                             </tbody>
                         </table>
                     </div>
-                    <div id="test1" class="pagination"></div>
+                    <div id="pageBar" class="page"></div>
                 </div>
             </div>
         </div>
@@ -99,28 +103,41 @@
     <link href="../Scripts/pagination/pagination.css" rel="stylesheet" />
     <script src="../Scripts/pagination/jquery.pagination.js"></script>
     <script src="../Scripts/WebCenter/Power.js"></script>
+    <script src="../Scripts/laypage/laypage.js"></script>
 
     <script type="text/x-jquery-tmpl" id="item_tr">
         <tr>
-            <td >${num()}</td>
-            <td >${UniqueNo}</td>
-            <td >${Name}</td>
-            <td >${Sex}</td>
-            <td >${DepartmentName}</td>
-            <td >${SubDepartmentName}</td>
+            <td>${Num}</td>
+            <td>${UniqueNo}</td>
+            <td>${Name}</td>
+            {{if Sex == 0}}
+          <td>男 </td>
+            {{else}}
+         <td>女 </td>
+            {{/if}}
+            <td>${DepartmentName}</td>
+            <td>${SubDepartmentName}</td>
         </tr>
     </script>
 
     <script type="text/x-jquery-tmpl" id="item_tr_stu">
         <tr>
-            <td >${num()}</td>
-            <td >${UniqueNo}</td>
-            <td >${Name}</td>
-            <td >${Sex}</td>
-            <td >${DepartmentName}</td>
-            <td >${SubDepartmentName}</td>
-            <td >${ClassName}</td>
+            <td>${Num}</td>
+            <td>${UniqueNo}</td>
+            <td>${Name}</td>
+            {{if Sex == 0}}
+          <td>男 </td>
+            {{else}}
+         <td>女 </td>
+            {{/if}}
+            <td>${DepartmentName}</td>
+            <td>${SubDepartmentName}</td>
+            <td>${ClassName}</td>
         </tr>
+    </script>
+
+    <script type="text/x-jquery-tmpl" id="itemCount">
+        <span style="margin-left: 5px; font-size: 14px;">共${RowCount}条，共${PageCount}页</span>
     </script>
 
     <script type="text/x-jquery-tmpl" id="li_role">
@@ -173,88 +190,110 @@
     </script>
 
     <script>
-        var reUserinfo,
-            //点击选中的用户数据
-            reUserinfoByselect,
-            pageNum = 1,
-            pageIndex = 0,
-            pageSize = 10,
-            pageCount,
-            students,
-            teachers,
-            allDataMain = [],
-            allDataMain_select = [],
-            other_data_otherRole = [];
 
         $(function () {
             $('#top').load('/header.html');
             $('#footer').load('/footer.html');
-           
-            UI_Power.BeginInit();
+
+            ShowUserGroup();
+
+            Get_UserByRole_SelectCompleate = function () {
+                $('#college').on('change', function () {
+                    pageIndex = 0;
+                    $('#class').empty();
+                    $("#class").append("<option value=''>全部</option>");
+                    var colloge = $('#college').val();
+                    if (colloge != '') {
+                        var list = ClsList.filter(function (item) { return item.Major_ID == colloge });
+                        $("#item_Class").tmpl(list).appendTo($('#class'));
+                    }
+                    else {
+                        $("#item_Class").tmpl(ClsList).appendTo($('#class'));
+
+                    }
+                    ChosenInit($('#class'));
+                    BindDataTo_GetUserinfo(CurrentRoleid, CurrentRoleName);
+                });
+
+                $('#class').on('change', function () {
+                    pageIndex = 0;
+                    BindDataTo_GetUserinfo(CurrentRoleid, CurrentRoleName);
+                });
+            };
+            Get_UserByRole_Select();
         })
 
-        function num() {
-            return UI_Power.num();
-        }
-        //绑定用户信息
-        function BindDataTo_GetUserinfo(RoleId, RoleName) {
-
-            UI_Power.BindDataTo_GetUserinfo(RoleId, RoleName);
-        }
-
-        function PowerAssign() {
-            UI_Power.PowerAssign();
-        }
         //搜索
         function SelectByWhere() {
-            UI_Power.SelectByWhere();
+            pageIndex = 0;
+            BindDataTo_GetUserinfo(CurrentRoleid, CurrentRoleName);
         }
 
-        function get_reUserinfoByselect_Ids() {
-            var UniqueNos = [];
-            reUserinfoByselect.forEach(function (item) { UniqueNos.push(item.UniqueNo) });
-            return UniqueNos;
-        }
-
-        //供子窗体使用
-        function get_teachers() {
-            return UI_Power.get_teachers();
-        }
-        //供子窗体使用
-        function GetCurrentRoleid() {
-            return UI_Power.GetCurrentRoleid();
-        }
-        //供子窗体使用
-        function GetCurrentRoleName() {
-            return UI_Power.GetCurrentRoleName();
-        }
-        //-----//获取用户信息[配合子窗体]-------------------------------------------------------------------------    
-
-        function SelectGourp_Init() {
-            UI_Power.GetUserinfo_Select();
-        }
-
+        var pageIndex = 0;
         //添加用户组
         function Group_User_Add(type, RoleId, RoleName) {
             switch (type) {
                 case 1:
-                    OpenIFrameWindow('新增用户组', 'Group_User_Add.aspx?type=' + type, '550px', '260px');
+                    OpenIFrameWindow('新增用户组', 'Group_User_Add.aspx?type=' + type + '&CurrentRoleid=' + CurrentRoleid + '&CurrentRoleName=' + CurrentRoleName, '550px', '260px');
                     break;
                 case 2:
-
                     BindDataTo_GetUserinfo(RoleId, RoleName);
-                    UI_Power.Save();
-                    OpenIFrameWindow('编辑用户组', 'Group_User_Add.aspx?type=' + type, '550px', '260px')
+                    OpenIFrameWindow('编辑用户组', 'Group_User_Add.aspx?type=' + type + '&CurrentRoleid=' + CurrentRoleid + '&CurrentRoleName=' + CurrentRoleName, '550px', '260px')
                     break;
                 default:
             }
         }
-
         function remove(Id) {
-            UI_Power.remove_Compleate = function () {
-                SelectGourp_Init();
+            Ope_UserGourp_Compleate = function () {
+                ShowUserGroup();
             };
-            UI_Power.remove(Id);
+            Ope_UserGourp(Id, '', 3);
+        }
+        function PowerAssign() {
+            if (CurrentRoleid != null) {
+                OpenIFrameWindow('权限分配', 'PowerAssign.aspx?type=' + CurrentRoleid + '', '600px', '500px')
+            }
+        };
+
+        function Reflesh() {
+            pageIndex = 0;
+            BindDataTo_GetUserinfo(CurrentRoleid, CurrentRoleName);
+        }
+
+        //绑定用户信息
+        function BindDataTo_GetUserinfo(RoleId, RoleName) {
+
+            CurrentRoleName = RoleName;
+            CurrentRoleid = RoleId;
+
+            $('#header_th').empty();
+            if (CurrentRoleid == 2) {
+                $('#header_stu').tmpl(1).appendTo('#header_th');
+            }
+            else {
+                $('#header_tea').tmpl(1).appendTo('#header_th');
+            }
+
+            //教师不可进行分配人员
+            if (CurrentRoleid == 3) {
+                $('#allot,#div_Class').hide();
+                $('#allotlimit,#div_Unit').show();
+            }
+            else if (CurrentRoleid == 2) {
+                $('#allot,#allotlimit').hide();
+                $('#div_Class,#div_Unit').show();
+            }
+            else {
+                $('#allot,#allotlimit,#div_Unit').show();
+                $('#div_Class').hide();
+            }
+
+            Get_UserByRoleID(pageIndex);
+        };
+
+        function allotpeople() {
+
+            OpenIFrameWindow('分配人员', 'AllotPeople.aspx?CurrentRoleid=' + CurrentRoleid + '&CurrentRoleName=' + CurrentRoleName, '1000px', '700px')
         }
     </script>
 

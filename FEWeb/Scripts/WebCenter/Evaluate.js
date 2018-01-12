@@ -283,7 +283,7 @@ function Get_Eva_QuestionAnswer(PageIndex, SectionID, DepartmentID, Key, TableID
     index_layer = layer.load(1, {
         shade: [0.1, '#fff'] //0.1透明度的白色背景
     });
-    debugger;
+    
     $.ajax({
         url: HanderServiceUrl + "/Eva_Manage/Eva_ManageHandler.ashx",
         type: "post",
@@ -584,7 +584,7 @@ function Get_Eva_RoomDetailAnswerList(PageIndex,TableDetailID) {
                         }
                     }
                 });
-                debugger;
+                
                 $("#itemCount").tmpl(returnVal.result).appendTo($('#' + TableDetailID + '_pageBar').find(".laypage_total"));
             }
         },
