@@ -132,7 +132,7 @@
                 </div>
                 <div class="input_lable input_lable2">
                     <label for="">扫描文件：</label>
-                     <div class="fl uploader_container">
+                     <div class="fl uploader_container" style="padding-left:200px;">
                             <div id="uploader">
                                 <div class="queueList">
                                     <div id="dndArea" class="placeholder photo_lists">

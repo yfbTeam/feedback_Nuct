@@ -175,7 +175,7 @@
                     <tbody id="tb_Member1"></tbody>
                 </table>               
                 <div class="clearfix mt10 Enclosure {{if ResponsMan!=$('#CreateUID').val()&&UrlDate.Type!='Check'&&Status<7}}none{{/if}}">
-                    <div class="status-left">
+                    <div class="status-left clearfix">
                         <label for="" class="fl">附件：</label>
                         <div class="fl">
                             <ul id="ul_ScoreFile" class="clearfix file-ary"></ul>
@@ -274,7 +274,7 @@
                 </tbody>
             </table>
             <div class="clearfix mt10 Enclosure">
-                <div class="status-left">
+                <div class="status-left clearfix">
                     <label for="" class="fl">附件：</label>
                     <div class="fl">
                         <ul id="ul_ScoreFile_${rowNum}" auid="${AuditId}" class="clearfix file-ary allot_file"></ul>
