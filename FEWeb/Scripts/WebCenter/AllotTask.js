@@ -143,7 +143,7 @@ function GetTeacherInfo_Course_Cls() {
 function Teachers_Reflesh() {
 
     $('#teachers').empty();
-
+  
     var DepartMent = $('#DepartMent').val().trim();
     var key = $('#key').val().trim();
     var teachers_temp = Teachers;

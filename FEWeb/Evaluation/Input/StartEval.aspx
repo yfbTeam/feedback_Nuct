@@ -98,16 +98,12 @@
             selectExpertUID = login_User.UniqueNo;
             selectExpertName = login_User.LoginName;
 
-            Base.BindDepartCompleate = function () {
-                if (IsAllSchool == 1) {
-                    $("#DepartMent").val(login_User.Major_ID)
-                }
-            };
-            Base.BindDepart('248px  ');
+            if (IsAllSchool == 1)
+            {
+                debugger;
+                $('#Department').prop('disabled', 'disabled');
+            }
           
-            
-           
-
             $('#DepartMent').on('change', function () {
                 Teachers_Reflesh();
             });
@@ -115,9 +111,13 @@
             PageType = 'StartEval';
             PrepareInit();//初始化
             //GetUserByType('16,17');//获取专家     
-            GetTeacherInfo_Course_Cls();//获取教师
+          
 
-
+            Base.BindDepartCompleate = function () {              
+                $("#DepartMent").val(Number(login_User.Major_ID));
+                GetTeacherInfo_Course_Cls();//获取教师
+            };
+            Base.BindDepart('248px', false);
         })
 
         function search() {

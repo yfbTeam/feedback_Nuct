@@ -75,7 +75,7 @@
         <div class="area_form clearfix">
                 <div class="clearfix"> 
                     {{if AchieveType==1||AchieveType==2}}                  
-                    <input type="button" name="memberbtn" value="添加" class="btn ml" id="AddBtn" onclick="javascript: OpenIFrameWindow('添加成员','AddAchMember.aspx', '900px', '650px');"/>
+                    <input type="button" name="memberbtn" value="添加" class="btn ml" id="AddBtn" onclick="javascript: OpenIFrameWindow('添加成员','AddAchMember.aspx', '80%', '70%');"/>
                     <input type="button" name="memberbtn" value="删除" class="btn ml10" onclick="Del_HtmlMember();"/>
                     {{/if}}
                     {{if AchieveType==3}}
@@ -104,7 +104,7 @@
                 </table>
                 <div class="input_lable input_lable2">
                         <label for="" style="min-width:46px;">附件：</label>
-                        <div class="fl uploader_container">
+                        <div class="fl uploader_container" style="padding-left:56px;">
                             <div id="uploader">
                                 <div class="queueList">
                                     <div id="dndArea" class="placeholder photo_lists">

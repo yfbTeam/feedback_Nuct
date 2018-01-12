@@ -17,13 +17,18 @@
 	border-radius: 3px;
 	overflow: hidden;
 }
-
+.input_lable2{
+    overflow:hidden;clear:both;position:relative;
+}
+.input_lable2 >label{
+    position:absolute;left:0;top:0;
+}
 .webuploader-pick-disable {
-	opacity: 0.6;
-	pointer-events:none;
+    opacity: 0.6;
+    pointer-events: none;
 }
 .uploader_container{
-    width:80%;
+    width:100%;padding-left:155px;box-sizing:border-box;
 }
 .filelist li{
     float:left; overflow:hidden;line-height:35px;margin-right:20px;

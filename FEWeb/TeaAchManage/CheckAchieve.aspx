@@ -14,7 +14,7 @@
             padding: 0px 0px 20px 0px;
         } 
         .file-ary .title1{
-            float:left;line-height:30px;
+            float:left;line-height:35px;
         } 
         .file-ary .file-panel{
             float:left;margin-left:10px;cursor:pointer;
@@ -175,7 +175,7 @@
                     <tbody id="tb_Member1"></tbody>
                 </table>               
                 <div class="clearfix mt10 Enclosure {{if ResponsMan!=$('#CreateUID').val()&&UrlDate.Type!='Check'&&Status<7}}none{{/if}}">
-                    <div class="status-left">
+                    <div class="status-left clearfix">
                         <label for="" class="fl">附件：</label>
                         <div class="fl">
                             <ul id="ul_ScoreFile" class="clearfix file-ary"></ul>
@@ -274,7 +274,7 @@
                 </tbody>
             </table>
             <div class="clearfix mt10 Enclosure">
-                <div class="status-left">
+                <div class="status-left clearfix">
                     <label for="" class="fl">附件：</label>
                     <div class="fl">
                         <ul id="ul_ScoreFile_${rowNum}" auid="${AuditId}" class="clearfix file-ary allot_file"></ul>

@@ -38,7 +38,7 @@ namespace FEHandler.Eva_Manage
                 int TableID = RequestHelper.int_transfer(Request, "TableID");
                 string AnswerUID = RequestHelper.string_transfer(Request, "AnswerUID");
 
-                int IsAllSchool = RequestHelper.int_transfer(Request, "TableID");
+                int IsAllSchool = RequestHelper.int_transfer(Request, "IsAllSchool");
 
                 int PageIndex = RequestHelper.int_transfer(Request, "PageIndex");
                 int PageSize = RequestHelper.int_transfer(Request, "PageSize");

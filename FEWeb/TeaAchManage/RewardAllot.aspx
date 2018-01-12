@@ -16,7 +16,7 @@
             padding: 0px 0px 20px 0px;
         }
         .file-ary .title1{
-            float:left;line-height:30px;
+            float:left;line-height:35px;
         } 
         .file-ary .file-panel{
             float:left;margin-left:10px;cursor:pointer;
@@ -80,7 +80,7 @@
                 {{if  AuditStatus==10||AuditStatus==0||AuditStatus==2}}
                 <div class="input_lable input_lable2">
                     <label for="" style="min-width:46px;color:#731F4F">附件：</label>
-                    <div class="fl uploader_container">
+                    <div class="fl uploader_container" style="padding-left:56px;">
                         <div id="uploader_${rowNum}" auid="${AuditId}" class="allot_file">
                             <div class="queueList">
                                 <div id="dndArea_${rowNum}" class="placeholder photo_lists">

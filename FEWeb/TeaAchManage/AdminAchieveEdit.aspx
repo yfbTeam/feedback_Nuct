@@ -17,7 +17,7 @@
 
         .file-ary .title1 {
             float: left;
-            line-height: 30px;
+            line-height: 35px;
         }
 
         .file-ary .file-panel {
@@ -218,7 +218,7 @@
                     <textarea id="txt_Reasonscore" class="textarea" placeholder="请输入修改原因" isrequired="true" fl="修改原因"></textarea>
                     <div class="input_lable input_lable2">
                         <label for="" style="min-width: 46px;">附件：</label>
-                        <div class="fl uploader_container">
+                        <div class="fl uploader_container" style="padding-left:56px;">
                             <div id="uploader">
                                 <div class="queueList">
                                     <div id="dndArea" class="placeholder photo_lists">
@@ -248,7 +248,7 @@
             <textarea id="txt_Reasonreward" class="textarea" placeholder="请输入修改原因" isrequired="true" fl="修改原因"></textarea>
             <div class="input_lable input_lable2">
                 <label for="" style="min-width: 46px;">附件：</label>
-                <div class="fl uploader_container">
+                <div class="fl uploader_container" style="padding-left:56px;">
                     <div id="uploader_reward" class="allot_file">
                         <div class="queueList">
                             <div id="dndArea_reward" class="placeholder photo_lists">
