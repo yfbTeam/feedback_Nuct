@@ -750,7 +750,7 @@ namespace FEHandler.Eva_Manage
                                                    ExpertUID = exp.ExpertUID,
                                                    Course_Name = exp.Course_Name,
                                                    CourseID = exp.CourseId,
-                                                   Departent_Name = teacher.Departent_Name,
+                                                   Departent_Name = teacher.Major_Name,
                                                    ReguName = regu.Name,
                                                    StartTime = regu.StartTime,
                                                    EndTime = regu.EndTime,

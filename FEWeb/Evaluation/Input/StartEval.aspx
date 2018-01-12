@@ -27,7 +27,7 @@
         <div class="InitiateEval">
             <h2 class="navEval">选择评教老师
                 <div class="search_toobar clearfix fr">
-                    <div class="fl ml10">
+                    <div class="fl ml10" id="div_DepartMent">
                         <label for="">所属部门:</label>
                         <select class="select" id="DepartMent">
                             <option value="0">全部</option>
@@ -98,11 +98,6 @@
             selectExpertUID = login_User.UniqueNo;
             selectExpertName = login_User.LoginName;
 
-            if (IsAllSchool == 1)
-            {
-                debugger;
-                $('#Department').prop('disabled', 'disabled');
-            }
           
             $('#DepartMent').on('change', function () {
                 Teachers_Reflesh();
@@ -113,11 +108,15 @@
             //GetUserByType('16,17');//获取专家     
           
 
-            Base.BindDepartCompleate = function () {              
-                $("#DepartMent").val(Number(login_User.Major_ID));
+            Base.BindDepartCompleate = function () {
+                if (IsAllSchool == 1)
+                {
+                    $("#DepartMent").val(Number(login_User.Major_ID));
+                }
+              
                 GetTeacherInfo_Course_Cls();//获取教师
             };
-            Base.BindDepart('248px', false);
+            Base.BindDepart('248px', false, login_User.Major_ID);
         })
 
         function search() {
