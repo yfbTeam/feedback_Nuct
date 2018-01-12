@@ -144,7 +144,7 @@ namespace FEDAL
                 }
                 if (ht.ContainsKey("Respon_LoginUID") && !string.IsNullOrEmpty(ht["Respon_LoginUID"].SafeToString())) //首页统计信息-负责人待审核
                 {
-                    str.Append(@" and a.ResponsMan=@MyAch_LoginUID and ((a.Status=1 and a.GPid=2) or a.Status=5 or a.Id in(select distinct Acheive_Id from TPM_AuditReward where IsDelete=0 and Status=1))");
+                    str.Append(@" and a.ResponsMan=@Respon_LoginUID and ((a.Status=1 and a.GPid=2) or a.Status=5 or a.Id in(select distinct Acheive_Id from TPM_AuditReward where IsDelete=0 and Status=1))");
                     pms.Add(new SqlParameter("@Respon_LoginUID", ht["Respon_LoginUID"].SafeToString()));
                 }
                 if (ht.ContainsKey("MyIndex_LoginUID") && !string.IsNullOrEmpty(ht["MyIndex_LoginUID"].SafeToString()))//首页统计信息-我的业绩
