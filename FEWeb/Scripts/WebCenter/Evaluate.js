@@ -277,6 +277,8 @@ var pageSize = 10;
 var pageIndex = 0;
 var Mode = 1;  //Check  Record
 var AnswerUID = ''; //专家，不填则为管理员
+
+var IsAllSchool = 0;
 function Get_Eva_QuestionAnswer(PageIndex, SectionID, DepartmentID, Key, TableID) {
     index_layer = layer.load(1, {
         shade: [0.1, '#fff'] //0.1透明度的白色背景
@@ -289,7 +291,7 @@ function Get_Eva_QuestionAnswer(PageIndex, SectionID, DepartmentID, Key, TableID
         data: {
             func: "Get_Eva_QuestionAnswer", "SectionID": SectionID, "DepartmentID": DepartmentID,
             "TableID": TableID, "Key": Key, "AnswerUID": AnswerUID, "Mode": Mode,
-            "PageIndex": PageIndex, "PageSize": pageSize
+            "PageIndex": PageIndex, "PageSize": pageSize, "IsAllSchool": IsAllSchool
         },
         dataType: "json",
         success: function (returnVal) {

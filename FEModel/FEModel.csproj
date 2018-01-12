@@ -73,6 +73,7 @@
     <Compile Include="Entity\T_C_Model.cs" />
     <Compile Include="Enum\Dictionary_Type.cs" />
     <Compile Include="Enum\errNum.cs" />
+    <Compile Include="Enum\IsAllSchool.cs" />
     <Compile Include="Enum\IsAnswer.cs" />
     <Compile Include="Enum\IsDelete.cs" />
     <Compile Include="Enum\IsEnable.cs" />
@@ -84,6 +85,7 @@
     <Compile Include="Enum\Question_Type.cs" />
     <Compile Include="Enum\ReguState.cs" />
     <Compile Include="Enum\ReguType.cs" />
+    <Compile Include="Enum\RoleType.cs" />
     <Compile Include="Enum\TableDetail_Type.cs" />
     <Compile Include="JsonModel.cs" />
     <Compile Include="ModelTemplate.cs">

@@ -127,6 +127,8 @@
             var select_sectionid = 0;
             var select_reguid = 0;
             var pageIndex = 0;
+
+            var IsAllSchool = getQueryString('IsAllSchool');
             $(function () {
                 $('#top').load('/header.html');
                 $('#footer').load('/footer.html');

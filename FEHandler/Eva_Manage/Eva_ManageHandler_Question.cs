@@ -38,12 +38,14 @@ namespace FEHandler.Eva_Manage
                 int TableID = RequestHelper.int_transfer(Request, "TableID");
                 string AnswerUID = RequestHelper.string_transfer(Request, "AnswerUID");
 
+                int IsAllSchool = RequestHelper.int_transfer(Request, "TableID");
+
                 int PageIndex = RequestHelper.int_transfer(Request, "PageIndex");
                 int PageSize = RequestHelper.int_transfer(Request, "PageSize");
                 try
                 {
                     ModeType modeType = (ModeType)Mode;
-                    jsonModel = Get_Eva_QuestionAnswer_Helper(PageIndex, PageSize, SectionID, DepartmentID, Key, TableID, AnswerUID, modeType);
+                    jsonModel = Get_Eva_QuestionAnswer_Helper(PageIndex, PageSize, SectionID, DepartmentID, Key, TableID, AnswerUID, (IsAllSchool)IsAllSchool, modeType);
                 }
                 catch (Exception ex)
                 {
@@ -61,7 +63,7 @@ namespace FEHandler.Eva_Manage
         /// 获取答题列表
         /// </summary>
         /// <param name="context"></param>
-        public static JsonModel Get_Eva_QuestionAnswer_Helper(int PageIndex, int PageSize, int SectionID, string DepartmentID, string Key, int TableID, string AnswerUID, ModeType modeType)
+        public static JsonModel Get_Eva_QuestionAnswer_Helper(int PageIndex, int PageSize, int SectionID, string DepartmentID, string Key, int TableID, string AnswerUID, IsAllSchool IsAllSchool, ModeType modeType)
         {
             int intSuccess = (int)errNum.Success;
             JsonModelNum jsm = new JsonModelNum();
@@ -69,6 +71,7 @@ namespace FEHandler.Eva_Manage
             {
                 var list = (from q in Constant.Eva_QuestionAnswer_List
                             join u in Constant.UserInfo_List on q.TeacherUID equals u.UniqueNo
+                            join r in Constant.Sys_RoleOfUser_List on q.AnswerUID equals r.UniqueNo
                             join d in Constant.Major_List on u.Major_ID equals d.Id
                             select new Eva_QuestionModel()
                             {
@@ -90,6 +93,7 @@ namespace FEHandler.Eva_Manage
                                 ReguName = q.ReguName,
                                 AnswerUID = q.AnswerUID,
                                 AnswerName = q.AnswerName,
+                                RoleID = r.Role_Id,
                             }).ToList();
 
                 if (SectionID > 0)
@@ -107,6 +111,18 @@ namespace FEHandler.Eva_Manage
                 if (AnswerUID != "")
                 {
                     list = (from li in list where li.AnswerUID == AnswerUID select li).ToList();
+                }
+
+                switch (IsAllSchool)
+                {
+                    case IsAllSchool.School:
+                        list = (from li in list where li.RoleID == (int)RoleType.school_expert select li).ToList();
+                        break;
+                    case IsAllSchool.Departemnt:
+                        list = (from li in list where li.RoleID == (int)RoleType.department_expert select li).ToList();
+                        break;                 
+                    default:
+                        break;
                 }
 
                 switch (modeType)
