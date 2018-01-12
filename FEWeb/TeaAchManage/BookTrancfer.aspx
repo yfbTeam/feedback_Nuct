@@ -177,7 +177,7 @@
                         <label for="fou">否</label>
                     </div>
                     <input type="button" name="name" id="DelAuthor" value="删除" class="btn fr" onclick="Del_HtmlAuthor();"/>
-                    <input type="button" name="name" id="AddAuthor" value="添加" class="btn fr mr10" onclick="javascript: OpenIFrameWindow('添加作者','AddAchMember.aspx?tb=AuthorInfo', '900px', '650px');" />
+                    <input type="button" name="name" id="AddAuthor" value="添加" class="btn fr mr10" onclick="javascript: OpenIFrameWindow('添加作者','AddAchMember.aspx?tb=AuthorInfo&pagesize=5', '80%', '70%');" />
                     <span class="fr status mr10">总贡献字数：<span id="span_Words">0</span>万字</span>
                 </div>
                 <table class="allot_table mt10  ">

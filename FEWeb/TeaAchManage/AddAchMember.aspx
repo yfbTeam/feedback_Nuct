@@ -65,13 +65,14 @@
 <script src="BaseUse.js"></script>
 <script>
     var Teacher_Data = [], select_uniques = [];
-    var pageIndex = 0, pageSize =5;
+    var pageIndex = 0, pageSize;
     var UrlDate = new GetUrlDate();
     var par_tb = UrlDate.tb || 'tb_Member';
     $(function () {
         GetProfessInfo();
         GetTeachers();
         select_uniques = [];
+        UrlDate.pagesize == null ? pageSize = 10 : pageSize = 5;
     });
     //绑定用户
     function GetTeachers() {

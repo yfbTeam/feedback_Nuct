@@ -181,7 +181,7 @@
             <h2 class="cont_title"><span>分数分配</span></h2>
             <div class="area_form clearfix">
                 <div class="clearfix">
-                    <input type="button" v-if="Info.AchieveType==1||Info.AchieveType==2" name="memberbtn" value="添加" class="btn ml" id="AddBtn" onclick="javascript: OpenIFrameWindow('添加成员', 'AddAchMember.aspx', '900px', '650px');" />
+                    <input type="button" v-if="Info.AchieveType==1||Info.AchieveType==2" name="memberbtn" value="添加" class="btn ml" id="AddBtn" onclick="javascript: OpenIFrameWindow('添加成员', 'AddAchMember.aspx?pagesize=5', '80%', '70%');" />
                     <input type="button" v-if="Info.AchieveType==1||Info.AchieveType==2" name="memberbtn" value="删除" class="btn ml10" onclick="Del_HtmlMember(1);" />
                     <span class="fr status" v-if="Info.AchieveType==3">总贡献字数：<span id="span_Words">0</span>万字，总分：<span id="span_BookScore">0</span>分</span>
                     <span class="fr status" v-else>总分：<span id="span_AllScore"></span>分，已分：<span id="span_CurScore"></span>分</span>
