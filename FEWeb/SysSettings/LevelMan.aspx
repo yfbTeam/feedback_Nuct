@@ -13,9 +13,9 @@
             <dt class="version_header clearfix">
                 <span>${Name}</span>
                 <i class="iconfont fr icond" id="${Id}">&#xe643;</i>
-                <input type="button" name="name" value="新增奖项" class="btn fr ml10" onclick="Window_Reward('add',${Id});" />
+                <input type="button" name="name" value="新增奖项" class="btn fr ml10" onclick="AddReward(${Id})"/>            
                 <div class="oprated fr">
-                    <div class="operate" onclick="Window_Reward('edit',${Id});">
+                    <div class="operate" onclick="javascript:OpenIFrameWindow('编辑等级', '../TeaAchManage/LeveAdd.aspx?Id=${Id}', '500px', '300px');">
                         <i class="iconfont color_purple">&#xe628;</i>
                         <span class="operate_none bg_purple">编辑</span>
                     </div>
@@ -137,18 +137,14 @@
     </script>
     <script>
         var UrlDate=new GetUrlDate();
-        function Window_Reward(oper,id)
+        function AddReward(LID)        
         {
             var stype=1;
             var achievetype=$('.menu_list li.selected').parent('ul').attr('atype');
             if(achievetype=="2"){
                 stype=3;
             }else if(achievetype=="3"){stype=2;}
-            if(oper=='add'){
-                OpenIFrameWindow('新增奖项', '../TeaAchManage/RewardAdd.aspx?LID=' + LID+'&stype='+stype, '500px', '410px');
-            }else{
-                OpenIFrameWindow('编辑等级', '../TeaAchManage/LeveAdd.aspx?Id='+id+'&stype='+stype, '500px', '300px');
-            }
+            OpenIFrameWindow('新增奖项', '../TeaAchManage/RewardAdd.aspx?LID=' + LID+'&stype='+stype, '500px', '410px');
         }
         //开启（关闭）金额分配
         function ChangeRewardEditionAllot()
