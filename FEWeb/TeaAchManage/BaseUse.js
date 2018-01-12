@@ -370,7 +370,7 @@ function Get_TPM_AcheiveMember(achid,tb_id) {
             if (json.result.errNum.toString() == "0") {
                 AcheiveMember_data = json.result;
                 $("#tr_MemEdit").tmpl(json.result).appendTo("#" + tb_id);
-                GetAchieveUser_Score(json.result.retData);
+                GetCur_RankScore();
             }
         },
         error: function (errMsg) {

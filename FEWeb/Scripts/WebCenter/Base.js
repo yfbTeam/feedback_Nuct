@@ -27,7 +27,7 @@ var Base = {
     },
 
     BindDepartCompleate: function () { },
-    BindDepart: function (width,nochonse) {
+    BindDepart: function (width, nochonse, majorId) {
         var that = this;
         $.ajax({
             url: HanderServiceUrl + "/UserMan/UserManHandler.ashx",
@@ -38,14 +38,19 @@ var Base = {
             },
             success: function (json) {
                 if (json.result.errNum.toString() == "0") {
-                    $(json.result.retData).each(function () {
-                        $("#DepartMent").append('<option value="' + this.Id + '">' + this.Major_Name + '</option>');
-                    });
-                    if (nochonse == false)
-                    {
 
-                    } else
-                    {
+                    if (nochonse == false) {
+                        $("#DepartMent").empty();
+                        $(json.result.retData).each(function () {
+                            if (this.Id == majorId) {
+                                $("#DepartMent").append('<option value="' + this.Id + '">' + this.Major_Name + '</option>');
+                            }
+                        });
+                    } else {
+                        $(json.result.retData).each(function () {
+                            $("#DepartMent").append('<option value="' + this.Id + '">' + this.Major_Name + '</option>');
+                        });
+
                         width = (width == undefined || width == null) ? '335px' : width;
 
                         $("#DepartMent").chosen({
@@ -55,7 +60,7 @@ var Base = {
                             width: width,
                         })
                     }
-                  
+
                     that.BindDepartCompleate();
                 }
             },
@@ -64,7 +69,7 @@ var Base = {
     },
 
     BindTableCompleate: function () { },
-    BindTable: function (SectionID,CourseID ) {
+    BindTable: function (SectionID, CourseID) {
         $.ajax({
             url: HanderServiceUrl + "/Eva_Manage/Eva_ManageHandler.ashx",
             type: "post",
@@ -74,8 +79,8 @@ var Base = {
                 "CourseID": CourseID, "SectionID": SectionID,
             },
             success: function (json) {
-              
-                if (json.result.errNum.toString() == "0") {                               
+
+                if (json.result.errNum.toString() == "0") {
                     $(json.result.retData).each(function () {
                         $("#table").append('<option title="' + this.Name + '" value="' + this.Id + '">' + cutstr(this.Name, 45) + '</option>');
                     });
@@ -122,7 +127,7 @@ var Base = {
                         var str = str = "<option value='" + item.DepartMentID + "'>" + item.DepartmentName + "</option>";
                         $("#dp").append(str);
                     });
-                    ChosenInit($('#dp'));                   
+                    ChosenInit($('#dp'));
                     obj.CNList.forEach(function (item) {
                         var str = str = "<option value='" + item.CourseID + "'>" + item.CourseName + "</option>";
                         $("#cn").append(str);
