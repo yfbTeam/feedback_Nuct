@@ -667,14 +667,15 @@ function Bind_AllotFile() {
 /********************************************************业绩-奖金分配结束***************************************************/
 /********************************************************分配历史记录开始***************************************************/
 //绑定分配历史记录
-function Get_ModifyRecordData(modifyuid) {
+function Get_ModifyRecordData(modifyuid,sr_type) {
     modifyuid = arguments[0] || "";
+    sr_type = arguments[1] || "";
     $("#ul_Record").empty();
     $.ajax({
         url: HanderServiceUrl + "/TeaAchManage/AchRewardInfo.ashx",
         type: "post",
         dataType: "json",
-        data: { "Func": "Get_ModifyRecordData", "IsPage": "false", Acheive_Id: cur_AchieveId, ModifyUID: modifyuid },
+        data: { "Func": "Get_ModifyRecordData", "IsPage": "false", Acheive_Id: cur_AchieveId, ModifyUID: modifyuid, Type: sr_type },
         success: function (json) {
             if (json.result.errMsg == "success") {
                 $("#li_Record").tmpl(json.result.retData).appendTo("#ul_Record");

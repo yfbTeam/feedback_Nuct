@@ -411,7 +411,7 @@
                         GetAchieveUser_Score(json.result.retData);
                     }
                     if (ach_model.ComStatus > 7) { Get_RewardBatchData($(".RewardReason")); }
-                    if (ach_model.ComStatus > 6) { $(".re_history").show(); Get_ModifyRecordData(); }
+                    if (ach_model.ComStatus > 6) { $(".re_history").show(); Get_ModifyRecordData("", ach_model.IsMoneyAllot==0?0:""); }
                 },
                 error: function (errMsg) {
                     layer.msg(errMsg);
