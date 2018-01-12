@@ -243,7 +243,7 @@
             </div>
         </div>
         <h2 class="cont_title none RewardReason"><span>奖金分配</span></h2>
-        <div id="div_MoneyInfo" class="area_form clearfix"></div>
+        <div id="div_MoneyInfo" class="area_form clearfix none RewardReason"></div>
         <div class="EditResult none RewardReason">
             <textarea id="txt_Reasonreward" class="textarea" placeholder="请输入修改原因" isrequired="true" fl="修改原因"></textarea>
             <div class="input_lable input_lable2">
