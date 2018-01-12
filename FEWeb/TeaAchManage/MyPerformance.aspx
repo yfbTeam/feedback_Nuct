@@ -118,7 +118,7 @@
                             <select class="select" name="Gid" id="Gid" onchange="BindData(1,10);"></select>
                         </div>
                         <div class="fr" id="div_AddAward">
-                            <input type="button" value="录入个人奖项" class="btn" onclick="OpenIFrameWindow('录入个人竞赛奖', 'InsertReward.aspx', '1110px', '700px')" />
+                            <input type="button" value="录入个人奖项" class="btn" onclick="OpenIFrameWindow('录入个人竞赛奖', 'InsertReward.aspx', '1110px', '655px')" />
                         </div>
                     </div>
                     <div class="table mt10" >

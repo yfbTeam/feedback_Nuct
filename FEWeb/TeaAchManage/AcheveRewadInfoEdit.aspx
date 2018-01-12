@@ -158,8 +158,8 @@
     <%--成员信息(已添加的)--%>
     <script type="text/x-jquery-tmpl" id="tr_MemEdit">
         {{each(i, mem) AcheiveMember_data.retData}}    
-        <tr id="tr_mem_${mem.Id}" class="memedit {{if i==0}}meditor{{/if}}" un="${mem.UserNo}">
-            <td>{{if i!=0}}<input type='checkbox' value="${mem.UserNo}" name="ck_trsub" onclick="CheckSub(this);"/>{{/if}}</td>
+        <tr id="tr_mem_${mem.Id}" class="memedit {{if i==0&&cur_ResponUID==mem.UserNo}}meditor{{/if}}" un="${mem.UserNo}">
+            <td>{{if cur_ResponUID!=mem.UserNo}}<input type='checkbox' value="${mem.UserNo}" name="ck_trsub" onclick="CheckSub(this);"/>{{/if}}</td>
             <td>${mem.Name}</td>
             <td>${mem.Major_Name}</td>
             <td><input type="number" value="${mem.Score}" min="0" regtype="money" fl="分数" step="0.01" onblur="ChangeRankScore(this);"></td>

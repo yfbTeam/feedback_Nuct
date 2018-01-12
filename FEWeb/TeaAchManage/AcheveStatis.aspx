@@ -21,13 +21,13 @@
                         <table>
                             <thead>
                                 <tr>
-                                    <th>奖励项目</th>
-                                    <th>获奖项目名称</th>
-                                    <th>负责单位</th>
-                                    <th>负责人</th>
-                                    <th>获奖年度</th>
-                                    <th>个人分数</th>
-                                    <th>操作</th>
+                                    <th width="25%">奖励项目</th>
+                                    <th width="25%">获奖项目名称</th>
+                                    <th width="26%">负责单位</th>
+                                    <th width="6%">负责人</th>
+                                    <th width="6%">获奖年度</th>
+                                    <th width="6%">个人分数</th>
+                                    <th width="6%">操作</th>
                                 </tr>
                             </thead>
                             <tbody id="u-${UserNo}"></tbody>

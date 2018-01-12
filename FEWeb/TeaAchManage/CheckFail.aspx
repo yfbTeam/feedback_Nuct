@@ -6,9 +6,11 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <link href="/images/favicon.ico" rel="shortcut icon">
     <title>教材查看审核</title>
+    <link href="../css/bootstrap.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="../css/reset.css" />
     <link href="../css/layout.css" rel="stylesheet" />
     <script src="../Scripts/jquery-1.11.2.min.js"></script>
+    <script src="../js/bootstrap.min.js"></script>
     <style>
         .area_form {
             padding: 0px 0px 20px 0px;
@@ -38,81 +40,179 @@
         <div class="cont">
             <h2 class="cont_title"><span>教材信息</span></h2>
             <div class="area_form clearfix">
-                <div class="input_lable fl">
-                    <label for="">书名：</label>
-                    <span id="Name"></span>
+                <div class="col-xs-6">
+                    <div class="row msg_item">
+                        <div class="col-xs-5 msg_label">
+                            书名：
+                        </div>
+                        <div class="col-xs-7 msg_control">
+                            <span id="Name"></span>
+                        </div>
+                    </div>
                 </div>
-                <div class="input_lable fl">
-                    <label for="">分册情况：</label>
-                    <span id="IsOneVolum"></span>
+                <div class="col-xs-6">
+                    <div class="row msg_item">
+                        <div class="col-xs-5 msg_label">
+                            分册情况：
+                        </div>
+                        <div class="col-xs-7 msg_control">
+                            <span id="IsOneVolum"></span>
+                        </div>
+                    </div>
                 </div>
-                <div class="input_lable fl">
-                    <label for="">主编姓名：</label>
-                    <span id="MEditor"></span>
-                </div>                
-                <div class="input_lable fl">
-                    <label for="">主编单位：</label>
-                    <span id="MEditorDepart_Name"></span>
+                <div class="col-xs-6">
+                    <div class="row msg_item">
+                        <div class="col-xs-5 msg_label">
+                            主编姓名：
+                        </div>
+                        <div class="col-xs-7 msg_control">
+                            <span id="MEditor"></span>
+                        </div>
+                    </div>
                 </div>
-                <div class="input_lable fl">
-                    <label for="">使用对象：</label>
-                    <span id="UseObj"></span>
-                </div>                
-                <div class="input_lable fl">
-                    <label for="">国家级“十一五”规划教材：</label>
-                    <span id="IsPlanBook">是</span>
+                <div class="col-xs-6">
+                    <div class="row msg_item">
+                        <div class="col-xs-5 msg_label">
+                            主编单位：
+                        </div>
+                        <div class="col-xs-7 msg_control">
+                            <span id="MEditorDepart_Name"></span>
+                        </div>
+                    </div>
                 </div>
-                <div class="input_lable fl edition">
-                    <label for="">立项类型：</label>
-                    <span id="ProjectType"></span>                    
+                <div class="col-xs-6">
+                    <div class="row msg_item">
+                        <div class="col-xs-5 msg_label">
+                            使用对象：
+                        </div>
+                        <div class="col-xs-7 msg_control">
+                            <span id="UseObj"></span>
+                        </div>
+                    </div>
                 </div>
-                <div class="input_lable fl none publish">
-                    <label for="">出版时间：</label>
-                    <span id="PublisthTime"></span>
+                <div class="col-xs-6">
+                    <div class="row msg_item">
+                        <div class="col-xs-5 msg_label">
+                            国家级“十一五”规划教材：
+                        </div>
+                        <div class="col-xs-7 msg_control">
+                            <span id="IsPlanBook">是</span>
+                        </div>
+                    </div>
                 </div>
-                <div class="input_lable fl none publish">
-                    <label for="">出版社：</label>
-                    <span id="Publisher"></span>
+                <div class="col-xs-6 edition">
+                    <div class="row msg_item">
+                        <div class="col-xs-5 msg_label">
+                            立项类型：
+                        </div>
+                        <div class="col-xs-7 msg_control">
+                            <span id="ProjectType"></span>
+                        </div>
+                    </div>
                 </div>
-                <div class="input_lable fl none publish">
-                    <label for="">ISBN 号：</label>
-                    <span id="ISBN"></span>
+                <div class="col-xs-6 none publish">
+                    <div class="row msg_item">
+                        <div class="col-xs-5 msg_label">
+                            出版时间：
+                        </div>
+                        <div class="col-xs-7 msg_control">
+                            <span id="PublisthTime"></span>
+                        </div>
+                    </div>
                 </div>
-                <div class="input_lable fl none publish">
-                    <label for="">版次：</label>
-                    <span id="EditionNo"></span>
+                 <div class="col-xs-6 none publish">
+                    <div class="row msg_item">
+                        <div class="col-xs-5 msg_label">
+                            出版社：
+                        </div>
+                        <div class="col-xs-7 msg_control">
+                            <span id="Publisher"></span>
+                        </div>
+                    </div>
                 </div>
-                <div class="input_lable input_lable2">
-                    <label for="">扫描文件：</label>
-                    <div class="fl uploader_container">
-                        <div id="uploader">
-                            <div class="queueList">
-                                <div id="dndArea" class="placeholder photo_lists">                                   
-                                    <ul class="filelist clearfix"></ul>
+                <div class="col-xs-6 none publish">
+                    <div class="row msg_item">
+                        <div class="col-xs-5 msg_label">
+                            ISBN 号：
+                        </div>
+                        <div class="col-xs-7 msg_control">
+                            <span id="ISBN"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-6 none publish">
+                    <div class="row msg_item">
+                        <div class="col-xs-5 msg_label">
+                            版次：
+                        </div>
+                        <div class="col-xs-7 msg_control">
+                            <span id="EditionNo"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-6 input_lable2">
+                    <div class="row msg_item">
+                        <div class="col-xs-5 msg_label">
+                            扫描文件：
+                        </div>
+                        <div class="col-xs-7">
+                            <div class="fl uploader_container" style="padding-left:0px;">
+                            <div id="uploader">
+                                <div class="queueList">
+                                    <div id="dndArea" class="placeholder photo_lists">                                   
+                                        <ul class="filelist clearfix"></ul>
+                                    </div>
                                 </div>
                             </div>
                         </div>
+                        </div>
                     </div>
-                </div>  
-                <div class="input_lable fl btnprojrct none">
-                    <label for="">立项信息：</label>
-                    <input type="button" id="btn_Project" name="name" value="查看立项教材信息" class="btn"/>
-                </div>               
+                </div>
+               <div class="col-xs-6 btnprojrct none">
+                    <div class="row msg_item">
+                        <div class="col-xs-5 msg_label">
+                            立项信息：
+                        </div>
+                        <div class="col-xs-7">
+                            <input type="button" id="btn_Project" name="name" value="查看立项教材信息" class="btn"/>
+                        </div>
+                    </div>
+                </div>
+                          
             </div>
             <h2 class="cont_title none" id="congshut"><span>丛书信息</span></h2>
             <div class="area_form none clearfix" id="congshu">
-                <div class="input_lable fl">
-                    <label for="">丛书名称：</label>
-                    <span id="SeriesBookName"></span>
+                <div class="col-xs-6 btnprojrct none">
+                    <div class="row msg_item">
+                        <div class="col-xs-5 msg_label">
+                            丛书名称：
+                        </div>
+                        <div class="col-xs-7 msg_control">
+                            <span id="SeriesBookName"></span>
+                        </div>
+                    </div>
                 </div>
-                <div class="input_lable fl">
-                    <label for="">代表ISBN号：</label>
-                    <span id="MainISBN"></span>
+                <div class="col-xs-6 btnprojrct none">
+                    <div class="row msg_item">
+                        <div class="col-xs-5 msg_label">
+                            代表ISBN号：
+                        </div>
+                        <div class="col-xs-7 msg_control">
+                            <span id="MainISBN"></span>
+                        </div>
+                    </div>
                 </div>
-                <div class="input_lable fl">
-                    <label for="">本丛书本数：</label>
-                    <span id="SeriesBookNum"></span>
+                <div class="col-xs-6 btnprojrct none">
+                    <div class="row msg_item">
+                        <div class="col-xs-5 msg_label">
+                            本丛书本数：
+                        </div>
+                        <div class="col-xs-7 msg_control">
+                            <span id="SeriesBookNum"></span>
+                        </div>
+                    </div>
                 </div>
+                
             </div>
             <h2 class="cont_title"><span>作者信息</span></h2>
             <div class="area_form clearfix">
@@ -188,6 +288,7 @@
                 data: { "Func": "GetTPM_BookStory", "IsPage": "false", Id: UrlDate.Id },
                 success: function (json) {
                     if (json.result.errMsg == "success") {
+                        
                         $(json.result.retData).each(function () {
                             Init_Controls(this);
                             $("#Name").html(this.Name);
@@ -195,10 +296,12 @@
                             $("#IsOneVolum").html(this.IsOneVolum == "1" ? "单册" : "多册");                           
                             $("#MEditor").html(this.EditName);
                             $("#MEditorDepart_Name").html(this.MEditorDepart_Name);
+                            
                             $("#UseObj").html(this.UseObj);                            
                             $("#IsPlanBook").html(this.IsPlanBook == "1" ? "是" : "否");
                             $("#IsOneAuthor").html(this.IsOneAuthor == "1" ? "是" : "否");
                             $("#ProjectType").html(this.ProjectType == "1" ? "北京市精品教材立项" : "国家级精品教材立项");
+                            
                             $("#SeriesBookName").html(this.SeriesBookName);
                             $("#MainISBN").html(this.MainISBN);
                             $("#SeriesBookNum").html(this.SeriesBookNum + "本");
