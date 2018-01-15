@@ -182,7 +182,7 @@
             </div>
             <h2 class="cont_title none" id="congshut"><span>丛书信息</span></h2>
             <div class="area_form none clearfix" id="congshu">
-                <div class="col-xs-6 btnprojrct none">
+                <div class="col-xs-6">
                     <div class="row msg_item">
                         <div class="col-xs-5 msg_label">
                             丛书名称：
@@ -192,7 +192,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-xs-6 btnprojrct none">
+                <div class="col-xs-6">
                     <div class="row msg_item">
                         <div class="col-xs-5 msg_label">
                             代表ISBN号：
@@ -202,7 +202,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-xs-6 btnprojrct none">
+                <div class="col-xs-6">
                     <div class="row msg_item">
                         <div class="col-xs-5 msg_label">
                             本丛书本数：

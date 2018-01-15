@@ -212,7 +212,7 @@ function BindDepartInfo(selid, depid, depname) {
         } else {
             first_tr += '<td><select><option value="1" selected="selected">主编</option></select></td>';
         }
-        first_tr += '<td><input type="number" disabled="disabled" value="1"/></td><td mid=' + $curoption.attr('mid') + '>' + $curoption.attr('mname') + '</td><td><input type="number" value="" regtype="money" fl="贡献字数（万字）" step="0.01"/></td></tr>';
+        first_tr += '<td><input type="number" disabled="disabled" value="1"/></td><td mid=' + $curoption.attr('mid') + '>' + $curoption.attr('mname') + '</td><td><input type="number" value="" regtype="money" fl="贡献字数（万字）" step="0.01" onblur="GetCur_WordNum();"/></td></tr>';
         var $existobj = $("#AuthorInfo tr[un='" + $curoption.val() + "']");
         if (!$existobj.length) { //列表中没有选择的用户
             $("#AuthorInfo .meditor").remove();
@@ -221,7 +221,8 @@ function BindDepartInfo(selid, depid, depname) {
             $("#AuthorInfo .meditor").remove();
             $existobj.remove(); $("#AuthorInfo").prepend(first_tr); 
           }         
-    } else {
+    } else { 
+        $("#AuthorInfo .meditor").remove();
         $("#" + depid).val('');
         $("#" + depname).val('无');        
     }
@@ -394,6 +395,8 @@ function Bind_ResponsMan(selid) {
                 $("#tb_Member .meditor").remove();
                 $existobj.remove(); $("#tb_Member").prepend(first_tr);
             }                 
+        } else {
+            $("#tb_Member .meditor").remove();
         }
         GetCur_RankScore();
     }   

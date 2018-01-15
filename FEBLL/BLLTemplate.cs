@@ -93,17 +93,6 @@ namespace FEBLL
 	/// </summary>
 	///	
 	/// </summary>
-    public partial class TPM_RewardBatchService:BaseService<TPM_RewardBatch>,ITPM_RewardBatchService
-    {
-	 public override void SetCurrentDal()
-        {
-            CurrentDal = DalFactory.GetTPM_RewardBatchDal();
-        }
-    }	
-
-	/// </summary>
-	///	
-	/// </summary>
     public partial class TPM_AcheiveLevelService:BaseService<TPM_AcheiveLevel>,ITPM_AcheiveLevelService
     {
 	 public override void SetCurrentDal()
@@ -373,6 +362,17 @@ namespace FEBLL
 	 public override void SetCurrentDal()
         {
             CurrentDal = DalFactory.GetMajorDal();
+        }
+    }	
+
+	/// </summary>
+	///	
+	/// </summary>
+    public partial class TPM_RewardBatchService:BaseService<TPM_RewardBatch>,ITPM_RewardBatchService
+    {
+	 public override void SetCurrentDal()
+        {
+            CurrentDal = DalFactory.GetTPM_RewardBatchDal();
         }
     }	
 
