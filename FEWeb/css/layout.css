@@ -938,8 +938,14 @@ z-index: 9999;width:100%;
 .version_lists li .version_header {
     padding:4px 60px 4px 15px;background:#F5EFF1;position:relative;line-height:34px;
 }
+.version_lists li .version_none {
+    display: none;
+}
 .version_lists li .version_header .oprated {
-    display:inline-block;text-align:center;height:22px;margin-top:7px;
+    display: inline-block;
+    text-align: center;
+    height: 22px;
+    margin-top: 7px;
 }
 .version_lists li .version_header .oprated .operate {
     position:relative;
@@ -950,14 +956,13 @@ z-index: 9999;width:100%;
 .version_lists li .version_header .icond{
     display:block;width:34px;height:34px;position:absolute;right:15px;display:inline-block;text-align:center;line-height:34px;top:5px;font-size:18px;cursor:pointer;color:#6A264B;
 }
-.version_lists li.active dt  .icond {
+.version_lists li  .icond.active {
   transform: rotate(180deg);
 }
-.version_lists li dd{display:none;}
-.version_lists li dd .table table thead tr th{
+.version_lists li .table table thead tr th{
     background:#fcfbfc;
 }
-.version_lists li dd .table table tbody tr td .operate i{
+.version_lists li .table table tbody tr td .operate i{
     font-size:19px;
 }
 .table_header{

@@ -58,6 +58,7 @@ $(function () {
     BindThreeNav();
     //powerAssign();
 })
+
 //判断访问权限
 function powerAssign() {
    var host = 'http://' + window.location.host;

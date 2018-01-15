@@ -45,6 +45,10 @@
             <td><input type="number" value="" regtype="money" fl="贡献字数（万字）" step="0.01" onblur="GetCur_WordNum();"/></td>          
         </tr>
     </script>
+   <style>
+        .input_lable>label{min-width:190px;}
+        .area_form{padding:0px 45px;}
+    </style>
 </head>
 <body style="background: #fff;">
     <input type="hidden" name="Func" value="AddTPM_BookStory" />
@@ -129,7 +133,7 @@
                 <div class="clear"></div>
                 <div class="input_lable input_lable2">
                     <label for="">扫描文件：</label>
-                     <div class="fl uploader_container">
+                     <div class="fl uploader_container" style="padding-left:200px;">
                             <div id="uploader">
                                 <div class="queueList">
                                     <div id="dndArea" class="placeholder photo_lists">

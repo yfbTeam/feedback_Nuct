@@ -6,9 +6,11 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <link href="/images/favicon.ico" rel="shortcut icon">
     <title>业绩查看</title>
+    <link href="../css/bootstrap.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="../css/reset.css" />
     <link href="../css/layout.css" rel="stylesheet" />
     <script src="../Scripts/jquery-1.11.2.min.js"></script>
+    <script src="../js/bootstrap.min.js"></script>
     <style>
         .area_form {
             padding: 0px 0px 20px 0px;

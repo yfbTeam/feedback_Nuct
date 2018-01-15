@@ -10,7 +10,7 @@
     <script src="../Scripts/jquery-1.11.2.min.js"></script>
     <script id="tr_Level" type="text/x-jquery-tmpl">
         <li>
-            <dt class="version_header clearfix">
+            <div class="version_header clearfix">
                 <span>${Name}</span>
                 <i class="iconfont fr icond" id="${Id}">&#xe643;</i>
                 <input type="button" name="name" value="新增奖项" class="btn fr ml10" onclick="AddReward(${Id})"/>            
@@ -28,23 +28,45 @@
                         <span class="operate_none bg_purple">下移</span>
                     </div>
                 </div>
-            </dt>
-            <dd class="none">
-                <div class="table">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>奖项</th>
-                                <th>分数（分）</th>
-                                <th>奖金（万元）</th>
-                                <th>追加（万元）</th>
-                                <th id="ops" width="230px;">操作</th>
-                            </tr>
-                        </thead>
-                        <tbody id="Leve${Id}"></tbody>
-                    </table>
-                </div>
-            </dd>
+            </div>
+            <div class="version_none">
+               <div>
+                    <div class="version_header clearfix">
+                        <span>奖项名字</span>
+                        <i class="iconfont fr icond">&#xe643;</i>
+                        <input type="button" name="name" value="新增排名" class="btn fr ml10" onclick="AddReward(${Id})"/>            
+                        <div class="oprated fr">
+                            <div class="operate" onclick="javascript:OpenIFrameWindow('编辑等级', '../TeaAchManage/LeveAdd.aspx?Id=${Id}', '500px', '300px');">
+                                <i class="iconfont color_purple">&#xe628;</i>
+                                <span class="operate_none bg_purple">编辑</span>
+                            </div>
+                            <div class="operate" onclick="LeverSort('up',${Id})">
+                                <i class="iconfont color_purple">&#xe629;</i>
+                                <span class="operate_none bg_purple">上移</span>
+                            </div>
+                            <div class="operate" onclick="LeverSort('down',${Id})">
+                                <i class="iconfont color_purple">&#xe62d;</i>
+                                <span class="operate_none bg_purple">下移</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="table version_none">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>奖项</th>
+                                    <th>分数（分）</th>
+                                    <th>奖金（万元）</th>
+                                    <th>追加（万元）</th>
+                                    <th id="ops" width="230px;">操作</th>
+                                </tr>
+                            </thead>
+                            <tbody id="Leve${Id}"></tbody>
+                        </table>
+                    </div>
+               </div>
+               
+            </div>
         </li>
     </script>
     <script id="tr_Reward" type="text/x-jquery-tmpl">
@@ -368,21 +390,23 @@
             });
         }        
         function get_animate() {
-            $('.version_lists').find('li:has(dt)').find('.icond').click(function () {
+            $('.version_lists').find('li:has(.version_header)').find('.icond').click(function () {
                 BindReward($(this).attr("id"));
                 $("#LID").val($(this).attr("id"))
-
-                var $next = $(this).parent().next('dd');
+                var $next = $(this).parent().next();
                 if ($next.is(':hidden')) {
-                    $(this).parent().siblings('li').removeClass('active');
-                    $(this).parents('li').addClass('active');
+                    $(this).addClass('active');
+                    $next.find('.icond').removeClass('active');
+                    $next.find('.version_none').hide();
                     $next.show();
-                    if ($(this).parents('li').siblings('li').children('dd').is(':visible')) {
-                        $(this).parents("li").siblings("li").removeClass('active');
-                        $(this).parents("li").siblings("li").find("dd").hide();
+                    if ($(this).parent().parent().siblings().children('.version_none').is(":visible")) {
+                        $(this).parent().parent().siblings().find('.icond').removeClass('active');
+                        $(this).parent().parent().siblings().find('.version_none').hide();
                     }
                 } else {
-                    $(this).parents('li').removeClass('active');
+                    $(this).removeClass('active');
+                    
+                    $(this).parent().find('.version_none').hide();
                     $next.hide();
                 }
             })

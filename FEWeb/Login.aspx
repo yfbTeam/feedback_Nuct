@@ -122,17 +122,25 @@
         {
             $('#footer').load('/footer.html');
             Checkcookie();
-          
+           //加载验证码
             createCode();
-            //加载验证码
-
+           
             //回车提交事件
-            $("body").keydown(function () {
-                if (event.keyCode == "13") {//keyCode=13是回车键
-                    $("#LoginButton").click();
-                }
-            });
-
+            enterSubmit('#inpCode', function () {
+                $("#LoginButton").click();   
+            })
+            /*回车提交方法
+            *param:obj  对象
+            *param:cb   回调方法
+            */
+            function enterSubmit(obj, cb) {
+                $(obj).keydown(function (e) {
+                    e = e || window.event;
+                    if ((e.keyCode || e.which) == "13") {
+                        cb();
+                    }
+                })
+            }
             var valiNewForm = $("#LoginForm").Validform({
                 datatype: {
                     "iCode": function (gets, obj, curform, regxp) {

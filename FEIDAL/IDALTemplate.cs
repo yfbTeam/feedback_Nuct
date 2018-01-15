@@ -71,14 +71,6 @@ namespace FEIDAL
 	/// </summary>
 	///	
 	/// </summary>
-    public interface ITPM_RewardBatchDal: IBaseDal<TPM_RewardBatch>
-    {
-		
-    }
-
-	/// </summary>
-	///	
-	/// </summary>
     public interface ITPM_AcheiveLevelDal: IBaseDal<TPM_AcheiveLevel>
     {
 		
@@ -272,6 +264,14 @@ namespace FEIDAL
 	///	
 	/// </summary>
     public interface IMajorDal: IBaseDal<Major>
+    {
+		
+    }
+
+	/// </summary>
+	///	
+	/// </summary>
+    public interface ITPM_RewardBatchDal: IBaseDal<TPM_RewardBatch>
     {
 		
     }

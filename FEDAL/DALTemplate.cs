@@ -138,24 +138,6 @@ namespace FEDAL
 	     /// </summary>
 	     ///	
 	     /// </summary>
-		 public partial class TPM_RewardBatchDal:BaseDal<TPM_RewardBatch>,ITPM_RewardBatchDal
-         {
-
-
-         }	
-
-        public partial class DalFactory
-        {
-            public static ITPM_RewardBatchDal GetTPM_RewardBatchDal()
-            {
-                return new TPM_RewardBatchDal();
-            }
-	    }
-
-
-	     /// </summary>
-	     ///	
-	     /// </summary>
 		 public partial class TPM_AcheiveLevelDal:BaseDal<TPM_AcheiveLevel>,ITPM_AcheiveLevelDal
          {
 
@@ -599,6 +581,24 @@ namespace FEDAL
             public static IMajorDal GetMajorDal()
             {
                 return new MajorDal();
+            }
+	    }
+
+
+	     /// </summary>
+	     ///	
+	     /// </summary>
+		 public partial class TPM_RewardBatchDal:BaseDal<TPM_RewardBatch>,ITPM_RewardBatchDal
+         {
+
+
+         }	
+
+        public partial class DalFactory
+        {
+            public static ITPM_RewardBatchDal GetTPM_RewardBatchDal()
+            {
+                return new TPM_RewardBatchDal();
             }
 	    }
 
