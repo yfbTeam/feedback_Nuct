@@ -394,6 +394,8 @@ function Bind_ResponsMan(selid) {
                 $("#tb_Member .meditor").remove();
                 $existobj.remove(); $("#tb_Member").prepend(first_tr);
             }                 
+        } else {
+            $("#tb_Member .meditor").remove();
         }
         GetCur_RankScore();
     }   
