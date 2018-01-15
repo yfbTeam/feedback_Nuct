@@ -266,10 +266,12 @@
         function submit(status) {
             var add_path = Get_AddFile(3);
             object.Add_Path = add_path.length > 0 ? JSON.stringify(add_path) : "";
-            if (Number($('#span_AllScore').html()) < Number(GetCur_RankScore())) {
-                layer.msg("已分配分数不能大于总分！");
-                return;
-            }
+            if (cur_AchieveType != "3") {
+                if (Number($('#span_AllScore').html()) < Number(GetCur_RankScore())) {
+                    layer.msg("已分配分数不能大于总分！");
+                    return;
+                }
+            }            
             if (status == 5) {
                 if ($("#uploader .filelist li").length <= 0) {
                     layer.msg("请上传附件!");

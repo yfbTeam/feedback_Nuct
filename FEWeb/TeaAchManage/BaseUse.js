@@ -371,7 +371,11 @@ function Get_TPM_AcheiveMember(achid,tb_id) {
             if (json.result.errNum.toString() == "0") {
                 AcheiveMember_data = json.result;
                 $("#tr_MemEdit").tmpl(json.result).appendTo("#" + tb_id);
-                GetCur_RankScore();
+                if (cur_AchieveType == "3") {
+                    GetCur_WordNum();
+                } else {
+                    GetCur_RankScore();
+                }
             }
         },
         error: function (errMsg) {
