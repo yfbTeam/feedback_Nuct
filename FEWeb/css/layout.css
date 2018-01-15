@@ -938,8 +938,14 @@ z-index: 9999;width:100%;
 .version_lists li .version_header {
     padding:4px 60px 4px 15px;background:#F5EFF1;position:relative;line-height:34px;
 }
+.version_lists li .version_none {
+    display: none;
+}
 .version_lists li .version_header .oprated {
-    display:inline-block;text-align:center;height:22px;margin-top:7px;
+    display: inline-block;
+    text-align: center;
+    height: 22px;
+    margin-top: 7px;
 }
 .version_lists li .version_header .oprated .operate {
     position:relative;

@@ -29,13 +29,28 @@
                     </div>
                 </div>
             </div>
-            <div class="none version_none">
+            <div class="version_none">
                <div>
                     <div class="version_header clearfix">
                         <span>奖项名字</span>
                         <i class="iconfont fr icond">&#xe643;</i>
+                        <input type="button" name="name" value="新增排名" class="btn fr ml10" onclick="AddReward(${Id})"/>            
+                        <div class="oprated fr">
+                            <div class="operate" onclick="javascript:OpenIFrameWindow('编辑等级', '../TeaAchManage/LeveAdd.aspx?Id=${Id}', '500px', '300px');">
+                                <i class="iconfont color_purple">&#xe628;</i>
+                                <span class="operate_none bg_purple">编辑</span>
+                            </div>
+                            <div class="operate" onclick="LeverSort('up',${Id})">
+                                <i class="iconfont color_purple">&#xe629;</i>
+                                <span class="operate_none bg_purple">上移</span>
+                            </div>
+                            <div class="operate" onclick="LeverSort('down',${Id})">
+                                <i class="iconfont color_purple">&#xe62d;</i>
+                                <span class="operate_none bg_purple">下移</span>
+                            </div>
+                        </div>
                     </div>
-                    <div class="table none version_none">
+                    <div class="table version_none">
                         <table>
                             <thead>
                                 <tr>
@@ -50,26 +65,7 @@
                         </table>
                     </div>
                </div>
-                <div>
-                    <div class="version_header clearfix">
-                        <span>奖项名字</span>
-                        <i class="iconfont fr icond">&#xe643;</i>
-                    </div>
-                    <div class="table none version_none">
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>奖项</th>
-                                    <th>分数（分）</th>
-                                    <th>奖金（万元）</th>
-                                    <th>追加（万元）</th>
-                                    <th id="ops" width="230px;">操作</th>
-                                </tr>
-                            </thead>
-                            <tbody id="Leve${Id}"></tbody>
-                        </table>
-                    </div>
-               </div>
+               
             </div>
         </li>
     </script>
