@@ -400,17 +400,17 @@
                 var $next = $(this).parent().next();
                 if ($next.is(':hidden')) {
                     $(this).addClass('active');
+                    $next.find('.icond').removeClass('active');
+                    $next.find('.version_none').hide();
                     $next.show();
                     if ($(this).parent().parent().siblings().children('.version_none').is(":visible")) {
                         $(this).parent().parent().siblings().find('.icond').removeClass('active');
                         $(this).parent().parent().siblings().find('.version_none').hide();
                     }
-                    //if ($(this).parents('li').siblings('li').children('dd').is(':visible')) {
-                    //    $(this).parents("li").siblings("li").removeClass('active');
-                    //    $(this).parents("li").siblings("li").find("dd").hide();
-                    //}
                 } else {
                     $(this).removeClass('active');
+                    
+                    $(this).parent().find('.version_none').hide();
                     $next.hide();
                 }
             })
