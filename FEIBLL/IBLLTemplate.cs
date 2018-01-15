@@ -69,14 +69,6 @@ namespace FEIBLL
 	/// </summary>
 	///	
 	/// </summary>
-    public interface ITPM_RewardBatchService:IBaseService<TPM_RewardBatch>
-    {
-
-    }	
-
-	/// </summary>
-	///	
-	/// </summary>
     public interface ITPM_AcheiveLevelService:IBaseService<TPM_AcheiveLevel>
     {
 
@@ -270,6 +262,14 @@ namespace FEIBLL
 	///	
 	/// </summary>
     public interface IMajorService:IBaseService<Major>
+    {
+
+    }	
+
+	/// </summary>
+	///	
+	/// </summary>
+    public interface ITPM_RewardBatchService:IBaseService<TPM_RewardBatch>
     {
 
     }	
