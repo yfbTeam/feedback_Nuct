@@ -45,7 +45,7 @@ namespace FEHandler.UserMan
                     case "SetUserToRole": SetUserToRole(context); break;
 
                     case "IsMutex": IsMutex(context); break;
-                        
+
                     case "GetTeachers": GetTeachers(context); break;
                     case "GetTeachers_ByRoleID": GetTeachers_ByRoleID(context); break;
 
@@ -92,9 +92,7 @@ namespace FEHandler.UserMan
                 string UniqueNos = RequestHelper.string_transfer(Request, "UniqueNo");
                 int Roleid = RequestHelper.int_transfer(Request, "Roleid");
                 string[] us = Split_Hepler.str_to_stringss(UniqueNos);
-
                 bool IsMutexCombine = RequestHelper.bool_transfer(Request, "IsMutexCombine");
-
                 //互斥
                 if (IsMutexCombine)
                 {
@@ -186,10 +184,14 @@ namespace FEHandler.UserMan
                     var inf = (from uni in us
                                join r_u in Constant.Sys_RoleOfUser_List on uni equals r_u.UniqueNo
                                join r in Constant.Sys_Role_List on r_u.Role_Id equals r.Id
-                               join user in Constant.UserInfo_List on uni equals user.Nickname
+                               join user in Constant.UserInfo_List on uni equals user.UniqueNo
                                where r.Id == (int)RoleType.department_mange || r.Id == (int)RoleType.school_manage
-                               select new {UserName = user.Name,RoleName = r.Name }).ToList();
-
+                               select new MuteUser{ UserName = user.Name, RoleName = r.Name,RoleID = r.Id }).ToList();
+                    if (inf.Count > 0)
+                    {
+                        reuslt = false;
+                        inf = (from i in inf where i.RoleID != Roleid select i).ToList();
+                    }
                     var data = new { IsMutex = reuslt, inf };
                     jsonModel = JsonModel.get_jsonmodel(intSuccess, "success", data);
                 }
@@ -198,7 +200,7 @@ namespace FEHandler.UserMan
                     var data = new { IsMutex = reuslt, Info = "" };
                     jsonModel = JsonModel.get_jsonmodel(intSuccess, "success", data);
                 }
-             
+
             }
             catch (Exception ex)
             {

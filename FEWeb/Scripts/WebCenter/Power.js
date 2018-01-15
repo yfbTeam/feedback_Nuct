@@ -128,7 +128,7 @@ function Get_UserByRoleID(PageIndex) {
                 else {
                     $('#pageBar').show();
                 }
-                console.log(returnVal)
+             
 
                 $('#ShowUserInfo').empty();
                 if (CurrentRoleid == 2) {

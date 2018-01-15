@@ -155,8 +155,25 @@
 
     //-----------提交信息---------------------------------------------------------------------------------------  
     function SubmitUserinfo() {
-        IsMutex();
-        UI_Allot.SubmitUserinfo();
+        IsMutexCompleate = function (data) {
+            if (!data.IsMutex)
+            {
+                var info = '';
+                for (var i = 0; i < data.inf.length; i++) {
+                    var obj = data.inf[i];
+                    info += obj.UserName + "已分配在" + obj.RoleName + ";"
+                }
+               
+                console.log(info);
+                IsMutexCombine = true;
+                layer.confirm(info + '确定重新分配到' + $('#rolenametext').text() + '吗？', {
+                    btn: ['确定', '取消'], //按钮
+                    title: '操作'
+                }, function () { UI_Allot.SubmitUserinfo(); });
+              
+            }           
+        };
+        IsMutex();     
     }
     //-----------取消---------------------------------------------------------------------------------------
     function quxiao() {

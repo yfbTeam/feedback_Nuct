@@ -1,5 +1,7 @@
 ﻿/// <reference path="../jquery-1.8.3.min.js" />
 /// <reference path="../jquery-1.11.2.min.js" />
+var IsMutexCombine = false;
+
 var UI_Allot =
 {
     PageType: 'AllotPeople',//AllotPeople分配人员   SortCourse分配课程
@@ -91,7 +93,7 @@ var UI_Allot =
         UI_Allot.BindDataTo_GetUserinfo(arrRes);
         UI_Allot.PageChange_Check();
     },
-    data_init: function (roleid) {        
+    data_init: function (roleid) {
         reUserinfoByselect = reUserinfoAll;
 
         select_uniques = [];
@@ -99,7 +101,7 @@ var UI_Allot =
         for (var i = 0; i < reUserinfoByselect.length; i++) {
             var index = isHasElement(reUserinfoByselect_uniques, reUserinfoByselect[i].UniqueNo);
             if (index > -1) {
-                
+
                 select_uniques.push(reUserinfoByselect[i].UniqueNo);
                 reUserinfoByselect[i].Roleid = CurrentRoleid;
             }
@@ -119,7 +121,7 @@ var UI_Allot =
         }
         tableSlide();
         $('input:checkbox[name=se]').each(function () {
-         
+
             $(this).on('click', function () {
                 var check = $(this).attr('checked');
                 var UniqueNo = $(this).attr('UniqueNo');
@@ -128,8 +130,7 @@ var UI_Allot =
                     $(this).removeAttr('checked');
                     debugger;
                     var data = reUserinfoAll.filter(function (item) { return item.UniqueNo == UniqueNo });
-                    if(data.length>0)
-                    {
+                    if (data.length > 0) {
                         data[0].Roleid = 0;
                     }
 
@@ -159,7 +160,7 @@ var UI_Allot =
                 UniqueNos += ("," + select_uniques[i]);
             }
         }
-        var postData = { func: "SetUserToRole", UniqueNo: UniqueNos, Roleid: CurrentRoleid, BackRoleid: roleid };
+        var postData = { func: "SetUserToRole", UniqueNo: UniqueNos, Roleid: CurrentRoleid, BackRoleid: roleid, "IsMutexCombine": IsMutexCombine };
         $.ajax({
             type: "Post",
             url: HanderServiceUrl + "/UserMan/UserManHandler.ashx",
@@ -220,15 +221,14 @@ function GetTeachers_ByRoleID() {
         success: function (returnVal) {
             if (returnVal.result.errMsg == "success") {
                 reUserinfoAll = returnVal.result.retData;
-               
+
                 for (var i in reUserinfoAll) {
                     var info = reUserinfoAll[i];
-                    if(info.Roleid == CurrentRoleid)
-                    {                      
+                    if (info.Roleid == CurrentRoleid) {
                         reUserinfoByselect_uniques.push(info.UniqueNo);
                     }
                 }
-               
+
                 GetTeachers_ByRoleIDCompleate();
             }
         },
@@ -237,8 +237,9 @@ function GetTeachers_ByRoleID() {
     });
 };
 
-
+function IsMutexCompleate() { };
 function IsMutex() {
+
     //var CurrentRoleName = parent.GetCurrentRoleName();
     var UniqueNos = "";
     for (var i = 0; i < select_uniques.length; i++) {
@@ -258,11 +259,12 @@ function IsMutex() {
         success: function (returnVal) {
             if (returnVal.result.errMsg == "success") {
                 var data = returnVal.result.retData;
-                debugger;
+                IsMutexCompleate(data);
             }
+
         },
         error: function (errMsg) {
-           
+            debugger;
         }
     });
 };
