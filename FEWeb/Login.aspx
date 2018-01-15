@@ -129,7 +129,18 @@
             enterSubmit('#inpCode', function () {
                 $("#LoginButton").click();   
             })
-            
+            /*回车提交方法
+            *param:obj  对象
+            *param:cb   回调方法
+            */
+            function enterSubmit(obj, cb) {
+                $(obj).keydown(function (e) {
+                    e = e || window.event;
+                    if ((e.keyCode || e.which) == "13") {
+                        cb();
+                    }
+                })
+            }
             var valiNewForm = $("#LoginForm").Validform({
                 datatype: {
                     "iCode": function (gets, obj, curform, regxp) {
