@@ -79,7 +79,7 @@
                     <i class="iconfont color_purple">&#xe623;</i>
                     <span class="operate_none bg_purple">奖金</span>
                 </div>
-                <div class="operate" onclick="javascript:OpenIFrameWindow('编辑奖项', '../TeaAchManage/RewardAdd.aspx?Id=${rew.Id}&batid=${rew.FirstId}', '500px', '480px');">
+                <div class="operate" onclick="javascript:OpenIFrameWindow('编辑奖项', '../TeaAchManage/RewardAdd.aspx?Id=${rew.Id}&batid=${rew.FirstId}&stype=1', '500px', '320px');">
                     <i class="iconfont color_purple">&#xe628;</i>
                     <span class="operate_none bg_purple">编辑</span>
                 </div>
@@ -104,14 +104,7 @@
                     <i class="iconfont color_purple">&#xe62d;</i>
                     <span class="operate_none bg_purple">下移</span>
                 </div>
-                 {{/if}}
-                {{if ScoreType==3}}
-                 <div class="operate" onclick="javascript:OpenIFrameWindow('等级设置', '../TeaAchManage/RankSet.aspx?RId=${rew.Id}&Score=${rew.Score}', '500px', '550px');">
-                     <i class="iconfont color_purple">&#xe630;</i>
-                     <span class="operate_none bg_purple">排名</span>
-                 </div>
-                {{else}}
-                {{/if}}
+                 {{/if}}                
             </td>
         </tr>
         {{/each}}   
@@ -122,10 +115,10 @@
         <div>
             <div class="version_header clearfix" style="padding-left:30px;border-top:1px solid #E3D5DC;background:#fff;">
                 <span>${rew.Name}</span>
-                <i class="iconfont fr icond">&#xe643;</i>
+                <i class="iconfont fr icond" rid="${rew.Id}">&#xe643;</i>
                 <input type="button" name="name" value="奖项排名" class="btn fr ml10" onclick="javascript:OpenIFrameWindow('奖项排名', '../TeaAchManage/RankSet.aspx?RId=${rew.Id}&Score=${rew.Score}', '500px', '550px');" />
                 <div class="oprated fr">
-                    <div class="operate" onclick="javascript:OpenIFrameWindow('编辑奖项', '../TeaAchManage/RewardAdd.aspx?Id=${rew.Id}&batid=${rew.FirstId}', '500px', '480px');">
+                    <div class="operate" onclick="javascript:OpenIFrameWindow('编辑奖项', '../TeaAchManage/RewardAdd.aspx?Id=${rew.Id}&batid=${rew.FirstId}&stype=3', '500px', '240px');">
                         <i class="iconfont color_purple">&#xe628;</i>
                         <span class="operate_none bg_purple">编辑</span>
                     </div>
@@ -157,14 +150,14 @@
                 <table>
                     <thead>
                         <tr>
-                            <th style="text-align:left;text-indent:30px;">排名</th>
+                            <th style="text-align:left;text-indent:45px;">排名</th>
                             <th>分数（分）</th>
                             <th>奖金（万元）</th>
                             <th>追加（万元）</th>
                             <th id="ops" width="230px;">操作</th>
                         </tr>
                     </thead>
-                    <tbody></tbody>
+                    <tbody id="tb_RewRank_${rew.Id}"></tbody>
                 </table>
             </div>
         </div>
@@ -173,12 +166,12 @@
     <%--教学成果奖排名--%>
     <script id="tr_RewRank" type="text/x-jquery-tmpl">
         <tr>
-            <td>${Name}</td>
+            <td style="padding-left:45px;text-align:left;">${Name}</td>
             <td>${Score}</td>
             <td>${FirstMoney}</td>
             <td>${AddMoney}</td>
             <td class="operate_wrap">
-                <div class="operate" onclick="javascript:OpenIFrameWindow('奖金管理', '../TeaAchManage/AddAward.aspx?Id=${Id}', '600px', '400px');">
+                <div class="operate" onclick="javascript:OpenIFrameWindow('奖金管理', '../TeaAchManage/AddAward.aspx?Id=${RId}&rank=${Id}', '600px', '400px');">
                     <i class="iconfont color_purple">&#xe623;</i>
                     <span class="operate_none bg_purple">奖金</span>
                 </div> 
@@ -249,7 +242,7 @@
             if(achievetype=="2"){
                 stype=3;
             }else if(achievetype=="3"){stype=2;}
-            OpenIFrameWindow('新增奖项', '../TeaAchManage/RewardAdd.aspx?LID=' + LID+'&stype='+stype, '500px', '410px');
+            OpenIFrameWindow('新增奖项', '../TeaAchManage/RewardAdd.aspx?LID=' + LID+'&stype='+stype, '500px', stype==3?'240px':'320px');
         }
         //开启（关闭）金额分配
         function ChangeRewardEditionAllot()
@@ -450,8 +443,7 @@
             else {
                 honeySwitch.showOn("#IsMoneyAllot");
             }
-            cur_AchieveType=$('.menu_list li.selected').parent('ul').attr('atype');
-            //$(em).addClass("selected").siblings().removeClass("selected");
+            cur_AchieveType=$('.menu_list li.selected').parent('ul').attr('atype');           
             $(".version_lists").html("");
             cur_RewardLevelData=[];
             $.ajax({
@@ -520,11 +512,10 @@
         var cur_RewardInfoData=[];
         function BindReward(LID) {
             if (LID==undefined) {
-                LID= $("#LID").val();
+                LID=$("#LID").val();
             }
             var Leveid = "Leve" + LID;
-            cur_AchieveType=$('.menu_list li.selected').parent('ul').attr('atype');
-            //$("#" + Leveid).parent().parent().parent().show();
+            cur_AchieveType=$('.menu_list li.selected').parent('ul').attr('atype');           
             $("#" + Leveid).html("");
             cur_RewardInfoData=[];
             $.ajax({
@@ -538,26 +529,30 @@
                         $(cur_AchieveType=="2"?"#tr_TeaResult":"#tr_Reward").tmpl(cur_RewardInfoData).appendTo("#" + Leveid);                        
                     }
                     tableSlide();
-                    $('#'+ Leveid).find('.icond').click(function(){
-                        var $next = $(this).parent().next();
-                        if($next.is(':hidden')){
-                            $(this).addClass('active');
-                            $next.show();
-                            if ($(this).parent().parent().siblings().children('.version_none').is(":visible")) {
-                                $(this).parent().parent().siblings().find('.icond').removeClass('active');
-                                $(this).parent().parent().siblings().find('.version_none').hide();
-                            }
-                        }else{
-                            $(this).removeClass('active');
-                            $next.hide();
-                        }
-                    })
+                    if(cur_AchieveType=="2"){SetRewardSH(Leveid);}                    
                 },
                 error: function () {
                     //接口错误时需要执行的
                 }
             });
-        }        
+        }  
+        function SetRewardSH(Leveid){ //设置奖项展开关闭
+            $('#'+ Leveid).find('.icond').click(function(){                        
+                var $next = $(this).parent().next();
+                if($next.is(':hidden')){
+                    BindRank($(this).attr('rid'));
+                    $(this).addClass('active');
+                    $next.show();
+                    if ($(this).parent().parent().siblings().children('.version_none').is(":visible")) {
+                        $(this).parent().parent().siblings().find('.icond').removeClass('active');
+                        $(this).parent().parent().siblings().find('.version_none').hide();
+                    }
+                }else{
+                    $(this).removeClass('active');
+                    $next.hide();
+                }
+            });
+        }
         function RewardSort(type,Id){
             $.ajax({
                 url: HanderServiceUrl + "/TeaAchManage/AchManage.ashx",
@@ -576,6 +571,25 @@
                     //接口错误时需要执行的
                 }
             });
+        }
+        //绑定排名
+        function BindRank(rid)
+        {   
+            var rewoid="#tb_RewRank_"+rid;
+            $(rewoid).empty();            
+            $.ajax({
+                url: HanderServiceUrl + "/TeaAchManage/AchRewardInfo.ashx",
+                type: "post",
+                dataType: "json",
+                data: {Func: "GetRank", IsPage: false,RId: rid,IsAward:"1"},
+                success: function (json) {
+                    if (json.result.errMsg == "success") {
+                        $("#tr_RewRank").tmpl(json.result.retData).appendTo(rewoid);
+                    } 
+                    tableSlide();
+                },
+                error: function (errMsg) {}
+            });            
         }
     </script>
 </body>

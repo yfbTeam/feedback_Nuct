@@ -79,6 +79,7 @@
 <script src="../Scripts/layer/layer.js"></script>
 <script type="text/javascript">
     var UrlDate = new GetUrlDate();
+    var cur_rankid = UrlDate.rank||"";
     $(function () {
         $("#CreateUID").val(GetLoginUser().UniqueNo);
         Get_RewardBatchData();
@@ -90,7 +91,7 @@
             url: HanderServiceUrl + "/TeaAchManage/AchRewardInfo.ashx",
             type: "post",
             dataType: "json",
-            data: { "Func": "Get_RewardBatchData", "IsPage": "false", Reward_Id: UrlDate.Id, IsOnlyBase:0 },
+            data: { "Func": "Get_RewardBatchData", "IsPage": "false", Reward_Id: UrlDate.Id, Rank_Id:cur_rankid, IsOnlyBase: 0 },
             success: function (json) {
                 if (json.result.errMsg == "success") {
                     $("#tr_Award").tmpl(json.result.retData).appendTo("#tb_Award");                    
@@ -113,7 +114,7 @@
             url: HanderServiceUrl + "/TeaAchManage/AchManage.ashx",
             type: "post",
             dataType: "json",
-            data: { "Func": "AddRewardDash", Id: id, Reward_Id: UrlDate.Id, AddAward: $award.val()},
+            data: { "Func": "AddRewardDash", Id: id, Reward_Id: UrlDate.Id, AddAward: $award.val(), Rank_Id: cur_rankid },
             success: function (json) {
                 if (json.result.errNum == 0) {
                     layer.msg('操作成功!');

@@ -98,6 +98,7 @@
                 success: function (json) {
                     if (json.result.errMsg == "success") {
                         $("#tr_rank_" + Id).remove();
+                        parent.BindRank(UrlDate.RId);
                     } 
                     else{
                         layer.msg(json.result.errMsg );
@@ -137,6 +138,7 @@
                     if (json.result.errMsg == "success") {
                         parent.layer.msg('操作成功!');
                         BindRank();
+                        parent.BindRank(UrlDate.RId);
                     }
                     else {
                         layer.msg(json.result.errMsg);

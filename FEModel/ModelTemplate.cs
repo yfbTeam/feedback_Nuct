@@ -390,6 +390,10 @@ namespace FEModel
 		/// 
 		/// </summary>
 		public DateTime? CreateTime { get; set; }
+		/// <summary>
+		///是否删除 
+		/// </summary>
+		public Byte? IsDelete { get; set; }
 
           public override bool Equals(object obj)
         {

@@ -509,7 +509,7 @@
                     } else { //删除的
                         if ($("#tb_Member tr.memadd[un='" + userno + "']").length == 0) {
                             edithis.push({
-                                Type: 0, Acheive_Id: cur_AchieveId, Content: loginUser.Name + '删除成员' + $(this).find('td.td_memname').html()
+                                Type: 0, Acheive_Id: cur_AchieveId, RelationId: 0, Content: loginUser.Name + '删除成员' + $(this).find('td.td_memname').html()
                                               , ModifyUID: userno, CreateUID: loginUser.UniqueNo
                             });
                         }
