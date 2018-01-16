@@ -142,7 +142,7 @@
         <div class="area_form clearfix">
                 <div class="clearfix"> 
                     {{if AchieveType==1||AchieveType==2}}                  
-                    <input type="button" name="memberbtn" value="添加" class="btn ml" id="AddBtn" onclick="javascript: OpenIFrameWindow('添加成员','AddAchMember.aspx', '80%', '70%');"/>
+                    <input type="button" name="memberbtn" value="添加" class="btn ml" id="AddBtn" onclick="javascript: OpenIFrameWindow('添加成员','AddAchMember.aspx?pagesize=5', '80%', '70%');"/>
                     <input type="button" name="memberbtn" value="删除" class="btn ml10" onclick="Del_HtmlMember();"/>
                     {{/if}}
                     {{if AchieveType==3}}
