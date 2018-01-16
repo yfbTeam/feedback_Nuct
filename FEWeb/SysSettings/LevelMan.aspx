@@ -9,67 +9,169 @@
     <link rel="stylesheet" href="../css/layout.css" />
     <script src="../Scripts/jquery-1.11.2.min.js"></script>
     <script id="tr_Level" type="text/x-jquery-tmpl">
+         {{each(i, lew) cur_RewardLevelData.retData}}          
         <li>
             <div class="version_header clearfix">
-                <span>${Name}</span>
-                <i class="iconfont fr icond" id="${Id}">&#xe643;</i>
-                <input type="button" name="name" value="新增奖项" class="btn fr ml10" onclick="AddReward(${Id})"/>            
+                <span>${lew.Name}</span>
+                <i class="iconfont fr icond" id="${lew.Id}">&#xe643;</i>
+                <input type="button" name="name" value="新增奖项" class="btn fr ml10" onclick="AddReward(${lew.Id})"/>            
                 <div class="oprated fr">
-                    <div class="operate" onclick="javascript:OpenIFrameWindow('编辑等级', '../TeaAchManage/LeveAdd.aspx?Id=${Id}', '500px', '300px');">
+                    <div class="operate" onclick="javascript:OpenIFrameWindow('编辑等级', '../TeaAchManage/LeveAdd.aspx?Id=${lew.Id}', '500px', '300px');">
                         <i class="iconfont color_purple">&#xe628;</i>
                         <span class="operate_none bg_purple">编辑</span>
                     </div>
-                    <div class="operate" onclick="LeverSort('up',${Id})">
+                     {{if i==0}}
+                    <div class="operate">
+                        <i class="iconfont color_gray">&#xe629;</i>
+                        <span class="operate_none bg_gray">上移</span>
+                    </div>
+                    {{else}}
+                     <div class="operate" onclick="LeverSort('up',${lew.Id})">
                         <i class="iconfont color_purple">&#xe629;</i>
                         <span class="operate_none bg_purple">上移</span>
                     </div>
-                    <div class="operate" onclick="LeverSort('down',${Id})">
+                    {{/if}}
+                     {{if  i+1==cur_RewardLevelData.retData.length}}
+                    <div class="operate">
+                        <i class="iconfont color_gray">&#xe62d;</i>
+                        <span class="operate_none bg_gray">下移</span>
+                    </div>
+                     {{else}}
+                    <div class="operate" onclick="LeverSort('down',${lew.Id})">
                         <i class="iconfont color_purple">&#xe62d;</i>
                         <span class="operate_none bg_purple">下移</span>
                     </div>
+                    {{/if}}
                 </div>
             </div>
-            <div class="version_none">
-               <div>
-                    <div class="version_header clearfix">
-                        <span>奖项名字</span>
-                        <i class="iconfont fr icond">&#xe643;</i>
-                        <input type="button" name="name" value="新增排名" class="btn fr ml10" onclick="AddReward(${Id})"/>            
-                        <div class="oprated fr">
-                            <div class="operate" onclick="javascript:OpenIFrameWindow('编辑等级', '../TeaAchManage/LeveAdd.aspx?Id=${Id}', '500px', '300px');">
-                                <i class="iconfont color_purple">&#xe628;</i>
-                                <span class="operate_none bg_purple">编辑</span>
-                            </div>
-                            <div class="operate" onclick="LeverSort('up',${Id})">
-                                <i class="iconfont color_purple">&#xe629;</i>
-                                <span class="operate_none bg_purple">上移</span>
-                            </div>
-                            <div class="operate" onclick="LeverSort('down',${Id})">
-                                <i class="iconfont color_purple">&#xe62d;</i>
-                                <span class="operate_none bg_purple">下移</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="table version_none">
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>奖项</th>
-                                    <th>分数（分）</th>
-                                    <th>奖金（万元）</th>
-                                    <th>追加（万元）</th>
-                                    <th id="ops" width="230px;">操作</th>
-                                </tr>
-                            </thead>
-                            <tbody id="Leve${Id}"></tbody>
-                        </table>
-                    </div>
-               </div>
-               
-            </div>
+            {{if cur_AchieveType=="2"}}
+             <div class="version_none" id="Leve${lew.Id}"></div>
+            {{else}}
+             <div class="version_none">
+                 <div class="table">
+                     <table>
+                         <thead>
+                             <tr>
+                                 <th>奖项</th>
+                                 <th>分数（分）</th>
+                                 <th>奖金（万元）</th>
+                                 <th>追加（万元）</th>
+                                 <th id="ops" width="230px;">操作</th>
+                             </tr>
+                         </thead>
+                         <tbody id="Leve${lew.Id}"></tbody>
+                     </table>
+                 </div>
+             </div>
+            {{/if}}             
         </li>
+         {{/each}}   
     </script>
     <script id="tr_Reward" type="text/x-jquery-tmpl">
+        {{each(i, rew) cur_RewardInfoData.retData}}  
+        <tr>
+            <td>${rew.Name}</td>
+            <td>${rew.Score}</td>
+            <td>${rew.FirstMoney}</td>
+            <td>${rew.AddMoney}</td>
+            <td class="operate_wrap">
+                <div class="operate" onclick="javascript:OpenIFrameWindow('奖金管理', '../TeaAchManage/AddAward.aspx?Id=${rew.Id}', '600px', '400px');">
+                    <i class="iconfont color_purple">&#xe623;</i>
+                    <span class="operate_none bg_purple">奖金</span>
+                </div>
+                <div class="operate" onclick="javascript:OpenIFrameWindow('编辑奖项', '../TeaAchManage/RewardAdd.aspx?Id=${rew.Id}&batid=${rew.FirstId}', '500px', '480px');">
+                    <i class="iconfont color_purple">&#xe628;</i>
+                    <span class="operate_none bg_purple">编辑</span>
+                </div>
+                {{if i==0}}
+                 <div class="operate">
+                    <i class="iconfont color_gray">&#xe629;</i>
+                    <span class="operate_none bg_gray">上移</span>
+                </div>
+                {{else}}
+                <div class="operate" onclick="RewardSort('up',${rew.Id})">
+                    <i class="iconfont color_purple">&#xe629;</i>
+                    <span class="operate_none bg_purple">上移</span>
+                </div>
+                {{/if}}
+                {{if i+1==cur_RewardInfoData.retData.length}}
+               <div class="operate">
+                    <i class="iconfont color_gray">&#xe62d;</i>
+                    <span class="operate_none bg_gray">下移</span>
+                </div>
+                {{else}}
+                <div class="operate" onclick="RewardSort('down',${rew.Id})">
+                    <i class="iconfont color_purple">&#xe62d;</i>
+                    <span class="operate_none bg_purple">下移</span>
+                </div>
+                 {{/if}}
+                {{if ScoreType==3}}
+                 <div class="operate" onclick="javascript:OpenIFrameWindow('等级设置', '../TeaAchManage/RankSet.aspx?RId=${rew.Id}&Score=${rew.Score}', '500px', '550px');">
+                     <i class="iconfont color_purple">&#xe630;</i>
+                     <span class="operate_none bg_purple">排名</span>
+                 </div>
+                {{else}}
+                {{/if}}
+            </td>
+        </tr>
+        {{/each}}   
+    </script>
+    <%--教学成果--%>
+    <script id="tr_TeaResult" type="text/x-jquery-tmpl">
+         {{each(i, rew) cur_RewardInfoData.retData}}  
+        <div>
+            <div class="version_header clearfix">
+                <span>${rew.Name}</span>
+                <i class="iconfont fr icond">&#xe643;</i>
+                <input type="button" name="name" value="奖项排名" class="btn fr ml10" onclick="javascript:OpenIFrameWindow('奖项排名', '../TeaAchManage/RankSet.aspx?RId=${rew.Id}&Score=${rew.Score}', '500px', '550px');" />
+                <div class="oprated fr">
+                    <div class="operate" onclick="javascript:OpenIFrameWindow('编辑奖项', '../TeaAchManage/RewardAdd.aspx?Id=${rew.Id}&batid=${rew.FirstId}', '500px', '480px');">
+                        <i class="iconfont color_purple">&#xe628;</i>
+                        <span class="operate_none bg_purple">编辑</span>
+                    </div>
+                    {{if i==0}}
+                 <div class="operate">
+                    <i class="iconfont color_gray">&#xe629;</i>
+                    <span class="operate_none bg_gray">上移</span>
+                </div>
+                {{else}}
+                <div class="operate" onclick="RewardSort('up',${rew.Id})">
+                    <i class="iconfont color_purple">&#xe629;</i>
+                    <span class="operate_none bg_purple">上移</span>
+                </div>
+                {{/if}}
+                {{if i+1==cur_RewardInfoData.retData.length}}
+               <div class="operate">
+                    <i class="iconfont color_gray">&#xe62d;</i>
+                    <span class="operate_none bg_gray">下移</span>
+                </div>
+                {{else}}
+                <div class="operate" onclick="RewardSort('down',${rew.Id})">
+                    <i class="iconfont color_purple">&#xe62d;</i>
+                    <span class="operate_none bg_purple">下移</span>
+                </div>
+                 {{/if}}
+                </div>
+            </div>
+            <div class="table version_none">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>排名</th>
+                            <th>分数（分）</th>
+                            <th>奖金（万元）</th>
+                            <th>追加（万元）</th>
+                            <th id="ops" width="230px;">操作</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+        {{/each}}   
+    </script>
+    <%--教学成果奖排名--%>
+    <script id="tr_RewRank" type="text/x-jquery-tmpl">
         <tr>
             <td>${Name}</td>
             <td>${Score}</td>
@@ -79,26 +181,7 @@
                 <div class="operate" onclick="javascript:OpenIFrameWindow('奖金管理', '../TeaAchManage/AddAward.aspx?Id=${Id}', '600px', '400px');">
                     <i class="iconfont color_purple">&#xe623;</i>
                     <span class="operate_none bg_purple">奖金</span>
-                </div>
-                <div class="operate" onclick="javascript:OpenIFrameWindow('编辑奖项', '../TeaAchManage/RewardAdd.aspx?Id=${Id}&batid=${FirstId}', '500px', '480px');">
-                    <i class="iconfont color_purple">&#xe628;</i>
-                    <span class="operate_none bg_purple">编辑</span>
-                </div>
-                <div class="operate" onclick="RewardSort('up',${Id})">
-                    <i class="iconfont color_purple">&#xe629;</i>
-                    <span class="operate_none bg_purple">上移</span>
-                </div>
-                <div class="operate" onclick="RewardSort('down',${Id})">
-                    <i class="iconfont color_purple">&#xe62d;</i>
-                    <span class="operate_none bg_purple">下移</span>
-                </div>
-                {{if ScoreType==3}}
-                 <div class="operate" onclick="javascript:OpenIFrameWindow('等级设置', '../TeaAchManage/RankSet.aspx?RId=${Id}&Score=${Score}', '500px', '550px');">
-                     <i class="iconfont color_purple">&#xe630;</i>
-                     <span class="operate_none bg_purple">排名</span>
-                 </div>
-                {{else}}
-                {{/if}}
+                </div> 
             </td>
         </tr>
     </script>
@@ -158,7 +241,7 @@
         })
     </script>
     <script>
-        var UrlDate=new GetUrlDate();
+        var UrlDate=new GetUrlDate(),cur_AchieveType="1";
         function AddReward(LID)        
         {
             var stype=1;
@@ -351,6 +434,7 @@
             });
         }
         //奖项等级
+        var cur_RewardLevelData=[];
         function BindRewardLevelData(EID,em) {
             $(em).addClass("selected").siblings().removeClass("selected");
             if (EID==undefined) {
@@ -366,8 +450,10 @@
             else {
                 honeySwitch.showOn("#IsMoneyAllot");
             }
+            cur_AchieveType=$('.menu_list li.selected').parent('ul').attr('atype');
             //$(em).addClass("selected").siblings().removeClass("selected");
             $(".version_lists").html("");
+            cur_RewardLevelData=[];
             $.ajax({
                 url: HanderServiceUrl + "/TeaAchManage/AchManage.ashx",
                 type: "post",
@@ -375,7 +461,8 @@
                 data: { "Func": "GetRewardLevelData", "EID": EID, "IsPage": "false" },
                 success: function (json) {
                     if (json.result.errMsg == "success") {
-                        $("#tr_Level").tmpl(json.result.retData).appendTo(".version_lists");
+                        cur_RewardLevelData=json.result;
+                        $("#tr_Level").tmpl(cur_RewardLevelData).appendTo(".version_lists");
                         $('.oprated').find('.operate').hover(function () {
                             $(this).find('.operate_none').slideDown();
                         }, function () {
@@ -393,7 +480,7 @@
             $('.version_lists').find('li:has(.version_header)').find('.icond').click(function () {
                 BindReward($(this).attr("id"));
                 $("#LID").val($(this).attr("id"))
-                var $next = $(this).parent().next();
+                var $next = $(this).parent().next();                
                 if ($next.is(':hidden')) {
                     $(this).addClass('active');
                     $next.find('.icond').removeClass('active');
@@ -410,17 +497,6 @@
                     $next.hide();
                 }
             })
-            var Count= $('.version_lists').find("li").length;
-            var $First= $('.version_lists').find("li:eq(0)").find('dt').find('div').children().eq(1);
-            $First.removeAttr("onclick");
-            $First.find('i').removeClass('color_purple').addClass('color_gray');
-            $First.find('span').removeClass('bg_purple').addClass('bg_gray');
-
-            var $Last= $('.version_lists').find("li:eq("+parseInt(Count-1)+")").find('dt').find('div').children().eq(2);
-            $Last.removeAttr("onclick");
-            $Last.find('i').removeClass('color_purple').addClass('color_gray');
-            $Last.find('span').removeClass('bg_purple').addClass('bg_gray');
-
         }
         function LeverSort(type,Id){
             $.ajax({
@@ -442,13 +518,16 @@
             });
         }
         //奖项
+        var cur_RewardInfoData=[];
         function BindReward(LID) {
             if (LID==undefined) {
                 LID= $("#LID").val();
             }
             var Leveid = "Leve" + LID;
+            cur_AchieveType=$('.menu_list li.selected').parent('ul').attr('atype');
             //$("#" + Leveid).parent().parent().parent().show();
             $("#" + Leveid).html("");
+            cur_RewardInfoData=[];
             $.ajax({
                 url: HanderServiceUrl + "/TeaAchManage/AchManage.ashx",
                 type: "post",
@@ -456,31 +535,16 @@
                 data: { "Func": "GetRewardInfoData", "LID": LID, "IsPage": "false" },
                 success: function (json) {
                     if (json.result.errMsg == "success") {
-                        $("#tr_Reward").tmpl(json.result.retData).appendTo("#" + Leveid);
+                        cur_RewardInfoData=json.result;
+                        $(cur_AchieveType=="2"?"#tr_TeaResult":"#tr_Reward").tmpl(cur_RewardInfoData).appendTo("#" + Leveid);                        
                     }
-                    tableSlide();
-                    TableInit();                     
+                    tableSlide();                    
                 },
                 error: function () {
                     //接口错误时需要执行的
                 }
             });
-        }
-        function TableInit()
-        {
-            $(".version_lists").find("li").each(function(){
-                var Count= $(this).find("table").find("tbody").find("tr").length;
-                var $First=$(this).find("table").find("tbody").find("tr:eq(0)").find('td').find('div').eq(2);
-                $First.removeAttr("onclick");
-                $First.find('i').removeClass('color_purple').addClass('color_gray');
-                $First.find('span').removeClass('bg_purple').addClass('bg_gray');
-
-                var $Last=$(this).find("table").find("tbody").find("tr:eq("+parseInt(Count-1)+")").find('td').find('div').eq(3);
-                $Last.removeAttr("onclick");
-                $Last.find('i').removeClass('color_purple').addClass('color_gray');
-                $Last.find('span').removeClass('bg_purple').addClass('bg_gray');
-            });
-        }
+        }        
         function RewardSort(type,Id){
             $.ajax({
                 url: HanderServiceUrl + "/TeaAchManage/AchManage.ashx",
