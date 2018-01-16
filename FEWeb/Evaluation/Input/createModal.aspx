@@ -18,6 +18,10 @@
     <div id="top"></div>
     <div class="center" id="centerwrap">
         <div class="wrap clearfix" id="createInput">
+             <div class="sort_nav" id="threenav">
+            </div>
+
+
             <div class="search_toobar clearfix">
                 <div class="fl">
                     <label for="">学年学期:</label>
@@ -127,11 +131,13 @@
             var select_sectionid = 0;
             var select_reguid = 0;
             var pageIndex = 0;
-
-            var IsAllSchool = getQueryString('IsAllSchool');
+           
+            IsAllSchool = getQueryString('IsAllSchool');
             $(function () {
                 $('#top').load('/header.html');
                 $('#footer').load('/footer.html');
+
+                ModelType = IsAllSchool == 1 ? 2 : 3;
 
                 Base.bindStudySectionCompleate = function () {
                     $('#section').on('change', function () {
@@ -143,7 +149,6 @@
                         Get_Eva_RegularDataSelect();
                         Reflesh();
                     });
-
                     Get_Eva_RegularDataSelect();
                 };
                 Base.bindStudySection();
@@ -175,7 +180,13 @@
                 };
                 Base.CheckHasExpertRegu(reguType);
 
-                Get_Eva_RegularData(0, pageIndex);
+                Get_Eva_RegularData(0, pageIndex);              
+                if (IsAllSchool == 1) {
+                    $('#threenav').children().eq(0).addClass('selected');
+                }
+                else {
+                    $('#threenav').children().eq(1).addClass('selected');
+                }
             })
 
 

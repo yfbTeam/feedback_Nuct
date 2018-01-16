@@ -29,8 +29,12 @@
         <td>${UniqueNo}</td>
         <td>${Name} </td>
         <td>${Sex} </td>
+        <td>${Age} </td>
+        <td>${InSchoolAge} </td>
+
         <td>${MajorName}  </td>
-        <td>${SubDepartment}  </td>
+        <td>${SubDepartmentName}  </td>
+        <td>${Status} </td>
     </tr>
 </script>
 
@@ -58,6 +62,7 @@
                 </div>
             </div>
         </div>
+        <%--出生年月  教学日期   部门  子部门  教师状态--%>
         <div class="table">
             <table>
                 <thead>
@@ -65,11 +70,14 @@
                         <th style="text-align: center; width: 40px;">
                             <input type="checkbox" id="cb_all" onclick="Check_All()" />
                         </th>
-                        <th style="width: 200px">教职工号</th>
-                        <th style="width: 150px">用户名</th>
-                        <th style="width: 150px">性别</th>
+                        <th >教职工号</th>
+                        <th >姓名</th>
+                        <th >性别</th>
+                        <th >年龄</th>
+                        <th >校龄</th>
                         <th>部门</th>
                         <th>子部门</th>
+                        <th>教师状态</th>
                     </tr>
                 </thead>
                 <tbody id="tb_indicator">
@@ -119,19 +127,19 @@
     var pageCount;
 
     var IsAll_Select = false;
-
+   
 
     //-----------初始化--------------------------------------------------------------------------------------
     $(function () {
 
-        GetTeachers_ByRoleIDCompleate = function () {
+        GetTeachers_NewCompleate = function () {
             UI_Allot.prepare_init();
-            UI_Allot.data_init(3);
+            UI_Allot.data_init(roleid);
             UI_Allot.PageType = 'AllotPeople';
             //UI_Course.PageType = 'AllotPeople';
             UI_Allot.GetProfessInfo();
         };
-        GetTeachers_ByRoleID();
+        GetTeachers_New();
 
 
         UI_Allot.SubmitUserinfo_Compleate = function (result) {
