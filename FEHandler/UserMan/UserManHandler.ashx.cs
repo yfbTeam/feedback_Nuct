@@ -103,14 +103,11 @@ namespace FEHandler.UserMan
                         Sys_RoleOfUser Sys_RoleOfUser = Constant.Sys_RoleOfUser_List.FirstOrDefault(r => r.UniqueNo == unique);
                         if (Sys_RoleOfUser != null)
                         {
-                            Sys_RoleOfUser Sys_RoleOfUser_Clone = Constant.Clone(Sys_RoleOfUser);
-                            Sys_RoleOfUser_Clone.Role_Id = Roleid;
-                            //改数据库
-                            JsonModel m1 = Constant.Sys_RoleOfUserService.Update(Sys_RoleOfUser_Clone);
-                            if (m1.errNum == 0)
-                            {
-                                Sys_RoleOfUser.Role_Id = Roleid;
-                            }
+                            RoleUserUpdate(Roleid, Sys_RoleOfUser);
+                        }
+                        else
+                        {
+                            RoleUserAdd(Roleid, unique);
                         }
                     }
                 }
@@ -123,31 +120,18 @@ namespace FEHandler.UserMan
                         int count = Constant.Sys_RoleOfUser_List.Count(r => r.UniqueNo == unique && r.Role_Id == Roleid);
                         if (count == 0)
                         {
-                            Sys_RoleOfUser r = new Sys_RoleOfUser()
-                            {
-                                Role_Id = Roleid,
-                                IsDelete = (int)IsDelete.No_Delete,
-                                CreateTime = DateTime.Now,
-                                EditTime = DateTime.Now,
-                                UniqueNo = unique,
-                                CreateUID = "",
-                                EditUID = "",
-                            };
-                            //改数据库
-                            JsonModel m1 = Constant.Sys_RoleOfUserService.Add(r);
-                            if (m1.errNum == 0)
-                            {
-                                Constant.Sys_RoleOfUser_List.Add(r);
-                            }
+                            RoleUserAdd(Roleid, unique);
                         }
                     }
                 }
-
-
                 string[] deleteDatas = (from r in Constant.Sys_RoleOfUser_List where !us.Contains(r.UniqueNo) && r.Role_Id == Roleid select Convert.ToString(r.Id)).ToArray();
                 if (deleteDatas.Count() > 0)
                 {
-                    Constant.Sys_RoleOfUserService.DeleteBatch(deleteDatas);
+                  var jsm =   Constant.Sys_RoleOfUserService.DeleteBatch(deleteDatas);
+                    if(jsm.errNum ==0)
+                    {
+                        Constant.Sys_RoleOfUser_List.RemoveAll(r => deleteDatas.Contains(Convert.ToString(r.Id)));
+                    }
                 }
                 jsonModel = JsonModel.get_jsonmodel(intSuccess, "success", "0");
 
@@ -160,6 +144,52 @@ namespace FEHandler.UserMan
             {
                 //无论后端出现什么问题，都要给前端有个通知【为防止jsonModel 为空 ,全局字段 jsonModel 特意声明之后进行初始化】
                 context.Response.Write("{\"result\":" + Constant.jss.Serialize(jsonModel) + "}");
+            }
+        }
+
+        private static void RoleUserUpdate(int Roleid, Sys_RoleOfUser Sys_RoleOfUser)
+        {
+            try
+            {
+                Sys_RoleOfUser Sys_RoleOfUser_Clone = Constant.Clone(Sys_RoleOfUser);
+                Sys_RoleOfUser_Clone.Role_Id = Roleid;
+                //改数据库
+                JsonModel m1 = Constant.Sys_RoleOfUserService.Update(Sys_RoleOfUser_Clone);
+                if (m1.errNum == 0)
+                {
+                    Sys_RoleOfUser.Role_Id = Roleid;
+                }
+            }
+            catch (Exception ex)
+            {
+                LogHelper.Error(ex);
+            }
+        }
+
+        private static void RoleUserAdd(int Roleid, string unique)
+        {
+            try
+            {
+                Sys_RoleOfUser r = new Sys_RoleOfUser()
+                {
+                    Role_Id = Roleid,
+                    IsDelete = (int)IsDelete.No_Delete,
+                    CreateTime = DateTime.Now,
+                    EditTime = DateTime.Now,
+                    UniqueNo = unique,
+                    CreateUID = "",
+                    EditUID = "",
+                };
+                //改数据库
+                JsonModel m1 = Constant.Sys_RoleOfUserService.Add(r);
+                if (m1.errNum == 0)
+                {
+                    Constant.Sys_RoleOfUser_List.Add(r);
+                }
+            }
+            catch (Exception ex)
+            {
+                LogHelper.Error(ex);
             }
         }
 
@@ -179,18 +209,17 @@ namespace FEHandler.UserMan
                 string info = string.Empty;
                 if (roleType == RoleType.department_mange || roleType == RoleType.school_manage)
                 {
-                    reuslt = false;
                     //先把选中的 角色进行判断性的变更【若不为改类型则设置为该类型】
                     var inf = (from uni in us
                                join r_u in Constant.Sys_RoleOfUser_List on uni equals r_u.UniqueNo
                                join r in Constant.Sys_Role_List on r_u.Role_Id equals r.Id
                                join user in Constant.UserInfo_List on uni equals user.UniqueNo
                                where r.Id == (int)RoleType.department_mange || r.Id == (int)RoleType.school_manage
-                               select new MuteUser{ UserName = user.Name, RoleName = r.Name,RoleID = r.Id }).ToList();
+                               select new MuteUser { UserName = user.Name, RoleName = r.Name, RoleID = r.Id }).ToList();
+                    inf = (from i in inf where i.RoleID != Roleid select i).ToList();
                     if (inf.Count > 0)
                     {
-                        reuslt = false;
-                        inf = (from i in inf where i.RoleID != Roleid select i).ToList();
+                        reuslt = false;                       
                     }
                     var data = new { IsMutex = reuslt, inf };
                     jsonModel = JsonModel.get_jsonmodel(intSuccess, "success", data);

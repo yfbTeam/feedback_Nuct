@@ -30,6 +30,7 @@
         <td>${Name} </td>
         <td>${Sex} </td>
         <td>${MajorName}  </td>
+        <td>${SubDepartment}  </td>
     </tr>
 </script>
 
@@ -42,16 +43,8 @@
                 <span style="line-height: 35px; margin-left: 10px; display: inline-block; color: #6a264b" class="fl" id="rolenametext">学生</span>
             </div>
             <div class="fr">
-
                 <div class="fl ml10">
-                    <label for="">成员分类:</label>
-                    <select class="select" id="teacher_student" style="width: 178px">
-                        <option selected="selected" value="3">教师</option>
-                    </select>
-                </div>
-
-                <div class="fl ml10">
-                    <label for="">系(院):</label>
+                    <label for="">部门：</label>
                     <select class="select" id="college" style="width: 178px">
                         <option value="">全部</option>
                     </select>
@@ -60,7 +53,7 @@
 
                 <%--href="javascript:search();"--%>
                 <div class="fl ml10">
-                    <input type="text" name="key" id="key" placeholder="请输入关键字" value="" class="text fl">
+                    <input type="text" name="key" id="key" placeholder="请输入编号或者姓名关键字" value="" style="width: 200px" class="text fl">
                     <a class="search fl" href="javascript:search();" onclick="SelectByWhere()"><i class="iconfont">&#xe600;</i></a>
                 </div>
             </div>
@@ -75,7 +68,8 @@
                         <th style="width: 200px">教职工号</th>
                         <th style="width: 150px">用户名</th>
                         <th style="width: 150px">性别</th>
-                        <th>系(院)</th>
+                        <th>部门</th>
+                        <th>子部门</th>
                     </tr>
                 </thead>
                 <tbody id="tb_indicator">
@@ -102,13 +96,13 @@
 <script src="../Scripts/pagination/jquery.pagination.js"></script>
 <script src="../Scripts/WebCenter/AllotPeople.js"></script>
 <script>
-    
+
     var CurrentRoleid = getQueryString('CurrentRoleid');
     var CurrentRoleName = getQueryString('CurrentRoleName');
     //从子窗体筛选之后获取的数据【未处理】
     var reUserinfoAll = [];
-    
-   
+
+
     var index = parent.layer.getFrameIndex(window.name);
     //从子窗体获取相关角色已有的用户
     var reUserinfoByselect_uniques = [];
@@ -138,7 +132,7 @@
             UI_Allot.GetProfessInfo();
         };
         GetTeachers_ByRoleID();
-      
+
 
         UI_Allot.SubmitUserinfo_Compleate = function (result) {
             if (result) {
@@ -156,24 +150,24 @@
     //-----------提交信息---------------------------------------------------------------------------------------  
     function SubmitUserinfo() {
         IsMutexCompleate = function (data) {
-            if (!data.IsMutex)
-            {
+            if (!data.IsMutex) {
                 var info = '';
                 for (var i = 0; i < data.inf.length; i++) {
                     var obj = data.inf[i];
                     info += obj.UserName + "已分配在" + obj.RoleName + ";"
                 }
-               
-                console.log(info);
                 IsMutexCombine = true;
                 layer.confirm(info + '确定重新分配到' + $('#rolenametext').text() + '吗？', {
                     btn: ['确定', '取消'], //按钮
                     title: '操作'
                 }, function () { UI_Allot.SubmitUserinfo(); });
-              
-            }           
+
+            }
+            else {
+                UI_Allot.SubmitUserinfo();
+            }
         };
-        IsMutex();     
+        IsMutex();
     }
     //-----------取消---------------------------------------------------------------------------------------
     function quxiao() {

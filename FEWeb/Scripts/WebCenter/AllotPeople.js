@@ -1,4 +1,6 @@
-﻿/// <reference path="../jquery-1.8.3.min.js" />
+﻿/// <reference path="../public.js" />
+/// <reference path="../Common.js" />
+/// <reference path="../jquery-1.8.3.min.js" />
 /// <reference path="../jquery-1.11.2.min.js" />
 var IsMutexCombine = false;
 
@@ -117,7 +119,8 @@ var UI_Allot =
         $("#itemData").tmpl(bindData).appendTo("#tb_indicator");
         //$("#tb_indicator").append(strall);
         if (Enumerable.From(bindData).ToArray().length == 0) {
-            nomessage('#tb_indicator');
+           
+            nomessage('#tb_indicator','tr', 20, 425);
         }
         tableSlide();
         $('input:checkbox[name=se]').each(function () {
@@ -128,7 +131,7 @@ var UI_Allot =
                 if (check != undefined) {
                     select_uniques.remove(UniqueNo);
                     $(this).removeAttr('checked');
-                    debugger;
+                
                     var data = reUserinfoAll.filter(function (item) { return item.UniqueNo == UniqueNo });
                     if (data.length > 0) {
                         data[0].Roleid = 0;
