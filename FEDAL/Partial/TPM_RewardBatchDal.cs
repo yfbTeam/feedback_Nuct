@@ -28,7 +28,7 @@ namespace FEDAL
                     str.Append(@" ,info.Id AchieveId,isnull(aud.Id,0) AuditId,isnull(aud.Status,10)AuditStatus 
                       ,isnull((select sum(AllotMoney) from TPM_AllotReward where Audit_Id=aud.Id),0)HasAllot
                      from TPM_RewardBatch r_bat
-                     left join TPM_AcheiveRewardInfo info on r_bat.Reward_Id=info.Rid and info.IsDelete=0
+                     left join TPM_AcheiveRewardInfo info on r_bat.Reward_Id=info.Rid and isnull(info.Sort,0)=isnull(r_bat.Rank_Id,0) and info.IsDelete=0
                      left join TPM_AuditReward aud on r_bat.Id=aud.RewardBatch_Id and info.Id=aud.Acheive_Id and aud.IsDelete=0 ");
                 }
                 else //只查询基础表
@@ -43,6 +43,11 @@ namespace FEDAL
                     str.Append(" and r_bat.Reward_Id=@Reward_Id ");
                     pms.Add(new SqlParameter("@Reward_Id", ht["Reward_Id"].ToString()));
                 }
+                if (ht.ContainsKey("Rank_Id") && !string.IsNullOrEmpty(ht["Rank_Id"].SafeToString()))
+                {
+                    str.Append(" and r_bat.Rank_Id=@Rank_Id ");
+                    pms.Add(new SqlParameter("@Rank_Id", ht["Rank_Id"].ToString()));
+                }                
                 if (ht.ContainsKey("AchieveId") && !string.IsNullOrEmpty(ht["AchieveId"].SafeToString()))
                 {
                     str.Append(" and info.Id=@AchieveId ");
@@ -82,5 +87,16 @@ namespace FEDAL
             return result;
         }
         #endregion  
+
+        #region 根据关联Id删除信息
+        public int DelRewBatchByRankId(int rank_Id)
+        {
+            string str = "update TPM_RewardBatch set IsDelete=1 where Rank_Id=@Rank_Id ";
+            List<SqlParameter> op_pms = new List<SqlParameter>();
+            op_pms.Add(new SqlParameter("@Rank_Id", rank_Id));           
+            int result = SQLHelp.ExecuteNonQuery(str, CommandType.Text, op_pms.ToArray());
+            return result;
+        }
+        #endregion    
     }
 }

@@ -23,7 +23,7 @@
                 <label for="">奖项名称:</label>
                 <input type="text" class="text" name="Name" id="Name" isrequired="true" fl="奖项名称" placeholder="请输入奖项名称" />
             </div>
-            <div class="input-wrap">
+            <div class="input-wrap none" id="div_ScoreType">
                 <label for="">记分标准:</label>
                 <select class="select fl ml10" style="width: 252px" name="ScoreType" id="ScoreType" disabled="disabled" isrequired="true" fl="记分规则" onchange="ChangeUnit()">
                     <option value="1">固定分数</option>
@@ -31,14 +31,10 @@
                     <option value="3">等级递减</option>
                 </select>
             </div>
-            <div class="input-wrap">
+            <div class="input-wrap none" id="div_Score">
                 <label>奖项分数：</label><input type="number" id="Score" regtype="money" isrequired="true" fl="奖项分数" name="Score" class="text" placeholder="请输入奖项分数（允许两位小数）" min="0" step="0.01"/><span class="ml10">分</span><span id="Unit" class="none">/万字</span>
             </div>
-            <input type="hidden" name="Award" id="Award" value="0"/>            
-            <div class="input-wrap">
-                <label>排序：</label>
-                <input type="number" class="text" id="Sort" name="Sort" isrequired="true" regtype="integer" fl="排序" placeholder="请输入排序号（整数）" min="0" step="0"/>
-            </div>
+            <input type="hidden" name="Award" id="Award" value="0"/>                     
     </div>
     <div class="btnwrap">
         <input type="button" value="保存" onclick="submit()" class="btn" />
@@ -62,12 +58,13 @@
         $("#CreateUID").val(GetLoginUser().UniqueNo);
         $("#Batch_Id").val(UrlDate.batid || 0);
         $("#LID").val(UrlDate.LID);
+        if (UrlDate.stype != "3") { $('#div_ScoreType,#div_Score').show(); }
         if (UrlDate.Id != undefined && UrlDate.Id != "") {
             $("#Id").val(UrlDate.Id);
             BindData();
         } else {
             $("#ScoreType").val(UrlDate.stype);
-            ChangeUnit();
+            ChangeUnit();            
         }
     });
     function BindData() {
@@ -82,10 +79,8 @@
                         $("#Name").val(this.Name);                        
                         if (this.RewardCount > 0) {                            
                             $("#Score").attr('disabled', 'disabled');
-                        }
-                        $("#ScoreType").val(this.ScoreType);                        
+                        }                              
                         $("#Score").val(this.Score);                        
-                        $("#Sort").val(this.Sort);
                         ChangeUnit()();
                     })
                 }
@@ -105,9 +100,13 @@
     }
     //提交按钮
     function submit() {
-        //验证为空项或其他
-        var valid_flag = validateForm($('select,input[type="text"],input[type="number"]'));
-        if (valid_flag != "0")////验证失败的情况  需要表单的input控件 有 isrequired 值为true或false 和fl 值为不为空的名称两个属性
+        var valid_flag = 0;
+        if (UrlDate.stype == "3") {
+            valid_flag= validateForm($('input[type="text"]'));
+        }else{
+            valid_flag= validateForm($('input[type="text"],input[type="number"]'));
+        }        
+        if (valid_flag != 0)
         {
             return false;
         }

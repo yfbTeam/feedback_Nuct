@@ -527,9 +527,9 @@ namespace FEHandler.TeaAchManage
                     model.LID = RequestHelper.int_transfer(context.Request, "LID");                    
                     model.Score = RequestHelper.decimal_transfer(context.Request, "Score");
                     model.ScoreType = Convert.ToByte(context.Request["ScoreType"]);
-                    model.Sort = RequestHelper.int_transfer(context.Request, "Sort");
+                    model.Sort =1;
                     jsonModel = RewardInfo_bll.Add(model);
-                    if (jsonModel.errNum==0)
+                    if (jsonModel.errNum==0&&model.ScoreType!=3)
                     {
                         TPM_RewardBatch r_batch = new TPM_RewardBatch();
                         r_batch.Reward_Id = Convert.ToInt32(jsonModel.retData);
@@ -555,9 +555,7 @@ namespace FEHandler.TeaAchManage
                     }                    
                     TPM_RewardInfo model = RewardInfo_bll.GetEntityById(Id).retData as TPM_RewardInfo;                                         
                     model.Score = RequestHelper.decimal_transfer(context.Request, "Score");
-                    model.Name = context.Request["Name"];
-                    model.ScoreType = Convert.ToByte(context.Request["ScoreType"]);
-                    model.Sort = RequestHelper.int_transfer(context.Request, "Sort");
+                    model.Name = context.Request["Name"];                            
                     jsonModel = RewardInfo_bll.Update(model);                    
                 }
             }
@@ -604,6 +602,10 @@ namespace FEHandler.TeaAchManage
                     TPM_RewardBatch r_batch = new TPM_RewardBatch();
                     r_batch.Reward_Id = Reward_Id;
                     r_batch.Money = AddAward;
+                    if (!string.IsNullOrEmpty(context.Request["Rank_Id"]))
+                    {
+                        r_batch.Rank_Id = Convert.ToInt32(context.Request["Rank_Id"]);
+                    }
                     r_batch.CreateUID = RequestHelper.string_transfer(context.Request, "CreateUID");
                     jsonModel= RewardBatch_bll.Add(r_batch);
                 }

@@ -815,8 +815,7 @@ namespace FEHandler.UserMan
                 {
                     UserInfo_List_ = UserInfo_List_.Where(t => t.Major_ID == Major_ID).ToList();
                 }
-                List<Major> Major_List = Constant.Major_List;
-                //LogHelper.Info("Get_UserInfo_List:开始");
+                List<Major> Major_List = Constant.Major_List;                
                 var query = from ul in UserInfo_List_
                             join s in Constant.Teacher_List on ul.UniqueNo equals s.UniqueNo
                             select new
@@ -831,28 +830,22 @@ namespace FEHandler.UserMan
                                 Roleid = 0,
                                 RoleName = "教师",
                                 UniqueNo = ul.UniqueNo,
-                                Pwd = ul.ClearPassword,
-                                //MajorName=SysMajor.Major_Name
+                                Pwd = ul.ClearPassword,                                
                                 MajorName = "",
                                 Major_ID = ul.Major_ID,
                                 s.SubDepartmentID,
-                                s.SubDepartmentName,
-
+                                s.SubDepartmentName
                             };
 
                 var query1 = from q in query
                              join SysMajor in Major_List on q.Major_ID equals SysMajor.Id
                              into gj
                              from lf in gj.DefaultIfEmpty()
-
                              select new
                              {
                                  id = q.id,
                                  Name = (q.Name == null) ? string.Empty : q.Name,
-                                 Sex = q.Sex,
-                                 //Department_Name = (ul.Department_Name == null) ? string.Empty : ul.Department_Name,
-                                 //Major_Name = (ul.Major_Name == null) ? string.Empty : ul.Major_Name,
-                                 //College_Name = (ul.College_Name == null) ? string.Empty : ul.College_Name,
+                                 Sex = q.Sex,                                
                                  LoginName = (q.LoginName == null) ? string.Empty : q.LoginName,
                                  Phone = (q.Phone == null) ? string.Empty : q.Phone,
                                  Email = (q.Email == null) ? string.Empty : q.Email,
@@ -860,16 +853,13 @@ namespace FEHandler.UserMan
                                  Roleid = q.Roleid,
                                  RoleName = q.RoleName,
                                  UniqueNo = q.UniqueNo,
-                                 Pwd = q.Pwd,
-                                 //MajorName=SysMajor.Major_Name
+                                 Pwd = q.Pwd,                                
                                  MajorName = (lf == null ? "" : lf.Major_Name),
-                                 Major_ID = q.Major_ID
+                                 Major_ID = q.Major_ID,
+                                 q.SubDepartmentID,
+                                 q.SubDepartmentName
                              };
-
-
-
                 int count = query1.Count();
-
                 jsonModel = JsonModel.get_jsonmodel(intSuccess, "success", query1);
             }
             catch (Exception ex)

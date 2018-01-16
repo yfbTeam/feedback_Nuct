@@ -93,7 +93,7 @@
                 <div class="col-xs-6">
                     <div class="row msg_item">
                         <div class="col-xs-5 msg_label">
-                            国家级“十一五”规划教材：
+                            国家级规划教材：
                         </div>
                         <div class="col-xs-7 msg_control">
                             <span id="IsPlanBook">是</span>

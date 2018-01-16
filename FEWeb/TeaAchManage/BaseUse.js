@@ -316,7 +316,7 @@ function GetCur_WordNum() {
     $('#span_Words').html(Num_Fixed(curwords));
 }
 /********************************************************教材作者信息结束***************************************************/
-//绑定系(院)
+//绑定部门
 function GetProfessInfo(objid) {
     objid = arguments[0] || 'college';
     var $obj = $("#" + objid);
@@ -336,7 +336,7 @@ function GetProfessInfo(objid) {
             }
         },
         error: function (errMsg) {
-            layer.msg("绑定系(院)失败");
+            layer.msg("绑定部门失败");
         }
     });
 }

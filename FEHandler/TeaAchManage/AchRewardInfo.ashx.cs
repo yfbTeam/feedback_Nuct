@@ -729,10 +729,10 @@ namespace FEHandler.TeaAchManage
         #region 排名相关方法        
         private void GetRank(HttpContext context)
         {
-            Hashtable ht = new Hashtable();
-            ht.Add("TableName", "(select trank.*,(select count(1) from TPM_AcheiveRewardInfo where IsDelete=0 and sort=trank.Id) as UseCount from TMP_RewardRank trank)");
-            ht.Add("Order", "RankNum desc");
-            jsonModel = rankbll.GetPage(ht, false, " and RId=" + context.Request["RId"]);
+            Hashtable ht = new Hashtable();          
+            ht.Add("RId", context.Request["RId"]);
+            ht.Add("IsAward", context.Request["IsAward"]??"0");//是否查询奖金 0不查；1查        
+            jsonModel = rankbll.GetPage(ht, false);
         }
         private void GenerateRank(HttpContext context)
         {
@@ -760,6 +760,15 @@ namespace FEHandler.TeaAchManage
                     item.CreateUID = CreateUID;
                     item.CreateTime = DateTime.Now;
                     jsonModel = rankbll.Add(item);
+                    if (jsonModel.errNum == 0)
+                    {
+                        TPM_RewardBatch r_batch = new TPM_RewardBatch();
+                        r_batch.Reward_Id = RId;
+                        r_batch.Rank_Id = Convert.ToInt32(jsonModel.retData);
+                        r_batch.Money = 0;
+                        r_batch.CreateUID = RequestHelper.string_transfer(context.Request, "CreateUID");
+                        new TPM_RewardBatchService().Add(r_batch);
+                    }
                 }
             }
             if (!string.IsNullOrEmpty(editStr))
@@ -777,7 +786,8 @@ namespace FEHandler.TeaAchManage
                 jsonModel = JsonModel.get_jsonmodel(-1, "该排名已经被使用！", "");
                 return;
             }
-            jsonModel = rankbll.Delete(Id);
+            jsonModel = rankbll.DeleteFalse(Id);
+            new TPM_RewardBatchDal().DelRewBatchByRankId(Id);
         }
         #endregion
 
@@ -827,6 +837,7 @@ namespace FEHandler.TeaAchManage
                 ht.Add("PageSize", context.Request["PageSize"].SafeToString());
                 ht.Add("IsOnlyBase", context.Request["IsOnlyBase"]??"1");
                 ht.Add("Reward_Id", context.Request["Reward_Id"].SafeToString());
+                ht.Add("Rank_Id", context.Request["Rank_Id"].SafeToString());                
                 ht.Add("AchieveId", context.Request["AchieveId"].SafeToString());
                 ht.Add("Id", context.Request["Id"].SafeToString());
                 ht.Add("AuditStatus", context.Request["AuditStatus"].SafeToString()); 
