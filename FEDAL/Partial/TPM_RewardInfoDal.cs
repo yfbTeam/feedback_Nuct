@@ -22,7 +22,7 @@ namespace FEDAL
             {
                 StringBuilder str = new StringBuilder();
                 str.Append(@"select *,(select Money from TPM_RewardBatch where Id=R_Info.FirstId) as FirstMoney,
-                isnull((select STUFF((select '+' + CAST(Money AS NVARCHAR(MAX)) from TPM_RewardBatch where IsDelete=0 and Reward_Id=R_Info.Id and Id!=R_Info.FirstId FOR xml path('')), 1, 1, '')),0) as AddMoney
+                (select STUFF((select '+' + CAST(Money AS NVARCHAR(MAX)) from TPM_RewardBatch where IsDelete=0 and Reward_Id=R_Info.Id and Id!=R_Info.FirstId FOR xml path('')), 1, 1, '')) as AddMoney
                 ,(select count(1) from TPM_AcheiveRewardInfo where IsDelete=0 and (Status=1 or Status>2) and Rid=R_Info.Id)RewardCount
                 ,(select count(1) from TPM_AcheiveRewardInfo where IsDelete=0 and (Status=5 or Status>6) and Rid=R_Info.Id)ScoreCount
                 from
