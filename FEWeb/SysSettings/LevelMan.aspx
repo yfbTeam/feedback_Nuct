@@ -120,7 +120,7 @@
     <script id="tr_TeaResult" type="text/x-jquery-tmpl">
          {{each(i, rew) cur_RewardInfoData.retData}}  
         <div>
-            <div class="version_header clearfix">
+            <div class="version_header clearfix" style="padding-left:30px;border-top:1px solid #E3D5DC;background:#fff;">
                 <span>${rew.Name}</span>
                 <i class="iconfont fr icond">&#xe643;</i>
                 <input type="button" name="name" value="奖项排名" class="btn fr ml10" onclick="javascript:OpenIFrameWindow('奖项排名', '../TeaAchManage/RankSet.aspx?RId=${rew.Id}&Score=${rew.Score}', '500px', '550px');" />
@@ -185,6 +185,7 @@
             </td>
         </tr>
     </script>
+    
 </head>
 <body>
     <input id="LID" type="hidden" />
@@ -492,7 +493,6 @@
                     }
                 } else {
                     $(this).removeClass('active');
-                    
                     $(this).parent().find('.version_none').hide();
                     $next.hide();
                 }
@@ -538,7 +538,21 @@
                         cur_RewardInfoData=json.result;
                         $(cur_AchieveType=="2"?"#tr_TeaResult":"#tr_Reward").tmpl(cur_RewardInfoData).appendTo("#" + Leveid);                        
                     }
-                    tableSlide();                    
+                    tableSlide();
+                    $('#'+ Leveid).find('.icond').click(function(){
+                        var $next = $(this).parent().next();
+                        if($next.is(':hidden')){
+                            $(this).addClass('active');
+                            $next.show();
+                            if ($(this).parent().parent().siblings().children('.version_none').is(":visible")) {
+                                $(this).parent().parent().siblings().find('.icond').removeClass('active');
+                                $(this).parent().parent().siblings().find('.version_none').hide();
+                            }
+                        }else{
+                            $(this).removeClass('active');
+                            $next.hide();
+                        }
+                    })
                 },
                 error: function () {
                     //接口错误时需要执行的

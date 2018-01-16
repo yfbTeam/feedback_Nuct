@@ -48,7 +48,7 @@
                 </div>
                 <div class="input-wrap input_lable2">
                     <label for="" style="min-width:100px;">相关：</label>
-                    <div class="fl uploader_container">
+                    <div class="fl uploader_container" style="padding-left:110px;">
                             <div id="uploader">
                                 <div class="queueList">
                                     <div id="dndArea" class="placeholder photo_lists">
