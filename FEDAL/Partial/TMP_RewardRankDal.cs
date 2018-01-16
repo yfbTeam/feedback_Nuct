@@ -25,7 +25,7 @@ namespace FEDAL
                 if (ht["IsAward"].SafeToString() == "1")
                 {
                     str.Append(@"select *,(select Money from TPM_RewardBatch where Id=trank.FirstId) as FirstMoney,
-                isnull((select STUFF((select '+' + CAST(Money AS NVARCHAR(MAX)) from TPM_RewardBatch where IsDelete=0 and Reward_Id=trank.RId and Rank_Id=trank.Id and Id!=trank.FirstId FOR xml path('')), 1, 1, '')),0) as AddMoney
+                (select STUFF((select '+' + CAST(Money AS NVARCHAR(MAX)) from TPM_RewardBatch where IsDelete=0 and Reward_Id=trank.RId and Rank_Id=trank.Id and Id!=trank.FirstId FOR xml path('')), 1, 1, '')) as AddMoney
                 from
                 (select *,(select top 1 Id from TPM_RewardBatch where Reward_Id=info.RId and Rank_Id=info.Id and IsDelete=0 order by Id) as FirstId
                  from TMP_RewardRank info) as trank where trank.IsDelete=0 ");
