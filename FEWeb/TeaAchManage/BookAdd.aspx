@@ -96,7 +96,7 @@
                     <input type="text" name="UseObj" id="UseObj" isrequired="true" fl="使用对象" value="" class="text" />
                 </div>
                 <div class="input_lable fl">
-                    <label for="">国家级“十一五”规划教材：</label>
+                    <label for="">国家级规划教材：</label>
                     <div class="radio_wrap">
                         <input type="radio" value="1" name="IsPlanBook" id="shi" checked="checked" />
                         <label for="shi">是</label>

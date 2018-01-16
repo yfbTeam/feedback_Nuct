@@ -76,7 +76,7 @@
                     </select>
                 </div> 
                 <div class="fl ml20">
-                    <label for="">国家级“十一五”规划教材:</label>
+                    <label for="">国家级规划教材:</label>
                     <select class="select" id="IsPlanBook" onchange="Book(1,10);" style="width: 198px;">
                         <option value="">全部</option>
                         <option value="1">是</option>
@@ -97,7 +97,7 @@
                             <th>分册情况</th>
                             <th>主编</th>
                             <th>教材类型</th>
-                            <th>国家级“十一五”规划教材</th>
+                            <th>国家级规划教材</th>
                             <th>版次</th>
                             <th>出版时间</th>
                             <th>操作</th>
