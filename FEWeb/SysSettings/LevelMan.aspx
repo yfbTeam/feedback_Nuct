@@ -157,7 +157,7 @@
                 <table>
                     <thead>
                         <tr>
-                            <th>排名</th>
+                            <th style="text-align:left;text-indent:30px;">排名</th>
                             <th>分数（分）</th>
                             <th>奖金（万元）</th>
                             <th>追加（万元）</th>
@@ -185,7 +185,6 @@
             </td>
         </tr>
     </script>
-    
 </head>
 <body>
     <input id="LID" type="hidden" />
