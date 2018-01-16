@@ -16,6 +16,7 @@
         <td>${Name}</td>
         <td>${Sex}</td>
         <td>${MajorName}</td>
+        <td>${SubDepartmentName}</td>
     </tr>
 </script>
 <body>
@@ -23,12 +24,12 @@
         <div class="search_toobar clearfix">            
             <div class="fr">
                 <div class="fl ml10">
-                    <label for="">系(院):</label>
+                    <label for="">部门:</label>
                     <select class="select" id="college" onchange="BindTeacher();" style="width: 178px"></select>
                 </div>
                 <div class="fl ml10">
-                    <input type="text" name="key" id="key" placeholder="请输入姓名" value="" class="text fl">
-                    <a class="search fl" href="javascript:search();" onclick="BindTeacher();"><i class="iconfont">&#xe600;</i></a>
+                    <input type="text" name="key" id="key" placeholder="请输入姓名或教职工号" value="" class="text fl" style="width:150px;">
+                    <a class="search fl" onclick="BindTeacher();"><i class="iconfont">&#xe600;</i></a>
                 </div>
             </div>
         </div>
@@ -37,10 +38,11 @@
                 <thead>
                     <tr>
                         <th width="4%"><input type="checkbox" id="ck_head"/></th>
-                        <th width="24%">学号/教工编号</th>
-                        <th width="24%">用户名</th>
-                        <th width="24%">性别</th>
-                        <th width="24%">系(院)</th>
+                        <th width="19%">教职工号</th>
+                        <th width="19%">姓名</th>
+                        <th width="19%">性别</th>
+                        <th width="19%">部门</th>
+                        <th width="19%">子部门</th>
                     </tr>
                 </thead>
                 <tbody id="tb_indicator"></tbody>
@@ -113,7 +115,7 @@
         }
         var sw = $("#key").val();
         if (sw != "") {
-            curlist = Enumerable.From(curlist).Where("x=>x.Name.indexOf('" + sw + "')!=-1").ToArray();
+            curlist = Enumerable.From(curlist).Where("x=>x.Name.indexOf('" + sw + "')!=-1||x.UniqueNo.indexOf('" + sw + "')!=-1").ToArray();
         }        
         $("#itemData").tmpl(curlist).appendTo("#tb_indicator");       
         if (curlist.length == 0) {
