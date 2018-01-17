@@ -201,8 +201,9 @@
     <div class="btnwrap" style="background: #fafafa; padding: 15px 0px;">
         <input type="button" value="保存" onclick="Save(0);" class="btn" style="display:none;" id="Save" />
         <input type="button" value="提交" class="btn ml10" onclick="Save(1);" id="Submit" />
-        <input type="button" value="打印" class="btna ml10"/>
+        <input type="button" value="打印" class="btna ml10" onclick="Book_Print();"/>
     </div>
+    <div style="display:none;"><div id="div_PrintArea"></div></div>
     <script src="../Scripts/Common.js"></script>
     <script src="../Scripts/layer/layer.js"></script>
     <script src="../Scripts/public.js"></script>
@@ -213,6 +214,8 @@
     <script src="../Scripts/jquery.tmpl.js"></script>
     <script src="../Scripts/Webuploader/dist/webuploader.js"></script>
     <link href="../Scripts/Webuploader/css/webuploader.css" rel="stylesheet" />
+    <script src="../Scripts/print/jquery.jqprint.js"></script>
+    <script src="../Scripts/print/jquery-migrate-1.2.1.min.js"></script>
     <script src="./upload_batchfile.js"></script>
     <script src="BaseUse.js"></script>
     <script>

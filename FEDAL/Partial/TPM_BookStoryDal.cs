@@ -23,7 +23,8 @@ namespace FEDAL
                 {
                     StringBuilder str = new StringBuilder();
                     str.Append(@"select a.*,u.Name  as EditName,maj.Major_Name as MEditorDepart_Name 
-                                ,(select count(1) from TPM_AcheiveRewardInfo where IsDelete=0 and Status>=3 and BookId=a.Id)PrizeCount ");
+                                ,(select count(1) from TPM_AcheiveRewardInfo where IsDelete=0 and Status>=3 and BookId=a.Id)PrizeCount
+                                ,isnull((select sum(WordNum) from TPM_RewardUserInfo where IsDelete=0 and BookId=a.Id),0) as AllWords");
                     int StartIndex = 0;
                     int EndIndex = 0;
                     if (ht.ContainsKey("LoginMajor_ID") && !string.IsNullOrEmpty(ht["LoginMajor_ID"].SafeToString()))
