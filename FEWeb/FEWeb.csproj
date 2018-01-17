@@ -199,6 +199,8 @@
     <Content Include="Scripts\pinying\pinyin_dict_notone.js" />
     <Content Include="Scripts\pinying\pinyin_dict_polyphone.js" />
     <Content Include="Scripts\pinying\pinyin_dict_withtone.js" />
+    <Content Include="Scripts\print\jquery-migrate-1.2.1.min.js" />
+    <Content Include="Scripts\print\jquery.jqprint.js" />
     <Content Include="Scripts\WebCenter\AllotPeople.js" />
     <Content Include="Scripts\WebCenter\AllotTable.js" />
     <Content Include="Scripts\WebCenter\AllotTask.js" />
