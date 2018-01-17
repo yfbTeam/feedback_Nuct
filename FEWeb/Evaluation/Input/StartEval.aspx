@@ -18,7 +18,7 @@
         .select_expertdiv {
             height: 322px;
             overflow: auto;
-            width:100%;
+            width: 100%;
         }
     </style>
 </head>
@@ -91,14 +91,14 @@
         var select_course_teacher = [];
         var select_reguid = parent.select_reguid;
         var IsAllSchool = parent.IsAllSchool;
-        
-        
+
+
         $(function () {
-          
+
             selectExpertUID = login_User.UniqueNo;
             selectExpertName = login_User.LoginName;
 
-          
+
             $('#DepartMent').on('change', function () {
                 Teachers_Reflesh();
             });
@@ -106,17 +106,21 @@
             PageType = 'StartEval';
             PrepareInit();//初始化
             //GetUserByType('16,17');//获取专家     
-          
 
-            Base.BindDepartCompleate = function () {
-                if (IsAllSchool == 1)
-                {
+            if (IsAllSchool == 1) {
+                Base.BindDepartCompleate = function () {
                     $("#DepartMent").val(Number(login_User.Major_ID));
-                }
-              
-                GetTeacherInfo_Course_Cls();//获取教师
-            };
-            Base.BindDepart('248px', false, login_User.Major_ID);
+                    GetTeacherInfo_Course_Cls();//获取教师
+                };
+                Base.BindDepart('248px', false, login_User.Major_ID);               
+            }
+            else
+            {
+                Base.BindDepartCompleate = function () {
+                    GetTeacherInfo_Course_Cls();//获取教师
+                };
+                Base.BindDepart('248px', false, '');
+            }
         })
 
         function search() {

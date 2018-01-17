@@ -47,7 +47,7 @@ namespace FEHandler.UserMan
                     case "IsMutex": IsMutex(context); break;
 
                     case "GetTeachers": GetTeachers(context); break;
-                    case "GetTeachers_ByRoleID": GetTeachers_ByRoleID(context); break;
+                    case "GetTeachers_New": GetTeachers_New(context); break;
 
                     case "GetStudents": GetStudents(context); break;
                     case "GetStudentsSelect": GetStudentsSelect(context); break;
@@ -103,14 +103,11 @@ namespace FEHandler.UserMan
                         Sys_RoleOfUser Sys_RoleOfUser = Constant.Sys_RoleOfUser_List.FirstOrDefault(r => r.UniqueNo == unique);
                         if (Sys_RoleOfUser != null)
                         {
-                            Sys_RoleOfUser Sys_RoleOfUser_Clone = Constant.Clone(Sys_RoleOfUser);
-                            Sys_RoleOfUser_Clone.Role_Id = Roleid;
-                            //改数据库
-                            JsonModel m1 = Constant.Sys_RoleOfUserService.Update(Sys_RoleOfUser_Clone);
-                            if (m1.errNum == 0)
-                            {
-                                Sys_RoleOfUser.Role_Id = Roleid;
-                            }
+                            RoleUserUpdate(Roleid, Sys_RoleOfUser);
+                        }
+                        else
+                        {
+                            RoleUserAdd(Roleid, unique);
                         }
                     }
                 }
@@ -123,31 +120,18 @@ namespace FEHandler.UserMan
                         int count = Constant.Sys_RoleOfUser_List.Count(r => r.UniqueNo == unique && r.Role_Id == Roleid);
                         if (count == 0)
                         {
-                            Sys_RoleOfUser r = new Sys_RoleOfUser()
-                            {
-                                Role_Id = Roleid,
-                                IsDelete = (int)IsDelete.No_Delete,
-                                CreateTime = DateTime.Now,
-                                EditTime = DateTime.Now,
-                                UniqueNo = unique,
-                                CreateUID = "",
-                                EditUID = "",
-                            };
-                            //改数据库
-                            JsonModel m1 = Constant.Sys_RoleOfUserService.Add(r);
-                            if (m1.errNum == 0)
-                            {
-                                Constant.Sys_RoleOfUser_List.Add(r);
-                            }
+                            RoleUserAdd(Roleid, unique);
                         }
                     }
                 }
-
-
                 string[] deleteDatas = (from r in Constant.Sys_RoleOfUser_List where !us.Contains(r.UniqueNo) && r.Role_Id == Roleid select Convert.ToString(r.Id)).ToArray();
                 if (deleteDatas.Count() > 0)
                 {
-                    Constant.Sys_RoleOfUserService.DeleteBatch(deleteDatas);
+                    var jsm = Constant.Sys_RoleOfUserService.DeleteBatch(deleteDatas);
+                    if (jsm.errNum == 0)
+                    {
+                        Constant.Sys_RoleOfUser_List.RemoveAll(r => deleteDatas.Contains(Convert.ToString(r.Id)));
+                    }
                 }
                 jsonModel = JsonModel.get_jsonmodel(intSuccess, "success", "0");
 
@@ -160,6 +144,52 @@ namespace FEHandler.UserMan
             {
                 //无论后端出现什么问题，都要给前端有个通知【为防止jsonModel 为空 ,全局字段 jsonModel 特意声明之后进行初始化】
                 context.Response.Write("{\"result\":" + Constant.jss.Serialize(jsonModel) + "}");
+            }
+        }
+
+        private static void RoleUserUpdate(int Roleid, Sys_RoleOfUser Sys_RoleOfUser)
+        {
+            try
+            {
+                Sys_RoleOfUser Sys_RoleOfUser_Clone = Constant.Clone(Sys_RoleOfUser);
+                Sys_RoleOfUser_Clone.Role_Id = Roleid;
+                //改数据库
+                JsonModel m1 = Constant.Sys_RoleOfUserService.Update(Sys_RoleOfUser_Clone);
+                if (m1.errNum == 0)
+                {
+                    Sys_RoleOfUser.Role_Id = Roleid;
+                }
+            }
+            catch (Exception ex)
+            {
+                LogHelper.Error(ex);
+            }
+        }
+
+        private static void RoleUserAdd(int Roleid, string unique)
+        {
+            try
+            {
+                Sys_RoleOfUser r = new Sys_RoleOfUser()
+                {
+                    Role_Id = Roleid,
+                    IsDelete = (int)IsDelete.No_Delete,
+                    CreateTime = DateTime.Now,
+                    EditTime = DateTime.Now,
+                    UniqueNo = unique,
+                    CreateUID = "",
+                    EditUID = "",
+                };
+                //改数据库
+                JsonModel m1 = Constant.Sys_RoleOfUserService.Add(r);
+                if (m1.errNum == 0)
+                {
+                    Constant.Sys_RoleOfUser_List.Add(r);
+                }
+            }
+            catch (Exception ex)
+            {
+                LogHelper.Error(ex);
             }
         }
 
@@ -179,18 +209,17 @@ namespace FEHandler.UserMan
                 string info = string.Empty;
                 if (roleType == RoleType.department_mange || roleType == RoleType.school_manage)
                 {
-                    reuslt = false;
                     //先把选中的 角色进行判断性的变更【若不为改类型则设置为该类型】
                     var inf = (from uni in us
                                join r_u in Constant.Sys_RoleOfUser_List on uni equals r_u.UniqueNo
                                join r in Constant.Sys_Role_List on r_u.Role_Id equals r.Id
                                join user in Constant.UserInfo_List on uni equals user.UniqueNo
                                where r.Id == (int)RoleType.department_mange || r.Id == (int)RoleType.school_manage
-                               select new MuteUser{ UserName = user.Name, RoleName = r.Name,RoleID = r.Id }).ToList();
+                               select new MuteUser { UserName = user.Name, RoleName = r.Name, RoleID = r.Id }).ToList();
+                    inf = (from i in inf where i.RoleID != Roleid select i).ToList();
                     if (inf.Count > 0)
                     {
                         reuslt = false;
-                        inf = (from i in inf where i.RoleID != Roleid select i).ToList();
                     }
                     var data = new { IsMutex = reuslt, inf };
                     jsonModel = JsonModel.get_jsonmodel(intSuccess, "success", data);
@@ -786,7 +815,7 @@ namespace FEHandler.UserMan
                 {
                     UserInfo_List_ = UserInfo_List_.Where(t => t.Major_ID == Major_ID).ToList();
                 }
-                List<Major> Major_List = Constant.Major_List;                
+                List<Major> Major_List = Constant.Major_List;
                 var query = from ul in UserInfo_List_
                             join s in Constant.Teacher_List on ul.UniqueNo equals s.UniqueNo
                             select new
@@ -801,7 +830,7 @@ namespace FEHandler.UserMan
                                 Roleid = 0,
                                 RoleName = "教师",
                                 UniqueNo = ul.UniqueNo,
-                                Pwd = ul.ClearPassword,                                
+                                Pwd = ul.ClearPassword,
                                 MajorName = "",
                                 Major_ID = ul.Major_ID,
                                 s.SubDepartmentID,
@@ -816,7 +845,7 @@ namespace FEHandler.UserMan
                              {
                                  id = q.id,
                                  Name = (q.Name == null) ? string.Empty : q.Name,
-                                 Sex = q.Sex,                                
+                                 Sex = q.Sex,
                                  LoginName = (q.LoginName == null) ? string.Empty : q.LoginName,
                                  Phone = (q.Phone == null) ? string.Empty : q.Phone,
                                  Email = (q.Email == null) ? string.Empty : q.Email,
@@ -824,7 +853,7 @@ namespace FEHandler.UserMan
                                  Roleid = q.Roleid,
                                  RoleName = q.RoleName,
                                  UniqueNo = q.UniqueNo,
-                                 Pwd = q.Pwd,                                
+                                 Pwd = q.Pwd,
                                  MajorName = (lf == null ? "" : lf.Major_Name),
                                  Major_ID = q.Major_ID,
                                  q.SubDepartmentID,
@@ -844,79 +873,34 @@ namespace FEHandler.UserMan
             }
         }
 
-        public void GetTeachers_ByRoleID(HttpContext context)
+        public void GetTeachers_New(HttpContext context)
         {
             int intSuccess = (int)errNum.Success;
             try
             {
-                HttpRequest Request = context.Request;
-                string Major_ID = RequestHelper.string_transfer(context.Request, "Major_ID");
-                int RoleID = RequestHelper.int_transfer(context.Request, "RoleID");
-
+                HttpRequest Request = context.Request;               
                 //返回所有用户信息
                 List<UserInfo> UserInfo_List_ = Constant.UserInfo_List;
-                List<Major> Major_List = Constant.Major_List;
-                if (!string.IsNullOrEmpty(Major_ID))
-                {
-                    UserInfo_List_ = UserInfo_List_.Where(t => t.Major_ID == Major_ID).ToList();
-                }
-
-                var query = from ul in UserInfo_List_
-                            join s in Constant.Teacher_List on ul.UniqueNo equals s.UniqueNo
-                            join sr in Constant.Sys_RoleOfUser_List on new { s.UniqueNo, RoleID = RoleID } equals new { sr.UniqueNo, RoleID = (int)sr.Role_Id } into srs
-                            from sr_ in srs.DefaultIfEmpty()
+                var query = from tea in Constant.Teacher_List
+                          
                             select new
                             {
-                                id = ul.Id,
-                                Name = (ul.Name == null) ? string.Empty : ul.Name,
-                                Sex = GetSex(Convert.ToString(ul.Sex)),
+                                Name = (tea.Name == null) ? string.Empty : tea.Name,
+                                Sex = GetSex(Convert.ToString(tea.Sex)),
+                                Roleid = (int)RoleType.teacher,
+                                UniqueNo = tea.UniqueNo,
+                                MajorName = tea.Major_Name,
+                                Major_ID = tea.Major_ID,
+                                SubDepartmentID = tea.SubDepartmentID,
+                                SubDepartmentName = tea.SubDepartmentName,
 
-                                LoginName = (ul.LoginName == null) ? string.Empty : ul.LoginName,
-                                Phone = (ul.Phone == null) ? string.Empty : ul.Phone,
-                                Email = (ul.Email == null) ? string.Empty : ul.Email,
-                                UserType = ul.UserType,
-                                Roleid = sr_ != null ? sr_.Role_Id : 0,
-                                RoleName = "教师",
-                                UniqueNo = ul.UniqueNo,
-                                Pwd = ul.ClearPassword,
-                                MajorName = "",
-                                Major_ID = ul.Major_ID,
-                                s.SubDepartmentID,
-                                s.SubDepartmentName,
-
+                                TeachDate = tea.TeachDate,
+                                Birthday = tea.Birthday,
+                                Status = tea.Status,
                             };
 
-                var query1 = from q in query
-                             join SysMajor in Major_List on q.Major_ID equals SysMajor.Id
-                             into gj
-                             from lf in gj.DefaultIfEmpty()
-
-                             select new
-                             {
-                                 id = q.id,
-                                 Name = (q.Name == null) ? string.Empty : q.Name,
-                                 Sex = q.Sex,
-                                 //Department_Name = (ul.Department_Name == null) ? string.Empty : ul.Department_Name,
-                                 //Major_Name = (ul.Major_Name == null) ? string.Empty : ul.Major_Name,
-                                 //College_Name = (ul.College_Name == null) ? string.Empty : ul.College_Name,
-                                 LoginName = (q.LoginName == null) ? string.Empty : q.LoginName,
-                                 Phone = (q.Phone == null) ? string.Empty : q.Phone,
-                                 Email = (q.Email == null) ? string.Empty : q.Email,
-                                 UserType = q.UserType,
-                                 Roleid = q.Roleid,
-                                 RoleName = q.RoleName,
-                                 UniqueNo = q.UniqueNo,
-                                 Pwd = q.Pwd,
-                                 //MajorName=SysMajor.Major_Name
-                                 MajorName = (lf == null ? "" : lf.Major_Name),
-                                 Major_ID = q.Major_ID
-                             };
-
-
-
-                int count = query1.Count();
-
-                jsonModel = JsonModel.get_jsonmodel(intSuccess, "success", query1);
+                int count = query.Count();
+                jsonModel = JsonModel.get_jsonmodel(intSuccess, "success", query);
             }
             catch (Exception ex)
             {

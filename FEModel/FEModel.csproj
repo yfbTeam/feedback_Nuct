@@ -83,6 +83,7 @@
     <Compile Include="Enum\IsPublish.cs" />
     <Compile Include="Enum\IsScore.cs" />
     <Compile Include="Enum\LookType.cs" />
+    <Compile Include="Enum\ModelType.cs" />
     <Compile Include="Enum\ModeType.cs" />
     <Compile Include="Enum\QueState.cs" />
     <Compile Include="Enum\Question_Type.cs" />

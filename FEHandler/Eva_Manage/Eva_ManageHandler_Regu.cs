@@ -709,14 +709,14 @@ namespace FEHandler.Eva_Manage
             int ReguId = RequestHelper.int_transfer(Request, "ReguId");
             string Key = RequestHelper.string_transfer(Request, "Key");
             string SelectUID = RequestHelper.string_transfer(Request, "SelectUID");
-
             string Te = RequestHelper.string_transfer(Request, "Te");
+            int ModelType = RequestHelper.int_transfer(Request, "ModelType"); 
 
             int PageIndex = RequestHelper.int_transfer(Request, "PageIndex");
             int PageSize = RequestHelper.int_transfer(Request, "PageSize");
             try
             {
-                jsonModel = Get_Eva_RegularData_Helper(PageIndex, PageSize, SectionID, ReguId, Key, SelectUID, Te);
+                jsonModel = Get_Eva_RegularData_Helper(PageIndex, PageSize, SectionID, ReguId, Key, SelectUID, Te, (ModelType)ModelType);
             }
             catch (Exception ex)
             {
@@ -729,12 +729,13 @@ namespace FEHandler.Eva_Manage
             }
         }
 
-        public static JsonModel Get_Eva_RegularData_Helper(int PageIndex, int PageSize, int SectionID, int ReguId, string Key, string SelectUID, string Te)
+        public static JsonModel Get_Eva_RegularData_Helper(int PageIndex, int PageSize, int SectionID, int ReguId, string Key, string SelectUID, string Te, ModelType ModelType)
         {
             int intSuccess = (int)errNum.Success;
             JsonModelNum jsm = new JsonModelNum();
             try
             {
+                //获取数据【分校管理员和院系管理员】
                 List<RegularDataModel> list = (from exp in Constant.Expert_Teacher_Course_List
                                                join teacher in Constant.Teacher_List on exp.TeacherUID equals teacher.UniqueNo
                                                join regu in Constant.Eva_Regular_List on exp.ReguId equals Convert.ToString(regu.Id)
@@ -762,6 +763,27 @@ namespace FEHandler.Eva_Manage
                                                    SectionID = section.Id,
                                                }).ToList();
 
+
+                switch (ModelType)
+                {
+                    case ModelType.common:
+                        break;
+                    case ModelType.department:
+                        list = (from li in list
+                                join r in Constant.Sys_RoleOfUser_List on li.ExpertUID equals r.UniqueNo
+                                where r.Role_Id == (int)RoleType.department_mange
+                                select li).ToList();
+                                    
+                        break;
+                    case ModelType.school:
+                        list = (from li in list
+                                join r in Constant.Sys_RoleOfUser_List on li.ExpertUID equals r.UniqueNo
+                                where r.Role_Id == (int)RoleType.school_manage
+                                select li).ToList();
+                        break;
+                    default:
+                        break;
+                }
 
                 if (SectionID > 0)
                 {

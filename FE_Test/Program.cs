@@ -1,4 +1,5 @@
-﻿using FEHandler;
+﻿using ConferenceCommon.ProcessHelper;
+using FEHandler;
 using FEHandler.Eva_Manage;
 using FEHandler.SysClass;
 using FEModel;
@@ -27,8 +28,11 @@ namespace FE_Test
 
             //Eva_ManageHandler.Get_Backlog_Helper("12101020111");
 
-            Eva_ManageHandler.Get_Eva_RegularHelper(1, 2);
-            Eva_ManageHandler.Get_Eva_RegularData_RoomDetailList_Helper(1, 25, 2209, "001265", "7121001", 2, 1);
+            //Eva_ManageHandler.Get_Eva_RegularHelper(1, 2);
+            //Eva_ManageHandler.Get_Eva_RegularData_RoomDetailList_Helper(1, 25, 2209, "001265", "7121001", 2, 1);
+
+
+            ProcessManage.KillProcess("w3wp");
         }
 
 

@@ -225,7 +225,7 @@
         TeacherUID = getQueryString('TeacherUID');
         Eva_Role = 2;
         State = 1;
-        var pageIndex = 0;
+        //var pageIndex = 0;
         $(function () {
             $('#top').load('/header.html');
             $('#footer').load('/footer.html');
@@ -299,7 +299,8 @@
                 if ($next.prop('clientHeight') == 1) {
 
                     var TableDetailID = $(this).attr('TableDetailID');
-                    Get_Eva_RoomDetailAnswerList(pageIndex, TableDetailID);
+                   
+                    Get_Eva_RoomDetailAnswerList(0, TableDetailID);
                 }
 
             })

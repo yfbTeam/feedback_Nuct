@@ -1,4 +1,6 @@
-﻿/// <reference path="../jquery-1.8.3.min.js" />
+﻿/// <reference path="../public.js" />
+/// <reference path="../Common.js" />
+/// <reference path="../jquery-1.8.3.min.js" />
 /// <reference path="../jquery-1.11.2.min.js" />
 var IsMutexCombine = false;
 
@@ -59,8 +61,8 @@ var UI_Allot =
         }
 
         var sw = $("#key").val();
-        if (sw != "") {
-            reUserinfoByselect = Enumerable.From(reUserinfoByselect).Where("x=>x.Roleid=='" + roleid + "'&&x.Name.indexOf('" + sw + "')!=-1").ToArray();
+        if (sw != "") {          
+            reUserinfoByselect = reUserinfoByselect.filter(function (item) { return item.Name.indexOf(sw) > -1 || item.UniqueNo.indexOf(sw) > -1 });
         }
         else {
             //reUserinfoByselect = Enumerable.From(reUserinfoByselect).ToArray();
@@ -117,7 +119,8 @@ var UI_Allot =
         $("#itemData").tmpl(bindData).appendTo("#tb_indicator");
         //$("#tb_indicator").append(strall);
         if (Enumerable.From(bindData).ToArray().length == 0) {
-            nomessage('#tb_indicator');
+
+            nomessage('#tb_indicator', 'tr', 20, 425);
         }
         tableSlide();
         $('input:checkbox[name=se]').each(function () {
@@ -128,7 +131,7 @@ var UI_Allot =
                 if (check != undefined) {
                     select_uniques.remove(UniqueNo);
                     $(this).removeAttr('checked');
-                    debugger;
+
                     var data = reUserinfoAll.filter(function (item) { return item.UniqueNo == UniqueNo });
                     if (data.length > 0) {
                         data[0].Roleid = 0;
@@ -209,10 +212,10 @@ Array.prototype.remove = function (val) {
     }
 };
 
-function GetTeachers_ByRoleIDCompleate() { };
-function GetTeachers_ByRoleID() {
+function GetTeachers_NewCompleate() { };
+function GetTeachers_New() {
 
-    var postData = { func: "GetTeachers_ByRoleID", "RoleID": CurrentRoleid };
+    var postData = { func: "GetTeachers_New", "RoleID": CurrentRoleid };
     $.ajax({
         type: "Post",
         url: HanderServiceUrl + "/UserMan/UserManHandler.ashx",
@@ -221,7 +224,7 @@ function GetTeachers_ByRoleID() {
         success: function (returnVal) {
             if (returnVal.result.errMsg == "success") {
                 reUserinfoAll = returnVal.result.retData;
-
+                console.log(reUserinfoAll)
                 for (var i in reUserinfoAll) {
                     var info = reUserinfoAll[i];
                     if (info.Roleid == CurrentRoleid) {
@@ -229,7 +232,7 @@ function GetTeachers_ByRoleID() {
                     }
                 }
 
-                GetTeachers_ByRoleIDCompleate();
+                GetTeachers_NewCompleate();
             }
         },
         error: function (errMsg) {

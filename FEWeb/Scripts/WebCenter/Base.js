@@ -41,11 +41,22 @@ var Base = {
 
                     if (nochonse == false) {
                         $("#DepartMent").empty();
-                        $(json.result.retData).each(function () {
-                            if (this.Id == majorId) {
+
+                        if (majorId == '') {
+                            $("#DepartMent").append('<option value="0">全部</option>');
+                            $(json.result.retData).each(function () {
                                 $("#DepartMent").append('<option value="' + this.Id + '">' + this.Major_Name + '</option>');
-                            }
-                        });
+                            });
+                        }
+                        else {
+                            $(json.result.retData).each(function () {
+                                if (this.Id == majorId) {
+                                    $("#DepartMent").append('<option value="' + this.Id + '">' + this.Major_Name + '</option>');
+                                }
+                            });
+                        }
+
+
                     } else {
                         $(json.result.retData).each(function () {
                             $("#DepartMent").append('<option value="' + this.Id + '">' + this.Major_Name + '</option>');
