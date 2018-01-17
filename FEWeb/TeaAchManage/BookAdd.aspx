@@ -201,6 +201,7 @@
     <div class="btnwrap" style="background: #fafafa; padding: 15px 0px;">
         <input type="button" value="保存" onclick="Save(0);" class="btn" style="display:none;" id="Save" />
         <input type="button" value="提交" class="btn ml10" onclick="Save(1);" id="Submit" />
+        <input type="button" value="打印" class="btna ml10"/>
     </div>
     <script src="../Scripts/Common.js"></script>
     <script src="../Scripts/layer/layer.js"></script>
