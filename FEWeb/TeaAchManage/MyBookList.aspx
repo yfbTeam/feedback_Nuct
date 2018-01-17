@@ -27,6 +27,10 @@
             <td>{{if BookType==2}}${EditionNo}{{/if}}</td>
             <td>{{if BookType==2}}${DateTimeConvert(PublisthTime,"yyyy-MM")}{{/if}}</td>
             <td class="operate_wrap">
+                <div class="operate">
+                    <i class="iconfont color_purple">&#xe6a5;</i>
+                    <span class="operate_none bg_purple">打印</span>
+                </div>
                 <div class="operate" onclick="OpenIFrameWindow('教材查看','CheckFail.aspx?Id=${Id}&Type=Look','750px','80%');">
                     <i class="iconfont color_purple">&#xe60b;</i>
                     <span class="operate_none bg_purple">查看</span>
@@ -52,7 +56,82 @@
                 {{/if}}                                          
             </td>
         </tr>
-    </script>  
+    </script>
+    <script type="text/x-jquery-tmpl" id="print_Module">
+        <h1 style="line-height:50pt;text-align:center;font-size:22pt;font-family: 宋体; font-weight: bold;">北方工业大学</h1>
+        <table border="1" cellspacing="0" cellpadding="0" style="width:100%;">
+            <tr>
+                <td align="center" valign="middle" style="padding: 8pt; font-family: 宋体; font-size: 12pt; font-weight: bold;width:15%">书    名</td>
+                <td colspan="5" align="center" valign="middle" style="padding: 8pt; font-family: 宋体; font-size: 12pt; font-weight: bold;"></td>
+            </tr>
+            <tr>
+                <td align="center" valign="middle" style="padding: 8pt; font-family: 宋体; font-size: 12pt; font-weight: bold;width:15%">ISBN</td>
+                <td colspan="3" align="center" valign="middle" style="padding: 8pt; font-family: 宋体; font-size: 12pt; font-weight: bold;"></td>
+                <td align="center" valign="middle" style="padding: 8pt; font-family: 宋体; font-size: 12pt; font-weight: bold;width:15%">分册情况</td>
+                <td align="center" valign="middle" style="padding: 8pt; font-family: 宋体; font-size: 12pt; font-weight: bold;"></td>
+            </tr>
+            <tr>
+                <td align="center" valign="middle" style="padding: 8pt; font-family: 宋体; font-size: 12pt; font-weight: bold;width:15%">主编姓名</td>
+                <td align="center" valign="middle" style="padding: 8pt; font-family: 宋体; font-size: 12pt; font-weight: bold;"></td>
+                <td align="center" valign="middle" style="padding: 8pt; font-family: 宋体; font-size: 12pt; font-weight: bold;width:15%">主编单位</td>
+                <td align="center" valign="middle" colspan="3" style="padding: 8pt; font-family: 宋体; font-size: 12pt; font-weight: bold;"></td>
+            </tr>
+            <tr>
+                <td align="center" valign="middle" style="padding: 8pt; font-family: 宋体; font-size: 12pt; font-weight: bold;width:15%">是否独著</td>
+                <td align="center" valign="middle" style="padding: 8pt; font-family: 宋体; font-size: 12pt; font-weight: bold;"></td>
+                <td align="center" valign="middle" style="padding: 8pt; font-family: 宋体; font-size: 12pt; font-weight: bold;width:15%">使用对象</td>
+                <td align="center" valign="middle" style="padding: 8pt; font-family: 宋体; font-size: 12pt; font-weight: bold;"></td>
+                <td align="center" valign="middle" style="padding: 8pt; font-family: 宋体; font-size: 12pt; font-weight: bold;width:15%">字    数</td>
+                <td align="center" valign="middle" style="padding: 8pt; font-family: 宋体; font-size: 12pt; font-weight: bold;"></td>
+            </tr>
+            <tr>
+                <td align="center" valign="middle" style="padding: 8pt; font-family: 宋体; font-size: 12pt; font-weight: bold;">出 版 社</td>
+                <td align="center" valign="middle" colspan="3" style="padding: 8pt; font-family: 宋体; font-size: 12pt; font-weight: bold;">></td>
+                <td align="center" valign="middle" style="padding: 8pt; font-family: 宋体; font-size: 12pt; font-weight: bold;">出版时间</td>
+                <td align="center" valign="middle" style="padding: 8pt; font-family: 宋体; font-size: 12pt; font-weight: bold;"></td>
+            </tr>
+            <tr>
+                <td align="center" valign="middle" colspan="3" style="padding: 8pt; font-family: 宋体; font-size: 12pt; font-weight: bold;width:15%">国家级规划教材</td>
+                <td align="center" valign="middle" style="padding: 8pt; font-family: 宋体; font-size: 12pt; font-weight: bold;"></td>
+                <td align="center" valign="middle" style="padding: 8pt; font-family: 宋体; font-size: 12pt; font-weight: bold;width:15%">版    次</td>
+                <td align="center" valign="middle" style="padding: 8pt; font-family: 宋体; font-size: 12pt; font-weight: bold;"></td>
+            </tr>
+            <tr>
+                <td colspan="6" align="center" valign="middle" style="padding: 8pt; font-family: 宋体; font-size: 12pt; font-weight: bold;">丛书信息</td>
+            </tr>
+            <tr>
+                <td  align="center" valign="middle" style="padding: 8pt; font-family: 宋体; font-size: 12pt; font-weight: bold;width:15%">丛书名称</td>
+                <td colspan="5" align="center" valign="middle" style="padding: 8pt; font-family: 宋体; font-size: 12pt; font-weight: bold;"></td>
+            </tr>
+            <tr>
+                <td align="center" valign="middle" style="padding: 8pt; font-family: 宋体; font-size: 12pt; font-weight: bold;">代表ISBN</td>
+                <td align="center" valign="middle" colspan="3" style="padding: 8pt; font-family: 宋体; font-size: 12pt; font-weight: bold;">></td>
+                <td align="center" valign="middle" style="padding: 8pt; font-family: 宋体; font-size: 12pt; font-weight: bold;">本丛书本数</td>
+                <td align="center" valign="middle" style="padding: 8pt; font-family: 宋体; font-size: 12pt; font-weight: bold;"></td>
+            </tr>
+            <tr>
+                <td colspan="6" align="center" valign="middle" style="padding: 8pt; font-family: 宋体; font-size: 12pt; font-weight: bold;">作者信息</td>
+            </tr>
+            <tr>
+                <td align="center" valign="middle" style="padding: 8pt; font-family: 宋体; font-size: 12pt; font-weight: bold;width:15%">姓    名</td>
+                <td align="center" valign="middle" style="padding: 8pt; font-family: 宋体; font-size: 12pt; font-weight: bold;width:15%">作者类型</td>
+                <td align="center" valign="middle" style="padding: 8pt; font-family: 宋体; font-size: 12pt; font-weight: bold;width:15%">排    名</td>
+                <td align="center" valign="middle" style="padding: 8pt; font-family: 宋体; font-size: 12pt; font-weight: bold;width:15%">部    门</td>
+                <td align="center" valign="middle" colspan="2" style="padding: 8pt; font-family: 宋体; font-size: 12pt; font-weight: bold;">贡献字数（万字）</td>
+            </tr>
+            <tr>
+                <td  align="center" valign="middle" style="padding: 8pt; font-family: 宋体; font-size: 12pt; font-weight: bold;height:12pt;"></td>
+                <td  align="center" valign="middle" style="padding: 8pt; font-family: 宋体; font-size: 12pt; font-weight: bold;height:12pt;"></td>
+                <td  align="center" valign="middle" style="padding: 8pt; font-family: 宋体; font-size: 12pt; font-weight: bold;height:12pt;"></td>
+                <td  align="center" valign="middle" style="padding: 8pt; font-family: 宋体; font-size: 12pt; font-weight: bold;height:12pt;"></td>
+                <td  align="center" valign="middle" style="padding: 8pt; font-family: 宋体; font-size: 12pt; font-weight: bold;height:12pt;"></td>
+                <td  align="center" valign="middle" colspan="2" style="padding: 8pt; font-family: 宋体; font-size: 12pt; font-weight: bold;"></td>
+            </tr>
+        </table>
+        <h2 style="text-align:right;line-height:40px;margin-top:10pt;font-size:12pt;">
+            主编签字：<span style="display:inline-block;height:30pt;border-bottom:1pt solid #000;width:30%;"></span>
+        </h2>
+    </script>
 </head>
 <body>
     <input type="hidden" id="CreateUID" value="011" />
@@ -109,6 +188,7 @@
                 <div id="pageBar_Book" class="page"></div>
             </div>
         </div>
+        
     </div>
     <footer id="footer"></footer>
     <script src="../Scripts/Common.js"></script>
@@ -186,6 +266,7 @@
                 });
             }, function () { });
         }
+        
     </script>
 </body>
 </html>
