@@ -85,9 +85,6 @@
     <Content Include="fonts\fontawesome-webfont.svg" />
     <Content Include="images\login_bg.png" />
     <Content Include="images\logo.png" />
-    <Content Include="images\zi1.png" />
-    <Content Include="images\zi2.png" />
-    <Content Include="images\zi3.png" />
     <Content Include="images\index_06.png" />
     <Content Include="images\index_03.png" />
     <Content Include="images\index_01.png" />

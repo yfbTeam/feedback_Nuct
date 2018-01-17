@@ -56,16 +56,9 @@
     </div>
     <div class="login_bg">
     <div class="container container1">
-            <div class="img">
-                <img src="images/zi1.png" class="zi1 animated fadeInUp"/>
-                <img src="images/zi2.png" class="zi2 animated fadeInUp"/>
-                <img src="images/zi3.png" class="zi3 animated fadeInUp"/>
-                
-            </div>
-            <div class="btns clearfix">
-                    <button type="button" class="btnss btn1 pull-left animated fadeInUp" style="margin-right:30px;" >教学业绩管理</button>
-                    <button type="button" class="btnss btn2  pull-right animated fadeInUp" style="margin-left:30px;" >教学质量评价</button>
-            </div>
+           <div style="position:absolute;left:0;top:50%;margin-top:-135px;">
+               <img src="./images/bg.png"/>
+           </div>
             <div id="LoginArea" class="row">
                 <div class="col-lg-12">
                     <div class="well bs-component">
