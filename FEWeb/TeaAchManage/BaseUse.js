@@ -821,7 +821,7 @@ function Render_PrintContent(bookmodel, authordata) {
     var $printObj = $("#div_PrintArea");
     $printObj.html('').append('<h1 style="line-height:50pt;text-align:center;font-size:22pt;font-family: 宋体; font-weight: bold;">北方工业大学教材信息确认表</h1>\
                       <table id="table_Book" border="1" cellspacing="0" cellpadding="0" style="width:100%;"></table>\
-                      <h2 style="text-align:right;line-height:40px;margin-top:10pt;font-size:12pt;">主编签字：<span style="display:inline-block;height:30pt;border-bottom:1pt solid #000;width:30%;"></span></h2>');
+                      <h2 style="text-align:right;line-height:40px;margin-top:10pt;font-size:12pt;font-family: 宋体;">主编签字：<span style="display:inline-block;height:30pt;border-bottom:1pt solid #000;width:30%;"></span></h2>');
     var $tableObj = $("#table_Book");
     $tableObj.append('<tr>\
                             <td align="center" valign="middle" style="padding: 8pt; font-family: 宋体; font-size: 12pt; font-weight: bold;width:15%">书    名</td>\
