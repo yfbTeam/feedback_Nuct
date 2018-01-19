@@ -14,8 +14,7 @@
             <td>${Name}{{if PrizeCount>0}}<i class="iconfont reward">&#xe778;</i>{{/if}}{{if BookType==2&&IdentifyCol>0}}<i class="iconfont" style="color:#3c86e2">&#xe688;</i>{{/if}}</td>
             <td>{{if IsOneVolum==1}}单册{{else}} 多册{{/if}}</td>
             <td>${EditName}</td>
-            <td>{{if BookType==1}}立项教材{{else}} 出版教材{{/if}}</td> 
-            <td>{{if IsPlanBook==0}}否{{else}}是{{/if}}</td>           
+            <td>{{if BookType==1}}立项教材{{else}} 出版教材{{/if}}</td>                
             <td>{{if BookType==2}}${EditionNo}{{/if}}</td>
            <td>{{if BookType==2}}${DateTimeConvert(PublisthTime,"yyyy-MM")}{{/if}}</td>
             <td class="operate_wrap">
@@ -74,15 +73,7 @@
                         <option value="1">立项教材</option>
                         <option value="2">出版教材</option>
                     </select>
-                </div> 
-                <div class="fl ml20">
-                    <label for="">国家级规划教材:</label>
-                    <select class="select" id="IsPlanBook" onchange="Book(1,10);" style="width: 198px;">
-                        <option value="">全部</option>
-                        <option value="1">是</option>
-                        <option value="0">否</option>
-                    </select>
-                </div>                         
+                </div>                                        
                 <div class="fl ml20">
                     <input type="text" id="Key" placeholder="关键字搜索" value="" class="text fl" style="width: 130px;height:31px;">
                     <a class="search fl" onclick="Book(1,10);" style="cursor: pointer;"><i class="iconfont">&#xe600;</i></a>
@@ -96,8 +87,7 @@
                             <th>书名</th>
                             <th>分册情况</th>
                             <th>主编</th>
-                            <th>教材类型</th>
-                            <th>国家级规划教材</th>
+                            <th>教材类型</th>                           
                             <th>版次</th>
                             <th>出版时间</th>
                             <th>操作</th>
@@ -135,7 +125,7 @@
         });
         function Book(startIndex, pageSize) {           
             $("#tb_Book").empty();
-            var parmsData = { "Func": "GetTPM_BookStory", BookType: $("#BookType").val(), IsPlanBook: $("#IsPlanBook").val(), "Name": $("#Key").val(), PageIndex: startIndex, pageSize: pageSize, Status: 3 };
+            var parmsData = { "Func": "GetTPM_BookStory", BookType: $("#BookType").val(), "Name": $("#Key").val(), PageIndex: startIndex, pageSize: pageSize, Status: 3 };
             if (list_book_operdepart && !list_book_operall) { parmsData["LoginMajor_ID"] = GetLoginUser().Major_ID; }
             if (!list_book_showall && !list_book_operall) { parmsData["Major_ID"] = GetLoginUser().Major_ID; }
             $.ajax({

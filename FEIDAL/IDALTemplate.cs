@@ -271,14 +271,6 @@ namespace FEIDAL
 	/// </summary>
 	///	
 	/// </summary>
-    public interface ITPM_RewardBatchDal: IBaseDal<TPM_RewardBatch>
-    {
-		
-    }
-
-	/// </summary>
-	///	
-	/// </summary>
     public interface IEva_RegularDal: IBaseDal<Eva_Regular>
     {
 		
@@ -368,6 +360,14 @@ namespace FEIDAL
 	///	菜单按钮类型数据处理接口类8
 	/// </summary>
     public interface ISys_ButtonTypeDal: IBaseDal<Sys_ButtonType>
+    {
+		
+    }
+
+	/// </summary>
+	///	
+	/// </summary>
+    public interface ITPM_RewardBatchDal: IBaseDal<TPM_RewardBatch>
     {
 		
     }

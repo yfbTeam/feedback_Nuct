@@ -478,8 +478,7 @@ namespace FEHandler.TeaAchManage
                 jsonModel = JsonModel.get_jsonmodel(-1, "已存在相同的书号！", "");
                 return;
             }            
-            model.IsOneVolum = Convert.ToByte(context.Request["IsOneVolum"]);
-            model.IsPlanBook = Convert.ToByte(context.Request["PlanBook"]);
+            model.IsOneVolum = Convert.ToByte(context.Request["IsOneVolum"]);           
             if (!string.IsNullOrEmpty(context.Request["ProjectType"]))
             {
                 model.ProjectType = Convert.ToByte(context.Request["ProjectType"]);
@@ -498,6 +497,14 @@ namespace FEHandler.TeaAchManage
             else
             {
                 model.PublisthTime = null;
+            }
+            if (!string.IsNullOrEmpty(context.Request["PredictWord"]))
+            {
+                model.PredictWord = Convert.ToDecimal(context.Request["PredictWord"]);
+            }
+            else
+            {
+                model.PredictWord = null;
             }
             model.SeriesBookName = context.Request["SeriesBookName"].SafeToString();            
             if (!string.IsNullOrEmpty(context.Request["SeriesBookNum"]))

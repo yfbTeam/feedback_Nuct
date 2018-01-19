@@ -39,12 +39,7 @@
             <td>${WordNum}</td>
             <td class="td_score">{{if ULevel==3}}0{{else}}${Num_Fixed(mem.UnitScore* mem.WordNum)}{{/if}}</td>
             {{else}}          
-                <td>{{if $("#AchieveType").val()=="2"}}
-                        {{if i>4}}<input type="checkbox" name="ck_trsub" value="${mem.UserNo}" onclick="CheckSub(this);" />{{/if}}
-                    {{else}}
-                        {{if i!=0}}<input type="checkbox" name="ck_trsub" value="${mem.UserNo}" onclick="CheckSub(this);" />{{/if}}
-                    {{/if}}
-                </td>
+            <td>{{if i!=0}}<input type="checkbox" name="ck_trsub" value="${mem.UserNo}" onclick="CheckSub(this);" />{{/if}}</td>
             <td class="td_memname">${mem.Name}</td>
             <td>${mem.Major_Name}</td>
             <td><input type="number" name="score" value="${mem.Score}" oldsc="${mem.Score}" isrequired="true" regtype="money" fl="分数" min="0" step="0.01" onblur="ChangeRankScore(this);"/></td>
@@ -81,7 +76,7 @@
                    {{else AuditStatus==2}}<span class="nocheck">审核不通过</span>
                    {{else}} <span class="assigning">审核通过</span>{{/if}}
                </div>
-               <div class="fr status">奖金：<span id="span_AllMoney_${rowNum}">${Money}</span>万，已分：<span id="span_HasAllot_${rowNum}">{{if AuditStatus==10||AuditStatus==0}}0{{else}}${HasAllot}{{/if}}</span>万</div>
+               <div class="fr status">奖金：<span id="span_AllMoney_${rowNum}">${Money}</span>万，已分：<span id="span_HasAllot_${rowNum}">{{if AuditStatus==10||AuditStatus==0}}0{{else}}${HasAllot}{{/if}}</span>万，<span id="span_UnAllot_${rowNum}" style="color:#d02525;">未分：{{if AuditStatus==10||AuditStatus==0}}${Money}{{else}}${Money-HasAllot}{{/if}}万</span></div>
            </div>
            <table class="allot_table mt10  ">
                <thead>
@@ -136,7 +131,7 @@
     <div class="main" id="RewardAllot">
         <h2 class="cont_title"><span>基本信息</span></h2>
         <div class="area_form clearfix">
-            <div class="col-xs-4" v-if="Info.AchieveType==1||Info.AchieveType==2" v-cloak>
+            <div class="col-xs-4" v-if="Info.AchieveType!=3&&Info.GPid!=4" v-cloak>
                 <div class="row msg_item">
                     <div class="col-xs-5 msg_label">
                         获奖项目名称：
@@ -248,7 +243,7 @@
                     <input type="button" v-if="Info.AchieveType==1||Info.AchieveType==2" name="memberbtn" value="添加" class="btn ml" id="AddBtn" onclick="javascript: OpenIFrameWindow('添加成员', 'AddAchMember.aspx?pagesize=5', '80%', '70%');" />
                     <input type="button" v-if="Info.AchieveType==1||Info.AchieveType==2" name="memberbtn" value="删除" class="btn ml10" onclick="Del_HtmlMember(1);" />
                     <span class="fr status" v-if="Info.AchieveType==3">总贡献字数：<span id="span_Words">0</span>万字，总分：<span id="span_BookScore">0</span>分</span>
-                    <span class="fr status" v-else>总分：<span id="span_AllScore"></span>分，已分：<span id="span_CurScore"></span>分</span>
+                    <span class="fr status" v-else>总分：<span id="span_AllScore"></span>分，已分：<span id="span_CurScore"></span>分，<span id="span_UnScore" style="color:#d02525;">未分：0分</span></span>
                 </div>
                 <table class="allot_table mt10  ">
                     <thead>

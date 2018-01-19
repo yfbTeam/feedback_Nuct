@@ -269,14 +269,6 @@ namespace FEIBLL
 	/// </summary>
 	///	
 	/// </summary>
-    public interface ITPM_RewardBatchService:IBaseService<TPM_RewardBatch>
-    {
-
-    }	
-
-	/// </summary>
-	///	
-	/// </summary>
     public interface IEva_RegularService:IBaseService<Eva_Regular>
     {
 
@@ -366,6 +358,14 @@ namespace FEIBLL
 	///	菜单按钮类型业务类8
 	/// </summary>
     public interface ISys_ButtonTypeService:IBaseService<Sys_ButtonType>
+    {
+
+    }	
+
+	/// </summary>
+	///	
+	/// </summary>
+    public interface ITPM_RewardBatchService:IBaseService<TPM_RewardBatch>
     {
 
     }	

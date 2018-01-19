@@ -52,7 +52,7 @@ namespace FEDAL
                 }else
                 {
                     str.Append(@"select a.*,b.Name,m.Major_Name,u.Name as CreateName,ri.Year,r.Score as UnitScore,l.name as GName
-                                ,al.Name as GidName,uu.Name as ResponsName,case when ri.GPid=6 then bk.Name when l.Type=5 then uu.Name else ri.Name end as AchiveName
+                                ,al.Name as GidName,uu.Name as ResponsName,case when ri.GPid=6 then bk.Name when ri.GPid=4 then uu.Name else ri.Name end as AchiveName
                                 ,(select STUFF((select ',' + CAST(Major_Name AS NVARCHAR(MAX)) from Major where Id in(select value from func_split(ri.DepartMent,',')) FOR xml path('')), 1, 1, '')) as Dep_Major_Name                   
                                 from TPM_RewardUserInfo a 
                                 inner join UserInfo b on a.UserNo=b.UniqueNo 

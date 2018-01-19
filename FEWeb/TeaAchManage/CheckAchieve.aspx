@@ -90,7 +90,7 @@
         {{/if}}
            <h2 class="cont_title"><span>基本信息</span></h2>
         <div class="area_form clearfix">
-            {{if AchieveType==1||AchieveType==2}}
+            {{if AchieveType!=3&&GPid!=4}}  
             <div class="col-xs-6">
                 <div class="row msg_item">
                     <div class="col-xs-5 msg_label">
@@ -203,7 +203,8 @@
                <h2 class="cont_title members {{if AchieveType!=2||(UrlDate.Type=='Check'&&Status!=1)||(UrlDate.Type!='Check'&&((ResponsMan!=$('#CreateUID').val()&&Status>6)||(ResponsMan==$('#CreateUID').val()&&Status>3)))}}none{{/if}}"><span>成员信息</span></h2>
             <div class="area_form members {{if AchieveType!=2||(UrlDate.Type=='Check'&&Status!=1)||(UrlDate.Type!='Check'&&((ResponsMan!=$('#CreateUID').val()&&Status>6)||(ResponsMan==$('#CreateUID').val()&&Status>3)))}}none{{/if}}">
                 <div class="clearfix {{if ResponsMan!=$('#CreateUID').val()&&CreateUID!=$('#CreateUID').val()&&UrlDate.Type!='Check'}}none{{/if}}" id="div_user_mem">                        
-                    <span class="fr status">已分：<span id="span_CurScore">0</span>分</span>
+                    <span class="fr status">已分：<span id="span_UnScore" style="color:#d02525;">未分：0分</span></span>
+                    <span class="fr status">已分：<span id="span_CurScore">0</span>分，</span>
                     <span class="fr status">总分：<span id="span_AllScore">${TotalScore}</span>分，</span>
                 </div>
                 <table class="allot_table mt10">
@@ -330,7 +331,7 @@
                     {{else AuditStatus==2}}<span class="nocheck">审核不通过</span>
                     {{else}} <span class="assigning">审核通过</span>{{/if}}
                 </div>
-                <div class="fr status">奖金：${Money}万，已分：<span>{{if AuditStatus==0&&cur_ResponUID!=$('#CreateUID').val()}}0{{else}}${HasAllot}{{/if}}万</span></div>
+                <div class="fr status">奖金：<span id="span_AllMoney_${rowNum}">${Money}</span>万，已分：<span id="span_HasAllot_${rowNum}">{{if AuditStatus==0&&cur_ResponUID!=$('#CreateUID').val()}}0{{else}}${HasAllot}{{/if}}</span>万，<span id="span_UnAllot_${rowNum}" style="color:#d02525;">未分：{{if AuditStatus==0&&cur_ResponUID!=$('#CreateUID').val()}}${Money}{{else}}${Money-HasAllot}{{/if}}万</span></div>
             </div>
             <table class="allot_table mt10  ">
                 <thead>

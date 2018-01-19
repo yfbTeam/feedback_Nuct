@@ -92,7 +92,7 @@
         </div>
         <h2 class="cont_title"><span>基本信息</span></h2>
         <div class="area_form clearfix">
-            {{if AchieveType==1||AchieveType==2}}   
+           {{if AchieveType!=3&&GPid!=4}}   
             <div class="col-xs-6">
                 <div class="row msg_item">
                     <div class="col-xs-5 msg_label">

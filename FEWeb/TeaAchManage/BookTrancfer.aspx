@@ -97,16 +97,7 @@
                     <label for="">使用对象：</label>
                     <input type="text" isrequired="true" fl="使用对象" name="UseObj" id="UseObj" value="" class="text" />
 
-                </div>
-                <div class="input_lable fl">
-                    <label for="">国家级规划教材：</label>
-                    <div class="radio_wrap">
-                        <input type="radio" value="1" name="IsPlanBook" id="shi" checked="checked" />
-                        <label for="shi">是</label>
-                        <input type="radio" value="0" name="IsPlanBook" id="fou" />
-                        <label for="fou">否</label>
-                    </div>
-                </div>
+                </div>                
                 <div class="input_lable none fl edition">
                     <label for="">立项类型：</label>
                     <select class="select" id="" name=""></select>
@@ -279,8 +270,7 @@
                                     $("#MEditor").chosen();
                                     BindDepartInfo('MEditor', 'MEditorDepart', 'MEditorDepart_Name');                                    
                                 }                               
-                                $("#UseObj").val(this.UseObj);
-                                $("#IsPlanBook").val(this.IsPlanBook);
+                                $("#UseObj").val(this.UseObj);                                
                                 IsOneVolum();
                             });
                         }
@@ -360,15 +350,6 @@
                     o["OneAuthor"].push($("input[name='IsOneAuthor']:checked").val());
                 } else {
                     o["OneAuthor"] = $("input[name='IsOneAuthor']:checked").val();
-                }
-
-                if (o["PlanBook"]) {
-                    if (!o["PlanBook"].push) {
-                        o["PlanBook"] = [o["PlanBook"]];
-                    }
-                    o["PlanBook"].push($("input[name='IsPlanBook']:checked").val());
-                } else {
-                    o["PlanBook"] = $("input[name='IsPlanBook']:checked").val();
                 }
                 var addArray = Rtn_AddAuthorArray();
                 o.MemberStr = addArray.length > 0 ? JSON.stringify(addArray) : '';

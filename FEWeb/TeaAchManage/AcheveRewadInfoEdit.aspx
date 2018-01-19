@@ -62,7 +62,7 @@
                 </div>
                 <h2 class="cont_title"><span>基本信息</span></h2>
                 <div class="area_form clearfix"> 
-                    {{if AchieveType==1||AchieveType==2}}                    
+                    {{if AchieveType!=3&&GPid!=4}}                    
                     <div class="input_lable fl">
                         <label for="">获奖项目名称：</label>
                         <input type="text" isrequired="true" fl="获奖项目名称" class="text" name="Name" id="Name" value="${Name}" style="width: 694px" />
@@ -117,7 +117,8 @@
                     <div class="clearfix">
                         <input type="button" name="name" id="" value="添加" class="btn fl" onclick="javascript: OpenIFrameWindow('添加成员','AddAchMember.aspx', '1000px', '700px');">
                         <input type="button" name="name" id="" value="删除" class="btn fl ml20" onclick="Del_HtmlMember();">
-                        <span class="fr status">已分：<span id="span_CurScore">0</span>分</span>
+                        <span class="fr status">已分：<span id="span_UnScore" style="color:#d02525;">未分：0分</span></span>
+                        <span class="fr status">已分：<span id="span_CurScore">0</span>分，</span>
                         <span class="fr status">总分：<span id="span_AllScore">${TotalScore}</span>分，</span>
                     </div>
                     <table class="allot_table mt10">
@@ -290,12 +291,12 @@
                 type: "post",
                 dataType: "json",
                 async:false,
-                data: { "Func": "GetTPM_BookStory", "IsPage": "false", "Status": "3" },
+                data: {Func: "GetTPM_BookStory", IsPage: false,BookType:2,Status: "3" },
                 success: function (json) {
                     if (json.result.errMsg == "success") {
                         $("#BookId").append('<option value="">请选择教材</option>');
                         $.each(json.result.retData, function () {
-                            $("#BookId").append('<option value="' + this.Id + '" isbn="' + this.ISBN + '" bt="' + this.BookType + '">' + this.Name + (this.BookType == 1 ? '-立项' : '-出版') + '</option>');
+                            $("#BookId").append('<option value="' + this.Id + '" isbn="' + this.ISBN + '" bt="' + this.BookType + '">' + this.Name + '</option>');
                         });
                     }
                     $("#BookId").chosen({
@@ -370,18 +371,7 @@
                 if (department == null || department == "") {
                     layer.msg("请输入负责单位!");
                     return;
-                }
-                if (UrlDate.Type == "2") {
-                    var add_tr = $("#tb_Member tr");
-                    if (add_tr.length <= 0) {
-                        layer.msg("请添加成员信息!");
-                        return;
-                    }
-                    if (add_tr.length <= 4) {
-                        layer.msg("请至少添加五个成员信息!");
-                        return;
-                    }                    
-                }
+                }                
             }
             if (UrlDate.Type == "2" && (Number($('#span_AllScore').html()) < Number($('#span_CurScore').html()))) {
                 layer.msg("已分配分数不能大于总分！");

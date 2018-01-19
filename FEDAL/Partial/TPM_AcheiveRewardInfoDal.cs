@@ -31,7 +31,7 @@ namespace FEDAL
 	                         when 1 in (select value from func_split(AuditSts,',')) then 10 else 12 end end as ComStatus
                     from ( ");
                 str.Append(@" select a.*,uu.Name as ResponsName,u.Name as CreateName,l.name as GName,al.Name as GidName,
-                    case when a.GPid=6 then bk.Name when l.Type=5 then uu.Name else a.Name end as AchiveName,
+                    case when a.GPid=6 then bk.Name when a.GPid=4 then uu.Name else a.Name end as AchiveName,
                     l.Type as AchieveType,ll.Name as LevelName,r.Name as RewadName,
                     (select STUFF((select ',' + CAST(Major_Name AS NVARCHAR(MAX)) from Major where Id in(select value from func_split(a.DepartMent,',')) FOR xml path('')), 1, 1, '')) as Major_Name,                   
                     case when a.GPid=1 then isnull((ran.Score),0) else r.Score end as TotalScore,ran.Name RankName,
