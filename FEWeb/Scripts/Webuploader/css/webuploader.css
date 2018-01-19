@@ -18,7 +18,7 @@
 	overflow: hidden;
 }
 .input_lable2{
-    clear:both;position:relative;
+ clear:both;position:relative;
 }
 .input_lable2 >label{
     position:absolute;left:0;top:0;
