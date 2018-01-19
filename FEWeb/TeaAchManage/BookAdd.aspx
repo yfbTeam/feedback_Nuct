@@ -266,6 +266,7 @@
                             $("#ISBN").val(this.ISBN);
                             $("#Publisher").val(this.Publisher);
                             $("#PublisthTime").val(DateTimeConvert(this.PublisthTime, 'yyyy-MM'));
+                            $("#PredictWord").val(this.PredictWord);
                             IsOneVolum();
                             ChangeType();
                             IsOneAuthor();
