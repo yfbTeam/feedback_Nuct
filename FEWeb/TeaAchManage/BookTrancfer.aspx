@@ -195,8 +195,7 @@
                             <th>贡献字数（万字）</th>                            
                         </tr>
                     </thead>
-                    <tbody id="AuthorInfo">
-                    </tbody>
+                    <tbody id="AuthorInfo"></tbody>
                 </table>
             </div>
         </div>
@@ -204,8 +203,9 @@
     <div class="btnwrap" style="background: #fafafa; padding: 15px 0px;">
         <input type="button" value="保存" onclick="Save(0);" class="btn" />
         <input type="button" value="提交" class="btn ml10" onclick="Save(1);"/>
+        <input type="button" value="打印" class="btna ml10" onclick="Book_Print();"/>
     </div>
-
+    <div style="display:none;"><div id="div_PrintArea"></div></div>
     <link href="../Scripts/choosen/chosen.css" rel="stylesheet" />
     <link href="../Scripts/choosen/prism.css" rel="stylesheet" />
     <script src="../Scripts/jquery-1.11.2.min.js"></script>
@@ -218,6 +218,8 @@
     <script src="../Scripts/choosen/prism.js"></script>
     <script src="../Scripts/Webuploader/dist/webuploader.js"></script>
     <link href="../Scripts/Webuploader/css/webuploader.css" rel="stylesheet" />
+    <script src="../Scripts/print/jquery.jqprint.js"></script>
+    <script src="../Scripts/print/jquery-migrate-1.2.1.min.js"></script>
     <script src="upload_batchfile.js"></script>
     <script src="BaseUse.js"></script>
     <script src="../Scripts/jquery.tmpl.js"></script>

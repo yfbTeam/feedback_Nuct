@@ -781,3 +781,153 @@ function Del_Achieve(id) {
     }, function () { });
 }
 /********************************************************业绩-业绩类别、奖励项目、删除业绩结束***************************************************/
+/********************************************************教材打印开始***************************************************/
+//教材打印
+function Book_Print(ptype,bookid) {
+    ptype = arguments[0] || 1; //1添加/编辑、立项转出版页面打印；2列表页打印
+    bookid = arguments[1] || 0;
+    var bookModel;
+    if (ptype == 2) {
+        var pagedata = Cur_BookData;
+        bookModel = Enumerable.From(pagedata).Where("x=>x.Id=='" + bookid + "'").FirstOrDefault();
+        $.ajax({
+            url: HanderServiceUrl + "/TeaAchManage/AchRewardInfo.ashx",
+            type: "post",
+            dataType: "json",
+            data: {Func: "GetTPM_UserInfo",IsPage: "false", RIId: "", BookId: bookid },
+            success: function (json) {
+                Render_PrintContent(bookModel, json.result.retData);
+            }
+        });        
+    } else {
+        bookModel = getFromValue();
+        bookModel["EditName"] = $("#MEditor  option:selected").text();
+        bookModel["AllWords"]=$('#span_Words').html();
+        var authArray = [];        
+        $("#AuthorInfo tr").each(function (i, n) {
+            var sub_m = new Object();
+            sub_m.Name = $(this).find('td').eq(1).html();
+            sub_m.ULevel = $(this).find('td').eq(2).find("select").val() || 0;
+            sub_m.Sort = $(this).find('td').eq(3).find("input").val();
+            sub_m.Major_Name = $(this).find('td').eq(4).html();
+            sub_m.WordNum = $(this).find('td').eq(5).find("input").val();            
+            authArray.push(sub_m);
+        });
+        Render_PrintContent(bookModel, authArray);
+    }    
+}
+//渲染打印内容
+function Render_PrintContent(bookmodel, authordata) {
+    var $printObj = $("#div_PrintArea");
+    $printObj.html('').append('<h1 style="line-height:50pt;text-align:center;font-size:22pt;font-family: 宋体; font-weight: bold;">北方工业大学教材信息确认表</h1>\
+                      <table id="table_Book" border="1" cellspacing="0" cellpadding="0" style="width:100%;"></table>\
+                      <h2 style="text-align:right;line-height:40px;margin-top:10pt;font-size:12pt;">主编签字：<span style="display:inline-block;height:30pt;border-bottom:1pt solid #000;width:30%;"></span></h2>');
+    var $tableObj = $("#table_Book");
+    $tableObj.append('<tr>\
+                            <td align="center" valign="middle" style="padding: 8pt; font-family: 宋体; font-size: 12pt; font-weight: bold;width:15%">书    名</td>\
+                            <td colspan="5" align="center" valign="middle" style="padding: 8pt; font-family: 宋体; font-size: 12pt; font-weight: bold;">' + bookmodel.Name + '</td>\
+                      </tr>');
+    if (bookmodel.BookType == "1") {
+        $tableObj.append('<tr>\
+                <td align="center" valign="middle" style="padding: 8pt; font-family: 宋体; font-size: 12pt; font-weight: bold;width:15%">主编姓名</td>\
+                <td align="center" valign="middle" style="padding: 8pt; font-family: 宋体; font-size: 12pt; font-weight: bold;">' + bookmodel.EditName + '</td>\
+                <td align="center" valign="middle" style="padding: 8pt; font-family: 宋体; font-size: 12pt; font-weight: bold;width:15%">主编单位</td>\
+                <td align="center" valign="middle" colspan="3" style="padding: 8pt; font-family: 宋体; font-size: 12pt; font-weight: bold;">' + bookmodel.MEditorDepart_Name + '</td>\
+            </tr>\
+            <tr>\
+                <td align="center" valign="middle" style="padding: 8pt; font-family: 宋体; font-size: 12pt; font-weight: bold;width:15%">是否独著</td>\
+                <td align="center" valign="middle" style="padding: 8pt; font-family: 宋体; font-size: 12pt; font-weight: bold;">' + (bookmodel.IsOneAuthor == "1" ? '是' : '否') + '</td>\
+                <td align="center" valign="middle" style="padding: 8pt; font-family: 宋体; font-size: 12pt; font-weight: bold;width:15%">使用对象</td>\
+                      <td align="center" valign="middle" colspan="3" style="padding: 8pt; font-family: 宋体; font-size: 12pt; font-weight: bold;">' + bookmodel.UseObj + '</td>\
+            </tr>\
+            <tr>\
+                <td align="center" valign="middle" style="padding: 8pt; font-family: 宋体; font-size: 12pt; font-weight: bold;">立项类型</td>\
+                <td align="center" valign="middle" colspan="3" style="padding: 8pt; font-family: 宋体; font-size: 12pt; font-weight: bold;">' + (bookmodel.ProjectType == "1" ? '北京市精品教材立项' : '国家级精品教材立项') + '</td>\
+                <td align="center" valign="middle" style="padding: 8pt; font-family: 宋体; font-size: 12pt; font-weight: bold;">字    数</td>\
+                <td align="center" valign="middle" style="padding: 8pt; font-family: 宋体; font-size: 12pt; font-weight: bold;">' + bookmodel.AllWords + '</td>\
+            </tr>\
+            <tr>\
+                <td align="center" valign="middle" colspan="3" style="padding: 8pt; font-family: 宋体; font-size: 12pt; font-weight: bold;width:15%">国家级规划教材</td>\
+                <td align="center" valign="middle" style="padding: 8pt; font-family: 宋体; font-size: 12pt; font-weight: bold;">' + (bookmodel.IsPlanBook == "0" ? '否' : '是') + '</td>\
+                <td align="center" valign="middle" style="padding: 8pt; font-family: 宋体; font-size: 12pt; font-weight: bold;width:15%">分册情况</td>\
+                <td align="center" valign="middle" style="padding: 8pt; font-family: 宋体; font-size: 12pt; font-weight: bold;">' + (bookmodel.IsOneVolum == "1" ? '单册' : '多册') + '</td>\
+            </tr>');
+    } else {
+        $tableObj.append('<tr>\
+                <td align="center" valign="middle" style="padding: 8pt; font-family: 宋体; font-size: 12pt; font-weight: bold;width:15%">ISBN</td>\
+                <td colspan="3" align="center" valign="middle" style="padding: 8pt; font-family: 宋体; font-size: 12pt; font-weight: bold;">' + bookmodel.ISBN + '</td>\
+                <td align="center" valign="middle" style="padding: 8pt; font-family: 宋体; font-size: 12pt; font-weight: bold;width:15%">分册情况</td>\
+                <td align="center" valign="middle" style="padding: 8pt; font-family: 宋体; font-size: 12pt; font-weight: bold;">' + (bookmodel.IsOneVolum == "1" ? '单册' : '多册') + '</td>\
+            </tr>\
+            <tr>\
+                <td align="center" valign="middle" style="padding: 8pt; font-family: 宋体; font-size: 12pt; font-weight: bold;width:15%">主编姓名</td>\
+                <td align="center" valign="middle" style="padding: 8pt; font-family: 宋体; font-size: 12pt; font-weight: bold;">' + bookmodel.EditName + '</td>\
+                <td align="center" valign="middle" style="padding: 8pt; font-family: 宋体; font-size: 12pt; font-weight: bold;width:15%">主编单位</td>\
+                <td align="center" valign="middle" colspan="3" style="padding: 8pt; font-family: 宋体; font-size: 12pt; font-weight: bold;">' + bookmodel.MEditorDepart_Name + '</td>\
+            </tr>\
+            <tr>\
+                <td align="center" valign="middle" style="padding: 8pt; font-family: 宋体; font-size: 12pt; font-weight: bold;width:15%">是否独著</td>\
+                <td align="center" valign="middle" style="padding: 8pt; font-family: 宋体; font-size: 12pt; font-weight: bold;">' + (bookmodel.IsOneAuthor == "1" ? '是' : '否') + '</td>\
+                <td align="center" valign="middle" style="padding: 8pt; font-family: 宋体; font-size: 12pt; font-weight: bold;width:15%">使用对象</td>\
+                <td align="center" valign="middle" style="padding: 8pt; font-family: 宋体; font-size: 12pt; font-weight: bold;">' + bookmodel.UseObj + '</td>\
+                <td align="center" valign="middle" style="padding: 8pt; font-family: 宋体; font-size: 12pt; font-weight: bold;width:15%">字    数</td>\
+                <td align="center" valign="middle" style="padding: 8pt; font-family: 宋体; font-size: 12pt; font-weight: bold;">' + bookmodel.AllWords + '</td>\
+            </tr>\
+            <tr>\
+                <td align="center" valign="middle" style="padding: 8pt; font-family: 宋体; font-size: 12pt; font-weight: bold;">出 版 社</td>\
+                <td align="center" valign="middle" colspan="3" style="padding: 8pt; font-family: 宋体; font-size: 12pt; font-weight: bold;">' + bookmodel.Publisher + '</td>\
+                <td align="center" valign="middle" style="padding: 8pt; font-family: 宋体; font-size: 12pt; font-weight: bold;">出版时间</td>\
+                <td align="center" valign="middle" style="padding: 8pt; font-family: 宋体; font-size: 12pt; font-weight: bold;">' + DateTimeConvert(bookmodel.PublisthTime, 'yyyy-MM') + '</td>\
+            </tr>\
+            <tr>\
+                <td align="center" valign="middle" colspan="3" style="padding: 8pt; font-family: 宋体; font-size: 12pt; font-weight: bold;width:15%">国家级规划教材</td>\
+                <td align="center" valign="middle" style="padding: 8pt; font-family: 宋体; font-size: 12pt; font-weight: bold;">' + (bookmodel.IsPlanBook == "0" ? '否' : '是') + '</td>\
+                <td align="center" valign="middle" style="padding: 8pt; font-family: 宋体; font-size: 12pt; font-weight: bold;width:15%">版    次</td>\
+                <td align="center" valign="middle" style="padding: 8pt; font-family: 宋体; font-size: 12pt; font-weight: bold;">' + bookmodel.EditionNo + '</td>\
+            </tr>');
+    }   
+    if (bookmodel.IsOneVolum == "2") {
+        $tableObj.append('<tr><td colspan="6" align="center" valign="middle" style="padding: 8pt; font-family: 宋体; font-size: 12pt; font-weight: bold;">丛书信息</td></tr>\
+                     <tr>\
+                         <td  align="center" valign="middle" style="padding: 8pt; font-family: 宋体; font-size: 12pt; font-weight: bold;width:15%">丛书名称</td>\
+                         <td colspan="5" align="center" valign="middle" style="padding: 8pt; font-family: 宋体; font-size: 12pt; font-weight: bold;">' + bookmodel.SeriesBookName + '</td>\
+                     </tr>\
+                     <tr>\
+                         <td align="center" valign="middle" style="padding: 8pt; font-family: 宋体; font-size: 12pt; font-weight: bold;">代表ISBN</td>\
+                         <td align="center" valign="middle" colspan="3" style="padding: 8pt; font-family: 宋体; font-size: 12pt; font-weight: bold;">' + bookmodel.MainISBN + '</td>\
+                         <td align="center" valign="middle" style="padding: 8pt; font-family: 宋体; font-size: 12pt; font-weight: bold;">本丛书本数</td>\
+                         <td align="center" valign="middle" style="padding: 8pt; font-family: 宋体; font-size: 12pt; font-weight: bold;">' + bookmodel.SeriesBookNum + '</td>\
+                     </tr>');
+    }
+    $tableObj.append('<tr><td colspan="6" align="center" valign="middle" style="padding: 8pt; font-family: 宋体; font-size: 12pt; font-weight: bold;">作者信息</td></tr>\
+            <tr>\
+                <td align="center" valign="middle" style="padding: 8pt; font-family: 宋体; font-size: 12pt; font-weight: bold;width:15%">姓    名</td>\
+                <td align="center" valign="middle" style="padding: 8pt; font-family: 宋体; font-size: 12pt; font-weight: bold;width:15%">作者类型</td>\
+                <td align="center" valign="middle" style="padding: 8pt; font-family: 宋体; font-size: 12pt; font-weight: bold;width:15%">排    名</td>\
+                ' + (bookmodel.BookType == "1" ? '<td align="center" valign="middle" colspan="4" style="padding: 8pt; font-family: 宋体; font-size: 12pt; font-weight: bold;">部    门</td>'
+                : '<td align="center" valign="middle" style="padding: 8pt; font-family: 宋体; font-size: 12pt; font-weight: bold;width:15%">部    门</td>\
+                   <td align="center" valign="middle" colspan="2" style="padding: 8pt; font-family: 宋体; font-size: 12pt; font-weight: bold;">贡献字数（万字）</td>') + '</tr>');
+    if (authordata) { //作者信息
+        $(authordata).each(function (i, n) {
+            $tableObj.append('<tr><td  align="center" valign="middle" style="padding: 8pt; font-family: 宋体; font-size: 12pt; font-weight: bold;height:12pt;">' +n.Name + '</td>\
+                <td  align="center" valign="middle" style="padding: 8pt; font-family: 宋体; font-size: 12pt; font-weight: bold;height:12pt;">'+RtnULevel(n.ULevel)+ '</td>\
+                <td  align="center" valign="middle" style="padding: 8pt; font-family: 宋体; font-size: 12pt; font-weight: bold;height:12pt;">'+n.Sort+'</td>\
+                ' + (bookmodel.BookType == "1" ? '<td  align="center" valign="middle" colspan="4" style="padding: 8pt; font-family: 宋体; font-size: 12pt; font-weight: bold;">' + n.Major_Name + '</td>'
+                : '<td  align="center" valign="middle" style="padding: 8pt; font-family: 宋体; font-size: 12pt; font-weight: bold;height:12pt;">' + n.Major_Name +'</td>\
+                   <td  align="center" valign="middle" colspan="2" style="padding: 8pt; font-family: 宋体; font-size: 12pt; font-weight: bold;">' +n.WordNum + '</td>') + '</tr>');
+        });
+    }    
+    Print_Common();
+}
+function RtnULevel(uLevel) {
+    if (uLevel == "0") {
+        return '独著';
+    } else if (uLevel == "1") {
+        return '主编';
+    } else if (uLevel == "2") {
+        return '参编';
+    } else if (uLevel == "3") {
+        return '其他人员';
+    }
+}
+/********************************************************教材打印结束***************************************************/
