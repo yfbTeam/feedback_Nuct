@@ -794,6 +794,7 @@ function Book_Print(ptype,bookid) {
     if (ptype == 2) {
         var pagedata = Cur_BookData;
         bookModel = Enumerable.From(pagedata).Where("x=>x.Id=='" + bookid + "'").FirstOrDefault();
+        bookModel["AllWords"] = bookModel.BookType == "1" ? bookModel.PredictWord : bookModel.AllWords;
         $.ajax({
             url: HanderServiceUrl + "/TeaAchManage/AchRewardInfo.ashx",
             type: "post",
@@ -806,7 +807,7 @@ function Book_Print(ptype,bookid) {
     } else {
         bookModel = getFromValue();
         bookModel["EditName"] = $("#MEditor  option:selected").text();
-        bookModel["AllWords"]=$('#span_Words').html();
+        bookModel["AllWords"] = bookModel.BookType == "1" ? $('#PredictWord').val() : $('#span_Words').html();
         var authArray = [];        
         $("#AuthorInfo tr").each(function (i, n) {
             var sub_m = new Object();
