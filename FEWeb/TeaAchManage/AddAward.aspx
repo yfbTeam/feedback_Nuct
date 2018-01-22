@@ -12,12 +12,15 @@
     <script type="text/x-jquery-tmpl" id="tr_Award">
         <tr id="tr_award_${Id}">
             <td>${rowNum}</td>
-            <td><input type="number" class="text" isrequired="true" regtype="money" fl="金额" style="width:120px" value="${Money}" {{if UseCount>0}} disabled="disabled"{{/if}} min="0" step="0.01"/></td>
+            <td>${Money}</td>
+            <td>${CreateName}</td>
+            <td>${DateTimeConvert(CreateTime)}</td>
+            <td>${AddBasis}</td>
             <td class="operate_wrap">
                 {{if UseCount>0}}
                    <div class="operate">
-                         <i class="iconfont color_gray">&#xe867;</i>
-                         <span class="operate_none bg_gray">保存</span>
+                         <i class="iconfont color_gray">&#xe617;</i>
+                         <span class="operate_none bg_gray">修改</span>
                      </div>
                      {{if rowNum>1}} 
                     <div class="operate">
@@ -26,9 +29,9 @@
                          </div>
                     {{/if}}
                 {{else}}
-                    <div class="operate" onclick="submit(${Id});">
-                        <i class="iconfont color_purple">&#xe867;</i>
-                        <span class="operate_none bg_purple">保存</span>
+                    <div class="operate" onclick="Open_AddWindow(${Id});">
+                        <i class="iconfont color_purple">&#xe617;</i>
+                        <span class="operate_none bg_purple">修改</span>
                     </div>
                     {{if rowNum>1}} 
                     <div class="operate" onclick="DelReward(${Id});">
@@ -49,11 +52,8 @@
     <input type="hidden" name="CreateUID" id="CreateUID" value="011" />
     <input type="hidden" name="EditUID" id="EditUID" value="011" />
     <div class="main" >
-        <div class="search_toobar clearfix">
-            <div class="input-wrap" style="margin-bottom:10px;">
-                <input type="number" fl="追加金额" isrequired="true" id="Award" regtype="money" class="text" min="0" step="0.01"  placeholder="请输入追加金额" style="margin-left:0px;"/>
-                <button class="btn fl" onclick="submit(0);" style="height:33px;padding:0px;min-width:60px;margin-left:10px;">追加</button>
-            </div>
+        <div class="search_toobar clearfix" style="padding:0px 0px 10px 0px;">
+            <button class="btn fr" onclick="Open_AddWindow(0);">追加</button> 
         </div>
         <div class="table">
             <table>
@@ -61,6 +61,9 @@
                     <tr>
                         <th>批次</th>
                         <th>金额（万元）</th>
+                        <th>追加人</th>
+                        <th>时间</th>
+                        <th>依据</th>
                         <th>操作</th>
                     </tr>
                 </thead>
@@ -94,40 +97,16 @@
             data: { "Func": "Get_RewardBatchData", "IsPage": "false", Reward_Id: UrlDate.Id, Rank_Id:cur_rankid, IsOnlyBase: 0 },
             success: function (json) {
                 if (json.result.errMsg == "success") {
-                    $("#tr_Award").tmpl(json.result.retData).appendTo("#tb_Award");                    
+                    $("#tr_Award").tmpl(json.result.retData).appendTo("#tb_Award");
+                    tableSlide();
                 }
             },
             error: function () {}
         });
     }
-    function submit(id) {
-        var $award = $("#Award");
-        if (id != 0) {
-            $award = $("#tr_award_" + id).find("input[type='number']");
-        }
-        var valid_flag = validateForm($award);
-        if (valid_flag != "0")
-        {
-            return false;
-        }
-        $.ajax({
-            url: HanderServiceUrl + "/TeaAchManage/AchManage.ashx",
-            type: "post",
-            dataType: "json",
-            data: { "Func": "AddRewardDash", Id: id, Reward_Id: UrlDate.Id, AddAward: $award.val(), Rank_Id: cur_rankid },
-            success: function (json) {
-                if (json.result.errNum == 0) {
-                    layer.msg('操作成功!');
-                    if (id == 0) { $("#Award").val(''); }
-                    Get_RewardBatchData();
-                    parent.BindReward(UrlDate.LID);                    
-                } else {
-                    layer.msg(json.result.errMsg);
-                }
-            },
-            error: function () {}
-        });
-    }
+    function Open_AddWindow(id){
+        OpenIFrameWindow(id==0?'追加':'修改', '../TeaAchManage/AddSingleAward.aspx?id=' + id + '&rwid=' + UrlDate.Id + '&rankid=' + cur_rankid, '480px', '320px');
+    }    
     function DelReward(id) {
         layer.confirm('确认删除么吗？', {
             btn: ['确定', '取消'], //按钮
@@ -142,7 +121,7 @@
                     if (json.result.errNum == 0) {
                         layer.msg('操作成功!');
                         Get_RewardBatchData();
-                        parent.BindReward(UrlDate.LID);
+                        parent.BindRank(UrlDate.Id);
                     } else {
                         layer.msg(json.result.errMsg);
                     }

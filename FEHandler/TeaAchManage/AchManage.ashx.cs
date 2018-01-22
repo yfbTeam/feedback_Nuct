@@ -597,16 +597,19 @@ namespace FEHandler.TeaAchManage
                 int Id = RequestHelper.int_transfer(context.Request, "Id");                
                 int Reward_Id = RequestHelper.int_transfer(context.Request["Reward_Id"]);
                 decimal AddAward = RequestHelper.decimal_transfer(context.Request["AddAward"]); 
-                if(Id==0)
+                string AddBasis = RequestHelper.string_transfer(context.Request,"AddBasis");
+                string CreateUID = RequestHelper.string_transfer(context.Request, "CreateUID");
+                if (Id==0)
                 {
                     TPM_RewardBatch r_batch = new TPM_RewardBatch();
-                    r_batch.Reward_Id = Reward_Id;
-                    r_batch.Money = AddAward;
+                    r_batch.Reward_Id = Reward_Id;                    
                     if (!string.IsNullOrEmpty(context.Request["Rank_Id"]))
                     {
                         r_batch.Rank_Id = Convert.ToInt32(context.Request["Rank_Id"]);
                     }
-                    r_batch.CreateUID = RequestHelper.string_transfer(context.Request, "CreateUID");
+                    r_batch.Money = AddAward;
+                    r_batch.AddBasis = AddBasis;
+                    r_batch.CreateUID = CreateUID;
                     jsonModel= RewardBatch_bll.Add(r_batch);
                 }
                 else
@@ -618,7 +621,10 @@ namespace FEHandler.TeaAchManage
                         return;
                     }
                     TPM_RewardBatch model = RewardBatch_bll.GetEntityById(Id).retData as TPM_RewardBatch;                   
-                    model.Money = AddAward;                   
+                    model.Money = AddAward;
+                    model.AddBasis = AddBasis;
+                    model.EditUID = CreateUID;
+                    model.EditTime = DateTime.Now;
                     jsonModel = RewardBatch_bll.Update(model);                    
                 }            
             }

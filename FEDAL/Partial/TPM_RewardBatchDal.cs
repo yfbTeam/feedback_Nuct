@@ -22,7 +22,7 @@ namespace FEDAL
             try
             {
                 StringBuilder str = new StringBuilder();
-                str.Append(@" select r_bat.*,(select count(1) from TPM_AuditReward where IsDelete=0 and Status in(1,3) and RewardBatch_Id=r_bat.Id)UseCount ");
+                str.Append(@" select r_bat.*,b.Name as CreateName,(select count(1) from TPM_AuditReward where IsDelete=0 and Status in(1,3) and RewardBatch_Id=r_bat.Id)UseCount ");
                 if (ht["IsOnlyBase"].SafeToString()=="1") //查询关联表
                 {
                     str.Append(@" ,info.Id AchieveId,isnull(aud.Id,0) AuditId,isnull(aud.Status,10)AuditStatus 
@@ -33,7 +33,8 @@ namespace FEDAL
                 }
                 else //只查询基础表
                 {
-                    str.Append(@" from TPM_RewardBatch r_bat ");
+                    str.Append(@" from TPM_RewardBatch r_bat 
+                                left join UserInfo b on r_bat.CreateUID=b.UniqueNo ");
                 }
                 str.Append(@" where r_bat.IsDelete=0 ");
                 int StartIndex = 0;
