@@ -335,17 +335,25 @@
                     layer.msg("该教材非独著，请添加作者后提交！");
                     return;
                 }
-                var au_count = 0,wn_count=0;
+                var sort_count=0,au_count = 0,wn_count=0;
                 var word_reg = /(^[1-9]([0-9]+)?(\.[0-9]{1,2})?$)|(^(0){1}$)|(^[0-9]\.[0-9]([0-9])?$)/;                
                 $("#AuthorInfo tr input[type='number']").each(function () {
                     if ($(this).val().trim() == "") {
-                        au_count++;return false;
+                        if ($(this).attr("regtype") == "money")
+                        {
+                            au_count++;
+                        } else {
+                            sort_count++;
+                        }                
                     }
                     if ($(this).attr("regtype") == "money"&&$(this).val()!= "" && word_reg.test($(this).val()) == false) {                        
-                        wn_count++; return false;
+                        wn_count++;
                     }
                 });
-                if (au_count > 0) { layer.msg("请填写作者信息处的排名及贡献字数！"); return; }
+                if (sort_count > 0) { layer.msg("请填写作者信息处的排名！"); return; }
+                if ($("#BookType").val() == "2"&&au_count > 0) {
+                    layer.msg("请填写作者信息处的贡献字数！");return;
+                }                
                 if (wn_count > 0) { layer.msg("请输入正确的贡献字数！"); return; }
             }
             if (valid_flag== 0)

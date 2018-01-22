@@ -235,6 +235,18 @@
                     </div>
                 </div>
             </div>
+            <div class="col-xs-4">
+                <div class="row msg_item">
+                    <div class="col-xs-5 msg_label">
+                        获奖证书：
+                    </div>
+                    <div class="col-xs-7 msg_control">
+                        <div class="fl">
+                            <ul id="ul_Certificate_6" class="clearfix file-ary"></ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
         <div v-show="Info.Status>6" v-cloak>
             <h2 class="cont_title"><span>分数分配</span></h2>
@@ -351,7 +363,7 @@
             $("#CreateUID").val(GetLoginUser().UniqueNo);            
             Get_LookPage_Document(3, cur_AchieveId, $("#ul_ScoreFile"));
         });
-        //基本信息
+        //业绩信息
         var RewardAllot = new Vue({
             el: '#RewardAllot',
             data: {
@@ -376,7 +388,8 @@
                                 Get_RewardUserInfo(that.Info);
                                 if (that.Info.Status > 6 && that.Info.AchieveType!=3) {
                                     BindFile_Plugin();
-                                }                                
+                                }
+                                Get_LookPage_Document(6, cur_AchieveId, $("#ul_Certificate_6"));
                             }
                         },
                         error: function () {

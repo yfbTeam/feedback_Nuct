@@ -50,7 +50,7 @@
                 </div>
                 <div class="clear"></div>
                     <div class="input_lable input_lable2">
-                        <label for="">获奖扫描件：</label>                        
+                        <label for="">获奖文件：</label>                        
                         <div class="fl uploader_container">
                             <div id="uploader">
                                 <div class="queueList">
@@ -97,6 +97,26 @@
                     <label for="">负责单位：</label>
                     <select class="chosen-select" data-placeholder="负责单位" id="DepartMent" name="DepartMent" multiple="multiple"></select>
                 </div>
+                <div class="input_lable input_lable2">
+                        <label for="">获奖证书：</label>                        
+                        <div class="fl uploader_container">
+                            <div id="uploader_certi6">
+                                <div class="queueList">
+                                    <div id="dndArea_certi6" class="placeholder photo_lists">
+                                        <div id="filePicker_certi6"></div>
+                                        <ul class="filelist clearfix"></ul>
+                                    </div>
+                                </div>
+                                <div class="statusBar" style="display: none;">
+                                    <div class="progress">
+                                        <span class="text">0%</span>
+                                        <span class="percentage"></span>
+                                    </div>
+                                    <div class="info"></div>                                
+                                </div>
+                            </div>
+                        </div>
+                    </div>
             </div>  
             <h2 class="cont_title members none"><span>成员信息</span></h2>
                 <div class="area_form members none">
@@ -148,6 +168,7 @@
             $("#ResponsMan").val(loginUser.UniqueNo);
             $("#itemData").tmpl([{ UniqueNo: loginUser.UniqueNo, Name: loginUser.Name, MajorName: '' }]).appendTo("#tb_Member");
             BindFile_Plugin();
+            BindFile_Plugin("#uploader_certi6", "#filePicker_certi6", "#dndArea_certi6");
             BindDepart("DepartMent");
             BindGInfo();
             var Id = UrlDate.Id;
@@ -170,7 +191,7 @@
                     return false;
                 }
                 if ($("#uploader .filelist li").length <= 0) {
-                    layer.msg("请上传获奖扫描件!");
+                    layer.msg("请上传获奖文件!");
                     return;
                 }
                 if (department == null || department == "") {
@@ -182,7 +203,8 @@
             object.DepartMent = department ? $("#DepartMent").val().join(',') : "";                    
             var addArray = Rtn_AddMemArray(0);
             object.MemberStr = addArray.length > 0 ? JSON.stringify(addArray) : '';
-            var add_path = Get_AddFile();
+            var add_path = Get_AddFile(), cert_path = Get_AddFile(6, '#uploader_certi6');//获奖文件，获奖证书
+            add_path = add_path.concat(cert_path);
             object.Add_Path = add_path.length > 0 ? JSON.stringify(add_path) : "";
             object.AchieveType = 1;
             $.ajax({

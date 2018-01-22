@@ -136,7 +136,18 @@
                     </div>
                 </div>
             </div>
-            
+            <div class="col-xs-4">
+                <div class="row msg_item">
+                    <div class="col-xs-5 msg_label">
+                        获奖证书：
+                    </div>
+                    <div class="col-xs-7 msg_control">
+                        <div class="fl">
+                            <ul id="ul_Certificate_6" class="clearfix file-ary"></ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
         <h2 class="cont_title"><span>分数分配</span></h2>
         <div class="area_form clearfix">
@@ -256,6 +267,7 @@
             BindFile_Plugin();
             Get_TPM_AcheiveMember(cur_AchieveId);            
             Get_Sys_Document(3, cur_AchieveId);
+            Get_LookPage_Document(6, cur_AchieveId, $("#ul_Certificate_6"));
         });              
         var object = { Func: "Add_AcheiveAllot", Id: cur_AchieveId };
         function submit(status) {

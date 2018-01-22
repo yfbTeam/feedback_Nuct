@@ -228,6 +228,18 @@
                     </div>
                 </div>
             </div>
+            <div class="col-xs-6">
+                <div class="row msg_item">
+                    <div class="col-xs-5 msg_label">
+                        获奖证书：
+                    </div>
+                    <div class="col-xs-7 msg_control">
+                        <div class="fl">
+                            <ul id="ul_Certificate_6" class="clearfix file-ary"></ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
         <h2 class="cont_title"><span>奖金分配</span></h2>
         <div id="div_MoneyInfo" class="area_form clearfix"> </div>        
@@ -269,7 +281,8 @@
                                 that.Info = json.result.retData[0];
                                 cur_AchieveType = that.Info.AchieveType;
                                 cur_ResponUID = that.Info.ResponsMan;
-                                Get_RewardUserInfo();                                
+                                Get_RewardUserInfo();  
+                                Get_LookPage_Document(6, cur_AchieveId, $("#ul_Certificate_6"));
                             }
                         },
                         error: function () {

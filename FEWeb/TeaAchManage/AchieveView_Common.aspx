@@ -74,7 +74,7 @@
             <div class="col-xs-6 input_lable2">
                 <div class="row msg_item">
                     <div class="col-xs-5 msg_label">
-                        获奖扫描件：
+                        获奖文件：
                     </div>
                     <div class="col-xs-7">
                        <div class="fl uploader_container" style="padding-left:0px;">
@@ -198,6 +198,18 @@
                     </div>
                     <div class="col-xs-7 msg_control">
                       <span>${Major_Name}</span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-6">
+                <div class="row msg_item">
+                    <div class="col-xs-5 msg_label">
+                        获奖证书：
+                    </div>
+                    <div class="col-xs-7 msg_control">
+                        <div class="fl">
+                            <ul id="ul_Certificate_6" class="clearfix file-ary"></ul>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -372,6 +384,7 @@
             if (Id != undefined) {
                 GetAchieveDetailById(1);
                 Get_LookPage_Document(0, Id);
+                Get_LookPage_Document(6, Id, $("#ul_Certificate_6"));
             }
         });
         //绑定成员信息

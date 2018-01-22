@@ -70,7 +70,7 @@
                 <div class="col-xs-12">
                     <div class="row msg_item">
                         <div class=" msg_label fl" style="width:200px;">
-                            获奖扫描件：
+                            获奖文件：
                         </div>
                         <div class="col-xs-9">
                            <div class="uploader_container" style="padding-left:0px;">
@@ -196,6 +196,18 @@
                     </div>
                     <div class="col-xs-7 msg_control">
                         <span>${Major_Name}</span>
+                    </div>
+                </div>
+            </div>           
+            <div class="col-xs-6">
+                <div class="row msg_item">
+                    <div class="col-xs-5 msg_label">
+                        获奖证书：
+                    </div>
+                    <div class="col-xs-7 msg_control">
+                        <div class="fl">
+                            <ul id="ul_Certificate_6" class="clearfix file-ary"></ul>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -422,6 +434,7 @@
             }
         });        
         function View_CheckInit(model) { //查看、审核初始化
+            Get_LookPage_Document(6, model.Id, $("#ul_Certificate_6"));            
             var yesstatus = 3, nostatus = 2;
             if (model.ComStatus >= 0 && model.ComStatus <= 3) {//信息
                 yesstatus = 3, nostatus = 2;               

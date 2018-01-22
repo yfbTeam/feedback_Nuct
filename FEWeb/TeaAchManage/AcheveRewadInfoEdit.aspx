@@ -40,7 +40,7 @@
                         <input type="text" isrequired="true" fl="认定日期" name="DefindDate" id="DefindDate" value="${DateTimeConvert(DefindDate, '年月日')}" class="text Wdate" readonly="readonly" onclick="WdatePicker({ dateFmt: 'yyyy年MM月dd日', onpicked: function () { ChangeLid(); }, oncleared: function () { ChangeLid(); } });"/>
                     </div>
                     <div class="input_lable input_lable2">
-                        <label for="">获奖扫描件：</label>
+                        <label for="">获奖文件：</label>
                         <div class="fl uploader_container">
                             <div id="uploader">
                                 <div class="queueList">
@@ -110,6 +110,26 @@
                     <div class="input_lable fl">
                         <label for="">负责单位：</label>
                         <select class="chosen-select" data-placeholder="负责单位" id="DepartMent" name="DepartMent" multiple="multiple"></select>
+                    </div>
+                    <div class="input_lable input_lable2">
+                        <label for="">获奖证书：</label>                        
+                        <div class="fl uploader_container">
+                            <div id="uploader_certi6">
+                                <div class="queueList">
+                                    <div id="dndArea_certi6" class="placeholder photo_lists">
+                                        <div id="filePicker_certi6"></div>
+                                        <ul class="filelist clearfix"></ul>
+                                    </div>
+                                </div>
+                                <div class="statusBar" style="display: none;">
+                                    <div class="progress">
+                                        <span class="text">0%</span>
+                                        <span class="percentage"></span>
+                                    </div>
+                                    <div class="info"></div>                                
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <h2 class="cont_title members {{if AchieveType!=2}}none{{/if}}"><span>成员信息</span></h2>
@@ -262,8 +282,10 @@
                         $("#Rid").val(model.Rid);
                         BindRank();
                         $("#Sort").val(model.Sort);                                                                 
-                        BindFile_Plugin();
-                        Get_Sys_Document(0, $("#Id").val());
+                        BindFile_Plugin(); 
+                        Get_Sys_Document(0, $("#Id").val());//获奖文件
+                        BindFile_Plugin("#uploader_certi6", "#filePicker_certi6", "#dndArea_certi6");
+                        Get_Sys_Document(6, $("#Id").val(), "#uploader_certi6");//获奖证书
                         BindUser("ResponsMan");
                         $("#ResponsMan").val(model.ResponsMan);
                         $("#ResponsMan").trigger("chosen:updated");
@@ -357,7 +379,7 @@
                     return false;
                 }
                 if ($("#uploader .filelist li").length <= 0) {
-                    layer.msg("请上传获奖扫描件!");
+                    layer.msg("请上传获奖文件!");
                     return;
                 }
                 if (UrlDate.Type == "2" && !$("#Sort").val().length) {
@@ -399,9 +421,10 @@
                 }
             });
             object.MemberEdit = editArray.length > 0 ? JSON.stringify(editArray) : '';
-            var add_path = Get_AddFile();
+            var add_path = Get_AddFile(), cert_path = Get_AddFile(6, '#uploader_certi6');//获奖文件，获奖证书
+            add_path = add_path.concat(cert_path);
             object.Add_Path = add_path.length > 0 ? JSON.stringify(add_path) : "";
-            object.Edit_PathId = Get_EditFileId();
+            object.Edit_PathId = Get_EditFileId().concat(Get_EditFileId('#uploader_certi6'));
             if (s_type == 1) {
                 layer.confirm('确认提交吗？提交后将不能进行修改', {
                     btn: ['确定', '取消'], //按钮
