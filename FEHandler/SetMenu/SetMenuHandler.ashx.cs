@@ -212,7 +212,7 @@ namespace FEHandler.SetMenu
                 }
                 List<Sys_RoleOfMenu> RoleOfMenu_List = Constant.Sys_RoleOfMenu_List;
                 List<int> list = Split_Hepler.str_to_ints(Roleid).ToList();
-                var query = from RoleOfMenu_ in RoleOfMenu_List
+                var query = (from RoleOfMenu_ in RoleOfMenu_List
                             join MenuInfo_ in MenuInfo_List on RoleOfMenu_.Menu_Id equals MenuInfo_.Id
                             where list.Contains((int)RoleOfMenu_.Role_Id)
                             orderby MenuInfo_.Sort
@@ -223,7 +223,7 @@ namespace FEHandler.SetMenu
                                 Url = MenuInfo_.Url,
                                 Pid = MenuInfo_.Pid,
                                 ID = MenuInfo_.Id
-                            };
+                            });
                 var query2 = from p in query
                              group p by p.ID into allg
                              select new

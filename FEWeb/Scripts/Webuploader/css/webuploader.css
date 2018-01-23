@@ -17,12 +17,9 @@
 	border-radius: 3px;
 	overflow: hidden;
 }
-.input_lable2{
-<<<<<<< HEAD
-    clear:both;position:relative;
-=======
- clear:both;position:relative;
->>>>>>> afb61b6fb84271d89f1e5fd75e5d329cee3c5101
+.input_lable2 {
+    clear: both;
+    position: relative;
 }
 .input_lable2 >label{
     position:absolute;left:0;top:0;
