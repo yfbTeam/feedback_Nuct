@@ -1,7 +1,9 @@
 ﻿using ConferenceCommon.ProcessHelper;
 using FEHandler;
 using FEHandler.Eva_Manage;
+using FEHandler.SetMenu;
 using FEHandler.SysClass;
+using FEHandler.UserMan;
 using FEModel;
 using FEUtility;
 using System;
@@ -32,7 +34,11 @@ namespace FE_Test
             //Eva_ManageHandler.Get_Eva_RegularData_RoomDetailList_Helper(1, 25, 2209, "001265", "7121001", 2, 1);
 
 
-            ProcessManage.KillProcess("w3wp");
+            //ProcessManage.KillProcess("w3wp");
+
+
+
+            var jsm = SetMenuHandler.TestGetMenuInfoHelper("16", "0");
         }
 
 
@@ -327,19 +333,19 @@ public class helper
 
     public static void Cls()
     {
-          //按80数量进行分组
-            var result = ListHelper.GetListGroup<Student>(Constant.Student_List, 15);
+        //按80数量进行分组
+        var result = ListHelper.GetListGroup<Student>(Constant.Student_List, 15);
 
-            for (int i = 0; i < result.Count; i++)
+        for (int i = 0; i < result.Count; i++)
+        {
+            for (int j = 0; j < result[i].Count; j++)
             {
-                for (int j = 0; j < result[i].Count; j++)
-                {
-                    var model = result[i][j];
-                    var cls = Constant.ClassInfo_List[i];
-                    Constant.Class_StudentInfoService.Add(new Class_StudentInfo() { UniqueNo = model.UniqueNo, Class_Id = cls.ClassNO, CreateTime = DateTime.Now, CreateUID = "admin", EditTime = DateTime.Now, EditUID = "", IsDelete = 0 });
-                }
-
+                var model = result[i][j];
+                var cls = Constant.ClassInfo_List[i];
+                Constant.Class_StudentInfoService.Add(new Class_StudentInfo() { UniqueNo = model.UniqueNo, Class_Id = cls.ClassNO, CreateTime = DateTime.Now, CreateUID = "admin", EditTime = DateTime.Now, EditUID = "", IsDelete = 0 });
             }
+
+        }
     }
 
     #endregion

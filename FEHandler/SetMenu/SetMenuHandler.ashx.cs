@@ -1,4 +1,5 @@
 ﻿using FEModel;
+using FEModel.Enum;
 using FEUtility;
 using System;
 using System.Collections.Generic;
@@ -182,12 +183,32 @@ namespace FEHandler.SetMenu
             {
                 HttpRequest Request = context.Request;
                 string Roleid = RequestHelper.string_transfer(Request, "Rid");
-                string isMenu= RequestHelper.string_transfer(Request, "IsMenu");
+                string isMenu = RequestHelper.string_transfer(Request, "IsMenu");
+
+                jsonModel = TestGetMenuInfoHelper(Roleid, isMenu);
+            }
+            catch (Exception ex)
+            {
+                LogHelper.Error(ex);
+            }
+            finally
+            {
+                //无论后端出现什么问题，都要给前端有个通知【为防止jsonModel 为空 ,全局字段 jsonModel 特意声明之后进行初始化】
+                context.Response.Write("{\"result\":" + Constant.jss.Serialize(jsonModel) + "}");
+            }
+        }
+
+        public static JsonModel TestGetMenuInfoHelper(string Roleid, string isMenu)
+        {
+            int intSuccess = (int)errNum.Success;
+            JsonModel jsmodel = new JsonModel();
+            try
+            {
                 //返回所有用户信息
                 List<Sys_MenuInfo> MenuInfo_List = Constant.Sys_MenuInfo_List;
                 if (!string.IsNullOrEmpty(isMenu))
                 {
-                    MenuInfo_List = MenuInfo_List.Where(t=>t.IsMenu==Convert.ToByte(isMenu)).ToList();
+                    MenuInfo_List = MenuInfo_List.Where(t => t.IsMenu == Convert.ToByte(isMenu)).ToList();
                 }
                 List<Sys_RoleOfMenu> RoleOfMenu_List = Constant.Sys_RoleOfMenu_List;
                 List<int> list = Split_Hepler.str_to_ints(Roleid).ToList();
@@ -197,7 +218,7 @@ namespace FEHandler.SetMenu
                             orderby MenuInfo_.Sort
                             select new
                             {
-                                IconClass=MenuInfo_.IconClass,
+                                IconClass = MenuInfo_.IconClass,
                                 Name = MenuInfo_.Name,
                                 Url = MenuInfo_.Url,
                                 Pid = MenuInfo_.Pid,
@@ -213,19 +234,18 @@ namespace FEHandler.SetMenu
                                  Pid = allg.Max(p => p.Pid),
                                  ID = allg.Max(p => p.ID),
                              };
-                jsonModel = JsonModel.get_jsonmodel(0, "success", query2);
-
+                jsmodel = JsonModel.get_jsonmodel(intSuccess, "success", query2);
             }
             catch (Exception ex)
             {
+                jsmodel = JsonModel.get_jsonmodel(3, "failed", ex.Message);
                 LogHelper.Error(ex);
             }
-            finally
-            {
-                //无论后端出现什么问题，都要给前端有个通知【为防止jsonModel 为空 ,全局字段 jsonModel 特意声明之后进行初始化】
-                context.Response.Write("{\"result\":" + Constant.jss.Serialize(jsonModel) + "}");
-            }
+            return jsmodel;
         }
+
+
+
         public void GetAllMenuInfo(HttpContext context)
         {
             try
@@ -236,20 +256,20 @@ namespace FEHandler.SetMenu
                 List<Sys_MenuInfo> MenuInfo_List = Constant.Sys_MenuInfo_List;
                 List<Sys_RoleOfMenu> RoleOfMenu_List = Constant.Sys_RoleOfMenu_List;
 
-                var query = from MenuInfo_ in MenuInfo_List                         
+                var query = from MenuInfo_ in MenuInfo_List
                             orderby MenuInfo_.Sort
                             select new
-                            {                              
-                                Name = MenuInfo_.Name+(string.IsNullOrEmpty(MenuInfo_.Description)?"":MenuInfo_.Description),
+                            {
+                                Name = MenuInfo_.Name + (string.IsNullOrEmpty(MenuInfo_.Description) ? "" : MenuInfo_.Description),
                                 Url = MenuInfo_.Url,
                                 Pid = MenuInfo_.Pid,
                                 ID = MenuInfo_.Id,
-                                Description=MenuInfo_.Description
+                                Description = MenuInfo_.Description
                             };
                 var query2 = from p in query
                              group p by p.ID into allg
                              select new
-                             {                              
+                             {
                                  Name = allg.Max(p => p.Name),
                                  Url = allg.Max(p => p.Url),
                                  Pid = allg.Max(p => p.Pid),
@@ -325,45 +345,45 @@ namespace FEHandler.SetMenu
             try
             {
                 HttpRequest Request = context.Request;
-                string Roleid = RequestHelper.string_transfer(Request, "Rid");                             
-                List<int> rid_list = Split_Hepler.str_to_ints(Roleid).ToList();               
-                var roleOfMenu_List = Constant.Sys_RoleOfMenu_List.Where(p=> rid_list.Contains(Convert.ToInt32(p.Role_Id)));
-                var sel_menu = Roleid=="1"?(from menu in Constant.Sys_MenuInfo_List                                          
-                                            select new
-                                            {
-                                                Id = menu.Id,
-                                                Pid = menu.Pid,
-                                                Name = menu.Name,
-                                                Url = menu.Url,
-                                                IsMenu = menu.IsMenu,
-                                                IconClass = menu.IconClass,
-                                                MenuCode = menu.MenuCode
-                                            }).Distinct():(from role in roleOfMenu_List                      
-                            join menu in Constant.Sys_MenuInfo_List on role.Menu_Id equals menu.Id                            
-                            select new
-                            {
-                                Id = menu.Id,
-                                Pid = menu.Pid,
-                                Name = menu.Name,
-                                Url = menu.Url,
-                                IsMenu=menu.IsMenu,
-                                IconClass = menu.IconClass,
-                                MenuCode =menu.MenuCode                                
-                            }).Distinct();
-                var menulist =from menu in sel_menu
-                              where menu.IsMenu==0&& sel_menu.Where(p => p.Pid == menu.Id&&p.IsMenu==1).Count()>0
-                              select new
-                              {
-                                  Id = menu.Id,
-                                  Url = menu.Url
-                              };
+                string Roleid = RequestHelper.string_transfer(Request, "Rid");
+                List<int> rid_list = Split_Hepler.str_to_ints(Roleid).ToList();
+                var roleOfMenu_List = Constant.Sys_RoleOfMenu_List.Where(p => rid_list.Contains(Convert.ToInt32(p.Role_Id)));
+                var sel_menu = Roleid == "1" ? (from menu in Constant.Sys_MenuInfo_List
+                                                select new
+                                                {
+                                                    Id = menu.Id,
+                                                    Pid = menu.Pid,
+                                                    Name = menu.Name,
+                                                    Url = menu.Url,
+                                                    IsMenu = menu.IsMenu,
+                                                    IconClass = menu.IconClass,
+                                                    MenuCode = menu.MenuCode
+                                                }).Distinct() : (from role in roleOfMenu_List
+                                                                 join menu in Constant.Sys_MenuInfo_List on role.Menu_Id equals menu.Id
+                                                                 select new
+                                                                 {
+                                                                     Id = menu.Id,
+                                                                     Pid = menu.Pid,
+                                                                     Name = menu.Name,
+                                                                     Url = menu.Url,
+                                                                     IsMenu = menu.IsMenu,
+                                                                     IconClass = menu.IconClass,
+                                                                     MenuCode = menu.MenuCode
+                                                                 }).Distinct();
+                var menulist = from menu in sel_menu
+                               where menu.IsMenu == 0 && sel_menu.Where(p => p.Pid == menu.Id && p.IsMenu == 1).Count() > 0
+                               select new
+                               {
+                                   Id = menu.Id,
+                                   Url = menu.Url
+                               };
                 var btnlist = sel_menu.Where(p => p.IsMenu == 1);
-                var query = from menu in menulist                         
+                var query = from menu in menulist
                             select new
                             {
-                                 menu.Id,
-                                 menu.Url,
-                                 Btn= btnlist.Where(t=>t.Pid==menu.Id)
+                                menu.Id,
+                                menu.Url,
+                                Btn = btnlist.Where(t => t.Pid == menu.Id)
                             };
                 if (query.Count() > 0)
                 {
