@@ -2551,70 +2551,6 @@ namespace FEModel
 	///	
 	/// </summary>
 	[Serializable]
-    public partial class TPM_RewardBatch
-    {
-
-		/// <summary>
-		/// 
-		/// </summary>
-		public int? Id { get; set; }
-		/// <summary>
-		/// 奖项Id 
-		/// </summary>
-		public int? Reward_Id { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public int? Rank_Id { get; set; }
-		/// <summary>
-		///金额 
-		/// </summary>
-		public decimal? Money { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public string CreateUID { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public DateTime? CreateTime { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public string EditUID { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public DateTime? EditTime { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public Byte? IsDelete { get; set; }
-
-          public override bool Equals(object obj)
-        {
-            bool result = false;
-            if (obj.GetType() == typeof(TPM_RewardBatch))
-            {
-                TPM_RewardBatch _obj = obj as TPM_RewardBatch;
-                if (_obj.Id == this.Id)
-                {
-                    result = true;
-                }
-            }
-            return result;
-        }
-
-	    public override int GetHashCode()
-        {
-            return base.GetHashCode();
-        }
-    }
-
-	/// </summary>
-	///	
-	/// </summary>
-	[Serializable]
     public partial class Eva_Regular
     {
 
@@ -3371,6 +3307,10 @@ namespace FEModel
 		/// </summary>
 		public int? IdentifyCol { get; set; }
 		/// <summary>
+		///预估字数 
+		/// </summary>
+		public decimal? PredictWord { get; set; }
+		/// <summary>
 		/// 
 		/// </summary>
 		public string CreateUID { get; set; }
@@ -3653,6 +3593,78 @@ namespace FEModel
             if (obj.GetType() == typeof(Sys_ButtonType))
             {
                 Sys_ButtonType _obj = obj as Sys_ButtonType;
+                if (_obj.Id == this.Id)
+                {
+                    result = true;
+                }
+            }
+            return result;
+        }
+
+	    public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
+    }
+
+	/// </summary>
+	///	
+	/// </summary>
+	[Serializable]
+    public partial class TPM_RewardBatch
+    {
+
+		/// <summary>
+		/// 
+		/// </summary>
+		public int? Id { get; set; }
+		/// <summary>
+		/// 奖项Id 
+		/// </summary>
+		public int? Reward_Id { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public int? Rank_Id { get; set; }
+		/// <summary>
+		///金额 
+		/// </summary>
+		public decimal? Money { get; set; }
+		/// <summary>
+		///追加依据 
+		/// </summary>
+		public string AddBasis { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public string DocumentIds { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public string CreateUID { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public DateTime? CreateTime { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public string EditUID { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public DateTime? EditTime { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public Byte? IsDelete { get; set; }
+
+          public override bool Equals(object obj)
+        {
+            bool result = false;
+            if (obj.GetType() == typeof(TPM_RewardBatch))
+            {
+                TPM_RewardBatch _obj = obj as TPM_RewardBatch;
                 if (_obj.Id == this.Id)
                 {
                     result = true;

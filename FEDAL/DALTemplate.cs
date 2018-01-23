@@ -588,24 +588,6 @@ namespace FEDAL
 	     /// </summary>
 	     ///	
 	     /// </summary>
-		 public partial class TPM_RewardBatchDal:BaseDal<TPM_RewardBatch>,ITPM_RewardBatchDal
-         {
-
-
-         }	
-
-        public partial class DalFactory
-        {
-            public static ITPM_RewardBatchDal GetTPM_RewardBatchDal()
-            {
-                return new TPM_RewardBatchDal();
-            }
-	    }
-
-
-	     /// </summary>
-	     ///	
-	     /// </summary>
 		 public partial class Eva_RegularDal:BaseDal<Eva_Regular>,IEva_RegularDal
          {
 
@@ -815,6 +797,24 @@ namespace FEDAL
             public static ISys_ButtonTypeDal GetSys_ButtonTypeDal()
             {
                 return new Sys_ButtonTypeDal();
+            }
+	    }
+
+
+	     /// </summary>
+	     ///	
+	     /// </summary>
+		 public partial class TPM_RewardBatchDal:BaseDal<TPM_RewardBatch>,ITPM_RewardBatchDal
+         {
+
+
+         }	
+
+        public partial class DalFactory
+        {
+            public static ITPM_RewardBatchDal GetTPM_RewardBatchDal()
+            {
+                return new TPM_RewardBatchDal();
             }
 	    }
 

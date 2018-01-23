@@ -40,7 +40,7 @@
                         <input type="text" isrequired="true" fl="认定日期" name="DefindDate" id="DefindDate" value="${DateTimeConvert(DefindDate, '年月日')}" class="text Wdate" readonly="readonly" onclick="WdatePicker({ dateFmt: 'yyyy年MM月dd日', onpicked: function () { ChangeLid(); }, oncleared: function () { ChangeLid(); } });"/>
                     </div>
                     <div class="input_lable input_lable2">
-                        <label for="">获奖扫描件：</label>
+                        <label for="">获奖文件：</label>
                         <div class="fl uploader_container">
                             <div id="uploader">
                                 <div class="queueList">
@@ -62,7 +62,7 @@
                 </div>
                 <h2 class="cont_title"><span>基本信息</span></h2>
                 <div class="area_form clearfix"> 
-                    {{if AchieveType==1||AchieveType==2}}                    
+                    {{if AchieveType!=3&&GPid!=4}}                    
                     <div class="input_lable fl">
                         <label for="">获奖项目名称：</label>
                         <input type="text" isrequired="true" fl="获奖项目名称" class="text" name="Name" id="Name" value="${Name}" style="width: 694px" />
@@ -111,13 +111,34 @@
                         <label for="">负责单位：</label>
                         <select class="chosen-select" data-placeholder="负责单位" id="DepartMent" name="DepartMent" multiple="multiple"></select>
                     </div>
+                    <div class="input_lable input_lable2">
+                        <label for="">获奖证书：</label>                        
+                        <div class="fl uploader_container">
+                            <div id="uploader_certi6">
+                                <div class="queueList">
+                                    <div id="dndArea_certi6" class="placeholder photo_lists">
+                                        <div id="filePicker_certi6"></div>
+                                        <ul class="filelist clearfix"></ul>
+                                    </div>
+                                </div>
+                                <div class="statusBar" style="display: none;">
+                                    <div class="progress">
+                                        <span class="text">0%</span>
+                                        <span class="percentage"></span>
+                                    </div>
+                                    <div class="info"></div>                                
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <h2 class="cont_title members {{if AchieveType!=2}}none{{/if}}"><span>成员信息</span></h2>
                 <div class="area_form members {{if AchieveType!=2}}none{{/if}}">
                     <div class="clearfix">
                         <input type="button" name="name" id="" value="添加" class="btn fl" onclick="javascript: OpenIFrameWindow('添加成员','AddAchMember.aspx', '1000px', '700px');">
                         <input type="button" name="name" id="" value="删除" class="btn fl ml20" onclick="Del_HtmlMember();">
-                        <span class="fr status">已分：<span id="span_CurScore">0</span>分</span>
+                        <span class="fr status">已分：<span id="span_UnScore" style="color:#d02525;">未分：0分</span></span>
+                        <span class="fr status">已分：<span id="span_CurScore">0</span>分，</span>
                         <span class="fr status">总分：<span id="span_AllScore">${TotalScore}</span>分，</span>
                     </div>
                     <table class="allot_table mt10">
@@ -261,8 +282,10 @@
                         $("#Rid").val(model.Rid);
                         BindRank();
                         $("#Sort").val(model.Sort);                                                                 
-                        BindFile_Plugin();
-                        Get_Sys_Document(0, $("#Id").val());
+                        BindFile_Plugin(); 
+                        Get_Sys_Document(0, $("#Id").val());//获奖文件
+                        BindFile_Plugin("#uploader_certi6", "#filePicker_certi6", "#dndArea_certi6");
+                        Get_Sys_Document(6, $("#Id").val(), "#uploader_certi6");//获奖证书
                         BindUser("ResponsMan");
                         $("#ResponsMan").val(model.ResponsMan);
                         $("#ResponsMan").trigger("chosen:updated");
@@ -290,12 +313,12 @@
                 type: "post",
                 dataType: "json",
                 async:false,
-                data: { "Func": "GetTPM_BookStory", "IsPage": "false", "Status": "3" },
+                data: {Func: "GetTPM_BookStory", IsPage: false,BookType:2,Status: "3" },
                 success: function (json) {
                     if (json.result.errMsg == "success") {
                         $("#BookId").append('<option value="">请选择教材</option>');
                         $.each(json.result.retData, function () {
-                            $("#BookId").append('<option value="' + this.Id + '" isbn="' + this.ISBN + '" bt="' + this.BookType + '">' + this.Name + (this.BookType == 1 ? '-立项' : '-出版') + '</option>');
+                            $("#BookId").append('<option value="' + this.Id + '" isbn="' + this.ISBN + '" bt="' + this.BookType + '">' + this.Name + '</option>');
                         });
                     }
                     $("#BookId").chosen({
@@ -356,7 +379,7 @@
                     return false;
                 }
                 if ($("#uploader .filelist li").length <= 0) {
-                    layer.msg("请上传获奖扫描件!");
+                    layer.msg("请上传获奖文件!");
                     return;
                 }
                 if (UrlDate.Type == "2" && !$("#Sort").val().length) {
@@ -370,18 +393,7 @@
                 if (department == null || department == "") {
                     layer.msg("请输入负责单位!");
                     return;
-                }
-                if (UrlDate.Type == "2") {
-                    var add_tr = $("#tb_Member tr");
-                    if (add_tr.length <= 0) {
-                        layer.msg("请添加成员信息!");
-                        return;
-                    }
-                    if (add_tr.length <= 4) {
-                        layer.msg("请至少添加五个成员信息!");
-                        return;
-                    }                    
-                }
+                }                
             }
             if (UrlDate.Type == "2" && (Number($('#span_AllScore').html()) < Number($('#span_CurScore').html()))) {
                 layer.msg("已分配分数不能大于总分！");
@@ -409,9 +421,10 @@
                 }
             });
             object.MemberEdit = editArray.length > 0 ? JSON.stringify(editArray) : '';
-            var add_path = Get_AddFile();
+            var add_path = Get_AddFile(), cert_path = Get_AddFile(6, '#uploader_certi6');//获奖文件，获奖证书
+            add_path = add_path.concat(cert_path);
             object.Add_Path = add_path.length > 0 ? JSON.stringify(add_path) : "";
-            object.Edit_PathId = Get_EditFileId();
+            object.Edit_PathId = Get_EditFileId().concat(Get_EditFileId('#uploader_certi6'));
             if (s_type == 1) {
                 layer.confirm('确认提交吗？提交后将不能进行修改', {
                     btn: ['确定', '取消'], //按钮

@@ -22,8 +22,7 @@
                 {{else}} {{if Status==2}}<span class="nocheck">审核不通过</span>
                 {{else}} <span class="pass">通过</span>
                 {{/if}}{{/if}}{{/if}}
-            </td>
-            <td>{{if IsPlanBook==0}}否{{else}}是{{/if}}</td>
+            </td>           
             <td>{{if BookType==2}}${EditionNo}{{/if}}</td>
             <td>{{if BookType==2}}${DateTimeConvert(PublisthTime,"yyyy-MM")}{{/if}}</td>
             <td class="operate_wrap">
@@ -66,8 +65,7 @@
                             <th>分册情况</th>
                             <th>主编姓名</th>
                             <th>教材类型</th>
-                            <th>审核状态</th>
-                            <th>国家级规划教材</th>
+                            <th>审核状态</th>                            
                             <th>版次</th>
                             <th>出版时间</th>
                             <th>操作</th>

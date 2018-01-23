@@ -75,7 +75,7 @@
             <td>${rew.FirstMoney}</td>
             <td>${rew.AddMoney}</td>
             <td class="operate_wrap">
-                <div class="operate" onclick="javascript:OpenIFrameWindow('奖金管理', '../TeaAchManage/AddAward.aspx?Id=${rew.Id}', '600px', '400px');">
+                <div class="operate" onclick="javascript:OpenIFrameWindow('奖金管理', '../TeaAchManage/AddAward.aspx?Id=${rew.Id}', '700px', '480px');">
                     <i class="iconfont color_purple">&#xe623;</i>
                     <span class="operate_none bg_purple">奖金</span>
                 </div>
@@ -171,7 +171,7 @@
             <td>${FirstMoney}</td>
             <td>${AddMoney}</td>
             <td class="operate_wrap">
-                <div class="operate" onclick="javascript:OpenIFrameWindow('奖金管理', '../TeaAchManage/AddAward.aspx?Id=${RId}&rank=${Id}', '600px', '400px');">
+                <div class="operate" onclick="javascript:OpenIFrameWindow('奖金管理', '../TeaAchManage/AddAward.aspx?Id=${RId}&rank=${Id}', '700px', '480px');">
                     <i class="iconfont color_purple">&#xe623;</i>
                     <span class="operate_none bg_purple">奖金</span>
                 </div> 

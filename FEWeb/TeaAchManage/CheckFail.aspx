@@ -89,17 +89,7 @@
                             <span id="UseObj"></span>
                         </div>
                     </div>
-                </div>
-                <div class="col-xs-6">
-                    <div class="row msg_item">
-                        <div class="col-xs-5 msg_label">
-                            国家级规划教材：
-                        </div>
-                        <div class="col-xs-7 msg_control">
-                            <span id="IsPlanBook">是</span>
-                        </div>
-                    </div>
-                </div>
+                </div>                
                 <div class="col-xs-6 edition">
                     <div class="row msg_item">
                         <div class="col-xs-5 msg_label">
@@ -295,13 +285,10 @@
                             //$("#BookType").val(this.BookType);
                             $("#IsOneVolum").html(this.IsOneVolum == "1" ? "单册" : "多册");                           
                             $("#MEditor").html(this.EditName);
-                            $("#MEditorDepart_Name").html(this.MEditorDepart_Name);
-                            
-                            $("#UseObj").html(this.UseObj);                            
-                            $("#IsPlanBook").html(this.IsPlanBook == "1" ? "是" : "否");
+                            $("#MEditorDepart_Name").html(this.MEditorDepart_Name);                            
+                            $("#UseObj").html(this.UseObj);                                                        
                             $("#IsOneAuthor").html(this.IsOneAuthor == "1" ? "是" : "否");
-                            $("#ProjectType").html(this.ProjectType == "1" ? "北京市精品教材立项" : "国家级精品教材立项");
-                            
+                            $("#ProjectType").html(this.ProjectType == "1" ? "北京市精品教材立项" : "国家级精品教材立项");                            
                             $("#SeriesBookName").html(this.SeriesBookName);
                             $("#MainISBN").html(this.MainISBN);
                             $("#SeriesBookNum").html(this.SeriesBookNum + "本");

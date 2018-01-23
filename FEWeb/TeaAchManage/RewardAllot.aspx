@@ -36,7 +36,7 @@
                     {{else AuditStatus==2}}<span class="nocheck">审核不通过</span>
                     {{else}} <span class="assigning">审核通过</span>{{/if}}
                 </div>
-                <div class="fr status">奖金：<span id="span_AllMoney_${rowNum}">${Money}</span>万，已分：<span id="span_HasAllot_${rowNum}">${HasAllot}</span>万</div>
+                <div class="fr status">奖金：<span id="span_AllMoney_${rowNum}">${Money}</span>万，已分：<span id="span_HasAllot_${rowNum}">${HasAllot}</span>万，<span id="span_UnAllot_${rowNum}" style="color:#d02525;">未分：${Money-HasAllot}万</span></div>
             </div>
             <table class="allot_table mt10  ">
                 <thead>
@@ -124,7 +124,7 @@
     <div class="main" id="RewardAllot">
         <h2 class="cont_title"><span>基本信息</span></h2>
         <div class="area_form clearfix">
-            <div class="col-xs-6" v-if="Info.AchieveType==1||Info.AchieveType==2" v-cloak>
+            <div class="col-xs-6" v-if="Info.AchieveType!=3&&Info.GPid!=4" v-cloak>
                 <div class="row msg_item">
                     <div class="col-xs-5 msg_label">
                         获奖项目名称：
@@ -228,6 +228,18 @@
                     </div>
                 </div>
             </div>
+            <div class="col-xs-6">
+                <div class="row msg_item">
+                    <div class="col-xs-5 msg_label">
+                        获奖证书：
+                    </div>
+                    <div class="col-xs-7 msg_control">
+                        <div class="fl">
+                            <ul id="ul_Certificate_6" class="clearfix file-ary"></ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
         <h2 class="cont_title"><span>奖金分配</span></h2>
         <div id="div_MoneyInfo" class="area_form clearfix"> </div>        
@@ -269,7 +281,8 @@
                                 that.Info = json.result.retData[0];
                                 cur_AchieveType = that.Info.AchieveType;
                                 cur_ResponUID = that.Info.ResponsMan;
-                                Get_RewardUserInfo();                                
+                                Get_RewardUserInfo();  
+                                Get_LookPage_Document(6, cur_AchieveId, $("#ul_Certificate_6"));
                             }
                         },
                         error: function () {

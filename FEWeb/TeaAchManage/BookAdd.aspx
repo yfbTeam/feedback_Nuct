@@ -94,16 +94,7 @@
                 <div class="input_lable fl">
                     <label for="">使用对象：</label>
                     <input type="text" name="UseObj" id="UseObj" isrequired="true" fl="使用对象" value="" class="text" />
-                </div>
-                <div class="input_lable fl">
-                    <label for="">国家级规划教材：</label>
-                    <div class="radio_wrap">
-                        <input type="radio" value="1" name="IsPlanBook" id="shi" checked="checked" />
-                        <label for="shi">是</label>
-                        <input type="radio" value="0" name="IsPlanBook" id="fou" />
-                        <label for="fou">否</label>
-                    </div>
-                </div>
+                </div>                
                 <div class="input_lable fl edition">
                     <label for="">立项类型：</label>
                     <select class="select" id="ProjectType" name="ProjectType">
@@ -111,7 +102,10 @@
                         <option value="2">国家级精品教材立项</option>
                     </select>
                 </div>
-
+                <div class="input_lable fl edition">
+                    <label for="">预估字数：</label>
+                    <input type="text" name="PredictWord" id="PredictWord" isrequired="true" fl="预估字数" value="" class="text" />
+                </div>
                 <div class="input_lable fl none publish">
                     <label for="">出版时间：</label>
                     <input type="text" isrequired="true" fl="出版时间" name="PublisthTime" id="PublisthTime" value="" class="text Wdate" onfocus="WdatePicker({dateFmt:'yyyy-MM'})" />
@@ -256,18 +250,11 @@
                             $("#IsOneVolum").val(this.IsOneVolum);
                             $("#MEditorDepart").val(this.MEditorDepart);
                             $("#MEditorDepart_Name").val(this.MEditorDepart_Name);
-                            $("#UseObj").val(this.UseObj);
-                            $("#IsPlanBook").val(this.IsPlanBook);
+                            $("#UseObj").val(this.UseObj);                           
                             $("#ProjectType").val(this.ProjectType);
                             $("#SeriesBookName").val(this.SeriesBookName);
                             $("#MainISBN").val(this.MainISBN);
-                            $("#SeriesBookNum").val(this.SeriesBookNum);
-                            if (this.IsPlanBook == "1") {
-                                $(':radio[name="IsPlanBook"]').eq(0).attr("checked", true);
-                            }
-                            else {
-                                $(':radio[name="IsPlanBook"]').eq(1).attr("checked", true);
-                            }
+                            $("#SeriesBookNum").val(this.SeriesBookNum);                            
                             if (this.IsOneAuthor == "1") {
                                 $(':radio[name="IsOneAuthor"]').eq(0).attr("checked", true);
                             }
@@ -279,6 +266,7 @@
                             $("#ISBN").val(this.ISBN);
                             $("#Publisher").val(this.Publisher);
                             $("#PublisthTime").val(DateTimeConvert(this.PublisthTime, 'yyyy-MM'));
+                            $("#PredictWord").val(this.PredictWord);
                             IsOneVolum();
                             ChangeType();
                             IsOneAuthor();
@@ -347,17 +335,25 @@
                     layer.msg("该教材非独著，请添加作者后提交！");
                     return;
                 }
-                var au_count = 0,wn_count=0;
+                var sort_count=0,au_count = 0,wn_count=0;
                 var word_reg = /(^[1-9]([0-9]+)?(\.[0-9]{1,2})?$)|(^(0){1}$)|(^[0-9]\.[0-9]([0-9])?$)/;                
                 $("#AuthorInfo tr input[type='number']").each(function () {
                     if ($(this).val().trim() == "") {
-                        au_count++;return false;
+                        if ($(this).attr("regtype") == "money")
+                        {
+                            au_count++;
+                        } else {
+                            sort_count++;
+                        }                
                     }
                     if ($(this).attr("regtype") == "money"&&$(this).val()!= "" && word_reg.test($(this).val()) == false) {                        
-                        wn_count++; return false;
+                        wn_count++;
                     }
                 });
-                if (au_count > 0) { layer.msg("请填写作者信息处的排名及贡献字数！"); return; }
+                if (sort_count > 0) { layer.msg("请填写作者信息处的排名！"); return; }
+                if ($("#BookType").val() == "2"&&au_count > 0) {
+                    layer.msg("请填写作者信息处的贡献字数！");return;
+                }                
                 if (wn_count > 0) { layer.msg("请输入正确的贡献字数！"); return; }
             }
             if (valid_flag== 0)
@@ -370,15 +366,6 @@
                     o["OneAuthor"].push($("input[name='IsOneAuthor']:checked").val());
                 } else {
                     o["OneAuthor"] = $("input[name='IsOneAuthor']:checked").val();
-                }
-
-                if (o["PlanBook"]) {
-                    if (!o["PlanBook"].push) {
-                        o["PlanBook"] = [o["PlanBook"]];
-                    }
-                    o["PlanBook"].push($("input[name='IsPlanBook']:checked").val());
-                } else {
-                    o["PlanBook"] = $("input[name='IsPlanBook']:checked").val();
                 }
                 var addArray = Rtn_AddAuthorArray();
                 o.MemberStr = addArray.length > 0 ? JSON.stringify(addArray) : '';

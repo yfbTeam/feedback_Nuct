@@ -23,7 +23,7 @@
         <h2 class="cont_title"><span>基本信息</span></h2>
         <input type="hidden" id="hid_Status" value="${Status}"/>
         <div class="area_form clearfix">
-            {{if AchieveType==1||AchieveType==2}}     
+            {{if AchieveType!=3&&GPid!=4}}  
             <div class="col-xs-4">
                 <div class="row msg_item">
                     <div class="col-xs-5 msg_label">
@@ -136,7 +136,18 @@
                     </div>
                 </div>
             </div>
-            
+            <div class="col-xs-4">
+                <div class="row msg_item">
+                    <div class="col-xs-5 msg_label">
+                        获奖证书：
+                    </div>
+                    <div class="col-xs-7 msg_control">
+                        <div class="fl">
+                            <ul id="ul_Certificate_6" class="clearfix file-ary"></ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
         <h2 class="cont_title"><span>分数分配</span></h2>
         <div class="area_form clearfix">
@@ -147,7 +158,7 @@
                     {{/if}}
                     {{if AchieveType==3}}
                     <span class="fr status">总贡献字数：<span id="span_Words">0</span>万字，总分：<span id="span_BookScore">0</span>分</span>
-                   {{else}}<span class="fr status">总分：<span id="span_AllScore">${TotalScore}</span>分，已分：<span id="span_CurScore">0</span>分</span>{{/if}}
+                   {{else}}<span class="fr status">总分：<span id="span_AllScore">${TotalScore}</span>分，已分：<span id="span_CurScore">0</span>分，<span id="span_UnScore" style="color:#d02525;">未分：0分</span></span>{{/if}}
                 </div>
                 <table class="allot_table mt10  ">
                     <thead>
@@ -201,13 +212,8 @@
                     <td>${Major_Name}</td>
                     <td>${WordNum}</td>          
                     <td class="td_score">{{if ULevel==3}}0{{else}}${Num_Fixed(mem.UnitScore* mem.WordNum)}{{/if}}</td>           
-                {{else}}
-                    <td>{{if $("#AchieveType").val()=="2"}}
-                          {{if i>4}}<input type="checkbox" name="ck_trsub" value="${mem.UserNo}" onclick="CheckSub(this);"/>{{/if}}
-                        {{else}}
-                          {{if i!=0}}<input type="checkbox" name="ck_trsub" value="${mem.UserNo}" onclick="CheckSub(this);"/>{{/if}}
-                        {{/if}}
-                    </td>
+                {{else}}                    
+                    <td>{{if i!=0}}<input type="checkbox" name="ck_trsub" value="${mem.UserNo}" onclick="CheckSub(this);" />{{/if}}</td>
                     <td>${mem.Name}</td>
                     <td>${mem.Major_Name}</td>
                     {{if $("#AchieveType").val()=="5"&&$('#hid_Status').val()=='3'}}
@@ -261,6 +267,7 @@
             BindFile_Plugin();
             Get_TPM_AcheiveMember(cur_AchieveId);            
             Get_Sys_Document(3, cur_AchieveId);
+            Get_LookPage_Document(6, cur_AchieveId, $("#ul_Certificate_6"));
         });              
         var object = { Func: "Add_AcheiveAllot", Id: cur_AchieveId };
         function submit(status) {
@@ -272,11 +279,7 @@
                     return;
                 }
             }            
-            if (status == 5) {
-                if ($("#uploader .filelist li").length <= 0) {
-                    layer.msg("请上传附件!");
-                    return;
-                }
+            if (status == 5) {                
                 var valid_flag = validateForm($('#tb_Member tr:visible input[type="number"]'));
                 if (valid_flag != "0") {
                     return false;

@@ -368,17 +368,6 @@ namespace FEBLL
 	/// </summary>
 	///	
 	/// </summary>
-    public partial class TPM_RewardBatchService:BaseService<TPM_RewardBatch>,ITPM_RewardBatchService
-    {
-	 public override void SetCurrentDal()
-        {
-            CurrentDal = DalFactory.GetTPM_RewardBatchDal();
-        }
-    }	
-
-	/// </summary>
-	///	
-	/// </summary>
     public partial class Eva_RegularService:BaseService<Eva_Regular>,IEva_RegularService
     {
 	 public override void SetCurrentDal()
@@ -505,6 +494,17 @@ namespace FEBLL
 	 public override void SetCurrentDal()
         {
             CurrentDal = DalFactory.GetSys_ButtonTypeDal();
+        }
+    }	
+
+	/// </summary>
+	///	
+	/// </summary>
+    public partial class TPM_RewardBatchService:BaseService<TPM_RewardBatch>,ITPM_RewardBatchService
+    {
+	 public override void SetCurrentDal()
+        {
+            CurrentDal = DalFactory.GetTPM_RewardBatchDal();
         }
     }	
 
