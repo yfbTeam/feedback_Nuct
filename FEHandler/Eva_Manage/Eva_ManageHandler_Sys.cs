@@ -780,7 +780,9 @@ namespace FEHandler.Eva_Manage
             string ReguId = RequestHelper.string_transfer(Request, "ReguId");
             try
             {
-                List<T_C_Model> list = Teacher_Course_ClassInfo(ReguId);
+                //List<T_C_Model> list = Teacher_Course_ClassInfo(ReguId);
+
+                List<CourseRoom> list =(from room in Constant.CourseRoom_List   select room).ToList();
                 if (list.Count > 0)
                 {
                     jsonModel = JsonModel.get_jsonmodel(intSuccess, "success", list);
@@ -802,71 +804,71 @@ namespace FEHandler.Eva_Manage
             }
         }
 
-        public static List<T_C_Model> Teacher_Course_ClassInfo(string ReguId)
-        {
-            List<T_C_Model> t_List = new List<T_C_Model>();
-            List<T_C_Model> modelList = new List<T_C_Model>();
-            try
-            {
-                var rooms = Constant.CourseRoom_List;
-                var courses = Constant.Course_List;
-                var clss = Constant.ClassInfo_List;
+        //public static List<T_C_Model> Teacher_Course_ClassInfo(string ReguId)
+        //{
+        //    List<T_C_Model> t_List = new List<T_C_Model>();
+        //    List<T_C_Model> modelList = new List<T_C_Model>();
+        //    try
+        //    {
+        //        var rooms = Constant.CourseRoom_List;
+        //        var courses = Constant.Course_List;
+        //        var clss = Constant.ClassInfo_List;
 
-                t_List = (from teacher in Constant.Teacher_List
-                          join user in Constant.UserInfo_List on teacher.UniqueNo equals user.UniqueNo
-                          join department in Constant.Major_List on teacher.Major_ID equals department.Id
-                          select new T_C_Model()
-                          {
-                              Teacher_Name = user.Name,
-                              UniqueNo = user.UniqueNo,
-                              Department_Name = department.Major_Name,
-                              Department_UniqueNo = department.Id,
-                              T_C_Model_Childs = new List<T_C_Model_Child>(),
-                          }).ToList();
+        //        t_List = (from teacher in Constant.Teacher_List
+        //                  join user in Constant.UserInfo_List on teacher.UniqueNo equals user.UniqueNo
+        //                  join department in Constant.Major_List on teacher.Major_ID equals department.Id
+        //                  select new T_C_Model()
+        //                  {
+        //                      Teacher_Name = user.Name,
+        //                      UniqueNo = user.UniqueNo,
+        //                      Department_Name = department.Major_Name,
+        //                      Department_UniqueNo = department.Id,
+        //                      T_C_Model_Childs = new List<T_C_Model_Child>(),
+        //                  }).ToList();
 
-                List<T_C_Model_Child> list = (from room in rooms
-                                              join cls in clss on room.ClassID equals cls.ClassNO
-                                              join course in courses on room.Coures_Id equals course.UniqueNo
-                                              join exp in Constant.Expert_Teacher_Course_List on new
-                                              {
-                                                  ReguId,
-                                                  room.TeacherUID,
-                                                  UniqueNo = course.UniqueNo
-                                              } equals new
-                                              {
-                                                  exp.ReguId,
-                                                  exp.TeacherUID,
-                                                  UniqueNo = exp.CourseId
-                                              } into exps
-                                              from exp_ in exps.DefaultIfEmpty()
-                                              select new T_C_Model_Child()
-                                              {
-                                                  TeacherUID = room.TeacherUID,
-                                                  Course_Name = course.Name,
-                                                  Course_UniqueNo = course.UniqueNo,
+        //        List<T_C_Model_Child> list = (from room in rooms
+        //                                      join cls in clss on room.ClassID equals cls.ClassNO
+        //                                      join course in courses on room.Coures_Id equals course.UniqueNo
+        //                                      join exp in Constant.Expert_Teacher_Course_List on new
+        //                                      {
+        //                                          ReguId,
+        //                                          room.TeacherUID,
+        //                                          UniqueNo = course.UniqueNo
+        //                                      } equals new
+        //                                      {
+        //                                          exp.ReguId,
+        //                                          exp.TeacherUID,
+        //                                          UniqueNo = exp.CourseId
+        //                                      } into exps
+        //                                      from exp_ in exps.DefaultIfEmpty()
+        //                                      select new T_C_Model_Child()
+        //                                      {
+        //                                          TeacherUID = room.TeacherUID,
+        //                                          Course_Name = course.Name,
+        //                                          Course_UniqueNo = course.UniqueNo,
 
-                                                  Selected = exp_ == null ? false : true,
-                                                  SelectedExperUID = exp_ == null ? "" : exp_.ExpertUID,
-                                                  SelectedExperName = exp_ == null ? "" : exp_.ExpertName,
-                                              }).Distinct(new T_C_Model_ChildComparer()).ToList();
+        //                                          Selected = exp_ == null ? false : true,
+        //                                          SelectedExperUID = exp_ == null ? "" : exp_.ExpertUID,
+        //                                          SelectedExperName = exp_ == null ? "" : exp_.ExpertName,
+        //                                      }).Distinct(new T_C_Model_ChildComparer()).ToList();
 
-                foreach (var child in t_List)
-                {
-                    var liis = (from s in list where s.TeacherUID == child.UniqueNo select s).ToList();
-                    if (liis.Count > 0)
-                    {
-                        child.T_C_Model_Childs = liis;
-                        modelList.Add(child);
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                LogHelper.Error(ex);
-            }
+        //        foreach (var child in t_List)
+        //        {
+        //            var liis = (from s in list where s.TeacherUID == child.UniqueNo select s).ToList();
+        //            if (liis.Count > 0)
+        //            {
+        //                child.T_C_Model_Childs = liis;
+        //                modelList.Add(child);
+        //            }
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        LogHelper.Error(ex);
+        //    }
 
-            return modelList;
-        }
+        //    return modelList;
+        //}
 
         #endregion
 

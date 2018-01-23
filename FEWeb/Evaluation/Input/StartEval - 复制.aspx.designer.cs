@@ -7,9 +7,9 @@
 // </自动生成>
 //------------------------------------------------------------------------------
 
-namespace FEWeb {
+namespace FEWeb.Evaluation.Input {
     
     
-    public partial class Index {
+    public partial class StartEval {
     }
 }

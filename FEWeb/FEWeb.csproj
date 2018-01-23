@@ -205,6 +205,7 @@
     <Content Include="Scripts\WebCenter\CourSortMan.js" />
     <Content Include="Scripts\WebCenter\DatabaseMan.js" />
     <Content Include="Scripts\WebCenter\Evaluate.js" />
+    <Content Include="Scripts\WebCenter\Indicate.js" />
     <Content Include="Scripts\WebCenter\Power.js" />
     <Content Include="Scripts\WebCenter\RegularEval.js" />
     <Content Include="Scripts\WebCenter\Room.js" />

@@ -40,96 +40,136 @@
                 </div>
             </h2>
             <div class="select_expertdiv">
-                <ul class="select_expert clearfix" id="teachers">
-                </ul>
+                <%--        <ul class="select_expert clearfix" id="teachers">
+                </ul>--%>
+                <div class="table">
+                    <table class="W_form" id="tb_CourseList">
+                        <thead>
+                            <tr class="trth">
+                                <th class="number">序号</th>
+                                <th>教师名称</th>
+                                <th>部门</th>
+                                <th>课程名称</th>
+                                <th>课程类别</th>
+                                <th>课程性质</th>
+                                <th>专业部门</th>
+                                <th>年级</th>
+                                <th>合班</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tbody">
+                        </tbody>
+                    </table>
+                </div>
+                <div id="pageBar" class="page"></div>
+
+
             </div>
-            <h2 class="navEval mt20">已选择</h2>
+            <%-- <h2 class="navEval mt20">已选择</h2>
             <div class="select_expertdiv" style="overflow-y: auto; height: 80px; min-height: 80px;">
                 <ul id="selected_course" class="slectd">
-                    <%-- <li>于秀玲 【有课程】<i class="iconfont">&#xe672;</i></li>
-                    <li id="20040005">王明哲 【有课程】<i class="iconfont">&#xe672;</i></li>--%>
+                  
                 </ul>
-            </div>
+            </div>--%>
         </div>
-    </div>
-    <div class="btnwrap">
-        <input type="button" value="确定" onclick="submit()" class="btn">
-        <input type="button" value="取消" onclick="parent.CloseIFrameWindow()" class="btna ml10">
-    </div>
-    <script src="../../Scripts/Common.js"></script>
-    <script src="../../Scripts/layer/layer.js"></script>
-    <script src="../../Scripts/public.js"></script>
-    <script src="../../Scripts/linq.min.js"></script>
-    <script src="../../Scripts/jquery.tmpl.js"></script>
 
-    <link href="../../Scripts/choosen/prism.css" rel="stylesheet" />
-    <link href="../../Scripts/choosen/chosen.css" rel="stylesheet" />
-    <script src="../../Scripts/choosen/chosen.jquery.js"></script>
-    <script src="../../Scripts/choosen/prism.js"></script>
+        <div class="btnwrap">
+            <input type="button" value="确定" onclick="submit()" class="btn">
+            <input type="button" value="取消" onclick="parent.CloseIFrameWindow()" class="btna ml10">
+        </div>
+        <script src="../../Scripts/Common.js"></script>
+        <script src="../../Scripts/layer/layer.js"></script>
+        <script src="../../Scripts/public.js"></script>
+        <script src="../../Scripts/linq.min.js"></script>
+        <script src="../../Scripts/jquery.tmpl.js"></script>
 
-    <script src="../../Scripts/WebCenter/Base.js"></script>
-    <script src="../../Scripts/WebCenter/AllotTask.js"></script>
-    <script type="text/x-jquery-tmpl" id="item_Teachers">
-        <li>
-            <span>${Teacher_Name}</span>
-            <ul>
-                {{each T_C_Model_Childs}}
+        <link href="../../Scripts/choosen/prism.css" rel="stylesheet" />
+        <link href="../../Scripts/choosen/chosen.css" rel="stylesheet" />
+        <script src="../../Scripts/choosen/chosen.jquery.js"></script>
+        <script src="../../Scripts/choosen/prism.js"></script>
+
+        <script src="../../Scripts/WebCenter/Base.js"></script>
+        <script src="../../Scripts/WebCenter/AllotTask.js"></script>
+        <script src="../../Scripts/WebCenter/Room.js"></script>
+        <%-- <script type="text/x-jquery-tmpl" id="item_Teachers">
+            <li>
+                <span>${Teacher_Name}</span>
+                <ul>
+                    {{each T_C_Model_Childs}}
               <li>
                   <span teacheruid="${TeacherUID}" teacher_name="${Teacher_Name}" course_uniqueno="${Course_UniqueNo}">${Course_Name}</span>
               </li>
-                {{/each}}
+                    {{/each}}
            
-            </ul>
-        </li>
-    </script>
-    <script type="text/x-jquery-tmpl" id="item_ExpertTeacher">
-        <li teacheruid="${TeacherUID}" course_uniqueno="${CourseId}">${TeacherName} ${Course_Name}<i class="iconfont">&#xe672;</i></li>
-    </script>
-    <script>
+                </ul>
+            </li>
+        </script>--%>
 
-        var select_sectionid = parent.select_sectionid;
-        var select_course_teacher = [];
-        var select_reguid = parent.select_reguid;
-        var IsAllSchool = parent.IsAllSchool;
+        <script type="text/x-jquery-tmpl" id="itemData">
+            <tr>
+                <td style="width: 3%">${Num}</td>
+                <td style="width: 7%">${DisPlayName}</td>
+                <td title="${DepartmentName}" style="width: 13%">${cutstr(DepartmentName,15)}</td>
+                <td title="${Course_Name}" style="width: 13%">${cutstr(Course_Name,15)}</td>
+                <td title="${CourseType}" style="width: 7%">${cutstr(CourseType,8)}</td>
+                <td style="width: 7%">${CourseProperty}</td>
+                <td title="${TeacherDepartmentName}" style="width: 13%">${cutstr(TeacherDepartmentName,15)}</td>
+                <td title="${Teacher_Name}" style="width: 5%">${cutstr(Teacher_Name,7)}</td>
+                <td title="${CourseDepartmentName}" style="width: 13%">${cutstr(CourseDepartmentName,15)}</td>
+                <td style="width: 5%">${GradeInfo_Name}</td>
+                <td title="${ClassName}" style="width: 19%">${cutstr(ClassName,15)}</td>
+            </tr>
+        </script>
+
+        <script type="text/x-jquery-tmpl" id="item_ExpertTeacher">
+            <li teacheruid="${TeacherUID}" course_uniqueno="${CourseId}">${TeacherName} ${Course_Name}<i class="iconfont">&#xe672;</i></li>
+        </script>
+        <script>
+
+            var select_sectionid = parent.select_sectionid;
+            var select_course_teacher = [];
+            var select_reguid = parent.select_reguid;
+            var IsAllSchool = parent.IsAllSchool;
+
+            var pageIndex = 0;
+            $(function () {
+
+                selectExpertUID = login_User.UniqueNo;
+                selectExpertName = login_User.Name;
 
 
-        $(function () {
+                $('#DepartMent').on('change', function () {
+                    Teachers_Reflesh();
+                });
 
-            selectExpertUID = login_User.UniqueNo;
-            selectExpertName = login_User.LoginName;
+                PageType = 'StartEval';
+                PrepareInit();//初始化
+                //GetUserByType('16,17');//获取专家     
 
+                if (IsAllSchool == 1) {
+                    Base.BindDepartCompleate = function () {
+                        $("#DepartMent").val(Number(login_User.Major_ID));
+                        //GetTeacherInfo_Course_Cls();//获取教师
+                        debugger;
+                        GetClassInfo(pageIndex);
+                    };
+                    Base.BindDepart('248px', false, login_User.Major_ID);
+                }
+                else {
+                    Base.BindDepartCompleate = function () {
+                        GetTeacherInfo_Course_Cls();//获取教师
+                    };
+                    Base.BindDepart('248px', false, '');
+                }
+            })
 
-            $('#DepartMent').on('change', function () {
+            function search() {
                 Teachers_Reflesh();
-            });
-
-            PageType = 'StartEval';
-            PrepareInit();//初始化
-            //GetUserByType('16,17');//获取专家     
-
-            if (IsAllSchool == 1) {
-                Base.BindDepartCompleate = function () {
-                    $("#DepartMent").val(Number(login_User.Major_ID));
-                    GetTeacherInfo_Course_Cls();//获取教师
-                };
-                Base.BindDepart('248px', false, login_User.Major_ID);               
             }
-            else
-            {
-                Base.BindDepartCompleate = function () {
-                    GetTeacherInfo_Course_Cls();//获取教师
-                };
-                Base.BindDepart('248px', false, '');
+
+            function submit() {
+                AddExpert_List_Teacher_Course();
             }
-        })
-
-        function search() {
-            Teachers_Reflesh();
-        }
-
-        function submit() {
-            AddExpert_List_Teacher_Course();
-        }
-    </script>
+        </script>
 </body>
 </html>

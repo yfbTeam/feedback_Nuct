@@ -112,15 +112,12 @@
             </div>
             <div class="test_module mt10">
                 <div class="evalheader clearfix">
-                  <%--  <div class="all fl">
-                        <i class="iconfont">&#xe62c;</i>
-                        全部
-                    </div>--%>
+                 
                     <div class="nodes fl">
                         <div id="sheets" style="float: left">
                         </div>
                         <div style="float: right">
-                            <%--<input type="text" name="name" id="inputTitle" onkeydown="add_root_keydown();" value="" placeholder="名称可以为空" />--%>
+                         
                             <input type="button" class="" onclick="add_root();" value="添加节点" />
                         </div>
                     </div>
@@ -190,13 +187,13 @@
                 <li class="sort_helper" sort="{{= $value.Id}}">
                     <input type="hidden" name="name_flg" value="{{= $value.flg}}" /><input type="hidden" name="name_in" value="{{= $value.Id}}" /><input type="hidden" name="name_title" value="${indicator_type_tid}" />
                     <h2 class="title"><span id="sp_{{= $value.flg}}"></span>、{{= $value.Name}}
-                    {{if $value.QuesType_Id!="3"}}
+                    {{if $value.QuesType_Id =="1"  ||$value.QuesType_Id =="4" }}
                        
                          <span class="isscore"><b>(<input type="number" fl="{{= $value.Name}}下的分数" step="0.01" isrequired="true" id="t_${Id}" value="${OptionF_S_Max}" onkeydown="onlyNum();" flg="sum" class="number" min="0" />分)</b></span>
                         {{/if}}
                     </h2>
                     <div class="test_desc clearfix">
-                        {{if $value.QuesType_Id!="3"}}
+                        {{if $value.QuesType_Id =="1" ||$value.QuesType_Id =="4"}}
                         {{if $value.OptionA!=""}}
                         <span class="fl">
                             <input disabled="disabled" type="radio" name="radio_{{= $value.Id}}" id="radio_{{= $value.Id}}-1" value="" />
@@ -239,7 +236,46 @@
                             <b class="isscore">(<input type="number" step="0.01" id="OptionF_{{= $value.Id}}" fl="{{= $value.Name}}下的选项{{= $value.OptionF}}" isrequired="true" value="{{= $value.OptionF_S}}" onkeydown="onlyNum();" class="number" min="0" />分)</b>
                         </span>
                         {{/if}}
-                        {{else}}
+                        {{else  $value.QuesType_Id =="2" }}
+                        <%--/////////////////////////////////////////////////////////////--%>
+                         {{if $value.OptionA!=""}}
+                        <span class="fl">
+                            <input disabled="disabled" type="radio" name="radio_{{= $value.Id}}" id="radio_{{= $value.Id}}-1" value="" />
+                            <label for="radio_{{= $value.Id}}-1">{{= $value.OptionA}}</label>                         
+                        </span>
+                        {{/if}}
+                        {{if $value.OptionB!=""}}
+                        <span class="fl">
+                            <input disabled="disabled" type="radio" name="radio_{{= $value.Id}}" id="radio_{{= $value.Id}}-2" value="" />
+                            <label for="radio_{{= $value.Id}}-2">{{= $value.OptionB}}</label>                           
+                        </span>
+                        {{/if}}
+                        {{if $value.OptionC!=""}}
+                        <span class="fl">
+                            <input disabled="disabled" type="radio" name="radio_{{= $value.Id}}" id="radio_{{= $value.Id}}-3" value="" />
+                            <label for="radio_{{= $value.Id}}-3">{{= $value.OptionC}}</label>                          
+                        </span>
+                        {{/if}}
+                        {{if $value.OptionD!=""}}
+                        <span class="fl">
+                            <input disabled="disabled" type="radio" name="radio_{{= $value.Id}}" id="radio_{{= $value.Id}}-4" value="" />
+                            <label for="radio_{{= $value.Id}}-4">{{= $value.OptionD}}</label>                          
+                        </span>
+                        {{/if}}
+                        {{if $value.OptionE!=""}}
+                        <span class="fl">
+                            <input disabled="disabled" type="radio" name="radio_{{= $value.Id}}" id="radio_{{= $value.Id}}-5" value="" />
+                            <label for="radio_{{= $value.Id}}-5">{{= $value.OptionE}}</label>                           
+                        </span>
+                        {{/if}}
+                        {{if $value.OptionF!=""}}
+                        <span class="fl">
+                            <input disabled="disabled" type="radio" name="radio_{{= $value.Id}}" id="radio_{{= $value.Id}}-6" value="" />
+                            <label for="radio_{{= $value.Id}}-6">{{= $value.OptionF}}</label>                            
+                        </span>
+                        {{/if}}
+                         {{else  $value.QuesType_Id =="3" }}
+                         <%--/////////////////////////////////////////////////////////////--%>
                         <textarea disabled="disabled" id="txt_{{= $value.Id}}"></textarea>
                         {{else}}
                         {{/if}}

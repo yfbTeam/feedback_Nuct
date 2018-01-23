@@ -44,6 +44,7 @@
                 <label for="">题型:</label>
                 <select class="select" name="QuesType_Id" id="QuesType_Id" disabled="disabled" style="width: 150px;">
                     <option value="1">单选题</option>
+                    <option value="2">多选题</option>
                     <option value="3">问答题</option>
                     <option value="4">选分题</option>
                 </select>
@@ -68,6 +69,7 @@
     <script src="../../Scripts/linq.min.js"></script>
     <script src="../../Scripts/layer/layer.js"></script>
     <script src="../../Scripts/jquery.tmpl.js"></script>
+    <script src="../../Scripts/WebCenter/Indicate.js"></script>
 
     <script type="text/x-jquery-tmpl" id="item_indicator_s">
         <div class="input-wrap" id="indicator">
@@ -97,7 +99,7 @@
                     <input type="text" name="OptionF" placeholder="" value="${OptionF}" isrequired="true" fl="选项F" class="text" /><i class="iconfont" onclick="remove1(this)">&#xe61b;</i></li>
                 {{/if}}
             </ul>
-            <a href="javascript:newItem();" class="newoption"><i class="iconfont">&#xe61b;</i>新增选项</a>
+            <a href="javascript:newItem();" class="newoption"><i class="iconfont">&#xe649;</i>新增选项</a>
         </div>
     </script>
     <script type="text/x-jquery-tmpl" id="item_indicator_w">
@@ -143,6 +145,9 @@
         else if (cache_data[0]["QuesType_Id"] == "1") {
             $("#item_indicator_s").tmpl(cache_data[0]).appendTo("#tb_indicator");
         }
+        else if (cache_data[0]["QuesType_Id"] == "2") {
+            $("#item_indicator_s").tmpl(cache_data[0]).appendTo("#tb_indicator");
+        }
         else if (cache_data[0]["QuesType_Id"] == "4") {
             $("#item_indicator_t").tmpl(cache_data[0]).appendTo(".main");//追加到main中        
         }
@@ -172,71 +177,8 @@
             else {
                 $("#item_indicator_s").tmpl(cache_data[0]).appendTo(".main");//追加单选或多选的模板到main中
             }
-        })
-        //指标一级分类
-        function set_indicator_type() {
-            var P_Type = get_IndicatorType_by_rid();
-            $.ajax({
-                url: HanderServiceUrl + "/Eva_Manage/Eva_ManageHandler.ashx",
-                type: "post",
-                async: false,
-                dataType: "json",
-                data: { Func: "Get_IndicatorType", P_Type: P_Type },
-                success: function (json) {
-                    var retData = json.result.retData;
-                    retData = Enumerable.From(retData).OrderBy('$.Id').ToArray();//按Id进行升序排列
-                    var data_length = retData.length;
-                    for (var i = 0; i < data_length; i++) {
-                        if (retData[i].Parent_Id == 0) {//获取分类父Id                       
-                            $("#indicator_type").append("<option value='" + retData[i].Id + "'>" + retData[i].Name + "</option>");
-                        }
-                    }
-                    //父指标id赋值
-                    $("#indicator_type").val(indicator_Parent_Id[0].Id);
-                    set_indicator_type_2("one");
-                },
-                error: function () {
-                    //接口错误时需要执行的
-                }
-            });
-        }
-        //指标二级分类
-        function set_indicator_type_2(type) {
-            type = arguments[0] || "";//""change时调用；"one"第一次加载
-            var indicator_type = $("#indicator_type").val();
-            $.ajax({
-                url: HanderServiceUrl + "/Eva_Manage/Eva_ManageHandler.ashx",
-                type: "post",
-                async: false,
-                dataType: "json",
-                data: { Func: "Get_IndicatorType" },
-                success: function (json) {
-                    var retData = json.result.retData;
-                    retData = Enumerable.From(retData).OrderBy('$.Id').ToArray();//按Id进行升序排列
-                    var data_length = retData.length;
-                    for (var i = 0; i < data_length; i++) {
-                        if (retData[i].Parent_Id == indicator_type) {//获取分类父Id                     
-                            $("#indicator_type_2").append("<option value='" + retData[i].Id + "'>" + retData[i].Name + "</option>");
-                        }
-                    }
-                    if (type == "one") {
-                        $("#indicator_type_2").val(indicator_name[0].Id);
-                    }
-                },
-                error: function () {
-                    //接口错误时需要执行的
-                }
-            });
-        }
-        //新增选项
-        function newItem() {
-            if ($("#item_list li").length <= 5) {
-                $("#item_list").append('<li><i class="radio"></i><input type="text" placeholder=""   class="text"/><i class="iconfont" onclick="remove1(this)">&#xe61b;</i></li>');
-            }
-            else {
-                layer.msg("超出数量,无法添加");
-            }
-        }
+        })       
+       
         //提交按钮
         function submit() {
             if ($("#indicator_type").val() == "0") {
@@ -290,15 +232,7 @@
                 });
             }
         }
-
-        //取消按钮
-        function cancel() {
-            parent.layer.close(index);
-        }
-        //移除选项
-        function remove1(_this) {//remove 改为remove1的原因是 edge 不支持
-            $(_this).parent().remove();//移除当前i元素的父元素li
-        }
+         
     </script>
 </body>
 </html>

@@ -42,7 +42,7 @@
     <script src="../../Scripts/linq.min.js"></script>
     <script src="../../Scripts/layer/layer.js"></script>
     <script src="../../Scripts/jquery.tmpl.js"></script>
-
+    <script src="../../Scripts/WebCenter/Indicate.js"></script>
     <script type="text/x-jquery-tmpl" id="item_indicator_s">
         <div class="input-wrap" id="indicator">
             <label>指标名称：</label><input type="text" name="Name" isrequired="true" fl="指标名称" class="text" placeholder="请填写指标名称" value="${Name}" style="width: 500px;" />
@@ -73,6 +73,9 @@
 
         </div>
     </script>
+
+
+
     <script type="text/x-jquery-tmpl" id="item_indicator_w">
         <div class="input-wrap" id="indicator_w">
             <label style="line-height: 60px">指标名称：</label>
@@ -116,6 +119,9 @@
         else if (cache_data[0]["QuesType_Id"] == "1") {
             $("#item_indicator_s").tmpl(cache_data[0]).appendTo("#tb_indicator");
         }
+        else if (cache_data[0]["QuesType_Id"] == "2") {
+            $("#item_indicator_s").tmpl(cache_data[0]).appendTo("#tb_indicator");
+        }
         else if (cache_data[0]["QuesType_Id"] == "4") {
             $("#item_indicator_t").tmpl(cache_data[0]).appendTo(".main");//追加到main中        
         }
@@ -145,68 +151,7 @@
                 $("#item_indicator_s").tmpl(cache_data[0]).appendTo(".main");//追加单选或多选的模板到main中
             }
         })
-        //指标一级分类
-        function set_indicator_type() {
-            var P_Type = get_IndicatorType_by_rid();
-            $.ajax({
-                url: HanderServiceUrl + "/Eva_Manage/Eva_ManageHandler.ashx",
-                type: "post",
-                async: false,
-                dataType: "json",
-                data: { Func: "Get_IndicatorType", P_Type: P_Type },
-                success: function (json) {
-                    var retData = json.result.retData;
-                    retData = Enumerable.From(retData).OrderBy('$.Id').ToArray();//按Id进行升序排列
-                    var data_length = retData.length;
-                    for (var i = 0; i < data_length; i++) {
-                        if (retData[i].Parent_Id == 0) {//获取分类父Id                          
-                            $("#indicator_type").append("<option value='" + retData[i].Id + "'>" + retData[i].Name + "</option>");
-                        }
-                    }
-                    //父指标id赋值
-                    $("#indicator_type").val(indicator_Parent_Id[0].Id);
-                    set_indicator_type_2("one");
-                },
-                error: function () {
-                    //接口错误时需要执行的
-                }
-            });
-        }
-        //指标二级分类
-        function set_indicator_type_2(type) {
-            type = arguments[0] || "";//""change时调用；"one"第一次加载
-            var indicator_type = $("#indicator_type").val();
-            $.ajax({
-                url: HanderServiceUrl + "/Eva_Manage/Eva_ManageHandler.ashx",
-                type: "post",
-                async: false,
-                dataType: "json",
-                data: { Func: "Get_IndicatorType" },
-                success: function (json) {
-                    var retData = json.result.retData;
-                    retData = Enumerable.From(retData).OrderBy('$.Id').ToArray();//按Id进行升序排列
-                    var data_length = retData.length;
-                    for (var i = 0; i < data_length; i++) {
-                        if (retData[i].Parent_Id == indicator_type) {//获取分类父Id                            
-                            $("#indicator_type_2").append("<option value='" + retData[i].Id + "'>" + retData[i].Name + "</option>");
-                        }
-                    }
-                    if (type == "one") {
-                        $("#indicator_type_2").val(indicator_name[0].Id);
-                    }
-                },
-                error: function () {
-                    //接口错误时需要执行的
-                }
-            });
-        }
-
-
-        //取消按钮
-        function cancel() {
-            parent.layer.close(index);
-        }
-
+      
     </script>
 
 </body>

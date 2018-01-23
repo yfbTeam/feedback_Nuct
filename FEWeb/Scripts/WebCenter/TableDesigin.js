@@ -911,6 +911,8 @@ var UI_Table_Create =
                         indicator_list[h].Root = $('#sheets').find('input[t_id="' + list_sheets[i].t_Id + '"]').val();
                         indicator_list[h].Sort = Number(h) + 1;
                         indicator_list[h].RootID = Number(i) + 1;
+                        indicator_list[h].Id = indicator_list[h].Indicator_Id == undefined ? indicator_list[h].Id : indicator_list[h].Indicator_Id;
+                       
                     }
                 }
             }
