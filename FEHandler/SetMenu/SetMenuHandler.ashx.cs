@@ -224,7 +224,7 @@ namespace FEHandler.SetMenu
                                 Pid = MenuInfo_.Pid,
                                 ID = MenuInfo_.Id
                             });
-                var query2 = from p in query
+                var query2 = (from p in query
                              group p by p.ID into allg
                              select new
                              {
@@ -233,7 +233,7 @@ namespace FEHandler.SetMenu
                                  Url = allg.Max(p => p.Url),
                                  Pid = allg.Max(p => p.Pid),
                                  ID = allg.Max(p => p.ID),
-                             };
+                             }).ToList();
                 jsmodel = JsonModel.get_jsonmodel(intSuccess, "success", query2);
             }
             catch (Exception ex)
