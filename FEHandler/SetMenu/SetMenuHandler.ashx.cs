@@ -223,7 +223,7 @@ namespace FEHandler.SetMenu
                                 Url = MenuInfo_.Url,
                                 Pid = MenuInfo_.Pid,
                                 ID = MenuInfo_.Id
-                            });
+                            }).ToList();
                 var query2 = (from p in query
                              group p by p.ID into allg
                              select new

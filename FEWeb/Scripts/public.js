@@ -53,11 +53,7 @@ if (cookie_Userinfo == null || (curData - LoginTime) > 1000 * 60 * 6000) {
 var cururl = getUrl(cururl);
 var login_User = GetLoginUser();
 
-var data = JSON.parse(localStorage.getItem('Userinfos'));
-var ids = '';
-data.filter(function (item) { ids += item.Sys_Role_Id + ',' });
-ids = (ids.substring(ids.length - 1) == ',') ? ids.substring(0, ids.length - 1) : ids;
-
+var ids = GetIDs('Userinfos')
 
 localStorage.setItem('navAry', JSON.stringify(getMenuByRoleid(ids)));
 var items = JSON.parse(localStorage.getItem('navAry'));
@@ -65,6 +61,16 @@ $(function () {
     BindThreeNav();
     //powerAssign();
 })
+
+function GetIDs(itemname) {
+    var ids = '';
+
+    var data = JSON.parse(localStorage.getItem(itemname));
+    data.filter(function (item) { ids += item.Sys_Role_Id + ',' });
+    ids = (ids.substring(ids.length - 1) == ',') ? ids.substring(0, ids.length - 1) : ids;
+
+    return ids;
+}
 
 //判断访问权限
 function powerAssign() {
