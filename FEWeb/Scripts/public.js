@@ -51,13 +51,13 @@ if (cookie_Userinfo == null || (curData - LoginTime) > 1000 * 60 * 6000) {
     parent.parent.parent.location.href = "/Login.aspx";
 }
 var cururl = getUrl(cururl);
-//var login_User = GetLoginUser();
+var login_User = GetLoginUser();
 
 var data = JSON.parse(localStorage.getItem('Userinfos'));
 var ids = '';
 data.filter(function (item) { ids += item.Sys_Role_Id + ',' });
 ids = (ids.substring(ids.length - 1) == ',') ? ids.substring(0, ids.length - 1) : ids;
-debugger;
+
 
 localStorage.setItem('navAry', JSON.stringify(getMenuByRoleid(ids)));
 var items = JSON.parse(localStorage.getItem('navAry'));
