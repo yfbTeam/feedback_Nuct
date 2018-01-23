@@ -23,7 +23,7 @@
         var headerHeight = $('#header').outerHeight();
         if (footerHeight || headerHeight) {
             if ($('#index_body')) {
-                $('#index_body').css('minHeight', winHeight - footerHeight - headerHeight-140 + 'px');
+                $('#index_body').css('minHeight', winHeight - footerHeight - headerHeight - 140 + 'px');
             }
             if ($('#centerwrap')) {
                 $('#centerwrap').css('minHeight', winHeight - footerHeight - 262 + 'px');
@@ -52,22 +52,35 @@ if (cookie_Userinfo == null || (curData - LoginTime) > 1000 * 60 * 6000) {
 }
 var cururl = getUrl(cururl);
 var login_User = GetLoginUser();
-localStorage.setItem('navAry', JSON.stringify(getMenuByRoleid(login_User.Sys_Role_Id)));
+
+var ids = GetIDs('Userinfos')
+
+localStorage.setItem('navAry', JSON.stringify(getMenuByRoleid(ids)));
 var items = JSON.parse(localStorage.getItem('navAry'));
 $(function () {
     BindThreeNav();
     //powerAssign();
 })
 
+function GetIDs(itemname) {
+    var ids = '';
+
+    var data = JSON.parse(localStorage.getItem(itemname));
+    data.filter(function (item) { ids += item.Sys_Role_Id + ',' });
+    ids = (ids.substring(ids.length - 1) == ',') ? ids.substring(0, ids.length - 1) : ids;
+
+    return ids;
+}
+
 //判断访问权限
 function powerAssign() {
-   var host = 'http://' + window.location.host;
-   var href = window.location.href;
-   var url = href.split(host)[1];
+    var host = 'http://' + window.location.host;
+    var href = window.location.href;
+    var url = href.split(host)[1];
     if (url.indexOf('?') > -1) {
         url = url.slice(0, url.indexOf('?'));
     }
-    var aa  = items.filter(function (item) {
+    var aa = items.filter(function (item) {
         return item.Url == url;
     })
     if (aa.length == 0) {
@@ -98,7 +111,7 @@ function BindThreeNav() {
 
     $('#threenav').html('');
     var Id = getQueryString('Id'), Iid = getQueryString('Iid');
-    var threeNav = getNav(Iid);   
+    var threeNav = getNav(Iid);
     if (threeNav.length > 0) {
         $('#threenav').show();
         $(threeNav).each(function (i, item) {
@@ -106,19 +119,17 @@ function BindThreeNav() {
             if (isHasElement(item.Url, "?") >= 0) {
                 part = hasfirst;
             }
-            if (isHasElement(item.Url, "?")>=0)
-            {
+            if (isHasElement(item.Url, "?") >= 0) {
                 $('#threenav').append('<a href="' + item.Url + part + Id + '&Iid=' + Iid + '" class="' + (item.Url == cururl ? "selected" : "") + '">' + item.Name + '</a>')
             }
-            else
-            {
+            else {
                 $('#threenav').append('<a href="' + item.Url + part + Id + '&Iid=' + Iid + '" class="' + (item.Url == cururl ? "selected" : "") + '">' + item.Name + '</a>')
             }
         })
     } else {
         $('#threenav').hide();
     }
-    
+
 }
 //表格操作
 function tableSlide() {
@@ -209,7 +220,7 @@ function Arabia_To_SimplifiedChinese(Num) {
     }
     return newchar;
 }
-function nomessage(id,subele, size, height) {
+function nomessage(id, subele, size, height) {
     size = size || 19;
     height = height || 480;
     subele = subele || 'tr';
@@ -284,18 +295,18 @@ function get_Eva_Role_by_rid() {
 }
 //获取地址栏页面链接
 function getUrl(cururl) {
-    
-    var host = 'http://' + window.location.host || 'https://'+window.location.host;
+
+    var host = 'http://' + window.location.host || 'https://' + window.location.host;
     var href = window.location.href;
     cururl = href.split(host)[1];
     //if (cururl.indexOf("?") != -1) {
-     
+
     //    var queindex = cururl.lastIndexOf("?");
     //    //var queindex = cururl.indexOf("&");
     //    cururl = cururl.substring(0, queindex);
     //}
     if (cururl.indexOf("?Id=") != -1) {
-        var queindex = cururl.lastIndexOf("?Id=");        
+        var queindex = cururl.lastIndexOf("?Id=");
         cururl = cururl.substring(0, queindex);
     }
     if (cururl.indexOf("&Id=") != -1) {
@@ -335,7 +346,7 @@ function Get_PageBtn(url, elem) {
                 } else {
                     $(this).remove();
                 }
-            });            
+            });
         }
     }
     return Cur_PageBtn;
@@ -346,7 +357,7 @@ function JudgeBtn_IsExist(menucode) {
         var btndata = Cur_PageBtn;
         btndata = Enumerable.From(btndata).Where("x=>x.MenuCode=='" + menucode + "'").ToArray();
         btnresult = btndata.length > 0;
-    }   
+    }
     return btnresult;
 }
 //上传文件
@@ -441,7 +452,7 @@ function DownLoad(filepath) {
 }
 //获取查看页面文件信息
 function Get_LookPage_Document(type, relationid, ul_file) {
-    ul_file =arguments[2]||$('.queueList .filelist');
+    ul_file = arguments[2] || $('.queueList .filelist');
     ul_file.html('');
     $.ajax({
         url: HanderServiceUrl + "/TeaAchManage/AchRewardInfo.ashx",
@@ -453,7 +464,7 @@ function Get_LookPage_Document(type, relationid, ul_file) {
                 $(json.result.retData).each(function (i, n) {
                     ul_file.append('<li id="file_' + n.Id + '" pt="' + n.Url + '">' +
                                    '<p class="title1">' + n.Name + '</p>' +
-                                 '<div class="file-panel">' +                                        
+                                 '<div class="file-panel">' +
                                         '<span class="preview" onclick="File_Viewer(\'' + n.Url + '\');">预览</span>' +
                                  '</div></li>');
                 });
@@ -482,8 +493,7 @@ function Print_Common(obj) {
     });
 }
 function ChosenInit(select) {
-    if (select.chosen != undefined)
-    {
+    if (select.chosen != undefined) {
         select.chosen({
             allow_single_deselect: true,
             disable_search_threshold: 1,
@@ -491,19 +501,19 @@ function ChosenInit(select) {
             search_contains: true
         });
         select.trigger("chosen:updated");//动态更新select下的选择项时，只要在更新选择项后触发Chosen中的chosen:updated事件就可以了
-    }  
+    }
 }
 
 function InitControl(isscore) { //答题-控件初始化
     isscore = arguments[0] || 0;
-   
+
     //单选题
     $('.test_desc').find('input[type="radio"]').on('click', function () {
         incontorl_helper(isscore);
     });
 
     $('.test_desc').find('input[class="number"]').on('click', function () {
-        incontorl_helper(isscore);      
+        incontorl_helper(isscore);
     });
     $('.test_desc').find('input[class="number"]').on('blur', function () {
         incontorl_helper(isscore);
@@ -516,25 +526,24 @@ function InitControl(isscore) { //答题-控件初始化
     })
 }
 
-function incontorl_helper(isscore)
-{
-  if (isscore == 0) {
-    var realTotal = 0;//实时总分
-    $('.test_desc').find('input:checked').each(function () {
-        realTotal = numAdd(realTotal, $(this).val());
-    });
-
-    $(".test_desc").find('input[class="number"]').each(function () {
-        var score = $(this).val() == '' ? 0 : Number($(this).val());
-        var max = $(this).attr('maxscore') == '' ? 0 : Number($(this).attr('maxscore'));
-        if (score > 0 && score <= max) {
+function incontorl_helper(isscore) {
+    if (isscore == 0) {
+        var realTotal = 0;//实时总分
+        $('.test_desc').find('input:checked').each(function () {
             realTotal = numAdd(realTotal, $(this).val());
-        }
-        else {
-            $(this).val(0);
-        }
-    });
+        });
 
-    $("#sp_realtotal").html(realTotal);
-}
+        $(".test_desc").find('input[class="number"]').each(function () {
+            var score = $(this).val() == '' ? 0 : Number($(this).val());
+            var max = $(this).attr('maxscore') == '' ? 0 : Number($(this).attr('maxscore'));
+            if (score > 0 && score <= max) {
+                realTotal = numAdd(realTotal, $(this).val());
+            }
+            else {
+                $(this).val(0);
+            }
+        });
+
+        $("#sp_realtotal").html(realTotal);
+    }
 }

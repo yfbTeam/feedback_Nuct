@@ -198,7 +198,8 @@
                     {
                         isOK = true;//登陆验证通过
                         var data = returnVal.result.retData;
-                        Set_AllBtn(data[0].Sys_Role_Id);
+                        
+                        //Set_AllBtn(data[0].Sys_Role_Id);
 
                         //把用户信息存在cookie中
                         localStorage.setItem('Userinfos', JSON.stringify(data));
@@ -218,14 +219,19 @@
             if (isOK) { //如果验证成功
                 var user = JSON.parse(localStorage.getItem('Userinfos'));
                 var user0 = user[0];
-                Set_AllBtn(user0.Sys_Role_Id);
+               
                 var teacher = role(user0.UniqueNo, "IsTeacher");
                 
                 var student = role(user0.UniqueNo, "IsStudent");
                
                 if (!teacher && !student) {
                     localStorage.setItem('Userinfo_LG', JSON.stringify(user0));
-                }                
+                }
+              
+
+                var ids = GetIDs('Userinfos')
+                Set_AllBtn(ids);
+
                 window.location.href = "/Index.aspx";    
             }
         }
@@ -256,6 +262,16 @@
                     return false;
                 }
             });
+        }
+
+        function GetIDs(itemname) {
+            var ids = '';
+
+            var data = JSON.parse(localStorage.getItem(itemname));
+            data.filter(function (item) { ids += item.Sys_Role_Id + ',' });
+            ids = (ids.substring(ids.length - 1) == ',') ? ids.substring(0, ids.length - 1) : ids;
+
+            return ids;
         }
       
         function Checkcookie()

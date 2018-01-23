@@ -38,7 +38,7 @@ namespace FE_Test
 
 
 
-            var jsm = SetMenuHandler.TestGetMenuInfoHelper("16", "0");
+            var jsm = SetMenuHandler.TestGetMenuInfoHelper("3", "");
         }
 
 
