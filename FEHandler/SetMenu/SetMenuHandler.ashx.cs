@@ -348,7 +348,7 @@ namespace FEHandler.SetMenu
                 string Roleid = RequestHelper.string_transfer(Request, "Rid");
                 List<int> rid_list = Split_Hepler.str_to_ints(Roleid).ToList();
                 var roleOfMenu_List = Constant.Sys_RoleOfMenu_List.Where(p => rid_list.Contains(Convert.ToInt32(p.Role_Id)));
-                var sel_menu = Roleid == "1" ? (from menu in Constant.Sys_MenuInfo_List
+                var sel_menu = rid_list.Exists(o=>o==1)? (from menu in Constant.Sys_MenuInfo_List
                                                 select new
                                                 {
                                                     Id = menu.Id,
