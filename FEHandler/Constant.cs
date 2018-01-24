@@ -1023,7 +1023,7 @@ namespace FEHandler
                         HeadPic = Convert.ToString(dr["HeadPic"]),
                         IDCard = Convert.ToString(dr["IDCard"]),
                         LoginName = Convert.ToString(dr["LoginName"]),
-                        DepartmentID = Convert.ToString(dr["DepartmentID"]),
+                        Major_ID = Convert.ToString(dr["Major_ID"]),
                          
                         Name = Convert.ToString(dr["Name"]),
                         Nickname = Convert.ToString(dr["Nickname"]),

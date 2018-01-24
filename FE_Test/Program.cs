@@ -254,7 +254,7 @@ public class helper
                     IDCard = "",
                     IsEnable = 0,
                     LoginName = item.UniqueNo,
-                    DepartmentID = item.DepartmentID,
+                    Major_ID = item.DepartmentID,
                     Nickname = "",
                     Password = "123456",
                     Phone = "",
@@ -290,7 +290,7 @@ public class helper
 
         foreach (var item in data)
         {
-            item.user.DepartmentID = item.stu.DepartmentID;
+            item.user.Major_ID = item.stu.DepartmentID;
             item.user.DepartmentName = item.stu.DepartmentName;
             item.user.SubDepartmentID = item.stu.SubDepartmentID;
             item.user.SubDepartmentName = item.stu.SubDepartmentName;
@@ -300,7 +300,7 @@ public class helper
 
         foreach (var item in data2)
         {
-            item.user.DepartmentID = item.tea.DepartmentID;
+            item.user.Major_ID = item.tea.DepartmentID;
             item.user.DepartmentName = item.tea.DepartmentName;
             item.user.SubDepartmentID = item.tea.SubDepartmentID;
             item.user.SubDepartmentName = item.tea.SubDepartmentName;

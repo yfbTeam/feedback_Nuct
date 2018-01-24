@@ -471,7 +471,7 @@ namespace FEHandler.UserMan
                      UniqueNo = ul.UniqueNo,
                      Pwd = ul.ClearPassword,
 
-                     Major_ID = ul.DepartmentID,
+                     Major_ID = ul.Major_ID,
                      DepartmentName = ul.DepartmentName,
 
                      SubDepartmentID = ul.SubDepartmentID,
@@ -554,7 +554,7 @@ namespace FEHandler.UserMan
                                      Roleid = SysRole.Id,
                                      Pwd = ul.ClearPassword,
                                      UniqueNo = ul.UniqueNo,
-                                     MajorId = ul.DepartmentID,
+                                     MajorId = ul.Major_ID,
 
                                  }).ToList();
 
@@ -701,7 +701,7 @@ namespace FEHandler.UserMan
                                 UniqueNo = ul.UniqueNo,
                                 Pwd = ul.ClearPassword,
                                 MajorName = "",
-                                Major_ID = ul.DepartmentID,
+                                Major_ID = ul.Major_ID,
                                 s.SubDepartmentID,
                                 s.SubDepartmentName,
                             };
@@ -775,7 +775,7 @@ namespace FEHandler.UserMan
                                 UniqueNo = ul.UniqueNo,
                                 Pwd = ul.ClearPassword,
                                 MajorName = "",
-                                Major_ID = ul.DepartmentID,
+                                Major_ID = ul.Major_ID,
                                 s.ClassNo,
                                 s.ClassName,
                             };
@@ -813,7 +813,7 @@ namespace FEHandler.UserMan
                 List<UserInfo> UserInfo_List_ = Constant.UserInfo_List;
                 if (!string.IsNullOrEmpty(Major_ID))
                 {
-                    UserInfo_List_ = UserInfo_List_.Where(t => t.DepartmentID == Major_ID).ToList();
+                    UserInfo_List_ = UserInfo_List_.Where(t => t.Major_ID == Major_ID).ToList();
                 }
                 List<Major> Major_List = Constant.Major_List;
                 var query = from ul in UserInfo_List_
@@ -832,7 +832,7 @@ namespace FEHandler.UserMan
                                 UniqueNo = ul.UniqueNo,
                                 Pwd = ul.ClearPassword,
                                 MajorName = "",
-                                Major_ID = ul.DepartmentID,
+                                Major_ID = ul.Major_ID,
                                 s.SubDepartmentID,
                                 s.SubDepartmentName
                             };
@@ -965,7 +965,7 @@ namespace FEHandler.UserMan
                                 UniqueNo = user.UniqueNo,
                                 Name = user.Name,
                                 Sex = user.Sex,
-                                DepartmentID = user.DepartmentID,
+                                DepartmentID = user.Major_ID,
                                 DepartmentName = user.DepartmentName,
                                 SubDepartmentName = user.SubDepartmentName,
                                 ClassID = stu_ != null ? stu_.ClassNo : "",
@@ -1045,7 +1045,7 @@ namespace FEHandler.UserMan
                                 UniqueNo = user.UniqueNo,
                                 Name = user.Name,
                                 Sex = user.Sex,
-                                DepartmentID = user.DepartmentID,
+                                DepartmentID = user.Major_ID,
                                 DepartmentName = user.DepartmentName,
                                 SubDepartmentName = user.SubDepartmentName,
                                 ClassID = stu_ != null ? stu_.ClassNo : "",
