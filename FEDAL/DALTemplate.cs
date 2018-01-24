@@ -156,24 +156,6 @@ namespace FEDAL
 	     /// </summary>
 	     ///	
 	     /// </summary>
-		 public partial class TPM_AcheiveRewardInfoDal:BaseDal<TPM_AcheiveRewardInfo>,ITPM_AcheiveRewardInfoDal
-         {
-
-
-         }	
-
-        public partial class DalFactory
-        {
-            public static ITPM_AcheiveRewardInfoDal GetTPM_AcheiveRewardInfoDal()
-            {
-                return new TPM_AcheiveRewardInfoDal();
-            }
-	    }
-
-
-	     /// </summary>
-	     ///	
-	     /// </summary>
 		 public partial class Expert_Teacher_CourseDal:BaseDal<Expert_Teacher_Course>,IExpert_Teacher_CourseDal
          {
 
@@ -887,6 +869,24 @@ namespace FEDAL
             public static ISys_LogInfoDal GetSys_LogInfoDal()
             {
                 return new Sys_LogInfoDal();
+            }
+	    }
+
+
+	     /// </summary>
+	     ///	
+	     /// </summary>
+		 public partial class TPM_AcheiveRewardInfoDal:BaseDal<TPM_AcheiveRewardInfo>,ITPM_AcheiveRewardInfoDal
+         {
+
+
+         }	
+
+        public partial class DalFactory
+        {
+            public static ITPM_AcheiveRewardInfoDal GetTPM_AcheiveRewardInfoDal()
+            {
+                return new TPM_AcheiveRewardInfoDal();
             }
 	    }
 

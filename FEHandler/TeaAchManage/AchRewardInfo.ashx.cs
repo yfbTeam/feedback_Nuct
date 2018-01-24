@@ -163,6 +163,7 @@ namespace FEHandler.TeaAchManage
                 ht.Add("AuditMajor_ID", context.Request["AuditMajor_ID"].SafeToString());//按院系查询的Major_ID                
                 ht.Add("Level_DepartIds", context.Request["Level_DepartIds"].SafeToString()); //业绩审核，按院系查询的十大业绩Id
                 ht.Add("Level_AllIds", context.Request["Level_AllIds"].SafeToString());//业绩审核，按全校查询的十大业绩Id
+                ht.Add("TwoAudit_Status", context.Request["TwoAudit_Status"].SafeToString());//个人竞赛奖状态
                 ht.Add("MyAch_LoginUID", context.Request["MyAch_LoginUID"].SafeToString());//我的业绩处的查询           
                 jsonModel = bll.GetPage(ht, IsPage);
 
@@ -181,9 +182,17 @@ namespace FEHandler.TeaAchManage
         private void CheckAcheiveRewardInfoData(HttpContext context)
         {
             int Id = Convert.ToInt32(context.Request["Id"]);
+            int TwoAudit_Status= Convert.ToInt32(context.Request["TwoAudit_Status"]);
+            string loginUID = RequestHelper.string_transfer(context.Request, "LoginUID");
             TPM_AcheiveRewardInfo model = bll.GetEntityById(Id).retData as TPM_AcheiveRewardInfo;
             int oldstatus =Convert.ToInt32(model.Status);
             model.Status = Convert.ToInt32(context.Request["Status"]);
+            model.TwoAudit_Status = TwoAudit_Status;
+            if (TwoAudit_Status!=0)
+            {
+                model.TwoAudit_UID = loginUID;
+                model.TwoAudit_Time = DateTime.Now;
+            }
             jsonModel = bll.Update(model);
             string hisrecord= RequestHelper.string_transfer(context.Request, "HisRecord");
             if (oldstatus!=7&&model.Status==7&&!string.IsNullOrEmpty(hisrecord))

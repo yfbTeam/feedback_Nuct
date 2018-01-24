@@ -28,6 +28,7 @@ namespace FEDAL
                     str.Append(@" ,info.Id AchieveId,isnull(aud.Id,0) AuditId,isnull(aud.Status,10)AuditStatus 
                       ,isnull((select sum(AllotMoney) from TPM_AllotReward where Audit_Id=aud.Id),0)HasAllot
                      from TPM_RewardBatch r_bat
+                     left join UserInfo b on r_bat.CreateUID=b.UniqueNo
                      left join TPM_AcheiveRewardInfo info on r_bat.Reward_Id=info.Rid and isnull(info.Sort,0)=isnull(r_bat.Rank_Id,0) and info.IsDelete=0
                      left join TPM_AuditReward aud on r_bat.Id=aud.RewardBatch_Id and info.Id=aud.Acheive_Id and aud.IsDelete=0 ");
                 }

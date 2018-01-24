@@ -215,7 +215,7 @@
                <h2 class="cont_title members {{if AchieveType!=2||(UrlDate.Type=='Check'&&Status!=1)||(UrlDate.Type!='Check'&&((ResponsMan!=$('#CreateUID').val()&&Status>6)||(ResponsMan==$('#CreateUID').val()&&Status>3)))}}none{{/if}}"><span>成员信息</span></h2>
             <div class="area_form members {{if AchieveType!=2||(UrlDate.Type=='Check'&&Status!=1)||(UrlDate.Type!='Check'&&((ResponsMan!=$('#CreateUID').val()&&Status>6)||(ResponsMan==$('#CreateUID').val()&&Status>3)))}}none{{/if}}">
                 <div class="clearfix {{if ResponsMan!=$('#CreateUID').val()&&CreateUID!=$('#CreateUID').val()&&UrlDate.Type!='Check'}}none{{/if}}" id="div_user_mem">                        
-                    <span class="fr status">已分：<span id="span_UnScore" style="color:#d02525;">未分：0分</span></span>
+                    <span class="fr status"><span id="span_UnScore" style="color:#d02525;">未分：0分</span></span>
                     <span class="fr status">已分：<span id="span_CurScore">0</span>分，</span>
                     <span class="fr status">总分：<span id="span_AllScore">${TotalScore}</span>分，</span>
                 </div>
@@ -435,9 +435,13 @@
         });        
         function View_CheckInit(model) { //查看、审核初始化
             Get_LookPage_Document(6, model.Id, $("#ul_Certificate_6"));            
-            var yesstatus = 3, nostatus = 2;
+            var yesstatus = 3, nostatus = 2,yestwo_s=0,notwo_s=0;
             if (model.ComStatus >= 0 && model.ComStatus <= 3) {//信息
-                yesstatus = 3, nostatus = 2;               
+                yesstatus = 3, nostatus = 2; 
+                if(model.GPid==2){
+                    yestwo_s=3,notwo_s=2;
+                    if(model.TwoAudit_Status==1){yesstatus=1;nostatus=1;}
+                }
             } else{//分数
                 yesstatus = 7, nostatus = 6;               
                 Get_LookPage_Document(3, model.Id, $("#ul_ScoreFile"));
@@ -446,8 +450,8 @@
                 $(".re_reward").show();                
             }
             if (UrlDate.Type == "Check") {
-                $("#btn_Pass").click(function () { Check(yesstatus); });
-                $("#btn_Nopass").click(function () { Check(nostatus); });
+                $("#btn_Pass").click(function () { Check(yesstatus,yestwo_s); });
+                $("#btn_Nopass").click(function () { Check(nostatus,notwo_s); });
                 $(".checkmes").hide();
                 if (model.Status <= 6) {
                     $(".btnwrap2").show();
@@ -496,7 +500,7 @@
                 }
             });
         }        
-        function Check(Status) {
+        function Check(Status,two_status) {
             var responName=cur_ResponName;
             var hisArray=[];
             if(Status==7){
@@ -513,7 +517,7 @@
                 url: HanderServiceUrl + "/TeaAchManage/AchRewardInfo.ashx",
                 type: "post",
                 dataType: "json",
-                data: { "Func": "CheckAcheiveRewardInfoData", "Status": Status, Id: cur_AchieveId,HisRecord: hisrecord},
+                data: { Func: "CheckAcheiveRewardInfoData", Status: Status,TwoAudit_Status:two_status, Id: cur_AchieveId,HisRecord: hisrecord,LoginUID:$("#CreateUID").val()},
                 success: function (json) {
                     if (json.result.errMsg == "success") {
                         parent.layer.msg('操作成功!');

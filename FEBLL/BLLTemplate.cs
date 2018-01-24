@@ -104,17 +104,6 @@ namespace FEBLL
 	/// </summary>
 	///	
 	/// </summary>
-    public partial class TPM_AcheiveRewardInfoService:BaseService<TPM_AcheiveRewardInfo>,ITPM_AcheiveRewardInfoService
-    {
-	 public override void SetCurrentDal()
-        {
-            CurrentDal = DalFactory.GetTPM_AcheiveRewardInfoDal();
-        }
-    }	
-
-	/// </summary>
-	///	
-	/// </summary>
     public partial class Expert_Teacher_CourseService:BaseService<Expert_Teacher_Course>,IExpert_Teacher_CourseService
     {
 	 public override void SetCurrentDal()
@@ -549,6 +538,17 @@ namespace FEBLL
 	 public override void SetCurrentDal()
         {
             CurrentDal = DalFactory.GetSys_LogInfoDal();
+        }
+    }	
+
+	/// </summary>
+	///	
+	/// </summary>
+    public partial class TPM_AcheiveRewardInfoService:BaseService<TPM_AcheiveRewardInfo>,ITPM_AcheiveRewardInfoService
+    {
+	 public override void SetCurrentDal()
+        {
+            CurrentDal = DalFactory.GetTPM_AcheiveRewardInfoDal();
         }
     }	
 

@@ -571,118 +571,6 @@ namespace FEModel
 	///	
 	/// </summary>
 	[Serializable]
-    public partial class TPM_AcheiveRewardInfo
-    {
-
-		/// <summary>
-		/// 
-		/// </summary>
-		public int? Id { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public string Name { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public int? Gid { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public int? GPid { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public int? BookId { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public string TeaUNo { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public int? Lid { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public int? Rid { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public int? Sort { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public string Year { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public string ResponsMan { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public string DepartMent { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public string FileEdionNo { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public string FileNames { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public string DefindDepart { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public DateTime? DefindDate { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public string FileInfo { get; set; }
-		/// <summary>
-		///0:待提交；1信息待审核；2信息不通过；3分数待分配；4分数待提交；5分数待审核；6分数不通过；7审核通过；8奖金待分配；9奖金待提交；10奖金待审核；11奖金不通过；12审核通过 
-		/// </summary>
-		public int? Status { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public string CreateUID { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public DateTime? CreateTime { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public Byte? IsDelete { get; set; }
-
-          public override bool Equals(object obj)
-        {
-            bool result = false;
-            if (obj.GetType() == typeof(TPM_AcheiveRewardInfo))
-            {
-                TPM_AcheiveRewardInfo _obj = obj as TPM_AcheiveRewardInfo;
-                if (_obj.Id == this.Id)
-                {
-                    result = true;
-                }
-            }
-            return result;
-        }
-
-	    public override int GetHashCode()
-        {
-            return base.GetHashCode();
-        }
-    }
-
-	/// </summary>
-	///	
-	/// </summary>
-	[Serializable]
     public partial class Expert_Teacher_Course
     {
 
@@ -975,7 +863,7 @@ namespace FEModel
 		/// </summary>
 		public int? Id { get; set; }
 		/// <summary>
-		///0 业绩扫描文件；1版本相关文件；2教材扫描文件；3业绩分数分配附件；4奖金分配附件（TPM_AuditReward 的Id）; 5分配历史记录 
+		///0 业绩获奖文件；1版本相关文件；2教材扫描文件；3业绩分数分配附件；4奖金分配附件（TPM_AuditReward 的Id）; 5分配历史记录；6业绩获奖证书 
 		/// </summary>
 		public int? Type { get; set; }
 		/// <summary>
@@ -3985,6 +3873,130 @@ namespace FEModel
             if (obj.GetType() == typeof(Sys_LogInfo))
             {
                 Sys_LogInfo _obj = obj as Sys_LogInfo;
+                if (_obj.Id == this.Id)
+                {
+                    result = true;
+                }
+            }
+            return result;
+        }
+
+	    public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
+    }
+
+	/// </summary>
+	///	
+	/// </summary>
+	[Serializable]
+    public partial class TPM_AcheiveRewardInfo
+    {
+
+		/// <summary>
+		/// 
+		/// </summary>
+		public int? Id { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public string Name { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public int? Gid { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public int? GPid { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public int? BookId { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public string TeaUNo { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public int? Lid { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public int? Rid { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public int? Sort { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public string Year { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public string ResponsMan { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public string DepartMent { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public string FileEdionNo { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public string FileNames { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public string DefindDepart { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public DateTime? DefindDate { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public string FileInfo { get; set; }
+		/// <summary>
+		///0:待提交；1信息待审核；2信息不通过；3分数待分配；4分数待提交；5分数待审核；6分数不通过；7审核通过；8奖金待分配；9奖金待提交；10奖金待审核；11奖金不通过；12审核通过 
+		/// </summary>
+		public int? Status { get; set; }
+		/// <summary>
+		///二级审核状态  0 默认；1待审核；2审核不通过；3审核通过(院管审核流程) 
+		/// </summary>
+		public int? TwoAudit_Status { get; set; }
+		/// <summary>
+		///二级审核人 
+		/// </summary>
+		public string TwoAudit_UID { get; set; }
+		/// <summary>
+		///二级审核时间 
+		/// </summary>
+		public DateTime? TwoAudit_Time { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public string CreateUID { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public DateTime? CreateTime { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public Byte? IsDelete { get; set; }
+
+          public override bool Equals(object obj)
+        {
+            bool result = false;
+            if (obj.GetType() == typeof(TPM_AcheiveRewardInfo))
+            {
+                TPM_AcheiveRewardInfo _obj = obj as TPM_AcheiveRewardInfo;
                 if (_obj.Id == this.Id)
                 {
                     result = true;

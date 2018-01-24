@@ -137,7 +137,7 @@
                     <div class="clearfix">
                         <input type="button" name="name" id="" value="添加" class="btn fl" onclick="javascript: OpenIFrameWindow('添加成员','AddAchMember.aspx', '1000px', '700px');">
                         <input type="button" name="name" id="" value="删除" class="btn fl ml20" onclick="Del_HtmlMember();">
-                        <span class="fr status">已分：<span id="span_UnScore" style="color:#d02525;">未分：0分</span></span>
+                        <span class="fr status"><span id="span_UnScore" style="color:#d02525;">未分：0分</span></span>
                         <span class="fr status">已分：<span id="span_CurScore">0</span>分，</span>
                         <span class="fr status">总分：<span id="span_AllScore">0</span>分，</span>
                     </div>
@@ -300,6 +300,7 @@
         //提交按钮
         function Save(s_type) {
             var department = $("#DepartMent").val();
+            var TwoAudit_Status = 0;//教师个人参加竞赛获奖，二级审核
             if (s_type == 0) {
                 $("#Status").val("0");               
                 var judgeobj = $("#ResponsMan");
@@ -312,6 +313,9 @@
                 }
             } else {
                 $("#Status").val(achieve_add_noaudit ? "3" : "1");
+                if ($("#Group").val() == "2") {
+                    TwoAudit_Status =3;
+                }
                 //验证为空项或其他
                 var valid_flag = validateForm($('select,input[type="text"]:visible'));
                 if (valid_flag != "0")////验证失败的情况  需要表单的input控件 有 isrequired 值为true或false 和fl 值为不为空的名称两个属性
@@ -340,6 +344,7 @@
                 return;
             }
             var object = getFromValue();//组合input标签 
+            object.TwoAudit_Status = TwoAudit_Status;
             object.DepartMent = department ? $("#DepartMent").val().join(',') : "";
             object.MemberStr = '';
             object.AchieveType = UrlDate.Type;

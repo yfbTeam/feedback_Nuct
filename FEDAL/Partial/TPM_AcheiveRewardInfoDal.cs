@@ -139,8 +139,9 @@ namespace FEDAL
                 }
                 if (ht.ContainsKey("MyAch_LoginUID") && !string.IsNullOrEmpty(ht["MyAch_LoginUID"].SafeToString())) //我的业绩处的查询
                 {
-                    str.Append(@" and ((a.GPid!=2 and a.Status>2) or (a.GPid=2 and ((a.CreateUID=@MyAch_LoginUID) or (a.CreateUID!=@MyAch_LoginUID and a.Status>0)))) ");
+                    str.Append(@" and ((a.GPid=2 and a.Status=1 and a.TwoAudit_Status=@TwoAudit_Status) or (a.GPid!=2 and a.Status=1) or a.Status=5 or (a.GPid=2 and ((a.CreateUID=@MyAch_LoginUID) or (a.CreateUID!=@MyAch_LoginUID and a.Status>0)))) ");
                     pms.Add(new SqlParameter("@MyAch_LoginUID", ht["MyAch_LoginUID"].SafeToString()));
+                    pms.Add(new SqlParameter("@TwoAudit_Status", ht["TwoAudit_Status"].SafeToString()));
                 }
                 if (ht.ContainsKey("Respon_LoginUID") && !string.IsNullOrEmpty(ht["Respon_LoginUID"].SafeToString())) //首页统计信息-负责人待审核
                 {
