@@ -71,7 +71,11 @@
                     </div>
             </div>
             <h2 class="cont_title"><span>基本信息</span></h2>
-            <div class="area_form clearfix">                
+            <div class="area_form clearfix"> 
+                <div class="input_lable fl">
+                    <label for="">获奖项目名称：</label>
+                    <input type="text" isrequired="true" fl="获奖项目名称" class="text" name="Name" id="Name" style="width: 694px" />
+                </div>
                 <div class="input_lable fl">
                     <label for="">奖励项目：</label>
                     <select class="select" isrequired="true" fl="奖励项目" name="Gid" id="Gid" onchange="BindLinfo()"></select>

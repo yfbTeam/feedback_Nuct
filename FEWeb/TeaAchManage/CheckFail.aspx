@@ -100,6 +100,16 @@
                         </div>
                     </div>
                 </div>
+                <div class="col-xs-6 edition">
+                    <div class="row msg_item">
+                        <div class="col-xs-5 msg_label">
+                            预估字数：
+                        </div>
+                        <div class="col-xs-7 msg_control">
+                            <span id="PredictWord"></span>
+                        </div>
+                    </div>
+                </div>
                 <div class="col-xs-6 none publish">
                     <div class="row msg_item">
                         <div class="col-xs-5 msg_label">
@@ -289,6 +299,7 @@
                             $("#UseObj").html(this.UseObj);                                                        
                             $("#IsOneAuthor").html(this.IsOneAuthor == "1" ? "是" : "否");
                             $("#ProjectType").html(this.ProjectType == "1" ? "北京市精品教材立项" : "国家级精品教材立项");                            
+                            $("#PredictWord").html(this.PredictWord);
                             $("#SeriesBookName").html(this.SeriesBookName);
                             $("#MainISBN").html(this.MainISBN);
                             $("#SeriesBookNum").html(this.SeriesBookNum + "本");
