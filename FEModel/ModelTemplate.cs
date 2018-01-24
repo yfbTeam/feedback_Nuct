@@ -3321,7 +3321,7 @@ namespace FEModel
 		/// <summary>
 		/// 
 		/// </summary>
-		public string DepartmentID { get; set; }
+		public string Major_ID { get; set; }
 		/// <summary>
 		///系名称 
 		/// </summary>
