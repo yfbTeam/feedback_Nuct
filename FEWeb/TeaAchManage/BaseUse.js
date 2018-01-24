@@ -806,6 +806,7 @@ function Book_Print(ptype,bookid) {
         });        
     } else {
         bookModel = getFromValue();
+        bookModel.IsOneAuthor = $("input[name='IsOneAuthor']:checked").val();
         bookModel["EditName"] = $("#MEditor  option:selected").text();
         bookModel["AllWords"] = bookModel.BookType == "1" ? $('#PredictWord').val() : $('#span_Words').html();
         var authArray = [];        
