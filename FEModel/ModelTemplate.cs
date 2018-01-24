@@ -1437,11 +1437,11 @@ namespace FEModel
 		/// <summary>
 		///系编号 
 		/// </summary>
-		public string Departent_Id { get; set; }
+		public string DepartmentID { get; set; }
 		/// <summary>
 		///系名称 
 		/// </summary>
-		public string Departent_Name { get; set; }
+		public string DepartmentName { get; set; }
 		/// <summary>
 		/// 
 		/// </summary>
@@ -1453,11 +1453,11 @@ namespace FEModel
 		/// <summary>
 		/// 
 		/// </summary>
-		public string Major_ID { get; set; }
+		public string MajorID { get; set; }
 		/// <summary>
 		///院名称 
 		/// </summary>
-		public string Major_Name { get; set; }
+		public string MajorName { get; set; }
 		/// <summary>
 		///学历 
 		/// </summary>
@@ -2853,11 +2853,11 @@ namespace FEModel
 		/// <summary>
 		/// 
 		/// </summary>
-		public string Major_Id { get; set; }
+		public string DepartmentID { get; set; }
 		/// <summary>
 		///系名称 
 		/// </summary>
-		public string Departent_Name { get; set; }
+		public string DepartmentName { get; set; }
 		/// <summary>
 		/// 
 		/// </summary>
@@ -3321,7 +3321,7 @@ namespace FEModel
 		/// <summary>
 		/// 
 		/// </summary>
-		public string Major_ID { get; set; }
+		public string DepartmentID { get; set; }
 		/// <summary>
 		///系名称 
 		/// </summary>

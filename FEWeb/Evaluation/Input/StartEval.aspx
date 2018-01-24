@@ -10,7 +10,7 @@
     <link href="../../css/layout.css" rel="stylesheet" />
     <link href="../../css/fixed-table.css" rel="stylesheet" />
     <script src="../../Scripts/jquery-1.11.2.min.js"></script>
-   
+
     <style>
         .chosen-drop {
             color: black;
@@ -47,6 +47,18 @@
             width: 50px;
         }
 
+        .w-30 {
+            width: 30px;
+        }
+
+        .w-10 {
+            width: 10px;
+        }
+
+        .w-70 {
+            width: 70px;
+        }
+
         .btnno {
             height: 34px;
             min-width: 100px;
@@ -71,7 +83,7 @@
             width: 150px;
         }
 
-          .number {
+        .number {
             width: 50px;
             height: 30px;
             border: 1px solid #cccccc;
@@ -142,20 +154,20 @@
                 </div>
                 <div class="fl selectdiv">
                     <label>年龄：</label>
-                    <input type="number"  value="0" onkeydown="onlyNum();" class="number" min="0" max="120" step="1">
+                    <input type="number" value="0" onkeydown="onlyNum();" class="number" min="0" max="120" step="1">
                     <span style="padding-left: 10px;">~</span>
-                    <input type="number"  value="120" onkeydown="onlyNum();" class="number" min="0" max="120" step="1">
+                    <input type="number" value="120" onkeydown="onlyNum();" class="number" min="0" max="120" step="1">
                 </div>
-                 <div class="fl selectdiv">
+                <div class="fl selectdiv">
                     <label>校龄：</label>
-                    <input type="number"  value="0" onkeydown="onlyNum();" class="number" min="0"  max="120" step="1">
+                    <input type="number" value="0" onkeydown="onlyNum();" class="number" min="0" max="120" step="1">
                     <span style="padding-left: 10px;">~</span>
-                    <input type="number"  value="120" onkeydown="onlyNum();" class="number" min="0" max="120" step="1">
+                    <input type="number" value="120" onkeydown="onlyNum();" class="number" min="0" max="120" step="1">
                 </div>
 
-              
+
                 <div class="fl ml3">
-                    <input type="text" name="" id="class_key" placeholder="课程名称关键字搜索" value="" style="width:164px" class="text fl">
+                    <input type="text" name="" id="class_key" placeholder="课程名称关键字搜索" value="" style="width: 164px" class="text fl">
                     <a class="search fl" href="javascript:;" onclick="SelectByWhere()"><i class="iconfont">&#xe600;</i></a>
                 </div>
 
@@ -168,10 +180,10 @@
                         <thead>
                             <tr>
                                 <th>
-                                    <div class="table-cell w-50"></div>
+                                    <div class="table-cell w-10"></div>
                                 </th>
                                 <th>
-                                    <div class="table-cell w-50">序号</div>
+                                    <div class="table-cell w-30">序号</div>
                                 </th>
                                 <th>
                                     <div class="table-cell w-150">开课部门</div>
@@ -183,7 +195,7 @@
                                     <div class="table-cell w-100">课程类别</div>
                                 </th>
                                 <th>
-                                    <div class="table-cell w-100">课程性质</div>
+                                    <div class="table-cell w-70">课程性质</div>
                                 </th>
                                 <th>
                                     <div class="table-cell w-150">教师所属部门</div>
@@ -255,51 +267,51 @@
     <script type="text/x-jquery-tmpl" id="itemData">
         <tr>
             <td>
-                <div class="table-cell w-50">
+                <div class="table-cell w-10">
                     <input class="checkbox" type="checkbox" />
                 </div>
             </td>
             <td>
-                <div class="table-cell w-50">${Num}</div>
+                <div class="table-cell w-30">${Num}</div>
             </td>
             <td>
-                <div class="table-cell w-150">${DepartmentName}</div>
+                <div title="${DepartmentName}" class="table-cell w-150">${DepartmentName}</div>
             </td>
             <td>
-                <div class="table-cell w-100">${Course_Name}</div>
+                <div title="${Course_Name}" class="table-cell w-100">${Course_Name}</div>
             </td>
             <td>
-                <div class="table-cell w-100">${CourseType}</div>
+                <div title="${CourseType}" class="table-cell w-100">${CourseType}</div>
             </td>
             <td>
-                <div class="table-cell w-100">${CourseProperty}</div>
+                <div title="${CourseProperty}" class="table-cell w-70">${CourseProperty}</div>
             </td>
             <td>
-                <div class="table-cell w-150">${TeacherDepartmentName}</div>
+                <div title="${TeacherDepartmentName}" class="table-cell w-150">${TeacherDepartmentName}</div>
             </td>
             <td>
-                <div class="table-cell w-100">${Teacher_Name}</div>
+                <div title="${Teacher_Name}" class="table-cell w-100">${Teacher_Name}</div>
             </td>
             <td>
-                <div class="table-cell w-150">${RoomDepartmentName}</div>
+                <div title="${RoomDepartmentName}" class="table-cell w-150">${RoomDepartmentName}</div>
             </td>
             <td>
-                <div class="table-cell w-100">${GradeInfo_Name}</div>
+                <div title="${GradeInfo_Name}" class="table-cell w-100">${GradeInfo_Name}</div>
             </td>
             <td>
-                <div class="table-cell w-100">${ClassName}</div>
-            </td>
-
-            <td>
-                <div class="table-cell w-100">${TeacherJobTitle}</div>
+                <div title="${ClassName}" class="table-cell w-100">${ClassName}</div>
             </td>
 
             <td>
-                <div class="table-cell w-100">${DateTimeConvert(TeacherBirthday,'yyyy-MM-dd',true)}</div>
+                <div title="${TeacherJobTitle}" class="table-cell w-100">${TeacherJobTitle}</div>
             </td>
 
             <td>
-                <div class="table-cell w-100">${DateTimeConvert(TeacherSchooldate,'yyyy-MM-dd',true)}</div>
+                <div title="${TeacherBirthday}" class="table-cell w-100">${TeacherBirthday}</div>
+            </td>
+
+            <td>
+                <div title="${TeacherSchooldate}" class="table-cell w-100">${TeacherSchooldate}</div>
             </td>
 
         </tr>
@@ -331,45 +343,35 @@
             selectExpertUID = login_User.UniqueNo;
             selectExpertName = login_User.Name;
 
-            PageSize =5;
+            PageSize = 5;
             Groups = 6;
-           
+            size = 12;
+            height = 263;
 
             PageType = 'StartEval';
-            $("#btn_no").tmpl(1).appendTo(".btnwrap");
+         
             GetClassInfoSelect();
-
             $("#DP,#CT,#CP,#TD,#TN,#MD,#GD,#CN").on('change', function () {
                 pageIndex = 0;
                 GetClassInfo(pageIndex);
             });
            
-            if (IsAllSchool == 1) {
-                Base.BindDepartCompleate = function () {
-                    $("#DepartMent").val(Number(login_User.Major_ID));
+            PrepareInit();
+           
+            GetClassInfoCompleate = function () {
+                $('#tbody').find('.checkbox').on('click', function () {
+                    $('#tbody').find('.checkbox').prop('checked', false);
+                    if (!$(this).is(':checked')) {
+                        $(this).prop('checked', true);
+                        $(".btnwrap").empty();
+                        $("#btn_yes").tmpl(1).appendTo(".btnwrap");
+                    }
+                });
 
-                    GetClassInfoCompleate = function () {
-                        $('#tbody').find('.checkbox').on('click', function () {
-                            $('#tbody').find('.checkbox').prop('checked', false);
-                            if (!$(this).is(':checked')) {
-                                $(this).prop('checked', true);
-                                $(".btnwrap").empty();
-                                $("#btn_yes").tmpl(1).appendTo(".btnwrap");
-                            }
-                        });
+                $(".fixed-table-box").fixedTable();
 
-                        $(".fixed-table-box").fixedTable();
-                    };
-                    GetClassInfo(pageIndex);
-                };
-                Base.BindDepart('248px', false, login_User.Major_ID);
-            }
-            else {
-                Base.BindDepartCompleate = function () {
-                    GetTeacherInfo_Course_Cls();//获取教师
-                };
-                Base.BindDepart('248px', false, '');
-            }
+            };
+            GetClassInfo(pageIndex);
         })
 
         function search() {

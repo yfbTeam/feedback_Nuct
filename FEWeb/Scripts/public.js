@@ -221,6 +221,7 @@ function Arabia_To_SimplifiedChinese(Num) {
     return newchar;
 }
 function nomessage(id, subele, size, height) {
+    
     size = size || 19;
     height = height || 480;
     subele = subele || 'tr';

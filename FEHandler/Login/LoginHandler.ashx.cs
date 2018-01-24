@@ -71,7 +71,7 @@ namespace FEHandler.Login
                                 HeadPic = UserInfo.HeadPic,
                                 Phone = UserInfo.Phone,
                                 Email = UserInfo.Email,
-                                Major_ID = UserInfo.Major_ID
+                                Major_ID = UserInfo.DepartmentID
                             };
                 if (query.Count() == 0)
                 {
@@ -104,21 +104,21 @@ namespace FEHandler.Login
                 List<UserInfo> UserInfo_List_ = Constant.UserInfo_List;
                 List<Teacher> Teacher_List = Constant.Teacher_List;
                 var query = from UserInfo in UserInfo_List_
-                             where UserInfo.UniqueNo == UniqueNoId.Trim()
-                             join Teacher in Teacher_List on UserInfo.UniqueNo.Trim() equals Teacher.UniqueNo.Trim()
-                             select new
-                             {
-                                 LoginName = UserInfo.LoginName,
-                                 Sys_Role = "教师",
-                                 Sys_Role_Id = 3,
-                                 UniqueNo = UserInfo.UniqueNo,
-                                 UserType = UserInfo.UserType,
-                                 Name = UserInfo.Name,
-                                 HeadPic = UserInfo.HeadPic,
-                                 Phone = UserInfo.Phone,
-                                 Email = UserInfo.Email,
-                                 Major_ID = UserInfo.Major_ID
-                             };
+                            where UserInfo.UniqueNo == UniqueNoId.Trim()
+                            join Teacher in Teacher_List on UserInfo.UniqueNo.Trim() equals Teacher.UniqueNo.Trim()
+                            select new
+                            {
+                                LoginName = UserInfo.LoginName,
+                                Sys_Role = "教师",
+                                Sys_Role_Id = 3,
+                                UniqueNo = UserInfo.UniqueNo,
+                                UserType = UserInfo.UserType,
+                                Name = UserInfo.Name,
+                                HeadPic = UserInfo.HeadPic,
+                                Phone = UserInfo.Phone,
+                                Email = UserInfo.Email,
+                                Major_ID = UserInfo.DepartmentID
+                            };
                 if (query.Count() == 0)
                 {
                     jsonModel = JsonModel.get_jsonmodel(intSuccess, "fail", query);
@@ -165,7 +165,8 @@ namespace FEHandler.Login
                                  HeadPic = UserInfo.HeadPic,
                                  Phone = UserInfo.Phone,
                                  Email = UserInfo.Email,
-                                 Major_ID = UserInfo.Major_ID
+                                 Major_ID = UserInfo.DepartmentID,
+                                 DepartmentName = UserInfo.DepartmentName,
                              }).ToList();
                 if (query.Count() == 0)
                 {

@@ -12,72 +12,71 @@ var selectExpertName = '';
 
 function PrepareInit() {
    
-    $('#teachers').find('li:has(ul)').hover(function () {
-        $(this).children('ul').show();
-        $(this).addClass('selected');
+    //$('#teachers').find('li:has(ul)').hover(function () {
+    //    $(this).children('ul').show();
+    //    $(this).addClass('selected');
 
-        var parent_ = $(this);
+    //    var parent_ = $(this);
 
-        $(this).children('ul').find('li').off('click');
-        $(this).children('ul').find('li').click(function () {
-            if ($(this).attr('flg') != 'selected') {
-                $(this).addClass('selected');
-                //加数据
-                var Course_UniqueNo = $(this).find('span').attr('Course_UniqueNo');
-                var TeacherUID = $(this).find('span').attr('TeacherUID');
-                var Teacher_Name = $(this).find('span').attr('Teacher_Name');
-                var Course_Name = $(this).find('span').text();
-                AddDis(Course_UniqueNo, Course_Name, TeacherUID, Teacher_Name);
+    //    $(this).children('ul').find('li').off('click');
+    //    $(this).children('ul').find('li').click(function () {
+    //        if ($(this).attr('flg') != 'selected') {
+    //            $(this).addClass('selected');
+    //            //加数据
+    //            var Course_UniqueNo = $(this).find('span').attr('Course_UniqueNo');
+    //            var TeacherUID = $(this).find('span').attr('TeacherUID');
+    //            var Teacher_Name = $(this).find('span').attr('Teacher_Name');
+    //            var Course_Name = $(this).find('span').text();
+    //            AddDis(Course_UniqueNo, Course_Name, TeacherUID, Teacher_Name);
 
-                $(this).attr('flg', 'selected');
-                parent_.attr('flg', 'selected');
+    //            $(this).attr('flg', 'selected');
+    //            parent_.attr('flg', 'selected');
 
-            } else {
-                $(this).removeClass('selected');
-                //移除数据
-                var Course_UniqueNo = $(this).find('span').attr('Course_UniqueNo');
-                var TeacherUID = $(this).find('span').attr('TeacherUID');
-                var Teacher_Name = $(this).find('span').attr('Teacher_Name');
-                var Course_Name = $(this).find('span').text();
-                RemoveDis(Course_UniqueNo, TeacherUID);
+    //        } else {
+    //            $(this).removeClass('selected');
+    //            //移除数据
+    //            var Course_UniqueNo = $(this).find('span').attr('Course_UniqueNo');
+    //            var TeacherUID = $(this).find('span').attr('TeacherUID');
+    //            var Teacher_Name = $(this).find('span').attr('Teacher_Name');
+    //            var Course_Name = $(this).find('span').text();
+    //            RemoveDis(Course_UniqueNo, TeacherUID);
 
-                $(this).attr('flg', '');
-                parent_.attr('flg', '');
+    //            $(this).attr('flg', '');
+    //            parent_.attr('flg', '');
+    //        }
+
+    //    })
+    //}, function () {
+    //    //var li_count = $(this).children('ul').find('li').length;
+    //    var li_selected_count = $(this).children('ul').find('li[flg=selected]').length;
+
+
+    //    if (li_selected_count == 0) {
+    //        $(this).removeClass('selected');
+    //        $(this).attr('flg', '');
+    //    }
+    //    $(this).children('ul').hide();
+    //})
+    switch (PageType) {
+        case 'StartEval':
+            $("#btn_no").tmpl(1).appendTo(".btnwrap");
+            if (IsAllSchool == 1) {
+                debugger;
+                $('#TD').empty();               
+                var str = "<option value='" + login_User.DepartmentName + "'>" + login_User.DepartmentName + "</option>";
+                $('#TD').append(str)
+                ChosenInit($('#TD'));
             }
 
-        })
-    }, function () {
-        //var li_count = $(this).children('ul').find('li').length;
-        var li_selected_count = $(this).children('ul').find('li[flg=selected]').length;
+            break;
+        default:
 
+    }
 
-        if (li_selected_count == 0) {
-            $(this).removeClass('selected');
-            $(this).attr('flg', '');
-        }
-        $(this).children('ul').hide();
-    })
 
 }
 
-function AddDis(Course_UniqueNo, Course_Name, TeacherUID, TeacherName) {
 
-    var obj = {
-        CourseId: Course_UniqueNo,
-        Course_Name: Course_Name,
-        TeacherUID: TeacherUID,
-        TeacherName: TeacherName,
-        SecionID: select_sectionid,
-        ReguId: select_reguid,
-        ExpertUID: selectExpertUID,
-        ExpertName: selectExpertName,
-        CreateUID: cookie_Userinfo.UniqueNo,
-        EditUID: cookie_Userinfo.UniqueNo,
-        Type: expType,
-    };
-    select_course_teacher.push(obj);
-    deEvent(obj);
-}
 
 function deEvent(obj) {
     $("#item_ExpertTeacher").tmpl(obj).appendTo("#selected_course");
@@ -99,6 +98,26 @@ function deEvent(obj) {
             lis.parent().parent().attr('flg', 'selected');
         }
     });
+}
+
+
+function AddDis(Course_UniqueNo, Course_Name, TeacherUID, TeacherName) {
+
+    var obj = {
+        CourseId: Course_UniqueNo,
+        Course_Name: Course_Name,
+        TeacherUID: TeacherUID,
+        TeacherName: TeacherName,
+        SecionID: select_sectionid,
+        ReguId: select_reguid,
+        ExpertUID: selectExpertUID,
+        ExpertName: selectExpertName,
+        CreateUID: cookie_Userinfo.UniqueNo,
+        EditUID: cookie_Userinfo.UniqueNo,
+        Type: expType,
+    };
+    select_course_teacher.push(obj);
+    deEvent(obj);
 }
 
 function RemoveDis(Course_UniqueNo, TeacherUID) {

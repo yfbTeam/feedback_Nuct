@@ -1,9 +1,15 @@
-﻿/// <reference path="../jquery-1.11.2.min.js" />
+﻿/// <reference path="../public.js" />
+/// <reference path="../Common.js" />
+/// <reference path="../jquery-1.11.2.min.js" />
 /// <reference path="../jquery-1.8.3.min.js" />
 
 
 var PageSize = 10;
 var Groups = 10;
+var subele ='tr';
+var size = 19;
+var height = 480;
+
 function GetClassInfoCompleate() { };
 //绑定课程信息
 function GetClassInfo(PageIndex) {
@@ -34,7 +40,7 @@ function GetClassInfo(PageIndex) {
 
                 $("#tbody").empty();
                 if (data.length <= 0) {
-                    nomessage('#tbody');
+                    nomessage('#tbody',subele,size,height);
                     $('#pageBar').hide();
                     return;
                 }
