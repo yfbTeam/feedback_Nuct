@@ -59,12 +59,12 @@
             <table>
                 <thead>
                     <tr>
-                        <th>批次</th>
-                        <th>金额（万元）</th>
-                        <th>追加人</th>
-                        <th>时间</th>
-                        <th>依据</th>
-                        <th>操作</th>
+                        <th style="width:5%;">批次</th>
+                        <th style="width:15%;">金额（万元）</th>
+                        <th style="width:12%;">追加人</th>
+                        <th style="width:12%;">时间</th>
+                        <th style="width:44%;">依据</th>
+                        <th style="width:12%;">操作</th>
                     </tr>
                 </thead>
                 <tbody id="tb_Award"></tbody>
@@ -82,7 +82,7 @@
 <script src="../Scripts/layer/layer.js"></script>
 <script type="text/javascript">
     var UrlDate = new GetUrlDate();
-    var cur_rankid = UrlDate.rank||"";
+    var cur_rankid = UrlDate.rank || "", LID = UrlDate.lid || "";
     $(function () {
         $("#CreateUID").val(GetLoginUser().UniqueNo);
         Get_RewardBatchData();
@@ -105,7 +105,7 @@
         });
     }
     function Open_AddWindow(id){
-        OpenIFrameWindow(id==0?'追加':'修改', '../TeaAchManage/AddSingleAward.aspx?id=' + id + '&rwid=' + UrlDate.Id + '&rankid=' + cur_rankid, '480px', '320px');
+        OpenIFrameWindow(id == 0 ? '追加' : '修改', '../TeaAchManage/AddSingleAward.aspx?id=' + id + '&rwid=' + UrlDate.Id + '&rankid=' + cur_rankid + '&lid=' + LID, '480px', '320px');
     }    
     function DelReward(id) {
         layer.confirm('确认删除么吗？', {
@@ -121,7 +121,11 @@
                     if (json.result.errNum == 0) {
                         layer.msg('操作成功!');
                         Get_RewardBatchData();
-                        parent.BindRank(UrlDate.Id);
+                        if (cur_rankid == "") {
+                            parent.BindReward(LID);
+                        } else { //教学成果奖
+                            parent.BindRank(UrlDate.Id);
+                        }
                     } else {
                         layer.msg(json.result.errMsg);
                     }

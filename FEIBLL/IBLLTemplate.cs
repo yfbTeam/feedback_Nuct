@@ -77,14 +77,6 @@ namespace FEIBLL
 	/// </summary>
 	///	
 	/// </summary>
-    public interface ITPM_AcheiveRewardInfoService:IBaseService<TPM_AcheiveRewardInfo>
-    {
-
-    }	
-
-	/// </summary>
-	///	
-	/// </summary>
     public interface IExpert_Teacher_CourseService:IBaseService<Expert_Teacher_Course>
     {
 
@@ -398,6 +390,14 @@ namespace FEIBLL
 	///	系统日志业务类9
 	/// </summary>
     public interface ISys_LogInfoService:IBaseService<Sys_LogInfo>
+    {
+
+    }	
+
+	/// </summary>
+	///	
+	/// </summary>
+    public interface ITPM_AcheiveRewardInfoService:IBaseService<TPM_AcheiveRewardInfo>
     {
 
     }	

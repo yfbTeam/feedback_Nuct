@@ -40,7 +40,7 @@
                     <i class="iconfont color_purple">&#xe60b;</i>
                     <span class="operate_none bg_purple">查看</span>
                 </div> 
-                {{if GPid==2&&(Status==0||Status==2)}}                   
+                {{if GPid==2&&(Status==0||Status==2||(Status==1&&TwoAudit_Status==2))}}                   
                         <div class="operate" onclick="EditAchive(${Id},'${AchieveType}','${GPid}')">
                             <i class="iconfont color_purple">&#xe617;</i>
                             <span class="operate_none bg_purple">修改</span>

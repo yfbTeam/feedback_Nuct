@@ -45,7 +45,7 @@
 <script src="../Scripts/layer/layer.js"></script>
 <script type="text/javascript">
     var UrlDate = new GetUrlDate();
-    var itemid = UrlDate.id, Reward_Id = UrlDate.rwid, Rank_Id = UrlDate.rankid;
+    var itemid = UrlDate.id, Reward_Id = UrlDate.rwid, Rank_Id = UrlDate.rankid, LID = UrlDate.lid;
     $(function () {
         $("#CreateUID").val(GetLoginUser().UniqueNo);
         if (itemid != undefined && itemid != 0) {
@@ -86,7 +86,11 @@
                 if (json.result.errNum == 0) {
                     parent.layer.msg('操作成功!');
                     parent.Get_RewardBatchData();//刷新父级弹框
-                    parent.parent.BindRank(Reward_Id);//刷新父级弹框的父级
+                    if (Rank_Id == "") { //除教学成果奖外的奖项
+                        parent.parent.BindReward(LID);//刷新父级弹框的父级
+                    } else { //教学成果奖
+                        parent.parent.BindRank(Reward_Id);//刷新父级弹框的父级
+                    }                    
                     parent.CloseIFrameWindow();
                 } else {
                     layer.msg(json.result.errMsg);

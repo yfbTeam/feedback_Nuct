@@ -79,14 +79,6 @@ namespace FEIDAL
 	/// </summary>
 	///	
 	/// </summary>
-    public interface ITPM_AcheiveRewardInfoDal: IBaseDal<TPM_AcheiveRewardInfo>
-    {
-		
-    }
-
-	/// </summary>
-	///	
-	/// </summary>
     public interface IExpert_Teacher_CourseDal: IBaseDal<Expert_Teacher_Course>
     {
 		
@@ -400,6 +392,14 @@ namespace FEIDAL
 	///	系统日志数据处理接口类9
 	/// </summary>
     public interface ISys_LogInfoDal: IBaseDal<Sys_LogInfo>
+    {
+		
+    }
+
+	/// </summary>
+	///	
+	/// </summary>
+    public interface ITPM_AcheiveRewardInfoDal: IBaseDal<TPM_AcheiveRewardInfo>
     {
 		
     }
