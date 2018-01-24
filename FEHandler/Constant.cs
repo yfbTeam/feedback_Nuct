@@ -1016,7 +1016,8 @@ namespace FEHandler
                     {
                         Id = Convert.ToInt32(dr["Id"]),
                         Address = Convert.ToString(dr["Address"]),
-                        Birthday = Convert.ToString(dr["Birthday"]),
+                        Birthday = Convert.ToDateTime(dr["Birthday"]),
+                            
                         ClearPassword = Convert.ToString(dr["ClearPassword"]),
                         Email = Convert.ToString(dr["Email"]),
                         HeadPic = Convert.ToString(dr["HeadPic"]),
@@ -1036,7 +1037,7 @@ namespace FEHandler
                         DepartmentName = Convert.ToString(dr["DepartmentName"]),
                         SubDepartmentID = Convert.ToString(dr["SubDepartmentID"]),
                         SubDepartmentName = Convert.ToString(dr["SubDepartmentName"]),
-
+                         
 
                         CreateTime = Convert.ToDateTime(dr["CreateTime"]),
                         CreateUID = Convert.ToString(dr["CreateUID"]),
@@ -1079,7 +1080,8 @@ namespace FEHandler
                     Teacher t = new Teacher()
                     {
                         Id = Convert.ToInt32(dr["Id"]),
-                        Birthday = Convert.ToDateTime(dr["Birthday"]),
+                        TeacherBirthday = Convert.ToInt32(dr["TeacherBirthday"]),
+                        TeacherSchooldate = Convert.ToInt32(dr["TeacherSchooldate"]),
                         Major_ID = Convert.ToString(dr["Major_ID"]),
                         Name = Convert.ToString(dr["Name"]),
                         Sex = Convert.ToByte(dr["Sex"]),
@@ -1093,8 +1095,7 @@ namespace FEHandler
                         Status = Convert.ToString(dr["Status"]),
                         SubDepartmentID = Convert.ToString(dr["SubDepartmentID"]),
                         SubDepartmentName = Convert.ToString(dr["SubDepartmentName"]),
-                        TeachDate = Convert.ToString(dr["TeachDate"]),
-
+                       
                         CreateTime = Convert.ToDateTime(dr["CreateTime"]),
                         CreateUID = Convert.ToString(dr["CreateUID"]),
                         EditTime = Convert.ToDateTime(dr["EditTime"]),
@@ -1218,7 +1219,8 @@ namespace FEHandler
                         TeacherSubDepartmentName = Convert.ToString(dr["TeacherSubDepartmentName"]),
                         TeacherUID = Convert.ToString(dr["TeacherUID"]),
                         Year = Convert.ToInt32(dr["Year"]),
-
+                        TeacherBirthday = Convert.ToInt32(dr["TeacherBirthday"]),
+                        TeacherSchooldate = Convert.ToInt32(dr["TeacherSchooldate"]),
                         CreateTime = Convert.ToDateTime(dr["CreateTime"]),
                         CreateUID = Convert.ToString(dr["CreateUID"]),
                         EditTime = Convert.ToDateTime(dr["EditTime"]),

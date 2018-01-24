@@ -894,8 +894,8 @@ namespace FEHandler.UserMan
                                 SubDepartmentID = tea.SubDepartmentID,
                                 SubDepartmentName = tea.SubDepartmentName,
 
-                                TeachDate = tea.TeachDate,
-                                Birthday = tea.Birthday,
+                                TeachDate = tea.TeacherSchooldate,
+                                Birthday = tea.TeacherBirthday,
                                 Status = tea.Status,
                             };
 

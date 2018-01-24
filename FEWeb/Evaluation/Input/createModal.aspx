@@ -83,7 +83,7 @@
         <script src="../../Scripts/laypage/laypage.js"></script>
 
         <script type="text/x-jquery-tmpl" id="itembtn_Enable">
-            <button class="btn ml10" onclick="OpenIFrameWindow('发起评教','StartEval.aspx','900px','650px')">发起评教</button>
+            <button class="btn ml10" onclick="OpenIFrameWindow('发起评教','StartEval.aspx','1000px','550px')">发起评教</button>
             <button class="btn" onclick="window.history.go(-1);">返回上一步</button>
         </script>
 

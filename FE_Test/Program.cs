@@ -247,7 +247,7 @@ public class helper
                     UniqueNo = item.UniqueNo,
                     Name = item.Name,
                     Address = "",
-                    Birthday = "",
+                    Birthday = DateTime.Now,
                     ClearPassword = "123456",
                     Email = "",
                     HeadPic = "",

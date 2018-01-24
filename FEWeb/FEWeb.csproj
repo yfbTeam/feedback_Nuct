@@ -70,6 +70,7 @@
     <Content Include="css\animate.css" />
     <Content Include="css\aos.css" />
     <Content Include="css\bootstrap.min.css" />
+    <Content Include="css\fixed-table.css" />
     <Content Include="css\font-awesome.min.css" />
     <Content Include="css\login.css" />
     <Content Include="Evaluation\check\CheckModal.aspx" />
@@ -102,6 +103,8 @@
     <Content Include="js\vue.min.js" />
     <Content Include="NoMessage.aspx" />
     <Content Include="NoPower.aspx" />
+    <Content Include="Scripts\fixtable\fixed-table.js" />
+    <Content Include="Scripts\fixtable\FixedTable.js" />
     <Content Include="Scripts\kkPage\Css.css" />
     <Content Include="Scripts\kkPage\jquery.kkPages.js" />
     <Content Include="Scripts\pdfjs\web\compatibility.js" />

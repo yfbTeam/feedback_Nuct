@@ -11,6 +11,7 @@ var selectExpertName = '';
 
 
 function PrepareInit() {
+   
     $('#teachers').find('li:has(ul)').hover(function () {
         $(this).children('ul').show();
         $(this).addClass('selected');

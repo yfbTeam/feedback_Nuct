@@ -508,6 +508,174 @@ namespace FEModel
     }
 
 	/// </summary>
+	///	专业部门名称实体类
+	/// </summary>
+	[Serializable]
+    public partial class CourseRoom
+    {
+
+		/// <summary>
+		/// 
+		/// </summary>
+		public int? Id { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public string UniqueNo { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public string Name { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public int? StudySection_Id { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public int? Year { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public string Season { get; set; }
+		/// <summary>
+		///专业部门名称 
+		/// </summary>
+		public string RoomDepartmentName { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public string Coures_Id { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public string CouresName { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public string CourseProperty { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public string CourseType { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public string GradeID { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public string GradeName { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public string ClassID { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public string ClassName { get; set; }
+		/// <summary>
+		///开课部门 
+		/// </summary>
+		public string Major_Id { get; set; }
+		/// <summary>
+		///开课部门 
+		/// </summary>
+		public string DepartmentName { get; set; }
+		/// <summary>
+		///开课子部门 
+		/// </summary>
+		public string SubDepartmentID { get; set; }
+		/// <summary>
+		///开课子部门 
+		/// </summary>
+		public string SubDepartmentName { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public string TeacherUID { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public string TeacherName { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public string TeacherPropertyID { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public string TeacherProperty { get; set; }
+		/// <summary>
+		///教师职称 
+		/// </summary>
+		public string TeacherJobTitle { get; set; }
+		/// <summary>
+		///教师所属部门 
+		/// </summary>
+		public string TeacherDepartmentName { get; set; }
+		/// <summary>
+		///教师所属子部门 
+		/// </summary>
+		public string TeacherSubDepartmentName { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public int? TeacherBirthday { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public int? TeacherSchooldate { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public int? StudentCount { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public string CreateUID { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public DateTime? CreateTime { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public string EditUID { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public DateTime? EditTime { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public Byte? IsEnable { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public Byte? IsDelete { get; set; }
+
+          public override bool Equals(object obj)
+        {
+            bool result = false;
+            if (obj.GetType() == typeof(CourseRoom))
+            {
+                CourseRoom _obj = obj as CourseRoom;
+                if (_obj.Id == this.Id)
+                {
+                    result = true;
+                }
+            }
+            return result;
+        }
+
+	    public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
+    }
+
+	/// </summary>
 	///	
 	/// </summary>
 	[Serializable]
@@ -553,118 +721,6 @@ namespace FEModel
             if (obj.GetType() == typeof(TPM_AcheiveLevel))
             {
                 TPM_AcheiveLevel _obj = obj as TPM_AcheiveLevel;
-                if (_obj.Id == this.Id)
-                {
-                    result = true;
-                }
-            }
-            return result;
-        }
-
-	    public override int GetHashCode()
-        {
-            return base.GetHashCode();
-        }
-    }
-
-	/// </summary>
-	///	
-	/// </summary>
-	[Serializable]
-    public partial class TPM_AcheiveRewardInfo
-    {
-
-		/// <summary>
-		/// 
-		/// </summary>
-		public int? Id { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public string Name { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public int? Gid { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public int? GPid { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public int? BookId { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public string TeaUNo { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public int? Lid { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public int? Rid { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public int? Sort { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public string Year { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public string ResponsMan { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public string DepartMent { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public string FileEdionNo { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public string FileNames { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public string DefindDepart { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public DateTime? DefindDate { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public string FileInfo { get; set; }
-		/// <summary>
-		///0:待提交；1信息待审核；2信息不通过；3分数待分配；4分数待提交；5分数待审核；6分数不通过；7审核通过；8奖金待分配；9奖金待提交；10奖金待审核；11奖金不通过；12审核通过 
-		/// </summary>
-		public int? Status { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public string CreateUID { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public DateTime? CreateTime { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public Byte? IsDelete { get; set; }
-
-          public override bool Equals(object obj)
-        {
-            bool result = false;
-            if (obj.GetType() == typeof(TPM_AcheiveRewardInfo))
-            {
-                TPM_AcheiveRewardInfo _obj = obj as TPM_AcheiveRewardInfo;
                 if (_obj.Id == this.Id)
                 {
                     result = true;
@@ -975,7 +1031,7 @@ namespace FEModel
 		/// </summary>
 		public int? Id { get; set; }
 		/// <summary>
-		///0 业绩扫描文件；1版本相关文件；2教材扫描文件；3业绩分数分配附件；4奖金分配附件（TPM_AuditReward 的Id）; 5分配历史记录 
+		///0 业绩获奖文件；1版本相关文件；2教材扫描文件；3业绩分数分配附件；4奖金分配附件（TPM_AuditReward 的Id）; 5分配历史记录；6业绩获奖证书 
 		/// </summary>
 		public int? Type { get; set; }
 		/// <summary>
@@ -1231,142 +1287,6 @@ namespace FEModel
 	///	
 	/// </summary>
 	[Serializable]
-    public partial class UserInfo
-    {
-
-		/// <summary>
-		/// 
-		/// </summary>
-		public int? Id { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public string UniqueNo { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public Byte? UserType { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public string Major_ID { get; set; }
-		/// <summary>
-		///系名称 
-		/// </summary>
-		public string DepartmentName { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public string SubDepartmentID { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public string SubDepartmentName { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public string Name { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public string Nickname { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public Byte? Sex { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public string Birthday { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public string LoginName { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public string Password { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public string ClearPassword { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public string HeadPic { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public string Pic { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public string Phone { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public string Email { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public string IDCard { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public string Address { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public string Remarks { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public string CreateUID { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public DateTime? CreateTime { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public string EditUID { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public DateTime? EditTime { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public Byte? IsEnable { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public Byte? IsDelete { get; set; }
-
-          public override bool Equals(object obj)
-        {
-            bool result = false;
-            if (obj.GetType() == typeof(UserInfo))
-            {
-                UserInfo _obj = obj as UserInfo;
-                if (_obj.Id == this.Id)
-                {
-                    result = true;
-                }
-            }
-            return result;
-        }
-
-	    public override int GetHashCode()
-        {
-            return base.GetHashCode();
-        }
-    }
-
-	/// </summary>
-	///	
-	/// </summary>
-	[Serializable]
     public partial class TPM_ModifyRecord
     {
 
@@ -1477,6 +1397,122 @@ namespace FEModel
             if (obj.GetType() == typeof(TPM_RewardInfo))
             {
                 TPM_RewardInfo _obj = obj as TPM_RewardInfo;
+                if (_obj.Id == this.Id)
+                {
+                    result = true;
+                }
+            }
+            return result;
+        }
+
+	    public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
+    }
+
+	/// </summary>
+	///	
+	/// </summary>
+	[Serializable]
+    public partial class Teacher
+    {
+
+		/// <summary>
+		/// 
+		/// </summary>
+		public int? Id { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public string UniqueNo { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public string Name { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public Byte? Sex { get; set; }
+		/// <summary>
+		///系编号 
+		/// </summary>
+		public string Departent_Id { get; set; }
+		/// <summary>
+		///系名称 
+		/// </summary>
+		public string Departent_Name { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public string SubDepartmentID { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public string SubDepartmentName { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public string Major_ID { get; set; }
+		/// <summary>
+		///院名称 
+		/// </summary>
+		public string Major_Name { get; set; }
+		/// <summary>
+		///学历 
+		/// </summary>
+		public string Education { get; set; }
+		/// <summary>
+		///学位 
+		/// </summary>
+		public string Degree { get; set; }
+		/// <summary>
+		///职称 
+		/// </summary>
+		public string JobTitle { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public int? TeacherBirthday { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public int? TeacherSchooldate { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public string Status { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public string CreateUID { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public DateTime? CreateTime { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public string EditUID { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public DateTime? EditTime { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public Byte? IsEnable { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public Byte? IsDelete { get; set; }
+
+          public override bool Equals(object obj)
+        {
+            bool result = false;
+            if (obj.GetType() == typeof(Teacher))
+            {
+                Teacher _obj = obj as Teacher;
                 if (_obj.Id == this.Id)
                 {
                     result = true;
@@ -2788,166 +2824,6 @@ namespace FEModel
     }
 
 	/// </summary>
-	///	专业部门名称实体类
-	/// </summary>
-	[Serializable]
-    public partial class CourseRoom
-    {
-
-		/// <summary>
-		/// 
-		/// </summary>
-		public int? Id { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public string UniqueNo { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public string Name { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public int? StudySection_Id { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public int? Year { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public string Season { get; set; }
-		/// <summary>
-		///专业部门名称 
-		/// </summary>
-		public string RoomDepartmentName { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public string Coures_Id { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public string CouresName { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public string CourseProperty { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public string CourseType { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public string GradeID { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public string GradeName { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public string ClassID { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public string ClassName { get; set; }
-		/// <summary>
-		///开课部门 
-		/// </summary>
-		public string Major_Id { get; set; }
-		/// <summary>
-		///开课部门 
-		/// </summary>
-		public string DepartmentName { get; set; }
-		/// <summary>
-		///开课子部门 
-		/// </summary>
-		public string SubDepartmentID { get; set; }
-		/// <summary>
-		///开课子部门 
-		/// </summary>
-		public string SubDepartmentName { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public string TeacherUID { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public string TeacherName { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public string TeacherPropertyID { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public string TeacherProperty { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public string TeacherJobTitle { get; set; }
-		/// <summary>
-		///教师所属部门 
-		/// </summary>
-		public string TeacherDepartmentName { get; set; }
-		/// <summary>
-		///教师所属子部门 
-		/// </summary>
-		public string TeacherSubDepartmentName { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public int? StudentCount { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public string CreateUID { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public DateTime? CreateTime { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public string EditUID { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public DateTime? EditTime { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public Byte? IsEnable { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public Byte? IsDelete { get; set; }
-
-          public override bool Equals(object obj)
-        {
-            bool result = false;
-            if (obj.GetType() == typeof(CourseRoom))
-            {
-                CourseRoom _obj = obj as CourseRoom;
-                if (_obj.Id == this.Id)
-                {
-                    result = true;
-                }
-            }
-            return result;
-        }
-
-	    public override int GetHashCode()
-        {
-            return base.GetHashCode();
-        }
-    }
-
-	/// </summary>
 	///	
 	/// </summary>
 	[Serializable]
@@ -3427,6 +3303,142 @@ namespace FEModel
 	///	
 	/// </summary>
 	[Serializable]
+    public partial class UserInfo
+    {
+
+		/// <summary>
+		/// 
+		/// </summary>
+		public int? Id { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public string UniqueNo { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public Byte? UserType { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public string Major_ID { get; set; }
+		/// <summary>
+		///系名称 
+		/// </summary>
+		public string DepartmentName { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public string SubDepartmentID { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public string SubDepartmentName { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public string Name { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public string Nickname { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public Byte? Sex { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public DateTime? Birthday { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public string LoginName { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public string Password { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public string ClearPassword { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public string HeadPic { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public string Pic { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public string Phone { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public string Email { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public string IDCard { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public string Address { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public string Remarks { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public string CreateUID { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public DateTime? CreateTime { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public string EditUID { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public DateTime? EditTime { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public Byte? IsEnable { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public Byte? IsDelete { get; set; }
+
+          public override bool Equals(object obj)
+        {
+            bool result = false;
+            if (obj.GetType() == typeof(UserInfo))
+            {
+                UserInfo _obj = obj as UserInfo;
+                if (_obj.Id == this.Id)
+                {
+                    result = true;
+                }
+            }
+            return result;
+        }
+
+	    public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
+    }
+
+	/// </summary>
+	///	
+	/// </summary>
+	[Serializable]
     public partial class LinkManInfo
     {
 
@@ -3683,122 +3695,6 @@ namespace FEModel
 	///	
 	/// </summary>
 	[Serializable]
-    public partial class Teacher
-    {
-
-		/// <summary>
-		/// 
-		/// </summary>
-		public int? Id { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public string UniqueNo { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public string Name { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public Byte? Sex { get; set; }
-		/// <summary>
-		///系编号 
-		/// </summary>
-		public string Departent_Id { get; set; }
-		/// <summary>
-		///系名称 
-		/// </summary>
-		public string Departent_Name { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public string SubDepartmentID { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public string SubDepartmentName { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public string Major_ID { get; set; }
-		/// <summary>
-		///院名称 
-		/// </summary>
-		public string Major_Name { get; set; }
-		/// <summary>
-		///学历 
-		/// </summary>
-		public string Education { get; set; }
-		/// <summary>
-		///学位 
-		/// </summary>
-		public string Degree { get; set; }
-		/// <summary>
-		///职称 
-		/// </summary>
-		public string JobTitle { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public DateTime? Birthday { get; set; }
-		/// <summary>
-		///教学日期 
-		/// </summary>
-		public string TeachDate { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public string Status { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public string CreateUID { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public DateTime? CreateTime { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public string EditUID { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public DateTime? EditTime { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public Byte? IsEnable { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public Byte? IsDelete { get; set; }
-
-          public override bool Equals(object obj)
-        {
-            bool result = false;
-            if (obj.GetType() == typeof(Teacher))
-            {
-                Teacher _obj = obj as Teacher;
-                if (_obj.Id == this.Id)
-                {
-                    result = true;
-                }
-            }
-            return result;
-        }
-
-	    public override int GetHashCode()
-        {
-            return base.GetHashCode();
-        }
-    }
-
-	/// </summary>
-	///	
-	/// </summary>
-	[Serializable]
     public partial class Sys_Letter
     {
 
@@ -3985,6 +3881,130 @@ namespace FEModel
             if (obj.GetType() == typeof(Sys_LogInfo))
             {
                 Sys_LogInfo _obj = obj as Sys_LogInfo;
+                if (_obj.Id == this.Id)
+                {
+                    result = true;
+                }
+            }
+            return result;
+        }
+
+	    public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
+    }
+
+	/// </summary>
+	///	
+	/// </summary>
+	[Serializable]
+    public partial class TPM_AcheiveRewardInfo
+    {
+
+		/// <summary>
+		/// 
+		/// </summary>
+		public int? Id { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public string Name { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public int? Gid { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public int? GPid { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public int? BookId { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public string TeaUNo { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public int? Lid { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public int? Rid { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public int? Sort { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public string Year { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public string ResponsMan { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public string DepartMent { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public string FileEdionNo { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public string FileNames { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public string DefindDepart { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public DateTime? DefindDate { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public string FileInfo { get; set; }
+		/// <summary>
+		///0:待提交；1信息待审核；2信息不通过；3分数待分配；4分数待提交；5分数待审核；6分数不通过；7审核通过；8奖金待分配；9奖金待提交；10奖金待审核；11奖金不通过；12审核通过 
+		/// </summary>
+		public int? Status { get; set; }
+		/// <summary>
+		///二级审核状态  0 默认；1待审核；2审核不通过；3审核通过(院管审核流程) 
+		/// </summary>
+		public int? TwoAudit_Status { get; set; }
+		/// <summary>
+		///二级审核人 
+		/// </summary>
+		public string TwoAudit_UID { get; set; }
+		/// <summary>
+		///二级审核时间 
+		/// </summary>
+		public DateTime? TwoAudit_Time { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public string CreateUID { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public DateTime? CreateTime { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public Byte? IsDelete { get; set; }
+
+          public override bool Equals(object obj)
+        {
+            bool result = false;
+            if (obj.GetType() == typeof(TPM_AcheiveRewardInfo))
+            {
+                TPM_AcheiveRewardInfo _obj = obj as TPM_AcheiveRewardInfo;
                 if (_obj.Id == this.Id)
                 {
                     result = true;
