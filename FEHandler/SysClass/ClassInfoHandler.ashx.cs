@@ -192,6 +192,12 @@ namespace FEHandler.SysClass
                                  TeacherDepartmentName = CourseRoom_.TeacherDepartmentName,
                                  //专业部门
                                  CourseDepartmentName = CourseRoom_.DepartmentName,
+                                 RoomDepartmentName = CourseRoom_.RoomDepartmentName,
+
+                                 TeacherJobTitle = CourseRoom_.TeacherJobTitle,
+                                 TeacherBirthday = CourseRoom_.TeacherBirthday,
+                                 TeacherSchooldate = CourseRoom_.TeacherSchooldate,
+
                                  //序号
                                  Num = 0,
                              });

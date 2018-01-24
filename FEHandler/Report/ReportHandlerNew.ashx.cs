@@ -79,7 +79,7 @@ namespace FEHandler.Report
             string user = RequestHelper.string_transfer(Request, "user");
             string info = RequestHelper.string_transfer(Request, "info");
             string UniqueNo = RequestHelper.string_transfer(Request, "UniqueNo");
-            string Major_ID = Constant.UserInfo_List.Where(a => a.UniqueNo == UniqueNo).FirstOrDefault().Major_ID;
+            string Major_ID = Constant.UserInfo_List.Where(a => a.UniqueNo == UniqueNo).FirstOrDefault().DepartmentID;
             string classid = Constant.Class_StudentInfo_List.Where(a => a.UniqueNo == UniqueNo).FirstOrDefault().Class_Id;
             //获取院系名称和班级名称
             Major Major = Constant.Major_List.Where(a => a.Id == Major_ID).FirstOrDefault();

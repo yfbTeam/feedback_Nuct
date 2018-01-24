@@ -73,17 +73,17 @@ namespace FEHandler
         /// </summary>
         public static IndicatorService IndicatorService = new IndicatorService();
         public static IndicatorTypeService IndicatorTypeService = new IndicatorTypeService();
-     
+
         public static Eva_TableService Eva_TableService = new Eva_TableService();
         public static Eva_Table_HeaderService Eva_Table_HeaderService = new Eva_Table_HeaderService();
         public static Eva_Table_Header_CustomService Eva_Table_Header_CustomService = new Eva_Table_Header_CustomService();
 
         public static Eva_TableDetailService Eva_TableDetailService = new Eva_TableDetailService();
         public static Eva_RegularService Eva_RegularService = new Eva_RegularService();
-      
+
         public static Eva_QuestionAnswerService Eva_QuestionAnswerService = new Eva_QuestionAnswerService();
         public static Eva_QuestionAnswer_DetailService Eva_QuestionAnswer_DetailService = new Eva_QuestionAnswer_DetailService();
-     
+
 
         public static Eva_QuestionAnswer_HeaderService Eva_QuestionAnswer_HeaderService = new Eva_QuestionAnswer_HeaderService();
 
@@ -151,7 +151,7 @@ namespace FEHandler
             set { Constant.indicatorType_List = value; }
         }
 
-    
+
         private static List<Eva_Regular> eva_Regular_List = null;
         /// <summary>
         /// 定期评价表
@@ -258,9 +258,9 @@ namespace FEHandler
             set { Constant.eva_TableDetail_List = value; }
         }
 
-     
 
-    
+
+
 
         private static List<Eva_QuestionAnswer_Detail> eva_QuestionAnswer_Detail_List = null;
         /// <summary>
@@ -297,7 +297,7 @@ namespace FEHandler
                     Hashtable hs = new Hashtable();
                     hs.Add("TableName", "Eva_QuestionAnswer");
                     DataTable dt = Eva_QuestionAnswerService.GetData(hs, false, "and IsDelete =0");
-                    eva_QuestionAnswer_List =  ConvertToList_Eva_QuestionAnswer(dt);
+                    eva_QuestionAnswer_List = ConvertToList_Eva_QuestionAnswer(dt);
                 }
                 return eva_QuestionAnswer_List;
             }
@@ -990,7 +990,7 @@ namespace FEHandler
         #region 辅助工具
 
 
-       
+
 
         #endregion
 
@@ -1016,13 +1016,15 @@ namespace FEHandler
                     {
                         Id = Convert.ToInt32(dr["Id"]),
                         Address = Convert.ToString(dr["Address"]),
-                        Birthday = Convert.ToString(dr["Birthday"]),
+                        Birthday = Convert.ToDateTime(dr["Birthday"]),
+
                         ClearPassword = Convert.ToString(dr["ClearPassword"]),
                         Email = Convert.ToString(dr["Email"]),
                         HeadPic = Convert.ToString(dr["HeadPic"]),
                         IDCard = Convert.ToString(dr["IDCard"]),
                         LoginName = Convert.ToString(dr["LoginName"]),
-                        Major_ID = Convert.ToString(dr["Major_ID"]),
+                        DepartmentID = Convert.ToString(dr["DepartmentID"]),
+                         
                         Name = Convert.ToString(dr["Name"]),
                         Nickname = Convert.ToString(dr["Nickname"]),
                         Password = Convert.ToString(dr["Password"]),
@@ -1079,21 +1081,22 @@ namespace FEHandler
                     Teacher t = new Teacher()
                     {
                         Id = Convert.ToInt32(dr["Id"]),
-                        Birthday = Convert.ToDateTime(dr["Birthday"]),
-                        Major_ID = Convert.ToString(dr["Major_ID"]),
+                        TeacherBirthday = Convert.ToInt32(dr["TeacherBirthday"]),
+                        TeacherSchooldate = Convert.ToInt32(dr["TeacherSchooldate"]),
+                        DepartmentID = Convert.ToString(dr["DepartmentID"]),
+                        DepartmentName = Convert.ToString(dr["DepartmentName"]),
                         Name = Convert.ToString(dr["Name"]),
                         Sex = Convert.ToByte(dr["Sex"]),
                         UniqueNo = Convert.ToString(dr["UniqueNo"]),
                         Degree = Convert.ToString(dr["Degree"]),
-                        Departent_Id = Convert.ToString(dr["Departent_Id"]),
-                        Departent_Name = Convert.ToString(dr["Departent_Name"]),
+
                         Education = Convert.ToString(dr["Education"]),
                         JobTitle = Convert.ToString(dr["JobTitle"]),
-                        Major_Name = Convert.ToString(dr["Major_Name"]),
+                        MajorID = Convert.ToString(dr["MajorID"]),
+                        MajorName = Convert.ToString(dr["MajorName"]),
                         Status = Convert.ToString(dr["Status"]),
                         SubDepartmentID = Convert.ToString(dr["SubDepartmentID"]),
                         SubDepartmentName = Convert.ToString(dr["SubDepartmentName"]),
-                        TeachDate = Convert.ToString(dr["TeachDate"]),
 
                         CreateTime = Convert.ToDateTime(dr["CreateTime"]),
                         CreateUID = Convert.ToString(dr["CreateUID"]),
@@ -1139,13 +1142,14 @@ namespace FEHandler
                         Name = Convert.ToString(dr["Name"]),
                         Sex = Convert.ToByte(dr["Sex"]),
                         UniqueNo = Convert.ToString(dr["UniqueNo"]),
-                        Departent_Name = Convert.ToString(dr["Departent_Name"]),
+                      
                         SubDepartmentID = Convert.ToString(dr["SubDepartmentID"]),
                         SubDepartmentName = Convert.ToString(dr["SubDepartmentName"]),
 
                         ClassName = Convert.ToString(dr["ClassName"]),
                         ClassNo = Convert.ToString(dr["ClassNo"]),
-                        Major_Id = Convert.ToString(dr["Major_Id"]),
+                        DepartmentID = Convert.ToString(dr["DepartmentID"]),
+                        DepartmentName = Convert.ToString(dr["DepartmentName"]),
                         MajorID = Convert.ToString(dr["MajorID"]),
                         MajorName = Convert.ToString(dr["MajorName"]),
                         StuNo = Convert.ToString(dr["StuNo"]),
@@ -1218,7 +1222,8 @@ namespace FEHandler
                         TeacherSubDepartmentName = Convert.ToString(dr["TeacherSubDepartmentName"]),
                         TeacherUID = Convert.ToString(dr["TeacherUID"]),
                         Year = Convert.ToInt32(dr["Year"]),
-
+                        TeacherBirthday = Convert.ToInt32(dr["TeacherBirthday"]),
+                        TeacherSchooldate = Convert.ToInt32(dr["TeacherSchooldate"]),
                         CreateTime = Convert.ToDateTime(dr["CreateTime"]),
                         CreateUID = Convert.ToString(dr["CreateUID"]),
                         EditTime = Convert.ToDateTime(dr["EditTime"]),
@@ -1491,7 +1496,7 @@ namespace FEHandler
                 {
                     Eva_QuestionAnswer t = new Eva_QuestionAnswer()
                     {
-                        Id = Convert.ToInt32(dr["Id"]),                      
+                        Id = Convert.ToInt32(dr["Id"]),
                         AnswerName = Convert.ToString(dr["AnswerName"]),
                         Eva_Role = Convert.ToInt32(dr["Eva_Role"]),
                         AnswerUID = Convert.ToString(dr["AnswerUID"]),
@@ -1569,7 +1574,7 @@ namespace FEHandler
                         Answer = Convert.ToString(dr["Answer"]),
                         QuestionType = Convert.ToInt32(dr["QuestionType"]),
                         TableDetailID = Convert.ToInt32(dr["TableDetailID"]),
-                          
+
                         CreateTime = Convert.ToDateTime(dr["CreateTime"]),
                         CreateUID = Convert.ToString(dr["CreateUID"]),
                         EditTime = Convert.ToDateTime(dr["EditTime"]),
@@ -1614,8 +1619,8 @@ namespace FEHandler
                         Name = Convert.ToString(dr["Name"]),
                         Remarks = Convert.ToString(dr["Remarks"]),
                         UseTimes = Convert.ToInt32(dr["UseTimes"]),
-                        
-                        Eva_Role = Convert.ToInt32(dr["Eva_Role"]),                       
+
+                        Eva_Role = Convert.ToInt32(dr["Eva_Role"]),
                         CreateTime = Convert.ToDateTime(dr["CreateTime"]),
                         CreateUID = Convert.ToString(dr["CreateUID"]),
                         EditTime = Convert.ToDateTime(dr["EditTime"]),

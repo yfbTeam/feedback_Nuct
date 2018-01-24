@@ -72,7 +72,7 @@ namespace FEHandler.Eva_Manage
                 var list = (from q in Constant.Eva_QuestionAnswer_List
                             join u in Constant.UserInfo_List on q.TeacherUID equals u.UniqueNo
                             join r in Constant.Sys_RoleOfUser_List on q.AnswerUID equals r.UniqueNo
-                            join d in Constant.Major_List on u.Major_ID equals d.Id
+                            join d in Constant.Major_List on u.DepartmentID equals d.Id
                             select new Eva_QuestionModel()
                             {
                                 Id = q.Id,

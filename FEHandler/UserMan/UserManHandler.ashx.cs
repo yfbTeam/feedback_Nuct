@@ -471,7 +471,7 @@ namespace FEHandler.UserMan
                      UniqueNo = ul.UniqueNo,
                      Pwd = ul.ClearPassword,
 
-                     Major_ID = ul.Major_ID,
+                     Major_ID = ul.DepartmentID,
                      DepartmentName = ul.DepartmentName,
 
                      SubDepartmentID = ul.SubDepartmentID,
@@ -554,7 +554,7 @@ namespace FEHandler.UserMan
                                      Roleid = SysRole.Id,
                                      Pwd = ul.ClearPassword,
                                      UniqueNo = ul.UniqueNo,
-                                     MajorId = ul.Major_ID,
+                                     MajorId = ul.DepartmentID,
 
                                  }).ToList();
 
@@ -634,7 +634,7 @@ namespace FEHandler.UserMan
                          where SysRoleOfUser.Role_Id == type
                          join SysRole in Sys_Role_List on SysRoleOfUser.Role_Id equals SysRole.Id
                          join t in Constant.Teacher_List on ul.UniqueNo equals t.UniqueNo
-                         join major in Constant.Major_List on t.Major_ID equals major.Id
+                         join major in Constant.Major_List on t.DepartmentID equals major.Id
                          orderby SysRole.Sort
                          select new
                          {
@@ -701,7 +701,7 @@ namespace FEHandler.UserMan
                                 UniqueNo = ul.UniqueNo,
                                 Pwd = ul.ClearPassword,
                                 MajorName = "",
-                                Major_ID = ul.Major_ID,
+                                Major_ID = ul.DepartmentID,
                                 s.SubDepartmentID,
                                 s.SubDepartmentName,
                             };
@@ -775,7 +775,7 @@ namespace FEHandler.UserMan
                                 UniqueNo = ul.UniqueNo,
                                 Pwd = ul.ClearPassword,
                                 MajorName = "",
-                                Major_ID = ul.Major_ID,
+                                Major_ID = ul.DepartmentID,
                                 s.ClassNo,
                                 s.ClassName,
                             };
@@ -813,7 +813,7 @@ namespace FEHandler.UserMan
                 List<UserInfo> UserInfo_List_ = Constant.UserInfo_List;
                 if (!string.IsNullOrEmpty(Major_ID))
                 {
-                    UserInfo_List_ = UserInfo_List_.Where(t => t.Major_ID == Major_ID).ToList();
+                    UserInfo_List_ = UserInfo_List_.Where(t => t.DepartmentID == Major_ID).ToList();
                 }
                 List<Major> Major_List = Constant.Major_List;
                 var query = from ul in UserInfo_List_
@@ -832,7 +832,7 @@ namespace FEHandler.UserMan
                                 UniqueNo = ul.UniqueNo,
                                 Pwd = ul.ClearPassword,
                                 MajorName = "",
-                                Major_ID = ul.Major_ID,
+                                Major_ID = ul.DepartmentID,
                                 s.SubDepartmentID,
                                 s.SubDepartmentName
                             };
@@ -889,13 +889,13 @@ namespace FEHandler.UserMan
                                 Sex = GetSex(Convert.ToString(tea.Sex)),
                                 Roleid = (int)RoleType.teacher,
                                 UniqueNo = tea.UniqueNo,
-                                MajorName = tea.Major_Name,
-                                Major_ID = tea.Major_ID,
+                                MajorName = tea.DepartmentName,
+                                Major_ID = tea.DepartmentID,
                                 SubDepartmentID = tea.SubDepartmentID,
                                 SubDepartmentName = tea.SubDepartmentName,
 
-                                TeachDate = tea.TeachDate,
-                                Birthday = tea.Birthday,
+                                TeachDate = tea.TeacherSchooldate,
+                                Birthday = tea.TeacherBirthday,
                                 Status = tea.Status,
                             };
 
@@ -965,7 +965,7 @@ namespace FEHandler.UserMan
                                 UniqueNo = user.UniqueNo,
                                 Name = user.Name,
                                 Sex = user.Sex,
-                                DepartmentID = user.Major_ID,
+                                DepartmentID = user.DepartmentID,
                                 DepartmentName = user.DepartmentName,
                                 SubDepartmentName = user.SubDepartmentName,
                                 ClassID = stu_ != null ? stu_.ClassNo : "",
@@ -1045,7 +1045,7 @@ namespace FEHandler.UserMan
                                 UniqueNo = user.UniqueNo,
                                 Name = user.Name,
                                 Sex = user.Sex,
-                                DepartmentID = user.Major_ID,
+                                DepartmentID = user.DepartmentID,
                                 DepartmentName = user.DepartmentName,
                                 SubDepartmentName = user.SubDepartmentName,
                                 ClassID = stu_ != null ? stu_.ClassNo : "",

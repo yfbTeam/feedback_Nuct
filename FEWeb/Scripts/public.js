@@ -221,6 +221,7 @@ function Arabia_To_SimplifiedChinese(Num) {
     return newchar;
 }
 function nomessage(id, subele, size, height) {
+    
     size = size || 19;
     height = height || 480;
     subele = subele || 'tr';
@@ -547,3 +548,15 @@ function incontorl_helper(isscore) {
         $("#sp_realtotal").html(realTotal);
     }
 }
+
+
+function onlyNum() {
+    if (event.keyCode == 190) {
+        event.returnValue = true;
+        return;
+    }
+    if (!(event.keyCode == 46) && !(event.keyCode == 8) && !(event.keyCode == 37) && !(event.keyCode == 39))
+        if (!((event.keyCode >= 48 && event.keyCode <= 57) || (event.keyCode >= 96 && event.keyCode <= 105)))
+            event.returnValue = false;
+
+};

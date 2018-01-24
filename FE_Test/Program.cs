@@ -247,14 +247,14 @@ public class helper
                     UniqueNo = item.UniqueNo,
                     Name = item.Name,
                     Address = "",
-                    Birthday = "",
+                    Birthday = DateTime.Now,
                     ClearPassword = "123456",
                     Email = "",
                     HeadPic = "",
                     IDCard = "",
                     IsEnable = 0,
                     LoginName = item.UniqueNo,
-                    Major_ID = item.Major_Id,
+                    DepartmentID = item.DepartmentID,
                     Nickname = "",
                     Password = "123456",
                     Phone = "",
@@ -290,8 +290,8 @@ public class helper
 
         foreach (var item in data)
         {
-            item.user.Major_ID = item.stu.Major_Id;
-            item.user.DepartmentName = item.stu.Departent_Name;
+            item.user.DepartmentID = item.stu.DepartmentID;
+            item.user.DepartmentName = item.stu.DepartmentName;
             item.user.SubDepartmentID = item.stu.SubDepartmentID;
             item.user.SubDepartmentName = item.stu.SubDepartmentName;
 
@@ -300,8 +300,8 @@ public class helper
 
         foreach (var item in data2)
         {
-            item.user.Major_ID = item.tea.Major_ID;
-            item.user.DepartmentName = item.tea.Departent_Name;
+            item.user.DepartmentID = item.tea.DepartmentID;
+            item.user.DepartmentName = item.tea.DepartmentName;
             item.user.SubDepartmentID = item.tea.SubDepartmentID;
             item.user.SubDepartmentName = item.tea.SubDepartmentName;
 

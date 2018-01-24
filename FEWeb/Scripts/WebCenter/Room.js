@@ -1,8 +1,15 @@
-﻿/// <reference path="../jquery-1.11.2.min.js" />
+﻿/// <reference path="../public.js" />
+/// <reference path="../Common.js" />
+/// <reference path="../jquery-1.11.2.min.js" />
 /// <reference path="../jquery-1.8.3.min.js" />
 
 
 var PageSize = 10;
+var Groups = 10;
+var subele ='tr';
+var size = 19;
+var height = 480;
+
 function GetClassInfoCompleate() { };
 //绑定课程信息
 function GetClassInfo(PageIndex) {
@@ -26,20 +33,21 @@ function GetClassInfo(PageIndex) {
             if (returnVal.result.errMsg == "success") {
 
                 var data = returnVal.result.retData;
-                //data.filter(function (item, index) { item.Num = index + 1 })
+
+                console.log(data);
+                
                 layer.close(layer_index);
 
                 $("#tbody").empty();
                 if (data.length <= 0) {
-                    nomessage('#tbody');
+                    nomessage('#tbody',subele,size,height);
                     $('#pageBar').hide();
                     return;
                 }
                 else {
                     $('#pageBar').show();
                 }
-
-
+              
                 $("#itemData").tmpl(data).appendTo("#tbody");
                 tableSlide();
 
@@ -49,7 +57,7 @@ function GetClassInfo(PageIndex) {
                     curr: returnVal.result.PageIndex || 1, //当前页
                     skip: true, //是否开启跳页
                     skin: '#CA90B0',
-                    groups: 10,
+                    groups: Groups,
                     jump: function (obj, first) { //触发分页后的回调
                         if (!first) { //点击跳页触发函数自身，并传递当前页：obj.curr                                       
                             GetClassInfo(obj.curr)

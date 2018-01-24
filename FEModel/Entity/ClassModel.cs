@@ -48,5 +48,11 @@ namespace FEModel.Entity
         public string ClassID { get; set; }
 
         public string RoomDepartmentName { get; set; }
+
+        public string TeacherJobTitle { get; set; }
+
+        public int? TeacherBirthday { get; set; }
+
+        public int? TeacherSchooldate { get; set; }
     }
 }
