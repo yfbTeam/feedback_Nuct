@@ -99,6 +99,8 @@
 
 <body>
     <div class="main">
+
+
         <div class="InitiateEval" style="height: 500px;">
             <div class="search_toobar clearfix">
                 <div class="fl selectdiv">
@@ -154,15 +156,16 @@
                 </div>
                 <div class="fl selectdiv">
                     <label>年龄：</label>
-                    <input type="number" value="0" onkeydown="onlyNum();" class="number" min="0" max="120" step="1">
+                    <input type="number" id="BirthdayS" value="0" onkeydown="onlyNum();" class="number" min="0" max="120" step="1">
                     <span style="padding-left: 10px;">~</span>
-                    <input type="number" value="120" onkeydown="onlyNum();" class="number" min="0" max="120" step="1">
+                    <input type="number" id="BirthdayE" value="120" onkeydown="onlyNum();" class="number" min="0" max="120" step="1">                                         
                 </div>
+               
                 <div class="fl selectdiv">
                     <label>校龄：</label>
-                    <input type="number" value="0" onkeydown="onlyNum();" class="number" min="0" max="120" step="1">
+                    <input type="number" id="SchoolS" value="0" onkeydown="onlyNum();" class="number" min="0" max="120" step="1">
                     <span style="padding-left: 10px;">~</span>
-                    <input type="number" value="120" onkeydown="onlyNum();" class="number" min="0" max="120" step="1">
+                    <input type="number" id="SchoolE" value="120" onkeydown="onlyNum();" class="number" min="0" max="120" step="1">
                 </div>
 
 
@@ -268,7 +271,7 @@
         <tr>
             <td>
                 <div class="table-cell w-10">
-                    <input class="checkbox" type="checkbox" />
+                    <input CourseID = "${CourseID}" Course_Name ="${Course_Name}" TeacherUID ="${TeacherUID}" Teacher_Name="${Teacher_Name}"  class="checkbox" type="checkbox" />
                 </div>
             </td>
             <td>
@@ -339,7 +342,8 @@
 
         var pageIndex = 0;
         $(function () {
-
+         
+         
             selectExpertUID = login_User.UniqueNo;
             selectExpertName = login_User.Name;
 
@@ -347,14 +351,33 @@
             Groups = 6;
             size = 12;
             height = 263;
+            ClassModelType = 1;
 
             PageType = 'StartEval';
-         
+            DepartmentName = login_User.DepartmentName;
+            
             GetClassInfoSelect();
             $("#DP,#CT,#CP,#TD,#TN,#MD,#GD,#CN").on('change', function () {
                 pageIndex = 0;
                 GetClassInfo(pageIndex);
             });
+         
+            $('.number').on('blur', function () {
+                pageIndex = 0;
+             
+                BirthdayS = $('#BirthdayS').val();
+                BirthdayE = $('#BirthdayE').val();
+             
+                SchoolS = $('#SchoolS').val();
+                SchoolE = $('#SchoolE').val();
+               
+                GetClassInfo(pageIndex);
+            });
+
+            $('.number').on('change', function () {
+                $(this).trigger('blur');
+            });
+
            
             PrepareInit();
            
@@ -364,7 +387,8 @@
                     if (!$(this).is(':checked')) {
                         $(this).prop('checked', true);
                         $(".btnwrap").empty();
-                        $("#btn_yes").tmpl(1).appendTo(".btnwrap");
+                        $("#btn_yes").tmpl(1).appendTo(".btnwrap");                       
+                        AddDisOne($(this).attr('CourseID'), $(this).attr('Course_Name'), $(this).attr('TeacherUID'), $(this).attr('Teacher_Name'));
                     }
                 });
 
@@ -374,12 +398,13 @@
             GetClassInfo(pageIndex);
         })
 
-        function search() {
-            Teachers_Reflesh();
-        }
-
         function submit() {
             AddExpert_List_Teacher_Course();
+        }
+
+        function SelectByWhere() {
+            pageIndex = 0;
+            GetClassInfo(pageIndex);
         }
     </script>
 </body>

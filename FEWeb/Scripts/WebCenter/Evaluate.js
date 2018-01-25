@@ -137,6 +137,8 @@ var evaluate_Model = {
     },
     Submit_Data: function () { },
 }
+
+
 var Type = 1;
 var Eva_Role = 1;
 var Is_AddQuesType = false;
@@ -279,6 +281,7 @@ var Mode = 1;  //Check  Record
 var AnswerUID = ''; //专家，不填则为管理员
 
 var IsAllSchool = 0;
+function Get_Eva_QuestionAnswerCompleate() { };
 function Get_Eva_QuestionAnswer(PageIndex, SectionID, DepartmentID, Key, TableID) {
     index_layer = layer.load(1, {
         shade: [0.1, '#fff'] //0.1透明度的白色背景
@@ -296,40 +299,49 @@ function Get_Eva_QuestionAnswer(PageIndex, SectionID, DepartmentID, Key, TableID
         },
         dataType: "json",
         success: function (returnVal) {
-            console.log(returnVal);
+           
             if (returnVal.result.errMsg == "success") {
-                var data = returnVal.result.retData;
-                layer.close(index_layer);
+                if (Mode == 4)
+                {
 
-                $("#tbody").empty();
-                if (data.length <= 0) {
-                    nomessage('#tbody');
-                    $('#pageBar').hide();
-                    return;
                 }
-                else {
-                    $('#pageBar').show();
-                }
+                else
+                {
+                    var data = returnVal.result.retData;
+                    layer.close(index_layer);
 
-
-                $("#itemData").tmpl(data).appendTo("#tbody");
-                tableSlide();
-
-                laypage({
-                    cont: 'pageBar', //容器。值支持id名、原生dom对象，jquery对象。【如该容器为】：<div id="page1"></div>
-                    pages: returnVal.result.PageCount, //通过后台拿到的总页数
-                    curr: returnVal.result.PageIndex || 1, //当前页
-                    skip: true, //是否开启跳页
-                    skin: '#CA90B0',
-                    groups: 10,
-                    jump: function (obj, first) { //触发分页后的回调
-                        if (!first) { //点击跳页触发函数自身，并传递当前页：obj.curr                                                                 
-                            Get_Eva_QuestionAnswer(obj.curr, SectionID, DepartmentID, Key, TableID)
-                            pageIndex = obj.curr;
-                        }
+                    $("#tbody").empty();
+                    if (data.length <= 0) {
+                        nomessage('#tbody');
+                        $('#pageBar').hide();
+                        return;
                     }
-                });
-                $("#itemCount").tmpl(returnVal.result).appendTo(".laypage_total");
+                    else {
+                        $('#pageBar').show();
+                    }
+
+
+                    $("#itemData").tmpl(data).appendTo("#tbody");
+                    tableSlide();
+
+                    laypage({
+                        cont: 'pageBar', //容器。值支持id名、原生dom对象，jquery对象。【如该容器为】：<div id="page1"></div>
+                        pages: returnVal.result.PageCount, //通过后台拿到的总页数
+                        curr: returnVal.result.PageIndex || 1, //当前页
+                        skip: true, //是否开启跳页
+                        skin: '#CA90B0',
+                        groups: 10,
+                        jump: function (obj, first) { //触发分页后的回调
+                            if (!first) { //点击跳页触发函数自身，并传递当前页：obj.curr                                                                 
+                                Get_Eva_QuestionAnswer(obj.curr, SectionID, DepartmentID, Key, TableID)
+                                pageIndex = obj.curr;
+                            }
+                        }
+                    });
+                    $("#itemCount").tmpl(returnVal.result).appendTo(".laypage_total");
+                }
+              
+                Get_Eva_QuestionAnswerCompleate(returnVal.result.retData);
             }
             else {
 
@@ -388,7 +400,7 @@ function Get_Eva_QuestionAnswerDetail(Id) {
 
             if (returnVal.result.errMsg == "success") {
                 var data = returnVal.result.retData;
-                console.log(data);
+            
 
                 data.DetailList.filter(function (item) {
                     switch (item.QuestionType) {
@@ -501,7 +513,7 @@ function Get_Eva_RegularData_RoomDetailList() {
 
             if (returnVal.result.errMsg == "success") {
                 var data = returnVal.result.retData;
-                console.log(data)
+               
                 for (var i in data.Score_ModelList) {
                     var obj = data.Score_ModelList[i];
                     $('#' + obj.TableDetialID + '_A').text(obj.A);
@@ -552,7 +564,7 @@ function Get_Eva_RoomDetailAnswerList(PageIndex,TableDetailID) {
                 $('#' + TableDetailID + '_tbody').empty();
 
                 var data = returnVal.result.retData;
-                console.log(data);
+             
                 data.filter(function (item, index) { item.Num = index + 1 })
                 layer.close(layer_index);
 

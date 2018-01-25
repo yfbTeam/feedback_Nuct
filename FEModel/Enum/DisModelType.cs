@@ -6,13 +6,9 @@ using System.Threading.Tasks;
 
 namespace FEModel.Enum
 {
-    public enum ModeType
+   public enum DisModelType
     {
-        Record = 1,
-        Check = 2,
-        Look = 3,
-
-        Common =4,
-
+       expert =0,
+       manage = 1,
     }
 }

@@ -776,13 +776,13 @@ namespace FEHandler.Eva_Manage
         {
             int intSuccess = (int)errNum.Success;
             HttpRequest Request = context.Request;
-            string teacherUID = RequestHelper.string_transfer(Request, "TeacherUID");
+            string ExpertUID = RequestHelper.string_transfer(Request, "ExpertUID");
             string ReguId = RequestHelper.string_transfer(Request, "ReguId");
             try
             {
                 //List<T_C_Model> list = Teacher_Course_ClassInfo(ReguId);
 
-                List<CourseRoom> list =(from room in Constant.CourseRoom_List   select room).ToList();
+                List<Expert_Teacher_Course> list = (from li in Constant.Expert_Teacher_Course_List where li.ExpertUID == ExpertUID select li).ToList();
                 if (list.Count > 0)
                 {
                     jsonModel = JsonModel.get_jsonmodel(intSuccess, "success", list);

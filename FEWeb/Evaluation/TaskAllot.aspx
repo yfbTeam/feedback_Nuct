@@ -91,6 +91,8 @@
     <link href="../Scripts/choosen/chosen.css" rel="stylesheet" />
     <script src="../Scripts/choosen/chosen.jquery.js"></script>
     <script src="../Scripts/choosen/prism.js"></script>
+    <script src="../Scripts/linq.min.js"></script>
+
 
     <script src="../Scripts/public.js"></script>
     <script src="../Scripts/WebCenter/Base.js"></script>
@@ -139,7 +141,16 @@
     </script>
     <script>
         var reguType = 1;
+
+        var eva_check_depart = false, eva_check_school = false, eva_check_indepart = false;//专家 所有  专家（校）
         $(function () {
+            Get_PageBtn("/Evaluation/TaskAllot.aspx");
+
+            eva_check_depart = JudgeBtn_IsExist("eva_check_depart")
+             , eva_check_school = JudgeBtn_IsExist("eva_check_school")
+             , eva_check_indepart = JudgeBtn_IsExist("eva_check_indepart");
+
+          
             $('#top').load('/header.html');
             $('#footer').load('/footer.html');
             Mode = 2;

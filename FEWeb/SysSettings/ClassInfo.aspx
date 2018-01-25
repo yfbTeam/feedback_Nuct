@@ -87,7 +87,7 @@
 
 
                 <div class="fl ml3">
-                    <input type="text" name="" id="class_key" placeholder="请输入课堂名称" value="" class="text fl">
+                    <input type="text" name="" id="class_key" placeholder="课程名称关键字搜索" value="" class="text fl">
                     <a class="search fl" href="javascript:;" onclick="SelectByWhere()"><i class="iconfont">&#xe600;</i></a>
                 </div>
                 <div class="fr">
