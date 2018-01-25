@@ -327,10 +327,6 @@
                 {
                     return false;
                 }
-                if ($("#uploader_"+rownum+" .filelist li").length <= 0) {
-                    layer.msg("请上传附件!");
-                    return;
-                }
                 layer.confirm('确认提交吗？提交后将不能进行修改', {
                     btn: ['确定', '取消'], //按钮
                     title: '操作'
