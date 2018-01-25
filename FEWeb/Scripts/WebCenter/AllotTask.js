@@ -120,10 +120,11 @@ function AddDis(CourseID, CourseName, TeacherUID, TeacherName) {
         EditUID: cookie_Userinfo.UniqueNo,
         Type: expType,
     };
-
-    var list = select_course_teacher.filter(function (i) { return i.TeacherUID == TeacherUID && i.CourseID == CourseID });
+    
+    var list = select_course_teacher.filter(function (i) { return i.TeacherUID == TeacherUID && i.CourseId == CourseID });
     if (list.length == 0)
     {
+        debugger;
         select_course_teacher.push(obj);
     }
 }
@@ -260,7 +261,7 @@ function ExpertListReflesh() {
         $(this).addClass('selected').siblings().removeClass('selected');
         selectExpertUID = $(this).attr('Id');
         selectExpertName = $(this).text().trim();
-        debugger;
+       
         select_course_teacher = [];
 
         var exp = ExpertList.filter(function (item) { return item.UniqueNo == selectExpertUID });
@@ -301,50 +302,49 @@ function ExpertListReflesh() {
         ExpertListRefleshCompleate(exp0);
 
     })
-    //默认第一个选中，并且添加点击事件，选中样式
-    $('.linkman_lists li:eq(0)').trigger('click');
+   
 }
 
 
 function TeachersFilter() {
 
-    var lis = $('#teachers').find('li:has(ul)').find('span').parent();
+    //var lis = $('#teachers').find('li:has(ul)').find('span').parent();
 
-    lis.removeClass('selected');
-    lis.attr('flg', '');
+    //lis.removeClass('selected');
+    //lis.attr('flg', '');
 
-    lis.parent().parent().removeClass('selected');
-    lis.parent().parent().attr('flg', '');
-    Teachers.filter(function (item) {
-        item.T_C_Model_Childs.filter(function (child) {
-            if (child.Selected) {
-                var obj = {
-                    CourseId: child.Course_UniqueNo,
-                    Course_Name: child.Course_Name,
-                    TeacherUID: child.TeacherUID,
-                    TeacherName: item.Teacher_Name,
-                    SecionID: select_sectionid,
-                    ReguId: select_reguid,
-                    ExpertUID: child.SelectedExperUID,
-                    ExpertName: child.SelectedExperName,
-                    CreateUID: cookie_Userinfo.UniqueNo,
-                    EditUID: cookie_Userinfo.UniqueNo,
-                    Type: expType,
-                };
+    //lis.parent().parent().removeClass('selected');
+    //lis.parent().parent().attr('flg', '');
+    //Teachers.filter(function (item) {
+    //    item.T_C_Model_Childs.filter(function (child) {
+    //        if (child.Selected) {
+    //            var obj = {
+    //                CourseId: child.Course_UniqueNo,
+    //                Course_Name: child.Course_Name,
+    //                TeacherUID: child.TeacherUID,
+    //                TeacherName: item.Teacher_Name,
+    //                SecionID: select_sectionid,
+    //                ReguId: select_reguid,
+    //                ExpertUID: child.SelectedExperUID,
+    //                ExpertName: child.SelectedExperName,
+    //                CreateUID: cookie_Userinfo.UniqueNo,
+    //                EditUID: cookie_Userinfo.UniqueNo,
+    //                Type: expType,
+    //            };
 
-                if (selectExpertUID == obj.ExpertUID) {
-                    select_course_teacher.push(obj);
-                    var tea = obj.TeacherName;
-                    var lis = $('#teachers').find('li:has(ul)').find('span[TeacherUID=' + obj.TeacherUID + '][Course_UniqueNo=' + obj.CourseId + ']').parent();
-                    lis.addClass('selected');
-                    lis.attr('flg', 'selected');
-                    lis.parent().parent().addClass('selected');
-                    lis.parent().parent().attr('flg', 'selected');
-                    deEvent(obj);
-                }
-            }
-        });
-    });
+    //            if (selectExpertUID == obj.ExpertUID) {
+    //                select_course_teacher.push(obj);
+    //                var tea = obj.TeacherName;
+    //                var lis = $('#teachers').find('li:has(ul)').find('span[TeacherUID=' + obj.TeacherUID + '][Course_UniqueNo=' + obj.CourseId + ']').parent();
+    //                lis.addClass('selected');
+    //                lis.attr('flg', 'selected');
+    //                lis.parent().parent().addClass('selected');
+    //                lis.parent().parent().attr('flg', 'selected');
+    //                deEvent(obj);
+    //            }
+    //        }
+    //    });
+    //});
 }
 var DisModelType = 0;
 function AddExpert_List_Teacher_CourseCompleate() { };
