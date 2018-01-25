@@ -131,12 +131,11 @@ namespace FEDAL
                 }
                 if (ht.ContainsKey("AuditMajor_ID") && !string.IsNullOrEmpty(ht["AuditMajor_ID"].SafeToString())) //业绩审核处的查询
                 {
-                    str.Append(@" and ((a.GPid=2 and a.Status=1 and a.TwoAudit_Status=@TwoAudit_Status) or (a.GPid!=2 and a.Status=1) or a.Status=5 or a.Id in(select distinct Acheive_Id from TPM_AuditReward where IsDelete=0 and Status=1))");
+                    str.Append(@" and ((a.GPid=2 and a.Status=1 and a.TwoAudit_Status in("+ ht["TwoAudit_Status"].SafeToString() + ")) or (a.GPid!=2 and a.Status=1) or a.Status=5 or a.Id in(select distinct Acheive_Id from TPM_AuditReward where IsDelete=0 and Status=1))");
                     str.Append(@" and (a.GPid in("+ ht["Level_AllIds"].SafeToString() + ") or (a.GPid in ("+ ht["Level_DepartIds"].SafeToString() + @") and a.Id in(select distinct ruser.RIId from TPM_RewardUserInfo ruser
                               left join UserInfo u on ruser.UserNo = u.UniqueNo
                               where ruser.IsDelete = 0 and ruser.RIId!= 0 and u.Major_ID=@AuditMajor_ID))) ");
                     pms.Add(new SqlParameter("@AuditMajor_ID", ht["AuditMajor_ID"].SafeToString()));
-                    pms.Add(new SqlParameter("@TwoAudit_Status", ht["TwoAudit_Status"].SafeToString()));
                 }
                 if (ht.ContainsKey("MyAch_LoginUID") && !string.IsNullOrEmpty(ht["MyAch_LoginUID"].SafeToString())) //我的业绩处的查询
                 {
