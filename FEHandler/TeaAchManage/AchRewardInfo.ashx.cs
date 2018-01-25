@@ -245,6 +245,7 @@ namespace FEHandler.TeaAchManage
                 model.ResponsMan = context.Request["ResponsMan"].SafeToString();
                 model.Sort = RequestHelper.int_transfer(context.Request, "Sort"); 
                 model.Status = RequestHelper.int_transfer(context.Request, "Status");
+                model.TwoAudit_Status = RequestHelper.int_transfer(context.Request, "TwoAudit_Status");
                 model.TeaUNo = context.Request["TeaUNo"].SafeToString();
                 int oldbookid =Convert.ToInt32(model.BookId);
                 model.BookId = BookId;

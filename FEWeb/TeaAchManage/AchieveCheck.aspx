@@ -81,14 +81,13 @@
         });        
         function BindAchieve(startIndex, pageSize) {
             var rtnObj = GetAchieveIds();
-            var departArray = rtnObj.departArray, allArray = rtnObj.allArray;
-            var two_status = rtnObj.two_status;
+            var departArray = rtnObj.departArray, allArray = rtnObj.allArray,two_status = rtnObj.two_status;
             $("#tb_Acheive").empty();
             $.ajax({
                 url: HanderServiceUrl + "/TeaAchManage/AchRewardInfo.ashx",
                 type: "post",
                 dataType: "json",
-                data: { "Func": "GetAcheiveRewardInfoData", PageIndex: startIndex, pageSize: pageSize, AuditMajor_ID: loginUser.Major_ID, Level_DepartIds: departArray.join(','), Level_AllIds: allArray.join(','), TwoAudit_Status:two_status},
+                data: { "Func": "GetAcheiveRewardInfoData", PageIndex: startIndex, pageSize: pageSize, AuditMajor_ID: loginUser.Major_ID, Level_DepartIds: departArray.join(','), Level_AllIds: allArray.join(','), TwoAudit_Status: two_status.join(',')},
                 success: function (json) {
                     if (json.result.errMsg == "success") {
                         $("#trAcheive").tmpl(json.result.retData.PagedData).appendTo("#tb_Acheive");
@@ -118,21 +117,20 @@
         }
         function GetAchieveIds() {
             //院系范围              全校范围
-            var departArray = [-1], allArray = [-1];
-            var two_status = -1;
+            var departArray = [-1], allArray = [-1],two_status=[-1];
             $.each(pagebtns, function (index, value) {
                 var cur_code = value.MenuCode;
                 if (cur_code.indexOf("achieve_depart_") != -1) {
                     var ach_did = cur_code.replace('achieve_depart_', '');
                     if (ach_did == "2") { //教师个人竞赛奖
-                        two_status = 1; //院系范围，二级待审核1，一级待审核1
+                        two_status.push(1); //院系范围，二级待审核1，一级待审核1
                     }
                     departArray.push(ach_did);
                 }
                 if (cur_code.indexOf("achieve_all_") != -1) {
                     var ach_aid = cur_code.replace('achieve_all_', '');
                     if (ach_aid == "2") {//教师个人竞赛奖
-                        two_status = 3; //全校范围，二级审核通过3，一级待审核1
+                        two_status.push(3); //全校范围，二级审核通过3，一级待审核1
                     }
                     allArray.push(ach_aid);
                 }

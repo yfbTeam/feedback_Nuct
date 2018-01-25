@@ -240,9 +240,10 @@
     <script>
         var UrlDate = new GetUrlDate();
         var achieve_add_noaudit = false;//无需审核
+        var isManage_Page = UrlDate.Iid == 3;//是否是业绩管理页面跳转的
         $(function () {
             $("#CreateUID").val(GetLoginUser().UniqueNo);
-            $("#a_ParUrl").attr('href', UrlDate.Iid == 3 ? "AchManage.aspx?Id=2&Iid=3" : "MyPerformance.aspx?Id=2&Iid=4");
+            $("#a_ParUrl").attr('href', isManage_Page ? "AchManage.aspx?Id=2&Iid=3" : "MyPerformance.aspx?Id=2&Iid=4");
             Get_PageBtn("/TeaAchManage/AchManage.aspx");
             achieve_add_noaudit = JudgeBtn_IsExist("achieve_add_noaudit");
             $("#Group").val(UrlDate.Group);                     
@@ -374,7 +375,7 @@
             } else {
                 $("#Status").val(achieve_add_noaudit ? "3" : "1");
                 if($("#Group").val()=="2"){
-                    TwoAudit_Status =3;
+                    TwoAudit_Status = isManage_Page?3:1;
                 }
                 //验证为空项或其他
                 var valid_flag = validateForm($('select,input[type="text"]:visible'));

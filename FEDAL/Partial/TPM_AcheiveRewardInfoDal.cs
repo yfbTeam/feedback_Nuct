@@ -131,7 +131,7 @@ namespace FEDAL
                 }
                 if (ht.ContainsKey("AuditMajor_ID") && !string.IsNullOrEmpty(ht["AuditMajor_ID"].SafeToString())) //业绩审核处的查询
                 {
-                    str.Append(@" and (a.Status in(1,5) or a.Id in(select distinct Acheive_Id from TPM_AuditReward where IsDelete=0 and Status=1))");
+                    str.Append(@" and ((a.GPid=2 and a.Status=1 and a.TwoAudit_Status in("+ ht["TwoAudit_Status"].SafeToString() + ")) or (a.GPid!=2 and a.Status=1) or a.Status=5 or a.Id in(select distinct Acheive_Id from TPM_AuditReward where IsDelete=0 and Status=1))");
                     str.Append(@" and (a.GPid in("+ ht["Level_AllIds"].SafeToString() + ") or (a.GPid in ("+ ht["Level_DepartIds"].SafeToString() + @") and a.Id in(select distinct ruser.RIId from TPM_RewardUserInfo ruser
                               left join UserInfo u on ruser.UserNo = u.UniqueNo
                               where ruser.IsDelete = 0 and ruser.RIId!= 0 and u.Major_ID=@AuditMajor_ID))) ");
@@ -139,9 +139,8 @@ namespace FEDAL
                 }
                 if (ht.ContainsKey("MyAch_LoginUID") && !string.IsNullOrEmpty(ht["MyAch_LoginUID"].SafeToString())) //我的业绩处的查询
                 {
-                    str.Append(@" and ((a.GPid=2 and a.Status=1 and a.TwoAudit_Status=@TwoAudit_Status) or (a.GPid!=2 and a.Status=1) or a.Status=5 or (a.GPid=2 and ((a.CreateUID=@MyAch_LoginUID) or (a.CreateUID!=@MyAch_LoginUID and a.Status>0)))) ");
+                    str.Append(@" and ((a.GPid!=2 and a.Status>2) or (a.GPid=2 and ((a.CreateUID=@MyAch_LoginUID) or (a.CreateUID!=@MyAch_LoginUID and a.Status>0)))) ");
                     pms.Add(new SqlParameter("@MyAch_LoginUID", ht["MyAch_LoginUID"].SafeToString()));
-                    pms.Add(new SqlParameter("@TwoAudit_Status", ht["TwoAudit_Status"].SafeToString()));
                 }
                 if (ht.ContainsKey("Respon_LoginUID") && !string.IsNullOrEmpty(ht["Respon_LoginUID"].SafeToString())) //首页统计信息-负责人待审核
                 {
@@ -183,6 +182,7 @@ namespace FEDAL
                                   new SqlParameter("@DefindDepart",entity.DefindDepart),                                  
                                   new SqlParameter("@FileInfo",entity.FileInfo),
                                   new SqlParameter("@Status",entity.Status),
+                                  new SqlParameter("@TwoAudit_Status",entity.TwoAudit_Status),
                                   new SqlParameter("@CreateUID",entity.CreateUID)
                                   };
             if (entity.Gid == 0)

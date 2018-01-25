@@ -366,7 +366,7 @@ function BindFile_Plugin(wrap, pickid, dndid) { //绑定上传文件插件
             switch (code) {
                 case 'exceed_size':
                 case 'Q_EXCEED_SIZE_LIMIT':
-                    layer.msg('文件大小超出');
+                    layer.msg('文件超过最大限制');
                     break;
                 case 'interrupt':
                     layer.msg('上传暂停');
@@ -375,7 +375,7 @@ function BindFile_Plugin(wrap, pickid, dndid) { //绑定上传文件插件
                     layer.msg('已上传该文件');
                     break;
                 default:
-                    layer.msg('提示: ' + code);
+                    layer.msg(code);
                     break;
             }
         };
