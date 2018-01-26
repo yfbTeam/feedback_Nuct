@@ -142,7 +142,7 @@
     <script>
         var reguType = 1;
 
-        var eva_check_depart = false, eva_check_school = false, eva_check_indepart = false;//专家 所有  专家（校）
+       
         $(function () {
             Get_PageBtn("/Evaluation/TaskAllot.aspx");
 
@@ -194,6 +194,7 @@
             var Key = $('#Key').val();
             var DepartmentID = $('#DepartMent').val();
             var TableID = $('#table').val();
+           
             Get_Eva_QuestionAnswer(pageIndex, SectionID, DepartmentID, Key, TableID);
         }
       

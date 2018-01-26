@@ -5,6 +5,7 @@ using FEHandler.SetMenu;
 using FEHandler.SysClass;
 using FEHandler.UserMan;
 using FEModel;
+using FEModel.Enum;
 using FEUtility;
 using System;
 using System.Collections.Generic;
@@ -40,7 +41,7 @@ namespace FE_Test
 
             //var jsm = SetMenuHandler.TestGetMenuInfoHelper("3", "");
 
-            Eva_ManageHandler.Get_Eva_QuestionAnswer_Helper(0, 100, 1, "", "", 0, "8003", 0, FEModel.Enum.ModeType.Common, false, false, false);
+            Eva_ManageHandler.Get_Eva_QuestionAnswer_Helper(0, 100, 1, "", "", 0, "", IsAllSchool.School, FEModel.Enum.ModeType.Check, true, true, true);
         }
 
 

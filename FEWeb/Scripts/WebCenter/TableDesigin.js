@@ -823,7 +823,15 @@ var UI_Table_Create =
             }
         }
 
-        var Name = $("#Name").val();
+        var Name = $("#Name").val().trim();
+
+        //请输入评价表名称
+        if (Name == '') {
+            layer.msg('请输入评价表名称！');
+            return false;
+        }
+
+
         var IsScore = "0";
         //是否记分
         if ($("#IsScore").is(":checked")) {
@@ -918,7 +926,14 @@ var UI_Table_Create =
             }
         }
 
-        var Name = $("#Name").val();
+        var Name = $("#Name").val().trim();
+
+        //请输入评价表名称
+        if (Name == '') {
+            layer.msg('请输入评价表名称！');
+            return false;
+        }
+
         var IsScore = "0";
         //是否记分
         if ($("#IsScore").is(":checked")) {
