@@ -100,70 +100,6 @@ namespace FEModel
     }
 
 	/// </summary>
-	///	角色实体类
-	/// </summary>
-	[Serializable]
-    public partial class Sys_Role
-    {
-
-		/// <summary>
-		///主键 
-		/// </summary>
-		public int? Id { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public string Code { get; set; }
-		/// <summary>
-		///角色名称 
-		/// </summary>
-		public string Name { get; set; }
-		/// <summary>
-		///创建人 
-		/// </summary>
-		public string CreateUID { get; set; }
-		/// <summary>
-		///创建时间 
-		/// </summary>
-		public DateTime? CreateTime { get; set; }
-		/// <summary>
-		///修改人 
-		/// </summary>
-		public string EditUID { get; set; }
-		/// <summary>
-		///修改时间 
-		/// </summary>
-		public DateTime? EditTime { get; set; }
-		/// <summary>
-		///是否删除 
-		/// </summary>
-		public Byte? IsDelete { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public int? Sort { get; set; }
-
-          public override bool Equals(object obj)
-        {
-            bool result = false;
-            if (obj.GetType() == typeof(Sys_Role))
-            {
-                Sys_Role _obj = obj as Sys_Role;
-                if (_obj.Id == this.Id)
-                {
-                    result = true;
-                }
-            }
-            return result;
-        }
-
-	    public override int GetHashCode()
-        {
-            return base.GetHashCode();
-        }
-    }
-
-	/// </summary>
 	///	角色菜单关系实体类
 	/// </summary>
 	[Serializable]
@@ -2569,6 +2505,74 @@ namespace FEModel
             if (obj.GetType() == typeof(Major))
             {
                 Major _obj = obj as Major;
+                if (_obj.Id == this.Id)
+                {
+                    result = true;
+                }
+            }
+            return result;
+        }
+
+	    public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
+    }
+
+	/// </summary>
+	///	角色实体类
+	/// </summary>
+	[Serializable]
+    public partial class Sys_Role
+    {
+
+		/// <summary>
+		///主键 
+		/// </summary>
+		public int? Id { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public string Code { get; set; }
+		/// <summary>
+		///角色名称 
+		/// </summary>
+		public string Name { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public int? Sort { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public Byte? Solid { get; set; }
+		/// <summary>
+		///创建人 
+		/// </summary>
+		public string CreateUID { get; set; }
+		/// <summary>
+		///创建时间 
+		/// </summary>
+		public DateTime? CreateTime { get; set; }
+		/// <summary>
+		///修改人 
+		/// </summary>
+		public string EditUID { get; set; }
+		/// <summary>
+		///修改时间 
+		/// </summary>
+		public DateTime? EditTime { get; set; }
+		/// <summary>
+		///是否删除 
+		/// </summary>
+		public Byte? IsDelete { get; set; }
+
+          public override bool Equals(object obj)
+        {
+            bool result = false;
+            if (obj.GetType() == typeof(Sys_Role))
+            {
+                Sys_Role _obj = obj as Sys_Role;
                 if (_obj.Id == this.Id)
                 {
                     result = true;

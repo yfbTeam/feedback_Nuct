@@ -303,11 +303,9 @@ namespace FEHandler.SetMenu
                 foreach (var i in query)
                 {
                     Constant.Sys_RoleOfMenuService.Delete((int)i.Id);
-
                 }
                 foreach (var i in oldChaJi)
-                {
-                    //Constant.Sys_RoleOfMenuService.Delete((int)i.Id);
+                {                   
                     sr_.Add(i);
                 }
                 Constant.Sys_RoleOfMenu_List = sr_;
@@ -334,9 +332,7 @@ namespace FEHandler.SetMenu
             {
                 string a = ex.ToString();
             }
-            context.Response.Write("{\"result\":" + Constant.jss.Serialize(jsonModel) + "}");
-            //Constant.Sys_RoleOfMenuService.Add();
-
+            context.Response.Write("{\"result\":" + Constant.jss.Serialize(jsonModel) + "}");          
         }
 
         #region 获取按钮信息

@@ -413,9 +413,19 @@
 
         var pageIndex = 0;
         $(function () {
+            var ids = GetIDs('Userinfos');
+            var rids = ids.split(',');
+            if (isHasElement(ids, 10) > -1) {
+                GetUserByType('17');//获取
+            }
+            else if (isHasElement(ids, 19) > -1)
+            {                
+                DepartmentID = login_User.Major_ID;
+                GetUserByType('16');//院系专家
+            }
 
             Get_Eva_QuestionAnswerCompleate = function (data) {
-                debugger;
+
                 for (var i = 0; i < data.length; i++) {
                     AddDis(data[i].CourseID, data[i].CourseName, data[i].TeacherUID, data[i].TeacherName)
                 }
@@ -423,7 +433,7 @@
             };
 
             GetTeacherInfo_Course_ClsCompleate = function (data) {
-                debugger;
+
                 for (var i = 0; i < data.length; i++) {
                     AddDis(data[i].CourseId, data[i].Course_Name, data[i].TeacherUID, data[i].TeacherName)
                 }
@@ -432,15 +442,10 @@
 
             ExpertListRefleshCompleate = function (exp0) {
                 Mode = 4;
-                AnswerUID = exp0.UniqueNo;               
+                AnswerUID = exp0.UniqueNo;
                 Get_Eva_QuestionAnswer(0, select_sectionid);
                 GetTeacherInfo_Course_Cls();
             };
-
-            GetUserByType('16,17');//获取专家     
-
-            //selectExpertUID = login_User.UniqueNo;
-            //selectExpertName = login_User.Name;
 
             PageSize = 5;
             Groups = 6;
@@ -475,18 +480,17 @@
             $('.linkman_lists li:eq(0)').trigger('click');
             GetClassInfoCompleate = function () {
                 $('#tbody').find('.checkbox').on('click', function () {
-                  
+
                     if ($(this).is(':checked')) {
-                      
+
                         AddDis($(this).attr('CourseID'), $(this).attr('Course_Name'), $(this).attr('TeacherUID'), $(this).attr('Teacher_Name'));
                     }
-                    else
-                   {                                                                      
+                    else {
                         RemoveDis($(this).attr('CourseID'), $(this).attr('TeacherUID'));
                     }
                 });
                 $(".fixed-table-box").fixedTable();
-               
+
                 Mode = 4;
                 AnswerUID = selectExpertUID;
                 Get_Eva_QuestionAnswer(0, select_sectionid);
@@ -495,7 +499,7 @@
             GetClassInfo(pageIndex);
 
 
-           
+
         })
 
         //专家搜索
@@ -505,17 +509,16 @@
         //提交分配
         function submit() {
             DisModelType = 1;
-            debugger;
+
             AddExpert_List_Teacher_Course();
         }
-       
+
         //填充checkbox
-        function fillData_disable(list)
-        {         
-            $('#tbody').find('.checkbox').each(function () {                
+        function fillData_disable(list) {
+            $('#tbody').find('.checkbox').each(function () {
                 var TeacherUID = $(this).attr('TeacherUID');
                 var CourseID = $(this).attr('CourseID');
-               
+
                 var data = list.filter(function (item) { return item.TeacherUID == TeacherUID && item.CourseID == CourseID });
                 if (data.length > 0) {
                     $(this).prop('checked', true);
@@ -523,7 +526,7 @@
                 }
             });
 
-           
+
         }
 
         //填充checkbox
@@ -531,7 +534,7 @@
             $('#tbody').find('.checkbox').each(function () {
                 var TeacherUID = $(this).attr('TeacherUID');
                 var CourseID = $(this).attr('CourseID');
-               
+
                 var data = list.filter(function (item) { return item.TeacherUID == TeacherUID && item.CourseId == CourseID });
                 if (data.length > 0) {
                     $(this).prop('checked', true);
@@ -540,7 +543,7 @@
         }
 
 
-      
+
 
     </script>
 
