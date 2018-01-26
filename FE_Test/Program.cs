@@ -36,9 +36,11 @@ namespace FE_Test
 
             //ProcessManage.KillProcess("w3wp");
 
-            Eva_ManageHandler.Get_Eva_RegularData_Helper(0, 10, 0, 0, "", "0196","", FEModel.Enum.ModelType.department);
+            //Eva_ManageHandler.Get_Eva_RegularData_Helper(0, 10, 0, 0, "", "0196","", FEModel.Enum.ModelType.department);
 
             //var jsm = SetMenuHandler.TestGetMenuInfoHelper("3", "");
+
+            Eva_ManageHandler.Get_Eva_QuestionAnswer_Helper(0, 100, 1, "", "", 0, "8003", 0, FEModel.Enum.ModeType.Common, false, false, false);
         }
 
 

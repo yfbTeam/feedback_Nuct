@@ -771,14 +771,14 @@ namespace FEHandler.Eva_Manage
                     case ModelType.department:
                         list = (from li in list
                                 join r in Constant.Sys_RoleOfUser_List on li.ExpertUID equals r.UniqueNo
-                                where r.Role_Id == (int)RoleType.department_mange
+                                where r.Role_Id == (int)RoleType.department_expert
                                 select li).ToList();
                                     
                         break;
                     case ModelType.school:
                         list = (from li in list
                                 join r in Constant.Sys_RoleOfUser_List on li.ExpertUID equals r.UniqueNo
-                                where r.Role_Id == (int)RoleType.school_manage
+                                where r.Role_Id == (int)RoleType.school_expert
                                 select li).ToList();
                         break;
                     default:

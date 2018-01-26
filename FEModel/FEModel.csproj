@@ -45,6 +45,7 @@
   <ItemGroup>
     <Compile Include="Entity\MuteUser.cs" />
     <Compile Include="Entity\Sys_RoleOfUserComparer.cs" />
+    <Compile Include="Enum\ClassModelType.cs" />
     <Compile Include="Enum\CourseType_Enum.cs" />
     <Compile Include="Entity\AnswerScore_Model.cs" />
     <Compile Include="Entity\AnsysRoomModel.cs" />
@@ -75,6 +76,7 @@
     <Compile Include="Entity\T_C_Model.cs" />
     <Compile Include="Entity\UserModel.cs" />
     <Compile Include="Enum\Dictionary_Type.cs" />
+    <Compile Include="Enum\DisModelType.cs" />
     <Compile Include="Enum\errNum.cs" />
     <Compile Include="Enum\IsAllSchool.cs" />
     <Compile Include="Enum\IsAnswer.cs" />

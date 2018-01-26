@@ -40,12 +40,18 @@ namespace FEHandler.Eva_Manage
 
                 int IsAllSchool = RequestHelper.int_transfer(Request, "IsAllSchool");
 
+                bool eva_check_depart = RequestHelper.bool_transfer(Request, "eva_check_depart");
+                bool eva_check_school = RequestHelper.bool_transfer(Request, "eva_check_school");
+                bool eva_check_indepart = RequestHelper.bool_transfer(Request, "eva_check_indepart");
+            
+
                 int PageIndex = RequestHelper.int_transfer(Request, "PageIndex");
                 int PageSize = RequestHelper.int_transfer(Request, "PageSize");
                 try
                 {
                     ModeType modeType = (ModeType)Mode;
-                    jsonModel = Get_Eva_QuestionAnswer_Helper(PageIndex, PageSize, SectionID, DepartmentID, Key, TableID, AnswerUID, (IsAllSchool)IsAllSchool, modeType);
+                    jsonModel = Get_Eva_QuestionAnswer_Helper(PageIndex, PageSize, SectionID, DepartmentID, Key,
+                        TableID, AnswerUID, (IsAllSchool)IsAllSchool, modeType, eva_check_depart, eva_check_school, eva_check_indepart);
                 }
                 catch (Exception ex)
                 {
@@ -63,7 +69,9 @@ namespace FEHandler.Eva_Manage
         /// 获取答题列表
         /// </summary>
         /// <param name="context"></param>
-        public static JsonModel Get_Eva_QuestionAnswer_Helper(int PageIndex, int PageSize, int SectionID, string DepartmentID, string Key, int TableID, string AnswerUID, IsAllSchool IsAllSchool, ModeType modeType)
+        public static JsonModel Get_Eva_QuestionAnswer_Helper(int PageIndex, int PageSize, int SectionID, string DepartmentID,
+            string Key, int TableID, string AnswerUID, IsAllSchool IsAllSchool, ModeType modeType,
+            bool eva_check_depart, bool eva_check_school, bool eva_check_indepart)
         {
             int intSuccess = (int)errNum.Success;
             JsonModelNum jsm = new JsonModelNum();
@@ -113,18 +121,21 @@ namespace FEHandler.Eva_Manage
                     list = (from li in list where li.AnswerUID == AnswerUID select li).ToList();
                 }
 
-                switch (IsAllSchool)
+                if (modeType == ModeType.Record || modeType == ModeType.Look)
                 {
-                    case IsAllSchool.School:
-                        list = (from li in list where li.RoleID == (int)RoleType.school_expert select li).ToList();
-                        break;
-                    case IsAllSchool.Departemnt:
-                        list = (from li in list where li.RoleID == (int)RoleType.department_expert select li).ToList();
-                        break;                 
-                    default:
-                        break;
+                    switch (IsAllSchool)
+                    {
+                        case IsAllSchool.School:
+                            list = (from li in list where li.RoleID == (int)RoleType.school_expert select li).ToList();
+                            break;
+                        case IsAllSchool.Departemnt:
+                            list = (from li in list where li.RoleID == (int)RoleType.department_expert select li).ToList();
+                            break;
+                        default:
+                            break;
+                    }
                 }
-
+               
                 switch (modeType)
                 {
                     case ModeType.Record:
@@ -139,20 +150,32 @@ namespace FEHandler.Eva_Manage
                         {
                             list = (from li in list where li.CourseName.Contains(Key) || li.TeacherName.Contains(Key) || li.AnswerName.Contains(Key) select li).ToList();
                         }
+                        List<Eva_QuestionModel> modellist = new List<Eva_QuestionModel>();
+                        if (eva_check_depart)
+                        {
+                            modellist.AddRange((from li in list where li.RoleID == (int)RoleType.department_expert select li).ToList());
+                        }
+                        if (!eva_check_depart && eva_check_indepart)
+                        {
+                            modellist.AddRange((from li in list where li.RoleID == (int)RoleType.department_expert select li).ToList());
+                        }
+
+                        if (eva_check_school)
+                        {
+                            modellist.AddRange((from li in list where li.RoleID == (int)RoleType.school_expert select li).ToList());
+                        }
+                        list = modellist;
+
                         break;
                     case ModeType.Look:
                         break;
                     default:
                         break;
                 }
-
-
-
                 for (int i = 0; i < list.Count; i++)
                 {
                     list[i].Num = i + 1;
                 }
-
                 var query_last = (from an in list select an).Skip((PageIndex - 1) * PageSize).Take(PageSize).ToList();
                 //返回所有表格数据
                 jsm = JsonModelNum.GetJsonModel_o(intSuccess, "success", query_last);
@@ -405,7 +428,7 @@ namespace FEHandler.Eva_Manage
                 }
             }
         }
-        
+
         #endregion
 
         #region 编辑
@@ -508,7 +531,7 @@ namespace FEHandler.Eva_Manage
                 context.Response.Write("{\"result\":" + Constant.jss.Serialize(jsonModel) + "}");
             }
         }
-        
+
         #endregion
 
         #region 状态变更
@@ -565,7 +588,7 @@ namespace FEHandler.Eva_Manage
                 context.Response.Write("{\"result\":" + Constant.jss.Serialize(jsonModel) + "}");
             }
         }
-        
+
         #endregion
 
         #region 删除

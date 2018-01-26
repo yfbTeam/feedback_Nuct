@@ -138,10 +138,22 @@ namespace FEHandler.SysClass
             string MD = RequestHelper.string_transfer(request, "MD");
             string GD = RequestHelper.string_transfer(request, "GD");
             string CN = RequestHelper.string_transfer(request, "CN");
+            string Key = RequestHelper.string_transfer(request, "Key");
+
+
+
+            int ClassModeltype = RequestHelper.int_transfer(request, "ClassModelType");
+            ClassModelType ClassModelType = (ClassModelType)ClassModeltype;
+
+            int BirthdayS = RequestHelper.int_transfer(request, "BirthdayS");
+            int BirthdayE = RequestHelper.int_transfer(request, "BirthdayE");
+
+            int SchoolS = RequestHelper.int_transfer(request, "SchoolS");
+            int SchoolE = RequestHelper.int_transfer(request, "SchoolE");
 
             try
             {
-                jsonModel = GetClassInfo_Helper(PageIndex, PageSize, SectionID, DP, CT, CP, TD, TN, MD, GD, CN);
+                jsonModel = GetClassInfo_Helper(PageIndex, PageSize, SectionID, DP, CT, CP, TD, TN, MD, GD, CN, Key,ClassModelType, BirthdayS, BirthdayE, SchoolS, SchoolE);
             }
             catch (Exception ex)
             {
@@ -154,7 +166,8 @@ namespace FEHandler.SysClass
             }
         }
 
-        public static JsonModelNum GetClassInfo_Helper(int PageIndex, int PageSize, int SectionID, string DP, string CT, string CP, string TD, string TN, string MD, string GD, string CN)
+        public static JsonModelNum GetClassInfo_Helper(int PageIndex, int PageSize, int SectionID, string DP, string CT, string CP, string TD,
+            string TN, string MD, string GD, string CN,string Key, ClassModelType ClassModelType, int BirthdayS, int BirthdayE, int SchoolS, int SchoolE)
         {
             int intSuccess = (int)errNum.Success;
             JsonModelNum jsm = new JsonModelNum();
@@ -197,6 +210,9 @@ namespace FEHandler.SysClass
                                  TeacherJobTitle = CourseRoom_.TeacherJobTitle,
                                  TeacherBirthday = CourseRoom_.TeacherBirthday,
                                  TeacherSchooldate = CourseRoom_.TeacherSchooldate,
+                                 CourseID = CourseRoom_.Coures_Id,
+                                 ClassID = CourseRoom_.ClassID,
+                                 TeacherUID = CourseRoom_.TeacherUID,
 
                                  //序号
                                  Num = 0,
@@ -237,6 +253,24 @@ namespace FEHandler.SysClass
                 {
                     query = (from q in query where q.ClassName == CN select q);
                 }
+
+                if (Key  != "")
+                {
+                    query = (from q in query where q.Course_Name.Contains(Key) select q);
+                }
+
+                switch (ClassModelType)
+                {
+                    case ClassModelType.CourseRoom:
+
+                        break;
+                    case ClassModelType.DisExpertTask:
+                        query = (from q in query where q.TeacherBirthday >= BirthdayS && q.TeacherBirthday <= BirthdayE && q.TeacherSchooldate >= SchoolS && q.TeacherSchooldate <= SchoolE select q);
+                        break;
+                    default:
+                        break;
+                }
+
                 var queryList = query.ToList();
                 int count = 1;
                 queryList.ForEach(i =>
@@ -270,9 +304,11 @@ namespace FEHandler.SysClass
             int SectionID = RequestHelper.int_transfer(request, "SectionID");
             string TeacherUID = RequestHelper.string_transfer(request, "TeacherUID");
             string CourseID = RequestHelper.string_transfer(request, "CourseID");
+
+            string DepartmentName = RequestHelper.string_transfer(request, "DepartmentName");
             try
             {
-                jsonModel = GetClassInfoSelect_Helper(SectionID, TeacherUID, CourseID);
+                jsonModel = GetClassInfoSelect_Helper(SectionID, TeacherUID, CourseID, DepartmentName);
             }
             catch (Exception ex)
             {
@@ -285,7 +321,7 @@ namespace FEHandler.SysClass
             }
         }
 
-        public static JsonModelNum GetClassInfoSelect_Helper(int SectionID, string TeacherUID, string CourseID)
+        public static JsonModelNum GetClassInfoSelect_Helper(int SectionID, string TeacherUID, string CourseID, string DepartmentName)
         {
             int intSuccess = (int)errNum.Success;
             JsonModelNum jsm = new JsonModelNum();
@@ -346,6 +382,11 @@ namespace FEHandler.SysClass
                 if (CourseID != "")
                 {
                     query = (from q in query where q.CourseID == CourseID select q).ToList();
+                }
+
+                if (DepartmentName != "")
+                {
+                    query = (from q in query where q.DepartmentName == DepartmentName select q).ToList();
                 }
 
                 var data = new

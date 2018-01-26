@@ -555,7 +555,7 @@ namespace FEHandler.UserMan
                                      Pwd = ul.ClearPassword,
                                      UniqueNo = ul.UniqueNo,
                                      MajorId = ul.Major_ID,
-
+                                     DepartmentName = ul.DepartmentName,
                                  }).ToList();
 
                     int count = query.Count();
@@ -878,11 +878,11 @@ namespace FEHandler.UserMan
             int intSuccess = (int)errNum.Success;
             try
             {
-                HttpRequest Request = context.Request;               
+                HttpRequest Request = context.Request;
                 //返回所有用户信息
                 List<UserInfo> UserInfo_List_ = Constant.UserInfo_List;
                 var query = from tea in Constant.Teacher_List
-                          
+
                             select new
                             {
                                 Name = (tea.Name == null) ? string.Empty : tea.Name,

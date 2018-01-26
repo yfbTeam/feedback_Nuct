@@ -28,6 +28,8 @@ namespace FEHandler.Eva_Manage
                 int Type = RequestHelper.int_transfer(Request, "Type");
                 string Regu_Id = RequestHelper.string_transfer(Request, "Regu_Id");
                 int SectionID = RequestHelper.int_transfer(Request, "SectionID");
+                int DisModeltype = RequestHelper.int_transfer(Request, "DisModelType");
+                DisModelType DisModelType = (DisModelType)DisModeltype;
 
                 //表单明细
                 string List = RequestHelper.string_transfer(Request, "List");
@@ -46,7 +48,19 @@ namespace FEHandler.Eva_Manage
                         item.IsEnable = (int)IsEnable.Enable;
                         item.IsDelete = (int)IsDelete.No_Delete;
                     }
-                    jsonModel = AddExpert_List_Teacher_CourseHelper(Expert_Teacher_Course_List, SectionID, Regu_Id, ExpertUID);
+
+                    switch (DisModelType)
+                    {
+                        case DisModelType.expert:
+                            jsonModel = AddExpert_List_Teacher_CourseExpertHelper(Expert_Teacher_Course_List);
+                            break;
+                        case DisModelType.manage:
+                            jsonModel = AddExpert_List_Teacher_CourseHelper(Expert_Teacher_Course_List, SectionID, Regu_Id, ExpertUID);
+                            break;
+                        default:
+                            break;
+                    }
+
                 }
                 catch (Exception ex)
                 {
@@ -119,6 +133,74 @@ namespace FEHandler.Eva_Manage
                     }
                 }
                 model = JsonModel.get_jsonmodel(Success, "success", 0);
+            }
+            catch (Exception ex)
+            {
+                LogHelper.Error(ex);
+            }
+            return model;
+        }
+
+        public static JsonModel AddExpert_List_Teacher_CourseExpertHelper(List<Expert_Teacher_Course> Expert_Teacher_Course_List)
+        {
+            JsonModel model = new JsonModel();
+            int Success = (int)errNum.Success;
+            int failed = (int)errNum.Failed;
+            try
+            {
+
+                foreach (var item in Expert_Teacher_Course_List)
+                {
+                    var expc = Constant.Expert_Teacher_Course_List.Count(i => i.SecionID == item.SecionID && i.ReguId == item.ReguId && i.ExpertUID == item.ExpertUID && i.TeacherUID == item.TeacherUID);
+                    if (expc == 0)
+                    {
+                        var jsm = Constant.Expert_Teacher_CourseService.Add(item);
+                        if (jsm.errNum == Success)
+                        {
+                            item.Id = Convert.ToInt32(jsm.retData);
+                            Constant.Expert_Teacher_Course_List.Add(item);
+                        }
+                    }
+                }
+                if (Expert_Teacher_Course_List.Count() > 0)
+                {
+                    var list = (from exp in Expert_Teacher_Course_List
+                                join section in Constant.StudySection_List on exp.SecionID equals section.Id
+                                join regu in Constant.Eva_Regular_List on exp.ReguId equals Convert.ToString( regu.Id)
+                                select new { exp, section ,regu}
+                                   ).ToList();
+
+                    var list0 = list.Count > 0 ? list[0] : null;
+                    if(list0!= null)
+                    {
+                        var exp = list0.exp;
+                        var section = list0.section;
+                        var regu = list0.regu;
+                        var data = new
+                        {
+                            TeacherUID = exp.TeacherUID,
+                            TeacherName = exp.TeacherName,
+                            SectionID = exp.SecionID,
+                            DisplayName = section.DisPlayName,
+                            CourseID = exp.CourseId,
+                            CourseName = exp.Course_Name,
+                            ReguID = exp.ReguId,
+                            ReguName = regu.Name,
+                            ExpertUID = exp.ExpertUID,
+                            ExpertName =exp.ExpertName,                         
+                        };
+                        model = JsonModel.get_jsonmodel(Success, "success", data);
+                    }
+                    else
+                    {
+                        model = JsonModel.get_jsonmodel(failed, "failed", "数据不匹配（专家分配，学年学期，定期评价）");
+                    }
+                    
+                }
+                else
+                {
+                    model = JsonModel.get_jsonmodel(failed, "failed", "");
+                }
             }
             catch (Exception ex)
             {
