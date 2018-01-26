@@ -78,6 +78,7 @@ namespace FEHandler.Eva_Manage
             try
             {
                 var list = (from q in Constant.Eva_QuestionAnswer_List
+                            where q.Eva_Role == (int)ReguType.Expert
                             join u in Constant.UserInfo_List on q.TeacherUID equals u.UniqueNo                         
                             join d in Constant.Major_List on u.Major_ID equals d.Id
                             select new Eva_QuestionModel()
