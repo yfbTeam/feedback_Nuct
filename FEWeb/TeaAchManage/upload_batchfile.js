@@ -363,6 +363,7 @@ function BindFile_Plugin(wrap, pickid, dndid) { //绑定上传文件插件
             }
         });
         uploader.onError = function (code) {
+            uploader.reset();
             switch (code) {
                 case 'exceed_size':
                 case 'Q_EXCEED_SIZE_LIMIT':
@@ -388,6 +389,9 @@ function BindFile_Plugin(wrap, pickid, dndid) { //绑定上传文件插件
             });
             uploader.reset();
         });
+        //uploader.on("uploadError", function (file, reason) {
+        //    layer.msg("uploadError");
+        //});
         function get_FileName(path) {
             var filename = path.substr(path.lastIndexOf('/') + 1);
             var exten_str = filename.substr(filename.lastIndexOf("."));//后缀
