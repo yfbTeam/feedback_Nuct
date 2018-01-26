@@ -78,8 +78,7 @@ namespace FEHandler.Eva_Manage
             try
             {
                 var list = (from q in Constant.Eva_QuestionAnswer_List
-                            join u in Constant.UserInfo_List on q.TeacherUID equals u.UniqueNo
-                            join r in Constant.Sys_RoleOfUser_List on q.AnswerUID equals r.UniqueNo
+                            join u in Constant.UserInfo_List on q.TeacherUID equals u.UniqueNo                         
                             join d in Constant.Major_List on u.Major_ID equals d.Id
                             select new Eva_QuestionModel()
                             {
@@ -101,7 +100,7 @@ namespace FEHandler.Eva_Manage
                                 ReguName = q.ReguName,
                                 AnswerUID = q.AnswerUID,
                                 AnswerName = q.AnswerName,
-                                RoleID = r.Role_Id,
+                                RoleList = (from ru in Constant.Sys_RoleOfUser_List where ru.UniqueNo == q.AnswerUID select ru.Role_Id).ToList(),
                             }).ToList();
 
                 if (SectionID > 0)
@@ -126,10 +125,13 @@ namespace FEHandler.Eva_Manage
                     switch (IsAllSchool)
                     {
                         case IsAllSchool.School:
-                            list = (from li in list where li.RoleID == (int)RoleType.school_expert select li).ToList();
+
+                         
+                            list = (from li in list where li.RoleList.Contains( (int)RoleType.school_expert) select li).ToList();
                             break;
                         case IsAllSchool.Departemnt:
-                            list = (from li in list where li.RoleID == (int)RoleType.department_expert select li).ToList();
+                            list = (from li in list where li.RoleList.Contains((int)RoleType.department_expert) select li).ToList();
+
                             break;
                         default:
                             break;
@@ -153,16 +155,18 @@ namespace FEHandler.Eva_Manage
                         List<Eva_QuestionModel> modellist = new List<Eva_QuestionModel>();
                         if (eva_check_depart)
                         {
-                            modellist.AddRange((from li in list where li.RoleID == (int)RoleType.department_expert select li).ToList());
+
+                            modellist.AddRange((from li in list where li.RoleList.Contains((int)RoleType.department_expert) select li).ToList());
                         }
                         if (!eva_check_depart && eva_check_indepart)
                         {
-                            modellist.AddRange((from li in list where li.RoleID == (int)RoleType.department_expert select li).ToList());
+                            modellist.AddRange((from li in list where li.RoleList.Contains((int)RoleType.department_expert) select li).ToList());
+
                         }
 
                         if (eva_check_school)
                         {
-                            modellist.AddRange((from li in list where li.RoleID == (int)RoleType.school_expert select li).ToList());
+                            modellist.AddRange((from li in list where li.RoleList.Contains((int)RoleType.school_expert) select li).ToList());
                         }
                         list = modellist;
 

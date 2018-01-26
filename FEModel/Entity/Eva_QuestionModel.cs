@@ -45,6 +45,8 @@ namespace FEModel.Entity
 
         public int? Id { get; set; }
 
-        public int? RoleID { get; set; }
+        //public int? RoleID { get; set; }
+
+        public IEnumerable<int?> RoleList { get; set; }
     }
 }

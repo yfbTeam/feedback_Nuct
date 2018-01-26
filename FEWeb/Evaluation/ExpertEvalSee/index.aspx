@@ -173,10 +173,11 @@
     <script>
 
         var reguType = 1;
+        IsAllSchool = getQueryString('IsAllSchool');
         $(function () {
             $('#top').load('/header.html');
             $('#footer').load('/footer.html');
-            Mode = 1;
+            Mode = 3;
             $('#select').on('click', search);
 
 
