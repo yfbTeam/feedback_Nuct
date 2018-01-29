@@ -274,13 +274,10 @@
         }
 
         function GetIDs(itemname) {
-            console.log(localStorage.getItem(itemname))
             var ids = '';
-
             var data = JSON.parse(localStorage.getItem(itemname));
-            data.filter(function (item) { ids += item.Sys_Role_Id + ',' });
+            data.forEach(function (item) { ids += item.Sys_Role_Id + ',' });
             ids = (ids.substring(ids.length - 1) == ',') ? ids.substring(0, ids.length - 1) : ids;
-
             return ids;
         }
       
@@ -300,7 +297,6 @@
                 url: HanderServiceUrl + "/SetMenu/SetMenuHandler.ashx",
                 data: { "Func": "Get_MenuBtnInfo", Rid: roleid },
                 dataType: "json",
-                async: false,
                 success: function (json) {
                     localStorage.removeItem('Menu_Btns');
                     if (json.result.errNum == 0) {                        
