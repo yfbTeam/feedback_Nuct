@@ -1342,7 +1342,18 @@ var UI_Table_View = {
                         break;
                     default:
                 }
-                console.log(retData);
+                
+
+                $('.test_desc2').find('input').on('click', function () {
+                    if ($(this).prop('checked')) {
+                        $(this).prop('checked', true);
+                    }
+                    else
+                    {
+                        $(this).prop('checked', false);
+                    }
+                });
+
                 UI_Table_View.Get_Eva_TableDetail_Compleate(retData);
 
             },
