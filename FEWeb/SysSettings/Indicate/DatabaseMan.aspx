@@ -20,11 +20,11 @@
                
             </div>
             <div class="sortwrap clearfix mt20">
-                <div class="menu fl" style="height:500px;overflow:auto">
+                <div class="menu fl">
                     <h1 class="titlea">
                         指标库管理
                     </h1>
-                    <ul class="menu_list">
+                    <ul class="menu_list" style="height:478px;overflow:auto">
 
                     </ul>
                     <input type="button" value="指标库分类管理"  class="new" onclick="newIndicator_type()"  id="Indicator_Add" />
