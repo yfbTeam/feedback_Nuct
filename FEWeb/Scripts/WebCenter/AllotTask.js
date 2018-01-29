@@ -230,7 +230,7 @@ function AddExpert_List_Teacher_Course() {
         async: false,
         success: function (json) {
             if (json.result.errMsg == "success") {
-                
+              
                 layer.msg('操作成功')
                 setTimeout(function () {
                     if (parent.Get_Eva_RegularData != undefined) {
@@ -245,7 +245,7 @@ function AddExpert_List_Teacher_Course() {
                             case "StartEval":
                                 //parent.Get_Eva_RegularData(0, 0);
                                 
-                                parent.navicate(data.TeacherUID, data.TeacherName,data.SecionID, data.DisplayName, data.CourseID, data.CourseName, data.ReguID, data.ReguName, data.ExpertUID, data.ExpertName, DepartmentName);
+                                parent.navicate(data.TeacherUID, data.TeacherName, data.SectionID, data.DisplayName, data.CourseID, data.CourseName, data.ReguID, data.ReguName, data.ExpertUID, data.ExpertName, DepartmentName);
 
                                 break;
                             default:
