@@ -141,6 +141,21 @@ namespace FEHandler.SysClass
             string Key = RequestHelper.string_transfer(request, "Key");
 
 
+            SortType S_DP = (SortType)RequestHelper.int_transfer(request, "S_DP");
+            SortType S_CN = (SortType)RequestHelper.int_transfer(request, "S_CN");
+            SortType S_CT = (SortType)RequestHelper.int_transfer(request, "S_CT");
+            SortType S_CP = (SortType)RequestHelper.int_transfer(request, "S_CP");
+            SortType S_TD = (SortType)RequestHelper.int_transfer(request, "S_TD");
+            SortType S_TN = (SortType)RequestHelper.int_transfer(request, "S_TN");
+
+            SortType S_MD = (SortType)RequestHelper.int_transfer(request, "S_MD");
+            SortType S_GD = (SortType)RequestHelper.int_transfer(request, "S_GD");
+            SortType S_CLS = (SortType)RequestHelper.int_transfer(request, "S_CLS");
+            SortType S_TJ = (SortType)RequestHelper.int_transfer(request, "S_TJ");
+            SortType S_BR = (SortType)RequestHelper.int_transfer(request, "S_BR");
+            SortType S_SY = (SortType)RequestHelper.int_transfer(request, "S_SY");
+
+
 
             int ClassModeltype = RequestHelper.int_transfer(request, "ClassModelType");
             ClassModelType ClassModelType = (ClassModelType)ClassModeltype;
@@ -153,12 +168,14 @@ namespace FEHandler.SysClass
 
             try
             {
-                jsonModel = GetClassInfo_Helper(PageIndex, PageSize, SectionID, DP, CT, CP, TD, TN, MD, GD, CN, Key,ClassModelType, BirthdayS, BirthdayE, SchoolS, SchoolE);
-            }
-            catch (Exception ex)
-            {
-                LogHelper.Error(ex);
-            }
+                jsonModel = GetClassInfo_Helper(PageIndex, PageSize, SectionID, DP, CT, CP, TD, TN, MD, GD,
+                    CN, Key, ClassModelType, BirthdayS, BirthdayE, SchoolS, SchoolE,
+                    S_DP, S_CN, S_CT, S_CP, S_TD, S_TN, S_MD, S_GD, S_CLS, S_TJ, S_BR, S_SY);
+            }                                       
+            catch (Exception ex)                   
+            {                                      
+                LogHelper.Error(ex);                 
+            }                                        
             finally
             {
                 //无论后端出现什么问题，都要给前端有个通知【为防止jsonModel 为空 ,全局字段 jsonModel 特意声明之后进行初始化】
@@ -167,7 +184,9 @@ namespace FEHandler.SysClass
         }
 
         public static JsonModelNum GetClassInfo_Helper(int PageIndex, int PageSize, int SectionID, string DP, string CT, string CP, string TD,
-            string TN, string MD, string GD, string CN,string Key, ClassModelType ClassModelType, int BirthdayS, int BirthdayE, int SchoolS, int SchoolE)
+            string TN, string MD, string GD, string CN, string Key, ClassModelType ClassModelType, int BirthdayS, int BirthdayE, int SchoolS, int SchoolE,
+            SortType S_DP, SortType S_CN, SortType S_CT, SortType S_CP, SortType S_TD, SortType S_TN, 
+            SortType S_MD, SortType S_GD, SortType S_CLS, SortType S_TJ, SortType S_BR, SortType S_SY)
         {
             int intSuccess = (int)errNum.Success;
             JsonModelNum jsm = new JsonModelNum();
@@ -217,6 +236,124 @@ namespace FEHandler.SysClass
                                  //序号
                                  Num = 0,
                              });
+                query = GetClassInfoNormalHelper(SectionID, DP, CT, CP, TD, TN, MD, GD, CN, Key, query);
+
+                switch (ClassModelType)
+                {
+                    case ClassModelType.CourseRoom:
+
+                        break;
+                    case ClassModelType.DisExpertTask:
+                        query = (from q in query where q.TeacherBirthday >= BirthdayS && q.TeacherBirthday <= BirthdayE && q.TeacherSchooldate >= SchoolS && q.TeacherSchooldate <= SchoolE select q);
+                        break;
+                    default:
+                        break;
+                }
+
+                query = GetClassInfoSortHelper(S_DP, S_CN, S_CT, S_CP, S_TD, S_TN, S_MD, S_GD, S_CLS, S_TJ, S_BR, S_SY, query);
+
+                var queryList = query.ToList();
+                int count = 1;
+                queryList.ForEach(i =>
+                {
+                    i.Num += count;
+                    count++;
+                });
+
+                var query_last = (from an in queryList select an).Skip((PageIndex - 1) * PageSize).Take(PageSize).ToList();
+
+                jsm = JsonModelNum.GetJsonModel_o(intSuccess, "success", query_last);
+                jsm.PageIndex = PageIndex;
+                jsm.PageSize = PageSize;
+                jsm.PageCount = (int)Math.Ceiling((double)query.Count() / PageSize);
+                jsm.RowCount = query.Count();
+            }
+            catch (Exception ex)
+            {
+                LogHelper.Error(ex);
+            }
+            return jsm;
+        }
+
+        private static IEnumerable<ClassModel> GetClassInfoSortHelper(SortType S_DP, SortType S_CN, SortType S_CT, SortType S_CP, SortType S_TD, SortType S_TN, SortType S_MD, SortType S_GD, SortType S_CLS, SortType S_TJ, SortType S_BR, SortType S_SY, IEnumerable<ClassModel> query)
+        {
+             try
+            {
+                if (S_DP != SortType.normal)
+                {
+                    query = S_DP == SortType.desc ? (from q in query orderby q.DepartmentName descending select q)
+                   : (from q in query orderby q.DepartmentName ascending select q);
+                }
+
+                if (S_CN != SortType.normal)
+                {
+                    query = S_CN == SortType.desc ? (from q in query orderby q.Course_Name descending select q)
+                   : (from q in query orderby q.Course_Name ascending select q);
+                }
+                if (S_CT != SortType.normal)
+                {
+                    query = S_DP == SortType.desc ? (from q in query orderby q.CourseType descending select q)
+                   : (from q in query orderby q.CourseType ascending select q);
+                }
+                if (S_CP != SortType.normal)
+                {
+                    query = S_DP == SortType.desc ? (from q in query orderby q.CourseProperty descending select q)
+                   : (from q in query orderby q.CourseProperty ascending select q);
+                }
+                if (S_TD != SortType.normal)
+                {
+                    query = S_DP == SortType.desc ? (from q in query orderby q.TeacherDepartmentName descending select q)
+                   : (from q in query orderby q.TeacherDepartmentName ascending select q);
+                }
+                if (S_TN != SortType.normal)
+                {
+                    query = S_DP == SortType.desc ? (from q in query orderby q.Teacher_Name descending select q)
+                   : (from q in query orderby q.Teacher_Name ascending select q);
+                }
+
+                //, , , , , 
+                if (S_MD != SortType.normal)
+                {
+                    query = S_MD == SortType.desc ? (from q in query orderby q.RoomDepartmentName descending select q)
+                   : (from q in query orderby q.RoomDepartmentName ascending select q);
+                }
+                if (S_GD != SortType.normal)
+                {
+                    query = S_GD == SortType.desc ? (from q in query orderby q.GradeInfo_Name descending select q)
+                   : (from q in query orderby q.GradeInfo_Name ascending select q);
+                }
+                if (S_CLS != SortType.normal)
+                {
+                    query = S_CLS == SortType.desc ? (from q in query orderby q.ClassName descending select q)
+                   : (from q in query orderby q.ClassName ascending select q);
+                }
+                if (S_TJ != SortType.normal)
+                {
+                    query = S_TJ == SortType.desc ? (from q in query orderby q.TeacherJobTitle descending select q)
+                   : (from q in query orderby q.DepartmentName ascending select q);
+                }
+                if (S_BR != SortType.normal)
+                {
+                    query = S_BR == SortType.desc ? (from q in query orderby q.TeacherBirthday descending select q)
+                   : (from q in query orderby q.TeacherBirthday ascending select q);
+                }
+                if (S_SY != SortType.normal)
+                {
+                    query = S_DP == SortType.desc ? (from q in query orderby q.TeacherSchooldate descending select q)
+                   : (from q in query orderby q.TeacherSchooldate ascending select q);
+                }
+             }
+            catch (Exception ex)
+            {
+                LogHelper.Error(ex);
+            }
+            return query;
+        }
+
+        private static IEnumerable<ClassModel> GetClassInfoNormalHelper(int SectionID, string DP, string CT, string CP, string TD, string TN, string MD, string GD, string CN, string Key, IEnumerable<ClassModel> query)
+        {
+             try
+            {
                 if (SectionID > 0)
                 {
                     query = (from q in query where q.SectionID == SectionID select q);
@@ -254,44 +391,16 @@ namespace FEHandler.SysClass
                     query = (from q in query where q.ClassName == CN select q);
                 }
 
-                if (Key  != "")
+                if (Key != "")
                 {
                     query = (from q in query where q.Course_Name.Contains(Key) select q);
                 }
-
-                switch (ClassModelType)
-                {
-                    case ClassModelType.CourseRoom:
-
-                        break;
-                    case ClassModelType.DisExpertTask:
-                        query = (from q in query where q.TeacherBirthday >= BirthdayS && q.TeacherBirthday <= BirthdayE && q.TeacherSchooldate >= SchoolS && q.TeacherSchooldate <= SchoolE select q);
-                        break;
-                    default:
-                        break;
-                }
-
-                var queryList = query.ToList();
-                int count = 1;
-                queryList.ForEach(i =>
-                {
-                    i.Num += count;
-                    count++;
-                });
-
-                var query_last = (from an in queryList select an).Skip((PageIndex - 1) * PageSize).Take(PageSize).ToList();
-
-                jsm = JsonModelNum.GetJsonModel_o(intSuccess, "success", query_last);
-                jsm.PageIndex = PageIndex;
-                jsm.PageSize = PageSize;
-                jsm.PageCount = (int)Math.Ceiling((double)query.Count() / PageSize);
-                jsm.RowCount = query.Count();
-            }
+             }
             catch (Exception ex)
             {
                 LogHelper.Error(ex);
             }
-            return jsm;
+            return query;
         }
 
         #endregion

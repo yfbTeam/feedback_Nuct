@@ -12,20 +12,40 @@ var selectExpertName = '';
 
 
 function PrepareInit() {
-  
+
     switch (PageType) {
         case 'StartEval':
             $("#btn_no").tmpl(1).appendTo(".btnwrap");
             if (IsAllSchool == 1) {
-              
-                $('#TD').empty();               
+
+                $('#TD').empty();
                 var str = "<option value='" + login_User.DepartmentName + "'>" + login_User.DepartmentName + "</option>";
                 $('#TD').append(str)
                 ChosenInit($('#TD'));
             }
-
+            debugger;
+            $('.fixed-table_header div').on('click', function (item) {
+                var s = $(this).find('.layui-table-sort');
+                if (s.length > 0) {
+                    var lay = s.attr('lay-sort');
+                    if (lay == '') {
+                        s.attr('lay-sort', 'asc');
+                        s.attr('sorttype', '1');
+                    }
+                    else if (lay == 'asc') {
+                        s.attr('lay-sort', 'desc');
+                        s.attr('sorttype', '2');
+                    }
+                    else if (lay == 'desc') {
+                        s.attr('lay-sort', '');
+                        s.attr('sorttype', '0');
+                    }
+                    pageIndex = 0;
+                    GetClassInfo(pageIndex);
+                }
+            });
             break;
-            
+
         case 'AllotTask':
             $("#btn_yes").tmpl(1).appendTo(".btnwrap");
             break;
@@ -37,7 +57,7 @@ function PrepareInit() {
 
 
 function AddDis(CourseID, CourseName, TeacherUID, TeacherName) {
-   
+
     var obj = {
         CourseId: CourseID,
         Course_Name: CourseName,
@@ -51,11 +71,10 @@ function AddDis(CourseID, CourseName, TeacherUID, TeacherName) {
         EditUID: cookie_Userinfo.UniqueNo,
         Type: expType,
     };
-    
+
     var list = select_course_teacher.filter(function (i) { return i.TeacherUID == TeacherUID && i.CourseId == CourseID });
-    if (list.length == 0)
-    {
-      
+    if (list.length == 0) {
+
         select_course_teacher.push(obj);
     }
 }
@@ -78,7 +97,7 @@ function AddDisOne(CourseID, CourseName, TeacherUID, TeacherName) {
     };
     select_course_teacher = [];
     select_course_teacher.push(obj);
-   
+
 }
 
 function RemoveDis(Course_UniqueNo, TeacherUID) {
@@ -86,7 +105,7 @@ function RemoveDis(Course_UniqueNo, TeacherUID) {
     if (data.length > 0) {
         select_course_teacher.remove(data[0]);
     }
-  
+
 }
 
 function GetTeacherInfo_Course_ClsCompleate() { };
@@ -95,29 +114,29 @@ function GetTeacherInfo_Course_Cls() {
 
     //if (Teachers == null) {
     var postData = { func: "GetTeacherInfo_Course_Cls", "ReguId": select_reguid, "ExpertUID": selectExpertUID };
-        $.ajax({
-            type: "Post",
-            url: HanderServiceUrl + "/Eva_Manage/Eva_ManageHandler.ashx",
-            data: postData,
-            dataType: "json",
-            async: false,
-            success: function (json) {
-                if (json.result.errMsg == "success") {
-                    Teachers = json.result.retData;
-                    switch (PageType) {
-                        case 'AllotTask':
-                            break;
-                      
-                        default:
-                    }
-                  
-                    GetTeacherInfo_Course_ClsCompleate(Teachers);
+    $.ajax({
+        type: "Post",
+        url: HanderServiceUrl + "/Eva_Manage/Eva_ManageHandler.ashx",
+        data: postData,
+        dataType: "json",
+        async: false,
+        success: function (json) {
+            if (json.result.errMsg == "success") {
+                Teachers = json.result.retData;
+                switch (PageType) {
+                    case 'AllotTask':
+                        break;
+
+                    default:
                 }
-            },
-            error: function (errMsg) {
-                layer.msg("失败2");
+
+                GetTeacherInfo_Course_ClsCompleate(Teachers);
             }
-        });  
+        },
+        error: function (errMsg) {
+            layer.msg("失败2");
+        }
+    });
 }
 
 
@@ -137,7 +156,7 @@ function GetUserByType(userType) {
                     switch (PageType) {
                         case 'AllotTask':
                             break;
-                       
+
                         default:
                     }
                     ExpertList = json.result.retData;
@@ -165,7 +184,7 @@ function ExpertListReflesh() {
         $(this).addClass('selected').siblings().removeClass('selected');
         selectExpertUID = $(this).attr('Id');
         selectExpertName = $(this).text().trim();
-       
+
         select_course_teacher = [];
 
         var exp = ExpertList.filter(function (item) { return item.UniqueNo == selectExpertUID });
@@ -194,7 +213,7 @@ function ExpertListReflesh() {
                 var str = "<option value=''>全部</option>";
                 $('#TD').append(str)
                 ChosenInit($('#TD'));
-                
+
                 GetClassInfoSelect();
                 pageIndex = 0;
                 GetClassInfo(pageIndex);
@@ -202,11 +221,11 @@ function ExpertListReflesh() {
             default:
 
         }
-        
+
         ExpertListRefleshCompleate(exp0);
 
     })
-   
+
 }
 
 var DisModelType = 0;
@@ -230,7 +249,7 @@ function AddExpert_List_Teacher_Course() {
         async: false,
         success: function (json) {
             if (json.result.errMsg == "success") {
-              
+
                 layer.msg('操作成功')
                 setTimeout(function () {
                     if (parent.Get_Eva_RegularData != undefined) {
@@ -239,12 +258,12 @@ function AddExpert_List_Teacher_Course() {
                             case "AllotTask":
                                 parent.Get_Eva_RegularData(select_reguid, 0);
 
-                               
+
 
                                 break;
                             case "StartEval":
                                 //parent.Get_Eva_RegularData(0, 0);
-                                
+
                                 parent.navicate(data.TeacherUID, data.TeacherName, data.SectionID, data.DisplayName, data.CourseID, data.CourseName, data.ReguID, data.ReguName, data.ExpertUID, data.ExpertName, DepartmentName);
 
                                 break;

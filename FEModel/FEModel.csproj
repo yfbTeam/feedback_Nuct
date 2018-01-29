@@ -93,6 +93,7 @@
     <Compile Include="Enum\ReguType.cs" />
     <Compile Include="Enum\RoleType.cs" />
     <Compile Include="Enum\SolidType.cs" />
+    <Compile Include="Enum\SortType.cs" />
     <Compile Include="Enum\TableDetail_Type.cs" />
     <Compile Include="JsonModel.cs" />
     <Compile Include="ModelTemplate.cs">

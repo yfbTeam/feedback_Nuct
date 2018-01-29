@@ -316,9 +316,7 @@ var UI_Table_Create =
                 $(this).prop('readonly', '')
                 for (var i in list_sheets) {
                     if (list_sheets[i].t_Id == select_sheet_Id) {
-                        //-------------------------------------------------------------------试题节点切换
-                        //select_sheet = list_sheets[i].indicator_array;
-
+                        //-------------------------------------------------------------------试题节点切换                      
                         UI_Table_Create.Reflesh_View(list_sheets[i]);
                         break;
                     }
@@ -1338,19 +1336,21 @@ var UI_Table_View = {
                             }
                         }
                         $('#sheets input:eq(0)').trigger('click');
-
+                      
                         break;
                     default:
                 }
                 
 
-                $('.test_desc2').find('input').on('click', function () {
-                    if ($(this).prop('checked')) {
-                        $(this).prop('checked', true);
+                $('.test_desc2').find('input').on('click', function () {                    
+                    if ($(this).prop('Sel')) {
+                        $(this).prop('Sel', false);
+                        $(this).prop('checked', false);
                     }
                     else
                     {
-                        $(this).prop('checked', false);
+                        $(this).prop('Sel', true);
+                        $(this).prop('checked', true);
                     }
                 });
 

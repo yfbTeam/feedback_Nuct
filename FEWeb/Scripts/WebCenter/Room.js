@@ -6,7 +6,7 @@
 
 var PageSize = 10;
 var Groups = 10;
-var subele ='tr';
+var subele = 'tr';
 var size = 19;
 var height = 480;
 var DepartmentName = '';
@@ -21,6 +21,21 @@ var ClassModelType = 0;//教学安排   分配专家任务
 
 var Key = '';//课程名称
 
+//点击标题进行降序
+var S_DP = 0;
+var S_CN = 0;
+var S_CT = 0;
+var S_CP = 0;
+var S_TD = 0;
+var S_TN = 0;
+
+var S_MD = 0;
+var S_GD = 0;
+var S_CLS = 0;
+var S_TJ = 0;
+var S_BR = 0;
+var S_SY = 0;
+
 function GetClassInfoCompleate() { };
 //绑定课程信息
 function GetClassInfo(PageIndex) {
@@ -28,12 +43,31 @@ function GetClassInfo(PageIndex) {
         shade: [0.1, '#fff'] //0.1透明度的白色背景
     });
 
+    if (PageType == 'StartEval') {
+        S_DP = $('#S_DP Span').attr('sorttype');
+        S_CN = $('#S_CN Span').attr('sorttype');
+        S_CT = $('#S_CT Span').attr('sorttype');
+        S_CP = $('#S_CP Span').attr('sorttype');
+        S_TD = $('#S_TD Span').attr('sorttype');
+        S_TN = $('#S_TN Span').attr('sorttype');
+
+        S_MD = $('#S_MD Span').attr('sorttype');
+        S_GD = $('#S_GD Span').attr('sorttype');
+        S_CLS = $('#S_CLS Span').attr('sorttype');
+        S_TJ = $('#S_TJ Span').attr('sorttype');
+        S_BR = $('#S_BR Span').attr('sorttype');
+        S_SY = $('#S_SY Span').attr('sorttype');
+    }
+
     var postData = {
         func: "GetClassInfo", "PageIndex": PageIndex, "PageSize": PageSize,
         "SectionID": $('#section').val(), "DP": $('#DP').val(), "CT": $('#CT').val(),
         "CP": $('#CP').val(), "TD": $('#TD').val(), "TN": $('#TN').val(), "MD": $('#MD').val(),
         "GD": $('#GD').val(), "CN": $('#CN').val(), "Key": $('#class_key').val(), "BirthdayS": BirthdayS, "BirthdayE": BirthdayE,
-        "SchoolS": SchoolS, "SchoolE": SchoolE, "ClassModelType": ClassModelType
+        "SchoolS": SchoolS, "SchoolE": SchoolE, "ClassModelType": ClassModelType,
+
+        "S_DP": S_DP, "S_CN": S_CN, "S_CT": S_CT, "S_CP": S_CP, "S_TD": S_TD, "S_TN": S_TN,
+        "S_MD": S_MD, "S_GD": S_GD, "S_CLS": S_CLS, "S_TJ": S_TJ, "S_BR": S_BR, "S_SY": S_SY,
     };
     $.ajax({
         type: "Post",
@@ -46,20 +80,18 @@ function GetClassInfo(PageIndex) {
 
                 var data = returnVal.result.retData;
 
-           
-                
                 layer.close(layer_index);
 
                 $("#tbody").empty();
                 if (data.length <= 0) {
-                    nomessage('#tbody',subele,size,height);
+                    nomessage('#tbody', subele, size, height);
                     $('#pageBar').hide();
                     return;
                 }
                 else {
                     $('#pageBar').show();
                 }
-              
+
                 $("#itemData").tmpl(data).appendTo("#tbody");
                 tableSlide();
 

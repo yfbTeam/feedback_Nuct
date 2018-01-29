@@ -313,6 +313,9 @@ var DataBaseMainModel =
                 case 3:
                     _return = '问答题'
                     break;
+                case 4:
+                    _return = '选分题'
+                    break;
                 default:
                     _return = '无';
                     break;

@@ -72,6 +72,7 @@
     <Content Include="css\bootstrap.min.css" />
     <Content Include="css\fixed-table.css" />
     <Content Include="css\font-awesome.min.css" />
+    <Content Include="css\layui.css" />
     <Content Include="css\login.css" />
     <Content Include="Evaluation\check\CheckModal.aspx" />
     <Content Include="Evaluation\CourseEvalSee\detailModal.aspx" />
@@ -201,6 +202,7 @@
     <Content Include="Scripts\pinying\pinyin_dict_withtone.js" />
     <Content Include="Scripts\print\jquery-migrate-1.2.1.min.js" />
     <Content Include="Scripts\print\jquery.jqprint.js" />
+    <Content Include="Scripts\Sortable.min.js" />
     <Content Include="Scripts\WebCenter\AllotPeople.js" />
     <Content Include="Scripts\WebCenter\AllotTable.js" />
     <Content Include="Scripts\WebCenter\AllotTask.js" />

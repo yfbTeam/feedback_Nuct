@@ -97,6 +97,15 @@
                     {{if $value.QuesType_Id =="1"  ||$value.QuesType_Id =="4" }}
                       <b class="isscore">（<span class="isscore">${OptionF_S_Max}分</span>）</b>
                         {{/if}}
+                          {{if $value.QuesType_Id ==1 }}
+                             【单选题】
+                             {{else $value.QuesType_Id ==2 }}
+                             【多选题】
+                             {{else $value.QuesType_Id ==3 }}
+                             【问答题】
+                             {{else $value.QuesType_Id ==4 }}
+                             【选分题】
+                             {{/if}} 
                     </h2>
                     {{if $value.QuesType_Id ==1}}
                     <div class="test_desc">

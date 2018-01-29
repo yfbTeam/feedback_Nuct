@@ -155,7 +155,7 @@
                     <input type="hidden" value="${QuesType_Id}" name="name_QuesType_Id" />
 
                     <h2 class="title">${Sort}、${$value.Name}
-                    {{if $value.QuesType_Id!=3}}
+                    {{if $value.QuesType_Id ==1 || $value.QuesType_Id ==4}}
                        <b class="isscore">（<span class="isscore">${OptionF_S_Max}分</span>）</b>
                         {{/if}}
                     </h2>
@@ -219,7 +219,7 @@
                             <input type="radio"   flv="OptionA" id="inp_${$value.Id}-1" value="${$value.OptionA_S}" />
                             <label class="lbl" for="inp_${$value.Id}-1">
                                 A${$value.OptionA}
-                            <b class="isscore">(<span class="numbers">${$value.OptionA_S}</span>分)</b></label>
+                          
                         </span>
                         {{/if}}
                         {{if $value.OptionB!=""}}
@@ -227,7 +227,7 @@
                             <input type="radio"  flv="OptionB" id="inp_${$value.Id}-2" value="${$value.OptionB_S}" />
                             <label class="lbl" for="inp_${$value.Id}-2">
                                 B${$value.OptionB}
-                            <b class="isscore">(<span class="numbers">${$value.OptionB_S}</span>分)</b></label>
+                           
                         </span>
                         {{/if}}
                         {{if $value.OptionC!=""}}
@@ -235,7 +235,7 @@
                             <input type="radio"  flv="OptionC" id="inp_${$value.Id}-3" value="${$value.OptionC_S}" />
                             <label class="lbl" for="inp_${$value.Id}-3">
                                 C${$value.OptionC}
-                            <b class="isscore">(<span class="numbers">${$value.OptionC_S}</span>分)</b></label>
+                           
                         </span>
                         {{/if}}
                         {{if $value.OptionD!=""}}
@@ -243,15 +243,14 @@
                             <input type="radio" flv="OptionD" id="inp_${$value.Id}-4" value="${$value.OptionD_S}" />
                             <label class="lbl" for="inp_${$value.Id}-4">
                                 D${$value.OptionD}
-                                
-                            <b class="isscore">(<span class="numbers">${$value.OptionD_S}</span>分)</b></label>
+                               
                         </span>
                         {{/if}}
                         {{if $value.OptionE!=""}}
                         <span>
                             <input type="radio"  flv="OptionE" id="inp_${$value.Id}-5" value="${$value.OptionE_S}" />
                             <label class="lbl" for="inp_${$value.Id}-5">E${$value.OptionE}</label>
-                            <b class="isscore">(<span class="numbers">${$value.OptionE_S}</span>分)</b>
+                            
                         </span>
                         {{/if}}
                          {{if $value.OptionF!=""}}
@@ -260,7 +259,7 @@
                             <label class="lbl" for="inp_${$value.Id}-6">
                                 F${$value.OptionF}
                                
-                            <b class="isscore">(<span class="numbers">${$value.OptionF_S}</span>分)</b></label>
+                          
                         </span>
                         {{/if}}
                     </div>
@@ -354,11 +353,7 @@
                 $('#dp').val(DepartmentName);
                 evaluate_Model.IsScore = retdata.IsScore;
 
-                $('.test_desc2').find('input').on('click', function () {
-                       
-
-                    debugger;
-                });
+              
 
             };
             UI_Table_View.PageType = 'selectTable';

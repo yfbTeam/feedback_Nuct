@@ -63,7 +63,7 @@ var evaluate_Model = {
                 var maxscore_str = $(this).find("div").attr('MaxScore');
                 var maxScore = maxscore_str == '' ? 0 : Number(maxscore_str);
                 if (evaluate_Model.IsScore == 0) {
-                    if (score > 0 && score <= maxScore) {
+                    if (score >= 0 && score <= maxScore) {
                         Answer = score;
                         sub_Score = score;
                         ques_count4++;
@@ -102,6 +102,28 @@ var evaluate_Model = {
                     return false;
                 }
             }
+            else if (QuestionType == 2) {
+                debugger;
+                var rs = $(this).find("input[type='radio']:checked");
+
+                for (var i = 0; i < rs.length; i++) {
+                    Answer += rs.eq(i).attr('flv') + ',';
+                }
+
+                Answer = Answer.substring(0, Answer.length - 1);
+                if ($(this).find("input[type='radio']").length != 0 && $(this).find("input:checked").length >= 1) {
+                    ques_count1++;
+                }
+                else {
+                    if (Eva_Role == 1) {
+                        layer.msg('请填写未提交项', { offset: '400px' });
+                    }
+                    else {
+                        MesTips('请填写未提交项')
+                    }
+                    return false;
+                }
+            }
 
             sub_array.TableDetailID = TableDetailID;
             sub_array.Score = sub_Score;
@@ -119,6 +141,9 @@ var evaluate_Model = {
             evaluate_Model.Submit_array.push(sub_array);
 
         });
+
+
+
 
         if (evaluate_Model.Is_Required) {
             if (State == 2) {
@@ -288,7 +313,7 @@ function Get_Eva_QuestionAnswer(PageIndex, SectionID, DepartmentID, Key, TableID
     index_layer = layer.load(1, {
         shade: [0.1, '#fff'] //0.1透明度的白色背景
     });
-    
+
     $.ajax({
         url: HanderServiceUrl + "/Eva_Manage/Eva_ManageHandler.ashx",
         type: "post",
@@ -302,14 +327,12 @@ function Get_Eva_QuestionAnswer(PageIndex, SectionID, DepartmentID, Key, TableID
         },
         dataType: "json",
         success: function (returnVal) {
-           
+
             if (returnVal.result.errMsg == "success") {
-                if (Mode == 4)
-                {
+                if (Mode == 4) {
 
                 }
-                else
-                {
+                else {
                     var data = returnVal.result.retData;
                     layer.close(index_layer);
 
@@ -343,7 +366,7 @@ function Get_Eva_QuestionAnswer(PageIndex, SectionID, DepartmentID, Key, TableID
                     });
                     $("#itemCount").tmpl(returnVal.result).appendTo(".laypage_total");
                 }
-              
+
                 Get_Eva_QuestionAnswerCompleate(returnVal.result.retData);
             }
             else {
@@ -403,7 +426,7 @@ function Get_Eva_QuestionAnswerDetail(Id) {
 
             if (returnVal.result.errMsg == "success") {
                 var data = returnVal.result.retData;
-            
+
 
                 data.DetailList.filter(function (item) {
                     switch (item.QuestionType) {
@@ -416,6 +439,26 @@ function Get_Eva_QuestionAnswerDetail(Id) {
                             }
                             break;
                         case 2:
+                            
+
+                            var lists = item.Answer.split(',');
+                            for (var i = 0; i < lists.length; i++) {
+                                if (PageType == 'RegularEva_View') {
+                                    $('.test_lists').find('div[DetailID="' + item.TableDetailID + '"]').find('li[lioption="' + lists[i] + '"]').addClass("on");
+                                }
+                                else {
+                                    $('.test_lists').find('div[DetailID="' + item.TableDetailID + '"]').find('input[flv="' + lists[i] + '"]').attr("checked", true);
+                                }
+                            }
+
+                            $('.test_desc2').find('input').each(function () {                              
+                                if ($(this).prop('checked')) {
+                                    $(this).prop('Sel', true);
+                                }
+                                else {
+                                    $(this).prop('Sel', false);
+                                }
+                            });
 
                             break;
                         case 3:
@@ -516,7 +559,7 @@ function Get_Eva_RegularData_RoomDetailList() {
 
             if (returnVal.result.errMsg == "success") {
                 var data = returnVal.result.retData;
-               
+
                 for (var i in data.Score_ModelList) {
                     var obj = data.Score_ModelList[i];
                     $('#' + obj.TableDetialID + '_A').text(obj.A);
@@ -544,7 +587,7 @@ function Get_Eva_RegularData_RoomDetailList() {
 }
 var page_Size = 3;
 function Get_Eva_RoomDetailAnswerListCompleate() { };
-function Get_Eva_RoomDetailAnswerList(PageIndex,TableDetailID) {
+function Get_Eva_RoomDetailAnswerList(PageIndex, TableDetailID) {
 
     layer_index = layer.load(1, {
         shade: [0.1, '#fff'] //0.1透明度的白色背景
@@ -567,14 +610,14 @@ function Get_Eva_RoomDetailAnswerList(PageIndex,TableDetailID) {
                 $('#' + TableDetailID + '_tbody').empty();
 
                 var data = returnVal.result.retData;
-             
+
                 data.filter(function (item, index) { item.Num = index + 1 })
                 layer.close(layer_index);
 
                 $("#tbody").empty();
                 if (data.length <= 0) {
                     nomessage('#tbody');
-                    $('#'+TableDetailID +'_pageBar').hide();
+                    $('#' + TableDetailID + '_pageBar').hide();
                     return;
                 }
                 else {
@@ -600,7 +643,7 @@ function Get_Eva_RoomDetailAnswerList(PageIndex,TableDetailID) {
                         }
                     }
                 });
-                
+
                 $("#itemCount").tmpl(returnVal.result).appendTo($('#' + TableDetailID + '_pageBar').find(".laypage_total"));
             }
         },
