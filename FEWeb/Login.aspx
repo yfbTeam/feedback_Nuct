@@ -44,6 +44,15 @@
         .Validform_right {
             color: #91c954;
         }
+        .layui-layer-zi .layui-layer-title {
+            background: #731F4F;
+            color: #fff;
+            border: none;
+        }
+        .layui-layer-zi .layui-layer-btn a {
+    background: #731F4F;
+    border-color: #731F4F;
+}
     </style>
 </head>
 <body>
@@ -107,7 +116,7 @@
      <script src="Scripts/Common.js"></script>
     <script src="Scripts/Validform_v5.3.1.js"></script>
     <script src="Scripts/md5.js"></script>
-   
+    <script src="Scripts/layer/layer.js"></script>
     <script type="text/javascript">
        
        
@@ -191,19 +200,35 @@
                 url: HanderServiceUrl + "/Login/LoginHandler.ashx",
                 data: postData,
                 dataType: "json",
-                async: false,
                 success: function (returnVal) {
 
                     if (returnVal.result.errMsg == "success")
                     {
-                        isOK = true;//登陆验证通过
                         var data = returnVal.result.retData;
+                        if (data[0].Sys_Role_Id == 2) {
+                            var index  = layer.alert('请使用教师账号登录！', {
+                                skin: 'layui-layer-zi' //样式类名
+                                , closeBtn: 0
+                            }, function () {
+                                layer.close(index);
+                            });
+                            return;
+                        }
                         
-                        //Set_AllBtn(data[0].Sys_Role_Id);
-
+                        
                         //把用户信息存在cookie中
                         localStorage.setItem('Userinfos', JSON.stringify(data));
                         localStorage.setItem('LoginTime', Date.parse(new Date()));
+                        var user = JSON.parse(localStorage.getItem('Userinfos'));
+                        var teacher = role(user[0].UniqueNo, "IsTeacher");
+                        var student = role(user[0].UniqueNo, "IsStudent");
+
+                        if (!teacher && !student) {
+                            localStorage.setItem('Userinfo_LG', JSON.stringify(user[0]));
+                        }
+                        var ids = GetIDs('Userinfos')
+                        Set_AllBtn(ids);
+                        window.location.href = "/Index.aspx";
                     }
                     else
                     {
@@ -216,25 +241,9 @@
                     createCode();
                 }
             });
-            if (isOK) { //如果验证成功
-                var user = JSON.parse(localStorage.getItem('Userinfos'));
-                var user0 = user[0];
-               
-                var teacher = role(user0.UniqueNo, "IsTeacher");
-                
-                var student = role(user0.UniqueNo, "IsStudent");
-               
-                if (!teacher && !student) {
-                    localStorage.setItem('Userinfo_LG', JSON.stringify(user0));
-                }
-              
-
-                var ids = GetIDs('Userinfos')
-                Set_AllBtn(ids);
-
-                window.location.href = "/Index.aspx";    
-            }
+            
         }
+       
         function role(uniqueNo, roleName) {
             $.ajax({
                 type: "Post",
@@ -265,6 +274,7 @@
         }
 
         function GetIDs(itemname) {
+            console.log(localStorage.getItem(itemname))
             var ids = '';
 
             var data = JSON.parse(localStorage.getItem(itemname));
