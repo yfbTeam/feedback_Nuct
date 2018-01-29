@@ -142,7 +142,7 @@
     <script>
         var reguType = 1;
 
-       
+
         $(function () {
             Get_PageBtn("/Evaluation/TaskAllot.aspx");
 

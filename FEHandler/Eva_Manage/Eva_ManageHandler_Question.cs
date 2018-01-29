@@ -126,10 +126,13 @@ namespace FEHandler.Eva_Manage
                     switch (IsAllSchool)
                     {
                         case IsAllSchool.School:
+
+                         
                             list = (from li in list where li.RoleList.Contains( (int)RoleType.school_expert) select li).ToList();
                             break;
                         case IsAllSchool.Departemnt:
                             list = (from li in list where li.RoleList.Contains((int)RoleType.department_expert) select li).ToList();
+
                             break;
                         default:
                             break;
@@ -153,11 +156,13 @@ namespace FEHandler.Eva_Manage
                         List<Eva_QuestionModel> modellist = new List<Eva_QuestionModel>();
                         if (eva_check_depart)
                         {
+
                             modellist.AddRange((from li in list where li.RoleList.Contains((int)RoleType.department_expert) select li).ToList());
                         }
                         if (!eva_check_depart && eva_check_indepart)
                         {
                             modellist.AddRange((from li in list where li.RoleList.Contains((int)RoleType.department_expert) select li).ToList());
+
                         }
 
                         if (eva_check_school)

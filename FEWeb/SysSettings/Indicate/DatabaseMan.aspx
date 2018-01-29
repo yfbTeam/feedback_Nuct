@@ -24,13 +24,13 @@
                     <h1 class="titlea">
                         指标库管理
                     </h1>
-                    <ul class="menu_list">
+                    <ul class="menu_list" style="height:478px;overflow:auto">
 
                     </ul>
                     <input type="button" value="指标库分类管理"  class="new" onclick="newIndicator_type()"  id="Indicator_Add" />
                   
                 </div>
-                <div class="sort_right fr">
+                <div class="sort_right fr" style="height:500px;overflow:auto">
                     <div class="search_toobar clearfix">
                         <div class="fl">
                             <input type="text" name="key" id="key" placeholder="请输入关键字" value="" class="text fl">

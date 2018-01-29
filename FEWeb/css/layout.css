@@ -1,5 +1,8 @@
-﻿.msg_label, .msg_control{
-    line-height:35px;padding:0px 15px;
+﻿.uploader_msg {
+    position:absolute;top:0px;left:220px;line-height:35px;color:#333;
+}.msg_label, .msg_control {
+    line-height: 35px;
+    padding: 0px 15px;
 }
 .msg_label {
     text-align:right;

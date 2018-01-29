@@ -41,7 +41,9 @@ namespace FE_Test
 
             //var jsm = SetMenuHandler.TestGetMenuInfoHelper("3", "");
 
+
             Eva_ManageHandler.Get_Eva_QuestionAnswer_Helper(0, 100, 1, "", "", 0, "", IsAllSchool.School, FEModel.Enum.ModeType.Check, true, true, true);
+
         }
 
 
