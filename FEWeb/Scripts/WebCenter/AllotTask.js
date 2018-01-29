@@ -12,54 +12,7 @@ var selectExpertName = '';
 
 
 function PrepareInit() {
-   
-    //$('#teachers').find('li:has(ul)').hover(function () {
-    //    $(this).children('ul').show();
-    //    $(this).addClass('selected');
-
-    //    var parent_ = $(this);
-
-    //    $(this).children('ul').find('li').off('click');
-    //    $(this).children('ul').find('li').click(function () {
-    //        if ($(this).attr('flg') != 'selected') {
-    //            $(this).addClass('selected');
-    //            //加数据
-    //            var Course_UniqueNo = $(this).find('span').attr('Course_UniqueNo');
-    //            var TeacherUID = $(this).find('span').attr('TeacherUID');
-    //            var Teacher_Name = $(this).find('span').attr('Teacher_Name');
-    //            var Course_Name = $(this).find('span').text();
-    //            AddDis(Course_UniqueNo, Course_Name, TeacherUID, Teacher_Name);
-
-    //            $(this).attr('flg', 'selected');
-    //            parent_.attr('flg', 'selected');
-
-    //        } else {
-    //            $(this).removeClass('selected');
-    //            //移除数据
-    //            var Course_UniqueNo = $(this).find('span').attr('Course_UniqueNo');
-    //            var TeacherUID = $(this).find('span').attr('TeacherUID');
-    //            var Teacher_Name = $(this).find('span').attr('Teacher_Name');
-    //            var Course_Name = $(this).find('span').text();
-    //            RemoveDis(Course_UniqueNo, TeacherUID);
-
-    //            $(this).attr('flg', '');
-    //            parent_.attr('flg', '');
-    //        }
-
-    //    })
-    //}, function () {
-    //    //var li_count = $(this).children('ul').find('li').length;
-    //    var li_selected_count = $(this).children('ul').find('li[flg=selected]').length;
-
-
-    //    if (li_selected_count == 0) {
-    //        $(this).removeClass('selected');
-    //        $(this).attr('flg', '');
-    //    }
-    //    $(this).children('ul').hide();
-    //})
-           
-    
+  
     switch (PageType) {
         case 'StartEval':
             $("#btn_no").tmpl(1).appendTo(".btnwrap");
@@ -82,28 +35,6 @@ function PrepareInit() {
 
 
 
-function deEvent(obj) {
-    //$("#item_ExpertTeacher").tmpl(obj).appendTo("#selected_course");
-    //$('#selected_course').find('i').off('click');
-    ////移除事件
-    //$('#selected_course').find('i').on('click', function () {
-    //    $(this).parent().remove();
-    //    var TeacherUID = $(this).parent().attr('TeacherUID');
-    //    var Course_UniqueNo = $(this).parent().attr('Course_UniqueNo');
-    //    RemoveDis(Course_UniqueNo, TeacherUID);
-
-    //    var lis = $('#teachers').find('li:has(ul)').find('span[TeacherUID=' + TeacherUID + '][Course_UniqueNo=' + Course_UniqueNo + ']').parent();
-    //    lis.removeClass('selected');
-    //    lis.attr('flg', '');
-
-    //    var count = lis.parent().find('li[flg=selected]').length;
-    //    if (count == 0) {
-    //        lis.parent().parent().removeClass('selected');
-    //        lis.parent().parent().attr('flg', 'selected');
-    //    }
-    //});
-}
-
 
 function AddDis(CourseID, CourseName, TeacherUID, TeacherName) {
    
@@ -124,7 +55,7 @@ function AddDis(CourseID, CourseName, TeacherUID, TeacherName) {
     var list = select_course_teacher.filter(function (i) { return i.TeacherUID == TeacherUID && i.CourseId == CourseID });
     if (list.length == 0)
     {
-        debugger;
+      
         select_course_teacher.push(obj);
     }
 }
@@ -155,8 +86,7 @@ function RemoveDis(Course_UniqueNo, TeacherUID) {
     if (data.length > 0) {
         select_course_teacher.remove(data[0]);
     }
-    //var li = $('#selected_course').find('li[Course_UniqueNo=' + Course_UniqueNo + ']');
-    //li.remove();
+  
 }
 
 function GetTeacherInfo_Course_ClsCompleate() { };
@@ -180,48 +110,22 @@ function GetTeacherInfo_Course_Cls() {
                       
                         default:
                     }
-                    //Teachers_Reflesh();
-                    //select_course_teacher = [];
-                    //TeachersFilter();
-
+                  
                     GetTeacherInfo_Course_ClsCompleate(Teachers);
                 }
             },
             error: function (errMsg) {
                 layer.msg("失败2");
             }
-        });
-    //}
-}
-function Teachers_Reflesh() {
-
-    //$('#teachers').empty();
-
-    //var DepartMent = $('#DepartMent').val() != null ? $('#DepartMent').val().trim() : '';
-    //var key = $('#key').val() != null ? $('#key').val().trim() : '';
-    //var teachers_temp = Teachers;
-
-    //if (DepartMent != '0') {
-    //    teachers_temp = teachers_temp.filter(function (item) { return item.Department_UniqueNo == DepartMent });
-    //}
-    //if (key != '') {
-    //    teachers_temp = teachers_temp.filter(function (item) { return item.Teacher_Name.indexOf(key) > -1 });
-    //}
-    //if (teachers_temp.length == 0) {
-    //    nomessage('#teachers', 'li', 25, 321);
-    //}
-
-    //$("#item_Teachers").tmpl(teachers_temp).appendTo("#teachers");
-    //PrepareInit();
-
+        });  
 }
 
 
-
+var DepartmentID = '';
 //获取督导专家
 function GetUserByType(userType) {
     if (ExpertList == null) {
-        var postData = { func: "GetUserByType", type: userType };
+        var postData = { func: "GetUserByType", type: userType, "DepartmentID": DepartmentID };
         $.ajax({
             type: "Post",
             url: HanderServiceUrl + "/UserMan/UserManHandler.ashx",
@@ -305,47 +209,6 @@ function ExpertListReflesh() {
    
 }
 
-
-function TeachersFilter() {
-
-    //var lis = $('#teachers').find('li:has(ul)').find('span').parent();
-
-    //lis.removeClass('selected');
-    //lis.attr('flg', '');
-
-    //lis.parent().parent().removeClass('selected');
-    //lis.parent().parent().attr('flg', '');
-    //Teachers.filter(function (item) {
-    //    item.T_C_Model_Childs.filter(function (child) {
-    //        if (child.Selected) {
-    //            var obj = {
-    //                CourseId: child.Course_UniqueNo,
-    //                Course_Name: child.Course_Name,
-    //                TeacherUID: child.TeacherUID,
-    //                TeacherName: item.Teacher_Name,
-    //                SecionID: select_sectionid,
-    //                ReguId: select_reguid,
-    //                ExpertUID: child.SelectedExperUID,
-    //                ExpertName: child.SelectedExperName,
-    //                CreateUID: cookie_Userinfo.UniqueNo,
-    //                EditUID: cookie_Userinfo.UniqueNo,
-    //                Type: expType,
-    //            };
-
-    //            if (selectExpertUID == obj.ExpertUID) {
-    //                select_course_teacher.push(obj);
-    //                var tea = obj.TeacherName;
-    //                var lis = $('#teachers').find('li:has(ul)').find('span[TeacherUID=' + obj.TeacherUID + '][Course_UniqueNo=' + obj.CourseId + ']').parent();
-    //                lis.addClass('selected');
-    //                lis.attr('flg', 'selected');
-    //                lis.parent().parent().addClass('selected');
-    //                lis.parent().parent().attr('flg', 'selected');
-    //                deEvent(obj);
-    //            }
-    //        }
-    //    });
-    //});
-}
 var DisModelType = 0;
 function AddExpert_List_Teacher_CourseCompleate() { };
 function AddExpert_List_Teacher_Course() {

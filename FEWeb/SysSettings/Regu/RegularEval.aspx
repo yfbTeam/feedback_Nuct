@@ -52,6 +52,18 @@
         .menu_list li ul li {
             padding: 0px 10px 0px 20px;
         }
+
+        /*.operates {
+            display: none;
+        }
+
+        .new {
+            display: none;
+        }
+
+        .btn {
+            display: none;
+        }*/
     </style>
 
 </head>
@@ -66,7 +78,7 @@
                     <h1 class="titlea">学年学期</h1>
                     <ul class="menu_list" id="menu_listscours">
                     </ul>
-                    <%-- <input type="button" value="新增学期" style="" class="new" />--%>
+
                 </div>
                 <div class="sort_right fr">
                     <div class="search_toobar clearfix">
@@ -74,8 +86,7 @@
                             <input type="text" name="" id="key" placeholder="请输入教师名称" value="" class="text fl">
                             <a class="search fl" href="javascript:;" onclick="SelectByWhere()"><i class="iconfont">&#xe600;</i></a>
                         </div>
-                        <div class="fr "  id="operator" >
-                          
+                        <div class="fr " id="operator">
                         </div>
                     </div>
                     <div class="table">
@@ -132,20 +143,20 @@
             <td title="${Course_Name}" style="width: 25%">${cutstr(Course_Name,30)}</td>
             <td>${ExpertName}</td>
             <td>${State}</td>
-            {{if StateType == 2}}
+            {{if StateType == 2 || StateType ==3}}
              <td class="operate_wrap">
-                <div class="operate">
-                    <i class="iconfont color_gray">&#xe61b;</i>
-                    <span class="operate_none bg_gray">删除</span>
-                </div>
-            </td>
-            {{else}}          
+                 <div class="operate">
+                     <i class="iconfont color_gray">&#xe61b;</i>
+                     <span class="operate_none bg_gray">删除</span>
+                 </div>
+             </td>
+            {{else StateType ==1}}          
              <td class="operate_wrap">
-                <div class="operate" onclick='remove_data(${Id})'>
-                    <i class="iconfont color_purple">&#xe61b;</i>
-                    <span class="operate_none bg_purple">删除</span>
-                </div>
-            </td>
+                 <div class="operate" onclick='remove_data(${Id})'>
+                     <i class="iconfont color_purple">&#xe61b;</i>
+                     <span class="operate_none bg_purple">删除</span>
+                 </div>
+             </td>
             {{/if}}
         </tr>
     </script>
@@ -156,47 +167,56 @@
             <span>${course_parent.DisPlayName}<i class="iconfont">&#xe643;</i></span>
             <ul>
                 {{each objectlist}}
-                <li ReguState="${ReguState}">
+                <li regustate="${ReguState}">
                     <em title="{{= $value.Value}}" onclick="GetCourseinfoBySortMan('{{= $value.Id}}')">{{= cutstr($value.Value,10)}}</em>
-                    <div class="operates">
-                        {{if ReguState == 1}}                        
+
+                    {{if mange == true || rid ==1}}
+                     <div class="operates">
+                         {{if ReguState == 1}}                        
                          
                          <div class="operate" onclick="OpenIFrameWindow('编辑评价', 'EditEval.aspx?Id={{= $value.Id}}', '600px', '250px')">
                              <i class="iconfont color_purple">&#xe632;</i>
                              <a class='operate_none bg_purple'>设置</a>
                          </div>
-                          <div class="operate ml5" onclick="remove('{{= $value.Id}}','{{= $value.Value}}');">
-                            <i class="iconfont color_purple">&#xe61b;</i>
-                            <a class='operate_none bg_purple'>删除</a>
-                        </div>
-                       
-                        {{else ReguState ==2}}
+                         <div class="operate ml5" onclick="remove('{{= $value.Id}}','{{= $value.Value}}');">
+                             <i class="iconfont color_purple">&#xe61b;</i>
+                             <a class='operate_none bg_purple'>删除</a>
+                         </div>
+
+                         {{else ReguState ==2}}
                          <div class="operate" onclick="OpenIFrameWindow('编辑评价', 'EditEval.aspx?Id={{= $value.Id}}', '600px', '250px')">
                              <i class="iconfont color_purple">&#xe632;</i>
                              <a class='operate_none bg_purple'>设置</a>
                          </div>
                          <div class="operate ml5">
-                            <i class="iconfont color_gray">&#xe61b;</i>
-                         
-                        </div>
+                             <i class="iconfont color_gray">&#xe61b;</i>
+                         </div>
                          {{else ReguState ==3}}
                         <div class="operate">
-                             <i class="iconfont color_gray">&#xe632;</i>                            
-                         </div>
-                        <div class="operate ml5">
-                            <i class="iconfont color_gray">&#xe61b;</i>                         
+                            <i class="iconfont color_gray">&#xe632;</i>
                         </div>
-                        {{/if}}
+                         <div class="operate ml5">
+                             <i class="iconfont color_gray">&#xe61b;</i>
+                         </div>
+                         {{/if}}
+                     </div>
+                    {{else}}
+                    {{/if}}
 
-                       
-                    </div>
+                   
                 </li>
-                {{/each}}                                    
-                {{if course_parent.Study_IsEnable == 0}}
-                <input type="button" value="新增评价" style="display: block" class="new" onclick="OpenIFrameWindow('新增评价', 'AddEval.aspx?itemid=0&SectionId={{= course_parent.SectionId}}&IsEnable=0', '600px', '250px')" />
+                {{/each}}     
+                
+                 {{if mange || rid ==1}}
+                                               
+                {{if course_parent.Study_IsEnable == 0 }}
+                <input type="button" value="新增评价" class="new" onclick="OpenIFrameWindow('新增评价', 'AddEval.aspx?itemid=0&SectionId={{= course_parent.SectionId}}&IsEnable=0', '600px', '250px')" />
                 {{else course_parent.Study_IsEnable== 1}}
-                  <input type="button" value="新增评价" style="display: block;background:#A8A8A8" class="new"  />
+                  <input type="button" value="新增评价" style="background: #A8A8A8" class="new" />
                 {{/if}}
+
+                 {{else}}
+                 {{/if}}
               
             </ul>
         </li>
@@ -208,11 +228,17 @@
 
 
     <script type="text/x-jquery-tmpl" id="itemAllot">
-        <input type="button" name="" id="" value="分配任务" class="btn"  onclick="AllotTask()">
+        {{if allot || rid ==1}}
+        <input type="button" name="" id="" value="分配任务" class="btn" onclick="AllotTask()">
+        {{else}}
+        {{/if}}
     </script>
 
-     <script type="text/x-jquery-tmpl" id="itemAllotNo">
-        <input type="button" name="" id="" value="分配任务" class="btn"  style="background:#A8A8A8">
+    <script type="text/x-jquery-tmpl" id="itemAllotNo">
+         {{if allot || rid ==1}}
+        <input type="button" name="" id="" value="分配任务" class="btn" style="background: #A8A8A8">
+        {{else}}
+        {{/if}}
     </script>
 </body>
 </html>
@@ -222,12 +248,14 @@
     var select_reguid = 0;
     var SectionList = [];
     $(function () {
+        limitreflesh();
+
 
         Get_Eva_RegularCompleate = function () {
             PrepareInit();
         };
         Get_Eva_Regular(0, 1);
-       
+
         Delete_Eva_RegularCompleate = function () {
             Reflesh();
         }
@@ -238,7 +266,7 @@
         Get_Eva_RegularCompleate = function () {
             PrepareInit();
         };
-        Get_Eva_Regular(0, 1);    
+        Get_Eva_Regular(0, 1);
     }
 
     function AllotTask() {
@@ -261,6 +289,18 @@
 
     function SelectByWhere() {
         Get_Eva_RegularData(select_reguid, 0);
+    }
+
+
+    var mange = false;
+    var allot = false;
+    var rid = 0;
+    function limitreflesh() {
+     
+        Get_PageBtn("/SysSettings/Regu/RegularEval.aspx");
+        mange = JudgeBtn_IsExist("mange")
+        allot = JudgeBtn_IsExist("allot")
+        rid = login_User.Sys_Role_Id;
     }
 
 

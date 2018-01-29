@@ -11,6 +11,13 @@ var DPList = [];
 var ClsList = [];
 
 
+var department = false;
+var school = false;
+var all = false;
+var rid = 0;
+
+
+
 function ShowUserGroup_Compleate() { };
 //显示用户组
 function ShowUserGroup() {
@@ -27,6 +34,9 @@ function ShowUserGroup() {
                 var lists = returnVal.result.retData;
                 if (lists != null && lists.length > 0) {
                     $('#li_role').tmpl(lists).appendTo('#ShowUserGroup');
+                    $('#btnadditem').tmpl(1).appendTo('#ShowUserGroup');
+
+
                     $('#header_th').empty();
                     $('#header_stu').tmpl(1).appendTo('#header_th');
                     CurrentRoleid = lists[0].RoleId;
@@ -36,7 +46,7 @@ function ShowUserGroup() {
                     })
                     tableSlide();
 
-                    $('#ShowUserGroup').find('li[roleid=' + CurrentRoleid + ']').trigger("click");
+                   
                 }
             }
         },
@@ -93,14 +103,16 @@ function Ope_UserGourp_Helper(Id, Name, Type) {
 
 var Dp = '';
 var Cls = '';
-var key ='';
+var key = '';
 var pageSize = 10;
 function Get_UserByRoleID(PageIndex) {
 
     Dp = $('#college').val();
     Cls = $('#class').val();
-    key =  $('#key').val()
-    
+    key = $('#key').val()
+
+    Cls = CurrentRoleid != 2 ? '' : Cls;
+
     var postData = {
         func: "Get_UserByRoleID", "RoleID": CurrentRoleid, "PageIndex": PageIndex,
         "PageSize": pageSize, "Key": key, "Dp": Dp, "Cls": Cls,
@@ -117,7 +129,7 @@ function Get_UserByRoleID(PageIndex) {
             if (returnVal.result.errMsg == "success") {
                 var data = returnVal.result.retData;
                 layer.close(layer_index);
-             
+
                 $('#ShowUserInfo').empty();
 
                 if (data.length <= 0) {
@@ -128,7 +140,7 @@ function Get_UserByRoleID(PageIndex) {
                 else {
                     $('#pageBar').show();
                 }
-             
+
 
                 $('#ShowUserInfo').empty();
                 if (CurrentRoleid == 2) {
@@ -165,8 +177,9 @@ function Get_UserByRoleID(PageIndex) {
     });
 }
 
+
 function Get_UserByRole_SelectCompleate() { };
-function Get_UserByRole_Select() {   
+function Get_UserByRole_Select() {
     $.ajax({
         type: "Post",
         url: HanderServiceUrl + "/UserMan/UserManHandler.ashx",
@@ -175,18 +188,30 @@ function Get_UserByRole_Select() {
         },
         dataType: "json",
         success: function (returnVal) {
-            if (returnVal.result.errMsg == "success") {               
+            if (returnVal.result.errMsg == "success") {
                 var data = returnVal.result.retData;
                 ClsList = data.ClsList;
                 DPList = data.DPList;
-                $("#item_College").tmpl(DPList).appendTo($('#college'));
+
                 $("#item_Class").tmpl(ClsList).appendTo($('#class'));
                 ChosenInit($('#class'));
-                ChosenInit($('#college'));
 
-                Get_UserByRole_SelectCompleate();                
+
+                if (department && rid != 1) {
+                    var obj = { Major_ID: login_User.Major_ID, DepartmentName: login_User.DepartmentName };
+                    $("#college").empty();
+                    $("#item_College").tmpl(obj).appendTo("#college");
+
+                    colloge = login_User.Major_ID;
+                }
+                else {
+                    $("#item_College").tmpl(DPList).appendTo($('#college'));
+                    ChosenInit($('#college'));
+                }
+
+                Get_UserByRole_SelectCompleate();
             }
-            else {             
+            else {
                 layer.msg(returnVal.result.retData);
             }
         },

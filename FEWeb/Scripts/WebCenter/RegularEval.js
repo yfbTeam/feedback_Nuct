@@ -53,7 +53,7 @@ function PrepareInit() {
                 $("#itemAllotNo").tmpl(1).appendTo("#operator");
                 break;
             default:
-        }
+        }  
     });
 
     $('.menu_list').find('li:has(ul)').children('span').each(function () {
@@ -162,7 +162,7 @@ function Get_Eva_Regular(SectionId, Type) {
 
                 var retData = json.result.retData;
                 var retdata = Enumerable.From(retData).GroupBy(function (x) { return x.SectionId }).ToArray();
-                //retdata = Enumerable.From(retdata).OrderByDescending(function (child) { child.source[0].SectionId }).ToArray()
+                
                 var data = [];
                 for (var i in retdata) {
                     var da = retdata[i].source;

@@ -99,6 +99,7 @@ var UI_Allot =
         reUserinfoByselect = reUserinfoAll;
 
         select_uniques = [];
+        debugger;
         //数组合并
         for (var i = 0; i < reUserinfoByselect.length; i++) {
             var index = isHasElement(reUserinfoByselect_uniques, reUserinfoByselect[i].UniqueNo);
@@ -224,14 +225,8 @@ function GetTeachers_New() {
         success: function (returnVal) {
             if (returnVal.result.errMsg == "success") {
                 reUserinfoAll = returnVal.result.retData;
-                console.log(reUserinfoAll)
-                for (var i in reUserinfoAll) {
-                    var info = reUserinfoAll[i];
-                    if (info.Roleid == CurrentRoleid) {
-                        reUserinfoByselect_uniques.push(info.UniqueNo);
-                    }
-                }
-
+                reUserinfoByselect_uniques = [];
+                reUserinfoAll.filter(function (item) {  if(isHasElement(item.RoleList, CurrentRoleid) > -1){reUserinfoByselect_uniques.push(item.UniqueNo)} });               
                 GetTeachers_NewCompleate();
             }
         },

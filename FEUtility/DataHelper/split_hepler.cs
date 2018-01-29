@@ -72,6 +72,10 @@ namespace FEUtility
                     //联系人的ID获取
                     arri = strings.Split(new char[] { ',' });                   
                 }
+                else
+                {
+                    arri = new string[0];
+                }
             }
             catch (Exception ex)
             {

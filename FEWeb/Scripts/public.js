@@ -254,6 +254,7 @@ function accAdd(arg1, arg2) {
     m = Math.pow(10, Math.max(r1, r2));
     return (arg1 * m + arg2 * m) / m;
 }
+ 
 
 //获取指标分类【判定当前身份应该获取的指标类型】
 function get_IndicatorType_by_rid() {
