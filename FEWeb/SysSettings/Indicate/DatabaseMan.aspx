@@ -20,7 +20,7 @@
                
             </div>
             <div class="sortwrap clearfix mt20">
-                <div class="menu fl">
+                <div class="menu fl" style="height:500px;overflow:auto">
                     <h1 class="titlea">
                         指标库管理
                     </h1>
@@ -31,7 +31,7 @@
                     <%--<input type="button" value="新增指标分类" style="display:none" class="new" onclick="newIndicator_type()" id="Indicator_Add" />--%>
                     <%--onclick="    OpenIFrameWindow('指标库分类管理', 'DataBaseSort.aspx', '900px', '650px')"--%>
                 </div>
-                <div class="sort_right fr">
+                <div class="sort_right fr" style="height:500px;overflow:auto">
                     <div class="search_toobar clearfix">
                         <div class="fl">
                             <input type="text" name="key" id="key" placeholder="请输入关键字" value="" class="text fl">
