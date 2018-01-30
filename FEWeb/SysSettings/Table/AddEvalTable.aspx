@@ -53,7 +53,7 @@
                 <div class="fl evaltable_left">
                     <div class="search_toobar clearfix">
                         <div class="fl">
-                            <label for="">评价表名称:</label>
+                            <label for="">评价表名称：</label>
                             <input type="text" name="" id="Name" fl="评价表名称" isrequired="true" placeholder="请填写评价表名称" value="" class="text" style="border-right: 1px solid #cccccc; width: 500px; align-content: center">
                         </div>
                         <div class="fl ml10 checkbox">
