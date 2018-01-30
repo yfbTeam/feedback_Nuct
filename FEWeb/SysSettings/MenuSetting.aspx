@@ -48,15 +48,12 @@
     <input type="hidden" id="CreateUID" value="011" />
 
     <div class="main clearfix" style="min-height: 517px;">
-        <div class="menu fl">
+        <div class="menu fl" style="height:590px;overflow:auto;">
             <ul class="menu_list">
-                <li><span class="selected">教学成果奖</span></li>
-                <li><span>教学成果奖</span></li>
-                <li><span>教学成果奖</span></li>
-                <li><span>教学成果奖</span></li>
+                
             </ul>
         </div>
-        <div class="menu_right">
+        <div class="menu_right" style="height:590px;overflow:auto;">
             <div class="btnwrap" style="width: 0">
                 <input type="button" value="新增" class="btn" onclick="addNew()" />
             </div>
