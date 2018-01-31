@@ -117,42 +117,42 @@
                         <span>
                             <input type="radio" disabled="disabled" name="" id="" value="" />
                             <label>A${$value.OptionA}</label>
-                            <b class="isscore">(<span class="numbers">${$value.OptionA_S}</span>分)</b>
+                            <b class="isscore">(<span class="numbers">${$value.OptionA_S.toFixed(2)}</span>分)</b>
                         </span>
                         {{/if}}
                         {{if $value.OptionB!=""}}
                         <span>
                             <input type="radio" disabled="disabled" name="" id="" value="" />
                             <label>B${$value.OptionB}</label>
-                            <b class="isscore">(<span class="numbers">${$value.OptionB_S}</span>分)</b>
+                            <b class="isscore">(<span class="numbers">${$value.OptionB_S.toFixed(2)}</span>分)</b>
                         </span>
                         {{/if}}
                         {{if $value.OptionC!=""}}
                         <span>
                             <input type="radio" disabled="disabled" name="" id="" value="" />
                             <label>C${$value.OptionC}</label>
-                            <b class="isscore">(<span class="numbers">${$value.OptionC_S}</span>分)</b>
+                            <b class="isscore">(<span class="numbers">${$value.OptionC_S.toFixed(2)}</span>分)</b>
                         </span>
                         {{/if}}
                         {{if $value.OptionD!=""}}
                         <span>
                             <input type="radio" disabled="disabled" name="" id="" value="" />
                             <label>D${$value.OptionD}</label>
-                            <b class="isscore">(<span class="numbers">${$value.OptionD_S}</span>分)</b>
+                            <b class="isscore">(<span class="numbers">${$value.OptionD_S.toFixed(2)}</span>分)</b>
                         </span>
                         {{/if}}
                         {{if $value.OptionE!=""}}
                         <span>
                             <input type="radio" disabled="disabled" name="" id="" value="" />
                             <label>E${$value.OptionE}</label>
-                            <b class="isscore">(<span class="numbers">${$value.OptionE_S}</span>分)</b>
+                            <b class="isscore">(<span class="numbers">${$value.OptionE_S.toFixed(2)}</span>分)</b>
                         </span>
                         {{/if}}
                          {{if $value.OptionF!=""}}
                         <span>
                             <input type="radio" disabled="disabled" name="" id="" value="" />
                             <label>F${$value.OptionF}</label>
-                            <b class="isscore">(<span class="numbers">${$value.OptionF_S}</span>分)</b>
+                            <b class="isscore">(<span class="numbers">${$value.OptionF_S.toFixed(2)}</span>分)</b>
                         </span>
                         {{/if}}
                     </div>

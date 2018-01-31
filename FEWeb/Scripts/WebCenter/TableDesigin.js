@@ -794,7 +794,7 @@ var UI_Table_Create =
         OpenIFrameWindow('选择指标库', '../../SysSettings/Indicate/SelectDataBase.aspx?page=0', '1170px', '700px');//page 为1表示定期  2表示即时和扫码
     },
     onlyNum: function () {
-        if (event.keyCode == 190) {
+        if (event.keyCode == 190 || event.keyCode == 110) {
             event.returnValue = true;
             return;
         }

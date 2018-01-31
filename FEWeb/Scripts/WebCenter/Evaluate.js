@@ -306,6 +306,7 @@ var Mode = 1;  //Check  Record
 var AnswerUID = ''; //专家，不填则为管理员
 
 var IsAllSchool = 0;
+var eva_check_depart = false, eva_check_school = false, eva_check_indepart = false;//专家 所有  专家（校）
 
 function Get_Eva_QuestionAnswerCompleate() { };
 function Get_Eva_QuestionAnswer(PageIndex, SectionID, DepartmentID, Key, TableID) {
@@ -654,7 +655,7 @@ function Get_Eva_RoomDetailAnswerList(PageIndex, TableDetailID) {
 
 
 function onlyNum() {
-    if (event.keyCode == 190) {
+    if (event.keyCode == 190 || event.keyCode == 110) {
         event.returnValue = true;
         return;
     }

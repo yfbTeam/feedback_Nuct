@@ -61,7 +61,7 @@
                     </h1>
                     <ul class="menu_list" id="menu_listscours">
                     </ul>
-                    <%--  <input type="button" value="新增分类" style="display: block" class="new" onclick="OpenIFrameWindow('新增分类', 'AddCourseSort.aspx', '500px', '200px')" />--%>
+                  
                 </div>
                 <div class="sort_right fr mr" style="margin-left: -20px">
                     <div class="search_toobar clearfix">
@@ -125,10 +125,10 @@
     </script>
     <script id="course_item" type="text/x-jquery-tmpl">
         <li sectionid='${course_parent.SectionId}'>
-            <span>${course_parent.DisPlayName}<i class="iconfont">&#xe643;</i></span>
+            <span onclick="GetCourseinfoBySortManType('{{= course_parent.SectionId}}')">${course_parent.DisPlayName}<i class="iconfont">&#xe643;</i></span>
             <ul>
                 {{each objectlist}}
-                <li regustate="${ReguState}">
+                <li class="typeli" regustate="${ReguState}">
                     <em title="{{= $value.Value}}" onclick="GetCourseinfoBySortMan('{{= $value.Key}}','{{= $value.Value}}','{{= $value.SectionId}}')">{{= cutstr($value.Value,10)}}</em>
 
                     {{if ReguState == 3}}                        
@@ -175,7 +175,8 @@
     </script>
 
     <script type="text/x-jquery-tmpl" id="itemAllotNo">
-        <input type="button" value="分配评价表" class="btn mr10" style="background: #A8A8A8" />
+       <%-- <input type="button" value="分配评价表" class="btn mr10" style="background: #A8A8A8" />--%>
+        <input type="button" value="分配评价表" class="btn mr10" onclick="OpenTableAllot(-1)" />
         <input type="button" name="" value="分配课程" class="btn" style="background: #A8A8A8">
     </script>
 </body>
@@ -227,6 +228,19 @@
         var key = $("#select_where").val();
         UI_Course.GetCourseInfo(pageIndex, select_sectionid, key, select_CourseTypeId);
     }
+
+    //点击课程分类
+    function GetCourseinfoBySortManType(SectionId) {
+        select_CourseTypeId = -1;
+        select_CourseTypeName = '';
+        select_sectionid = SectionId;
+        pageIndex = 0;
+        UI_Course.select_CourseTypeId = -1;
+        UI_Course.select_CourseTypeName = '';
+        var key = $("#select_where").val();
+        UI_Course.GetCourseInfo(pageIndex, select_sectionid, key, select_CourseTypeId);
+    }
+
     //搜索
     function all_change() {
         var key = $("#select_where").val();
@@ -244,8 +258,8 @@
         }, function () { UI_Course.remove(id) });
     }
 
-    function OpenTableAllot() {
-        OpenIFrameWindow('分配表格', 'EvalTableAllot.aspx?Id=' + getQueryString('Id') + '&Iid=' + getQueryString('Iid') + '&select_CourseTypeId=' + select_CourseTypeId + '&select_CourseTypeName=' + select_CourseTypeName, '1000px', '650px');
+    function OpenTableAllot(state) {
+        OpenIFrameWindow('分配表格', 'EvalTableAllot.aspx?Id=' + getQueryString('Id') + '&Iid=' + getQueryString('Iid') + '&select_CourseTypeId=' + select_CourseTypeId + '&select_CourseTypeName=' + select_CourseTypeName + '&state=' + state, '1000px', '650px');
     }
 </script>
 
