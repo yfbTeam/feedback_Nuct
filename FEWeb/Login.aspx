@@ -11,7 +11,6 @@
     <link href="css/login.css" rel="stylesheet"/>
     <link href="css/animate.css" rel="stylesheet" />
     <link href="css/font-awesome.min.css" rel="stylesheet" />
-    
     <style type="text/css">
         /*iconfont*/
 .iconfont {
@@ -108,41 +107,25 @@
             </div>
         </div>
     </div>
-    <footer id="footer" class="footer">
-        
-    </footer>
+    <footer id="footer" class="footer"></footer>
     <script src="Scripts/jquery-1.11.2.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
      <script src="Scripts/Common.js"></script>
     <script src="Scripts/Validform_v5.3.1.js"></script>
-    <script src="Scripts/md5.js"></script>
     <script src="Scripts/layer/layer.js"></script>
     <script type="text/javascript">
-       
-       
-        $(function ()
-        {
+        $(function (){
             $('#footer').load('/footer.html');
             Checkcookie();
            //加载验证码
             createCode();
-           
             //回车提交事件
-            enterSubmit('#inpCode', function () {
-                $("#LoginButton").click();   
+            $('#inpCode').keydown(function (e) {
+                e = e || window.event;
+                if ((e.keyCode || e.which) == "13") {
+                    $("#LoginButton").click();   
+                }
             })
-            /*回车提交方法
-            *param:obj  对象
-            *param:cb   回调方法
-            */
-            function enterSubmit(obj, cb) {
-                $(obj).keydown(function (e) {
-                    e = e || window.event;
-                    if ((e.keyCode || e.which) == "13") {
-                        cb();
-                    }
-                })
-            }
             var valiNewForm = $("#LoginForm").Validform({
                 datatype: {
                     "iCode": function (gets, obj, curform, regxp) {
@@ -151,7 +134,6 @@
                           curform为当前验证的表单，
                           regxp为内置的一些正则表达式的引用。*/
                         var reg1 = regxp["*"];
-
                         var hidcode = curform.find("#hidCode");
                         if (reg1.test(gets)) { if (hidcode.val().toUpperCase() == gets.toUpperCase()) { return true; } }
                         return false;
@@ -163,8 +145,7 @@
                 showAllError: false,
                 beforeSubmit: function (curform) {
                     //在验证成功后，表单提交前执行的函数，curform参数是当前表单对象。
-                    //这里明确return false的话表单将不会提交;	
-                    ;
+                    //这里明确return false的话表单将不会提交;
                      Login();
                 }
             })
@@ -176,7 +157,6 @@
             var checkCode = document.getElementById("checkCode");
             checkCode.innerHTML = "";
             var selectChar = new Array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'j', 'k', 'l', 'm', 'n', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'J', 'K', 'L', 'M', 'N', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z');
-
             for (var i = 0; i < codeLength; i++) {
                 var charIndex = Math.floor(Math.random() * 60);
                 code += selectChar[charIndex];
@@ -186,24 +166,16 @@
             }
             checkCode.innerHTML = code;
             $("#hidCode").val(code);
-            //$("#inpCode").val(code);
         }
-
-        function Login()
-        {
-            var loginName = $("#txt_loginName").val()
-            var passWord = $("#txt_passWord").val()
-            var isOK = false;
-            var postData = { "Func": "Login", "loginName": loginName, "passWord": passWord };
+        function Login(){
+            var postData = { "Func": "Login", "loginName": $("#txt_loginName").val().trim(), "passWord": $("#txt_passWord").val().trim() };
             $.ajax({
                 type: "Post",
                 url: HanderServiceUrl + "/Login/LoginHandler.ashx",
                 data: postData,
                 dataType: "json",
                 success: function (returnVal) {
-
-                    if (returnVal.result.errMsg == "success")
-                    {
+                    if (returnVal.result.errMsg == "success"){
                         var data = returnVal.result.retData;
                         if (data[0].Sys_Role_Id == 2) {
                             var index  = layer.alert('请使用教师账号登录！', {
@@ -220,16 +192,14 @@
                         var user = JSON.parse(localStorage.getItem('Userinfos'));
                         var teacher = role(user[0].UniqueNo, "IsTeacher");
                         var student = role(user[0].UniqueNo, "IsStudent");
-
                         if (!teacher && !student) {
                             localStorage.setItem('Userinfo_LG', JSON.stringify(user[0]));
                         }
                         var ids = GetIDs('Userinfos')
                         Set_AllBtn(ids);
                     }
-                    else
-                    {
-                        alert("用户名密码错误");
+                    else{
+                        layer.msg("用户名密码错误");
                         createCode();
                     }
                 },
@@ -238,38 +208,26 @@
                     createCode();
                 }
             });
-            
         }
-       
         function role(uniqueNo, roleName) {
             $.ajax({
                 type: "Post",
                 url: HanderServiceUrl + "/Login/LoginHandler.ashx",
                 data: { "Func": roleName, "UniqueNo": uniqueNo },
                 dataType: "json",
-                async: false,
                 success: function (returnVal) {
                     if (returnVal.result.errMsg == "success") {
                         var data = returnVal.result.retData;
-
                         localStorage.setItem('Userinfo_LG', JSON.stringify(data));
-                        
                         //将教师角色加入到集合
                         var user = JSON.parse(localStorage.getItem('Userinfos'));
                         user.push(data);
                         localStorage.setItem('Userinfos', JSON.stringify(user));
-                        return true;
-                    }
-                    else {
-                        return false;
                     }
                 },
-                error: function (errMsg) {
-                    return false;
-                }
+                error: function (errMsg) {}
             });
         }
-
         function GetIDs(itemname) {
             var ids = '';
             var data = JSON.parse(localStorage.getItem(itemname));
@@ -277,14 +235,11 @@
             ids = (ids.substring(ids.length - 1) == ',') ? ids.substring(0, ids.length - 1) : ids;
             return ids;
         }
-      
-        function Checkcookie()
-        {
+        function Checkcookie(){
             var cookie_Userinfo = localStorage.getItem('Userinfo_LG');
             var LoginTime = localStorage.getItem('LoginTime');
             var curData = Date.parse(new Date());
-            if (cookie_Userinfo != null && cookie_Userinfo != "null" && LoginTime != null && (curData - LoginTime)<=1000*60*60)
-            {
+            if (cookie_Userinfo != null && cookie_Userinfo != "null" && LoginTime != null && (curData - LoginTime)<=1000*60*60){
                 window.location.href = "/Index.aspx";
             }
         }
