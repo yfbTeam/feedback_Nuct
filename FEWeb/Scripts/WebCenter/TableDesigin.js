@@ -614,12 +614,16 @@ var UI_Table_Create =
             //实时总分
             var total = 0;
             $("#text_list1 li h2").each(function () {
-                var total_1 = $(this).find('input[type="text"]').val();
-                if (total_1 == "" || total_1 == undefined) {
+                var total_1 = $(this).find('input[type="Number"]').val();
+                if (total_1 != '' && total_1 != undefined)
+                {
+                    total_1 = Number(total_1);
+                }
+                else {
                     total_1 = 0;
                 }
-                total = numAdd(total, total_1);
-            })
+                total += total_1;
+            })         
             $("#total").html(total.toFixed(2) + '');
         }
     },
@@ -724,14 +728,16 @@ var UI_Table_Create =
             //赋值
             $("#h_" + Title).val(sum == 0 ? "" : sum);
 
-            //实时总分
             var total = 0;
             $("#text_list1 li h2").each(function () {
-                var total_1 = $(this).find('input[type="text"]').val();
-                if (total_1 == "" || total_1 == undefined) {
+                var total_1 = $(this).find('input[type="Number"]').val();
+                if (total_1 != '' && total_1 != undefined) {
+                    total_1 = Number(total_1);
+                }
+                else {
                     total_1 = 0;
                 }
-                total = numAdd(total, total_1);
+                total += total_1;
             })
             $("#total").html(total.toFixed(2) + '');
         }

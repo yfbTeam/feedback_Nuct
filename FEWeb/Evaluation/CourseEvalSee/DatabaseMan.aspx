@@ -1,26 +1,33 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="DatabaseMan.aspx.cs" Inherits="FEWeb.SysSettings.DatabaseMan" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="DatabaseMan.aspx.cs" Inherits="FEWeb.Evaluation.CourseEvalSee.DatabaseMan" %>
 
 <!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>指标库管理</title>
-    <link rel="stylesheet" href="../../css/reset.css" />
-    <link rel="stylesheet" href="../../css/layout.css" />
+    <title>课堂评价查看</title>
+    <link href="../../css/reset.css" rel="stylesheet" />
+    <link href="../../css/layout.css" rel="stylesheet" />
     <script src="../../Scripts/jquery-1.11.2.min.js"></script>
-        
-  
-</head>
 
+</head>
 <body>
-     <div id="top"></div>
+    <div id="top"></div>
     <div class="center" id="centerwrap">
-        <div class="wrap clearfix">
-             <div class="sort_nav" id="threenav">
-               
+        <div class="wrap clearfix" id="courseEvalSee">
+            <div class="sort_nav" id="threenav">
             </div>
-            <div class="sortwrap clearfix mt20">
+
+            <div style="width: 1170px;cursor:pointer;  z-index: 99; background: #fff;  padding: 10px 0px;">
+                <div class="crumbs">
+                    <a onclick="history.back()" >课堂扫码评价</a>
+                    <span>&gt;</span>
+                    <a href="javascript:;" style="cursor:pointer;" onclick="window.location=window.location.href"  id="couse_name">指标库分类管理</a>
+                 
+                </div>
+            </div>
+
+           <div class="sortwrap clearfix mt20">
                 <div class="menu fl">
                     <h1 class="titlea">
                         指标库管理
@@ -47,14 +54,14 @@
                                 <tr>
                                     <th style="text-align: left; padding-left: 20px;width:50%">指标名称	 	    	 		 				 					 					   	
                                     </th>
-                                    <th width="60px">题型
-                                    </th>
-                                    <th width="80px">引用次数
-                                    </th>
-                                    <th width="80px">修改时间
-                                    </th>
-                                    <th width="120px" style="display:none;" id="ss">操作
-                                    </th>
+                                    <th width="60px">题型</th>
+                                    
+                                    <th width="80px">引用次数 </th>
+                                   
+                                    <th width="80px">修改时间</th>
+                                    
+                                    <th width="120px" style="display:none;" id="ss">操作</th>
+                                    
                                 </tr>
                             </thead>
                             <tbody id="tb_indicator">
@@ -68,12 +75,8 @@
             </div>
         </div>
     </div>
-
     <footer id="footer"></footer>
-    
-</body>
-</html>
-
+  
 <script src="../../Scripts/Common.js"></script>
     <script src="../../scripts/public.js"></script>
     <script src="../../Scripts/linq.min.js"></script>
@@ -163,7 +166,7 @@
         var retDataCache = null;
         var retData_type = null;
         //选择的指标库分类ID
-        var type_id =0;
+        var type_id = 0;
         //选择的具体指定指标
         var type_child_id;
         var indicator_type_id = 0;//搜索时，需要类别id,此处点击左侧时进行赋值
@@ -177,24 +180,27 @@
         //  [1,2,3,4]
         var reUserinfoByselect;
         $(function () {
+            Type = 1;
+            CreateUID = login_User.UniqueNo;
             reflesh_Left(type_id);
-           
+
+            $('#threenav').children().eq(0).addClass('selected');
         })
 
         //编辑指标
         function sea(id) {
-            OpenIFrameWindow('查看指标', 'SeaDatabase.aspx?id=' + id, '900px', '500px');
+            OpenIFrameWindow('查看指标', '../../SysSettings/Indicate/SeaDatabase.aspx?id=' + id + '&Type=' + 1, '900px', '500px');
         }
 
         //编辑指标
         function edit(id) {
-            OpenIFrameWindow('编辑指标', 'EditDatabase.aspx?id=' + id, '900px', '500px');
+            OpenIFrameWindow('编辑指标', '../../SysSettings/Indicate/EditDatabase.aspx?id=' + id + '&Type=' + 1, '900px', '500px');
         }
         function reflesh_Left(t_Id) {
             DataBaseMainModel.PageType = 'DatabaseMan';
             //初始化指标库分类
             DataBaseMainModel.init_IndicatorType_data();
-            
+
         }
         //删除指标
         function delete_indicator(id) {
@@ -210,20 +216,19 @@
             DataBaseMainModel.initdata(indicator_type_id);
         }
         function indicator_type_Parent_click(Id) {
-            type_id = Id;        
+            type_id = Id;
         }
-        function initdata(indicator_type_id)
-        {
+        function initdata(indicator_type_id) {
             DataBaseMainModel.initdata(indicator_type_id);
-        }        
+        }
         //新增指标 打开窗口页
         function newIndicator() {
-            
-            OpenIFrameWindow('新增指标', 'AddDatabase.aspx?typeid=' + type_child_id + '&page=0', '950px', '500px')
+
+            OpenIFrameWindow('新增指标', '../../SysSettings/Indicate/AddDatabase.aspx?typeid=' + type_child_id + '&Type=' + 1 + '&page=0', '950px', '500px')
         }
         //新增指标分类 打开窗口页
-        function newIndicator_type() {            
-            OpenIFrameWindow('新增指标分类', 'DataBaseSort.aspx?type_id=' + type_id, '950px', '650px')
+        function newIndicator_type() {
+            OpenIFrameWindow('新增指标分类', '../../SysSettings/Indicate/DataBaseSort.aspx?type_id=' + type_id + '&Type=' + 1, '950px', '650px')
         }
         function search() {
             DataBaseMainModel.initdata(indicator_type_id);
@@ -233,10 +238,10 @@
             return DataBaseMainModel.txing(_val);
         }
         //获取指定指标项的指标内容【供子窗体使用】
-        function get_indicalist()
-        {           
+        function get_indicalist() {
             return retDataCache;
         }
     </script>
-
+</body>
+</html>
 

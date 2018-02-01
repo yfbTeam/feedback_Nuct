@@ -878,17 +878,19 @@ namespace FEHandler.Eva_Manage
                 //指标库的计数
                 Indicator Indicator = Constant.Indicator_List.FirstOrDefault(t => t.Id == Id);
                 Indicator Indicator_clone = Constant.Clone<Indicator>(Indicator);
-                Indicator_clone.UseTimes -= 1;
-                //直接进行更改
-                if (Indicator_clone != null)
+                if (Indicator_clone.UseTimes > 0)
                 {
-                    JsonModel m = Constant.IndicatorService.Update(Indicator);
-                    if (m.errNum == 0)
+                    Indicator_clone.UseTimes -= 1;
+                    //直接进行更改
+                    if (Indicator_clone != null)
                     {
-                        Indicator.UseTimes -= 1;
+                        JsonModel m = Constant.IndicatorService.Update(Indicator);
+                        if (m.errNum == 0)
+                        {
+                            Indicator.UseTimes -= 1;
+                        }
                     }
                 }
-
             }
             catch (Exception ex)
             {
@@ -938,12 +940,16 @@ namespace FEHandler.Eva_Manage
                 {
                     //克隆该表格
                     Eva_Table table_clone = Constant.Clone<Eva_Table>(table);
-                    table_clone.UseTimes -= 1;
-                    JsonModel m3 = Constant.Eva_TableService.Update(table_clone);
-                    if (m3.errNum == 0)
+                    if (table_clone.UseTimes >0)
                     {
-                        table.UseTimes -= 1;
+                        table_clone.UseTimes -= 1;
+                        JsonModel m3 = Constant.Eva_TableService.Update(table_clone);
+                        if (m3.errNum == 0)
+                        {
+                            table.UseTimes -= 1;
+                        }
                     }
+                    
                 }
             }
             catch (Exception ex)

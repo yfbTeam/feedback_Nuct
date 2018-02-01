@@ -19,8 +19,41 @@
             </div>
 
             <div class="search_toobar clearfix">
+                <div class="fl">
+                    <label for="">学年学期:</label>
+                    <select class="select" id="section" style="width: 148px;">
+                    </select>
+                </div>
+
+                <div class="fl ml10">
+                    <label for="">课程:</label>
+                    <select class="select" id="" style="width: 148px;">
+                    </select>
+                </div>
+
+                <div class="fl ml10">
+                    <label for="">合班:</label>
+                    <select class="select" id="" style="width: 148px;">
+                    </select>
+                </div>
+
+           
+                <div class="fr pr ml10">
+                    <button class="btn" >发起评价</button>
+                    <b class="dian" style="display: none"></b>
+                </div>
+
+                <div class="fr pr ml10">
+                    <button class="btn">评价表管理</button>
+                    <b class="dian" style="display: none"></b>
+                </div>
                
+                <div class="fr pr ml10">
+                    <button class="btn" onclick="window.location.href='DatabaseMan.aspx?Id='+getQueryString('Id')+'&Iid='+getQueryString('Iid')">指标库管理</button>
+                    <b class="dian" style="display: none"></b>
+                </div>
             </div>
+
             <div class="table mt10">
                 <div>
                     <table>
@@ -30,9 +63,9 @@
                                 <th>学年学期</th>
                                 <th>评价名称</th>
                                 <th>课程名称</th>
-                                <th>教师姓名</th>
-                                <th>专业部门</th>
-                                <th>年级</th>
+                                <th>开始时间</th>
+                                <th>结束时间</th>
+                                <th>状态</th>
                                 <th>合班</th>
                                 <th>班级人数</th>
                                 <th>参评人数</th>
@@ -109,67 +142,6 @@
             </td>
         </tr>
     </script>
-
-    <script type="text/x-jquery-tmpl" id="item_mange_select">
-        <div class="fl">
-                    <label for="">学年学期:</label>
-                    <select class="select" id="section" style="width: 148px;">
-                    </select>
-                </div>
-                <div class="fl ml10">
-                    <label for="">评价名称:</label>
-                    <select class="select" id="Rg" style="width: 128px;">
-                        <option value="">全部</option>
-                    </select>
-                </div>
-                <div class="fl ml10">
-                    <label for="">专业部门:</label>
-                    <select class="select" style="width: 128px;" id="RP">
-                        <option value="">全部</option>
-                    </select>
-                </div>
-                <div class="fl ml10">
-                    <label for="">年级:</label>
-                    <select class="select" id="GD" style="width: 128px;">
-                        <option value="">全部</option>
-                    </select>
-                </div>
-                <div class="fl ml10">
-                    <label for="">教师:</label>
-                    <select class="select" id="TN" style="width: 128px;">
-                        <option value="">全部</option>
-                    </select>
-                </div>
-                <div class="fr ml10">
-                    <input type="text" name="key" id="key" placeholder="请输入课程名称" value="" class="text fl" style="width: 130px;">
-                    <a href="javascript:;" class="search fl"><i class="iconfont">&#xe600;</i></a>
-                </div>
-    </script>
-
-     <script type="text/x-jquery-tmpl" id="item_normal_select">
-        <div class="fl">
-                    <label for="">学年学期:</label>
-                    <select class="select" id="section" style="width: 148px;">
-                    </select>
-                </div>
-                <div class="fl ml10">
-                    <label for="">评价名称:</label>
-                    <select class="select" id="Rg" style="width: 128px;">
-                        <option value="">全部</option>
-                    </select>
-                </div>
-                <div class="fl ml10">
-                    <label for="">专业部门:</label>
-                    <select class="select" style="width: 128px;" id="RP">
-                        <option value="">全部</option>
-                    </select>
-                </div>               
-                <div class="fr ml10">
-                    <input type="text" name="key" id="key" placeholder="请输入课程名称" value="" class="text fl" style="width: 130px;">
-                    <a href="javascript:;" class="search fl"><i class="iconfont">&#xe600;</i></a>
-                </div>
-    </script>
-
     <script type="text/x-jquery-tmpl" id="itemCount">
         <span style="margin-left: 5px; font-size: 14px;">共${RowCount}条，共${PageCount}页</span>
     </script>
@@ -180,40 +152,32 @@
             $('#top').load('/header.html');
             $('#footer').load('/footer.html');
 
-            $(".search_toobar").empty();
-            var rid = login_User.Sys_Role_Id;           
-            if (rid == 1)
-            {
-                $("#item_mange_select").tmpl(1).appendTo(".search_toobar");
-            }
-            else
-            {
-                $("#item_normal_select").tmpl(1).appendTo(".search_toobar");
-            }
+            //Base.bindStudySectionCompleate = function () {
+            //    SectionID = $('#section').val();
+            //    Type = 2;
+            //    Get_Eva_Regular_Select();
+            //    GetClassInfoSelect(SectionID);
+            //};
+            //Base.bindStudySection();
 
-            Base.bindStudySectionCompleate = function () {
-                SectionID = $('#section').val();
-                Type = 2;
-                Get_Eva_Regular_Select();
-                GetClassInfoSelect(SectionID);
-            };
-            Base.bindStudySection();
+            //$('#section').on('change', function () {
+            //    SectionID = $('#section').val();
+            //    Type = 2;
 
-            $('#section').on('change', function () {
-                SectionID = $('#section').val();
-                Type = 2;
+            //    $("#Rg").empty();
+            //    $("#Rg").append("<option value=''>全部</option>");
 
-                $("#Rg").empty();
-                $("#Rg").append("<option value=''>全部</option>");
+            //    Get_Eva_Regular_Select();
+            //    GetClassInfoSelect(SectionID);
 
-                Get_Eva_Regular_Select();
-                GetClassInfoSelect(SectionID);
-                Refesh();
-            });
+            //    Refesh();
+            //});
 
-            $('#Rg,#RP,#TN,#GD').on('change', Refesh);
-            $('.search').on('click', Refesh);
-            Get_Eva_RegularData_Room(pageIndex);
+            //$('#Rg,#RP,#TN,#GD').on('change', Refesh);
+
+            //$('.search').on('click', Refesh);
+
+            //Get_Eva_RegularData_Room(pageIndex);
         })
 
         function Refesh() {
@@ -223,6 +187,8 @@
             RP = $('#RP').val();
             Te = $('#TN').val();
             Gr = $('#GD').val();
+
+
             Get_Eva_RegularData_Room(pageIndex);
         }
 
@@ -230,6 +196,7 @@
         function QRcode(id, RoomID, ReguID) {
             OpenIFrameWindow('二维码', 'Qcode.aspx?url=' + MobileUrl + 'Mobile/onlinetest.html?id=' + id + '&rId=' + RoomID + '&ReguID=' + ReguID, '300px', '300px');
         }
+
     </script>
 </body>
 </html>

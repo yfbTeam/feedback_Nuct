@@ -137,6 +137,9 @@
         //为备注赋值
         $("#Remarks").val(cache_data[0]["Remarks"]);
 
+        Type = getQueryString("Type");
+        CreateUID = login_User.UniqueNo;
+
         var users = [{}];//随机定义的，为了使用模板，先默认单选类型的显示
         //如果是问答的类型（3表示问答），则是一个文本域
         if (cache_data[0]["QuesType_Id"] == "3") {

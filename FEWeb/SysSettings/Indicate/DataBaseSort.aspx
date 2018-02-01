@@ -62,10 +62,10 @@
             border: 1px solid #e5f8f4;
         }
     </style>
-   
+
 </head>
 <body style="background: #fff;" onkeydown="Key_Add();">
-    <div class="main clearfix" style=" min-height: 517px;">
+    <div class="main clearfix" style="min-height: 517px;">
         <div class="menu fl">
             <ul class="menu_list">
             </ul>
@@ -91,11 +91,11 @@
 <script src="../../scripts/jquery.tmpl.js"></script>
 <script src="../../Scripts/layer/layer.js"></script>
 <script src="../../Scripts/WebCenter/DatabaseMan.js"></script>
- <script type="text/x-jquery-tmpl" id="item_indicatorType">
-        <li>
-            <span>${self.Name}<input type="hidden" value="${self.Id}" /></span>
-        </li>
-    </script>
+<script type="text/x-jquery-tmpl" id="item_indicatorType">
+    <li>
+        <span>${self.Name}<input type="hidden" value="${self.Id}" /></span>
+    </li>
+</script>
 <script type="text/x-jquery-tmpl" id="item_Indicate_Type">
     <li class="clearfix">
         <input type="text" name="" onkeydown="Key_Edit(${Id},${Parent_Id})" value="${Name}" id="${Id}" class="text fl" />
@@ -129,9 +129,13 @@
     var Userinfo_json = GetLoginUser();
     var Sys_Role = Userinfo_json.Sys_Role_Id;
     var index = parent.layer.getFrameIndex(window.name);
+    Type = getQueryString('Type')
+
     //自我集合
     var self_list = [];
     $(function () {
+        CreateUID = login_User.UniqueNo;
+       
         IndicateType_Model.init();
     })
     function reflesh() {

@@ -1,4 +1,7 @@
-﻿//指标一级分类
+﻿var Type = 0;
+var CreateUID = '';
+
+//指标一级分类
 function set_indicator_type() {
     var P_Type = get_IndicatorType_by_rid();
     $.ajax({
@@ -6,7 +9,7 @@ function set_indicator_type() {
         type: "post",
         async: false,
         dataType: "json",
-        data: { Func: "Get_IndicatorType", P_Type: P_Type },
+        data: { Func: "Get_IndicatorType", P_Type: P_Type, "Type": Type ,"CreateUID":CreateUID},
         success: function (json) {
             var retData = json.result.retData;
             retData = Enumerable.From(retData).OrderBy('$.Id').ToArray();//按Id进行升序排列
@@ -34,7 +37,7 @@ function set_indicator_type_2(type) {
         type: "post",
         async: false,
         dataType: "json",
-        data: { Func: "Get_IndicatorType" },
+        data: { Func: "Get_IndicatorType", "Type": Type, "CreateUID": CreateUID },
         success: function (json) {
             var retData = json.result.retData;
             retData = Enumerable.From(retData).OrderBy('$.Id').ToArray();//按Id进行升序排列
