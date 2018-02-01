@@ -214,8 +214,6 @@
                             });
                             return;
                         }
-                        
-                        
                         //把用户信息存在cookie中
                         localStorage.setItem('Userinfos', JSON.stringify(data));
                         localStorage.setItem('LoginTime', Date.parse(new Date()));
@@ -228,7 +226,6 @@
                         }
                         var ids = GetIDs('Userinfos')
                         Set_AllBtn(ids);
-                        window.location.href = "/Index.aspx";
                     }
                     else
                     {
@@ -305,6 +302,7 @@
                     } else {                       
                         localStorage.setItem('Menu_Btns', "");
                     }
+                    window.location.href = "/Index.aspx";
                 },
                 error: function (errMsg) {}
             });
