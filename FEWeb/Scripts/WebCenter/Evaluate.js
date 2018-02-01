@@ -447,6 +447,7 @@ function Get_Eva_QuestionAnswerDetail(Id) {
                                     $('.test_lists').find('div[DetailID="' + item.TableDetailID + '"]').find('li[lioption="' + lists[i] + '"]').addClass("on");
                                 }
                                 else {
+                                    
                                     $('.test_lists').find('div[DetailID="' + item.TableDetailID + '"]').find('input[flv="' + lists[i] + '"]').attr("checked", true);
                                 }
                             }
@@ -475,7 +476,7 @@ function Get_Eva_QuestionAnswerDetail(Id) {
                     case 'EvalDetail':
                         $("#item_check").tmpl(data.HeaderList).appendTo(".table_header_left");
                         if (IsScore == 0) {
-                            $("#sp_total").html('分数：' + data.Score + '分')
+                            $("#sp_total").html('分数：' + data.Score.toFixed(2) + '分')
                         }
                         else {
                             $("#sp_total").html('不计分')

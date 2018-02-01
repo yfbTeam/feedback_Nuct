@@ -115,7 +115,7 @@
             <td title="${Course_Name}" style="width: 15%">${cutstr(CourseName,30)}</td>
 
             <td style="width: 30%" title="${TableName}">${cutstr(TableName,45)}</td>
-            <td style="width: 5%">${Score}</td>
+            <td style="width: 5%">${Score.toFixed(2)}</td>
             {{if State == 1}}
             <td style="width: 5%"><span class="nosubmit">未提交</span></td>
             {{else State == 2}}

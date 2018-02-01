@@ -221,7 +221,7 @@ namespace FEHandler.Eva_Manage
                     Table_CourseType.Eva_Role = Eva_Role;
                     Table_CourseType.Eva_Table_List = (from table in Constant.Eva_Table_List
                                                        where table.Eva_Role == Eva_Role && table.IsDelete == (int)IsDelete.No_Delete && table.IsEnable == (int)IsEnable.Enable
-                                                      
+
                                                        select table).ToList();
                     Table_CourseType_List.Add(Table_CourseType);
                 }
@@ -293,6 +293,9 @@ namespace FEHandler.Eva_Manage
                 HttpRequest Request = context.Request;
                 int P_Type = RequestHelper.int_transfer(Request, "P_Type");
                 int P_Id = RequestHelper.int_transfer(Request, "P_Id");
+                int Type = RequestHelper.int_transfer(Request, "Type");
+                IndicateType  IndicateType = (IndicateType)Type;
+                string CreateUID = RequestHelper.string_transfer(Request, "CreateUID");
                 List<IndicatorType> list = null;
                 if (P_Type > 0)
                 {
@@ -307,7 +310,15 @@ namespace FEHandler.Eva_Manage
                 {
                     list = (from i in Constant.IndicatorType_List where i.Parent_Id == P_Id select i).ToList();
                 }
-
+                list = (from i in list where i.Type == Type select i).ToList();
+                if (IndicateType == FEModel.Enum.IndicateType.teacherself)
+                {
+                    if (!string.IsNullOrEmpty(CreateUID))
+                    {
+                        list = (from i in list where i.CreateUID == CreateUID select i).ToList();
+                    }
+                }
+               
                 //返回所有指标库数据
                 jsonModel = JsonModel.get_jsonmodel(intSuccess, "success", list);
             }
@@ -463,10 +474,10 @@ namespace FEHandler.Eva_Manage
                     int Parent_Id = RequestHelper.int_transfer(Request, "Parent_Id");
                     string Name = RequestHelper.string_transfer(Request, "Name");
                     string CreateUID = RequestHelper.string_transfer(Request, "CreateUID");
-                    //string EditUID = RequestHelper.string_transfer(Request, "EditUID");
+                    int Type = RequestHelper.int_transfer(Request, "Type");
                     IndicatorType IndicatorType_Add = new IndicatorType()
                     {
-                        Type = 0,
+                        Type = Type,
                         Parent_Id = Parent_Id,
                         Name = Name,
                         CreateTime = DateTime.Now,
@@ -516,23 +527,13 @@ namespace FEHandler.Eva_Manage
             HttpRequest Request = context.Request;
             //指定的指标库分类ID
             int IndicatorType_Id = RequestHelper.int_transfer(Request, "IndicatorType_Id");
-            string Type = RequestHelper.string_transfer(Request, "Type");
-            int intType = RequestHelper.int_transfer(Request, "Type");
+            int Type = RequestHelper.int_transfer(Request, "Type");         
             try
             {
                 if (IndicatorType_Id > 0)
                 {
                     //获取某指标库类型下的指标
-                    List<Indicator> indicator_List = null;
-                    if (!string.IsNullOrEmpty(Type))
-                    {
-                        indicator_List = (from indicator in Constant.Indicator_List where indicator.IndicatorType_Id == IndicatorType_Id && indicator.Type == intType select indicator).ToList();
-                    }
-                    else
-                    {
-                        indicator_List = (from indicator in Constant.Indicator_List where indicator.IndicatorType_Id == IndicatorType_Id select indicator).ToList();
-                    }
-
+                    List<Indicator> indicator_List = indicator_List = (from indicator in Constant.Indicator_List where indicator.IndicatorType_Id == IndicatorType_Id && indicator.Type == Type select indicator).ToList(); ;                 
                     //返回所有指标库数据
                     jsonModel = JsonModel.get_jsonmodel(intSuccess, "success", indicator_List);
                 }
@@ -769,7 +770,7 @@ namespace FEHandler.Eva_Manage
         }
 
         #endregion
-            
+
         #region 获取教师信息【携带 课程-授课班】
 
         public void GetTeacherInfo_Course_Cls(HttpContext context)
