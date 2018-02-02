@@ -80,6 +80,7 @@
     <Content Include="Evaluation\CourseEvalSee\index.aspx" />
     <Content Include="Evaluation\CourseEvalSee\indexqcode.aspx" />
     <Content Include="Evaluation\CourseEvalSee\Qcode.aspx" />
+    <Content Include="Evaluation\CourseEvalSee\TableDesign.aspx" />
     <Content Include="Evaluation\ExpertEvalSee\detailModal.aspx" />
     <Content Include="Evaluation\ExpertEvalSee\index.aspx" />
     <Content Include="Evaluation\Input\createModal.aspx" />
@@ -1090,6 +1091,13 @@
     </Compile>
     <Compile Include="Evaluation\CourseEvalSee\Qcode.aspx.designer.cs">
       <DependentUpon>Qcode.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Evaluation\CourseEvalSee\TableDesign.aspx.cs">
+      <DependentUpon>TableDesign.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Evaluation\CourseEvalSee\TableDesign.aspx.designer.cs">
+      <DependentUpon>TableDesign.aspx</DependentUpon>
     </Compile>
     <Compile Include="Evaluation\ExpertEvalSee\detailModal.aspx.cs">
       <DependentUpon>detailModal.aspx</DependentUpon>

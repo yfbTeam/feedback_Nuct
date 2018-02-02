@@ -1,25 +1,32 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="TableDesign.aspx.cs" Inherits="FEWeb.SysSettings.TableDesign" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="TableDesign.aspx.cs" Inherits="FEWeb.Evaluation.CourseEvalSee.TableDesign" %>
 
 <!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>评价表格管理</title>
-    <link rel="stylesheet" href="../../css/reset.css" />
-    <link rel="stylesheet" href="../../css/layout.css" />
+    <title>课堂评价查看</title>
+    <link href="../../css/reset.css" rel="stylesheet" />
+    <link href="../../css/layout.css" rel="stylesheet" />
     <script src="../../Scripts/jquery-1.11.2.min.js"></script>
-     
 
-   
 </head>
 <body>
-     <div id="top"></div>
+    <div id="top"></div>
     <div class="center" id="centerwrap">
-        <div class="wrap clearfix">
-             <div class="sort_nav" id="threenav">
-                
+        <div class="wrap clearfix" id="courseEvalSee">
+            <div class="sort_nav" id="threenav">
             </div>
+
+            <div style="width: 1170px;cursor:pointer;  z-index: 99; background: #fff;  padding: 10px 0px;">
+                <div class="crumbs">
+                    <a onclick="history.back()" >课堂扫码评价</a>
+                    <span>&gt;</span>
+                    <a href="javascript:;" style="cursor:pointer;" onclick="window.location=window.location.href"  id="couse_name">指标库分类管理</a>
+                 
+                </div>
+            </div>
+
             <div class="search_toobar clearfix mt10">
                 <div class="fl">
                     <input type="text" name="key" id="key" placeholder="请输入关键字" value="" class="text fl" style="height: 31px;">
@@ -53,10 +60,9 @@
                     </tbody>
                 </table>
             </div>
-
         </div>
     </div>
-    <footer id="footer"></footer>
+     <footer id="footer"></footer>
     <script src="../../Scripts/Common.js"></script>
     <script src="../../Scripts/public.js"></script>
     
@@ -152,7 +158,9 @@
             $('#footer').load('../../footer.html');
 
             tableSlide();
-            initdata();           
+            initdata();
+
+            $('#threenav').children().eq(0).addClass('selected');
         })
         //搜索
         function search() {
@@ -160,7 +168,7 @@
         }
         function NewEval() {
             var index = $('#threenav>a.selected').index();
-            window.location.href = 'AddEvalTable.aspx' + '?Id=' + getQueryString('Id') + '&Iid=' + getQueryString('Iid')+'&selected='+index;
+            window.location.href = '../../SysSettings/Table/AddEvalTable.aspx' + '?Id=' + getQueryString('Id') + '&Iid=' + getQueryString('Iid') + '&selected=' + index;
         }
         function copy(id) {
             UI_Table.copy(id);
@@ -171,20 +179,20 @@
         }
 
         function Enable_Eva_Table(id, IsEnable) {
-            IsEnable = IsEnable ? 0 : 1;          
+            IsEnable = IsEnable ? 0 : 1;
             UI_Table.Enable_Eva_Table(id, IsEnable);
         }
-
+      
         //评价表预览
         function table_view(table_Id) {
-            OpenIFrameWindow('评价表详情', 'TableView.aspx?table_Id=' + table_Id + '&Id=' + getQueryString('Id') + '&Iid=' + getQueryString('Iid'), '1000px', '600px')
+            OpenIFrameWindow('评价表详情', '../../SysSettings/Table/TableView.aspx?table_Id=' + table_Id + '&Id=' + getQueryString('Id') + '&Iid=' + getQueryString('Iid'), '1000px', '600px')
         };
         //新增表格 打开窗口页
         function AddEvalTable() {
-            OpenIFrameWindow('新增表格', 'AddEvalTable.aspx?typeid=' + 1 + '&Id=' + getQueryString('Id') + '&Iid=' + getQueryString('Iid'), '800px', '800px')
+            OpenIFrameWindow('新增表格', '../../SysSettings/Table/AddEvalTable.aspx?typeid=' + 1 + '&Id=' + getQueryString('Id') + '&Iid=' + getQueryString('Iid'), '800px', '800px')
         }
-        function edit(id) {          
-            window.location.href = 'AddEvalTable.aspx' + '?selected=1&Id=' + getQueryString('Id') + '&Iid=' + getQueryString('Iid') + '&table_id=' + id + '&type=1';
+        function edit(id) {
+            window.location.href = '../../SysSettings/Table/AddEvalTable.aspx' + '?selected=1&Id=' + getQueryString('Id') + '&Iid=' + getQueryString('Iid') + '&table_id=' + id + '&type=1';
         }
         //初始化表格列表
         function initdata() {
@@ -193,3 +201,4 @@
     </script>
 </body>
 </html>
+

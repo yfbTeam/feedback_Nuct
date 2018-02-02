@@ -44,7 +44,7 @@
                 </div>
 
                 <div class="fr pr ml10">
-                    <button class="btn">评价表管理</button>
+                    <button class="btn" onclick="window.location.href='TableDesign.aspx?Id='+getQueryString('Id')+'&Iid='+getQueryString('Iid')">评价表管理</button>
                     <b class="dian" style="display: none"></b>
                 </div>
                
@@ -152,32 +152,7 @@
             $('#top').load('/header.html');
             $('#footer').load('/footer.html');
 
-            //Base.bindStudySectionCompleate = function () {
-            //    SectionID = $('#section').val();
-            //    Type = 2;
-            //    Get_Eva_Regular_Select();
-            //    GetClassInfoSelect(SectionID);
-            //};
-            //Base.bindStudySection();
-
-            //$('#section').on('change', function () {
-            //    SectionID = $('#section').val();
-            //    Type = 2;
-
-            //    $("#Rg").empty();
-            //    $("#Rg").append("<option value=''>全部</option>");
-
-            //    Get_Eva_Regular_Select();
-            //    GetClassInfoSelect(SectionID);
-
-            //    Refesh();
-            //});
-
-            //$('#Rg,#RP,#TN,#GD').on('change', Refesh);
-
-            //$('.search').on('click', Refesh);
-
-            //Get_Eva_RegularData_Room(pageIndex);
+            
         })
 
         function Refesh() {
