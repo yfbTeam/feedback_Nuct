@@ -124,6 +124,10 @@
         var Userinfo_json = JSON.parse(cookie_Userinfo);
         var Sys_Role = Userinfo_json.Sys_Role_Id;
 
+        Type = getQueryString('Type');
+        CreateUID = login_User.UniqueNo;
+        
+
         $(function () {
 
             DataBaseMainModel.GetData();

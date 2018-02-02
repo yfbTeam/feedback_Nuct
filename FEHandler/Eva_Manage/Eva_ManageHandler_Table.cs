@@ -29,10 +29,17 @@ namespace FEHandler.Eva_Manage
         {
             int intSuccess = (int)errNum.Success;
             HttpRequest Request = context.Request;
+            int Type = RequestHelper.int_transfer(Request, "Type");
+            TableType TableType = (TableType)Type;
+            string CreateUID = RequestHelper.string_transfer(Request, "CreateUID");
             try
             {
-                var table_submiter = (from t in Constant.Eva_Table_List
-
+                List<Eva_Table> tblist = (from t in Constant.Eva_Table_List where t.Type == Type select t).ToList();
+                if (TableType == FEModel.Enum.TableType.teacherself)
+                {
+                    tblist = (from t in Constant.Eva_Table_List where t.CreateUID == CreateUID select t).ToList();
+                }
+                var table_submiter = (from t in tblist
                                       join u in Constant.UserInfo_List on t.CreateUID equals u.UniqueNo
                                       select new
                                       {
@@ -64,9 +71,14 @@ namespace FEHandler.Eva_Manage
 
             string CourseID = RequestHelper.string_transfer(Request, "CourseID");
             int SectionID = RequestHelper.int_transfer(Request, "SectionID");
+
+            int Type = RequestHelper.int_transfer(Request, "Type");
+        
+            string CreateUID = RequestHelper.string_transfer(Request, "CreateUID");
+
             try
             {
-                jsonModel = Get_Eva_TableHelper(SectionID, CourseID);
+                jsonModel = Get_Eva_TableHelper(SectionID, CourseID,Type,CreateUID);
             }
             catch (Exception ex)
             {
@@ -79,28 +91,34 @@ namespace FEHandler.Eva_Manage
             }
         }
 
-        public static JsonModel Get_Eva_TableHelper(int SectionID, string CourseID)
+        public static JsonModel Get_Eva_TableHelper(int SectionID, string CourseID,int Type  ,string CreateUID)
         {
             int intSuccess = (int)errNum.Success;
             JsonModel jsmodel = new JsonModel();
             try
             {
-                List<Eva_Table> tableList = Constant.Eva_Table_List;
+               
+                TableType TableType = (TableType)Type;
+                List<Eva_Table> tblist = (from t in Constant.Eva_Table_List where t.Type == Type select t).ToList();
+                if (TableType == FEModel.Enum.TableType.teacherself)
+                {
+                    tblist = (from t in Constant.Eva_Table_List where t.CreateUID == CreateUID select t).ToList();
+                }
                 if (SectionID > 0)
                 {
-                    tableList = (from dic in Constant.Sys_Dictionary_List
+                    tblist = (from dic in Constant.Sys_Dictionary_List
                                  where dic.Type == "0" && dic.SectionId == SectionID
                                  join cr in Constant.CourseRel_List on dic.Key equals cr.CourseType_Id
                                  where (CourseID != "" && cr.Course_Id == CourseID) || CourseID == ""
                                  join cb in Constant.Eva_CourseType_Table_List on dic.Key equals cb.CourseTypeId
-                                 join tb in tableList on cb.TableId equals tb.Id
+                                 join tb in tblist on cb.TableId equals tb.Id
                                  where tb.IsEnable == (int)IsEnable.Enable
                                  select tb).Distinct(new Eva_TableComparer()).ToList();
 
                 }
 
                 //返回所有表格数据
-                jsmodel = JsonModel.get_jsonmodel(intSuccess, "success", tableList);
+                jsmodel = JsonModel.get_jsonmodel(intSuccess, "success", tblist);
             }
             catch (Exception ex)
             {
@@ -109,7 +127,7 @@ namespace FEHandler.Eva_Manage
             }
             return jsmodel;
         }
-        
+
         #endregion
 
         #region 获取表详情
@@ -257,7 +275,7 @@ namespace FEHandler.Eva_Manage
             }
         }
 
-        
+
         #endregion
 
         #region 添加
@@ -281,7 +299,7 @@ namespace FEHandler.Eva_Manage
                 string CreateUID = RequestHelper.string_transfer(Request, "CreateUID");
                 string EditUID = RequestHelper.string_transfer(Request, "EditUID");
                 string CourseType_Id = RequestHelper.string_transfer(Request, "CourseType_Id");
-                int Eva_Role = RequestHelper.int_transfer(Request, "Eva_Role");
+                int Type = RequestHelper.int_transfer(Request, "Type");
                 try
                 {
                     Eva_Table Eva_Table_Add = new Eva_Table()
@@ -289,7 +307,7 @@ namespace FEHandler.Eva_Manage
                         Name = Name,
                         IsScore = (byte)IsScore,
                         CousrseType_Id = CourseType_Id,
-                        Eva_Role = Eva_Role,
+                        Type = Type,
                         //Type = 2,//新加的  主要区别于即时(1)和扫码(0)
                         Remarks = Remarks,
                         UseTimes = 0,
@@ -348,7 +366,7 @@ namespace FEHandler.Eva_Manage
                 }
             }
         }
-        
+
         #endregion
 
         #region 拷贝
@@ -424,7 +442,7 @@ namespace FEHandler.Eva_Manage
                 }
             }
         }
-        
+
         #endregion
 
         #region 编辑
@@ -551,7 +569,7 @@ namespace FEHandler.Eva_Manage
                 LogHelper.Error(ex);
             }
         }
-        
+
         #endregion
 
         #region 删除
@@ -628,7 +646,7 @@ namespace FEHandler.Eva_Manage
                 context.Response.Write("{\"result\":" + Constant.jss.Serialize(jsonModel) + "}");
             }
         }
-        
+
         #endregion
 
         #region 启用禁用
@@ -684,7 +702,7 @@ namespace FEHandler.Eva_Manage
                 }
             }
         }
-        
+
         #endregion
 
         #region 创建编辑表辅助
@@ -834,7 +852,7 @@ namespace FEHandler.Eva_Manage
                 }
             }) { IsBackground = true }.Start();
         }
-        
+
         #endregion
 
         #region 指标库引用增加、减少
@@ -897,8 +915,8 @@ namespace FEHandler.Eva_Manage
                 LogHelper.Error(ex);
             }
         }
-        
-        #endregion     
+
+        #endregion
 
         #region 表格引用次数添加
 
@@ -940,7 +958,7 @@ namespace FEHandler.Eva_Manage
                 {
                     //克隆该表格
                     Eva_Table table_clone = Constant.Clone<Eva_Table>(table);
-                    if (table_clone.UseTimes >0)
+                    if (table_clone.UseTimes > 0)
                     {
                         table_clone.UseTimes -= 1;
                         JsonModel m3 = Constant.Eva_TableService.Update(table_clone);
@@ -949,7 +967,7 @@ namespace FEHandler.Eva_Manage
                             table.UseTimes -= 1;
                         }
                     }
-                    
+
                 }
             }
             catch (Exception ex)

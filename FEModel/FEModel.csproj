@@ -96,6 +96,7 @@
     <Compile Include="Enum\SolidType.cs" />
     <Compile Include="Enum\SortType.cs" />
     <Compile Include="Enum\TableDetail_Type.cs" />
+    <Compile Include="Enum\TableType.cs" />
     <Compile Include="JsonModel.cs" />
     <Compile Include="ModelTemplate.cs">
       <AutoGen>True</AutoGen>

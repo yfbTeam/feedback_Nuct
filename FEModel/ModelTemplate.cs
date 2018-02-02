@@ -2699,6 +2699,86 @@ namespace FEModel
 	///	
 	/// </summary>
 	[Serializable]
+    public partial class Eva_Table
+    {
+
+		/// <summary>
+		/// 
+		/// </summary>
+		public int? Id { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public string Name { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public string CousrseType_Id { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public int? Type { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public Byte? IsScore { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public string Remarks { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public int? UseTimes { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public string CreateUID { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public DateTime? CreateTime { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public string EditUID { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public DateTime? EditTime { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public Byte? IsEnable { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public Byte? IsDelete { get; set; }
+
+          public override bool Equals(object obj)
+        {
+            bool result = false;
+            if (obj.GetType() == typeof(Eva_Table))
+            {
+                Eva_Table _obj = obj as Eva_Table;
+                if (_obj.Id == this.Id)
+                {
+                    result = true;
+                }
+            }
+            return result;
+        }
+
+	    public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
+    }
+
+	/// </summary>
+	///	
+	/// </summary>
+	[Serializable]
     public partial class StudySection
     {
 
@@ -3247,7 +3327,7 @@ namespace FEModel
 		/// </summary>
 		public int? Parent_Id { get; set; }
 		/// <summary>
-		/// 
+		///类型  0为公用型，1为私用型（教师自用）   
 		/// </summary>
 		public int? Type { get; set; }
 		/// <summary>
@@ -3485,86 +3565,6 @@ namespace FEModel
             if (obj.GetType() == typeof(LinkManInfo))
             {
                 LinkManInfo _obj = obj as LinkManInfo;
-                if (_obj.Id == this.Id)
-                {
-                    result = true;
-                }
-            }
-            return result;
-        }
-
-	    public override int GetHashCode()
-        {
-            return base.GetHashCode();
-        }
-    }
-
-	/// </summary>
-	///	
-	/// </summary>
-	[Serializable]
-    public partial class Eva_Table
-    {
-
-		/// <summary>
-		/// 
-		/// </summary>
-		public int? Id { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public string Name { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public string CousrseType_Id { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public int? Eva_Role { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public Byte? IsScore { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public string Remarks { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public int? UseTimes { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public string CreateUID { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public DateTime? CreateTime { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public string EditUID { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public DateTime? EditTime { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public Byte? IsEnable { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public Byte? IsDelete { get; set; }
-
-          public override bool Equals(object obj)
-        {
-            bool result = false;
-            if (obj.GetType() == typeof(Eva_Table))
-            {
-                Eva_Table _obj = obj as Eva_Table;
                 if (_obj.Id == this.Id)
                 {
                     result = true;

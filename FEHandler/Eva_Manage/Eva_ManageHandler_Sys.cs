@@ -206,7 +206,7 @@ namespace FEHandler.Eva_Manage
                 HttpRequest Request = context.Request;
                 //课程类型
                 //DictionType_Enum dictiontype = DictionType_Enum.Course_Type;
-                int Eva_Role = RequestHelper.int_transfer(Request, "Eva_Role");
+                int Type = RequestHelper.int_transfer(Request, "Type");
                 List<Table_CourseType> Table_CourseType_List = new List<Table_CourseType>();
 
 
@@ -218,16 +218,16 @@ namespace FEHandler.Eva_Manage
                     Table_CourseType Table_CourseType = new Table_CourseType();
                     Table_CourseType.Course_Key = item.Key;
                     Table_CourseType.Course_Value = item.Value;
-                    Table_CourseType.Eva_Role = Eva_Role;
+                    Table_CourseType.Eva_Role = Type;
                     Table_CourseType.Eva_Table_List = (from table in Constant.Eva_Table_List
-                                                       where table.Eva_Role == Eva_Role && table.IsDelete == (int)IsDelete.No_Delete && table.IsEnable == (int)IsEnable.Enable
+                                                       where table.Type == Type && table.IsDelete == (int)IsDelete.No_Delete && table.IsEnable == (int)IsEnable.Enable
 
                                                        select table).ToList();
                     Table_CourseType_List.Add(Table_CourseType);
                 }
 
 
-                if (Eva_Role == 2)
+                if (Type == 2)
                 {
                     List<Sys_Dictionary> list2 = (from dic in Constant.Sys_Dictionary_List
                                                   where dic.Type == Convert.ToString((int)Dictionary_Type.Edu_Course_Type)
@@ -239,7 +239,7 @@ namespace FEHandler.Eva_Manage
                         Table_CourseType.Course_Value = item.Value;
                         Table_CourseType.Eva_Role = 3;
                         Table_CourseType.Eva_Table_List = (from table in Constant.Eva_Table_List
-                                                           where table.Eva_Role == Eva_Role && table.IsEnable == (int)IsEnable.Enable
+                                                           where table.Type == Type && table.IsEnable == (int)IsEnable.Enable
                                                            select table).ToList();
                         Table_CourseType_List.Add(Table_CourseType);
                     }
@@ -254,7 +254,7 @@ namespace FEHandler.Eva_Manage
                         Table_CourseType.Course_Value = item.Value;
                         Table_CourseType.Eva_Role = 4;
                         Table_CourseType.Eva_Table_List = (from table in Constant.Eva_Table_List
-                                                           where table.Eva_Role == Eva_Role
+                                                           where table.Type == Type
                                                            select table).ToList();
                         Table_CourseType_List.Add(Table_CourseType);
                     }

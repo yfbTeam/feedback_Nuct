@@ -7,9 +7,9 @@
 // </自动生成>
 //------------------------------------------------------------------------------
 
-namespace FEWeb.SysSettings {
+namespace FEWeb.Evaluation.CourseEvalSee {
     
     
-    public partial class AddEvalTable {
+    public partial class SartEval {
     }
 }
