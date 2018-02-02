@@ -20,6 +20,25 @@
             float: left;
             line-height: 35px;
         }
+
+        #ulist {
+            vertical-align: middle;
+            margin-top: 11px;
+            margin-left: 10px;
+        }
+
+            #ulist li {
+                vertical-align:middle;
+            }
+
+            #ulist input
+            {
+                vertical-align:middle;
+            }
+             #ulist label
+            {
+                vertical-align:middle;
+            }
     </style>
 </head>
 <body >
@@ -47,23 +66,18 @@
                          
                 </select>
             </div>
-            <div class="input-wrap clearfix" v-if="role==1" v-cloak>
-                <label>评价范围：</label>
-                <span class="ml10">
-                    <input type="radio" name="rank" id="all" class="magic-radio"  v-model="picked" value="0"  @change="DepartToggle">
-                    <label for="all">全校</label>
-                </span>
-                <span class="ml10">
-                    <input type="radio" name="rank" id="appoint" class="magic-radio" v-model="picked" value="1" @change="DepartToggle">
-                    <label for="appoint">指定部门</label>
-                </span>
+            <div class="input-wrap clearfix"  v-cloak>
+                <label class="fl">评价范围：</label>
+
+                <ul id="ulist" class="fl">
+                    <li class="fl">
+                         <input type="checkbox" id="all" /><label  for="all">全部</label>
+                    </li>
+                    
+                </ul>
+               
             </div>
-            <div class="input-wrap1 pb20" v-cloak v-show="appoint">
-                <label class="label"></label>
-                <select id="DepartMent" data-placeholder="选择部门" class="chosen-select select" multiple="multiple">
-                  
-                </select>
-            </div>
+          
         </div>
         <div class="btnwrap">
             <input type="button" value="保存" class="btn" @click="submit" />
