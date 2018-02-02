@@ -46,9 +46,12 @@
         <div class="wrap clearfix">
             <div class="sort_nav" id="threenav">
             </div>
-            <h1 class="title mb10">
+            <h1 class="title mb10" id="nav">
                 <a style="cursor: pointer" class="reback">表格设计</a><span>&gt;</span><a href="javascript:;" class="crumbs">新增表格</a>
             </h1>
+
+
+
             <div class="selectwrap clearfix pr" style="margin: 0;">
                 <div class="fl evaltable_left">
                     <div class="search_toobar clearfix">
@@ -154,14 +157,14 @@
 <script type="text/x-jquery-tmpl" id="item_check">
     <div class="fl">
         <label t_id="${id}" for="">${name}：</label><span>【${description}】</span>
-        
+
     </div>
 </script>
 
 <%--自由表头--%>
 <script type="text/x-jquery-tmpl" id="item_check2">
     <div class="fl">
-        <label t_Id="${t_Id}" for="">
+        <label t_id="${t_Id}" for="">
             <input type="text" name="name" t_id="${t_Id}" value="${title}" />
         </label>
         <input readonly="readonly" v_id="${t_Id}" type="text" name="name" value="" />
@@ -175,6 +178,24 @@
 
         <input class="input_root" t_id="${t_Id}" value="${title}" />
         <i t_id="${t_Id}" style="cursor: pointer; align-content: center" class="iconfont">&#xe672;</i>
+    </div>
+</script>
+
+<script type="text/x-jquery-tmpl" id="itemNav">
+    <div style="width: 1170px; cursor: pointer; z-index: 99; background: #fff; padding: 10px 0px;">
+        <div class="crumbs">
+            <a onclick="window.location.href='../../Evaluation/CourseEvalSee/indexqcode.aspx?Id='+getQueryString('Id')+'&Iid='+getQueryString('Iid')">课堂扫码评价</a>
+            <span>&gt;</span>
+            <a href="javascript:;" style="cursor: pointer;" onclick="window.location.href='../../Evaluation/CourseEvalSee/TableDesign.aspx?Id='+getQueryString('Id')+'&Iid='+getQueryString('Iid')" id="couse_name">评价表管理</a>
+              <span>&gt;</span>
+            <a style="cursor: pointer"  onclick="window.location=window.location.href">
+                {{if type ==1}}
+                编辑表格
+                {{else}}
+                新增表格
+                {{/if}}
+                </a>
+        </div>
     </div>
 </script>
 
@@ -320,6 +341,10 @@
     var list_sheets = [];//试卷节点    t_Id    indicator_array    
     var select_sheet_Id;//当前选择的试卷节点     
     var select_sheet = [];   //当前的试题   
+
+    Type = getQueryString('_Type');
+    CreateUID = login_User.UniqueNo;
+
     //------------------------添加指标【打开窗体】----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
     var index_1 = 0;//主要为了实时统计分，在index为1 的时候显示，否则不显示
     //var select_Array = [];//已经选择的指标，存入此数组，根据此数组，选中已选择的项
@@ -328,12 +353,22 @@
         $('#footer').load('/footer.html');
         $('#threenav a').eq(getQueryString('selected')).addClass('selected').siblings().removeClass('selected');
         UI_Table_Create.Type = (type != '' && type != null && type != undefined) ? Number(type) : 0;
+
         if (UI_Table_Create.Type == 1) {
             $('.crumbs').html('编辑表格');
             UI_Table_View.PageType = 'AddEvalTable';
             UI_Table_View.Get_Eva_TableDetail_Compleate = function (data) { };
             UI_Table_View.Get_Eva_TableDetail();
         }
+
+        if (Type == 1) {
+            $('#nav').empty();
+            $("#itemNav").tmpl(1).appendTo("#nav");
+
+            $('.table_header').hide();
+        }
+
+
         //初始化准备
         UI_Table_Create.PrepareInit();
         //取消
@@ -343,17 +378,16 @@
         var el = document.getElementById('list');
         var sortable = Sortable.create(el, {
             onUpdate: function (evt) {
-               
-                var list_ar = [];           
+
+                var list_ar = [];
                 $('#list label').each(function () {
                     var that = $(this);
                     var lis = UI_Table_Create.head_value.filter(function (item) { return item.id == that.attr('t_id') });
-                    if (lis.length > 0)
-                    {
+                    if (lis.length > 0) {
                         list_ar.push(lis[0]);
-                    }                  
+                    }
                 });
-                UI_Table_Create.head_value = list_ar; 
+                UI_Table_Create.head_value = list_ar;
             }
         });
 
@@ -361,7 +395,7 @@
         var sortable2 = Sortable.create(e2, {
             onUpdate: function (evt) {
 
-                var list_ar = [];            
+                var list_ar = [];
                 $('#list2 label').each(function () {
                     var that = $(this);
                     var lis = lisss.filter(function (item) { return item.t_Id == that.attr('t_id') });
@@ -370,11 +404,11 @@
                     }
                 });
 
-                lisss = list_ar; 
+                lisss = list_ar;
             }
         });
 
-        
+
     });
     //-----------数据填充----------------------------------------------------------
     //回调函数（子页面调的回调函数）

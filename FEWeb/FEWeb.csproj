@@ -80,6 +80,7 @@
     <Content Include="Evaluation\CourseEvalSee\index.aspx" />
     <Content Include="Evaluation\CourseEvalSee\indexqcode.aspx" />
     <Content Include="Evaluation\CourseEvalSee\Qcode.aspx" />
+    <Content Include="Evaluation\CourseEvalSee\SartEval.aspx" />
     <Content Include="Evaluation\CourseEvalSee\TableDesign.aspx" />
     <Content Include="Evaluation\ExpertEvalSee\detailModal.aspx" />
     <Content Include="Evaluation\ExpertEvalSee\index.aspx" />
@@ -1091,6 +1092,13 @@
     </Compile>
     <Compile Include="Evaluation\CourseEvalSee\Qcode.aspx.designer.cs">
       <DependentUpon>Qcode.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Evaluation\CourseEvalSee\SartEval.aspx.cs">
+      <DependentUpon>SartEval.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Evaluation\CourseEvalSee\SartEval.aspx.designer.cs">
+      <DependentUpon>SartEval.aspx</DependentUpon>
     </Compile>
     <Compile Include="Evaluation\CourseEvalSee\TableDesign.aspx.cs">
       <DependentUpon>TableDesign.aspx</DependentUpon>

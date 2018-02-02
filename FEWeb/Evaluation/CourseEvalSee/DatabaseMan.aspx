@@ -18,14 +18,17 @@
             <div class="sort_nav" id="threenav">
             </div>
 
-            <div style="width: 1170px;cursor:pointer;  z-index: 99; background: #fff;  padding: 10px 0px;">
+            <h1 class="title mb10" >
+                 <div style="width: 1170px;cursor:pointer;  z-index: 99; background: #fff;  padding: 10px 0px;">
                 <div class="crumbs">
-                    <a onclick="history.back()" >课堂扫码评价</a>
+                    <a onclick="window.location.href='indexqcode.aspx?Id='+getQueryString('Id')+'&Iid='+getQueryString('Iid')" >课堂扫码评价</a>
                     <span>&gt;</span>
                     <a href="javascript:;" style="cursor:pointer;" onclick="window.location=window.location.href"  id="couse_name">指标库分类管理</a>
                  
                 </div>
             </div>
+            </h1>
+           
 
            <div class="sortwrap clearfix mt20">
                 <div class="menu fl">

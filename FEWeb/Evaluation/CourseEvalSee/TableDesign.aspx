@@ -17,15 +17,16 @@
         <div class="wrap clearfix" id="courseEvalSee">
             <div class="sort_nav" id="threenav">
             </div>
+            <h1 class="title mb10">
+                <div style="width: 1170px; cursor: pointer; z-index: 99; background: #fff; padding: 10px 0px;">
+                    <div class="crumbs">
+                        <a onclick="window.location.href='indexqcode.aspx?Id='+getQueryString('Id')+'&Iid='+getQueryString('Iid')">课堂扫码评价</a>
+                        <span>&gt;</span>
+                        <a href="javascript:;" style="cursor: pointer;" onclick="window.location=window.location.href" id="couse_name">评价表管理</a>
 
-            <div style="width: 1170px;cursor:pointer;  z-index: 99; background: #fff;  padding: 10px 0px;">
-                <div class="crumbs">
-                    <a onclick="history.back()" >课堂扫码评价</a>
-                    <span>&gt;</span>
-                    <a href="javascript:;" style="cursor:pointer;" onclick="window.location=window.location.href"  id="couse_name">指标库分类管理</a>
-                 
+                    </div>
                 </div>
-            </div>
+            </h1>
 
             <div class="search_toobar clearfix mt10">
                 <div class="fl">
@@ -62,16 +63,16 @@
             </div>
         </div>
     </div>
-     <footer id="footer"></footer>
+    <footer id="footer"></footer>
     <script src="../../Scripts/Common.js"></script>
     <script src="../../Scripts/public.js"></script>
-    
+
     <script src="../../Scripts/linq.min.js"></script>
     <script src="../../Scripts/layer/layer.js"></script>
     <script src="../../Scripts/jquery.tmpl.js"></script>
     <script src="../../Scripts/WebCenter/TableDesigin.js"></script>
 
-     <script type="text/x-jquery-tmpl" id="item_eva">
+    <script type="text/x-jquery-tmpl" id="item_eva">
 
         <tr>
             <td style="text-align: left; padding-left: 20px;">${t.Name}</td>
@@ -127,7 +128,7 @@
                     <span class="operate_none bg_gray">删除
                     </span>
                 </div>
-               
+
                 {{else}}
                  
                 {{/if}}
@@ -149,13 +150,16 @@
         </tr>
     </script>
 
-  
+
     <script>
         var Eva_Role = get_Eva_Role_by_rid();
         $(function () {
 
             $('#top').load('../../header.html');
             $('#footer').load('../../footer.html');
+
+            Type = 1;
+            CreateUID = login_User.UniqueNo;
 
             tableSlide();
             initdata();
@@ -168,7 +172,7 @@
         }
         function NewEval() {
             var index = $('#threenav>a.selected').index();
-            window.location.href = '../../SysSettings/Table/AddEvalTable.aspx' + '?Id=' + getQueryString('Id') + '&Iid=' + getQueryString('Iid') + '&selected=' + index;
+            window.location.href = '../../SysSettings/Table/AddEvalTable.aspx' + '?Id=' + getQueryString('Id') + '&Iid=' + getQueryString('Iid') + '&selected=' + index + '&_Type=' + Type;
         }
         function copy(id) {
             UI_Table.copy(id);
@@ -182,7 +186,7 @@
             IsEnable = IsEnable ? 0 : 1;
             UI_Table.Enable_Eva_Table(id, IsEnable);
         }
-      
+
         //评价表预览
         function table_view(table_Id) {
             OpenIFrameWindow('评价表详情', '../../SysSettings/Table/TableView.aspx?table_Id=' + table_Id + '&Id=' + getQueryString('Id') + '&Iid=' + getQueryString('Iid'), '1000px', '600px')
@@ -192,7 +196,8 @@
             OpenIFrameWindow('新增表格', '../../SysSettings/Table/AddEvalTable.aspx?typeid=' + 1 + '&Id=' + getQueryString('Id') + '&Iid=' + getQueryString('Iid'), '800px', '800px')
         }
         function edit(id) {
-            window.location.href = '../../SysSettings/Table/AddEvalTable.aspx' + '?selected=1&Id=' + getQueryString('Id') + '&Iid=' + getQueryString('Iid') + '&table_id=' + id + '&type=1';
+
+            window.location.href = '../../SysSettings/Table/AddEvalTable.aspx' + '?selected=1&Id=' + getQueryString('Id') + '&Iid=' + getQueryString('Iid') + '&table_id=' + id + '&type=1' + '&_Type=' + Type;
         }
         //初始化表格列表
         function initdata() {
