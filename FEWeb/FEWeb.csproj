@@ -75,9 +75,12 @@
     <Content Include="css\layui.css" />
     <Content Include="css\login.css" />
     <Content Include="Evaluation\check\CheckModal.aspx" />
+    <Content Include="Evaluation\CourseEvalSee\DatabaseMan.aspx" />
     <Content Include="Evaluation\CourseEvalSee\detailModal.aspx" />
     <Content Include="Evaluation\CourseEvalSee\index.aspx" />
+    <Content Include="Evaluation\CourseEvalSee\indexqcode.aspx" />
     <Content Include="Evaluation\CourseEvalSee\Qcode.aspx" />
+    <Content Include="Evaluation\CourseEvalSee\TableDesign.aspx" />
     <Content Include="Evaluation\ExpertEvalSee\detailModal.aspx" />
     <Content Include="Evaluation\ExpertEvalSee\index.aspx" />
     <Content Include="Evaluation\Input\createModal.aspx" />
@@ -1054,6 +1057,13 @@
     <Compile Include="Evaluation\check\CheckModal.aspx.designer.cs">
       <DependentUpon>CheckModal.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Evaluation\CourseEvalSee\DatabaseMan.aspx.cs">
+      <DependentUpon>DatabaseMan.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Evaluation\CourseEvalSee\DatabaseMan.aspx.designer.cs">
+      <DependentUpon>DatabaseMan.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Evaluation\CourseEvalSee\detailModal.aspx.cs">
       <DependentUpon>detailModal.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -1068,12 +1078,26 @@
     <Compile Include="Evaluation\CourseEvalSee\index.aspx.designer.cs">
       <DependentUpon>index.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Evaluation\CourseEvalSee\indexqcode.aspx.cs">
+      <DependentUpon>indexqcode.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Evaluation\CourseEvalSee\indexqcode.aspx.designer.cs">
+      <DependentUpon>indexqcode.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Evaluation\CourseEvalSee\Qcode.aspx.cs">
       <DependentUpon>Qcode.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Evaluation\CourseEvalSee\Qcode.aspx.designer.cs">
       <DependentUpon>Qcode.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Evaluation\CourseEvalSee\TableDesign.aspx.cs">
+      <DependentUpon>TableDesign.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Evaluation\CourseEvalSee\TableDesign.aspx.designer.cs">
+      <DependentUpon>TableDesign.aspx</DependentUpon>
     </Compile>
     <Compile Include="Evaluation\ExpertEvalSee\detailModal.aspx.cs">
       <DependentUpon>detailModal.aspx</DependentUpon>

@@ -15,6 +15,12 @@
             padding-left: 110px;
             margin-top: 0;
         }
+
+        .select
+        {
+            width:140px;
+        
+        }
     </style>
 
 
@@ -28,6 +34,35 @@
     <input type="hidden" name="CreateUID" id="CreateUID" value="001" />
     <input type="hidden" name="EditUID" value="001" />
 
+     <div class="selectwrap clearfix">
+        <span class="fl cursele">当前选择：</span>
+        <div class="search_toobar clearfix fl">
+            <div class="fl">
+                <label for="">指标分类:</label>
+                <select class="select" name="IndicatorType_Id_2" isrequired="true" fl="指标分类" id="indicator_type" disabled ="disabled"  >
+                    <option value="0">--请选择--</option>
+                </select>
+            </div>
+            <div class="fl ml10">
+                <select class="select" name="IndicatorType_Id" isrequired="true" fl="指标分类" id="indicator_type_2"  disabled ="disabled"  >
+                    <option value="0">--请选择--</option>
+                </select>
+            </div>
+            <div class="fl ml10">
+                <label for="">题型:</label>
+                <select class="select" name="QuesType_Id" id="QuesType_Id" disabled="disabled" >
+                    <option value="1">单选题</option>
+                    <option value="2">多选题</option>
+                    <option value="3">问答题</option>
+                    <option value="4">选分题</option>
+                </select>
+            </div>
+            <div class="fl ml10">
+                <label for="">备注:</label>
+                <input type="text" name="Remarks" id="Remarks" placeholder="备注" value="" class="text" style="border-right: 1px solid #cccccc;" readonly="readonly">
+            </div>
+        </div>
+    </div>
 
     <div class="main" style="margin-top: 10px; min-height: 355px;" id="tb_indicator">
     </div>
@@ -110,6 +145,9 @@
         $("#QuesType_Id").val(cache_data[0]["QuesType_Id"]);
         //为备注赋值
         $("#Remarks").val(cache_data[0]["Remarks"]);
+
+        Type = getQueryString("Type");
+        CreateUID = login_User.UniqueNo;
 
         var users = [{}];//随机定义的，为了使用模板，先默认单选类型的显示
         //如果是问答的类型（3表示问答），则是一个文本域

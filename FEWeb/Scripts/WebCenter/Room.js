@@ -35,7 +35,7 @@ var S_CLS = 0;
 var S_TJ = 0;
 var S_BR = 0;
 var S_SY = 0;
-
+var PageType = '';
 function GetClassInfoCompleate() { };
 //绑定课程信息
 function GetClassInfo(PageIndex) {

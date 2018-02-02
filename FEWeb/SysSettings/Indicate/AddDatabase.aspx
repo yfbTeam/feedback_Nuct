@@ -119,6 +119,10 @@
         var index = parent.layer.getFrameIndex(window.name);//索引
         var typeid = getQueryString("typeid");//指标分类
         typeid = typeid == "undefined" ? 0 : typeid;
+
+        Type = getQueryString("Type");
+        CreateUID = login_User.UniqueNo;
+
         //retData_type 为父页面的指标分类，indicator_name获取当前指标的信息
         var indicator_name, indicator_Parent_Id;
         if (typeid != 0) {

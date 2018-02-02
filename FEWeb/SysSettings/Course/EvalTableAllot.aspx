@@ -21,8 +21,8 @@
                             <label id="lblCourseType"></label>
                         </div>
 
-                        <div class="fr ml20" style="display: block">
-                            <input type="button" value="分配评价表" class="btn " id="distable" />
+                        <div class="fr ml20" id="disdiv" style="display: block">
+                          
                         </div>
                         <div class="fr" style="margin-top: 1px">
                             <input type="text" name="" id="key" placeholder="请输入关键字" value="" class="text fl">
@@ -90,22 +90,52 @@
             <td style="width: 15%">${DateTimeConvert(CreateTime,'yyyy-MM-dd',true)}</td>
 
             <td>
-                <div class="operate" onclick="Delete_CourseType_Table('${Id}')">
+                {{if state = -1}}
+                 <div class="operate" >
+                    <i class="iconfont color_gray"></i>
+                    <span class="operate_none bg_gray" >删除      
+                    </span>
+                </div>
+                {{else}}
+                 <div class="operate" onclick="Delete_CourseType_Table('${Id}')">
                     <i class="iconfont color_purple"></i>
                     <span class="operate_none bg_purple" style="display: none;">删除      
                     </span>
                 </div>
+                {{/if}}
+
+               
             </td>
         </tr>
     </script>
+
+    <script type="text/x-jquery-tmpl" id="itembtns">
+          <input type="button" value="分配评价表" class="btn " id="distable" />
+    </script>
+     <script type="text/x-jquery-tmpl" id="itembtnsNo">
+          <input type="button" value="分配评价表" class="btn "  style="background: #A8A8A8"/>
+    </script>
+
     <script>
         //当前选择的课程类型
         var select_CourseTypeId = getQueryString('select_CourseTypeId');
         //当前选择的课程类型
         var select_CourseTypeName = getQueryString('select_CourseTypeName');
+
+        var state = getQueryString('state');
+
         var CourseType_Table_Dat = [];
         var select_sectionid = parent.select_sectionid
         $(function () {
+            if (state == -1)
+            {
+                $("#itembtnsNo").tmpl(1).appendTo("#disdiv");
+            }
+            else
+            {
+                $("#itembtns").tmpl(1).appendTo("#disdiv");
+            }
+
             $('#lblCourseType').text(select_CourseTypeName);
             $('#distable').on('click', function () {
                 OpenIFrameWindow('分配表格', 'Allot_Add_Table.aspx?course_TypeId=' + select_CourseTypeId + '&select_CourseTypeName=' + select_CourseTypeName, '800px', '500px');

@@ -552,7 +552,7 @@ function incontorl_helper(isscore) {
 
 
 function onlyNum() {
-    if (event.keyCode == 190) {
+    if (event.keyCode == 190 || event.keyCode == 110) {
         event.returnValue = true;
         return;
     }

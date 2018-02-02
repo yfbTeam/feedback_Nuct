@@ -331,7 +331,7 @@ namespace FEHandler.SysClass
 
                 string dictiontypevalue = Convert.ToString((int)dictiontype);
                 var courrel = (from CourseRel_ in CourseRel_List
-                               where CourseRel_.StudySection_Id == SectionId && CourseRel_.CourseType_Id == CourseTypeID
+                               where CourseRel_.StudySection_Id == SectionId 
                                join Sys_Dictionary_ in Sys_Dictionary_List.Where(i => i.Type == dictiontypevalue) on CourseRel_.CourseType_Id equals Sys_Dictionary_.Key
                                where Sys_Dictionary_.SectionId == SectionId
                                select new
@@ -342,6 +342,13 @@ namespace FEHandler.SysClass
                                    Sys_Dictionary_.IsEnable,
                                    CourseRelID = CourseRel_.Id
                                }).ToList();
+
+
+                if (CourseTypeID != "-1")
+                {
+                    courrel = (from c in courrel where  c.CourseType_Id ==CourseTypeID select c ).ToList();
+                }
+
                 var query = (from Course_ in Course_List
                              join cr in courrel on Course_.UniqueNo equals cr.Course_Id
                              orderby Course_.IsEnable

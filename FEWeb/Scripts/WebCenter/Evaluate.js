@@ -306,6 +306,7 @@ var Mode = 1;  //Check  Record
 var AnswerUID = ''; //专家，不填则为管理员
 
 var IsAllSchool = 0;
+var eva_check_depart = false, eva_check_school = false, eva_check_indepart = false;//专家 所有  专家（校）
 
 function Get_Eva_QuestionAnswerCompleate() { };
 function Get_Eva_QuestionAnswer(PageIndex, SectionID, DepartmentID, Key, TableID) {
@@ -446,6 +447,7 @@ function Get_Eva_QuestionAnswerDetail(Id) {
                                     $('.test_lists').find('div[DetailID="' + item.TableDetailID + '"]').find('li[lioption="' + lists[i] + '"]').addClass("on");
                                 }
                                 else {
+                                    
                                     $('.test_lists').find('div[DetailID="' + item.TableDetailID + '"]').find('input[flv="' + lists[i] + '"]').attr("checked", true);
                                 }
                             }
@@ -474,7 +476,7 @@ function Get_Eva_QuestionAnswerDetail(Id) {
                     case 'EvalDetail':
                         $("#item_check").tmpl(data.HeaderList).appendTo(".table_header_left");
                         if (IsScore == 0) {
-                            $("#sp_total").html('分数：' + data.Score + '分')
+                            $("#sp_total").html('分数：' + data.Score.toFixed(2) + '分')
                         }
                         else {
                             $("#sp_total").html('不计分')
@@ -654,7 +656,7 @@ function Get_Eva_RoomDetailAnswerList(PageIndex, TableDetailID) {
 
 
 function onlyNum() {
-    if (event.keyCode == 190) {
+    if (event.keyCode == 190 || event.keyCode == 110) {
         event.returnValue = true;
         return;
     }
