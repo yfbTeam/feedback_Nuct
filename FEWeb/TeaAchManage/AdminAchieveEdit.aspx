@@ -320,7 +320,7 @@
             <textarea id="txt_Reasonreward" class="textarea" placeholder="请输入修改原因" isrequired="true" fl="修改原因"></textarea>
             <div class="input_lable input_lable2">
                 <label for="" style="min-width: 46px;">附件：</label>
-                <div class="fl uploader_container" style="padding-left:56px;">
+                <div class="fl uploader_container pr" style="padding-left:56px;">
                     <div id="uploader_reward" class="allot_file">
                         <div class="queueList">
                             <div id="dndArea_reward" class="placeholder photo_lists">
@@ -336,6 +336,7 @@
                             <div class="info"></div>
                         </div>
                     </div>
+                    <div class="uploader_msg" style="left:190px;">单个文件大小不可超过50M</div>
                 </div>
             </div>
             <div class="reward_btn">

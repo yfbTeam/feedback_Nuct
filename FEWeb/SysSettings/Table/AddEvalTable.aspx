@@ -72,7 +72,7 @@
                     <input type="button" name="" id="" value="选择指标" class="btn ml10" onclick="openIndicator()" />
                 </div>
                 <div class="evalheader_left fl" style="margin-top: 5px; margin-bottom: 5px">
-                    <span style="float: left; margin-top: 7px">指标权重：</span>
+                    <span style="float: left; margin-top: 7px;color:#666;">指标权重：</span>
                     <em class="fl">
                         <label for="A">A</label>
                         <input type="number" placeholder="0.95" value="0.95" onkeydown="onlyNum();" class="number" min="0" id="A" step="0.01">

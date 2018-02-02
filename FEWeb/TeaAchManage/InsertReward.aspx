@@ -101,7 +101,7 @@
                     <label for="">负责单位：</label>
                     <select class="chosen-select" data-placeholder="负责单位" id="DepartMent" name="DepartMent" multiple="multiple"></select>
                 </div>
-                <div class="input_lable input_lable2">
+                <div class="input_lable input_lable2" style="top:10px;">
                         <label for="">获奖证书：</label>                        
                         <div class="fl uploader_container">
                             <div id="uploader_certi6">
