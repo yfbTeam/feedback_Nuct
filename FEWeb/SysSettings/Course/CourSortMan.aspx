@@ -158,7 +158,7 @@
                 {{if course_parent.Study_IsEnable == 0}}
                   <input type="button" value="新增分类" style="display: block" class="new" onclick="OpenIFrameWindow('新增分类', 'AddCourseSort.aspx?itemid=0&SectionId={{= course_parent.SectionId}}&IsEnable=0', '500px', '280px')" />
                 {{else course_parent.Study_IsEnable== 1}}
-                  <input type="button" value="新增评价" style="display: block; background: #A8A8A8" class="new" />
+                  <input type="button" value="新增分类" style="display: block; background: #A8A8A8" class="new" />
                 {{/if}}
               
             </ul>
