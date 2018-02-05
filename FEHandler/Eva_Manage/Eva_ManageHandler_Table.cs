@@ -72,8 +72,7 @@ namespace FEHandler.Eva_Manage
             string CourseID = RequestHelper.string_transfer(Request, "CourseID");
             int SectionID = RequestHelper.int_transfer(Request, "SectionID");
 
-            int Type = RequestHelper.int_transfer(Request, "Type");
-        
+            int Type = RequestHelper.int_transfer(Request, "Type");        
             string CreateUID = RequestHelper.string_transfer(Request, "CreateUID");
 
             try
@@ -99,10 +98,10 @@ namespace FEHandler.Eva_Manage
             {
                
                 TableType TableType = (TableType)Type;
-                List<Eva_Table> tblist = (from t in Constant.Eva_Table_List where t.Type == Type select t).ToList();
+                List<Eva_Table> tblist = (from t in Constant.Eva_Table_List where t.Type == Type && t.IsEnable == (int)IsEnable.Enable select t).ToList();
                 if (TableType == FEModel.Enum.TableType.teacherself)
                 {
-                    tblist = (from t in Constant.Eva_Table_List where t.CreateUID == CreateUID select t).ToList();
+                    tblist = (from t in tblist where t.CreateUID == CreateUID select t).ToList();
                 }
                 if (SectionID > 0)
                 {
@@ -111,8 +110,7 @@ namespace FEHandler.Eva_Manage
                                  join cr in Constant.CourseRel_List on dic.Key equals cr.CourseType_Id
                                  where (CourseID != "" && cr.Course_Id == CourseID) || CourseID == ""
                                  join cb in Constant.Eva_CourseType_Table_List on dic.Key equals cb.CourseTypeId
-                                 join tb in tblist on cb.TableId equals tb.Id
-                                 where tb.IsEnable == (int)IsEnable.Enable
+                                 join tb in tblist on cb.TableId equals tb.Id                               
                                  select tb).Distinct(new Eva_TableComparer()).ToList();
 
                 }

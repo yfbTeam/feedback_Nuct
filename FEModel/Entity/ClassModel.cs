@@ -54,5 +54,7 @@ namespace FEModel.Entity
         public int? TeacherBirthday { get; set; }
 
         public int? TeacherSchooldate { get; set; }
+
+        public string Id { get; set; }
     }
 }

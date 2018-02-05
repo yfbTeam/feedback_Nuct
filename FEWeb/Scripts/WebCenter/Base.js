@@ -1,4 +1,8 @@
 ﻿/// <reference path="../jquery-1.11.2.min.js" />
+
+var t_Type = 0;
+var CreateUID = '';
+
 var Base = {
     bindStudySectionCompleate: function () { },
     bindStudySection: function () {
@@ -81,13 +85,14 @@ var Base = {
 
     BindTableCompleate: function () { },
     BindTable: function (SectionID, CourseID) {
+       
         $.ajax({
             url: HanderServiceUrl + "/Eva_Manage/Eva_ManageHandler.ashx",
             type: "post",
             dataType: "json",
             data: {
                 func: "Get_Eva_Table",
-                "CourseID": CourseID, "SectionID": SectionID,
+                "CourseID": CourseID, "SectionID": SectionID, "Type": t_Type,"CreateUID":CreateUID
             },
             success: function (json) {
 

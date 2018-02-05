@@ -28,16 +28,18 @@
         }
 
             #ulist li {
-                vertical-align:middle;
+                vertical-align: middle;
+                margin-bottom: 5px;
+                text-align: left;
             }
 
-            #ulist input
-            {
-                vertical-align:middle;
+            #ulist input {
+                vertical-align: middle;
+                margin-right: 3px;
             }
-             #ulist label
-            {
-                vertical-align:middle;
+
+            #ulist label {
+                vertical-align: middle;
             }
     </style>
 </head>
@@ -56,13 +58,13 @@
             </div>
             <div class="input-wrap">
                 <label>起止时间：</label>
-                <input type="text" id="StartTime" name="StartTime" class="text ml10 Wdate" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})" style="width: 150px; margin-left: 10px;" />
+                <input type="text" id="StartTime" name="StartTime" class="text ml10 Wdate" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm',startDate:'%y-%M-01 00:00:00'})" style="width: 150px; margin-left: 10px;" />
                 <span style="padding-left: 10px;">~</span>
-                <input type="text" id="EndTime" name="EndTime" class="text Wdate" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})" style="width: 150px;" />
+                <input type="text" id="EndTime" name="EndTime" class="text Wdate" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm',startDate:'%y-%M-01 00:00:00'})" style="width: 150px;" />
             </div>
             <div class="input-wrap1 pr pb20" >
                 <label style="width:100px;margin-right:6px;display:inline-block">评价表分配：</label>
-                <select id ="table" class="select ml10" style="width:335px;">
+                <select id ="table" class="select ml10" style="width:335px;"   title="12">
                          
                 </select>
             </div>
@@ -70,10 +72,9 @@
                 <label class="fl">评价范围：</label>
 
                 <ul id="ulist" class="fl">
-                    <li class="fl">
-                         <input type="checkbox" id="all" /><label  for="all">全部</label>
+                    <li  >
+                     <input type="checkbox" id="all" /><label  for="all">全部</label>            
                     </li>
-                    
                 </ul>
                
             </div>
@@ -94,10 +95,17 @@
     <script src="../../scripts/layer/layer.js"></script>
     <script src="../../scripts/jquery.tmpl.js"></script>
     <script src="../../Scripts/WebCenter/Base.js"></script>
+    <script src="../../Scripts/WebCenter/Room.js"></script>
     <script src="../../Scripts/choosen/chosen.jquery.js"></script>
     <script src="../../Scripts/choosen/prism.js"></script>
     <script type="text/javascript" src="../../scripts/My97DatePicker/WdatePicker.js"></script>
     <script src="../../Scripts/WebCenter/RegularEval.js"></script>
+
+    <script type="text/x-jquery-tmpl" id="itemcourse">
+        <li >
+             <input type="checkbox" class="li_other" id="${Id}" /><label  for="${Id}">${ClassName}&nbsp;&nbsp;&nbsp;${Course_Name}</label>            
+         </li>
+    </script>
     <script>
 
         var that = this;
@@ -151,20 +159,62 @@
                     else {
                         LookType = 0;
                         DepartmentIDs = [];
+                    }                   
+                    if ($('.li_other:checked').length == 0)
+                    {
+                        layer.msg('请指定评价范围');
+                        return;
                     }
+
                     TableID = $('#table').val();
                     select_sectionid = $('#section').val();
                     Add_Eva_RegularCompleate = function () {
-                        parent.Reflesh();
+                        parent.Refesh();
                     };
-                    Add_Eva_Regular(2);
+                    Add_Eva_Regular(3);
                 }
             },
             mounted: function () {
                 this.role = GetLoginUser().Sys_Role_Id;
+                Base.bindStudySectionCompleate = function () {
+                    SectionID = $('#section').val();
+                    GetClassInfoSelect(SectionID, login_User.UniqueNo);
+
+                    $("#itemcourse").tmpl(CCList).appendTo("#ulist");
+
+                    $('.li_other').on('click', function () {
+                        if ($('.li_other').length == $('.li_other:checked').length)
+                        {
+                            $('#all').prop('checked', true);
+                        }
+                        else
+                        {
+                            $('#all').prop('checked', false);
+                        }
+                    });
+                };
                 Base.bindStudySection();
+
+                Type = 1;
+                t_Type = 1;
+                CreateUID = login_User.UniqueNo;
+
                 Base.BindTable();
                 Base.BindDepart();
+
+                $('#all').on('click', function () {
+                    var that = $(this);
+                    $('.li_other').each(function () {                      
+                        if (that.is(':checked'))
+                        {
+                            $('.li_other').prop('checked', true);
+                        }
+                        else
+                        {
+                            $('.li_other').prop('checked', false);
+                        }                       
+                    });
+                });
             }
         })
 

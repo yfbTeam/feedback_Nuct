@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="CreateModel.aspx.cs" Inherits="FEWeb.SysSettings.Regu.CreateModel" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="EditModel.aspx.cs" Inherits="FEWeb.Evaluation.CourseEvalSee.EditModel" %>
 
 <!DOCTYPE html>
 <html>
@@ -20,6 +20,26 @@
             float: left;
             line-height: 35px;
         }
+        #ulist {
+            vertical-align: middle;
+            margin-top: 11px;
+            margin-left: 10px;
+        }
+
+            #ulist li {
+                vertical-align: middle;
+                margin-bottom: 5px;
+                text-align: left;
+            }
+
+            #ulist input {
+                vertical-align: middle;
+                margin-right: 3px;
+            }
+
+            #ulist label {
+                vertical-align: middle;
+            }
     </style>
 </head>
 <body >
@@ -27,42 +47,32 @@
         <div class="main" >
             <div class="input-wrap">
                 <label>评价名称：</label>
-                <input type="text" class="text" id="name" value="" placeholder="请填写评价名称" style="width:333px;"/>
+                <input type="text" class="text" id="name"  readonly="readonly" value="" placeholder="请填写评价名称" style="width:333px;"/>
             </div>
             <div class="input-wrap">
                 <label>学年学期：</label>
-                <select class="select ml10" style="width:335px;" id="section" >
-              <%--      <option value="0">全部</option>--%>
+                <select class="select ml10" style="width:335px;" id="section" disabled="disabled">
+           
                 </select>
             </div>
             <div class="input-wrap">
                 <label>起止时间：</label>
-                <input type="text" id="StartTime" name="StartTime" class="text ml10 Wdate" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm',startDate:'%y-%M-01 00:00:00'})" style="width: 150px; margin-left: 10px;" />
+                <input type="text" id="StartTime" disabled="disabled" name="StartTime" class="text ml10 Wdate" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm',startDate:'%y-%M-01 00:00:00'})" style="width: 151px; margin-left: 10px;" />
                 <span style="padding-left: 10px;">~</span>
-                <input type="text" id="EndTime" name="EndTime" class="text Wdate" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm',startDate:'%y-%M-01 00:00:00'})" style="width: 150px;" />
+                <input type="text" id="EndTime" name="EndTime" class="text Wdate" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm',startDate:'%y-%M-01 00:00:00'})" style="width: 151px;" />
             </div>
             <div class="input-wrap1 pr pb20" >
                 <label style="width:100px;margin-right:6px;display:inline-block">评价表分配：</label>
-                <select id ="table" class="select ml10" style="width:335px;">
+                <select id ="table" disabled="disabled" class="select ml10" style="width:335px;">
                          
                 </select>
             </div>
-            <div class="input-wrap clearfix" v-if="role==1" v-cloak>
-                <label>评价范围：</label>
-                <span class="ml10">
-                    <input type="radio" name="rank" id="all" class="magic-radio"  v-model="picked" value="0"  @change="DepartToggle">
-                    <label for="all">全校</label>
-                </span>
-                <span class="ml10">
-                    <input type="radio" name="rank" id="appoint" class="magic-radio" v-model="picked" value="1" @change="DepartToggle">
-                    <label for="appoint">指定部门</label>
-                </span>
-            </div>
-            <div class="input-wrap1 pb20" v-cloak v-show="appoint">
-                <label class="label"></label>
-                <select id="DepartMent" data-placeholder="选择部门" class="chosen-select select" multiple="multiple">
-                  
-                </select>
+            <div class="input-wrap clearfix" v-cloak>
+                <label class="fl">评价范围：</label>
+
+                <ul id="ulist" class="fl">
+                </ul>
+
             </div>
         </div>
         <div class="btnwrap">
@@ -84,9 +94,18 @@
     <script src="../../Scripts/choosen/prism.js"></script>
     <script type="text/javascript" src="../../scripts/My97DatePicker/WdatePicker.js"></script>
     <script src="../../Scripts/WebCenter/RegularEval.js"></script>
-    <script>
 
-        var that = this;
+    <script type="text/x-jquery-tmpl" id="itemCourse">
+        <li>            
+           ${CourseName} &nbsp;&nbsp;&nbsp;  ${ClassName}
+        </li>
+    </script>
+   
+    <script>
+        var Id = getQueryString('Id');
+        var CourseName = getQueryString('CourseName');
+        var ClassName = getQueryString('ClassName');
+        var StateType = getQueryString('StateType');
         var newEval = new Vue({
             el: '#newEval',
             data: {
@@ -96,8 +115,7 @@
             },
             methods: {
                 DepartToggle: function () {
-                    this.picked == 1 ? this.appoint = true : this.appoint = false;
-                   
+                    this.picked == 1 ? this.appoint = true : this.appoint = false
                 },
 
                 submit: function () {
@@ -139,20 +157,37 @@
                         DepartmentIDs = [];
                     }
                     TableID = $('#table').val();
+
                     select_sectionid = $('#section').val();
-                    Add_Eva_RegularCompleate = function () {
+                    Edit_Eva_RegularCompleate = function () {
                         parent.Reflesh();
                     };
-                    Add_Eva_Regular(2);
-                    
+                    Edit_Eva_Regular(2);
                 }
             },
             mounted: function () {
                 this.role = GetLoginUser().Sys_Role_Id;
-              
+
+                if (StateType == 1)
+                {
+                    $('#name').prop('readonly', false);
+                    $('#section,#StartTime,#table').prop('disabled', false);
+                    
+                }
+
+
                 Base.bindStudySection();
+                t_Type = 1;
+                CreateUID = login_User.UniqueNo;
+
+                Base.BindTableCompleate = function () {
+                    Get_Eva_RegularSingle(2, true);
+                };
                 Base.BindTable();
                 Base.BindDepart();
+
+                var obj = { CourseName: CourseName, ClassName: ClassName };
+                $("#itemCourse").tmpl(obj).appendTo("#ulist");
             }
         })
 
