@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="SeeModel.aspx.cs" Inherits="FEWeb.SysSettings.Regu.SeeModel" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="SeeModel.aspx.cs" Inherits="FEWeb.Evaluation.CourseEvalSee.SeeModel" %>
 
 <!DOCTYPE html>
 <html>
@@ -32,24 +32,45 @@
 
         .search_result1 {
             margin-top: 10px;
-             width: 335px; 
+            width: 335px;
             border: 1px solid #eef3f2;
-             margin-left: 110px; 
+            margin-left: 110px;
             margin-top: 10px;
             margin-bottom: 10px;
         }
+
+        #ulist {
+            vertical-align: middle;
+            margin-top: 11px;
+            margin-left: 10px;
+        }
+
+            #ulist li {
+                vertical-align: middle;
+                margin-bottom: 5px;
+                text-align: left;
+            }
+
+            #ulist input {
+                vertical-align: middle;
+                margin-right: 3px;
+            }
+
+            #ulist label {
+                vertical-align: middle;
+            }
     </style>
 </head>
-<body >
+<body>
     <div id="newEval">
-        <div class="main" >
+        <div class="main">
             <div class="input-wrap">
                 <label>评价名称：</label>
-                <input type="text"  readonly="readonly" class="text" id="name" value="" placeholder="请填写评价名称" style="width:333px;"/>
+                <input type="text" readonly="readonly" class="text" id="name" value="" placeholder="请填写评价名称" style="width: 333px;" />
             </div>
             <div class="input-wrap">
                 <label>学年学期：</label>
-                <input type="text"  readonly="readonly" class="select ml10" style="width:335px;" id="section" />                            
+                <input type="text" readonly="readonly" class="select ml10" style="width: 335px;" id="section" />
             </div>
             <div class="input-wrap">
                 <label>起止时间：</label>
@@ -59,37 +80,20 @@
             </div>
             <div class="input-wrap pr">
                 <label>评价表分配：</label>
-                <input type="text"   readonly="readonly" id ="table" class="select ml10" style="width:335px;"/>
-                   
-            </div>
-            <div class="input-wrap clearfix" v-if="role==1" v-cloak>
-                <label>评价范围：</label>
-                <span class="ml10" id="allspan">
-                    <input type="radio"   name="rank" id="all" class="magic-radio"  v-model="picked" value="0"  @change="DepartToggle">
-                    <label for="all">全校</label>
-                </span>
-                <span class="ml10" id="appointspan">
-                    <input type="radio"   name="rank" id="appoint" class="magic-radio" v-model="picked" value="1" @change="DepartToggle">
-                    <label for="appoint">指定部门</label>
-                </span>
-            </div>
-            <div class="input-wrap1 pb20" v-cloak v-show="appoint">
-               <div class="clearfix search_result1" style="margin-top: 10px;">
+                <input type="text" readonly="readonly" id="table" class="select ml10" style="width: 335px;" />
 
-                <ul id="_slect_department" style="margin-top: 15px; margin-bottom: 15px">               
+            </div>
+            <div class="input-wrap clearfix" v-cloak>
+                <label class="fl">评价范围：</label>
 
+                <ul id="ulist" class="fl">
                 </ul>
-                <div id="div_tip" style="margin-bottom: 10px; display: none;">
-                    <label id="tip" style="font-size: 16px;">
-                        全校
-                    </label>
-                </div>
-            </div>
+
             </div>
 
-            
+
         </div>
-        <div class="btnwrap">         
+        <div class="btnwrap">
             <input type="button" value="关闭" class="btna" onclick="parent.CloseIFrameWindow();" />
         </div>
     </div>
@@ -103,6 +107,7 @@
     <script src="../../scripts/layer/layer.js"></script>
     <script src="../../scripts/jquery.tmpl.js"></script>
     <script src="../../Scripts/WebCenter/Base.js"></script>
+    <script src="../../Scripts/WebCenter/Room.js"></script>
     <script src="../../Scripts/choosen/chosen.jquery.js"></script>
     <script src="../../Scripts/choosen/prism.js"></script>
     <script type="text/javascript" src="../../scripts/My97DatePicker/WdatePicker.js"></script>
@@ -113,9 +118,18 @@
 
         </li>
     </script>
+
+    <script type="text/x-jquery-tmpl" id="itemCourse">
+        <li>            
+           ${CourseName} &nbsp;&nbsp;&nbsp;  ${ClassName}
+        </li>
+    </script>
+
     <script>
 
         var Id = getQueryString('Id');
+        var CourseName = getQueryString('CourseName');
+        var ClassName = getQueryString('ClassName');
         var that = this;
         var newEval = new Vue({
             el: '#newEval',
@@ -132,7 +146,12 @@
             },
             mounted: function () {
                 this.role = GetLoginUser().Sys_Role_Id;
+                Get_Eva_RegularSingleCompleate = function (regu) {
+                    var rlist = regu.RoomID.split(',');
+                };
                 Get_Eva_RegularSingle(2);
+                var obj = { CourseName: CourseName, ClassName: ClassName };
+                $("#itemCourse").tmpl(obj).appendTo("#ulist");            
             }
         })
 

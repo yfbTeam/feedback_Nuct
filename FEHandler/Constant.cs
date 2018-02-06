@@ -1619,7 +1619,8 @@ namespace FEHandler
                         Name = Convert.ToString(dr["Name"]),
                         Remarks = Convert.ToString(dr["Remarks"]),
                         UseTimes = Convert.ToInt32(dr["UseTimes"]),
-
+                         
+                             
                         Type = Convert.ToInt32(dr["Type"]),
                         CreateTime = Convert.ToDateTime(dr["CreateTime"]),
                         CreateUID = Convert.ToString(dr["CreateUID"]),

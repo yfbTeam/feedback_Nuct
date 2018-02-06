@@ -120,7 +120,7 @@ function GetClassInfo(PageIndex) {
     });
 }
 
-
+var CCList = {};
 function GetClassInfoSelectCompleate() { };
 function GetClassInfoSelect(SectionID, TeacherUID, CourseID) {
     var postData = {
@@ -219,6 +219,9 @@ function GetClassInfoSelect(SectionID, TeacherUID, CourseID) {
                     $("#RP").append(str);
                 });
                 ChosenInit($('#RP'));
+
+
+                CCList = obj.CCList;
 
                 GetClassInfoSelectCompleate();
             }

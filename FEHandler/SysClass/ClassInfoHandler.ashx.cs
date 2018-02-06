@@ -171,11 +171,11 @@ namespace FEHandler.SysClass
                 jsonModel = GetClassInfo_Helper(PageIndex, PageSize, SectionID, DP, CT, CP, TD, TN, MD, GD,
                     CN, Key, ClassModelType, BirthdayS, BirthdayE, SchoolS, SchoolE,
                     S_DP, S_CN, S_CT, S_CP, S_TD, S_TN, S_MD, S_GD, S_CLS, S_TJ, S_BR, S_SY);
-            }                                       
-            catch (Exception ex)                   
-            {                                      
-                LogHelper.Error(ex);                 
-            }                                        
+            }
+            catch (Exception ex)
+            {
+                LogHelper.Error(ex);
+            }
             finally
             {
                 //无论后端出现什么问题，都要给前端有个通知【为防止jsonModel 为空 ,全局字段 jsonModel 特意声明之后进行初始化】
@@ -185,7 +185,7 @@ namespace FEHandler.SysClass
 
         public static JsonModelNum GetClassInfo_Helper(int PageIndex, int PageSize, int SectionID, string DP, string CT, string CP, string TD,
             string TN, string MD, string GD, string CN, string Key, ClassModelType ClassModelType, int BirthdayS, int BirthdayE, int SchoolS, int SchoolE,
-            SortType S_DP, SortType S_CN, SortType S_CT, SortType S_CP, SortType S_TD, SortType S_TN, 
+            SortType S_DP, SortType S_CN, SortType S_CT, SortType S_CP, SortType S_TD, SortType S_TN,
             SortType S_MD, SortType S_GD, SortType S_CLS, SortType S_TJ, SortType S_BR, SortType S_SY)
         {
             int intSuccess = (int)errNum.Success;
@@ -277,7 +277,7 @@ namespace FEHandler.SysClass
 
         private static IEnumerable<ClassModel> GetClassInfoSortHelper(SortType S_DP, SortType S_CN, SortType S_CT, SortType S_CP, SortType S_TD, SortType S_TN, SortType S_MD, SortType S_GD, SortType S_CLS, SortType S_TJ, SortType S_BR, SortType S_SY, IEnumerable<ClassModel> query)
         {
-             try
+            try
             {
                 if (S_DP != SortType.normal)
                 {
@@ -342,7 +342,7 @@ namespace FEHandler.SysClass
                     query = S_DP == SortType.desc ? (from q in query orderby q.TeacherSchooldate descending select q)
                    : (from q in query orderby q.TeacherSchooldate ascending select q);
                 }
-             }
+            }
             catch (Exception ex)
             {
                 LogHelper.Error(ex);
@@ -352,7 +352,7 @@ namespace FEHandler.SysClass
 
         private static IEnumerable<ClassModel> GetClassInfoNormalHelper(int SectionID, string DP, string CT, string CP, string TD, string TN, string MD, string GD, string CN, string Key, IEnumerable<ClassModel> query)
         {
-             try
+            try
             {
                 if (SectionID > 0)
                 {
@@ -395,7 +395,7 @@ namespace FEHandler.SysClass
                 {
                     query = (from q in query where q.Course_Name.Contains(Key) select q);
                 }
-             }
+            }
             catch (Exception ex)
             {
                 LogHelper.Error(ex);
@@ -445,6 +445,7 @@ namespace FEHandler.SysClass
                              join StudySection_ in StudySection_List on CourseRoom_.StudySection_Id equals StudySection_.Id
                              select new ClassModel()
                              {
+                                 Id = CourseRoom_.UniqueNo,
                                  SectionID = StudySection_.Id,
                                  //年度
                                  Academic = StudySection_.Academic,
@@ -510,6 +511,7 @@ namespace FEHandler.SysClass
                     CNList = (from qe in query where qe.ClassName != "" select qe.ClassName).Distinct().ToList(),
                     RPList = (from qe in query where qe.RoomDepartmentName != "" select qe.RoomDepartmentName).Distinct().ToList(),
                     ClsList = (from qe in query where qe.ClassName != "" select new ClsModel() { ClassID = qe.ClassID, ClassName = qe.ClassName }).Distinct(new ClsModelComparer()).ToList(),
+                    CCList = (from qe in query where qe.CourseID != "" && qe.ClassID != "" select new CCModel {Id =qe.Id, ClassID = qe.ClassID, CourseID = qe.CourseID, ClassName = qe.ClassName, Course_Name = qe.Course_Name }).Distinct(new CCModelComparer()).ToList(),
                 };
 
                 jsm = JsonModelNum.GetJsonModel_o(intSuccess, "success", data);

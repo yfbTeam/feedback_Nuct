@@ -68,6 +68,9 @@
     <div id="top"></div>
     <div class="center" id="centerwrap">
         <div class="wrap ">
+             <div class="sort_nav" id="threenav">
+            </div>
+
             <h1 class="tablename" style="font-weight: bold;"></h1>
 
             <div class="evalmes" style="color: #999999; font-size: 14px">
@@ -218,7 +221,7 @@
     <script>
 
         var table_Id = getQueryString('TableID');
-
+        var Type = getQueryString('Type');
         SectionID = getQueryString('SectionID');
         ReguID = getQueryString('ReguID');
         CourseID = getQueryString('CourseID');
@@ -229,6 +232,17 @@
         $(function () {
             $('#top').load('/header.html');
             $('#footer').load('/footer.html');
+
+            if (Type == 3)
+            {
+                $('#threenav').children().eq(0).addClass('selected');
+                $('#list').hide();
+            }
+            else
+            {
+                $('#threenav').children().eq(1).addClass('selected');
+            }
+
 
             UI_Table_View.PageType = 'detailModal';
             UI_Table_View.IsPage_Display = true;

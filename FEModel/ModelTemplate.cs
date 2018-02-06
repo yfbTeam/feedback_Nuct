@@ -2591,114 +2591,6 @@ namespace FEModel
 	///	
 	/// </summary>
 	[Serializable]
-    public partial class Eva_Regular
-    {
-
-		/// <summary>
-		/// 
-		/// </summary>
-		public int? Id { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public string Name { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public DateTime? StartTime { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public DateTime? EndTime { get; set; }
-		/// <summary>
-		///查看时间 0 始终（默认）；1设置 
-		/// </summary>
-		public Byte? LookType { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public string DepartmentIDs { get; set; }
-		/// <summary>
-		///查看开始时间 
-		/// </summary>
-		public DateTime? Look_StartTime { get; set; }
-		/// <summary>
-		///查看结束时间 
-		/// </summary>
-		public DateTime? Look_EndTime { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public int? Section_Id { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public string MaxPercent { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public string MinPercent { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public string Remarks { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public int? TableID { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public int? Type { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public string CreateUID { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public DateTime? CreateTime { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public string EditUID { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public DateTime? EditTime { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public Byte? IsEnable { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public Byte? IsDelete { get; set; }
-
-          public override bool Equals(object obj)
-        {
-            bool result = false;
-            if (obj.GetType() == typeof(Eva_Regular))
-            {
-                Eva_Regular _obj = obj as Eva_Regular;
-                if (_obj.Id == this.Id)
-                {
-                    result = true;
-                }
-            }
-            return result;
-        }
-
-	    public override int GetHashCode()
-        {
-            return base.GetHashCode();
-        }
-    }
-
-	/// </summary>
-	///	
-	/// </summary>
-	[Serializable]
     public partial class Eva_Table
     {
 
@@ -4009,6 +3901,118 @@ namespace FEModel
             if (obj.GetType() == typeof(TPM_AcheiveRewardInfo))
             {
                 TPM_AcheiveRewardInfo _obj = obj as TPM_AcheiveRewardInfo;
+                if (_obj.Id == this.Id)
+                {
+                    result = true;
+                }
+            }
+            return result;
+        }
+
+	    public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
+    }
+
+	/// </summary>
+	///	
+	/// </summary>
+	[Serializable]
+    public partial class Eva_Regular
+    {
+
+		/// <summary>
+		/// 
+		/// </summary>
+		public int? Id { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public string Name { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public DateTime? StartTime { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public DateTime? EndTime { get; set; }
+		/// <summary>
+		///查看时间 0 始终（默认）；1设置 
+		/// </summary>
+		public Byte? LookType { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public string DepartmentIDs { get; set; }
+		/// <summary>
+		///查看开始时间 
+		/// </summary>
+		public DateTime? Look_StartTime { get; set; }
+		/// <summary>
+		///查看结束时间 
+		/// </summary>
+		public DateTime? Look_EndTime { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public int? Section_Id { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public string MaxPercent { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public string MinPercent { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public string Remarks { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public int? TableID { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public string RoomID { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public int? Type { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public string CreateUID { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public DateTime? CreateTime { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public string EditUID { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public DateTime? EditTime { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public Byte? IsEnable { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public Byte? IsDelete { get; set; }
+
+          public override bool Equals(object obj)
+        {
+            bool result = false;
+            if (obj.GetType() == typeof(Eva_Regular))
+            {
+                Eva_Regular _obj = obj as Eva_Regular;
                 if (_obj.Id == this.Id)
                 {
                     result = true;

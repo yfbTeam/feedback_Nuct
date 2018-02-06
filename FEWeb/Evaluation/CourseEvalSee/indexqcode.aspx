@@ -27,27 +27,29 @@
 
                 <div class="fl ml10">
                     <label for="">课程:</label>
-                    <select class="select" id="" style="width: 148px;">
+                    <select class="select" id="course" style="width: 148px;">
+                        <option value="">全部</option>
                     </select>
                 </div>
 
                 <div class="fl ml10">
                     <label for="">合班:</label>
-                    <select class="select" id="" style="width: 148px;">
+                    <select class="select" id="class" style="width: 148px;">
+                        <option value="">全部</option>
                     </select>
                 </div>
 
-           
+
                 <div class="fr pr ml10">
-                    <button class="btn"  onclick="OpenIFrameWindow('新增评价', 'SartEval.aspx', '545px', '450px')" >发起评价</button>
+                    <button class="btn" onclick="OpenIFrameWindow('新增评价', 'SartEval.aspx', '545px', '450px')">发起评价</button>
                     <b class="dian" style="display: none"></b>
                 </div>
-              
+
                 <div class="fr pr ml10">
                     <button class="btn" onclick="window.location.href='TableDesign.aspx?Id='+getQueryString('Id')+'&Iid='+getQueryString('Iid')">评价表管理</button>
                     <b class="dian" style="display: none"></b>
                 </div>
-               
+
                 <div class="fr pr ml10">
                     <button class="btn" onclick="window.location.href='DatabaseMan.aspx?Id='+getQueryString('Id')+'&Iid='+getQueryString('Iid')">指标库管理</button>
                     <b class="dian" style="display: none"></b>
@@ -103,41 +105,89 @@
 
     <script type="text/x-jquery-tmpl" id="itemData">
         <tr>
-            <td style="width: 5%">${Num}</td>
-            <td style="width: 7%">${DisPlayName}</td>
-            <td style="width: 7%" title="${ReguName}">${cutstr(ReguName,10)}</td>
-            <td title="${CourseName}" style="width: 15%">${cutstr(CourseName,25)}</td>
-            <td style="width: 7%">${TeacherName}</td>
-            <td title="${RoomDepartmentName}" style="width: 15%">${cutstr(RoomDepartmentName,15)}</td>
-            <td style="width: 6%">${GradeName}</td>
+            <td style="width: 4%">${Num}</td>
+            <td style="width: 6%">${DisPlayName}</td>
+            <td style="width: 5%" title="${ReguName}">${cutstr(ReguName,8)}</td>
+            <td title="${CourseName}" style="width: 10%">${cutstr(CourseName,25)}</td>
+            <td style="width: 8%">${DateTimeConvert(StartTime,'MM-dd HH:mm',true)}</td>
+            <td style="width: 8%">${DateTimeConvert(EndTime,'MM-dd HH:mm',true)}</td>
+            <td style="width: 5%">${State}</td>
             <td title="${ClassName}" style="width: 10%">${cutstr(ClassName,10)}</td>
-            <td style="width: 6%">${StudentCount}</td>
-            <td style="width: 6%">${QuestionCount}</td>
-            <td style="width: 4%">${QuestionAve*100}%</td>
+            <td style="width: 5%">${StudentCount}</td>
+            <td style="width: 5%">${QuestionCount}</td>
+            <td style="width: 5%">${QuestionAve*100}%</td>
             <td style="width: 5%">${ScoreAve}</td>
 
 
-            <td class="operate_wrap">{{if QuestionCount >0}}
-                <div class="operate" onclick="location.href='detailModal.aspx?Id='+getQueryString('Id')+'&Iid='+getQueryString('Iid')+'&TableID='+'${TableID}'+'&SectionID='+'${SectionID}'+'&ReguID='+'${ReguID}'+'&CourseID='+'${CourseID}'+'&TeacherUID='+'${TeacherUID}'">
-                    <i class="iconfont color_purple">&#xe606;</i>
-                    <span class="operate_none bg_purple">详情</span>
+            <td class="operate_wrap">{{if StateType ==1}}
+                 <div class="operate" onclick="OpenIFrameWindow('查看评价','EditModel.aspx?Id=${Id}&CourseName=${CourseName}&ClassName=${ClassName}&StateType=${StateType}','545px','450px')">
+                     <i class="iconfont color_purple">&#xe628;</i>
+                     <span class="operate_none bg_purple">编辑
+                     </span>
+                 </div>
+                {{else StateType ==2}}
+                <div class="operate" onclick="OpenIFrameWindow('查看评价','EditModel.aspx?Id=${Id}&CourseName=${CourseName}&ClassName=${ClassName}&StateType=${StateType}','545px','450px')">
+                    <i class="iconfont color_purple">&#xe628;</i>
+                    <span class="operate_none bg_purple">编辑
+                    </span>
                 </div>
-                {{else}}
-                 <div class="operate">
-                     <i class="iconfont color_gray">&#xe606;</i>
-                     <span class="operate_none bg_gray">详情</span>
+                {{else StateType ==3}}
+                 <div class="operate" >
+                     <i class="iconfont color_gray">&#xe628;</i>
+                     <span class="operate_none bg_gray">编辑
+                     </span>
                  </div>
                 {{/if}}
-                {{if IsOverTime == true}}
-                <div class="operate">
-                    <i class="iconfont color_gray">&#xe609;</i>
-                    <span class="operate_none bg_gray">扫码</span>
-                </div>
-                {{else IsOverTime == false}}
+                
+                 <div class="operate" onclick="OpenIFrameWindow('查看评价','SeeModel.aspx?Id=${Id}&CourseName=${CourseName}&ClassName=${ClassName}','545px','450px')">
+                     <i class="iconfont color_purple">&#xe60b;</i>
+                     <span class="operate_none bg_purple">查看
+                     </span>
+                 </div>
+                {{if !IsOverTime }}                                 
                 <div class="operate" onclick="QRcode('${TableID}','${RoomID}','${ReguID}');">
                     <i class="iconfont color_purple">&#xe609;</i>
                     <span class="operate_none bg_purple">扫码</span>
                 </div>
+                {{else}}                 
+                <div class="operate">
+                    <i class="iconfont color_gray">&#xe609;</i>
+                    <span class="operate_none bg_gray">扫码</span>
+                </div>
+                {{/if}}
+             
+               {{if QuestionCount ==0}}
+                 <div class="operate" onclick="location.href='detailModal.aspx?Id='+getQueryString('Id')+'&Iid='+getQueryString('Iid')+'&TableID='+'${TableID}'+'&SectionID='+'${SectionID}'+'&ReguID='+'${ReguID}'+'&CourseID='+'${CourseID}'+'&TeacherUID='+'${TeacherUID}'+'&Type=3'">
+                     <i class="iconfont color_purple">&#xe606;</i>
+                     <span class="operate_none bg_purple">统计</span>
+                 </div>
+                <div class="operate" onclick="location.href='TeaRegEval_Single.aspx?Id='+getQueryString('Id')+'&Iid='+getQueryString('Iid')+'&TableID='+'${TableID}'+'&SectionID='+'${SectionID}'+'&ReguID='+'${ReguID}'+'&CourseID='+'${CourseID}'+'&TeacherUID='+'${TeacherUID}'+'&Type=3'">
+                    <i class="iconfont color_purple">&#xe617</i>
+                    <span class="operate_none bg_purple">详情
+                    </span>
+                </div>
+                {{else}}
+                  <div class="operate">
+                      <i class="iconfont color_gray">&#xe606;</i>
+                      <span class="operate_none bg_gray">统计</span>
+                  </div>
+                <div class="operate">
+                    <i class="iconfont color_gray">&#xe617</i>
+                    <span class="operate_none bg_gray">详情
+                    </span>
+                </div>
+                {{/if}}
+
+                 {{if StateType == 2 || StateType ==3}}            
+                 <div class="operate" >
+                     <i class="iconfont color_gray">&#xe61b;</i>
+                     <span class="operate_none bg_gray">删除</span>
+                 </div>
+                {{else StateType ==1}}                     
+                 <div class="operate" onclick="remove('${ReguID}','${ReguName}','${RoomID}');">
+                     <i class="iconfont color_purple">&#xe61b;</i>
+                     <span class="operate_none bg_purple">删除</span>
+                 </div>
                 {{/if}}
             </td>
         </tr>
@@ -145,6 +195,15 @@
     <script type="text/x-jquery-tmpl" id="itemCount">
         <span style="margin-left: 5px; font-size: 14px;">共${RowCount}条，共${PageCount}页</span>
     </script>
+
+    <script type="text/x-jquery-tmpl" id="itemCourse">
+        <option value="${CourseID}">${Course_Name}</option>
+    </script>
+
+    <script type="text/x-jquery-tmpl" id="itemClass">
+        <option value="${ClassID}">${ClassName}</option>
+    </script>
+
     <script>
         var pageIndex = 0;
 
@@ -152,24 +211,68 @@
             $('#top').load('/header.html');
             $('#footer').load('/footer.html');
 
-            
+            Base.bindStudySectionCompleate = function () {
+                TeacherUID = login_User.UniqueNo;
+                selectInit();
+            };
+            Base.bindStudySection();
+
+            $('#section').on('change', function () {
+                selectInit();
+            });
+            $('#course').on('change', function () {
+
+                CourseID = $('#course').val();
+                if (CourseID == '') {
+                    selectInit();
+                }
+                else {
+                    var list = CCList.filter(function (item) { return item.CourseID == CourseID });
+                    $("#class").empty();
+                    $("#class").append('<option value="">全部</option>')
+                    $("#itemClass").tmpl(list).appendTo("#class");
+                }
+
+                Refesh();
+            });
+
+            $('#class').on('change', function () {
+                Refesh();
+            });
+
+            Delete_Eva_RegularCompleate = function () {
+                Refesh();
+            };
         })
 
         function Refesh() {
             pageIndex = 0;
-            SectionID = $('#section').val();
-            ReguID = $('#Rg').val();
-            RP = $('#RP').val();
-            Te = $('#TN').val();
-            Gr = $('#GD').val();
-
-
-            Get_Eva_RegularData_Room(pageIndex);
+            Get_Eva_RegularData_Stu(pageIndex);
         }
 
         //二维码
         function QRcode(id, RoomID, ReguID) {
             OpenIFrameWindow('二维码', 'Qcode.aspx?url=' + MobileUrl + 'Mobile/onlinetest.html?id=' + id + '&rId=' + RoomID + '&ReguID=' + ReguID, '300px', '300px');
+        }
+
+        function selectInit() {
+            SectionID = $('#section').val();
+            GetClassInfoSelect(SectionID, TeacherUID);
+
+            $("#course,#class").empty();
+            $("#course").append('<option value="">全部</option>')
+            $("#itemCourse").tmpl(CCList).appendTo("#course");
+            $("#class").append('<option value="">全部</option>')
+            $("#itemClass").tmpl(CCList).appendTo("#class");
+
+            Refesh();
+        }
+
+        function remove(Id, value, RoomID) {           
+            layer.confirm('确定删除"' + value + '"吗？', {
+                btn: ['确定', '取消'], //按钮
+                title: '操作'
+            }, function () { Delete_Eva_Regular(Id, RoomID); });
         }
 
     </script>

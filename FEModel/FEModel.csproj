@@ -43,6 +43,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Entity\CCModel.cs" />
     <Compile Include="Entity\MuteUser.cs" />
     <Compile Include="Entity\Sys_RoleOfUserComparer.cs" />
     <Compile Include="Enum\ClassModelType.cs" />

@@ -34,9 +34,9 @@
         </div>
         <div class="input-wrap">
             <label>起止时间：</label>
-            <input type="text" id="StartTime" name="StartTime" class="text Wdate" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})" style="width: 150px; margin-left: 10px;" />
+            <input type="text" id="StartTime" name="StartTime" class="text Wdate" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm',startDate:'%y-%M-01 00:00:00'})" style="width: 150px; margin-left: 10px;" />
             <span style="padding-left: 10px;">~</span>
-            <input type="text" id="EndTime" name="EndTime" class="text Wdate" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})" style="width: 150px;" />
+            <input type="text" id="EndTime" name="EndTime" class="text Wdate" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm',startDate:'%y-%M-01 00:00:00'})" style="width: 150px;" />
         </div>
          <div class="input-wrap">
             <label>下发任务：</label>

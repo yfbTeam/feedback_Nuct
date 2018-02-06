@@ -68,7 +68,7 @@ namespace FEHandler.Eva_Manage
                 foreach (var li in query_last)
                 {
 
-                    if (li.StartTime < DateTime.Now && ((DateTime)li.EndTime).AddDays(1) > DateTime.Now)
+                    if (li.StartTime < DateTime.Now && (DateTime)li.EndTime >= DateTime.Now)
                     {
                         regustate = ReguState.进行中;
                     }
@@ -174,7 +174,7 @@ namespace FEHandler.Eva_Manage
                 foreach (var li in list)
                 {
 
-                    if (li.ReguStartTime < DateTime.Now && ((DateTime)li.ReguEndTime).AddDays(1) > DateTime.Now)
+                    if (li.ReguStartTime < DateTime.Now && (DateTime)li.ReguEndTime >= DateTime.Now)
                     {
                         regustate = ReguState.进行中;
                     }
@@ -278,6 +278,7 @@ namespace FEHandler.Eva_Manage
                         regu.Type,
                         regu.TableID,
                         DepartmentIdList = departmentids,
+                        regu.RoomID,
                     };
                     jsonModel = JsonModel.get_jsonmodel(0, "success", li);
                 }
@@ -341,7 +342,7 @@ namespace FEHandler.Eva_Manage
             try
             {
                 List<RegularDataRoomModel> list = (from regu in Constant.Eva_Regular_List
-                                                   where regu.Type == (int)ReguType.Student
+                                                   where regu.Type == (int)ReguType.RoomStudent
                                                    join section in Constant.StudySection_List on regu.Section_Id equals section.Id
                                                    from room in Constant.CourseRoom_List
                                                    where (regu.DepartmentIDs.Contains(room.Major_Id)) || regu.DepartmentIDs == ""
@@ -372,7 +373,7 @@ namespace FEHandler.Eva_Manage
                                                    }).ToList();
 
                 var questionList = (from q in Constant.Eva_QuestionAnswer_List
-                                    where q.Eva_Role == (int)ReguType.Student
+                                    where q.Eva_Role == (int)ReguType.RoomStudent
                                     select q).ToList();
                 if (SectionID > 0)
                 {
@@ -419,7 +420,7 @@ namespace FEHandler.Eva_Manage
 
                 foreach (var li in query_last)
                 {
-                    if (li.StartTime < DateTime.Now && ((DateTime)li.EndTime).AddDays(1) > DateTime.Now)
+                    if (li.StartTime < DateTime.Now && (DateTime)li.EndTime >= DateTime.Now)
                     {
                         li.IsOverTime = false;
                     }
@@ -452,6 +453,153 @@ namespace FEHandler.Eva_Manage
             }
             return jsm;
         }
+
+
+        public void Get_Eva_RegularData_Stu(HttpContext context)
+        {
+            HttpRequest Request = context.Request;
+
+            int SectionID = RequestHelper.int_transfer(Request, "SectionID");
+            string TeacherUID = RequestHelper.string_transfer(Request, "TeacherUID");
+            string CourseID = RequestHelper.string_transfer(Request, "CourseID");
+            string ClassID = RequestHelper.string_transfer(Request, "ClassID");
+
+            int PageIndex = RequestHelper.int_transfer(Request, "PageIndex");
+            int PageSize = RequestHelper.int_transfer(Request, "PageSize");
+            try
+            {
+                jsonModel = Get_Eva_RegularData_Stu_Helper(PageIndex, PageSize, SectionID, TeacherUID, CourseID, ClassID);
+            }
+            catch (Exception ex)
+            {
+                LogHelper.Error(ex);
+            }
+            finally
+            {
+                //无论后端出现什么问题，都要给前端有个通知【为防止jsonModel 为空 ,全局字段 jsonModel 特意声明之后进行初始化】
+                context.Response.Write("{\"result\":" + Constant.jss.Serialize(jsonModel) + "}");
+            }
+        }
+
+        public static JsonModel Get_Eva_RegularData_Stu_Helper(int PageIndex, int PageSize, int SectionID, string TeacherUID, string CourseID, string ClassID)
+        {
+            int intSuccess = (int)errNum.Success;
+            JsonModelNum jsm = new JsonModelNum();
+            try
+            {
+                var roomlist = (from r in Constant.CourseRoom_List where r.TeacherUID == TeacherUID select r).ToList();
+                List<RegularDataRoomModel> list = (from regu in Constant.Eva_Regular_List
+                                                   where regu.Type == (int)ReguType.ClsStudent
+                                                   join section in Constant.StudySection_List on regu.Section_Id equals section.Id
+                                                   from room in roomlist
+                                                   where Split_Hepler.str_to_ints(regu.RoomID).Contains((int)room.Id)
+                                                   orderby regu.EndTime descending
+                                                   select new RegularDataRoomModel()
+                                                   {
+                                                       Num = 0,
+                                                       Id = regu.Id,
+                                                       SectionID = section.Id,
+                                                       DisPlayName = section.DisPlayName,
+                                                       ReguID = regu.Id,
+                                                       ReguName = regu.Name,
+                                                       RoomID = room.Id,
+                                                       CourseID = room.Coures_Id,
+                                                       CourseName = room.CouresName,
+                                                       TeacherUID = room.TeacherUID,
+                                                       TeacherName = room.TeacherName,
+                                                       RoomDepartmentName = room.RoomDepartmentName,
+                                                       GradeName = room.GradeName,
+                                                       ClassID = room.ClassID,
+                                                       ClassName = room.ClassName,
+                                                       StudentCount = room.StudentCount,
+                                                       QuestionCount = 0,
+                                                       QuestionAve = 0,
+                                                       ScoreAve = 0,
+                                                       TableID = regu.TableID,
+                                                       StartTime = regu.StartTime,
+                                                       EndTime = regu.EndTime,
+                                                       IsOverTime = true,
+                                                   }).ToList();
+
+                var questionList = (from q in Constant.Eva_QuestionAnswer_List
+                                    where q.Eva_Role == (int)ReguType.ClsStudent
+                                    select q).ToList();
+                if (SectionID > 0)
+                {
+                    list = (from li in list where li.SectionID == SectionID select li).ToList();
+
+                    questionList = (from q in questionList
+                                    where q.SectionID == SectionID
+                                    select q).ToList();
+                }
+
+                if (!string.IsNullOrEmpty(CourseID))
+                {
+                    list = (from li in list where li.CourseID == CourseID select li).ToList();
+                }
+
+                if (!string.IsNullOrEmpty(ClassID))
+                {
+                    list = (from li in list where li.ClassID == ClassID select li).ToList();
+                }
+
+                for (int i = 0; i < list.Count; i++)
+                {
+                    list[i].Num = i + 1;
+                }
+
+                var query_last = (from an in list select an).Skip((PageIndex - 1) * PageSize).Take(PageSize).ToList();
+
+                foreach (var li in query_last)
+                {
+                    ReguState regustate = ReguState.进行中;
+                    if (li.StartTime < DateTime.Now && li.EndTime >= DateTime.Now)
+                    {
+                        regustate = ReguState.进行中;
+                        li.IsOverTime = false;
+                    }
+                    else if (li.StartTime > DateTime.Now)
+                    {
+                        regustate = ReguState.未开始;
+                    }
+                    else
+                    {
+                        regustate = ReguState.已结束;
+                    }
+                    li.State = Convert.ToString(regustate);
+                    li.StateType = (int)regustate;
+
+                    var chilist = (from q in questionList
+                                   where q.TeacherUID == li.TeacherUID && q.CourseID == li.CourseID
+                                   select q).ToList();
+                    int que_count = chilist.Count;
+                    if (que_count > 0)
+                    {
+                        decimal que_allScore = (decimal)chilist.Sum(i => i.Score);
+
+                        li.QuestionCount = que_count;
+                        li.QuestionAve = que_count > 0 ? (decimal)Math.Round(que_count / (decimal)li.StudentCount, 2) : 0;
+                        //计算平均分
+                        li.ScoreAve = que_count > 0 ? (decimal)Math.Round(que_allScore / (decimal)que_count, 2) : 0;
+                    }
+
+                }
+                //返回所有表格数据
+                jsm = JsonModelNum.GetJsonModel_o(intSuccess, "success", query_last);
+                jsm.PageIndex = PageIndex;
+                jsm.PageSize = PageSize;
+                jsm.PageCount = (int)Math.Ceiling((double)list.Count() / PageSize);
+                jsm.RowCount = list.Count();
+            }
+            catch (Exception ex)
+            {
+                LogHelper.Error(ex);
+            }
+            return jsm;
+        }
+
+
+
 
         /// <summary>
         /// 获取课堂评价详情列表
@@ -613,7 +761,7 @@ namespace FEHandler.Eva_Manage
                 var data = (from q in Constant.Eva_QuestionAnswer_Detail_List
                             where q.SectionID == SectionID && q.ReguID == ReguID && q.TableID == TableID && q.TableDetailID == TableDetailID && q.TeacherUID == TeacherUID
                                 && q.CourseID == CourseID && q.Eva_Role == Eva_Role
-                            select new { q.Answer,q.CreateTime}
+                            select new { q.Answer, q.CreateTime }
                              ).ToList();
 
                 var query_last = (from an in data select an).Skip((PageIndex - 1) * PageSize).Take(PageSize).ToList();
@@ -710,7 +858,7 @@ namespace FEHandler.Eva_Manage
             string Key = RequestHelper.string_transfer(Request, "Key");
             string SelectUID = RequestHelper.string_transfer(Request, "SelectUID");
             string Te = RequestHelper.string_transfer(Request, "Te");
-            int ModelType = RequestHelper.int_transfer(Request, "ModelType"); 
+            int ModelType = RequestHelper.int_transfer(Request, "ModelType");
 
             int PageIndex = RequestHelper.int_transfer(Request, "PageIndex");
             int PageSize = RequestHelper.int_transfer(Request, "PageSize");
@@ -773,7 +921,7 @@ namespace FEHandler.Eva_Manage
                                 join r in Constant.Sys_RoleOfUser_List on li.ExpertUID equals r.UniqueNo
                                 where r.Role_Id == (int)RoleType.department_expert
                                 select li).ToList();
-                                    
+
                         break;
                     case ModelType.school:
                         list = (from li in list
@@ -817,7 +965,7 @@ namespace FEHandler.Eva_Manage
                 foreach (var li in query_last)
                 {
                     ReguState regustate = ReguState.进行中;
-                    if (li.StartTime < DateTime.Now && ((DateTime)li.EndTime).AddDays(1) > DateTime.Now)
+                    if (li.StartTime < DateTime.Now && li.EndTime >= DateTime.Now)
                     {
                         regustate = ReguState.进行中;
                     }
@@ -961,9 +1109,10 @@ namespace FEHandler.Eva_Manage
             HttpRequest Request = context.Request;
             //指标的ID
             int Id = RequestHelper.int_transfer(Request, "Id");
+            int RoomID = RequestHelper.int_transfer(Request, "RoomID");
             try
             {
-                jsonModel = Delete_Eva_RegularHelper(Id);
+                jsonModel = Delete_Eva_RegularHelper(Id, RoomID);
             }
             catch (Exception ex)
             {
@@ -976,7 +1125,7 @@ namespace FEHandler.Eva_Manage
             }
         }
 
-        public static JsonModel Delete_Eva_RegularHelper(int Id)
+        public static JsonModel Delete_Eva_RegularHelper(int Id, int RoomID)
         {
             JsonModel model = new JsonModel();
             int intSuccess = (int)errNum.Success;
@@ -989,17 +1138,40 @@ namespace FEHandler.Eva_Manage
                     var experlist_Count = Constant.Expert_Teacher_Course_List.Count(i => i.ReguId == Convert.ToString(Eva_Regular_delete.Id));
                     if (experlist_Count == 0)
                     {
-                        //数据库操作成功再改缓存
-                        model = Constant.Eva_RegularService.Delete((int)Eva_Regular_delete.Id);
-                        if (model.errNum == intSuccess)
+                        var list = Split_Hepler.str_to_ints(Eva_Regular_delete.RoomID).ToList();
+                        if (RoomID > 0 && list.Count > 1)
                         {
-                            Eva_Regular_delete.IsDelete = (int)IsDelete.Delete;
-                            Constant.Eva_Regular_List.Remove(Eva_Regular_delete);
+                            var clone = Constant.Clone(Eva_Regular_delete);
+
+                            list.Remove(RoomID);
+                            clone.RoomID = Split_Hepler.ints_to_string(list);
+
+                            //数据库操作成功再改缓存
+                            model = Constant.Eva_RegularService.Update(clone);
+                            if (model.errNum == intSuccess)
+                            {
+                                Eva_Regular_delete.RoomID = clone.RoomID;
+                            }
+                            else
+                            {
+                                model = JsonModel.get_jsonmodel(3, "failed", "删除失败");
+                            }
                         }
                         else
                         {
-                            model = JsonModel.get_jsonmodel(3, "failed", "删除失败");
+                            //数据库操作成功再改缓存
+                            model = Constant.Eva_RegularService.Delete((int)Eva_Regular_delete.Id);
+                            if (model.errNum == intSuccess)
+                            {
+                                Eva_Regular_delete.IsDelete = (int)IsDelete.Delete;
+                                Constant.Eva_Regular_List.Remove(Eva_Regular_delete);
+                            }
+                            else
+                            {
+                                model = JsonModel.get_jsonmodel(3, "failed", "删除失败");
+                            }
                         }
+
                     }
                     else
                     {
@@ -1044,12 +1216,20 @@ namespace FEHandler.Eva_Manage
             int Type = RequestHelper.int_transfer(Request, "Type");
             int TableID = RequestHelper.int_transfer(Request, "TableID");
             string DepartmentIDs = RequestHelper.string_transfer(Request, "DepartmentIDs");
+
+            string CreateUID = RequestHelper.string_transfer(Request, "CreateUID");
+            string RoomID = RequestHelper.string_transfer(Request, "RoomID");
             bool hasAcross = false;
             try
             {
                 #region 查看是否交叉
 
                 var reguList = (from regu in Constant.Eva_Regular_List where regu.Id != Id && regu.Type == Type select regu).ToList();
+
+                if (Type == (int)ReguType.ClsStudent)
+                {
+                    reguList = new List<Eva_Regular>();
+                }
 
                 foreach (Eva_Regular regu in reguList)
                 {
@@ -1098,6 +1278,7 @@ namespace FEHandler.Eva_Manage
                                 regu_Clone.EditTime = DateTime.Now;
                                 regu_Clone.EditUID = EditUID;
                                 regu_Clone.Type = Type;
+                                regu_Clone.RoomID = RoomID;
                                 regu_Clone.TableID = TableID;
                                 regu_Clone.DepartmentIDs = DepartmentIDs;
 
@@ -1117,6 +1298,7 @@ namespace FEHandler.Eva_Manage
                                     reguEdit.EditTime = DateTime.Now;
                                     reguEdit.EditUID = EditUID;
                                     reguEdit.Type = Type;
+                                    reguEdit.RoomID = RoomID;
                                     reguEdit.TableID = TableID;
                                     reguEdit.DepartmentIDs = DepartmentIDs;
                                 }
@@ -1185,6 +1367,8 @@ namespace FEHandler.Eva_Manage
                 string Remarks = RequestHelper.string_transfer(Request, "Remarks");
                 string CreateUID = RequestHelper.string_transfer(Request, "CreateUID");
                 string EditUID = RequestHelper.string_transfer(Request, "EditUID");
+                string RoomID = RequestHelper.string_transfer(Request, "RoomID");
+
                 int Section_Id = RequestHelper.int_transfer(Request, "Section_Id");
                 int Type = RequestHelper.int_transfer(Request, "Type");
                 int TableID = RequestHelper.int_transfer(Request, "TableID");
@@ -1196,6 +1380,11 @@ namespace FEHandler.Eva_Manage
                     #region 查看是否交叉
 
                     var reguList = (from regu in Constant.Eva_Regular_List where regu.Type == Type select regu).ToList();
+
+                    if (Type == (int)ReguType.ClsStudent)
+                    {
+                        reguList = new List<Eva_Regular>();
+                    }
 
                     foreach (Eva_Regular regu in reguList)
                     {
@@ -1247,6 +1436,7 @@ namespace FEHandler.Eva_Manage
                                     IsEnable = (int)IsEnable.Enable,
                                     IsDelete = (int)IsDelete.No_Delete,
                                     Type = Type,
+                                    RoomID = RoomID,
                                     TableID = TableID,
                                     DepartmentIDs = DepartmentIDs,
 
@@ -1319,7 +1509,7 @@ namespace FEHandler.Eva_Manage
             {
                 list = (
                        from regu in Constant.Eva_Regular_List
-                       where regu.StartTime < DateTime.Now && ((DateTime)regu.EndTime).AddDays(1) > DateTime.Now && regu.Type == Type
+                       where regu.StartTime < DateTime.Now && regu.EndTime >= DateTime.Now && regu.Type == Type
                        select regu).ToList();
             }
             catch (Exception ex)

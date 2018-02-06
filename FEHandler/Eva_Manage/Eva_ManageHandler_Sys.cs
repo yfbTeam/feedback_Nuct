@@ -166,7 +166,7 @@ namespace FEHandler.Eva_Manage
                 ReguState regustate = ReguState.进行中;
                 foreach (var li in list)
                 {
-                    if (li.StartTime < DateTime.Now && ((DateTime)li.EndTime).AddDays(1) > DateTime.Now)
+                    if (li.StartTime < DateTime.Now && li.EndTime >= DateTime.Now)
                     {
                         regustate = ReguState.进行中;
                     }
@@ -294,7 +294,7 @@ namespace FEHandler.Eva_Manage
                 int P_Type = RequestHelper.int_transfer(Request, "P_Type");
                 int P_Id = RequestHelper.int_transfer(Request, "P_Id");
                 int Type = RequestHelper.int_transfer(Request, "Type");
-                IndicateType  IndicateType = (IndicateType)Type;
+                IndicateType IndicateType = (IndicateType)Type;
                 string CreateUID = RequestHelper.string_transfer(Request, "CreateUID");
                 List<IndicatorType> list = null;
                 if (P_Type > 0)
@@ -318,7 +318,7 @@ namespace FEHandler.Eva_Manage
                         list = (from i in list where i.CreateUID == CreateUID select i).ToList();
                     }
                 }
-               
+
                 //返回所有指标库数据
                 jsonModel = JsonModel.get_jsonmodel(intSuccess, "success", list);
             }
@@ -527,13 +527,13 @@ namespace FEHandler.Eva_Manage
             HttpRequest Request = context.Request;
             //指定的指标库分类ID
             int IndicatorType_Id = RequestHelper.int_transfer(Request, "IndicatorType_Id");
-            int Type = RequestHelper.int_transfer(Request, "Type");         
+            int Type = RequestHelper.int_transfer(Request, "Type");
             try
             {
                 if (IndicatorType_Id > 0)
                 {
                     //获取某指标库类型下的指标
-                    List<Indicator> indicator_List = indicator_List = (from indicator in Constant.Indicator_List where indicator.IndicatorType_Id == IndicatorType_Id && indicator.Type == Type select indicator).ToList(); ;                 
+                    List<Indicator> indicator_List = indicator_List = (from indicator in Constant.Indicator_List where indicator.IndicatorType_Id == IndicatorType_Id && indicator.Type == Type select indicator).ToList(); ;
                     //返回所有指标库数据
                     jsonModel = JsonModel.get_jsonmodel(intSuccess, "success", indicator_List);
                 }

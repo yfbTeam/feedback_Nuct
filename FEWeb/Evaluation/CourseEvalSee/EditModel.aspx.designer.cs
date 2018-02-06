@@ -7,7 +7,7 @@
 // </自动生成>
 //------------------------------------------------------------------------------
 
-namespace FEWeb.SysSettings.Regu {
+namespace FEWeb.Evaluation.CourseEvalSee {
     
     
     public partial class EditModel {
