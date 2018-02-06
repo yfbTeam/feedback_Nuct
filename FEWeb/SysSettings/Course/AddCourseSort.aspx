@@ -31,12 +31,13 @@
             </div>
         </div>
     </div>
-    <div style="text-align: center">
+    <div class="btnwrap">
         <input type="button" value="保存" onclick="submit()" class="btn" />
         <input type="button" value="取消" onclick="cancel()" class="btna" />
     </div>
-    <script src="../../scripts/public.js"></script>
     <script src="../../Scripts/Common.js"></script>
+    <script src="../../scripts/public.js"></script>
+    
     <script src="../../Scripts/linq.min.js"></script>
     <script src="../../Scripts/layer/layer.js"></script>
     <script src="../../Scripts/jquery.tmpl.js"></script>
