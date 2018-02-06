@@ -8,7 +8,7 @@
     <link href="/images/favicon.ico" rel="shortcut icon">
     <title>新增指标</title>
     <link rel="stylesheet" href="../../css/reset.css" />
-    <link rel="stylesheet" href="../../css/style.css" />
+    <link rel="stylesheet" href="../../css/layout.css" />
     <script src="../../Scripts/jquery-1.11.2.min.js"></script>
   
 
