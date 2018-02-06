@@ -6,11 +6,9 @@ using System.Threading.Tasks;
 
 namespace FEModel.Enum
 {
-   public  enum IsAllSchool
+  public enum   IsRealNameType
     {
-       School =0,
-       Departemnt =1,
-       SelfDepartment =2,
-       Other =3,
+      yes =0,
+      no = 1,
     }
 }

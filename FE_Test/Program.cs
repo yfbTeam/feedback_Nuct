@@ -41,9 +41,28 @@ namespace FE_Test
 
             //var jsm = SetMenuHandler.TestGetMenuInfoHelper("3", "");
 
-            var s = Split_Hepler.ints_to_string(new List<int>() { 1, 3, 4 });
+            //var s = Split_Hepler.ints_to_string(new List<int>() { 1, 3, 4 });
             //Eva_ManageHandler.Get_Eva_QuestionAnswer_Helper(0, 100, 1, "", "", 0, "", IsAllSchool.School, FEModel.Enum.ModeType.Check, true, true, true);
-            Eva_ManageHandler.Get_Eva_TableHelper(1, "", 1, "001414");
+            //Eva_ManageHandler.Get_Eva_TableHelper(1, "", 1, "001414");
+
+            foreach (var item in Constant.Teacher_List)
+            {
+                var count = Constant.Sys_RoleOfUser_List.Count(i => i.Role_Id == 3 && i.UniqueNo == item.UniqueNo);
+                if (count == 0)
+                {
+                    Constant.Sys_RoleOfUserService.Add(new Sys_RoleOfUser()
+                    {
+                        UniqueNo = item.UniqueNo,
+                        Role_Id = 3,
+                        IsDelete = 0,
+                        CreateTime = DateTime.Now,
+                        EditTime = DateTime.Now,
+                        CreateUID = "",
+                        EditUID = "",
+                    });
+                }
+
+            }
         }
 
 

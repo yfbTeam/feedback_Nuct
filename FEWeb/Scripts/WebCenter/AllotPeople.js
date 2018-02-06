@@ -61,17 +61,17 @@ var UI_Allot =
         }
 
         var sw = $("#key").val();
-        if (sw != "") {          
+        if (sw != "") {
             reUserinfoByselect = reUserinfoByselect.filter(function (item) { return item.Name.indexOf(sw) > -1 || item.UniqueNo.indexOf(sw) > -1 });
         }
         else {
             //reUserinfoByselect = Enumerable.From(reUserinfoByselect).ToArray();
         }
         UI_Allot.fenye(reUserinfoByselect.length);
-        if (IsAll_Select) {
-            select_uniques = [];
-            reUserinfoByselect.filter(function (item) { select_uniques.push(item.UniqueNo) });
-        }
+        //if (IsAll_Select) {
+        //    select_uniques = [];
+        //    reUserinfoByselect.filter(function (item) { select_uniques.push(item.UniqueNo) });
+        //}
     },
     //-----------分页---------------------------------------------------------------------------------------
 
@@ -93,6 +93,15 @@ var UI_Allot =
 
         var arrRes = Enumerable.From(reUserinfoByselect).Skip(index * pageSize).Take(pageSize).ToArray();
         UI_Allot.BindDataTo_GetUserinfo(arrRes);
+
+
+        $('#tb_indicator').find('input[type="checkbox"]').each(function () {
+            var UniqueNo = $(this).attr('UniqueNo');
+            var lengt = isHasElement(select_uniques, UniqueNo);
+            if (lengt > -1) {
+                $(this).prop('checked', true);
+            }
+        })
         UI_Allot.PageChange_Check();
     },
     data_init: function (roleid) {
@@ -129,6 +138,7 @@ var UI_Allot =
             $(this).on('click', function () {
                 var check = $(this).attr('checked');
                 var UniqueNo = $(this).attr('UniqueNo');
+                debugger;
                 if (check != undefined) {
                     select_uniques.remove(UniqueNo);
                     $(this).removeAttr('checked');
@@ -148,6 +158,9 @@ var UI_Allot =
                         data[0].Roleid = CurrentRoleid;
                     }
                 }
+
+
+                UI_Allot.PageChange_Check();
             })
         });
         //var ischeck = $(this).attr('checked')
@@ -184,23 +197,40 @@ var UI_Allot =
     SubmitUserinfo_Compleate: function (result) { },
 
     Check_All: function () {
-        select_uniques = [];
+
+        //select_uniques = [];
         if (IsAll_Select) {
-            $('.table').find('input[type="checkbox"]').attr('checked', false);
+            $('.table').find('input[type="checkbox"]').prop('checked', false);
+          
+            $('#tb_indicator').find('input[type="checkbox"]').each(function () {
+                var UniqueNo = $(this).attr('UniqueNo');                              
+                select_uniques.remove(UniqueNo)
+            })
+         
             IsAll_Select = false;
         }
         else {
-            $('.table').find('input[type="checkbox"]').attr('checked', true);
-            reUserinfoByselect.filter(function (item) { select_uniques.push(item.UniqueNo) });
+            $('.table').find('input[type="checkbox"]').prop('checked', true);
+            $('#tb_indicator').find('input[type="checkbox"]').each(function () {
+                var UniqueNo = $(this).attr('UniqueNo');
+                select_uniques.push(UniqueNo)
+            })
             IsAll_Select = true;
         }
-
+       
         UI_Allot.PageChange_Check();
     },
 
     PageChange_Check: function () {
-        if (IsAll_Select) {
-            $('.table').find('input[type="checkbox"]').attr('checked', true);
+
+        if ($('#tb_indicator').find('input:checked').length == $('#tb_indicator').find('input[type="checkbox"]').length) {
+            IsAll_Select = true;
+            $('#cb_all').prop('checked', true);
+        }
+        else
+        {
+            IsAll_Select = false;
+            $('#cb_all').prop('checked', false);
         }
     },
 };
@@ -226,7 +256,7 @@ function GetTeachers_New() {
             if (returnVal.result.errMsg == "success") {
                 reUserinfoAll = returnVal.result.retData;
                 reUserinfoByselect_uniques = [];
-                reUserinfoAll.filter(function (item) {  if(isHasElement(item.RoleList, CurrentRoleid) > -1){reUserinfoByselect_uniques.push(item.UniqueNo)} });               
+                reUserinfoAll.filter(function (item) { if (isHasElement(item.RoleList, CurrentRoleid) > -1) { reUserinfoByselect_uniques.push(item.UniqueNo) } });
                 GetTeachers_NewCompleate();
             }
         },
@@ -262,7 +292,7 @@ function IsMutex() {
 
         },
         error: function (errMsg) {
-            
+
         }
     });
 };

@@ -30,6 +30,10 @@ namespace FEHandler.Eva_Manage
 
                 //学年学期的ID
                 int SectionID = RequestHelper.int_transfer(Request, "SectionID");
+                int ReguID = RequestHelper.int_transfer(Request, "ReguID");
+                string CourseID = RequestHelper.string_transfer(Request, "CourseID");
+                string TeacherUID = RequestHelper.string_transfer(Request, "TeacherUID");
+
                 string DepartmentID = RequestHelper.string_transfer(Request, "DepartmentID");
                 //课程的ID
                 string Key = RequestHelper.string_transfer(Request, "Key");
@@ -39,19 +43,20 @@ namespace FEHandler.Eva_Manage
                 string AnswerUID = RequestHelper.string_transfer(Request, "AnswerUID");
 
                 int IsAllSchool = RequestHelper.int_transfer(Request, "IsAllSchool");
+                int Eva_Role = RequestHelper.int_transfer(Request, "Eva_Role");
 
                 bool eva_check_depart = RequestHelper.bool_transfer(Request, "eva_check_depart");
                 bool eva_check_school = RequestHelper.bool_transfer(Request, "eva_check_school");
                 bool eva_check_indepart = RequestHelper.bool_transfer(Request, "eva_check_indepart");
-            
+
 
                 int PageIndex = RequestHelper.int_transfer(Request, "PageIndex");
                 int PageSize = RequestHelper.int_transfer(Request, "PageSize");
                 try
                 {
                     ModeType modeType = (ModeType)Mode;
-                    jsonModel = Get_Eva_QuestionAnswer_Helper(PageIndex, PageSize, SectionID, DepartmentID, Key,
-                        TableID, AnswerUID, (IsAllSchool)IsAllSchool, modeType, eva_check_depart, eva_check_school, eva_check_indepart);
+                    jsonModel = Get_Eva_QuestionAnswer_Helper(PageIndex, PageSize, SectionID, ReguID, CourseID, TeacherUID, DepartmentID, Key,
+                        TableID, AnswerUID, (IsAllSchool)IsAllSchool, modeType, Eva_Role, eva_check_depart, eva_check_school, eva_check_indepart);
                 }
                 catch (Exception ex)
                 {
@@ -69,8 +74,8 @@ namespace FEHandler.Eva_Manage
         /// 获取答题列表
         /// </summary>
         /// <param name="context"></param>
-        public static JsonModel Get_Eva_QuestionAnswer_Helper(int PageIndex, int PageSize, int SectionID, string DepartmentID,
-            string Key, int TableID, string AnswerUID, IsAllSchool IsAllSchool, ModeType modeType,
+        public static JsonModel Get_Eva_QuestionAnswer_Helper(int PageIndex, int PageSize, int SectionID, int ReguID, string CourseID, string TeacherUID, string DepartmentID,
+            string Key, int TableID, string AnswerUID, IsAllSchool IsAllSchool, ModeType modeType, int Eva_Role,
             bool eva_check_depart, bool eva_check_school, bool eva_check_indepart)
         {
             int intSuccess = (int)errNum.Success;
@@ -78,9 +83,14 @@ namespace FEHandler.Eva_Manage
             try
             {
                 var list = (from q in Constant.Eva_QuestionAnswer_List
-                            where q.Eva_Role == (int)ReguType.Expert
-                            join u in Constant.UserInfo_List on q.TeacherUID equals u.UniqueNo                         
+                            where q.Eva_Role == Eva_Role
+                            join u in Constant.UserInfo_List on q.TeacherUID equals u.UniqueNo
                             join d in Constant.Major_List on u.Major_ID equals d.Id
+                            join r in Constant.CourseRoom_List on q.RoomID equals r.UniqueNo into rooms
+                            join tb in Constant.Eva_Table_List on q.TableID equals tb.Id into tables
+                            from t in tables.DefaultIfEmpty()
+
+                            from room in rooms.DefaultIfEmpty()
                             select new Eva_QuestionModel()
                             {
                                 Id = q.Id,
@@ -100,14 +110,31 @@ namespace FEHandler.Eva_Manage
                                 ReguID = q.ReguID,
                                 ReguName = q.ReguName,
                                 AnswerUID = q.AnswerUID,
-                                AnswerName = q.AnswerName,
+                                AnswerName = q.IsRealName == (int)IsRealNameType.yes ? q.AnswerName : "匿名",
+                                CreateTime = q.CreateTime,
+                                ClassName = room != null ? room.ClassName : "",
                                 RoleList = (from ru in Constant.Sys_RoleOfUser_List where ru.UniqueNo == q.AnswerUID select ru.Role_Id).ToList(),
+                                IsScore = t.IsScore == 0 ? true : false,
                             }).ToList();
 
                 if (SectionID > 0)
                 {
                     list = (from li in list where li.SectionID == SectionID select li).ToList();
                 }
+
+                if (ReguID > 0)
+                {
+                    list = (from li in list where li.ReguID == ReguID select li).ToList();
+                }
+                if (CourseID != "")
+                {
+                    list = (from li in list where li.CourseID == CourseID select li).ToList();
+                }
+                if (TeacherUID != "")
+                {
+                    list = (from li in list where li.TeacherUID == TeacherUID select li).ToList();
+                }
+
                 if (DepartmentID != "")
                 {
                     list = (from li in list where li.DepartmentID == DepartmentID select li).ToList();
@@ -127,8 +154,8 @@ namespace FEHandler.Eva_Manage
                     {
                         case IsAllSchool.School:
 
-                         
-                            list = (from li in list where li.RoleList.Contains( (int)RoleType.school_expert) select li).ToList();
+
+                            list = (from li in list where li.RoleList.Contains((int)RoleType.school_expert) select li).ToList();
                             break;
                         case IsAllSchool.Departemnt:
                             list = (from li in list where li.RoleList.Contains((int)RoleType.department_expert) select li).ToList();
@@ -138,7 +165,7 @@ namespace FEHandler.Eva_Manage
                             break;
                     }
                 }
-               
+
                 switch (modeType)
                 {
                     case ModeType.Record:
@@ -202,46 +229,43 @@ namespace FEHandler.Eva_Manage
         /// <param name="context"></param>
         public void Get_Eva_QuestionAnswerDetail(HttpContext context)
         {
-            lock (obj_Add_Eva_QuestionAnswer)
+
+            HttpRequest Request = context.Request;
+            int intSuccess = (int)errNum.Success;
+            int intFailed = (int)errNum.Failed;
+            //学年学期的ID
+            int Id = RequestHelper.int_transfer(Request, "Id");
+
+            try
             {
-
-                HttpRequest Request = context.Request;
-                int intSuccess = (int)errNum.Success;
-                int intFailed = (int)errNum.Failed;
-                //学年学期的ID
-                int Id = RequestHelper.int_transfer(Request, "Id");
-
-                try
+                Eva_QuestionAnswer question = Constant.Eva_QuestionAnswer_List.FirstOrDefault(i => i.Id == Id);
+                if (question != null)
                 {
-                    Eva_QuestionAnswer question = Constant.Eva_QuestionAnswer_List.FirstOrDefault(i => i.Id == Id);
-                    if (question != null)
+                    List<Eva_QuestionAnswer_Detail> list = (from detail in Constant.Eva_QuestionAnswer_Detail_List where detail.QuestionID == question.Id select detail).ToList();
+                    List<Eva_QuestionAnswer_Header> headerList = (from header in Constant.Eva_QuestionAnswer_Header_List where header.QuestionID == question.Id select header).ToList();
+                    var data = new
                     {
-                        List<Eva_QuestionAnswer_Detail> list = (from detail in Constant.Eva_QuestionAnswer_Detail_List where detail.QuestionID == question.Id select detail).ToList();
-                        List<Eva_QuestionAnswer_Header> headerList = (from header in Constant.Eva_QuestionAnswer_Header_List where header.QuestionID == question.Id select header).ToList();
-                        var data = new
-                        {
-                            HeaderList = (from h in headerList orderby h.Id select new { h.CustomCode, h.Name, h.ValueID, h.Value, h.Id }),
-                            DetailList = (from li in list select new { li.Answer, li.TableDetailID, li.QuestionType, li.Score }),
-                            TableName = question.TableName,
-                            Score = question.Score,
-                        };
-                        jsonModel = JsonModel.get_jsonmodel(intSuccess, "success", data);
-                    }
-                    else
-                    {
-                        jsonModel = JsonModel.get_jsonmodel(intFailed, "failed", "该答题不存在");
-                    }
+                        HeaderList = (from h in headerList orderby h.Id select new { h.CustomCode, h.Name, h.ValueID, h.Value, h.Id }),
+                        DetailList = (from li in list select new { li.Answer, li.TableDetailID, li.QuestionType, li.Score }),
+                        TableName = question.TableName,
+                        Score = question.Score,
+                    };
+                    jsonModel = JsonModel.get_jsonmodel(intSuccess, "success", data);
+                }
+                else
+                {
+                    jsonModel = JsonModel.get_jsonmodel(intFailed, "failed", "该答题不存在");
+                }
 
-                }
-                catch (Exception ex)
-                {
-                    LogHelper.Error(ex);
-                }
-                finally
-                {
-                    //无论后端出现什么问题，都要给前端有个通知【为防止jsonModel 为空 ,全局字段 jsonModel 特意声明之后进行初始化】
-                    context.Response.Write("{\"result\":" + Constant.jss.Serialize(jsonModel) + "}");
-                }
+            }
+            catch (Exception ex)
+            {
+                LogHelper.Error(ex);
+            }
+            finally
+            {
+                //无论后端出现什么问题，都要给前端有个通知【为防止jsonModel 为空 ,全局字段 jsonModel 特意声明之后进行初始化】
+                context.Response.Write("{\"result\":" + Constant.jss.Serialize(jsonModel) + "}");
             }
         }
 
@@ -291,7 +315,8 @@ namespace FEHandler.Eva_Manage
                 string CreateUID = RequestHelper.string_transfer(Request, "CreateUID");
 
                 int Eva_Role = RequestHelper.int_transfer(Request, "Eva_Role");
-
+                string RoomID = RequestHelper.string_transfer(Request, "RoomID");
+                int IsRealName = RequestHelper.int_transfer(Request, "IsRealName");
                 //答题详情明细
                 string List = RequestHelper.string_transfer(Request, "List");
 
@@ -328,7 +353,9 @@ namespace FEHandler.Eva_Manage
                         TableName = TableName,
                         Score = Score,
                         State = State,
+                        RoomID = RoomID,
                         Eva_Role = Eva_Role,
+                        IsRealName = (byte)IsRealName,
                         CreateUID = CreateUID,
                         CreateTime = DateTime.Now,
                         EditTime = DateTime.Now,
@@ -402,7 +429,10 @@ namespace FEHandler.Eva_Manage
                             item.TableName = TableName;
                             item.Eva_Role = Eva_Role;
 
+                            item.RoomID = RoomID;
                             item.State = State;
+
+                            item.IsRealName = (byte)IsRealName;
                             item.CreateTime = DateTime.Now;
                             item.CreateUID = AnswerUID;
                             item.EditUID = AnswerUID;

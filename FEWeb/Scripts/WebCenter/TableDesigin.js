@@ -801,7 +801,7 @@ var UI_Table_Create =
             }
         }
         flg = flg * 2;//这样写是为了保证永远没有重复的sp_1 标题的id  为了有正确的题的序号，相同的flg会导致序号排列错误
-       
+
         OpenIFrameWindow('选择指标库', '../../SysSettings/Indicate/SelectDataBase.aspx?page=0' + '&Type=' + Type, '1170px', '700px');//page 为1表示定期  2表示即时和扫码
     },
     onlyNum: function () {
@@ -1170,6 +1170,7 @@ var UI_Table_Create =
 var headerList = [];
 var IsScore = 0;
 var RoomID = 0;
+var IsRealName = 0;
 var ReguID = 0;
 var UI_Table_View = {
     PageType: 'TableView',//TableView 答卷视图  AddEvalTable添加答卷
@@ -1228,6 +1229,10 @@ var UI_Table_View = {
             success: function (json) {
 
                 var retData = json.result.retData;
+             
+                if (retData.Table_Header_List.length == 0) {
+                    $('#list').hide();
+                }
 
                 $(".tablename").html(retData.Name);
                 UI_Table_View.IsScore = retData.IsScore;
@@ -1315,7 +1320,7 @@ var UI_Table_View = {
                         UI_Table_Create.sheet_init();
 
                         retData.Table_Header_List = Enumerable.From(retData.Table_Header_List).OrderBy(function (item) { return item.Id }).ToArray();//按Id进行升序排列
-
+                      
                         //添加表头信息
                         for (var i in retData.Table_Header_List) {
                             var item = retData.Table_Header_List[i];

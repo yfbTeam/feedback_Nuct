@@ -85,6 +85,7 @@
     <Compile Include="Enum\IsDelete.cs" />
     <Compile Include="Enum\IsEnable.cs" />
     <Compile Include="Enum\IsPublish.cs" />
+    <Compile Include="Enum\IsRealName.cs" />
     <Compile Include="Enum\IsScore.cs" />
     <Compile Include="Enum\LookType.cs" />
     <Compile Include="Enum\ModelType.cs" />

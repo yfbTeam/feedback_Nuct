@@ -116,9 +116,12 @@
             <td style="width: 5%">${StudentCount}</td>
             <td style="width: 5%">${QuestionCount}</td>
             <td style="width: 5%">${QuestionAve*100}%</td>
-            <td style="width: 5%">${ScoreAve}</td>
-
-
+            {{if IsScore}}
+               <td style="width: 5%">${ScoreAve}</td>
+            {{else}}
+               <td style="width: 5%">-</td>
+            {{/if}}
+         
             <td class="operate_wrap">{{if StateType ==1}}
                  <div class="operate" onclick="OpenIFrameWindow('查看评价','EditModel.aspx?Id=${Id}&CourseName=${CourseName}&ClassName=${ClassName}&StateType=${StateType}','545px','450px')">
                      <i class="iconfont color_purple">&#xe628;</i>
@@ -132,7 +135,7 @@
                     </span>
                 </div>
                 {{else StateType ==3}}
-                 <div class="operate" >
+                 <div class="operate">
                      <i class="iconfont color_gray">&#xe628;</i>
                      <span class="operate_none bg_gray">编辑
                      </span>
@@ -156,7 +159,7 @@
                 </div>
                 {{/if}}
              
-               {{if QuestionCount ==0}}
+               {{if QuestionCount >0}}
                  <div class="operate" onclick="location.href='detailModal.aspx?Id='+getQueryString('Id')+'&Iid='+getQueryString('Iid')+'&TableID='+'${TableID}'+'&SectionID='+'${SectionID}'+'&ReguID='+'${ReguID}'+'&CourseID='+'${CourseID}'+'&TeacherUID='+'${TeacherUID}'+'&Type=3'">
                      <i class="iconfont color_purple">&#xe606;</i>
                      <span class="operate_none bg_purple">统计</span>
@@ -179,7 +182,7 @@
                 {{/if}}
 
                  {{if StateType == 2 || StateType ==3}}            
-                 <div class="operate" >
+                 <div class="operate">
                      <i class="iconfont color_gray">&#xe61b;</i>
                      <span class="operate_none bg_gray">删除</span>
                  </div>
@@ -252,7 +255,7 @@
 
         //二维码
         function QRcode(id, RoomID, ReguID) {
-            OpenIFrameWindow('二维码', 'Qcode.aspx?url=' + MobileUrl + 'Mobile/onlinetest.html?id=' + id + '&rId=' + RoomID + '&ReguID=' + ReguID, '300px', '300px');
+            OpenIFrameWindow('二维码', 'Qcode.aspx?url=' + MobileUrl + 'Mobile/onlinetest.html?id=' + id + '&rId=' + RoomID + '&ReguID=' + ReguID + '&Eva_Role=3', '300px', '300px');
         }
 
         function selectInit() {
@@ -268,7 +271,7 @@
             Refesh();
         }
 
-        function remove(Id, value, RoomID) {           
+        function remove(Id, value, RoomID) {
             layer.confirm('确定删除"' + value + '"吗？', {
                 btn: ['确定', '取消'], //按钮
                 title: '操作'

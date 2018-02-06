@@ -18,66 +18,110 @@
             <div class="sort_nav" id="threenav">
             </div>
 
-            <h1 class="title mb10" >
-                 <div style="width: 1170px;cursor:pointer;  z-index: 99; background: #fff;  padding: 10px 0px;">
-                <div class="crumbs">
-                    <a onclick="window.location.href='indexqcode.aspx?Id='+getQueryString('Id')+'&Iid='+getQueryString('Iid')" >课堂扫码评价</a>
-                    <span>&gt;</span>
-                    <a href="javascript:;" style="cursor:pointer;" onclick="window.location=window.location.href"  id="couse_name">详情</a>
-                 
+            <h1 class="title mb20">
+                <div style="width: 1170px; cursor: pointer; z-index: 99; background: #fff; padding: 10px 0px;">
+                    <div class="crumbs">
+                        <a onclick="window.location.href='indexqcode.aspx?Id='+getQueryString('Id')+'&Iid='+getQueryString('Iid')">课堂扫码评价</a>
+                        <span>&gt;</span>
+                        <a href="javascript:;" style="cursor: pointer;" onclick="window.location=window.location.href" id="couse_name">详情</a>
+
+                    </div>
                 </div>
+            </h1>
+
+
+            <div class="table">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>序号</th>
+                            <th>学年学期</th>
+                            <th>评价名称</th>
+                            <th>课程名称</th>
+                            <th>合班</th>
+                            <th>学生姓名</th>
+                            <th>提交时间</th>
+                            <th>分数</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tbody">
+                    </tbody>
+                </table>
+                <div id="pageBar" class="page"></div>
             </div>
-            </h1>           
         </div>
     </div>
     <footer id="footer"></footer>
-  
-<script src="../../Scripts/Common.js"></script>
+
+    <script src="../../Scripts/Common.js"></script>
     <script src="../../scripts/public.js"></script>
     <script src="../../Scripts/linq.min.js"></script>
     <script src="../../Scripts/layer/layer.js"></script>
     <script src="../../Scripts/jquery.tmpl.js"></script>
     <script src="../../Scripts/pagination/jquery.pagination.js"></script>
     <link href="../../Scripts/pagination/pagination.css" rel="stylesheet" />
-    <script src="../../Scripts/WebCenter/DatabaseMan.js"></script>
+    <script src="../../Scripts/laypage/laypage.js"></script>
+    <script src="../../Scripts/WebCenter/Evaluate.js"></script>
+    <script type="text/x-jquery-tmpl" id="itemData">
+        <tr>
+            <td style="width: 5%">${Num}</td>
+            <td style="width: 5%">${DisPlayName}</td>
+            <td style="width: 7%">${ReguName}</td>
+            <td style="width: 15%">${CourseName}</td>
+            <td style="width: 15%" title="${ClassName}">${cutstr(ClassName,10)}</td>
+
+            <td style="width: 15%">${AnswerName}</td>
+            <td style="width: 15%">${DateTimeConvert(CreateTime,'yyyy-MM-dd HH:mm',true)}</td>
+
+            {{if State == 1}}
+            <td style="width: 5%">${Score}</td>
+            {{else State == 2}}
+            <td style="width: 5%">-</td>
+            {{/if}}                                  
+           <td class="operate_wrap" style="width: 10px">
+               <div class="operate" onclick="table_view('${TableID}','${Id}')">
+                   <i class="iconfont color_purple">&#xe60b;</i>
+                   <span class="operate_none bg_purple">查看</span>
+               </div>
+           </td>
+        </tr>
+    </script>
+    <script type="text/x-jquery-tmpl" id="itemCount">
+        <span style="margin-left: 5px; font-size: 14px;">共${RowCount}条，共${PageCount}页</span>
+    </script>
+
     <script>
+
+        var pageIndex = 0;
+        var SectionID = getQueryString('SectionID');
+        ReguID = getQueryString('ReguID');
+        CourseID = getQueryString('CourseID');
+        TeacherUID = getQueryString('TeacherUID');
+        Eva_Role = getQueryString('Type');
+        TableID = getQueryString('TableID');
+        var DepartmentID, Key;
+
+
         $(function () {
             $('#top').load('/header.html');
             $('#footer').load('/footer.html');
-        })
-    </script>
-     
 
-
-    
-    <script>
-        var pagecount = 0;
-        var pagesize = 3;
-        var retDataCache = null;
-        var retData_type = null;
-        //选择的指标库分类ID
-        var type_id = 0;
-        //选择的具体指定指标
-        var type_child_id;
-        var indicator_type_id = 0;//搜索时，需要类别id,此处点击左侧时进行赋值
-        var pageIndex = 0;
-        var pageSize = 10;
-        var pageCount;
-        var cookie_Userinfo = localStorage.getItem('Userinfo_LG');
-        var Userinfo_json = JSON.parse(cookie_Userinfo);
-        var Sys_Role = Userinfo_json.Sys_Role;
-        var indicator_arr = [];
-        //  [1,2,3,4]
-        var reUserinfoByselect;
-        $(function () {
             Type = 1;
             CreateUID = login_User.UniqueNo;
-       
-
+            Reflesh();
+           
             $('#threenav').children().eq(0).addClass('selected');
         })
 
-      
+        function Reflesh() {
+            IsAllSchool = 3;
+            Get_Eva_QuestionAnswer(pageIndex, SectionID, DepartmentID, Key, TableID);
+        }
+
+        function table_view(table_Id, QuestionID) {
+            OpenIFrameWindow('答题详情', '../EvalDetail.aspx?table_Id=' + table_Id + '&QuestionID=' + QuestionID + '&Id=' + getQueryString('Id') + '&Iid=' + getQueryString('Iid'), '1000px', '600px')
+        };
     </script>
 </body>
 </html>

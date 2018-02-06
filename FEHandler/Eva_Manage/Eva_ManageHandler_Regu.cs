@@ -454,7 +454,10 @@ namespace FEHandler.Eva_Manage
             return jsm;
         }
 
-
+        /// <summary>
+        /// 课堂扫码评价
+        /// </summary>
+        /// <param name="context"></param>
         public void Get_Eva_RegularData_Stu(HttpContext context)
         {
             HttpRequest Request = context.Request;
@@ -493,6 +496,8 @@ namespace FEHandler.Eva_Manage
                                                    join section in Constant.StudySection_List on regu.Section_Id equals section.Id
                                                    from room in roomlist
                                                    where Split_Hepler.str_to_ints(regu.RoomID).Contains((int)room.Id)
+                                                   join table in Constant.Eva_Table_List on regu.TableID equals table.Id into tables
+                                                   from tb in tables.DefaultIfEmpty()
                                                    orderby regu.EndTime descending
                                                    select new RegularDataRoomModel()
                                                    {
@@ -519,6 +524,8 @@ namespace FEHandler.Eva_Manage
                                                        StartTime = regu.StartTime,
                                                        EndTime = regu.EndTime,
                                                        IsOverTime = true,
+                                                       IsScore = tb.IsScore == 0 ? true : false,
+
                                                    }).ToList();
 
                 var questionList = (from q in Constant.Eva_QuestionAnswer_List
@@ -570,7 +577,7 @@ namespace FEHandler.Eva_Manage
                     li.StateType = (int)regustate;
 
                     var chilist = (from q in questionList
-                                   where q.TeacherUID == li.TeacherUID && q.CourseID == li.CourseID
+                                   where q.TeacherUID == li.TeacherUID && q.CourseID == li.CourseID && q.ReguID == li.ReguID
                                    select q).ToList();
                     int que_count = chilist.Count;
                     if (que_count > 0)
@@ -761,7 +768,7 @@ namespace FEHandler.Eva_Manage
                 var data = (from q in Constant.Eva_QuestionAnswer_Detail_List
                             where q.SectionID == SectionID && q.ReguID == ReguID && q.TableID == TableID && q.TableDetailID == TableDetailID && q.TeacherUID == TeacherUID
                                 && q.CourseID == CourseID && q.Eva_Role == Eva_Role
-                            select new { q.Answer, q.CreateTime }
+                            select new { q.Answer, q.CreateTime, AnswerName = q.IsRealName == (byte)IsRealNameType.yes ? q.AnswerName : "匿名" }
                              ).ToList();
 
                 var query_last = (from an in data select an).Skip((PageIndex - 1) * PageSize).Take(PageSize).ToList();

@@ -1510,10 +1510,13 @@ namespace FEHandler
                         Score = Convert.ToDecimal(dr["Score"]),
                         SectionID = Convert.ToInt32(dr["SectionID"]),
                         State = Convert.ToInt32(dr["State"]),
+                        RoomID = Convert.ToString(dr["RoomID"]),
                         TableID = Convert.ToInt32(dr["TableID"]),
                         TableName = Convert.ToString(dr["TableName"]),
                         TeacherName = Convert.ToString(dr["TeacherName"]),
                         TeacherUID = Convert.ToString(dr["TeacherUID"]),
+
+                        IsRealName = Convert.ToByte(dr["IsRealName"]),
                         CreateTime = Convert.ToDateTime(dr["CreateTime"]),
                         CreateUID = Convert.ToString(dr["CreateUID"]),
                         EditTime = Convert.ToDateTime(dr["EditTime"]),
@@ -1565,6 +1568,7 @@ namespace FEHandler
                         Score = Convert.ToDecimal(dr["Score"]),
                         SectionID = Convert.ToInt32(dr["SectionID"]),
                         State = Convert.ToInt32(dr["State"]),
+                        RoomID = Convert.ToString(dr["RoomID"]),
                         TableID = Convert.ToInt32(dr["TableID"]),
                         TableName = Convert.ToString(dr["TableName"]),
                         TeacherName = Convert.ToString(dr["TeacherName"]),
@@ -1574,13 +1578,14 @@ namespace FEHandler
                         Answer = Convert.ToString(dr["Answer"]),
                         QuestionType = Convert.ToInt32(dr["QuestionType"]),
                         TableDetailID = Convert.ToInt32(dr["TableDetailID"]),
-
+                        IsRealName = Convert.ToByte(dr["IsRealName"]),
                         CreateTime = Convert.ToDateTime(dr["CreateTime"]),
                         CreateUID = Convert.ToString(dr["CreateUID"]),
                         EditTime = Convert.ToDateTime(dr["EditTime"]),
                         EditUID = Convert.ToString(dr["EditUID"]),
                         IsDelete = Convert.ToByte(dr["IsDelete"]),
                         IsEnable = Convert.ToByte(dr["IsEnable"]),
+                     
                     };
                     //对象添加到泛型集合中  
                     ts.Add(t);

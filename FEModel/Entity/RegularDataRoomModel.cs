@@ -68,5 +68,7 @@ namespace FEModel.Entity
         public string State { get; set; }
 
         public int StateType { get; set; }
+
+        public bool IsScore { get; set; }
     }
 }

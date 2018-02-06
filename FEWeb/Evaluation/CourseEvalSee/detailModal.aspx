@@ -68,7 +68,7 @@
     <div id="top"></div>
     <div class="center" id="centerwrap">
         <div class="wrap ">
-             <div class="sort_nav" id="threenav">
+            <div class="sort_nav" id="threenav">
             </div>
 
             <h1 class="tablename" style="font-weight: bold;"></h1>
@@ -211,7 +211,9 @@
     <script type="text/x-jquery-tmpl" id="itemData">
         <tr>
             <td style="border: 0; float: left">${Answer}</td>
-            <td style="border: 0; width: 8%; float: right">${DateTimeConvert(CreateTime,'yyyy-MM-dd',true)}</td>
+
+            <td style="border: 0; width: 7%; float: right">${DateTimeConvert(CreateTime,'yyyy-MM-dd',true)}</td>
+            <td style="border: 0; float: right">${AnswerName}</td>
         </tr>
     </script>
     <script type="text/x-jquery-tmpl" id="itemCount">
@@ -233,13 +235,10 @@
             $('#top').load('/header.html');
             $('#footer').load('/footer.html');
 
-            if (Type == 3)
-            {
+            if (Type == 3) {
                 $('#threenav').children().eq(0).addClass('selected');
-                $('#list').hide();
             }
-            else
-            {
+            else {
                 $('#threenav').children().eq(1).addClass('selected');
             }
 
@@ -313,7 +312,7 @@
                 if ($next.prop('clientHeight') == 1) {
 
                     var TableDetailID = $(this).attr('TableDetailID');
-                   
+
                     Get_Eva_RoomDetailAnswerList(0, TableDetailID);
                 }
 

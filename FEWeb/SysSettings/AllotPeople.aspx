@@ -18,10 +18,10 @@
 </script>
 <%--Roleid ==  CurrentRoleid--%>
 <script type="text/x-jquery-tmpl" id="itemData">
-    <tr>
+    <tr  >
         {{if isHasElement (RoleList,CurrentRoleid) >-1 }}
            <td>
-               <input type='checkbox' uniqueno="${UniqueNo}" name='se' checked="checked" /></td>
+               <input  type='checkbox' uniqueno="${UniqueNo}" name='se' checked="checked" /></td>
         {{else}}
          <td>
              <input type='checkbox' uniqueno="${UniqueNo}" name='se' /></td>

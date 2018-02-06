@@ -181,6 +181,9 @@ function SubmitQuestion() {
     obj.ReguID = ReguID;
     obj.ReguName = ReguName;
 
+    obj.RoomID = RoomID;
+    obj.IsRealName = IsRealName;
+
     obj.CourseID = CourseID;
     obj.CourseName = CourseName;
 
@@ -305,9 +308,13 @@ var pageIndex = 0;
 var Mode = 1;  //Check  Record
 var AnswerUID = ''; //专家，不填则为管理员
 
+var ReguID =0;
+var CourseID = '0';
+var TeacherUID = '';
+
 var IsAllSchool = 0;
 var eva_check_depart = false, eva_check_school = false, eva_check_indepart = false;//专家 所有  专家（校）
-
+var Eva_Role = 1;  //1 为专家    2、课堂调查   3、课堂扫码评价
 function Get_Eva_QuestionAnswerCompleate() { };
 function Get_Eva_QuestionAnswer(PageIndex, SectionID, DepartmentID, Key, TableID) {
     index_layer = layer.load(1, {
@@ -320,14 +327,16 @@ function Get_Eva_QuestionAnswer(PageIndex, SectionID, DepartmentID, Key, TableID
         async: false,
         dataType: "json",
         data: {
-            func: "Get_Eva_QuestionAnswer", "SectionID": SectionID, "DepartmentID": DepartmentID,
+            func: "Get_Eva_QuestionAnswer", "SectionID": SectionID,
+            "ReguID":ReguID,"CourseID":CourseID,"TeacherUID":TeacherUID,
+            "DepartmentID": DepartmentID,
             "TableID": TableID, "Key": Key, "AnswerUID": AnswerUID, "Mode": Mode,
-            "PageIndex": PageIndex, "PageSize": pageSize, "IsAllSchool": IsAllSchool,
+            "PageIndex": PageIndex, "PageSize": pageSize, "IsAllSchool": IsAllSchool,"Eva_Role":Eva_Role,
             "eva_check_depart": eva_check_depart, "eva_check_school": eva_check_school, "eva_check_indepart": eva_check_indepart
         },
         dataType: "json",
         success: function (returnVal) {
-
+            console.log(returnVal.result.retData)
             if (returnVal.result.errMsg == "success") {
                 if (Mode == 4) {
 
@@ -607,11 +616,11 @@ function Get_Eva_RoomDetailAnswerList(PageIndex, TableDetailID) {
         dataType: "json",
         success: function (returnVal) {
             if (returnVal.result.errMsg == "success") {
-
+                debugger;
                 $('#' + TableDetailID + '_tbody').empty();
 
                 var data = returnVal.result.retData;
-
+                //console.log(data);
                 data.filter(function (item, index) { item.Num = index + 1 })
                 layer.close(layer_index);
 

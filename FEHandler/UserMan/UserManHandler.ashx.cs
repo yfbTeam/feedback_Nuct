@@ -185,6 +185,7 @@ namespace FEHandler.UserMan
                 if (m1.errNum == 0)
                 {
                     Constant.Sys_RoleOfUser_List.Add(r);
+                    r.Id = Convert.ToInt32(m1.retData);
                 }
             }
             catch (Exception ex)
