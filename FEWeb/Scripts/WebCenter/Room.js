@@ -59,11 +59,14 @@ function GetClassInfo(PageIndex) {
         S_SY = $('#S_SY Span').attr('sorttype');
     }
 
+    var key = $('#class_key').val();
+    key = key != undefined ? key.trim() : '';
+
     var postData = {
         func: "GetClassInfo", "PageIndex": PageIndex, "PageSize": PageSize,
         "SectionID": $('#section').val(), "DP": $('#DP').val(), "CT": $('#CT').val(),
         "CP": $('#CP').val(), "TD": $('#TD').val(), "TN": $('#TN').val(), "MD": $('#MD').val(),
-        "GD": $('#GD').val(), "CN": $('#CN').val(), "Key": $('#class_key').val(), "BirthdayS": BirthdayS, "BirthdayE": BirthdayE,
+        "GD": $('#GD').val(), "CN": $('#CN').val(), "Key": key, "BirthdayS": BirthdayS, "BirthdayE": BirthdayE,
         "SchoolS": SchoolS, "SchoolE": SchoolE, "ClassModelType": ClassModelType,
 
         "S_DP": S_DP, "S_CN": S_CN, "S_CT": S_CT, "S_CP": S_CP, "S_TD": S_TD, "S_TN": S_TN,
@@ -81,10 +84,21 @@ function GetClassInfo(PageIndex) {
                 var data = returnVal.result.retData;
 
                 layer.close(layer_index);
-
+                
                 $("#tbody").empty();
                 if (data.length <= 0) {
-                    nomessage('#tbody', subele, size, height);
+                    if (PageType == 'StartEval')
+                    {
+                        subele = 'other';
+                        size = 15;
+                        nomessage('.fixed-table_body-wraper', subele, size, height);
+                    }
+                    else
+                    {
+                        nomessage('#tbody', subele, size, height);
+                    }
+                   
+                    
                     $('#pageBar').hide();
                     return;
                 }
@@ -136,7 +150,7 @@ function GetClassInfoSelect(SectionID, TeacherUID, CourseID) {
         success: function (returnVal) {
             if (returnVal.result.errMsg == "success") {
                 var obj = returnVal.result.retData;
-
+                
                 $("#DP").empty();
                 $("#DP").append("<option value=''>全部</option>");
                 obj.DPList.forEach(function (item) {

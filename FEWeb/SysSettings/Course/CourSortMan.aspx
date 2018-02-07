@@ -61,7 +61,7 @@
                     </h1>
                     <ul class="menu_list" id="menu_listscours">
                     </ul>
-                  
+
                 </div>
                 <div class="sort_right fr mr" style="margin-left: -20px">
                     <div class="search_toobar clearfix">
@@ -83,6 +83,7 @@
                                     <th>任务性质</th>
                                     <th style="width: 15%;">部门</th>
                                     <th style="width: 15%;">子部门</th>
+                                    <th style="width: 10%;">课程分类</th>
                                     <th style="width: 10%;">操作</th>
                                 </tr>
                             </thead>
@@ -114,6 +115,7 @@
             <td>${TaskProperty}</td>
             <td title="${DepartmentName}">${cutstr(DepartmentName,15)}</td>
             <td title="${SubDepartmentName.trim()}">${cutstr(SubDepartmentName.trim(),15)}</td>
+             <td>${CourseRel_Name}</td>
             <td>
                 <div class="operate" onclick="removeCourseDis('${CourseRelID}','${Course_Name}')">
                     <i class="iconfont color_purple">&#xe798;</i>
@@ -175,7 +177,7 @@
     </script>
 
     <script type="text/x-jquery-tmpl" id="itemAllotNo">
-       <%-- <input type="button" value="分配评价表" class="btn mr10" style="background: #A8A8A8" />--%>
+        <%-- <input type="button" value="分配评价表" class="btn mr10" style="background: #A8A8A8" />--%>
         <input type="button" value="分配评价表" class="btn mr10" onclick="OpenTableAllot(-1)" />
         <input type="button" name="" value="分配课程" class="btn" style="background: #A8A8A8">
     </script>
@@ -200,7 +202,7 @@
         UI_Course.PageType = 'CourSortMan';
 
         UI_Course.GetCourse_Type();
-      
+
     });
     function menu_list() {
         UI_Course.menu_list();

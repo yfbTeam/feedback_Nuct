@@ -340,7 +340,7 @@ namespace FEHandler.SysClass
                                    CourseRel_.Course_Id,
                                    Sys_Dictionary_.Value,
                                    Sys_Dictionary_.IsEnable,
-                                   CourseRelID = CourseRel_.Id
+                                   CourseRelID = CourseRel_.Id,                                   
                                }).ToList();
 
 

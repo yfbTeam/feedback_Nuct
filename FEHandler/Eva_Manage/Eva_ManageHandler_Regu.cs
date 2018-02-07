@@ -865,13 +865,17 @@ namespace FEHandler.Eva_Manage
             string Key = RequestHelper.string_transfer(Request, "Key");
             string SelectUID = RequestHelper.string_transfer(Request, "SelectUID");
             string Te = RequestHelper.string_transfer(Request, "Te");
+            string DepartmentID = RequestHelper.string_transfer(Request, "DepartmentID");
             int ModelType = RequestHelper.int_transfer(Request, "ModelType");
+            int FuncType = RequestHelper.int_transfer(Request, "FuncType");
 
             int PageIndex = RequestHelper.int_transfer(Request, "PageIndex");
             int PageSize = RequestHelper.int_transfer(Request, "PageSize");
+
+            FuncType _FuncType = (FuncType)FuncType;
             try
             {
-                jsonModel = Get_Eva_RegularData_Helper(PageIndex, PageSize, SectionID, ReguId, Key, SelectUID, Te, (ModelType)ModelType);
+                jsonModel = Get_Eva_RegularData_Helper(PageIndex, PageSize, SectionID, ReguId, Key, SelectUID, Te, DepartmentID, (ModelType)ModelType, _FuncType);
             }
             catch (Exception ex)
             {
@@ -885,7 +889,7 @@ namespace FEHandler.Eva_Manage
         }
 
         public static JsonModel Get_Eva_RegularData_Helper(int PageIndex, int PageSize, int SectionID, int ReguId,
-            string Key, string SelectUID, string Te, ModelType ModelType)
+            string Key, string SelectUID, string Te, string DepartmentID, ModelType ModelType, FuncType _FuncType)
         {
             int intSuccess = (int)errNum.Success;
             JsonModelNum jsm = new JsonModelNum();
@@ -907,6 +911,7 @@ namespace FEHandler.Eva_Manage
                                                    ExpertUID = exp.ExpertUID,
                                                    Course_Name = exp.Course_Name,
                                                    CourseID = exp.CourseId,
+                                                   DepartmentID = teacher.DepartmentID,
                                                    Departent_Name = teacher.DepartmentName,
                                                    ReguName = regu.Name,
                                                    StartTime = regu.StartTime,
@@ -950,11 +955,11 @@ namespace FEHandler.Eva_Manage
                 {
                     list = (from li in list where li.ReguId == ReguId select li).ToList();
                 }
-
-                if (Key != "")
+                if (DepartmentID != "")
                 {
-                    list = (from li in list where li.TeacherName.Contains(Key) select li).ToList();
+                    list = (from li in list where li.DepartmentID == DepartmentID select li).ToList();
                 }
+
                 if (SelectUID != "")
                 {
                     list = (from li in list where li.ExpertUID == SelectUID select li).ToList();
@@ -964,38 +969,66 @@ namespace FEHandler.Eva_Manage
                 {
                     list = (from li in list where li.TeacherUID == Te select li).ToList();
                 }
-                for (int i = 0; i < list.Count; i++)
+                if (Key != "")
                 {
-                    list[i].Num = i + 1;
+                    list = (from li in list where li.TeacherName.Contains(Key) select li).ToList();
+                }
+                switch (_FuncType)
+                {
+                    case FuncType.common:
+
+                        for (int i = 0; i < list.Count; i++)
+                        {
+                            list[i].Num = i + 1;
+                        }
+
+                        var query_last = (from an in list select an).Skip((PageIndex - 1) * PageSize).Take(PageSize).ToList();
+                        foreach (var li in query_last)
+                        {
+                            ReguState regustate = ReguState.进行中;
+                            if (li.StartTime < DateTime.Now && li.EndTime >= DateTime.Now)
+                            {
+                                regustate = ReguState.进行中;
+                            }
+                            else if (li.StartTime > DateTime.Now)
+                            {
+                                regustate = ReguState.未开始;
+                            }
+                            else
+                            {
+                                regustate = ReguState.已结束;
+                            }
+                            li.State = Convert.ToString(regustate);
+                            li.StateType = (int)regustate;
+
+                            li.AnswerCount = Constant.Eva_QuestionAnswer_List.Count(q => q.ReguID == li.ReguId && q.CourseID == li.CourseID && q.State == (int)QueState.Submited);
+                        }
+                        //返回所有表格数据
+                        jsm = JsonModelNum.GetJsonModel_o(intSuccess, "success", query_last);
+                        jsm.PageIndex = PageIndex;
+                        jsm.PageSize = PageSize;
+                        jsm.PageCount = (int)Math.Ceiling((double)list.Count() / PageSize);
+                        jsm.RowCount = list.Count();
+
+                        break;
+                    case FuncType.getcount:
+                        bool result = false;
+                        foreach (var li in list)
+                        {
+                            int AnswerCount = Constant.Eva_QuestionAnswer_List.Count(q => q.ReguID == li.ReguId && q.CourseID == li.CourseID && q.State == (int)QueState.Submited);
+                            if(AnswerCount == 0)
+                            {
+                                result = true;
+                            }
+                        }
+                        //返回所有表格数据
+                        jsm = JsonModelNum.GetJsonModel_o(intSuccess, "success", result);
+                        break;
+                    default:
+                        break;
                 }
 
-                var query_last = (from an in list select an).Skip((PageIndex - 1) * PageSize).Take(PageSize).ToList();
-                foreach (var li in query_last)
-                {
-                    ReguState regustate = ReguState.进行中;
-                    if (li.StartTime < DateTime.Now && li.EndTime >= DateTime.Now)
-                    {
-                        regustate = ReguState.进行中;
-                    }
-                    else if (li.StartTime > DateTime.Now)
-                    {
-                        regustate = ReguState.未开始;
-                    }
-                    else
-                    {
-                        regustate = ReguState.已结束;
-                    }
-                    li.State = Convert.ToString(regustate);
-                    li.StateType = (int)regustate;
 
-                    li.AnswerCount = Constant.Eva_QuestionAnswer_List.Count(q => q.ReguID == li.ReguId && q.CourseID == li.CourseID);
-                }
-                //返回所有表格数据
-                jsm = JsonModelNum.GetJsonModel_o(intSuccess, "success", query_last);
-                jsm.PageIndex = PageIndex;
-                jsm.PageSize = PageSize;
-                jsm.PageCount = (int)Math.Ceiling((double)list.Count() / PageSize);
-                jsm.RowCount = list.Count();
             }
             catch (Exception ex)
             {

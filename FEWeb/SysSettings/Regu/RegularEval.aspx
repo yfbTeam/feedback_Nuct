@@ -298,8 +298,10 @@
     function limitreflesh() {
      
         Get_PageBtn("/SysSettings/Regu/RegularEval.aspx");
-        mange = JudgeBtn_IsExist("mange")
-        allot = JudgeBtn_IsExist("allot")
+        mange = JudgeBtn_IsExist("mange");
+        allot = JudgeBtn_IsExist("allot");
+        
+        DepartmentID = login_User.Major_ID;
         if (isHasElement(ids, 10) > -1 )
         {
             ModelType = 3;

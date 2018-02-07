@@ -79,6 +79,7 @@
     <Compile Include="Enum\Dictionary_Type.cs" />
     <Compile Include="Enum\DisModelType.cs" />
     <Compile Include="Enum\errNum.cs" />
+    <Compile Include="Enum\GetType.cs" />
     <Compile Include="Enum\IndicateType.cs" />
     <Compile Include="Enum\IsAllSchool.cs" />
     <Compile Include="Enum\IsAnswer.cs" />

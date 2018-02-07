@@ -180,7 +180,7 @@ var UI_Course = {
             success: function (returnVal) {
                 if (returnVal.result.errMsg == "success") {
                     parent.layer.msg('成功!');
-
+                   
                     var key = $("#select_where").val();
                     UI_Course.GetCourseInfo(pageIndex, select_sectionid, key, select_CourseTypeId);
                 }
@@ -213,7 +213,7 @@ var UI_Course = {
             success: function (returnVal) {
                 if (returnVal.result.errMsg == "success") {
                     reUserinfoByselect = returnVal.result.retData;
-
+                   
                     $('#ShowCourseInfo').empty();
 
                     layer.close(layer_index);

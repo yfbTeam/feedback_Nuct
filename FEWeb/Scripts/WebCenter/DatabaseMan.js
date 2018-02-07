@@ -130,7 +130,7 @@ var DataBaseMainModel =
         },
 
         initdata: function (IndicatorType_Id) {
-            debugger;
+            
             var type = arguments[1] || 0;//0本页面；1弹框页面加载
             $.ajax({
                 url: HanderServiceUrl + "/Eva_Manage/Eva_ManageHandler.ashx",

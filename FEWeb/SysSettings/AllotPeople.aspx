@@ -185,7 +185,7 @@
 
             }
             else {
-                debugger;
+                
                 UI_Allot.SubmitUserinfo();
             }
         };

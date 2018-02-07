@@ -98,8 +98,7 @@
                 <table class="W_form" id="tb_CourseList">
                     <thead>
                         <tr class="trth">
-                            <th class="number">序号</th>
-                            <th>学年学期</th>
+                            <th class="number">序号</th>                           
                             <th>开课部门</th>
                             <th>课程名称</th>
                             <th>课程类别</th>
@@ -109,6 +108,9 @@
                             <th>专业部门</th>
                             <th>年级</th>
                             <th>合班</th>
+                            <th>教师职称</th>
+                            <th>年龄</th>
+                            <th>校龄</th>
                         </tr>
                     </thead>
                     <tbody id="tbody">
@@ -136,17 +138,19 @@
 
     <script type="text/x-jquery-tmpl" id="itemData">
         <tr>
-            <td style="width: 3%">${Num}</td>
-            <td style="width: 7%">${DisPlayName}</td>
+            <td style="width: 3%">${Num}</td>         
             <td title="${DepartmentName}" style="width: 13%">${cutstr(DepartmentName,15)}</td>
-            <td title="${Course_Name}" style="width: 13%">${cutstr(Course_Name,15)}</td>
+            <td title="${Course_Name}" style="width: 11%">${cutstr(Course_Name,15)}</td>
             <td title="${CourseType}" style="width: 7%">${cutstr(CourseType,8)}</td>
             <td style="width: 7%">${CourseProperty}</td>
             <td title="${TeacherDepartmentName}" style="width: 13%">${cutstr(TeacherDepartmentName,15)}</td>
             <td title="${Teacher_Name}" style="width: 5%">${cutstr(Teacher_Name,7)}</td>
             <td title="${CourseDepartmentName}" style="width: 13%">${cutstr(CourseDepartmentName,15)}</td>
             <td style="width: 5%">${GradeInfo_Name}</td>
-            <td title="${ClassName}" style="width: 19%">${cutstr(ClassName,15)}</td>
+            <td title="${ClassName}" style="width: 10%">${cutstr(ClassName,15)}</td>
+             <td style="width: 5%">${TeacherJobTitle}</td>
+             <td style="width: 5%">${TeacherBirthday}</td>
+             <td style="width: 5%">${TeacherSchooldate}</td>
         </tr>
     </script>
     <script type="text/x-jquery-tmpl" id="itemCount">

@@ -108,7 +108,7 @@ var UI_Allot =
         reUserinfoByselect = reUserinfoAll;
 
         select_uniques = [];
-        debugger;
+        
         //数组合并
         for (var i = 0; i < reUserinfoByselect.length; i++) {
             var index = isHasElement(reUserinfoByselect_uniques, reUserinfoByselect[i].UniqueNo);

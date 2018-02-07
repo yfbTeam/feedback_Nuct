@@ -1,3 +1,4 @@
+/// <reference path="Common.js" />
 (function (window) {
     var theUA = window.navigator.userAgent.toLowerCase();
     if ((theUA.match(/msie\s\d+/) && theUA.match(/msie\s\d+/)[0]) || (theUA.match(/trident\s?\d+/) && theUA.match(/trident\s?\d+/)[0])) {

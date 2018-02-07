@@ -23,7 +23,7 @@ function PrepareInit() {
                 $('#TD').append(str)
                 ChosenInit($('#TD'));
             }
-            debugger;
+            
             $('.fixed-table_header div').on('click', function (item) {
                 var s = $(this).find('.layui-table-sort');
                 if (s.length > 0) {

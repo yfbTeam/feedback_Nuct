@@ -497,10 +497,12 @@
                 GetTeacherInfo_Course_Cls();
             };
             GetClassInfo(pageIndex);
-
-
-
         })
+
+        function SelectByWhere() {
+            pageIndex = 0;
+            GetClassInfo(pageIndex);
+        }
 
         //专家搜索
         function search1() {

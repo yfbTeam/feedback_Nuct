@@ -103,7 +103,7 @@ var evaluate_Model = {
                 }
             }
             else if (QuestionType == 2) {
-                debugger;
+                
                 var rs = $(this).find("input[type='radio']:checked");
 
                 for (var i = 0; i < rs.length; i++) {
@@ -616,7 +616,7 @@ function Get_Eva_RoomDetailAnswerList(PageIndex, TableDetailID) {
         dataType: "json",
         success: function (returnVal) {
             if (returnVal.result.errMsg == "success") {
-                debugger;
+                
                 $('#' + TableDetailID + '_tbody').empty();
 
                 var data = returnVal.result.retData;
