@@ -58,8 +58,22 @@ function set_indicator_type_2(type) {
 }
 //新增选项
 function newItem() {
+    var select ='';
+    var len = $("#item_list li").length;
+    if (len == 3) {
+        select = 'D';
+    }
+    else if (len == 4)
+    {
+        select ='E';
+    }
+    else if(len ==5)
+    {
+        select ='F';
+    }
+   
     if ($("#item_list li").length <= 5) {
-        $("#item_list").append('<li><i class="radio"></i><input type="text" placeholder=""   class="text"/><i class="iconfont" onclick="remove1(this)">&#xe61b;</i></li>');
+        $("#item_list").append('<li><i class="radio"></i><input type="text"  fl="选项' + select + '"  placeholder="请填写选项' + select + '" isrequired="true"  class="text"/><i class="iconfont" onclick="remove1(this)">&#xe61b;</i></li>');
     }
     else {
         layer.msg("超出数量,无法添加");

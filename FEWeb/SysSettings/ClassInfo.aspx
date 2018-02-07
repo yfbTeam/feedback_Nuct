@@ -143,11 +143,11 @@
             <td title="${Course_Name}" style="width: 11%">${cutstr(Course_Name,15)}</td>
             <td title="${CourseType}" style="width: 7%">${cutstr(CourseType,8)}</td>
             <td style="width: 7%">${CourseProperty}</td>
-            <td title="${TeacherDepartmentName}" style="width: 13%">${cutstr(TeacherDepartmentName,15)}</td>
+            <td title="${TeacherDepartmentName}" style="width: 11%">${cutstr(TeacherDepartmentName,15)}</td>
             <td title="${Teacher_Name}" style="width: 5%">${cutstr(Teacher_Name,7)}</td>
             <td title="${CourseDepartmentName}" style="width: 13%">${cutstr(CourseDepartmentName,15)}</td>
-            <td style="width: 5%">${GradeInfo_Name}</td>
-            <td title="${ClassName}" style="width: 10%">${cutstr(ClassName,15)}</td>
+            <td style="width: 4%">${GradeInfo_Name}</td>
+            <td title="${ClassName}" style="width: 11%">${cutstr(ClassName,15)}</td>
              <td style="width: 5%">${TeacherJobTitle}</td>
              <td style="width: 5%">${TeacherBirthday}</td>
              <td style="width: 5%">${TeacherSchooldate}</td>

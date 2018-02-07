@@ -380,6 +380,7 @@ namespace FEHandler.Eva_Manage
             {
                 HttpRequest Request = context.Request;
                 int table_Id = RequestHelper.int_transfer(Request, "table_Id");
+                string CreateUID = RequestHelper.string_transfer(Request, "CreateUID");
                 try
                 {
                     Eva_Table Eva_Table_Need_Copy = Constant.Eva_Table_List.FirstOrDefault(t => t.Id == table_Id);
@@ -388,6 +389,10 @@ namespace FEHandler.Eva_Manage
                         Eva_Table Eva_Table_Copy_Clone = Constant.Clone<Eva_Table>(Eva_Table_Need_Copy);
                         Eva_Table_Copy_Clone.Id = null;
                         Eva_Table_Copy_Clone.UseTimes = 0;
+                        Eva_Table_Copy_Clone.CreateUID = CreateUID;
+                        Eva_Table_Copy_Clone.EditUID = CreateUID;
+                        Eva_Table_Copy_Clone.CreateTime = DateTime.Now;
+                        Eva_Table_Copy_Clone.EditTime = DateTime.Now;
                         jsonModel = Constant.Eva_TableService.Add(Eva_Table_Copy_Clone);
                         if (jsonModel.errNum == 0)
                         {
@@ -423,7 +428,11 @@ namespace FEHandler.Eva_Manage
                                 {
                                     detail_clone.Id = Convert.ToInt32(jsonmodel.retData);
                                     Constant.Eva_TableDetail_List.Add(detail_clone);
+
+                                    Indicate_Using_Add((int)detail_clone.Indicator_Id);
                                 }
+
+                               
                             }
 
                         }
@@ -597,32 +606,28 @@ namespace FEHandler.Eva_Manage
                     {
                         Eva_Table_delete.IsDelete = (int)IsDelete.Delete;
 
-                        //开启线程操作数据库
-                        new Thread(() =>
+                        List<Eva_Table_Header> Eva_Table_Header_List = Constant.Eva_Table_Header_List.Where(t => t.Table_Id == Id).ToList();
+                        foreach (Eva_Table_Header item in Eva_Table_Header_List)
                         {
-                            List<Eva_Table_Header> Eva_Table_Header_List = Constant.Eva_Table_Header_List.Where(t => t.Table_Id == Id).ToList();
-                            foreach (Eva_Table_Header item in Eva_Table_Header_List)
+                            item.IsDelete = (int)IsDelete.Delete;
+                            var jm = Constant.Eva_Table_HeaderService.Update(item);
+                            if (jm.errNum == 0)
                             {
-                                item.IsDelete = (int)IsDelete.Delete;
-                                var jm = Constant.Eva_Table_HeaderService.Update(item);
-                                if (jm.errNum == 0)
-                                {
-                                    Constant.Eva_Table_Header_List.Remove(item);
-                                }
+                                Constant.Eva_Table_Header_List.Remove(item);
                             }
+                        }
 
-                            List<Eva_TableDetail> Eva_TableDetail_List = Constant.Eva_TableDetail_List.Where(t => t.Eva_table_Id == Id).ToList();
-                            foreach (Eva_TableDetail item in Eva_TableDetail_List)
+                        List<Eva_TableDetail> Eva_TableDetail_List = Constant.Eva_TableDetail_List.Where(t => t.Eva_table_Id == Id).ToList();
+                        foreach (Eva_TableDetail item in Eva_TableDetail_List)
+                        {
+                            item.IsDelete = (int)IsDelete.Delete;
+                            var jsonmodel = Constant.Eva_TableDetailService.Update(item);
+                            if (jsonmodel.errNum == 0)
                             {
-                                item.IsDelete = (int)IsDelete.Delete;
-                                var jsonmodel = Constant.Eva_TableDetailService.Update(item);
-                                if (jsonmodel.errNum == 0)
-                                {
-                                    Constant.Eva_TableDetail_List.Remove(item);
-                                    Indicate_Using_Reduce((int)item.Indicator_Id);
-                                }
+                                Constant.Eva_TableDetail_List.Remove(item);
+                                Indicate_Using_Reduce((int)item.Indicator_Id);
                             }
-                        }) { IsBackground = true }.Start();
+                        }
                     }
                     else
                     {

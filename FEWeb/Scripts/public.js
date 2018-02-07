@@ -523,8 +523,16 @@ function ChosenInit(select) {
             no_results_text: '未找到',
             search_contains: true
         });
-     
-        setTimeout(function () { $('.chosen-single').find('span').text('请选择'); }, 10);
+        
+        setTimeout(function () {
+           
+            var leng = $('.chosen-single').parent().parent().find('.select').find('option').length;
+            if (leng == 0)
+            {
+                $('.chosen-single').find('span').text('请选择');
+            }
+         
+        }, 10);
 
         select.trigger("chosen:updated");//动态更新select下的选择项时，只要在更新选择项后触发Chosen中的chosen:updated事件就可以了
     }
