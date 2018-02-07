@@ -130,7 +130,7 @@
             var parmsData = {
                 "Func": "GetTPM_UserInfo", IsStatistic: "1", PageIndex: startIndex, pageSize: pageSize, Status_Com: '>6',
                 BeginTime: $("#BeginTime").val(), EndTime: $("#EndTime").val(),
-                "Name": $("#key").val(), "DepartMent": $("#DepartMent").val()
+                "Name": $("#key").val().trim(), "DepartMent": $("#DepartMent").val()
             };
             if (!list_achstatis_showall) {
                 parmsData["DepartMent"] = loginUser.Major_ID;
@@ -180,7 +180,7 @@
                 var parmsData = {
                     "Func": "GetTPM_UserInfo", IsStatistic: "2", Static_RIId: "1", IsPage: false, Status_Com: '>6',
                     BeginTime: $("#BeginTime").val(), EndTime: $("#EndTime").val(),
-                    "Name": $("#key").val(), "DepartMent": $("#DepartMent").val(), UserNos: userNoArray.join(',')
+                    "Name": $("#key").val().trim(), "DepartMent": $("#DepartMent").val(), UserNos: userNoArray.join(',')
                 };
                 if (!list_achstatis_showall) {
                     parmsData["DepartMent"] = loginUser.Major_ID;

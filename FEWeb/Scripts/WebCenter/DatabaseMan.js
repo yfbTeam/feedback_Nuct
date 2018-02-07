@@ -173,7 +173,7 @@ var DataBaseMainModel =
                             break;
                         case 'SelectDataBase':
 
-                            var key = $("#key").val();
+                            var key = $("#key").val().trim();
                             if (key != "") {
                                 retDataCache = Enumerable.From(retDataCache).Where("item=>item.Name.indexOf('" + key + "')>-1").Where("x=>x.IndicatorType_Id==" + IndicatorType_Id + "").ToArray();
                             }

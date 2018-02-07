@@ -109,7 +109,8 @@ function Get_UserByRoleID(PageIndex) {
 
     Dp = $('#college').val();
     Cls = $('#class').val();
-    key = $('#key').val()
+    key = $('#key').val();
+    key = key != undefined ? key.trim() : '';
 
     Cls = CurrentRoleid != 2 ? '' : Cls;
 

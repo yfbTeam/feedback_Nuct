@@ -139,7 +139,7 @@
         function Book(startIndex, pageSize) {           
             $("#tb_Book").empty();
             Cur_BookData = [];
-            var parmsData = { "Func": "GetTPM_BookStory", BookType: $("#BookType").val(), "Name": $("#Key").val(), PageIndex: startIndex, pageSize: pageSize, Status:$("#sel_Status").val(),Author_SelfNo:$("#CreateUID").val()};
+            var parmsData = { "Func": "GetTPM_BookStory", BookType: $("#BookType").val(), "Name": $("#key").val().trim(), PageIndex: startIndex, pageSize: pageSize, Status:$("#sel_Status").val(),Author_SelfNo:$("#CreateUID").val()};
             $.ajax({
                 url: HanderServiceUrl + "/TeaAchManage/AchRewardInfo.ashx",
                 type: "post",

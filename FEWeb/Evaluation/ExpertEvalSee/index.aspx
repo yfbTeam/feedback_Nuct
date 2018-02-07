@@ -221,6 +221,7 @@
         function Reflesh() {
             var SectionID = $('#section').val();
             var Key = $('#Key').val();
+            Key = Key != undefined ? Key.trim() : '';
             var DepartmentID = $('#DepartMent').val();
             var TableID = $('#table').val();
 

@@ -644,7 +644,7 @@
                           }
 
                           //关键字搜索
-                          var key = $("#key").val();
+                          var key = $("#key").val().trim();
                           if (key != "") {
                               retDataCache = Enumerable.From(retDataCache).Where(function (i) {
                                   //各个条件

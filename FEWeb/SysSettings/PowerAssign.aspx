@@ -9,15 +9,17 @@
     <link href="../css/reset.css" rel="stylesheet" />
     <link href="../css/layout.css" rel="stylesheet" />
     <script src="../Scripts/jquery-1.8.3.min.js"></script>
-    
+
     <style>
-        .table table tbody tr td:nth-child(2n){text-align:left;padding-left:20px;}
+        .table table tbody tr td:nth-child(2n) {
+            text-align: left;
+            padding-left: 20px;
+        }
     </style>
 </head>
 <body>
     <div class="main">
         <div class="ztree" id="table">
-
         </div>
     </div>
     <div class="btnwrap">
@@ -29,11 +31,14 @@
     <script src="../Scripts/layer/layer.js"></script>
     <script src="../Scripts/jquery.tmpl.js"></script>
     <script src="../Scripts/linq.js"></script>
-     <link href="../Scripts/pagination/pagination.css" rel="stylesheet" />
+    <link href="../Scripts/pagination/pagination.css" rel="stylesheet" />
     <script src="../Scripts/pagination/jquery.pagination.js"></script>
     <link href="../Scripts/zTree/css/zTreeStyle/zTreeStyle.css" rel="stylesheet" />
     <script src="../Scripts/zTree/js/jquery.ztree.all.min.js"></script>
     <script>
+
+        var adminalot = [ 196];
+
         var UrlDate = new GetUrlDate();
         var setting = {
             view: {
@@ -60,11 +65,17 @@
                 }
             },
             callback: {
-                onClick: function(e, treeId, treeNode, clickFlag) {
+                onClick: function (e, treeId, treeNode, clickFlag) {
                     zTree.checkNode(treeNode, !treeNode.checked, true);
-                } 
+                   
+                    if(treeNode.chkDisabled)
+                    {
+                        layer.msg('当前角色无法勾选' + treeNode.Name);
+                    }
+                }
             },
             check: {
+                
                 autoCheckTrigger: true,
                 enable: true,
                 chkStyle: "checkbox",
@@ -82,25 +93,38 @@
                 success: function (returnVal) {
                     if (returnVal.result.errMsg == "success") {
                         var trees = returnVal.result.retData;
-                        zTree  = $.fn.zTree.init($("#table"), setting, trees);
+                        zTree = $.fn.zTree.init($("#table"), setting, trees);
+
                     }
                 },
                 error: function (errMsg) {
                     alert("数据加载失败!");
                 }
             });
+           
             var roleid = UrlDate.type;
-            var items = getMenuByRoleid(roleid,"");
+            var items = getMenuByRoleid(roleid, "");
             $(items).each(function () {
                 var treeObj = $.fn.zTree.getZTreeObj("table");
                 var node = treeObj.getNodeByParam("ID", this.ID, null);
                 treeObj.checkNode(node, true, true);
             });
+          
+            if (roleid == 10 || roleid == 19) {              
+            }
+            else {
+                for (var i = 0; i < adminalot.length; i++) {
+                    var treeObj = $.fn.zTree.getZTreeObj("table");
+                    var node = treeObj.getNodeByParam("ID", adminalot[i], null);
+                    zTree.setChkDisabled(node, true);
+                }
+            }
+         
+           
         });
-        
-        
-        function submit()
-        {
+
+
+        function submit() {
             var zTree = $.fn.zTree.getZTreeObj("table");
             var nodes = zTree.getCheckedNodes(true);
 
@@ -128,6 +152,6 @@
                 }
             })
         }
-	</script>
+    </script>
 </body>
 </html>

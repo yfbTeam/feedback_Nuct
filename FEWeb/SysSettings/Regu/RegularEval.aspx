@@ -300,8 +300,13 @@
         Get_PageBtn("/SysSettings/Regu/RegularEval.aspx");
         mange = JudgeBtn_IsExist("mange")
         allot = JudgeBtn_IsExist("allot")
-        rid = login_User.Sys_Role_Id;
+        if (isHasElement(ids, 10) > -1 )
+        {
+            ModelType = 3;
+        }
+        else if( isHasElement(ids, 19) >-1)
+        {
+            ModelType = 2;
+        }       
     }
-
-
 </script>

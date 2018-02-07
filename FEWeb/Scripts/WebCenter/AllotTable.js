@@ -214,7 +214,8 @@ function GetCourseType_Table(CourseTypeId, SectionId) {
                 $("#tb_eva").empty();
                 CourseType_Table_Dat = returnVal.result.retData;
 
-                var key = $('#key').val();
+                var key = $('#Key').val();
+                key = key != undefined ? key.trim() : '';
                 var daselect = CourseType_Table_Dat.filter(function (item) { return item.Name.indexOf(key) > -1 });
                 if (daselect.length == 0) {
                     nomessage('#tb_eva', '', 25, 360);
@@ -244,7 +245,8 @@ function GetCourseType_Table(CourseTypeId, SectionId) {
 function SelectByWhereList() {
 
     $("#tb_eva").empty();
-    var key = $('#key').val();
+    var key = $('#Key').val();
+    key = key != undefined ? key.trim() : '';
     var daselect = CourseType_Table_Dat.filter(function (item) { return item.Name.indexOf(key) > -1 });
     if (daselect.length == 0) {
         nomessage('#tb_eva');

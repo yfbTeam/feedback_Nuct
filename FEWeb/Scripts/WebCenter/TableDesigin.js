@@ -105,7 +105,7 @@ var UI_Table =
                         PagesMth = 5;
                     }
 
-                    var key = $("#key").val();
+                    var key = $("#key").val().trim();
                     if (key != "" && key != undefined) {
                         retDataCache = Enumerable.From(retDataCache).Where("item=>item.t.Name.indexOf('" + key + "')>-1").ToArray();
                     }

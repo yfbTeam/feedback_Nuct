@@ -7,7 +7,7 @@ var UI_SortCourse =
             select_uniques = [];
             $('#college').change(function () {
                 var majorId = $('#college').val();
-                var key = $("#key").val();
+                var key = $("#key").val().trim();
                 GetNoDis_CourseInfo(0, select_sectionid, majorId, key);
 
             });
@@ -95,7 +95,7 @@ function GetNoDis_CourseInfo(PageIndex) {
 
 
     var majorId = $('#college').val();
-    var key = $("#key").val();
+    var key = $("#key").val().trim();
 
     var postData = {
         func: "GetNoDis_CourseInfo",

@@ -59,8 +59,8 @@ var UI_Allot =
         if (college != "" && college != null && college != undefined) {
             reUserinfoByselect = Enumerable.From(reUserinfoByselect).Where("x=>x.Major_ID=='" + college + "'").ToArray();
         }
-
-        var sw = $("#key").val();
+    
+        var sw = $("#key").val().trim();
         if (sw != "") {
             reUserinfoByselect = reUserinfoByselect.filter(function (item) { return item.Name.indexOf(sw) > -1 || item.UniqueNo.indexOf(sw) > -1 });
         }
@@ -136,27 +136,17 @@ var UI_Allot =
         $('input:checkbox[name=se]').each(function () {
 
             $(this).on('click', function () {
-                var check = $(this).attr('checked');
+                var check = $(this).prop('checked');
                 var UniqueNo = $(this).attr('UniqueNo');
-                debugger;
-                if (check != undefined) {
-                    select_uniques.remove(UniqueNo);
+             
+                if (!check) {                 
                     $(this).removeAttr('checked');
-
-                    var data = reUserinfoAll.filter(function (item) { return item.UniqueNo == UniqueNo });
-                    if (data.length > 0) {
-                        data[0].Roleid = 0;
-                    }
+                    RemoveUnique(UniqueNo);
 
                 }
                 else {
-                    select_uniques.push(UniqueNo)
-                    $(this).attr('checked', 'checked');
-
-                    var data = reUserinfoAll.filter(function (item) { return item.UniqueNo == UniqueNo });
-                    if (data.length > 0) {
-                        data[0].Roleid = CurrentRoleid;
-                    }
+                    $(this).attr('checked', 'checked');                   
+                    AddUnique(UniqueNo);
                 }
 
 
@@ -203,8 +193,9 @@ var UI_Allot =
             $('.table').find('input[type="checkbox"]').prop('checked', false);
           
             $('#tb_indicator').find('input[type="checkbox"]').each(function () {
-                var UniqueNo = $(this).attr('UniqueNo');                              
-                select_uniques.remove(UniqueNo)
+                var UniqueNo = $(this).attr('UniqueNo');
+              
+                RemoveUnique(UniqueNo);
             })
          
             IsAll_Select = false;
@@ -213,7 +204,7 @@ var UI_Allot =
             $('.table').find('input[type="checkbox"]').prop('checked', true);
             $('#tb_indicator').find('input[type="checkbox"]').each(function () {
                 var UniqueNo = $(this).attr('UniqueNo');
-                select_uniques.push(UniqueNo)
+                AddUnique(UniqueNo);
             })
             IsAll_Select = true;
         }
@@ -234,6 +225,32 @@ var UI_Allot =
         }
     },
 };
+
+function RemoveUnique(UniqueNo)
+{
+    var length = isHasElement(select_uniques, UniqueNo);
+    if (length > -1) {
+        select_uniques.remove(UniqueNo);       
+    }
+    var data = reUserinfoAll.filter(function (item) { return item.UniqueNo == UniqueNo });
+    if (data.length > 0) {
+        data[0].Roleid = 0;
+        data[0].RoleList.remove(Number(CurrentRoleid));
+    }
+}
+
+function AddUnique(UniqueNo)
+{
+    var length = isHasElement(select_uniques, UniqueNo);
+    if (length == -1) {
+        select_uniques.push(UniqueNo)
+    }
+    var data = reUserinfoAll.filter(function (item) { return item.UniqueNo == UniqueNo });
+    if (data.length == 0) {
+        data[0].Roleid = CurrentRoleid;
+        data[0].RoleList.push(Number(CurrentRoleid));
+    }
+}
 
 //--------指定元素进删除---------------------------------------------------------------
 Array.prototype.remove = function (val) {

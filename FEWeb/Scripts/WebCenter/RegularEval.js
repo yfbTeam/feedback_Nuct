@@ -94,7 +94,8 @@ function Get_Eva_RegularS(SectionId, Type, PageIndex) {
     layer_index = layer.load(1, {
         shade: [0.1, '#fff'] //0.1透明度的白色背景
     });
-    var key = $('#key').val();
+    var key = $('#Key').val();
+    key = key != undefined ? key.trim() : '';
 
     $.ajax({
         type: "Post",
@@ -402,9 +403,12 @@ function Get_Eva_RegularSingle(Type, IsEdit) {
 var IsAllSchool = 0;
 var ModelType = '1'; //1 普通所有  2为院管获取  3为校管获取
 function Get_Eva_RegularData(Id, PageIndex) {
+
+    var key = $('#Key').val()
+    key = key != undefined ? key.trim() : '';
     var postData = {
         func: "Get_Eva_RegularData", "ReguId": Id, "PageIndex": PageIndex,
-        "PageSize": pageSize, "Key": $('#key').val(), "SelectUID": SelectUID, "SectionID": SectionID,
+        "PageSize": pageSize, "Key": key, "SelectUID": SelectUID, "SectionID": SectionID,
         "Te": Te, "ModelType": ModelType
     };
     layer_index = layer.load(1, {
@@ -462,11 +466,15 @@ function Get_Eva_RegularData(Id, PageIndex) {
 
 
 function Get_Eva_RegularData_Room(PageIndex) {
+
+    key = $('#Key').val();
+    key = key != undefined ? key.trim() : '';
+
     var postData = {
         func: "Get_Eva_RegularData_Room", "PageIndex": PageIndex,
         "PageSize": pageSize,
         "SectionID": SectionID, "ReguID": ReguID,
-        "Te": Te, "RP": RP, "Gr": Gr, "Key": $('#key').val(),
+        "Te": Te, "RP": RP, "Gr": Gr, "Key": key,
     };
     layer_index = layer.load(1, {
         shade: [0.1, '#fff'] //0.1透明度的白色背景

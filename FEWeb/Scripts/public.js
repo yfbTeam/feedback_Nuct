@@ -131,6 +131,26 @@ function BindThreeNav() {
     }
 
 }
+
+function GetFirstNav(Id, Iid) {     
+    var threeNav = getNav(Iid);
+    if (threeNav.length > 0) {
+        var item = threeNav[0];
+        if (isHasElement(item.Url, "?") >= 0) {
+            return item.Url + '&Id=' + Id + '&Iid=' + Iid;
+        }
+        else
+        {
+            return item.Url + '?Id=' + Id + '&Iid=' + Iid;
+        }
+    }
+    else
+    {
+        return null;
+    }
+}
+
+
 //表格操作
 function tableSlide() {
     $('.operate').hover(function () {
