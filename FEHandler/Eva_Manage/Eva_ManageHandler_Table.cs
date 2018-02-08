@@ -19,7 +19,7 @@ namespace FEHandler.Eva_Manage
     public partial class Eva_ManageHandler : IHttpHandler
     {
 
-        #region 获取表
+        #region 获取表【包含评价表启用禁用】
 
         /// <summary>
         /// 获取表格
@@ -29,12 +29,12 @@ namespace FEHandler.Eva_Manage
         {
             int intSuccess = (int)errNum.Success;
             HttpRequest Request = context.Request;
-            int Type = RequestHelper.int_transfer(Request, "Type");
+            int Type = RequestHelper.int_transfer(Request, "Type");          
             TableType TableType = (TableType)Type;
             string CreateUID = RequestHelper.string_transfer(Request, "CreateUID");
             try
             {
-                List<Eva_Table> tblist = (from t in Constant.Eva_Table_List where t.Type == Type select t).ToList();
+                List<Eva_Table> tblist = (from t in Constant.Eva_Table_List where t.Type == Type  select t).ToList();
                 if (TableType == FEModel.Enum.TableType.teacherself)
                 {
                     tblist = (from t in Constant.Eva_Table_List where t.CreateUID == CreateUID select t).ToList();
@@ -61,7 +61,7 @@ namespace FEHandler.Eva_Manage
         }
 
         /// <summary>
-        /// 获取表格
+        /// 获取表格【包含评价表启用禁用】
         /// </summary>
         /// <param name="context">当前上下文</param>
         public void Get_Eva_Table(HttpContext context)
@@ -71,13 +71,13 @@ namespace FEHandler.Eva_Manage
 
             string CourseID = RequestHelper.string_transfer(Request, "CourseID");
             int SectionID = RequestHelper.int_transfer(Request, "SectionID");
-
+            bool NoEnableSelect = RequestHelper.bool_transfer(Request, "NoEnableSelect");
             int Type = RequestHelper.int_transfer(Request, "Type");        
             string CreateUID = RequestHelper.string_transfer(Request, "CreateUID");
 
             try
             {
-                jsonModel = Get_Eva_TableHelper(SectionID, CourseID,Type,CreateUID);
+                jsonModel = Get_Eva_TableHelper(SectionID, CourseID,Type,CreateUID,NoEnableSelect);
             }
             catch (Exception ex)
             {
@@ -90,7 +90,7 @@ namespace FEHandler.Eva_Manage
             }
         }
 
-        public static JsonModel Get_Eva_TableHelper(int SectionID, string CourseID,int Type  ,string CreateUID)
+        public static JsonModel Get_Eva_TableHelper(int SectionID, string CourseID, int Type, string CreateUID, bool NoEnableSelect)
         {
             int intSuccess = (int)errNum.Success;
             JsonModel jsmodel = new JsonModel();
@@ -98,7 +98,12 @@ namespace FEHandler.Eva_Manage
             {
                
                 TableType TableType = (TableType)Type;
-                List<Eva_Table> tblist = (from t in Constant.Eva_Table_List where t.Type == Type && t.IsEnable == (int)IsEnable.Enable select t).ToList();
+                List<Eva_Table> tblist = (from t in Constant.Eva_Table_List where t.Type == Type  select t).ToList();
+                if (!NoEnableSelect)
+                {
+                    tblist = (from t in tblist where  t.IsEnable == (int)IsEnable.Enable select t).ToList();
+                }
+              
                 if (TableType == FEModel.Enum.TableType.teacherself)
                 {
                     tblist = (from t in tblist where t.CreateUID == CreateUID select t).ToList();

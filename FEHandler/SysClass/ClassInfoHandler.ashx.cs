@@ -505,7 +505,7 @@ namespace FEHandler.SysClass
                     CTList = (from qe in query where qe.CourseType != "" select qe.CourseType).Distinct().ToList(),
                     CPList = (from qe in query where qe.CourseProperty != "" select qe.CourseProperty).Distinct().ToList(),
                     TDList = (from qe in query where qe.TeacherDepartmentName != "" select qe.TeacherDepartmentName).Distinct().ToList(),
-                    TNList = (from qe in query where qe.Teacher_Name != "" select qe.Teacher_Name).Distinct().ToList(),
+                    TNList = (from qe in query where qe.Teacher_Name != "" select new TNModel() { TeacherName = qe.Teacher_Name, TeacherDepartmentName =qe.TeacherDepartmentName }).Distinct(new  TNModelComparer()).ToList(),
                     MDList = (from qe in query where qe.CourseDepartmentName != "" select qe.CourseDepartmentName).Distinct().ToList(),
                     GDList = (from qe in query where qe.GradeInfo_Name != "" select qe.GradeInfo_Name).Distinct().ToList(),
                     CNList = (from qe in query where qe.ClassName != "" select qe.ClassName).Distinct().ToList(),

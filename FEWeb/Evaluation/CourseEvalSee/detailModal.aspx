@@ -70,7 +70,16 @@
         <div class="wrap ">
             <div class="sort_nav" id="threenav">
             </div>
-
+            <h1 class="title mb10" style="text-align: left;" >
+                 <div style="width: 1170px;cursor:pointer;  z-index: 99; background: #fff;  padding: 10px 0px;">
+                <div class="crumbs">
+                    <a onclick="window.location.href='index.aspx?Id='+getQueryString('Id')+'&Iid='+getQueryString('Iid')" >课堂调查</a>
+                    <span>&gt;</span>
+                    <a href="javascript:;" style="cursor:pointer;" onclick="window.location=window.location.href"  id="couse_name">统计详情</a>
+                 
+                </div>
+            </div>
+            </h1>
             <h1 class="tablename" style="font-weight: bold;"></h1>
 
             <div class="evalmes" style="color: #999999; font-size: 14px">

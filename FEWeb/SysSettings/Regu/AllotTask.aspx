@@ -192,7 +192,7 @@
                 </div>
                 <div class="fl selectdiv">
                     <label for="">教师姓名:</label>
-                    <select class="select" id="TN">
+                    <select  class="select" id="TN">
                         <option value="">全部</option>
                     </select>
                 </div>
@@ -380,7 +380,7 @@
             </td>
 
             <td>
-                <div title="${TeacherBirthday}" class="table-cell w-100">${TeacherBirthday}</div>
+                <div  title="${TeacherBirthday}" class="table-cell w-100">${TeacherBirthday}</div>
             </td>
 
             <td>
@@ -411,8 +411,10 @@
       
         var pageIndex = 0;
         $(function () {
+            
             var ids = GetIDs('Userinfos');
             var rids = ids.split(',');
+           
             if (isHasElement(ids, 10) > -1) {
                 GetUserByType('17');//获取
             }
@@ -420,15 +422,12 @@
                 DepartmentID = login_User.Major_ID;
                 GetUserByType('16');//院系专家
             }
-
             Get_Eva_QuestionAnswerCompleate = function (data) {
-
                 for (var i = 0; i < data.length; i++) {
                     AddDis(data[i].CourseID, data[i].CourseName, data[i].TeacherUID, data[i].TeacherName)
                 }
                 fillData_disable(data);
             };
-
             GetTeacherInfo_Course_ClsCompleate = function (data) {
 
                 for (var i = 0; i < data.length; i++) {
@@ -436,27 +435,26 @@
                 }
                 fillData(data);
             };
-
             ExpertListRefleshCompleate = function (exp0) {
                 Mode = 4;
                 AnswerUID = exp0.UniqueNo;
                 Get_Eva_QuestionAnswer(0, select_sectionid);
                 GetTeacherInfo_Course_Cls();
             };
-
             PageSize = 5;
             Groups = 6;
             size = 12;
             height = 263;
             ClassModelType = 1;
-
             PageType = 'AllotTask';
+            $("#TD").on('change', function () {                            
+                teacherreflesh();
+            });
 
             $("#DP,#CT,#CP,#TD,#TN,#MD,#GD,#CN").on('change', function () {
                 pageIndex = 0;
                 GetClassInfo(pageIndex);
             });
-
             $('.number').on('blur', function () {
                 pageIndex = 0;
 
@@ -465,16 +463,11 @@
 
                 SchoolS = $('#SchoolS').val();
                 SchoolE = $('#SchoolE').val();
-
                 GetClassInfo(pageIndex);
             });
-
             $('.number').on('change', function () {
                 $(this).trigger('blur');
             });
-            PrepareInit();
-            //默认第一个选中，并且添加点击事件，选中样式
-            $('.linkman_lists li:eq(0)').trigger('click');
             GetClassInfoCompleate = function () {
                 $('#tbody').find('.checkbox').on('click', function () {
                     if ($(this).is(':checked')) {
@@ -484,14 +477,24 @@
                         RemoveDis($(this).attr('CourseID'), $(this).attr('TeacherUID'));
                     }
                 });
-                $(".fixed-table-box").fixedTable();
-
                 Mode = 4;
                 AnswerUID = selectExpertUID;
                 Get_Eva_QuestionAnswer(0, select_sectionid);
                 GetTeacherInfo_Course_Cls();
             };
-            GetClassInfo(pageIndex);
+            PrepareInit();
+            //默认第一个选中，并且添加点击事件，选中样式
+            $('.linkman_lists li:eq(0)').trigger('click');
+            if ($('.linkman_lists li:eq(0)').length > 0)
+            {
+                
+            }
+            else
+            {              
+                var rolid = isHasElement(ids, 19) > -1 ? 16 : 17;
+                departmentInit(rolid, login_User.DepartmentName);
+            }
+         
         })
 
         function SelectByWhere() {

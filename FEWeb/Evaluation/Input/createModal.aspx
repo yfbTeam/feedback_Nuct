@@ -183,8 +183,16 @@
                     $('#threenav').children().eq(0).addClass('selected');
                 }
                 else {
-                    $('#threenav').children().eq(1).addClass('selected');
+                    if ($('#threenav').children().length > 1)
+                    {
+                        $('#threenav').children().eq(1).addClass('selected');
+                    }
+                    else {
+                        $('#threenav').children().eq(0).addClass('selected');
+                    }
                 }
+
+                //$('#threenav').children().eq(0).addClass('selected');
             })
 
 

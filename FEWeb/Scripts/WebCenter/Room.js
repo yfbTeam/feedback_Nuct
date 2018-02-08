@@ -85,9 +85,9 @@ function GetClassInfo(PageIndex) {
 
                 layer.close(layer_index);
                 
-                $("#tbody").empty();
+                $("#tbody").empty();               
                 if (data.length <= 0) {
-                    if (PageType == 'StartEval')
+                    if (PageType == 'StartEval' )
                     {
                         subele = 'other';
                         size = 15;
@@ -96,9 +96,7 @@ function GetClassInfo(PageIndex) {
                     else
                     {
                         nomessage('#tbody', subele, size, height);
-                    }
-                   
-                    
+                    }                   
                     $('#pageBar').hide();
                     return;
                 }
@@ -134,7 +132,8 @@ function GetClassInfo(PageIndex) {
     });
 }
 
-var CCList = {};
+var CCList = [];
+var TNList = [];
 function GetClassInfoSelectCompleate() { };
 function GetClassInfoSelect(SectionID, TeacherUID, CourseID) {
    
@@ -155,7 +154,7 @@ function GetClassInfoSelect(SectionID, TeacherUID, CourseID) {
                 $("#DP").empty();
                 $("#DP").append("<option value=''>全部</option>");
                 obj.DPList.forEach(function (item) {
-                    var str = str = "<option value='" + item + "'>" + item + "</option>";
+                    var str =  "<option value='" + item + "'>" + item + "</option>";
                     $("#DP").append(str);
                 });
                 ChosenInit($('#DP'));
@@ -164,7 +163,7 @@ function GetClassInfoSelect(SectionID, TeacherUID, CourseID) {
                 $("#CT").empty();
                 $("#CT").append("<option value=''>全部</option>");
                 obj.CTList.forEach(function (item) {
-                    var str = str = "<option value='" + item + "'>" + item + "</option>";
+                    var str =  "<option value='" + item + "'>" + item + "</option>";
                     $("#CT").append(str);
                 });
                 ChosenInit($('#CT'));
@@ -173,7 +172,7 @@ function GetClassInfoSelect(SectionID, TeacherUID, CourseID) {
                 $("#CP").empty();
                 $("#CP").append("<option value=''>全部</option>");
                 obj.CPList.forEach(function (item) {
-                    var str = str = "<option value='" + item + "'>" + item + "</option>";
+                    var str =  "<option value='" + item + "'>" + item + "</option>";
                     $("#CP").append(str);
                 });
                 ChosenInit($('#CP'));
@@ -181,7 +180,7 @@ function GetClassInfoSelect(SectionID, TeacherUID, CourseID) {
                 $("#TD").empty();
                 $("#TD").append("<option value=''>全部</option>");
                 obj.TDList.forEach(function (item) {
-                    var str = str = "<option value='" + item + "'>" + item + "</option>";
+                    var str =  "<option value='" + item + "'>" + item + "</option>";
                     $("#TD").append(str);
                 });
                 ChosenInit($('#TD'));
@@ -190,7 +189,7 @@ function GetClassInfoSelect(SectionID, TeacherUID, CourseID) {
                 $("#TN").empty();
                 $("#TN").append("<option value=''>全部</option>");
                 obj.TNList.forEach(function (item) {
-                    var str = str = "<option value='" + item + "'>" + item + "</option>";
+                    var str =  "<option value='" + item.TeacherName + "'>" + item.TeacherName + "</option>";
                     $("#TN").append(str);
                 });
                 ChosenInit($('#TN'));
@@ -198,7 +197,7 @@ function GetClassInfoSelect(SectionID, TeacherUID, CourseID) {
                 $("#MD").empty();
                 $("#MD").append("<option value=''>全部</option>");
                 obj.MDList.forEach(function (item) {
-                    var str = str = "<option value='" + item + "'>" + item + "</option>";
+                    var str =  "<option value='" + item + "'>" + item + "</option>";
                     $("#MD").append(str);
                 });
                 ChosenInit($('#MD'));
@@ -206,7 +205,7 @@ function GetClassInfoSelect(SectionID, TeacherUID, CourseID) {
                 $("#GD").empty();
                 $("#GD").append("<option value=''>全部</option>");
                 obj.GDList.forEach(function (item) {
-                    var str = str = "<option value='" + item + "'>" + item + "</option>";
+                    var str =  "<option value='" + item + "'>" + item + "</option>";
                     $("#GD").append(str);
                 });
                 ChosenInit($('#GD'));
@@ -215,7 +214,7 @@ function GetClassInfoSelect(SectionID, TeacherUID, CourseID) {
                 $("#CN").empty();
                 $("#CN").append("<option value=''>全部</option>");
                 obj.CNList.forEach(function (item) {
-                    var str = str = "<option value='" + item + "'>" + item + "</option>";
+                    var str =  "<option value='" + item + "'>" + item + "</option>";
                     $("#CN").append(str);
                 });
                 ChosenInit($('#CN'));
@@ -223,7 +222,7 @@ function GetClassInfoSelect(SectionID, TeacherUID, CourseID) {
                 $("#Cls").empty();
                 $("#Cls").append("<option value=''>全部</option>");
                 obj.ClsList.forEach(function (item) {
-                    var str = str = "<option value='" + item.ClassID + "'>" + item.ClassName + "</option>";
+                    var str =  "<option value='" + item.ClassID + "'>" + item.ClassName + "</option>";
                     $("#Cls").append(str);
                 });
                 ChosenInit($('#Cls'));
@@ -231,13 +230,14 @@ function GetClassInfoSelect(SectionID, TeacherUID, CourseID) {
                 $("#RP").empty();
                 $("#RP").append("<option value=''>全部</option>");
                 obj.RPList.forEach(function (item) {
-                    var str = str = "<option value='" + item + "'>" + item + "</option>";
+                    var str =  "<option value='" + item + "'>" + item + "</option>";
                     $("#RP").append(str);
                 });
                 ChosenInit($('#RP'));
 
 
                 CCList = obj.CCList;
+                TNList = obj.TNList;
 
                 GetClassInfoSelectCompleate();
             }

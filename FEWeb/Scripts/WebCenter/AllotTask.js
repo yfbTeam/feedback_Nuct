@@ -53,9 +53,6 @@ function PrepareInit() {
     }
 }
 
-
-
-
 function AddDis(CourseID, CourseName, TeacherUID, TeacherName) {
 
     var obj = {
@@ -105,7 +102,6 @@ function RemoveDis(Course_UniqueNo, TeacherUID) {
     if (data.length > 0) {
         select_course_teacher.remove(data[0]);
     }
-
 }
 
 function GetTeacherInfo_Course_ClsCompleate() { };
@@ -126,10 +122,8 @@ function GetTeacherInfo_Course_Cls() {
                 switch (PageType) {
                     case 'AllotTask':
                         break;
-
                     default:
                 }
-
                 GetTeacherInfo_Course_ClsCompleate(Teachers);
             }
         },
@@ -188,42 +182,56 @@ function ExpertListReflesh() {
         var exp = ExpertList.filter(function (item) { return item.UniqueNo == selectExpertUID });
         var exp0 = exp.length > 0 ? exp[0] : null;
 
-      
-
         var roleId = exp0.Roleid;
-        switch (roleId) {
-            case 16:
-                DepartmentName = exp0.DepartmentName;
-                GetClassInfoSelect();
-                $('#TD').empty();
-                var str = "<option value='" + DepartmentName + "'>" + DepartmentName + "</option>";
-                $('#TD').append(str)
-                ChosenInit($('#TD'));
-                pageIndex = 0;
-
-                GetClassInfo(pageIndex);
-
-                break;
-
-            case 17:
-                DepartmentName = '';
-                $('#TD').empty();
-                var str = "<option value=''>全部</option>";
-                $('#TD').append(str)
-                ChosenInit($('#TD'));
-
-                GetClassInfoSelect();
-                pageIndex = 0;
-                GetClassInfo(pageIndex);
-                break;
-            default:
-
-        }
-
+        departmentInit(roleId, exp0.DepartmentName);       
         ExpertListRefleshCompleate(exp0);
 
     })
 
+}
+
+function departmentInit(roleId, DepartmentName)
+{
+   
+    switch (roleId) {
+        case 16:         
+            GetClassInfoSelect(select_sectionid);
+            $('#TD').empty();
+            var str = "<option value='" + DepartmentName + "'>" + DepartmentName + "</option>";
+            $('#TD').append(str)
+            ChosenInit($('#TD'));
+            teacherreflesh();
+            pageIndex = 0;
+            GetClassInfo(pageIndex);
+
+            break;
+
+        case 17:
+            DepartmentName = '';
+            $('#TD').empty();
+            var str = "<option value=''>全部</option>";
+            $('#TD').append(str)
+            ChosenInit($('#TD'));
+
+            GetClassInfoSelect(select_sectionid);
+            pageIndex = 0;
+            GetClassInfo(pageIndex);
+            break;
+        default:
+
+    }
+}
+
+function teacherreflesh()
+{   
+    var tnlist = TNList.filter(function (item) { return item.TeacherDepartmentName == $("#TD").val() })
+    $("#TN").empty();
+    $("#TN").append("<option value=''>全部</option>");
+    tnlist.forEach(function (item) {
+        var str = "<option value='" + item.TeacherName + "'>" + item.TeacherName + "</option>";
+        $("#TN").append(str);
+    });
+    ChosenInit($('#TN'));
 }
 
 var DisModelType = 0;
@@ -256,14 +264,11 @@ function AddExpert_List_Teacher_Course() {
                             case "AllotTask":
                                 parent.Get_Eva_RegularData(select_reguid, 0);
 
-
-
                                 break;
                             case "StartEval":
-                                //parent.Get_Eva_RegularData(0, 0);
-
-                                parent.navicate(data.TeacherUID, data.TeacherName, data.SectionID, data.DisplayName, data.CourseID, data.CourseName, data.ReguID, data.ReguName, data.ExpertUID, data.ExpertName, DepartmentName);
-
+                               
+                                parent.navicate(data.TeacherUID, data.TeacherName, data.SectionID, data.DisplayName, data.CourseID,
+                                    data.CourseName, data.ReguID, data.ReguName, data.ExpertUID, data.ExpertName, DepartmentName);
                                 break;
                             default:
                         }

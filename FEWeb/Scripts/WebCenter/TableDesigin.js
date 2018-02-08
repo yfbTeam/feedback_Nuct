@@ -196,13 +196,13 @@ var UI_Table_Create =
         //------------------存储比例系数----------------------------------------------------
         UI_Table_Create.load_score_parameter();
     },
-    load_score_parameter: function () {
-        var S_A_P2 = getItem('S_A_P2');
-        var S_B_P2 = getItem('S_B_P2');
-        var S_C_P2 = getItem('S_C_P2');
-        var S_D_P2 = getItem('S_D_P2');
-        var S_E_P2 = getItem('S_E_P2');
-        var S_F_P2 = getItem('S_F_P2');
+    load_score_parameter: function () {      
+        var S_A_P2 = localStorage.getItem('S_A_P2');
+        var S_B_P2 = localStorage.getItem('S_B_P2');
+        var S_C_P2 = localStorage.getItem('S_C_P2');
+        var S_D_P2 = localStorage.getItem('S_D_P2');
+        var S_E_P2 = localStorage.getItem('S_E_P2');
+        var S_F_P2 = localStorage.getItem('S_F_P2');
         if (S_A_P2 != null && S_A_P2 != undefined) {
             $('#A').val(S_A_P2);
         }
@@ -222,7 +222,7 @@ var UI_Table_Create =
             $('#F').val(S_F_P2);
         }
     },
-    save_score_parameter: function () {
+    save_score_parameter: function () {   
         var S_A_P2 = $('#A').val();
         var S_B_P2 = $('#B').val();
         var S_C_P2 = $('#C').val();
