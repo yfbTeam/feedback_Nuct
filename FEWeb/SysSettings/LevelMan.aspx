@@ -192,7 +192,7 @@
                     <ul class="menu_list" style="height:478px;overflow:auto"></ul>
                     <input type="button" name="name" value="设置" class="new" onclick="OpenIFrameWindow('菜单设置','MenuSetting.aspx','900px','680px')" />
                 </div>
-                <div class="sort_right fr" style="height:500px;overflow:auto">
+                <div class="sort_right fr">
                     <div class="nav_version_wrap clearfix">
                         <div class="nav_version_left fl"></div>
                         <div class="fr">
