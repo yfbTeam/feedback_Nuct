@@ -286,9 +286,7 @@
                         BindRank();
                         $("#Sort").val(model.Sort);                                                                 
                         BindFile_Plugin(); 
-                        Get_Sys_Document(0, $("#Id").val());//获奖文件
-                        BindFile_Plugin("#uploader_certi6", "#filePicker_certi6", "#dndArea_certi6");
-                        Get_Sys_Document(6, $("#Id").val(), "#uploader_certi6");//获奖证书
+                        Get_Sys_Document(0, $("#Id").val());//获奖文件                        
                         BindUser("ResponsMan");
                         $("#ResponsMan").val(model.ResponsMan);
                         $("#ResponsMan").trigger("chosen:updated");
@@ -470,6 +468,8 @@
                 async:false,
                 data: { "Func": "GetAcheiveLevelData", "IsPage": "false", "Pid": UrlDate.Group },
                 success: function (json) {
+                    BindFile_Plugin("#uploader_certi6", "#filePicker_certi6", "#dndArea_certi6");
+                    Get_Sys_Document(6, $("#Id").val(), "#uploader_certi6");//获奖证书
                     if (json.result.errMsg == "success") {
                         $(json.result.retData).each(function () {
                             $("#Gid").append('<option value="' + this.Id + '">' + this.Name + '</option>');
