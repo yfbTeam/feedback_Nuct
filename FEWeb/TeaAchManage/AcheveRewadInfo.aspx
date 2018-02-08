@@ -42,7 +42,7 @@
                     <div class="clear"></div>
                     <div class="input_lable input_lable2">
                         <label for="">获奖文件：</label>                        
-                        <div class="fl uploader_container">
+                        <div class="fl uploader_container pr">
                             <div id="uploader">
                                 <div class="queueList">
                                     <div id="dndArea" class="placeholder photo_lists">
@@ -58,6 +58,7 @@
                                     <div class="info"></div>                                
                                 </div>
                             </div>
+                            <span class="uploader_msg" style="left:285px;">单个文件大小不可超过50M</span>
                         </div>
                     </div>
                 </div>
@@ -111,10 +112,10 @@
                         <label for="">负责单位：</label>
                         <select class="chosen-select select" data-placeholder="负责单位" id="DepartMent" name="DepartMent" multiple="multiple"></select>
                     </div>
-                    <div class="input_lable input_lable2">
+                    <div class="input_lable input_lable2" style="top:10px;">
                         <label for="">获奖证书：</label>                        
-                        <div class="fl uploader_container">
-                            <div id="uploader_certi6">
+                        <div class="fl uploader_container pr">
+                            <div id="uploader_certi6 ">
                                 <div class="queueList">
                                     <div id="dndArea_certi6" class="placeholder photo_lists">
                                         <div id="filePicker_certi6"></div>
@@ -129,6 +130,7 @@
                                     <div class="info"></div>                                
                                 </div>
                             </div>
+                            <span class="uploader_msg" style="left:285px;">单个文件大小不可超过50M</span>
                         </div>
                     </div>
                 </div>          

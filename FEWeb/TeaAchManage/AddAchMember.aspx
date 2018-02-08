@@ -113,7 +113,7 @@
         if (collegeid.length) {
             curlist = Enumerable.From(curlist).Where("x=>x.Major_ID=='" + collegeid + "'").ToArray();
         }
-        var sw = $("#key").val();
+        var sw = $("#key").val().trim();
         if (sw != "") {
             curlist = Enumerable.From(curlist).Where("x=>x.Name.indexOf('" + sw + "')!=-1||x.UniqueNo.indexOf('" + sw + "')!=-1").ToArray();
         }        

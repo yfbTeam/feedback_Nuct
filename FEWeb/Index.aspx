@@ -1,4 +1,5 @@
 ﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Index.aspx.cs" Inherits="FEWeb.Index" %>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -10,27 +11,27 @@
     <script src="Scripts/jquery-1.11.2.min.js"></script>
     <script id="my_prize_detail_Item" type="text/x-jquery-tmpl">
         <tr>
-           <td>${GidName}</td>
+            <td>${GidName}</td>
             <td>${AchiveName}</td>
             <td>${Major_Name}</td>
             <td>${ResponsName}</td>
-            <td>${Year}</td>           
+            <td>${Year}</td>
             <td>${SelfScore}</td>
             <td>{{if ResponsMan == $('#CreateUID').val()}}                  
                     {{if ComStatus==0}}<span class="nosubmit">待提交</span>
-                    {{else ComStatus==1}}<span class="checking1">信息待审核</span>
-                    {{else ComStatus==2}}<span class="nocheck">信息不通过</span>
-                    {{else ComStatus==3}}<span class="assigning">分数待分配</span>
-                    {{else ComStatus==4}}<span class="nosubmit">分数待提交</span>
-                    {{else ComStatus==5}}<span class="checking1">分数待审核</span>
-                    {{else ComStatus==6}}<span class="nocheck">分数不通过</span>
-                    {{else ComStatus==7}}<span class="assigning">审核通过</span>
-                    {{else ComStatus==8}}<span class="assigning">奖金待分配</span>
-                    {{else ComStatus==9}}<span class="nosubmit">奖金待提交</span>
-                    {{else ComStatus==10}}<span class="checking1">奖金待审核</span>
-                    {{else ComStatus==11}}<span class="nocheck">奖金不通过</span>
-                    {{else}} <span class="assigning">审核通过</span>
-                    {{/if}}
+                {{else ComStatus==1}}<span class="checking1">信息待审核</span>
+                {{else ComStatus==2}}<span class="nocheck">信息不通过</span>
+                {{else ComStatus==3}}<span class="assigning">分数待分配</span>
+                {{else ComStatus==4}}<span class="nosubmit">分数待提交</span>
+                {{else ComStatus==5}}<span class="checking1">分数待审核</span>
+                {{else ComStatus==6}}<span class="nocheck">分数不通过</span>
+                {{else ComStatus==7}}<span class="assigning">审核通过</span>
+                {{else ComStatus==8}}<span class="assigning">奖金待分配</span>
+                {{else ComStatus==9}}<span class="nosubmit">奖金待提交</span>
+                {{else ComStatus==10}}<span class="checking1">奖金待审核</span>
+                {{else ComStatus==11}}<span class="nocheck">奖金不通过</span>
+                {{else}} <span class="assigning">审核通过</span>
+                {{/if}}
                 {{else}}
                     <span class="assigning">审核通过</span>
                 {{/if}}
@@ -76,43 +77,43 @@
         </div>
         <div style="background: #fff;" id="index_body">
             <div class="center query_lists clearfix">
-                <a href="/TeaAchManage/AchManage.aspx?Id=2&Iid=3" ss="3" mcode="a_index_AchManage" style="display:none;">
+                <a href="/TeaAchManage/AchManage.aspx?Id=2&Iid=3" ss="3" mcode="a_index_AchManage" style="display: none;">
                     <i>
                         <img src="images/index_01.png" alt="" />
                     </i>
                     <p>业绩管理</p>
                 </a>
-                <a href="/TeaAchManage/MyPerformance.aspx?Id=2&Iid=4" ss="4" mcode="a_index_MyPerformance" style="display:none;">
+                <a href="/TeaAchManage/MyPerformance.aspx?Id=2&Iid=4" ss="4" mcode="a_index_MyPerformance" style="display: none;">
                     <i>
                         <img src="images/index_02.png" alt="" />
                     </i>
                     <p>我的业绩</p>
                 </a>
-                <a href="/TeaAchManage/AcheveRewadSearch.aspx?Id=2&Iid=5" ss="5" mcode="a_index_AcheveRewadSearch" style="display:none;">
+                <a href="/TeaAchManage/AcheveRewadSearch.aspx?Id=2&Iid=5" ss="5" mcode="a_index_AcheveRewadSearch" style="display: none;">
                     <i>
                         <img src="images/index_03.png" alt="" />
                     </i>
                     <p>业绩查询</p>
                 </a>
-                <a href="/Evaluation/EvaluationInput.aspx?Id=7&Iid=8" ss="8" mcode="a_index_EvaluationInput" style="display:none;">
+                <a href="/Evaluation/EvaluationInput.aspx?Id=7&Iid=8" ss="8" mcode="a_index_EvaluationInput" style="display: none;">
                     <i>
                         <img src="images/index_04.png" alt="" />
                     </i>
                     <p>评价录入</p>
                 </a>
-                <a href="/Evaluation/TaskAllot.aspx?Id=7&Iid=9" ss="9" mcode="a_index_TaskAllot" style="display:none;">
+                <a href="/Evaluation/TaskAllot.aspx?Id=7&Iid=9" ss="9" mcode="a_index_TaskAllot" style="display: none;">
                     <i>
                         <img src="images/index_05.png" alt="" />
                     </i>
                     <p>审核入库</p>
                 </a>
-                <a href="/Evaluation/ExpertEvalSee/index.aspx?Id=7&Iid=134" ss="134" mcode="a_index_ExpertEvalSee" style="display:none;">
+                <a href="/Evaluation/ExpertEvalSee/index.aspx?Id=7&Iid=134" ss="134" mcode="a_index_ExpertEvalSee" style="display: none;">
                     <i>
                         <img src="images/index_06.png" alt="" />
                     </i>
                     <p>专家评价查看</p>
                 </a>
-                <a href="/Evaluation/CourseEvalSee/index.aspx?Id=7&Iid=135" ss="135" mcode="a_index_CourseEvalSee" style="display:none;">
+                <a href="/Evaluation/CourseEvalSee/index.aspx?Id=7&Iid=135" ss="135" mcode="a_index_CourseEvalSee" style="display: none;">
                     <i>
                         <img src="images/index_07.png" alt="" />
                     </i>
@@ -133,16 +134,16 @@
                                     <th width="22%">获奖项目名称</th>
                                     <th width="20%">负责单位</th>
                                     <th width="5%">负责人</th>
-                                    <th width="5%">获奖年度</th>                                    
+                                    <th width="5%">获奖年度</th>
                                     <th width="5%">个人分数</th>
-                                    <th width="7%">状态</th>                                    
+                                    <th width="7%">状态</th>
                                     <th width="18%">操作</th>
-                                </tr>                               
+                                </tr>
                             </thead>
                             <tbody id="myPirze_table"></tbody>
                         </table>
-                        <div  id="myTable" class="page"></div>
-                    </div>                    
+                        <div id="myTable" class="page"></div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -170,6 +171,12 @@
             if (lens < 4) {
                 $('.query_lists>a').width(100 / lens + '%');
             }
+            
+            $('.query_lists').find('a[mcode="a_index_EvaluationInput"]').attr('href', GetFirstNav(7, 8));
+            $('.query_lists').find('a[mcode="a_index_ExpertEvalSee"]').attr('href', GetFirstNav(7, 134));
+            $('.query_lists').find('a[mcode="a_index_CourseEvalSee"]').attr('href', GetFirstNav(7, 135));
+            
+
         });
         //获取我的业绩数据
         function getmyPrize(startIndex, pageSize) {
@@ -219,7 +226,7 @@
                         $('#checkNumber').html(model.AuditCount);
                         $('#myAcheiveNumber').html(model.MyCount);
                         $('#myStoryNumber').html(model.BookCount);
-                    } 
+                    }
                 },
                 error: function () {
                     //接口错误时需要执行的

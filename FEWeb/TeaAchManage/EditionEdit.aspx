@@ -48,23 +48,25 @@
                 </div>
                 <div class="input-wrap input_lable2">
                     <label for="" style="min-width:100px;">相关：</label>
-                    <div class="fl uploader_container" style="padding-left:110px;">
-                            <div id="uploader">
-                                <div class="queueList">
-                                    <div id="dndArea" class="placeholder photo_lists">
-                                        <div id="filePicker"></div>
-                                        <ul class="filelist clearfix"></ul>
-                                    </div>
-                                </div>
-                                <div class="statusBar" style="display: none;">
-                                    <div class="progress">
-                                        <span class="text">0%</span>
-                                        <span class="percentage"></span>
-                                    </div>
-                                    <div class="info"></div>                                
+                    <div class="fl uploader_container pr" style="padding-left:110px;">
+                        
+                        <div id="uploader">
+                            <div class="queueList">
+                                <div id="dndArea" class="placeholder photo_lists">
+                                    <div id="filePicker"></div>
+                                    <ul class="filelist clearfix"></ul>
                                 </div>
                             </div>
+                            <div class="statusBar" style="display: none;">
+                                <div class="progress">
+                                    <span class="text">0%</span>
+                                    <span class="percentage"></span>
+                                </div>
+                                <div class="info"></div>                                
+                            </div>
                         </div>
+                        <div class="uploader_msg">单个文件大小不可超过50M</div>
+                    </div>
                 </div>
                 <div style="text-align:center;margin-top:60px;">
                     <input type="button" value="保存" onclick="submit()" class="btn" />

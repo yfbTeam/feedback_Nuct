@@ -62,5 +62,13 @@ namespace FEModel.Entity
         public DateTime? StartTime { get; set; }
 
         public bool IsOverTime { get; set; }
+
+        public string ClassID { get; set; }
+
+        public string State { get; set; }
+
+        public int StateType { get; set; }
+
+        public bool IsScore { get; set; }
     }
 }

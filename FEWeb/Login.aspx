@@ -11,7 +11,6 @@
     <link href="css/login.css" rel="stylesheet"/>
     <link href="css/animate.css" rel="stylesheet" />
     <link href="css/font-awesome.min.css" rel="stylesheet" />
-    
     <style type="text/css">
         /*iconfont*/
 .iconfont {
@@ -44,6 +43,15 @@
         .Validform_right {
             color: #91c954;
         }
+        .layui-layer-zi .layui-layer-title {
+            background: #731F4F;
+            color: #fff;
+            border: none;
+        }
+        .layui-layer-zi .layui-layer-btn a {
+    background: #731F4F;
+    border-color: #731F4F;
+}
     </style>
 </head>
 <body>
@@ -99,41 +107,25 @@
             </div>
         </div>
     </div>
-    <footer id="footer" class="footer">
-        
-    </footer>
+    <footer id="footer" class="footer"></footer>
     <script src="Scripts/jquery-1.11.2.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
      <script src="Scripts/Common.js"></script>
     <script src="Scripts/Validform_v5.3.1.js"></script>
-    <script src="Scripts/md5.js"></script>
-   
+    <script src="Scripts/layer/layer.js"></script>
     <script type="text/javascript">
-       
-       
-        $(function ()
-        {
+        $(function (){
             $('#footer').load('/footer.html');
             Checkcookie();
            //加载验证码
             createCode();
-           
             //回车提交事件
-            enterSubmit('#inpCode', function () {
-                $("#LoginButton").click();   
+            $('#inpCode').keydown(function (e) {
+                e = e || window.event;
+                if ((e.keyCode || e.which) == "13") {
+                    $("#LoginButton").click();   
+                }
             })
-            /*回车提交方法
-            *param:obj  对象
-            *param:cb   回调方法
-            */
-            function enterSubmit(obj, cb) {
-                $(obj).keydown(function (e) {
-                    e = e || window.event;
-                    if ((e.keyCode || e.which) == "13") {
-                        cb();
-                    }
-                })
-            }
             var valiNewForm = $("#LoginForm").Validform({
                 datatype: {
                     "iCode": function (gets, obj, curform, regxp) {
@@ -142,7 +134,6 @@
                           curform为当前验证的表单，
                           regxp为内置的一些正则表达式的引用。*/
                         var reg1 = regxp["*"];
-
                         var hidcode = curform.find("#hidCode");
                         if (reg1.test(gets)) { if (hidcode.val().toUpperCase() == gets.toUpperCase()) { return true; } }
                         return false;
@@ -154,8 +145,7 @@
                 showAllError: false,
                 beforeSubmit: function (curform) {
                     //在验证成功后，表单提交前执行的函数，curform参数是当前表单对象。
-                    //这里明确return false的话表单将不会提交;	
-                    ;
+                    //这里明确return false的话表单将不会提交;
                      Login();
                 }
             })
@@ -167,7 +157,6 @@
             var checkCode = document.getElementById("checkCode");
             checkCode.innerHTML = "";
             var selectChar = new Array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'j', 'k', 'l', 'm', 'n', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'J', 'K', 'L', 'M', 'N', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z');
-
             for (var i = 0; i < codeLength; i++) {
                 var charIndex = Math.floor(Math.random() * 60);
                 code += selectChar[charIndex];
@@ -177,37 +166,40 @@
             }
             checkCode.innerHTML = code;
             $("#hidCode").val(code);
-            //$("#inpCode").val(code);
         }
-
-        function Login()
-        {
-            var loginName = $("#txt_loginName").val()
-            var passWord = $("#txt_passWord").val()
-            var isOK = false;
-            var postData = { "Func": "Login", "loginName": loginName, "passWord": passWord };
+        function Login(){
+            var postData = { "Func": "Login", "loginName": $("#txt_loginName").val().trim(), "passWord": $("#txt_passWord").val().trim() };
             $.ajax({
                 type: "Post",
                 url: HanderServiceUrl + "/Login/LoginHandler.ashx",
                 data: postData,
                 dataType: "json",
-                async: false,
                 success: function (returnVal) {
-
-                    if (returnVal.result.errMsg == "success")
-                    {
-                        isOK = true;//登陆验证通过
+                    if (returnVal.result.errMsg == "success"){
                         var data = returnVal.result.retData;
-                        
-                        //Set_AllBtn(data[0].Sys_Role_Id);
-
+                        if (data[0].Sys_Role_Id == 2) {
+                            var index  = layer.alert('请使用教师账号登录！', {
+                                skin: 'layui-layer-zi' //样式类名
+                                , closeBtn: 0
+                            }, function () {
+                                layer.close(index);
+                            });
+                            return;
+                        }
                         //把用户信息存在cookie中
                         localStorage.setItem('Userinfos', JSON.stringify(data));
                         localStorage.setItem('LoginTime', Date.parse(new Date()));
+                        var user = JSON.parse(localStorage.getItem('Userinfos'));
+                        var teacher = role(user[0].UniqueNo, "IsTeacher");
+                        var student = role(user[0].UniqueNo, "IsStudent");
+                        if (!teacher && !student) {
+                            localStorage.setItem('Userinfo_LG', JSON.stringify(user[0]));
+                        }
+                        var ids = GetIDs('Userinfos')
+                        Set_AllBtn(ids);
                     }
-                    else
-                    {
-                        alert("用户名密码错误");
+                    else{
+                        layer.msg("用户名密码错误");
                         createCode();
                     }
                 },
@@ -216,24 +208,6 @@
                     createCode();
                 }
             });
-            if (isOK) { //如果验证成功
-                var user = JSON.parse(localStorage.getItem('Userinfos'));
-                var user0 = user[0];
-               
-                var teacher = role(user0.UniqueNo, "IsTeacher");
-                
-                var student = role(user0.UniqueNo, "IsStudent");
-               
-                if (!teacher && !student) {
-                    localStorage.setItem('Userinfo_LG', JSON.stringify(user0));
-                }
-              
-
-                var ids = GetIDs('Userinfos')
-                Set_AllBtn(ids);
-
-                window.location.href = "/Index.aspx";    
-            }
         }
         function role(uniqueNo, roleName) {
             $.ajax({
@@ -241,46 +215,31 @@
                 url: HanderServiceUrl + "/Login/LoginHandler.ashx",
                 data: { "Func": roleName, "UniqueNo": uniqueNo },
                 dataType: "json",
-                async: false,
                 success: function (returnVal) {
                     if (returnVal.result.errMsg == "success") {
                         var data = returnVal.result.retData;
-
                         localStorage.setItem('Userinfo_LG', JSON.stringify(data));
-                        
                         //将教师角色加入到集合
                         var user = JSON.parse(localStorage.getItem('Userinfos'));
                         user.push(data);
                         localStorage.setItem('Userinfos', JSON.stringify(user));
-                        return true;
-                    }
-                    else {
-                        return false;
                     }
                 },
-                error: function (errMsg) {
-                    return false;
-                }
+                error: function (errMsg) {}
             });
         }
-
         function GetIDs(itemname) {
             var ids = '';
-
             var data = JSON.parse(localStorage.getItem(itemname));
-            data.filter(function (item) { ids += item.Sys_Role_Id + ',' });
+            data.forEach(function (item) { ids += item.Sys_Role_Id + ',' });
             ids = (ids.substring(ids.length - 1) == ',') ? ids.substring(0, ids.length - 1) : ids;
-
             return ids;
         }
-      
-        function Checkcookie()
-        {
+        function Checkcookie(){
             var cookie_Userinfo = localStorage.getItem('Userinfo_LG');
             var LoginTime = localStorage.getItem('LoginTime');
             var curData = Date.parse(new Date());
-            if (cookie_Userinfo != null && cookie_Userinfo != "null" && LoginTime != null && (curData - LoginTime)<=1000*60*60)
-            {
+            if (cookie_Userinfo != null && cookie_Userinfo != "null" && LoginTime != null && (curData - LoginTime)<=1000*60*60){
                 window.location.href = "/Index.aspx";
             }
         }
@@ -290,7 +249,6 @@
                 url: HanderServiceUrl + "/SetMenu/SetMenuHandler.ashx",
                 data: { "Func": "Get_MenuBtnInfo", Rid: roleid },
                 dataType: "json",
-                async: false,
                 success: function (json) {
                     localStorage.removeItem('Menu_Btns');
                     if (json.result.errNum == 0) {                        
@@ -299,6 +257,7 @@
                     } else {                       
                         localStorage.setItem('Menu_Btns', "");
                     }
+                    window.location.href = "/Index.aspx";
                 },
                 error: function (errMsg) {}
             });

@@ -189,7 +189,7 @@
             <div class="sortwrap clearfix">
                 <div class="menu fl">
                     <h1 class="titlea">业绩等级管理</h1>
-                    <ul class="menu_list"></ul>
+                    <ul class="menu_list" style="height:478px;overflow:auto"></ul>
                     <input type="button" name="name" value="设置" class="new" onclick="OpenIFrameWindow('菜单设置','MenuSetting.aspx','900px','680px')" />
                 </div>
                 <div class="sort_right fr">

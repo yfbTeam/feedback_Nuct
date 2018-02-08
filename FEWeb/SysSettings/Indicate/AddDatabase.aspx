@@ -84,7 +84,7 @@
                     <input type="text" placeholder="请填写选项B" value="" isrequired="true" fl="选项B" class="text" />
                 </li>
                 <li><i class="radio"></i>
-                    <input type="text" <%--name="OptionC"--%> placeholder="请填写选项C" value="" isrequired="true" fl="选项C" class="text" /></li>
+                    <input type="text" placeholder="请填写选项C" value="" isrequired="true" fl="选项C" class="text" /></li>
             </ul>
             <a href="javascript:newItem();" class="newoption"><i class="iconfont">&#xe649;</i>新增选项</a>
         </div>
@@ -95,7 +95,7 @@
             <label style="line-height: 60px">指标名称：</label>
             <ul class="option_lists clearfix" id="item_list_w" style="display: inline-block; padding-left: 0; float: left;">
                 <li>
-                    <textarea name="Name" maxlength="500" isrequired="true" placeholder="请填写指标名称"></textarea>
+                    <textarea name="Name" maxlength="500" fl="指标名称"  isrequired="true" placeholder="请填写指标名称"></textarea>
                 </li>
             </ul>
         </div>
@@ -119,6 +119,10 @@
         var index = parent.layer.getFrameIndex(window.name);//索引
         var typeid = getQueryString("typeid");//指标分类
         typeid = typeid == "undefined" ? 0 : typeid;
+
+        Type = getQueryString("Type");
+        CreateUID = login_User.UniqueNo;
+
         //retData_type 为父页面的指标分类，indicator_name获取当前指标的信息
         var indicator_name, indicator_Parent_Id;
         if (typeid != 0) {
@@ -170,7 +174,8 @@
                 $(this).children("input[type='text']").attr("name", "Option" + array[_index]);//动态为选项赋name的值
             })
 
-            var valid_flag = validateForm($('select,input[type="text"]'));
+           
+            var valid_flag = validateForm($('select,input[type="text"],textarea'));
             if (valid_flag != "0")////验证失败的情况  需要表单的input控件 有isrequired 值为true或false 和fl 值为不为空的名称两个属性
             {
                 return false;

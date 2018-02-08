@@ -407,7 +407,7 @@
                     retDataCache = retData;
 
                     retDataCache = Enumerable.From(retDataCache).Where("item=>item.IsDelete==0").OrderByDescending('$.Id').ToArray();//按Id进行降序排列
-                    var key = $("#key").val();
+                    var key = $("#key").val().trim();
                     if (key != "") {
                         //console.log(IndicatorType_Id);
                         //console.log(retDataCache);

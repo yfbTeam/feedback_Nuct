@@ -166,7 +166,7 @@ namespace FEHandler.Eva_Manage
                 ReguState regustate = ReguState.进行中;
                 foreach (var li in list)
                 {
-                    if (li.StartTime < DateTime.Now && ((DateTime)li.EndTime).AddDays(1) > DateTime.Now)
+                    if (li.StartTime < DateTime.Now && li.EndTime >= DateTime.Now)
                     {
                         regustate = ReguState.进行中;
                     }
@@ -206,7 +206,7 @@ namespace FEHandler.Eva_Manage
                 HttpRequest Request = context.Request;
                 //课程类型
                 //DictionType_Enum dictiontype = DictionType_Enum.Course_Type;
-                int Eva_Role = RequestHelper.int_transfer(Request, "Eva_Role");
+                int Type = RequestHelper.int_transfer(Request, "Type");
                 List<Table_CourseType> Table_CourseType_List = new List<Table_CourseType>();
 
 
@@ -218,16 +218,16 @@ namespace FEHandler.Eva_Manage
                     Table_CourseType Table_CourseType = new Table_CourseType();
                     Table_CourseType.Course_Key = item.Key;
                     Table_CourseType.Course_Value = item.Value;
-                    Table_CourseType.Eva_Role = Eva_Role;
+                    Table_CourseType.Eva_Role = Type;
                     Table_CourseType.Eva_Table_List = (from table in Constant.Eva_Table_List
-                                                       where table.Eva_Role == Eva_Role && table.IsDelete == (int)IsDelete.No_Delete && table.IsEnable == (int)IsEnable.Enable
-                                                      
+                                                       where table.Type == Type && table.IsDelete == (int)IsDelete.No_Delete && table.IsEnable == (int)IsEnable.Enable
+
                                                        select table).ToList();
                     Table_CourseType_List.Add(Table_CourseType);
                 }
 
 
-                if (Eva_Role == 2)
+                if (Type == 2)
                 {
                     List<Sys_Dictionary> list2 = (from dic in Constant.Sys_Dictionary_List
                                                   where dic.Type == Convert.ToString((int)Dictionary_Type.Edu_Course_Type)
@@ -239,7 +239,7 @@ namespace FEHandler.Eva_Manage
                         Table_CourseType.Course_Value = item.Value;
                         Table_CourseType.Eva_Role = 3;
                         Table_CourseType.Eva_Table_List = (from table in Constant.Eva_Table_List
-                                                           where table.Eva_Role == Eva_Role && table.IsEnable == (int)IsEnable.Enable
+                                                           where table.Type == Type && table.IsEnable == (int)IsEnable.Enable
                                                            select table).ToList();
                         Table_CourseType_List.Add(Table_CourseType);
                     }
@@ -254,7 +254,7 @@ namespace FEHandler.Eva_Manage
                         Table_CourseType.Course_Value = item.Value;
                         Table_CourseType.Eva_Role = 4;
                         Table_CourseType.Eva_Table_List = (from table in Constant.Eva_Table_List
-                                                           where table.Eva_Role == Eva_Role
+                                                           where table.Type == Type
                                                            select table).ToList();
                         Table_CourseType_List.Add(Table_CourseType);
                     }
@@ -293,6 +293,9 @@ namespace FEHandler.Eva_Manage
                 HttpRequest Request = context.Request;
                 int P_Type = RequestHelper.int_transfer(Request, "P_Type");
                 int P_Id = RequestHelper.int_transfer(Request, "P_Id");
+                int Type = RequestHelper.int_transfer(Request, "Type");
+                IndicateType IndicateType = (IndicateType)Type;
+                string CreateUID = RequestHelper.string_transfer(Request, "CreateUID");
                 List<IndicatorType> list = null;
                 if (P_Type > 0)
                 {
@@ -306,6 +309,14 @@ namespace FEHandler.Eva_Manage
                 if (P_Id > 0)
                 {
                     list = (from i in Constant.IndicatorType_List where i.Parent_Id == P_Id select i).ToList();
+                }
+                list = (from i in list where i.Type == Type select i).ToList();
+                if (IndicateType == FEModel.Enum.IndicateType.teacherself)
+                {
+                    if (!string.IsNullOrEmpty(CreateUID))
+                    {
+                        list = (from i in list where i.CreateUID == CreateUID select i).ToList();
+                    }
                 }
 
                 //返回所有指标库数据
@@ -463,10 +474,10 @@ namespace FEHandler.Eva_Manage
                     int Parent_Id = RequestHelper.int_transfer(Request, "Parent_Id");
                     string Name = RequestHelper.string_transfer(Request, "Name");
                     string CreateUID = RequestHelper.string_transfer(Request, "CreateUID");
-                    //string EditUID = RequestHelper.string_transfer(Request, "EditUID");
+                    int Type = RequestHelper.int_transfer(Request, "Type");
                     IndicatorType IndicatorType_Add = new IndicatorType()
                     {
-                        Type = 0,
+                        Type = Type,
                         Parent_Id = Parent_Id,
                         Name = Name,
                         CreateTime = DateTime.Now,
@@ -516,23 +527,13 @@ namespace FEHandler.Eva_Manage
             HttpRequest Request = context.Request;
             //指定的指标库分类ID
             int IndicatorType_Id = RequestHelper.int_transfer(Request, "IndicatorType_Id");
-            string Type = RequestHelper.string_transfer(Request, "Type");
-            int intType = RequestHelper.int_transfer(Request, "Type");
+            int Type = RequestHelper.int_transfer(Request, "Type");
             try
             {
                 if (IndicatorType_Id > 0)
                 {
                     //获取某指标库类型下的指标
-                    List<Indicator> indicator_List = null;
-                    if (!string.IsNullOrEmpty(Type))
-                    {
-                        indicator_List = (from indicator in Constant.Indicator_List where indicator.IndicatorType_Id == IndicatorType_Id && indicator.Type == intType select indicator).ToList();
-                    }
-                    else
-                    {
-                        indicator_List = (from indicator in Constant.Indicator_List where indicator.IndicatorType_Id == IndicatorType_Id select indicator).ToList();
-                    }
-
+                    List<Indicator> indicator_List = indicator_List = (from indicator in Constant.Indicator_List where indicator.IndicatorType_Id == IndicatorType_Id && indicator.Type == Type select indicator).ToList(); ;
                     //返回所有指标库数据
                     jsonModel = JsonModel.get_jsonmodel(intSuccess, "success", indicator_List);
                 }
@@ -769,20 +770,20 @@ namespace FEHandler.Eva_Manage
         }
 
         #endregion
-            
+
         #region 获取教师信息【携带 课程-授课班】
 
         public void GetTeacherInfo_Course_Cls(HttpContext context)
         {
             int intSuccess = (int)errNum.Success;
             HttpRequest Request = context.Request;
-            string teacherUID = RequestHelper.string_transfer(Request, "TeacherUID");
+            string ExpertUID = RequestHelper.string_transfer(Request, "ExpertUID");
             string ReguId = RequestHelper.string_transfer(Request, "ReguId");
             try
             {
                 //List<T_C_Model> list = Teacher_Course_ClassInfo(ReguId);
 
-                List<CourseRoom> list =(from room in Constant.CourseRoom_List   select room).ToList();
+                List<Expert_Teacher_Course> list = (from li in Constant.Expert_Teacher_Course_List where li.ExpertUID == ExpertUID select li).ToList();
                 if (list.Count > 0)
                 {
                     jsonModel = JsonModel.get_jsonmodel(intSuccess, "success", list);

@@ -2,6 +2,11 @@
 /// <reference path="../public.js" />
 /// <reference path="../Common.js" />
 /// <reference path="../Common.js" />
+
+
+var Type = 0;
+var CreateUID = '';
+
 var UI_Table =
     {
         PageType: "",
@@ -10,12 +15,14 @@ var UI_Table =
                 btn: ['确定', '取消'], //按钮
                 title: '操作'
             }, function () {
+                CreateUID = login_User.UniqueNo;
+
                 $.ajax({
                     url: HanderServiceUrl + "/Eva_Manage/Eva_ManageHandler.ashx",
                     type: "post",
                     async: false,
                     dataType: "json",
-                    data: { Func: "Copy_Eva_Table", "table_Id": id },
+                    data: { Func: "Copy_Eva_Table", "table_Id": id, "CreateUID": CreateUID },
                     success: function (json) {
                         if (json.result.errMsg == "success") {
                             layer.msg('操作成功!');
@@ -84,7 +91,7 @@ var UI_Table =
                 type: "post",
                 async: false,
                 dataType: "json",
-                data: { Func: "Get_Eva_Table_S", Eva_Role: Eva_Role },
+                data: { Func: "Get_Eva_Table_S", "Type": Type, "CreateUID": CreateUID },
                 success: function (json) {
 
                     retData = json.result.retData;
@@ -100,7 +107,7 @@ var UI_Table =
                         PagesMth = 5;
                     }
 
-                    var key = $("#key").val();
+                    var key = $("#key").val().trim();
                     if (key != "" && key != undefined) {
                         retDataCache = Enumerable.From(retDataCache).Where("item=>item.t.Name.indexOf('" + key + "')>-1").ToArray();
                     }
@@ -316,9 +323,7 @@ var UI_Table_Create =
                 $(this).prop('readonly', '')
                 for (var i in list_sheets) {
                     if (list_sheets[i].t_Id == select_sheet_Id) {
-                        //-------------------------------------------------------------------试题节点切换
-                        //select_sheet = list_sheets[i].indicator_array;
-
+                        //-------------------------------------------------------------------试题节点切换                      
                         UI_Table_Create.Reflesh_View(list_sheets[i]);
                         break;
                     }
@@ -616,11 +621,14 @@ var UI_Table_Create =
             //实时总分
             var total = 0;
             $("#text_list1 li h2").each(function () {
-                var total_1 = $(this).find('input[type="text"]').val();
-                if (total_1 == "" || total_1 == undefined) {
+                var total_1 = $(this).find('input[type="Number"]').val();
+                if (total_1 != '' && total_1 != undefined) {
+                    total_1 = Number(total_1);
+                }
+                else {
                     total_1 = 0;
                 }
-                total = numAdd(total, total_1);
+                total += total_1;
             })
             $("#total").html(total.toFixed(2) + '');
         }
@@ -726,14 +734,16 @@ var UI_Table_Create =
             //赋值
             $("#h_" + Title).val(sum == 0 ? "" : sum);
 
-            //实时总分
             var total = 0;
             $("#text_list1 li h2").each(function () {
-                var total_1 = $(this).find('input[type="text"]').val();
-                if (total_1 == "" || total_1 == undefined) {
+                var total_1 = $(this).find('input[type="Number"]').val();
+                if (total_1 != '' && total_1 != undefined) {
+                    total_1 = Number(total_1);
+                }
+                else {
                     total_1 = 0;
                 }
-                total = numAdd(total, total_1);
+                total += total_1;
             })
             $("#total").html(total.toFixed(2) + '');
         }
@@ -793,10 +803,11 @@ var UI_Table_Create =
             }
         }
         flg = flg * 2;//这样写是为了保证永远没有重复的sp_1 标题的id  为了有正确的题的序号，相同的flg会导致序号排列错误
-        OpenIFrameWindow('选择指标库', '../../SysSettings/Indicate/SelectDataBase.aspx?page=0', '1170px', '700px');//page 为1表示定期  2表示即时和扫码
+
+        OpenIFrameWindow('选择指标库', '../../SysSettings/Indicate/SelectDataBase.aspx?page=0' + '&Type=' + Type, '1170px', '700px');//page 为1表示定期  2表示即时和扫码
     },
     onlyNum: function () {
-        if (event.keyCode == 190) {
+        if (event.keyCode == 190 || event.keyCode == 110) {
             event.returnValue = true;
             return;
         }
@@ -823,7 +834,15 @@ var UI_Table_Create =
             }
         }
 
-        var Name = $("#Name").val();
+        var Name = $("#Name").val().trim();
+
+        //请输入评价表名称
+        if (Name == '') {
+            layer.msg('请输入评价表名称！');
+            return false;
+        }
+
+
         var IsScore = "0";
         //是否记分
         if ($("#IsScore").is(":checked")) {
@@ -846,7 +865,6 @@ var UI_Table_Create =
             layer.msg('您还未选择指标！');
             return false;
         }
-        var Eva_Role = get_Eva_Role_by_rid();
 
         var lisss_IsNull = false;
         //表头信息填充
@@ -881,8 +899,8 @@ var UI_Table_Create =
             dataType: "json",
             data: {
                 "func": func, "table_Id": table_Id, "Name": Name, "IsScore": IsScore, "Remarks": Remarks,
-                "CreateUID": CreateUID, "EditUID": EditUID, "Eva_Role": Eva_Role, "List": JSON.stringify(all_array),
-                "head_value": JSON.stringify(UI_Table_Create.head_value), "lisss": JSON.stringify(lisss), "IsEnable": IsEnable
+                "CreateUID": CreateUID, "EditUID": EditUID, "List": JSON.stringify(all_array),
+                "head_value": JSON.stringify(UI_Table_Create.head_value), "lisss": JSON.stringify(lisss), "IsEnable": IsEnable, "Type": Type
             },//组合input标签
             success: function (json) {
                 if (json.result.errMsg == "success") {
@@ -912,13 +930,20 @@ var UI_Table_Create =
                         indicator_list[h].Sort = Number(h) + 1;
                         indicator_list[h].RootID = Number(i) + 1;
                         indicator_list[h].Id = indicator_list[h].Indicator_Id == undefined ? indicator_list[h].Id : indicator_list[h].Indicator_Id;
-                       
+
                     }
                 }
             }
         }
 
-        var Name = $("#Name").val();
+        var Name = $("#Name").val().trim();
+
+        //请输入评价表名称
+        if (Name == '') {
+            layer.msg('请输入评价表名称！');
+            return false;
+        }
+
         var IsScore = "0";
         //是否记分
         if ($("#IsScore").is(":checked")) {
@@ -941,7 +966,6 @@ var UI_Table_Create =
             layer.msg('您还未选择指标！');
             return false;
         }
-        var Eva_Role = get_Eva_Role_by_rid();
 
         var lisss_IsNull = false;
         //表头信息填充
@@ -982,8 +1006,9 @@ var UI_Table_Create =
             dataType: "json",
             data: {
                 "func": func, "table_Id": table_Id, "Name": Name, "IsScore": IsScore, "Remarks": Remarks,
-                "CreateUID": CreateUID, "EditUID": EditUID, "Eva_Role": Eva_Role, "List": JSON.stringify(all_array),
-                "head_value": JSON.stringify(UI_Table_Create.head_value), "lisss": JSON.stringify(lisss), "IsEnable": IsEnable
+                "CreateUID": CreateUID, "EditUID": EditUID, "List": JSON.stringify(all_array),
+                "head_value": JSON.stringify(UI_Table_Create.head_value), "lisss": JSON.stringify(lisss), "IsEnable": IsEnable,
+                "Type": Type
             },//组合input标签
             success: function (json) {
                 if (json.result.errMsg == "success") {
@@ -1147,6 +1172,7 @@ var UI_Table_Create =
 var headerList = [];
 var IsScore = 0;
 var RoomID = 0;
+var IsRealName = 0;
 var ReguID = 0;
 var UI_Table_View = {
     PageType: 'TableView',//TableView 答卷视图  AddEvalTable添加答卷
@@ -1167,14 +1193,14 @@ var UI_Table_View = {
         $("#item_check").tmpl(headerList).appendTo("#list");
         $("#item_check2").tmpl(head_value).appendTo("#list");
 
-      
+
     },
 
     scoreInit: function (retData) {
 
         if (retData.IsScore == 1) {
             $(".isscore").hide();
-        }        
+        }
         var sp_total = 0;
         for (var i in retData.Table_Detail_Dic_List) {
             var data = retData.Table_Detail_Dic_List[i];
@@ -1201,11 +1227,15 @@ var UI_Table_View = {
             type: "post",
             async: false,
             dataType: "json",
-            data: { Func: "Get_Eva_TableDetail", "table_Id": table_Id, "IsPage_Display": UI_Table_View.IsPage_Display, "RoomID": RoomID, "ReguID": ReguID,"UserID":login_User.UniqueNo },
+            data: { Func: "Get_Eva_TableDetail", "table_Id": table_Id, "IsPage_Display": UI_Table_View.IsPage_Display, "RoomID": RoomID, "ReguID": ReguID, "UserID": login_User.UniqueNo },
             success: function (json) {
 
                 var retData = json.result.retData;
-              
+             
+                if (retData.Table_Header_List.length == 0) {
+                    $('#list').hide();
+                }
+
                 $(".tablename").html(retData.Name);
                 UI_Table_View.IsScore = retData.IsScore;
                 switch (UI_Table_View.PageType) {
@@ -1292,7 +1322,7 @@ var UI_Table_View = {
                         UI_Table_Create.sheet_init();
 
                         retData.Table_Header_List = Enumerable.From(retData.Table_Header_List).OrderBy(function (item) { return item.Id }).ToArray();//按Id进行升序排列
-
+                      
                         //添加表头信息
                         for (var i in retData.Table_Header_List) {
                             var item = retData.Table_Header_List[i];
@@ -1327,7 +1357,19 @@ var UI_Table_View = {
                         break;
                     default:
                 }
-                console.log(retData);
+
+
+                $('.test_desc2').find('input').on('click', function () {
+                    if ($(this).prop('Sel')) {
+                        $(this).prop('Sel', false);
+                        $(this).prop('checked', false);
+                    }
+                    else {
+                        $(this).prop('Sel', true);
+                        $(this).prop('checked', true);
+                    }
+                });
+
                 UI_Table_View.Get_Eva_TableDetail_Compleate(retData);
 
             },

@@ -63,7 +63,7 @@ var evaluate_Model = {
                 var maxscore_str = $(this).find("div").attr('MaxScore');
                 var maxScore = maxscore_str == '' ? 0 : Number(maxscore_str);
                 if (evaluate_Model.IsScore == 0) {
-                    if (score > 0 && score <= maxScore) {
+                    if (score >= 0 && score <= maxScore) {
                         Answer = score;
                         sub_Score = score;
                         ques_count4++;
@@ -102,6 +102,28 @@ var evaluate_Model = {
                     return false;
                 }
             }
+            else if (QuestionType == 2) {
+                
+                var rs = $(this).find("input[type='radio']:checked");
+
+                for (var i = 0; i < rs.length; i++) {
+                    Answer += rs.eq(i).attr('flv') + ',';
+                }
+
+                Answer = Answer.substring(0, Answer.length - 1);
+                if ($(this).find("input[type='radio']").length != 0 && $(this).find("input:checked").length >= 1) {
+                    ques_count1++;
+                }
+                else {
+                    if (Eva_Role == 1) {
+                        layer.msg('请填写未提交项', { offset: '400px' });
+                    }
+                    else {
+                        MesTips('请填写未提交项')
+                    }
+                    return false;
+                }
+            }
 
             sub_array.TableDetailID = TableDetailID;
             sub_array.Score = sub_Score;
@@ -120,6 +142,9 @@ var evaluate_Model = {
 
         });
 
+
+
+
         if (evaluate_Model.Is_Required) {
             if (State == 2) {
 
@@ -137,6 +162,8 @@ var evaluate_Model = {
     },
     Submit_Data: function () { },
 }
+
+
 var Type = 1;
 var Eva_Role = 1;
 var Is_AddQuesType = false;
@@ -153,6 +180,9 @@ function SubmitQuestion() {
 
     obj.ReguID = ReguID;
     obj.ReguName = ReguName;
+
+    obj.RoomID = RoomID;
+    obj.IsRealName = IsRealName;
 
     obj.CourseID = CourseID;
     obj.CourseName = CourseName;
@@ -278,58 +308,75 @@ var pageIndex = 0;
 var Mode = 1;  //Check  Record
 var AnswerUID = ''; //专家，不填则为管理员
 
+var ReguID =0;
+var CourseID = '0';
+var TeacherUID = '';
+
 var IsAllSchool = 0;
+var eva_check_depart = false, eva_check_school = false, eva_check_indepart = false;//专家 所有  专家（校）
+var Eva_Role = 1;  //1 为专家    2、课堂调查   3、课堂扫码评价
+function Get_Eva_QuestionAnswerCompleate() { };
 function Get_Eva_QuestionAnswer(PageIndex, SectionID, DepartmentID, Key, TableID) {
     index_layer = layer.load(1, {
         shade: [0.1, '#fff'] //0.1透明度的白色背景
     });
-    
+
     $.ajax({
         url: HanderServiceUrl + "/Eva_Manage/Eva_ManageHandler.ashx",
         type: "post",
         async: false,
         dataType: "json",
         data: {
-            func: "Get_Eva_QuestionAnswer", "SectionID": SectionID, "DepartmentID": DepartmentID,
+            func: "Get_Eva_QuestionAnswer", "SectionID": SectionID,
+            "ReguID":ReguID,"CourseID":CourseID,"TeacherUID":TeacherUID,
+            "DepartmentID": DepartmentID,
             "TableID": TableID, "Key": Key, "AnswerUID": AnswerUID, "Mode": Mode,
-            "PageIndex": PageIndex, "PageSize": pageSize, "IsAllSchool": IsAllSchool
+            "PageIndex": PageIndex, "PageSize": pageSize, "IsAllSchool": IsAllSchool,"Eva_Role":Eva_Role,
+            "eva_check_depart": eva_check_depart, "eva_check_school": eva_check_school, "eva_check_indepart": eva_check_indepart
         },
         dataType: "json",
         success: function (returnVal) {
-            console.log(returnVal);
+            console.log(returnVal.result.retData)
             if (returnVal.result.errMsg == "success") {
-                var data = returnVal.result.retData;
-                layer.close(index_layer);
+                if (Mode == 4) {
 
-                $("#tbody").empty();
-                if (data.length <= 0) {
-                    nomessage('#tbody');
-                    $('#pageBar').hide();
-                    return;
                 }
                 else {
-                    $('#pageBar').show();
+                    var data = returnVal.result.retData;
+                    layer.close(index_layer);
+
+                    $("#tbody").empty();
+                    if (data.length <= 0) {
+                        nomessage('#tbody');
+                        $('#pageBar').hide();
+                        return;
+                    }
+                    else {
+                        $('#pageBar').show();
+                    }
+
+
+                    $("#itemData").tmpl(data).appendTo("#tbody");
+                    tableSlide();
+
+                    laypage({
+                        cont: 'pageBar', //容器。值支持id名、原生dom对象，jquery对象。【如该容器为】：<div id="page1"></div>
+                        pages: returnVal.result.PageCount, //通过后台拿到的总页数
+                        curr: returnVal.result.PageIndex || 1, //当前页
+                        skip: true, //是否开启跳页
+                        skin: '#CA90B0',
+                        groups: 10,
+                        jump: function (obj, first) { //触发分页后的回调
+                            if (!first) { //点击跳页触发函数自身，并传递当前页：obj.curr                                                                 
+                                Get_Eva_QuestionAnswer(obj.curr, SectionID, DepartmentID, Key, TableID)
+                                pageIndex = obj.curr;
+                            }
+                        }
+                    });
+                    $("#itemCount").tmpl(returnVal.result).appendTo(".laypage_total");
                 }
 
-
-                $("#itemData").tmpl(data).appendTo("#tbody");
-                tableSlide();
-
-                laypage({
-                    cont: 'pageBar', //容器。值支持id名、原生dom对象，jquery对象。【如该容器为】：<div id="page1"></div>
-                    pages: returnVal.result.PageCount, //通过后台拿到的总页数
-                    curr: returnVal.result.PageIndex || 1, //当前页
-                    skip: true, //是否开启跳页
-                    skin: '#CA90B0',
-                    groups: 10,
-                    jump: function (obj, first) { //触发分页后的回调
-                        if (!first) { //点击跳页触发函数自身，并传递当前页：obj.curr                                                                 
-                            Get_Eva_QuestionAnswer(obj.curr, SectionID, DepartmentID, Key, TableID)
-                            pageIndex = obj.curr;
-                        }
-                    }
-                });
-                $("#itemCount").tmpl(returnVal.result).appendTo(".laypage_total");
+                Get_Eva_QuestionAnswerCompleate(returnVal.result.retData);
             }
             else {
 
@@ -388,7 +435,7 @@ function Get_Eva_QuestionAnswerDetail(Id) {
 
             if (returnVal.result.errMsg == "success") {
                 var data = returnVal.result.retData;
-                console.log(data);
+
 
                 data.DetailList.filter(function (item) {
                     switch (item.QuestionType) {
@@ -401,6 +448,27 @@ function Get_Eva_QuestionAnswerDetail(Id) {
                             }
                             break;
                         case 2:
+                            
+
+                            var lists = item.Answer.split(',');
+                            for (var i = 0; i < lists.length; i++) {
+                                if (PageType == 'RegularEva_View') {
+                                    $('.test_lists').find('div[DetailID="' + item.TableDetailID + '"]').find('li[lioption="' + lists[i] + '"]').addClass("on");
+                                }
+                                else {
+                                    
+                                    $('.test_lists').find('div[DetailID="' + item.TableDetailID + '"]').find('input[flv="' + lists[i] + '"]').attr("checked", true);
+                                }
+                            }
+
+                            $('.test_desc2').find('input').each(function () {                              
+                                if ($(this).prop('checked')) {
+                                    $(this).prop('Sel', true);
+                                }
+                                else {
+                                    $(this).prop('Sel', false);
+                                }
+                            });
 
                             break;
                         case 3:
@@ -417,7 +485,7 @@ function Get_Eva_QuestionAnswerDetail(Id) {
                     case 'EvalDetail':
                         $("#item_check").tmpl(data.HeaderList).appendTo(".table_header_left");
                         if (IsScore == 0) {
-                            $("#sp_total").html('分数：' + data.Score + '分')
+                            $("#sp_total").html('分数：' + data.Score.toFixed(2) + '分')
                         }
                         else {
                             $("#sp_total").html('不计分')
@@ -501,7 +569,7 @@ function Get_Eva_RegularData_RoomDetailList() {
 
             if (returnVal.result.errMsg == "success") {
                 var data = returnVal.result.retData;
-                console.log(data)
+
                 for (var i in data.Score_ModelList) {
                     var obj = data.Score_ModelList[i];
                     $('#' + obj.TableDetialID + '_A').text(obj.A);
@@ -529,7 +597,7 @@ function Get_Eva_RegularData_RoomDetailList() {
 }
 var page_Size = 3;
 function Get_Eva_RoomDetailAnswerListCompleate() { };
-function Get_Eva_RoomDetailAnswerList(PageIndex,TableDetailID) {
+function Get_Eva_RoomDetailAnswerList(PageIndex, TableDetailID) {
 
     layer_index = layer.load(1, {
         shade: [0.1, '#fff'] //0.1透明度的白色背景
@@ -548,18 +616,18 @@ function Get_Eva_RoomDetailAnswerList(PageIndex,TableDetailID) {
         dataType: "json",
         success: function (returnVal) {
             if (returnVal.result.errMsg == "success") {
-
+                
                 $('#' + TableDetailID + '_tbody').empty();
 
                 var data = returnVal.result.retData;
-                console.log(data);
+                //console.log(data);
                 data.filter(function (item, index) { item.Num = index + 1 })
                 layer.close(layer_index);
 
                 $("#tbody").empty();
                 if (data.length <= 0) {
                     nomessage('#tbody');
-                    $('#'+TableDetailID +'_pageBar').hide();
+                    $('#' + TableDetailID + '_pageBar').hide();
                     return;
                 }
                 else {
@@ -585,7 +653,7 @@ function Get_Eva_RoomDetailAnswerList(PageIndex,TableDetailID) {
                         }
                     }
                 });
-                
+
                 $("#itemCount").tmpl(returnVal.result).appendTo($('#' + TableDetailID + '_pageBar').find(".laypage_total"));
             }
         },
@@ -597,7 +665,7 @@ function Get_Eva_RoomDetailAnswerList(PageIndex,TableDetailID) {
 
 
 function onlyNum() {
-    if (event.keyCode == 190) {
+    if (event.keyCode == 190 || event.keyCode == 110) {
         event.returnValue = true;
         return;
     }

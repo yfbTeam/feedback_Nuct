@@ -1,4 +1,6 @@
-﻿
+﻿/// <reference path="../public.js" />
+/// <reference path="../Common.js" />
+
 var UI_SortCourse =
     {
         PageType: 'SortCourse', //SortCourse 分配课程子页面
@@ -7,7 +9,7 @@ var UI_SortCourse =
             select_uniques = [];
             $('#college').change(function () {
                 var majorId = $('#college').val();
-                var key = $("#key").val();
+                var key = $("#key").val().trim();
                 GetNoDis_CourseInfo(0, select_sectionid, majorId, key);
 
             });
@@ -95,8 +97,8 @@ function GetNoDis_CourseInfo(PageIndex) {
 
 
     var majorId = $('#college').val();
-    var key = $("#key").val();
-
+    var key = $("#key").val().trim();
+  
     var postData = {
         func: "GetNoDis_CourseInfo",
         "SectionId": select_sectionid,
@@ -108,7 +110,7 @@ function GetNoDis_CourseInfo(PageIndex) {
         "ck": $('#ck').val(),
         "cp": $('#cp').val(),
         "dp": $('#dp').val(),
-        
+        "sdp": $('#sdp').val(),
 
     };
     layer_index = layer.load(1, {
@@ -127,7 +129,7 @@ function GetNoDis_CourseInfo(PageIndex) {
 
                 layer.close(layer_index);
                 if (reUserinfoByselect.length <= 0) {
-                    nomessage('#ShowCourseInfo');
+                    nomessage('#ShowCourseInfo', 'tr', 19, 280);
                     $('#pageBar').hide();
                     return;
                 }

@@ -83,7 +83,7 @@
         <script src="../../Scripts/laypage/laypage.js"></script>
 
         <script type="text/x-jquery-tmpl" id="itembtn_Enable">
-            <button class="btn ml10" onclick="OpenIFrameWindow('发起评教','StartEval.aspx','1000px','550px')">发起评教</button>
+            <button class="btn ml10" onclick="OpenIFrameWindow('发起评教','StartEval.aspx','1000px','650px')">发起评教</button>
             <button class="btn" onclick="window.history.go(-1);">返回上一步</button>
         </script>
 
@@ -108,9 +108,7 @@
                 <td style="width: 6%">${AnswerCount}</td>
                 {{if StateType == 2}}
           <td style="width: 5%" class="operate_wrap">
-              <div class="operate" onclick="window.location.href='./selectTable.aspx?Id='+getQueryString('Id')+'&Iid='+getQueryString('Iid') +'&TeacherUID='+'${TeacherUID}'+'&TeacherName='+'${TeacherName}'
-                  +'&SectionID='+'${SectionID}'+'&DisPlayName='+'${DisPlayName}'+'&CourseID='+'${CourseID}'+'&CourseName='+'${Course_Name}'+'&ReguID='+'${ReguId}'+'&ReguName='+'${ReguName}'
-                  +'&AnswerUID='+'${ExpertUID}'+'&AnswerName='+'${ExpertName}'+'&DepartmentName='+'${Departent_Name}'">
+              <div class="operate" onclick="navicate('${TeacherUID}','${TeacherName}','${SectionID}','${DisPlayName}','${CourseID}','${Course_Name}','${ReguId}','${ReguName}','${ExpertUID}','${ExpertName}','${Departent_Name}');">
                   <i class="iconfont color_purple">&#xe617;</i>
                   <span class="operate_none bg_purple">评价</span>
               </div>
@@ -125,7 +123,7 @@
                 {{/if}}
             </tr>
         </script>
-
+       
         <script>
             var reguType = 1;
             var select_sectionid = 0;
@@ -195,6 +193,14 @@
                 Te = $('#Te').val();
                 SectionID = $('#section').val();
                 Get_Eva_RegularData($('#Rg').val(), pageIndex);
+            }
+
+
+            function navicate(TeacherUID, TeacherName, SectionID, DisPlayName, CourseID, Course_Name, ReguID, ReguName, ExpertUID, ExpertName, Departent_Name)
+            {               
+                window.location.href = './selectTable.aspx?Id=' + getQueryString('Id') + '&Iid=' + getQueryString('Iid') + '&TeacherUID=' + TeacherUID + '&TeacherName=' + TeacherName
+                  + '&SectionID=' + SectionID + '&DisPlayName=' + DisPlayName + '&CourseID=' + CourseID + '&CourseName=' + Course_Name + '&ReguID=' + ReguID + '&ReguName=' + ReguName
+                  + '&AnswerUID=' + ExpertUID + '&AnswerName=' + ExpertName + '&DepartmentName=' + Departent_Name;
             }
 
         </script>

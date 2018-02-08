@@ -71,7 +71,8 @@ namespace FEHandler.Login
                                 HeadPic = UserInfo.HeadPic,
                                 Phone = UserInfo.Phone,
                                 Email = UserInfo.Email,
-                                Major_ID = UserInfo.Major_ID
+                                Major_ID = UserInfo.Major_ID,
+                                DepartmentName = UserInfo.DepartmentName,
                             };
                 if (query.Count() == 0)
                 {
@@ -117,7 +118,8 @@ namespace FEHandler.Login
                                 HeadPic = UserInfo.HeadPic,
                                 Phone = UserInfo.Phone,
                                 Email = UserInfo.Email,
-                                Major_ID = UserInfo.Major_ID
+                                Major_ID = UserInfo.Major_ID,
+                                DepartmentName = UserInfo.DepartmentName,
                             };
                 if (query.Count() == 0)
                 {

@@ -72,11 +72,19 @@
     <Content Include="css\bootstrap.min.css" />
     <Content Include="css\fixed-table.css" />
     <Content Include="css\font-awesome.min.css" />
+    <Content Include="css\layui.css" />
     <Content Include="css\login.css" />
     <Content Include="Evaluation\check\CheckModal.aspx" />
+    <Content Include="Evaluation\CourseEvalSee\DatabaseMan.aspx" />
     <Content Include="Evaluation\CourseEvalSee\detailModal.aspx" />
+    <Content Include="Evaluation\CourseEvalSee\EditModel.aspx" />
     <Content Include="Evaluation\CourseEvalSee\index.aspx" />
+    <Content Include="Evaluation\CourseEvalSee\indexqcode.aspx" />
     <Content Include="Evaluation\CourseEvalSee\Qcode.aspx" />
+    <Content Include="Evaluation\CourseEvalSee\SartEval.aspx" />
+    <Content Include="Evaluation\CourseEvalSee\SeeModel.aspx" />
+    <Content Include="Evaluation\CourseEvalSee\TableDesign.aspx" />
+    <Content Include="Evaluation\CourseEvalSee\TeaRegEval_Single.aspx" />
     <Content Include="Evaluation\ExpertEvalSee\detailModal.aspx" />
     <Content Include="Evaluation\ExpertEvalSee\index.aspx" />
     <Content Include="Evaluation\Input\createModal.aspx" />
@@ -201,6 +209,7 @@
     <Content Include="Scripts\pinying\pinyin_dict_withtone.js" />
     <Content Include="Scripts\print\jquery-migrate-1.2.1.min.js" />
     <Content Include="Scripts\print\jquery.jqprint.js" />
+    <Content Include="Scripts\Sortable.min.js" />
     <Content Include="Scripts\WebCenter\AllotPeople.js" />
     <Content Include="Scripts\WebCenter\AllotTable.js" />
     <Content Include="Scripts\WebCenter\AllotTask.js" />
@@ -1052,12 +1061,26 @@
     <Compile Include="Evaluation\check\CheckModal.aspx.designer.cs">
       <DependentUpon>CheckModal.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Evaluation\CourseEvalSee\DatabaseMan.aspx.cs">
+      <DependentUpon>DatabaseMan.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Evaluation\CourseEvalSee\DatabaseMan.aspx.designer.cs">
+      <DependentUpon>DatabaseMan.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Evaluation\CourseEvalSee\detailModal.aspx.cs">
       <DependentUpon>detailModal.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Evaluation\CourseEvalSee\detailModal.aspx.designer.cs">
       <DependentUpon>detailModal.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Evaluation\CourseEvalSee\EditModel.aspx.cs">
+      <DependentUpon>EditModel.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Evaluation\CourseEvalSee\EditModel.aspx.designer.cs">
+      <DependentUpon>EditModel.aspx</DependentUpon>
     </Compile>
     <Compile Include="Evaluation\CourseEvalSee\index.aspx.cs">
       <DependentUpon>index.aspx</DependentUpon>
@@ -1066,12 +1089,47 @@
     <Compile Include="Evaluation\CourseEvalSee\index.aspx.designer.cs">
       <DependentUpon>index.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Evaluation\CourseEvalSee\indexqcode.aspx.cs">
+      <DependentUpon>indexqcode.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Evaluation\CourseEvalSee\indexqcode.aspx.designer.cs">
+      <DependentUpon>indexqcode.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Evaluation\CourseEvalSee\Qcode.aspx.cs">
       <DependentUpon>Qcode.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Evaluation\CourseEvalSee\Qcode.aspx.designer.cs">
       <DependentUpon>Qcode.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Evaluation\CourseEvalSee\SartEval.aspx.cs">
+      <DependentUpon>SartEval.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Evaluation\CourseEvalSee\SartEval.aspx.designer.cs">
+      <DependentUpon>SartEval.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Evaluation\CourseEvalSee\SeeModel.aspx.cs">
+      <DependentUpon>SeeModel.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Evaluation\CourseEvalSee\SeeModel.aspx.designer.cs">
+      <DependentUpon>SeeModel.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Evaluation\CourseEvalSee\TableDesign.aspx.cs">
+      <DependentUpon>TableDesign.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Evaluation\CourseEvalSee\TableDesign.aspx.designer.cs">
+      <DependentUpon>TableDesign.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Evaluation\CourseEvalSee\TeaRegEval_Single.aspx.cs">
+      <DependentUpon>TeaRegEval_Single.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Evaluation\CourseEvalSee\TeaRegEval_Single.aspx.designer.cs">
+      <DependentUpon>TeaRegEval_Single.aspx</DependentUpon>
     </Compile>
     <Compile Include="Evaluation\ExpertEvalSee\detailModal.aspx.cs">
       <DependentUpon>detailModal.aspx</DependentUpon>

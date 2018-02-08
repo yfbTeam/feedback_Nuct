@@ -15,40 +15,11 @@
     <div id="top"></div>
     <div class="center" id="centerwrap">
         <div class="wrap clearfix" id="courseEvalSee">
+            <div class="sort_nav" id="threenav">
+            </div>
+
             <div class="search_toobar clearfix">
-                <div class="fl">
-                    <label for="">学年学期:</label>
-                    <select class="select" id="section" style="width: 148px;">
-                    </select>
-                </div>
-                <div class="fl ml10">
-                    <label for="">评价名称:</label>
-                    <select class="select" id="Rg" style="width: 128px;">
-                        <option value="">全部</option>
-                    </select>
-                </div>
-                <div class="fl ml10">
-                    <label for="">专业部门:</label>
-                    <select class="select" style="width: 128px;" id="RP">
-                        <option value="">全部</option>
-                    </select>
-                </div>
-                <div class="fl ml10">
-                    <label for="">年级:</label>
-                    <select class="select" id="GD" style="width: 128px;">
-                        <option value="">全部</option>
-                    </select>
-                </div>
-                <div class="fl ml10">
-                    <label for="">教师:</label>
-                    <select class="select" id="TN" style="width: 128px;">
-                        <option value="">全部</option>
-                    </select>
-                </div>
-                <div class="fr ml10">
-                    <input type="text" name="key" id="key" placeholder="请输入课程名称" value="" class="text fl" style="width: 130px;">
-                    <a href="javascript:;" class="search fl"><i class="iconfont">&#xe600;</i></a>
-                </div>
+               
             </div>
             <div class="table mt10">
                 <div>
@@ -114,12 +85,12 @@
 
 
             <td class="operate_wrap">{{if QuestionCount >0}}
-                <div class="operate" onclick="location.href='detailModal.aspx?Id='+getQueryString('Id')+'&Iid='+getQueryString('Iid')+'&TableID='+'${TableID}'+'&SectionID='+'${SectionID}'+'&ReguID='+'${ReguID}'+'&CourseID='+'${CourseID}'+'&TeacherUID='+'${TeacherUID}'">
+                <div class="operate" onclick="location.href='detailModal.aspx?Id='+getQueryString('Id')+'&Iid='+getQueryString('Iid')+'&TableID='+'${TableID}'+'&SectionID='+'${SectionID}'+'&ReguID='+'${ReguID}'+'&CourseID='+'${CourseID}'+'&TeacherUID='+'${TeacherUID}'+'&Type=2'">
                     <i class="iconfont color_purple">&#xe606;</i>
                     <span class="operate_none bg_purple">详情</span>
                 </div>
                 {{else}}
-                 <div class="operate" >
+                 <div class="operate">
                      <i class="iconfont color_gray">&#xe606;</i>
                      <span class="operate_none bg_gray">详情</span>
                  </div>
@@ -138,6 +109,67 @@
             </td>
         </tr>
     </script>
+
+    <script type="text/x-jquery-tmpl" id="item_mange_select">
+        <div class="fl">
+                    <label for="">学年学期:</label>
+                    <select class="select" id="section" style="width: 148px;">
+                    </select>
+                </div>
+                <div class="fl ml10">
+                    <label for="">评价名称:</label>
+                    <select class="select" id="Rg" style="width: 128px;">
+                        <option value="">全部</option>
+                    </select>
+                </div>
+                <div class="fl ml10">
+                    <label for="">专业部门:</label>
+                    <select class="select" style="width: 128px;" id="RP">
+                        <option value="">全部</option>
+                    </select>
+                </div>
+                <div class="fl ml10">
+                    <label for="">年级:</label>
+                    <select class="select" id="GD" style="width: 128px;">
+                        <option value="">全部</option>
+                    </select>
+                </div>
+                <div class="fl ml10">
+                    <label for="">教师:</label>
+                    <select class="select" id="TN" style="width: 128px;">
+                        <option value="">全部</option>
+                    </select>
+                </div>
+                <div class="fr ml10">
+                    <input type="text" name="key" id="key" placeholder="请输入课程名称" value="" class="text fl" style="width: 130px;">
+                    <a href="javascript:;" class="search fl"><i class="iconfont">&#xe600;</i></a>
+                </div>
+    </script>
+
+     <script type="text/x-jquery-tmpl" id="item_normal_select">
+        <div class="fl">
+                    <label for="">学年学期:</label>
+                    <select class="select" id="section" style="width: 148px;">
+                    </select>
+                </div>
+                <div class="fl ml10">
+                    <label for="">评价名称:</label>
+                    <select class="select" id="Rg" style="width: 128px;">
+                        <option value="">全部</option>
+                    </select>
+                </div>
+                <div class="fl ml10">
+                    <label for="">专业部门:</label>
+                    <select class="select" style="width: 128px;" id="RP">
+                        <option value="">全部</option>
+                    </select>
+                </div>               
+                <div class="fr ml10">
+                    <input type="text" name="key" id="key" placeholder="请输入课程名称" value="" class="text fl" style="width: 130px;">
+                    <a href="javascript:;" class="search fl"><i class="iconfont">&#xe600;</i></a>
+                </div>
+    </script>
+
     <script type="text/x-jquery-tmpl" id="itemCount">
         <span style="margin-left: 5px; font-size: 14px;">共${RowCount}条，共${PageCount}页</span>
     </script>
@@ -147,6 +179,17 @@
         $(function () {
             $('#top').load('/header.html');
             $('#footer').load('/footer.html');
+
+            $(".search_toobar").empty();
+            var rid = login_User.Sys_Role_Id;           
+            if (rid == 1)
+            {
+                $("#item_mange_select").tmpl(1).appendTo(".search_toobar");
+            }
+            else
+            {
+                $("#item_normal_select").tmpl(1).appendTo(".search_toobar");
+            }
 
             Base.bindStudySectionCompleate = function () {
                 SectionID = $('#section').val();
@@ -165,14 +208,11 @@
 
                 Get_Eva_Regular_Select();
                 GetClassInfoSelect(SectionID);
-
                 Refesh();
             });
 
             $('#Rg,#RP,#TN,#GD').on('change', Refesh);
-
             $('.search').on('click', Refesh);
-
             Get_Eva_RegularData_Room(pageIndex);
         })
 
@@ -183,16 +223,13 @@
             RP = $('#RP').val();
             Te = $('#TN').val();
             Gr = $('#GD').val();
-
-
             Get_Eva_RegularData_Room(pageIndex);
         }
 
         //二维码
-        function QRcode(id, RoomID, ReguID) {
-            OpenIFrameWindow('二维码', 'Qcode.aspx?url=' + MobileUrl + 'Mobile/onlinetest.html?id=' + id + '&rId=' + RoomID + '&ReguID=' + ReguID, '300px', '300px');
+        function QRcode(id, RoomID, ReguID, RoomID) {
+            OpenIFrameWindow('二维码', 'Qcode.aspx?url=' + MobileUrl + 'Mobile/onlinetest.html?id=' + id + '&rId=' + RoomID + '&ReguID=' + ReguID + '&Eva_Role=2', '300px', '300px');
         }
-
     </script>
 </body>
 </html>

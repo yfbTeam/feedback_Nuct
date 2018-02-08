@@ -109,7 +109,7 @@
             <td title="${Course_Name}" style="width: 15%">${cutstr(CourseName,30)}</td>
 
             <td style="width: 30%" title="${TableName}">${cutstr(TableName,45)}</td>
-            <td style="width: 5%">${Score}</td>
+            <td style="width: 5%">${Score.toFixed(2)}</td>
 
 
             <td style="width: 5%" class="operate_wrap" style="width: 10px">
@@ -173,10 +173,11 @@
     <script>
 
         var reguType = 1;
+        IsAllSchool = getQueryString('IsAllSchool');
         $(function () {
             $('#top').load('/header.html');
             $('#footer').load('/footer.html');
-            Mode = 1;
+            Mode = 3;
             $('#select').on('click', search);
 
 
@@ -220,6 +221,7 @@
         function Reflesh() {
             var SectionID = $('#section').val();
             var Key = $('#Key').val();
+            Key = Key != undefined ? Key.trim() : '';
             var DepartmentID = $('#DepartMent').val();
             var TableID = $('#table').val();
 

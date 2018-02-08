@@ -105,6 +105,7 @@
     <script src="../Scripts/jquery.tmpl.js"></script>
     <script src="../../Scripts/laypage/laypage.js"></script>
     <script src="../Scripts/WebCenter/Evaluate.js"></script>
+    <script src="../Scripts/WebCenter/RegularEval.js"></script>
     <script src="../Scripts/WebCenter/Base.js"></script>
     <script type="text/x-jquery-tmpl" id="itemData">
         <tr>
@@ -115,7 +116,7 @@
             <td title="${Course_Name}" style="width: 15%">${cutstr(CourseName,30)}</td>
 
             <td style="width: 30%" title="${TableName}">${cutstr(TableName,45)}</td>
-            <td style="width: 5%">${Score}</td>
+            <td style="width: 5%">${Score.toFixed(2)}</td>
             {{if State == 1}}
             <td style="width: 5%"><span class="nosubmit">未提交</span></td>
             {{else State == 2}}
@@ -188,25 +189,30 @@
     <script>
 
         var reguType = 1;
-         IsAllSchool = getQueryString('IsAllSchool');
+        IsAllSchool = getQueryString('IsAllSchool');
         $(function () {
             $('#top').load('/header.html');
             $('#footer').load('/footer.html');
             Mode = 1;
+            FuncType = 1;
             $('#select').on('click', search);
-            Base.CheckHasExpertReguCompleate = function (result, data) {
-                if (result) {
-                    $('.dian').show();
-                }
-            };
-            Base.CheckHasExpertRegu(reguType);
-
 
             Base.bindStudySectionCompleate = function () {
-                var SectionID = $('#section').val();
+                SectionID = $('#section').val();
                 Base.BindTable(SectionID);
                 pageIndex = 0;
                 Reflesh();
+                if (IsAllSchool == 1)
+                {                   
+                    DepartmentID = login_User.Major_ID;
+                    SelectUID = login_User.UniqueNo;
+                }
+                Get_Eva_RegularDataCompleate = function (result) {
+                    if (result) {
+                        $('.dian').show();
+                    }
+                };
+                Get_Eva_RegularData();
             };
             Base.bindStudySection();
 
@@ -215,9 +221,8 @@
                 $("#table").empty();
                 $("#table").append('<option >全部</option>');
 
-                var SectionID = $('#section').val();
+                SectionID = $('#section').val();
                 Base.BindTable(SectionID);
-
                 pageIndex = 0;
                 Reflesh();
             });
@@ -231,7 +236,7 @@
                 Reflesh();
             });
 
-            Base.BindDepart('188px');            
+            Base.BindDepart('188px');
         })
 
         function search() {
@@ -242,6 +247,7 @@
         function Reflesh() {
             var SectionID = $('#section').val();
             var Key = $('#Key').val();
+            Key = Key != undefined ? Key.trim() : '';
             var DepartmentID = $('#DepartMent').val();
             var TableID = $('#table').val();
 

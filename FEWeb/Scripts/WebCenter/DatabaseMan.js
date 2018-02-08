@@ -1,5 +1,6 @@
 ﻿
-
+var Type = 0;
+var CreateUID = '';
 var DataBaseMainModel =
     {
         PageType: 'DatabaseMan',  //DatabaseMan指标库分类   SelectDataBase//选择指标库
@@ -30,24 +31,7 @@ var DataBaseMainModel =
                 DataBaseMainModel.select_Array = data.select_Array;
             }
         },
-        //Clear: function () {
-        //    DataBaseMainModel.Check_All = null;
-        //    DataBaseMainModel.copy = null;
-        //    DataBaseMainModel.txing = null;
-        //    DataBaseMainModel.SumbitPrepare = null;
-        //    DataBaseMainModel.set_F = null;
-        //    DataBaseMainModel.storage_array = null;
-        //    DataBaseMainModel.removeDuplicatedItem = null;
-        //    DataBaseMainModel.delete_indicator = null;
-        //    DataBaseMainModel.fenye = null;
-        //    DataBaseMainModel.PageCallback = null;
-        //    DataBaseMainModel.init_IndicatorType_data = null;
-        //    DataBaseMainModel.get_menus = null;
-        //    DataBaseMainModel.indicator_type_click = null;
-        //    DataBaseMainModel.GetData = null;
-        //    DataBaseMainModel.initdata = null;
-        //    DataBaseMainModel.menu_list = null;
-        //},
+
 
         //获取左侧指标分类
         init_IndicatorType_data: function () {
@@ -57,7 +41,7 @@ var DataBaseMainModel =
                 type: "post",
                 async: false,
                 dataType: "json",
-                data: { Func: "Get_IndicatorType" },
+                data: { Func: "Get_IndicatorType", "Type": Type, "CreateUID": CreateUID },
                 success: function (json) {
 
                     retData_type = json.result.retData;
@@ -75,15 +59,17 @@ var DataBaseMainModel =
                     $("#item_indicatorType").tmpl(P_List).appendTo(".menu_list");
                     DataBaseMainModel.menu_list();
 
-                  
+
                     //默认选择第一条内容【约定俗成】
                     $('.menu_list li:eq(0)').find('span').trigger('click');
                     $('.menu_list li:eq(0)').find('li:eq(0)').trigger('click');
                     $('.menu_list li:eq(0)').find('li:eq(0)').addClass('selected');
-                    //默认执行第一个分类下的第一个；
-                    var Id = P_List[0].child_list[0].Id;
-                 
-                    that.initdata(Id);
+                    if (P_List.length > 0 && P_List[0].child_list.length > 0) {
+                        //默认执行第一个分类下的第一个；
+                        var Id = P_List[0].child_list[0].Id;
+                        that.initdata(Id);
+                    }
+
                 },
                 error: function () {
                     //接口错误时需要执行的
@@ -144,6 +130,7 @@ var DataBaseMainModel =
         },
 
         initdata: function (IndicatorType_Id) {
+            
             var type = arguments[1] || 0;//0本页面；1弹框页面加载
             $.ajax({
                 url: HanderServiceUrl + "/Eva_Manage/Eva_ManageHandler.ashx",
@@ -186,7 +173,7 @@ var DataBaseMainModel =
                             break;
                         case 'SelectDataBase':
 
-                            var key = $("#key").val();
+                            var key = $("#key").val().trim();
                             if (key != "") {
                                 retDataCache = Enumerable.From(retDataCache).Where("item=>item.Name.indexOf('" + key + "')>-1").Where("x=>x.IndicatorType_Id==" + IndicatorType_Id + "").ToArray();
                             }
@@ -313,6 +300,9 @@ var DataBaseMainModel =
                 case 3:
                     _return = '问答题'
                     break;
+                case 4:
+                    _return = '选分题'
+                    break;
                 default:
                     _return = '无';
                     break;
@@ -335,7 +325,7 @@ var DataBaseMainModel =
 
         //===========目前纯粹SelectDataBase 使用===================
         SumbitPrepare: function () {
-            
+
             if (tname.length == 0) {
                 layer.msg("请选择指标分类");
                 return false;
@@ -423,7 +413,7 @@ var DataBaseMainModel =
             IndicatorType_type = Type;
             indicator_p_type = parseInt(Parent_Id);//不能交叉使用的判断 先把父ID存下了
             DataBaseMainModel.initdata(Id);
-            
+
             ck_click();
             for (var i = 0; i < check_arr.length; i++) {
                 $("input[name='cb_item']").each(function () {
@@ -448,7 +438,7 @@ var DataBaseMainModel =
         //选择后存储一个子父级的一个大的数组
         storage_array: function (_this) {
 
-            
+
             //console.log(check_arr);
             //console.log($(_this).val());
             //console.log(typeof (parseInt($(_this).val())));
@@ -551,7 +541,7 @@ var IndicateType_Model = {
         IndicateType_Model.init_IndicatorType_data_Compleate = function (P_List) {
             self_list = [];
             $("#item_indicatorType").tmpl(P_List).appendTo(".menu_list");
-            if (type_id == 0) {
+            if (type_id == 0 && P_List.length > 0) {
                 type_id = P_List[0].self.Id;
             }
             for (var i = 0; i < P_List.length; i++) {
@@ -596,12 +586,13 @@ var IndicateType_Model = {
 
     //获取数据
     Load_Data: function () {
+
         $.ajax({
             url: HanderServiceUrl + "/Eva_Manage/Eva_ManageHandler.ashx",
             type: "post",
             async: false,
             dataType: "json",
-            data: { Func: "Get_IndicatorType", P_Id: IndicateType_Model.P_Id },
+            data: { Func: "Get_IndicatorType", P_Id: IndicateType_Model.P_Id, "Type": Type, "CreateUID": CreateUID },
             success: function (json) {
                 if (json.result.errMsg == "success") {
                     IndicateType_Model.Data = json.result.retData;
@@ -620,7 +611,10 @@ var IndicateType_Model = {
             type: "post",
             async: false,
             dataType: "json",
-            data: { Func: "Add_IndicatorType", Parent_Id: IndicateType_Model.P_Id, Name: IndicateType_Model.Name, CreateUID: IndicateType_Model.CreateUID },
+            data: {
+                Func: "Add_IndicatorType", Parent_Id: IndicateType_Model.P_Id, Name: IndicateType_Model.Name, CreateUID: IndicateType_Model.CreateUID
+                , "Type": Type,
+            },
             success: function (json) {
                 if (json.result.errMsg == "success") {
                     IndicateType_Model.Add_Data_Compleate();
@@ -692,7 +686,7 @@ var IndicateType_Model = {
             type: "post",
             async: false,
             dataType: "json",
-            data: { Func: "Get_IndicatorType" },
+            data: { Func: "Get_IndicatorType", "Type": Type, "CreateUID": CreateUID },
             success: function (json) {
 
                 retData_type = json.result.retData;
@@ -801,7 +795,7 @@ var UI_Database_Set =
             type: "post",
             async: false,
             dataType: "json",
-            data: { Func: "Get_IndicatorType", P_Type: P_Type },
+            data: { Func: "Get_IndicatorType", P_Type: P_Type, "Type": Type, "CreateUID": CreateUID },
             success: function (json) {
                 var retData = json.result.retData;
                 retData = Enumerable.From(retData).OrderBy('$.Id').ToArray();//按Id进行升序排列
@@ -840,7 +834,7 @@ var UI_Database_Set =
                 type: "post",
                 async: false,
                 dataType: "json",
-                data: { Func: "Get_IndicatorType" },
+                data: { Func: "Get_IndicatorType", "Type": Type, "CreateUID": CreateUID },
                 success: function (json) {
                     var retData = json.result.retData;
                     retData = Enumerable.From(retData).OrderBy('$.Id').ToArray();//按Id进行升序排列

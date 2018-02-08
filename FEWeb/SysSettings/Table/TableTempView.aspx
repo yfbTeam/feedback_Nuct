@@ -97,6 +97,15 @@
                     {{if $value.QuesType_Id =="1"  ||$value.QuesType_Id =="4" }}
                       <b class="isscore">（<span class="isscore">${OptionF_S_Max}分</span>）</b>
                         {{/if}}
+                          {{if $value.QuesType_Id ==1 }}
+                             【单选题】
+                             {{else $value.QuesType_Id ==2 }}
+                             【多选题】
+                             {{else $value.QuesType_Id ==3 }}
+                             【问答题】
+                             {{else $value.QuesType_Id ==4 }}
+                             【选分题】
+                             {{/if}} 
                     </h2>
                     {{if $value.QuesType_Id ==1}}
                     <div class="test_desc">
@@ -104,42 +113,42 @@
                         <span>
                             <input type="radio" disabled="disabled" name="" id="" value="" />
                             <label>A${$value.OptionA}</label>
-                            <b class="isscore">(<span class="numbers">${$value.OptionA_S}</span>分)</b>
+                            <b class="isscore">(<span class="numbers">${$value.OptionA_S.toFixed(2)}</span>分)</b>
                         </span>
                         {{/if}}
                         {{if $value.OptionB!=""}}
                         <span>
                             <input type="radio" disabled="disabled" name="" id="" value="" />
                             <label>B${$value.OptionB}</label>
-                            <b class="isscore">(<span class="numbers">${$value.OptionB_S}</span>分)</b>
+                            <b class="isscore">(<span class="numbers">${$value.OptionB_S.toFixed(2)}</span>分)</b>
                         </span>
                         {{/if}}
                         {{if $value.OptionC!=""}}
                         <span>
                             <input type="radio" disabled="disabled" name="" id="" value="" />
                             <label>C${$value.OptionC}</label>
-                            <b class="isscore">(<span class="numbers">${$value.OptionC_S}</span>分)</b>
+                            <b class="isscore">(<span class="numbers">${$value.OptionC_S.toFixed(2)}</span>分)</b>
                         </span>
                         {{/if}}
                         {{if $value.OptionD!=""}}
                         <span>
                             <input type="radio" disabled="disabled" name="" id="" value="" />
                             <label>D${$value.OptionD}</label>
-                            <b class="isscore">(<span class="numbers">${$value.OptionD_S}</span>分)</b>
+                            <b class="isscore">(<span class="numbers">${$value.OptionD_S.toFixed(2)}</span>分)</b>
                         </span>
                         {{/if}}
                         {{if $value.OptionE!=""}}
                         <span>
                             <input type="radio" disabled="disabled" name="" id="" value="" />
                             <label>E${$value.OptionE}</label>
-                            <b class="isscore">(<span class="numbers">${$value.OptionE_S}</span>分)</b>
+                            <b class="isscore">(<span class="numbers">${$value.OptionE_S.toFixed(2)}</span>分)</b>
                         </span>
                         {{/if}}
                          {{if $value.OptionF!=""}}
                         <span>
                             <input type="radio" disabled="disabled" name="" id="" value="" />
                             <label>F${$value.OptionF}</label>
-                            <b class="isscore">(<span class="numbers">${$value.OptionF_S}</span>分)</b>
+                            <b class="isscore">(<span class="numbers">${$value.OptionF_S.toFixed(2)}</span>分)</b>
                         </span>
                         {{/if}}
                     </div>
@@ -228,7 +237,7 @@
 
         $("#item_check").tmpl(head_value).appendTo("#list");
         $("#item_check2").tmpl(headerList).appendTo("#list");
-
+        
 
         var All_Array = parent.All_Array;
         var objArray = [];
@@ -242,9 +251,10 @@
             }
             for (var h in All_Array[i].indicator_list) {
                 var hv = All_Array[i].indicator_list[h];
-                obj.Score += hv.OptionF_S_Max;
-                sp_total += obj.Score;
+                obj.Score += Number(hv.OptionF_S_Max);
+               
             }
+            sp_total += obj.Score;
             objArray.push(obj);
         }
         $("#item_table_view").tmpl(objArray).appendTo("#table_view");

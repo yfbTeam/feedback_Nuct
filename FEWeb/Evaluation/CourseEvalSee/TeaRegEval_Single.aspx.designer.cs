@@ -7,9 +7,9 @@
 // </自动生成>
 //------------------------------------------------------------------------------
 
-namespace FEWeb.Evaluation.Input {
+namespace FEWeb.Evaluation.CourseEvalSee {
     
     
-    public partial class StartEval {
+    public partial class TeaRegEval_Single {
     }
 }

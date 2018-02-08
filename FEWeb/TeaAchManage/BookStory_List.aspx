@@ -83,14 +83,14 @@
                 <table>
                     <thead>
                         <tr>
-                            <th>书号</th>
-                            <th>书名</th>
-                            <th>分册情况</th>
-                            <th>主编</th>
-                            <th>教材类型</th>                           
-                            <th>版次</th>
-                            <th>出版时间</th>
-                            <th>操作</th>
+                            <th width="20%">书号</th>
+                            <th  width="20%">书名</th>
+                            <th  width="8%">分册情况</th>
+                            <th  width="8%">主编</th>
+                            <th  width="8%">教材类型</th>                           
+                            <th  width="8%">版次</th>
+                            <th  width="8%">出版时间</th>
+                            <th  width="20%">操作</th>
                         </tr>
                     </thead>
                     <tbody id="tb_Book"></tbody>
@@ -125,7 +125,7 @@
         });
         function Book(startIndex, pageSize) {           
             $("#tb_Book").empty();
-            var parmsData = { "Func": "GetTPM_BookStory", BookType: $("#BookType").val(), "Name": $("#Key").val(), PageIndex: startIndex, pageSize: pageSize, Status: 3 };
+            var parmsData = { "Func": "GetTPM_BookStory", BookType: $("#BookType").val(), "Name": $("#key").val().trim(), PageIndex: startIndex, pageSize: pageSize, Status: 3 };
             if (list_book_operdepart && !list_book_operall) { parmsData["LoginMajor_ID"] = GetLoginUser().Major_ID; }
             if (!list_book_showall && !list_book_operall) { parmsData["Major_ID"] = GetLoginUser().Major_ID; }
             $.ajax({

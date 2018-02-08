@@ -1,4 +1,7 @@
-﻿//指标一级分类
+﻿var Type = 0;
+var CreateUID = '';
+
+//指标一级分类
 function set_indicator_type() {
     var P_Type = get_IndicatorType_by_rid();
     $.ajax({
@@ -6,7 +9,7 @@ function set_indicator_type() {
         type: "post",
         async: false,
         dataType: "json",
-        data: { Func: "Get_IndicatorType", P_Type: P_Type },
+        data: { Func: "Get_IndicatorType", P_Type: P_Type, "Type": Type ,"CreateUID":CreateUID},
         success: function (json) {
             var retData = json.result.retData;
             retData = Enumerable.From(retData).OrderBy('$.Id').ToArray();//按Id进行升序排列
@@ -34,7 +37,7 @@ function set_indicator_type_2(type) {
         type: "post",
         async: false,
         dataType: "json",
-        data: { Func: "Get_IndicatorType" },
+        data: { Func: "Get_IndicatorType", "Type": Type, "CreateUID": CreateUID },
         success: function (json) {
             var retData = json.result.retData;
             retData = Enumerable.From(retData).OrderBy('$.Id').ToArray();//按Id进行升序排列
@@ -55,8 +58,22 @@ function set_indicator_type_2(type) {
 }
 //新增选项
 function newItem() {
+    var select ='';
+    var len = $("#item_list li").length;
+    if (len == 3) {
+        select = 'D';
+    }
+    else if (len == 4)
+    {
+        select ='E';
+    }
+    else if(len ==5)
+    {
+        select ='F';
+    }
+   
     if ($("#item_list li").length <= 5) {
-        $("#item_list").append('<li><i class="radio"></i><input type="text" placeholder=""   class="text"/><i class="iconfont" onclick="remove1(this)">&#xe61b;</i></li>');
+        $("#item_list").append('<li><i class="radio"></i><input type="text"  fl="选项' + select + '"  placeholder="请填写选项' + select + '" isrequired="true"  class="text"/><i class="iconfont" onclick="remove1(this)">&#xe61b;</i></li>');
     }
     else {
         layer.msg("超出数量,无法添加");

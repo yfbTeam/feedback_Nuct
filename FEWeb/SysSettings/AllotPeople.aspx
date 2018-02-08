@@ -16,12 +16,12 @@
 <script type="text/x-jquery-tmpl" id="item_College">
     <option value="${Id}">${College_Name}</option>
 </script>
-
+<%--Roleid ==  CurrentRoleid--%>
 <script type="text/x-jquery-tmpl" id="itemData">
-    <tr>
-        {{if Roleid ==  CurrentRoleid}}
+    <tr  >
+        {{if isHasElement (RoleList,CurrentRoleid) >-1 }}
            <td>
-               <input type='checkbox' uniqueno="${UniqueNo}" name='se' checked="checked" /></td>
+               <input  type='checkbox' uniqueno="${UniqueNo}" name='se' checked="checked" /></td>
         {{else}}
          <td>
              <input type='checkbox' uniqueno="${UniqueNo}" name='se' /></td>
@@ -70,11 +70,11 @@
                         <th style="text-align: center; width: 40px;">
                             <input type="checkbox" id="cb_all" onclick="Check_All()" />
                         </th>
-                        <th >教职工号</th>
-                        <th >姓名</th>
-                        <th >性别</th>
-                        <th >年龄</th>
-                        <th >校龄</th>
+                        <th>教职工号</th>
+                        <th>姓名</th>
+                        <th>性别</th>
+                        <th>年龄</th>
+                        <th>校龄</th>
                         <th>部门</th>
                         <th>子部门</th>
                         <th>教师状态</th>
@@ -107,6 +107,8 @@
 
     var CurrentRoleid = getQueryString('CurrentRoleid');
     var CurrentRoleName = getQueryString('CurrentRoleName');
+    var DepartmentID = getQueryString('DepartmentID');
+    var DepartmentName = login_User.DepartmentName;
     //从子窗体筛选之后获取的数据【未处理】
     var reUserinfoAll = [];
 
@@ -127,7 +129,7 @@
     var pageCount;
 
     var IsAll_Select = false;
-   
+
 
     //-----------初始化--------------------------------------------------------------------------------------
     $(function () {
@@ -136,8 +138,18 @@
             UI_Allot.prepare_init();
             UI_Allot.data_init(roleid);
             UI_Allot.PageType = 'AllotPeople';
-            //UI_Course.PageType = 'AllotPeople';
-            UI_Allot.GetProfessInfo();
+          
+            if (DepartmentID != '' && DepartmentID != null && DepartmentID != undefined) {
+                var obj = { Id: DepartmentID, College_Name: DepartmentName };
+                $("#college").empty();
+                $("#item_College").tmpl(obj).appendTo("#college");
+
+                UI_Allot.all_change();
+            }
+            else {
+                UI_Allot.GetProfessInfo();
+            }
+
         };
         GetTeachers_New();
 
@@ -153,6 +165,7 @@
                 parent.layer.close(index);
             }
         };
+      
     })
 
     //-----------提交信息---------------------------------------------------------------------------------------  
@@ -172,6 +185,7 @@
 
             }
             else {
+                
                 UI_Allot.SubmitUserinfo();
             }
         };

@@ -62,18 +62,18 @@
             border: 1px solid #e5f8f4;
         }
     </style>
-   
+
 </head>
 <body style="background: #fff;" onkeydown="Key_Add();">
-    <div class="main clearfix" style=" min-height: 517px;">
+    <div class="main clearfix">
         <div class="menu fl">
-            <ul class="menu_list">
+            <ul class="menu_list" style="height: 490px;overflow:auto;">
             </ul>
             <div style="margin-left: 45px; margin-top: 20px">
                 <input type="button" value="新增指标分类" onclick="Add_Parent();" class="btn fl " />
             </div>
         </div>
-        <div class="menu_right">
+        <div class="menu_right" style="height: 560px;overflow:auto;">
             <div class=" clearfix mb20">
                 <input type="button" value="新增指标项" onclick="Add();" class="btn fr ml20" />
 
@@ -91,11 +91,11 @@
 <script src="../../scripts/jquery.tmpl.js"></script>
 <script src="../../Scripts/layer/layer.js"></script>
 <script src="../../Scripts/WebCenter/DatabaseMan.js"></script>
- <script type="text/x-jquery-tmpl" id="item_indicatorType">
-        <li>
-            <span>${self.Name}<input type="hidden" value="${self.Id}" /></span>
-        </li>
-    </script>
+<script type="text/x-jquery-tmpl" id="item_indicatorType">
+    <li>
+        <span>${self.Name}<input type="hidden" value="${self.Id}" /></span>
+    </li>
+</script>
 <script type="text/x-jquery-tmpl" id="item_Indicate_Type">
     <li class="clearfix">
         <input type="text" name="" onkeydown="Key_Edit(${Id},${Parent_Id})" value="${Name}" id="${Id}" class="text fl" />
@@ -129,9 +129,13 @@
     var Userinfo_json = GetLoginUser();
     var Sys_Role = Userinfo_json.Sys_Role_Id;
     var index = parent.layer.getFrameIndex(window.name);
+    Type = getQueryString('Type')
+
     //自我集合
     var self_list = [];
     $(function () {
+        CreateUID = login_User.UniqueNo;
+       
         IndicateType_Model.init();
     })
     function reflesh() {

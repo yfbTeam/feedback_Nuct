@@ -155,7 +155,7 @@
                     <input type="hidden" value="${QuesType_Id}" name="name_QuesType_Id" />
 
                     <h2 class="title">${Sort}、${$value.Name}
-                    {{if $value.QuesType_Id!=3}}
+                    {{if $value.QuesType_Id ==1 || $value.QuesType_Id ==4}}
                        <b class="isscore">（<span class="isscore">${OptionF_S_Max}分</span>）</b>
                         {{/if}}
                     </h2>
@@ -211,14 +211,67 @@
                         </span>
                         {{/if}}
                     </div>
+
+                    {{else $value.QuesType_Id==2}}
+                    <div class="test_desc2">
+                        {{if $value.OptionA!=""}}
+                        <span>
+                            <input type="radio"   flv="OptionA" id="inp_${$value.Id}-1" value="${$value.OptionA_S}" />
+                            <label class="lbl" for="inp_${$value.Id}-1">
+                                A${$value.OptionA}
+                          
+                        </span>
+                        {{/if}}
+                        {{if $value.OptionB!=""}}
+                        <span>
+                            <input type="radio"  flv="OptionB" id="inp_${$value.Id}-2" value="${$value.OptionB_S}" />
+                            <label class="lbl" for="inp_${$value.Id}-2">
+                                B${$value.OptionB}
+                           
+                        </span>
+                        {{/if}}
+                        {{if $value.OptionC!=""}}
+                        <span>
+                            <input type="radio"  flv="OptionC" id="inp_${$value.Id}-3" value="${$value.OptionC_S}" />
+                            <label class="lbl" for="inp_${$value.Id}-3">
+                                C${$value.OptionC}
+                           
+                        </span>
+                        {{/if}}
+                        {{if $value.OptionD!=""}}
+                        <span>
+                            <input type="radio" flv="OptionD" id="inp_${$value.Id}-4" value="${$value.OptionD_S}" />
+                            <label class="lbl" for="inp_${$value.Id}-4">
+                                D${$value.OptionD}
+                               
+                        </span>
+                        {{/if}}
+                        {{if $value.OptionE!=""}}
+                        <span>
+                            <input type="radio"  flv="OptionE" id="inp_${$value.Id}-5" value="${$value.OptionE_S}" />
+                            <label class="lbl" for="inp_${$value.Id}-5">E${$value.OptionE}</label>
+                            
+                        </span>
+                        {{/if}}
+                         {{if $value.OptionF!=""}}
+                        <span>
+                            <input type="radio"  flv="OptionF" id="inp_${$value.Id}-6" value="${$value.OptionF_S}" />
+                            <label class="lbl" for="inp_${$value.Id}-6">
+                                F${$value.OptionF}
+                               
+                          
+                        </span>
+                        {{/if}}
+                    </div>
+
                     {{else $value.QuesType_Id==3}}
                     <div class="test_desc">
                         <textarea></textarea>
                     </div>
 
                     {{else $value.QuesType_Id==4 }}
-                    <div class="test_desc" MaxScore="${OptionF_S_Max}">
-                         <input type="number" onkeydown="onlyNum();" class="number" name="Name" style="width: 98%; height: 35px;"  />
+                    <div class="test_desc" maxscore="${OptionF_S_Max}">
+                        <input type="number" onkeydown="onlyNum();" class="number" name="Name" style="width: 98%; height: 35px;" />
                     </div>
                     {{/if}}
                 </li>
@@ -297,8 +350,11 @@
                 $('#section').val(DisplayName);
                 $('#teacher').val(TeacherName);
                 $('#course').val(CourseName);
-                $('#dp').val(DepartmentName);               
+                $('#dp').val(DepartmentName);
                 evaluate_Model.IsScore = retdata.IsScore;
+
+              
+
             };
             UI_Table_View.PageType = 'selectTable';
             Base.BindTableCompleate = function () {
@@ -318,8 +374,7 @@
             Reflesh();
         })
 
-        function Submit()
-        {
+        function Submit() {
             State = 2;
             Save();
         }

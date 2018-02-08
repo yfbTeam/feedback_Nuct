@@ -1,4 +1,8 @@
 ﻿/// <reference path="../jquery-1.11.2.min.js" />
+
+var t_Type = 0;
+var CreateUID = '';
+
 var Base = {
     bindStudySectionCompleate: function () { },
     bindStudySection: function () {
@@ -81,13 +85,14 @@ var Base = {
 
     BindTableCompleate: function () { },
     BindTable: function (SectionID, CourseID) {
+       
         $.ajax({
             url: HanderServiceUrl + "/Eva_Manage/Eva_ManageHandler.ashx",
             type: "post",
             dataType: "json",
             data: {
                 func: "Get_Eva_Table",
-                "CourseID": CourseID, "SectionID": SectionID,
+                "CourseID": CourseID, "SectionID": SectionID, "Type": t_Type,"CreateUID":CreateUID
             },
             success: function (json) {
 
@@ -117,7 +122,9 @@ var Base = {
             success: function (returnVal) {
                 if (returnVal.result.errMsg == "success") {
 
-                    $('#pk,#ck,#cp,#dp,#cn').empty()
+                    $('#pk,#ck,#cp,#dp,#cn,#sdp').empty()
+
+                    $('#pk,#ck,#cp,#dp,#cn,#sdp').append('<option value="">全部</option>');
                     var obj = returnVal.result.retData;
                     obj.PkList.forEach(function (item) {
                         var str = str = "<option value='" + item + "'>" + item + "</option>";
@@ -144,6 +151,14 @@ var Base = {
                         $("#cn").append(str);
                     });
                     ChosenInit($('#cn'));
+                    
+                    obj.SDPList.forEach(function (item) {
+                        var str = str = "<option value='" + item.DepartMentID + "'>" + item.DepartmentName + "</option>";
+                        $("#sdp").append(str);
+                    });
+                    ChosenInit($('#sdp'));
+
+                    
                 }
             },
             error: function (errMsg) {

@@ -9,7 +9,7 @@ namespace FEModel.Enum
     public enum ReguType
     {
         Expert = 1,
-        Student = 2,
-
+        RoomStudent = 2,
+        ClsStudent =3,
     }
 }

@@ -13,21 +13,22 @@ var UI_Course = {
     //当前选择的课程类型
     select_CourseTypeName: null,
     menu_list: function () {
-        //菜单中找到有ul元素的子集，并绑定click事件
-        $('.menu_list').find('li:has(ul)').children('span').click(function () {
 
-            var $next = $(this).next('ul');
+        //菜单中找到有ul元素的子集，并绑定click事件
+        $('.menu_list').find('li:has(ul)').children('span').find('i').click(function () {
+
+            var $next = $(this).parent('span').next('ul');
             if ($next.is(':hidden')) {
-                $(this).addClass('selected');
+                $(this).parent('span').addClass('selected');
                 $next.stop().slideDown();
-                $next.find('li:first').addClass('selected');
-                $next.find('li:first').children('em').trigger('click');
-                if ($(this).parent('li').siblings().children('ul').is(':visible')) {
-                    $(this).parent('li').siblings().children('span').removeClass('selected');
-                    $(this).parent('li').siblings().children('ul').stop().slideUp();
+                //$next.find('li:first').addClass('selected');
+                //$next.find('li:first').children('em').trigger('click');
+                if ($(this).parent('span').parent('li').siblings().children('ul').is(':visible')) {
+                    $(this).parent('span').parent('li').siblings().children('span').removeClass('selected');
+                    $(this).parent('span').parent('li').siblings().children('ul').stop().slideUp();
                 }
             } else {
-                $(this).removeClass('selected');
+                $(this).parent('span').removeClass('selected');
                 $next.stop().slideUp();
             }
 
@@ -35,32 +36,44 @@ var UI_Course = {
 
         //划过事件
         tableSlide();
-        //点击样式事件
-        $('.menu_list').find('li:has(ul)').find('li').click(function () {
-            $('.menu_list').find('li:has(ul)').find('li').removeClass('selected');
-            $(this).parent('li').addClass('selected');
-            $(this).addClass('selected');
-
-            select_sectionid = $(this).parent().parent('li').attr('sectionid');
-            
-            $('#operator').empty();
+      
+        $('.typeli').click(function () {
             var ReguState = Number($(this).attr('ReguState'));
-            switch (ReguState) {
-                case 1:
-                    $("#itemAllot").tmpl(1).appendTo("#operator");
-                    break;
-                case 2:
-                    $("#itemAllot").tmpl(1).appendTo("#operator");
-                    break;
-                case 3:
-                    $("#itemAllotNo").tmpl(1).appendTo("#operator");
-                    break;
-                default:
-            }
+            if (ReguState > 0) {
+                $('#operator').empty();
+
+                switch (ReguState) {
+                    case 1:
+                        $("#itemAllot").tmpl(1).appendTo("#operator");
+                        break;
+                    case 2:
+                        $("#itemAllot").tmpl(1).appendTo("#operator");
+                        break;
+                    case 3:
+                        $("#itemAllotNo").tmpl(1).appendTo("#operator");
+                        break;
+                    default:
+                }
+                $('.typeli').removeClass('selected');
+                $('.menu_list').find('li:has(ul)').children('span').removeClass('selected');
+                $(this).addClass('selected');
+                select_sectionid = $(this).parent().parent('li').attr('sectionid');
+            }           
         });
+
+        $('#menu_listscours').find('li:has(ul) span').on('click', function () {
+            var selected = $(this).hasClass('selected');
+            if (!selected) {
+                $('.menu_list').find('li:has(ul)').find('li').removeClass('selected');
+                $('.menu_list').find('span').removeClass('selected');
+                $(this).addClass('selected');
+            }
+            $('#operator').empty();
+        });
+
     },
     GetCourse_Type: function (SectionId) {
-      
+
         var HasSection = true;
         $.ajax({
             type: "Post",
@@ -73,6 +86,7 @@ var UI_Course = {
 
 
                     var retData = json.result.retData;
+
                     if (retData.length > 0) {
                         switch (UI_Course.PageType) {
                             case 'CourSortMan':
@@ -87,17 +101,17 @@ var UI_Course = {
                                     data.push({ course_parent: da[i], objectlist: objst });
                                     continue;
                                 }
-                                
+
                                 for (var i in data) {
                                     if (data[i].course_parent.Study_IsEnable == 0) {
                                         select_sectionid = data[i].course_parent.SectionId;
                                     }
                                 }
-                                
+
                                 data = Enumerable.From(data).OrderByDescending(function (item) {
                                     return item.EndTime;
                                 }).ToArray();
-                                
+                                console.log(data)
                                 $("#menu_listscours").empty();
                                 $("#course_item").tmpl(data).appendTo("#menu_listscours");
                                 UI_Course.menu_list();
@@ -105,17 +119,17 @@ var UI_Course = {
                                 //获取第一个课程分类的数据 
                                 UI_Course.select_CourseTypeId = data[0].objectlist[0].Key;
                                 UI_Course.select_CourseTypeName = data[0].objectlist[0].Value;
-                               
-                            
+
+
                                 $('.menu_list').find('li:has(ul)').children('span').each(function () {
                                     if ($(this).parent('li').attr('sectionid') == select_sectionid) {
                                         var $next = $(this).next('ul');
-                                        $(this).addClass('selected');
+                                        //$(this).addClass('selected');
                                         $next.stop().slideDown();
-                                        $(this).parent('li').find('li:first').find('em').trigger('click')
+                                        $(this).parent('li').find('span').trigger('click')
                                     }
                                 })
-                               
+
                                 break;
 
                             case 'SortCourse':
@@ -166,7 +180,7 @@ var UI_Course = {
             success: function (returnVal) {
                 if (returnVal.result.errMsg == "success") {
                     parent.layer.msg('成功!');
-
+                   
                     var key = $("#select_where").val();
                     UI_Course.GetCourseInfo(pageIndex, select_sectionid, key, select_CourseTypeId);
                 }
@@ -199,7 +213,7 @@ var UI_Course = {
             success: function (returnVal) {
                 if (returnVal.result.errMsg == "success") {
                     reUserinfoByselect = returnVal.result.retData;
-
+                   
                     $('#ShowCourseInfo').empty();
 
                     layer.close(layer_index);

@@ -29,10 +29,17 @@ namespace FEHandler.Eva_Manage
         {
             int intSuccess = (int)errNum.Success;
             HttpRequest Request = context.Request;
+            int Type = RequestHelper.int_transfer(Request, "Type");
+            TableType TableType = (TableType)Type;
+            string CreateUID = RequestHelper.string_transfer(Request, "CreateUID");
             try
             {
-                var table_submiter = (from t in Constant.Eva_Table_List
-
+                List<Eva_Table> tblist = (from t in Constant.Eva_Table_List where t.Type == Type select t).ToList();
+                if (TableType == FEModel.Enum.TableType.teacherself)
+                {
+                    tblist = (from t in Constant.Eva_Table_List where t.CreateUID == CreateUID select t).ToList();
+                }
+                var table_submiter = (from t in tblist
                                       join u in Constant.UserInfo_List on t.CreateUID equals u.UniqueNo
                                       select new
                                       {
@@ -64,9 +71,13 @@ namespace FEHandler.Eva_Manage
 
             string CourseID = RequestHelper.string_transfer(Request, "CourseID");
             int SectionID = RequestHelper.int_transfer(Request, "SectionID");
+
+            int Type = RequestHelper.int_transfer(Request, "Type");        
+            string CreateUID = RequestHelper.string_transfer(Request, "CreateUID");
+
             try
             {
-                jsonModel = Get_Eva_TableHelper(SectionID, CourseID);
+                jsonModel = Get_Eva_TableHelper(SectionID, CourseID,Type,CreateUID);
             }
             catch (Exception ex)
             {
@@ -79,28 +90,33 @@ namespace FEHandler.Eva_Manage
             }
         }
 
-        public static JsonModel Get_Eva_TableHelper(int SectionID, string CourseID)
+        public static JsonModel Get_Eva_TableHelper(int SectionID, string CourseID,int Type  ,string CreateUID)
         {
             int intSuccess = (int)errNum.Success;
             JsonModel jsmodel = new JsonModel();
             try
             {
-                List<Eva_Table> tableList = Constant.Eva_Table_List;
+               
+                TableType TableType = (TableType)Type;
+                List<Eva_Table> tblist = (from t in Constant.Eva_Table_List where t.Type == Type && t.IsEnable == (int)IsEnable.Enable select t).ToList();
+                if (TableType == FEModel.Enum.TableType.teacherself)
+                {
+                    tblist = (from t in tblist where t.CreateUID == CreateUID select t).ToList();
+                }
                 if (SectionID > 0)
                 {
-                    tableList = (from dic in Constant.Sys_Dictionary_List
+                    tblist = (from dic in Constant.Sys_Dictionary_List
                                  where dic.Type == "0" && dic.SectionId == SectionID
                                  join cr in Constant.CourseRel_List on dic.Key equals cr.CourseType_Id
                                  where (CourseID != "" && cr.Course_Id == CourseID) || CourseID == ""
                                  join cb in Constant.Eva_CourseType_Table_List on dic.Key equals cb.CourseTypeId
-                                 join tb in tableList on cb.TableId equals tb.Id
-                                 where tb.IsEnable == (int)IsEnable.Enable
+                                 join tb in tblist on cb.TableId equals tb.Id                               
                                  select tb).Distinct(new Eva_TableComparer()).ToList();
 
                 }
 
                 //返回所有表格数据
-                jsmodel = JsonModel.get_jsonmodel(intSuccess, "success", tableList);
+                jsmodel = JsonModel.get_jsonmodel(intSuccess, "success", tblist);
             }
             catch (Exception ex)
             {
@@ -109,7 +125,7 @@ namespace FEHandler.Eva_Manage
             }
             return jsmodel;
         }
-        
+
         #endregion
 
         #region 获取表详情
@@ -257,7 +273,7 @@ namespace FEHandler.Eva_Manage
             }
         }
 
-        
+
         #endregion
 
         #region 添加
@@ -281,7 +297,7 @@ namespace FEHandler.Eva_Manage
                 string CreateUID = RequestHelper.string_transfer(Request, "CreateUID");
                 string EditUID = RequestHelper.string_transfer(Request, "EditUID");
                 string CourseType_Id = RequestHelper.string_transfer(Request, "CourseType_Id");
-                int Eva_Role = RequestHelper.int_transfer(Request, "Eva_Role");
+                int Type = RequestHelper.int_transfer(Request, "Type");
                 try
                 {
                     Eva_Table Eva_Table_Add = new Eva_Table()
@@ -289,7 +305,7 @@ namespace FEHandler.Eva_Manage
                         Name = Name,
                         IsScore = (byte)IsScore,
                         CousrseType_Id = CourseType_Id,
-                        Eva_Role = Eva_Role,
+                        Type = Type,
                         //Type = 2,//新加的  主要区别于即时(1)和扫码(0)
                         Remarks = Remarks,
                         UseTimes = 0,
@@ -348,7 +364,7 @@ namespace FEHandler.Eva_Manage
                 }
             }
         }
-        
+
         #endregion
 
         #region 拷贝
@@ -364,6 +380,7 @@ namespace FEHandler.Eva_Manage
             {
                 HttpRequest Request = context.Request;
                 int table_Id = RequestHelper.int_transfer(Request, "table_Id");
+                string CreateUID = RequestHelper.string_transfer(Request, "CreateUID");
                 try
                 {
                     Eva_Table Eva_Table_Need_Copy = Constant.Eva_Table_List.FirstOrDefault(t => t.Id == table_Id);
@@ -372,6 +389,10 @@ namespace FEHandler.Eva_Manage
                         Eva_Table Eva_Table_Copy_Clone = Constant.Clone<Eva_Table>(Eva_Table_Need_Copy);
                         Eva_Table_Copy_Clone.Id = null;
                         Eva_Table_Copy_Clone.UseTimes = 0;
+                        Eva_Table_Copy_Clone.CreateUID = CreateUID;
+                        Eva_Table_Copy_Clone.EditUID = CreateUID;
+                        Eva_Table_Copy_Clone.CreateTime = DateTime.Now;
+                        Eva_Table_Copy_Clone.EditTime = DateTime.Now;
                         jsonModel = Constant.Eva_TableService.Add(Eva_Table_Copy_Clone);
                         if (jsonModel.errNum == 0)
                         {
@@ -407,7 +428,11 @@ namespace FEHandler.Eva_Manage
                                 {
                                     detail_clone.Id = Convert.ToInt32(jsonmodel.retData);
                                     Constant.Eva_TableDetail_List.Add(detail_clone);
+
+                                    Indicate_Using_Add((int)detail_clone.Indicator_Id);
                                 }
+
+                               
                             }
 
                         }
@@ -424,7 +449,7 @@ namespace FEHandler.Eva_Manage
                 }
             }
         }
-        
+
         #endregion
 
         #region 编辑
@@ -551,7 +576,7 @@ namespace FEHandler.Eva_Manage
                 LogHelper.Error(ex);
             }
         }
-        
+
         #endregion
 
         #region 删除
@@ -581,32 +606,28 @@ namespace FEHandler.Eva_Manage
                     {
                         Eva_Table_delete.IsDelete = (int)IsDelete.Delete;
 
-                        //开启线程操作数据库
-                        new Thread(() =>
+                        List<Eva_Table_Header> Eva_Table_Header_List = Constant.Eva_Table_Header_List.Where(t => t.Table_Id == Id).ToList();
+                        foreach (Eva_Table_Header item in Eva_Table_Header_List)
                         {
-                            List<Eva_Table_Header> Eva_Table_Header_List = Constant.Eva_Table_Header_List.Where(t => t.Table_Id == Id).ToList();
-                            foreach (Eva_Table_Header item in Eva_Table_Header_List)
+                            item.IsDelete = (int)IsDelete.Delete;
+                            var jm = Constant.Eva_Table_HeaderService.Update(item);
+                            if (jm.errNum == 0)
                             {
-                                item.IsDelete = (int)IsDelete.Delete;
-                                var jm = Constant.Eva_Table_HeaderService.Update(item);
-                                if (jm.errNum == 0)
-                                {
-                                    Constant.Eva_Table_Header_List.Remove(item);
-                                }
+                                Constant.Eva_Table_Header_List.Remove(item);
                             }
+                        }
 
-                            List<Eva_TableDetail> Eva_TableDetail_List = Constant.Eva_TableDetail_List.Where(t => t.Eva_table_Id == Id).ToList();
-                            foreach (Eva_TableDetail item in Eva_TableDetail_List)
+                        List<Eva_TableDetail> Eva_TableDetail_List = Constant.Eva_TableDetail_List.Where(t => t.Eva_table_Id == Id).ToList();
+                        foreach (Eva_TableDetail item in Eva_TableDetail_List)
+                        {
+                            item.IsDelete = (int)IsDelete.Delete;
+                            var jsonmodel = Constant.Eva_TableDetailService.Update(item);
+                            if (jsonmodel.errNum == 0)
                             {
-                                item.IsDelete = (int)IsDelete.Delete;
-                                var jsonmodel = Constant.Eva_TableDetailService.Update(item);
-                                if (jsonmodel.errNum == 0)
-                                {
-                                    Constant.Eva_TableDetail_List.Remove(item);
-                                    Indicate_Using_Reduce((int)item.Indicator_Id);
-                                }
+                                Constant.Eva_TableDetail_List.Remove(item);
+                                Indicate_Using_Reduce((int)item.Indicator_Id);
                             }
-                        }) { IsBackground = true }.Start();
+                        }
                     }
                     else
                     {
@@ -628,7 +649,7 @@ namespace FEHandler.Eva_Manage
                 context.Response.Write("{\"result\":" + Constant.jss.Serialize(jsonModel) + "}");
             }
         }
-        
+
         #endregion
 
         #region 启用禁用
@@ -684,7 +705,7 @@ namespace FEHandler.Eva_Manage
                 }
             }
         }
-        
+
         #endregion
 
         #region 创建编辑表辅助
@@ -834,7 +855,7 @@ namespace FEHandler.Eva_Manage
                 }
             }) { IsBackground = true }.Start();
         }
-        
+
         #endregion
 
         #region 指标库引用增加、减少
@@ -878,25 +899,27 @@ namespace FEHandler.Eva_Manage
                 //指标库的计数
                 Indicator Indicator = Constant.Indicator_List.FirstOrDefault(t => t.Id == Id);
                 Indicator Indicator_clone = Constant.Clone<Indicator>(Indicator);
-                Indicator_clone.UseTimes -= 1;
-                //直接进行更改
-                if (Indicator_clone != null)
+                if (Indicator_clone.UseTimes > 0)
                 {
-                    JsonModel m = Constant.IndicatorService.Update(Indicator);
-                    if (m.errNum == 0)
+                    Indicator_clone.UseTimes -= 1;
+                    //直接进行更改
+                    if (Indicator_clone != null)
                     {
-                        Indicator.UseTimes -= 1;
+                        JsonModel m = Constant.IndicatorService.Update(Indicator);
+                        if (m.errNum == 0)
+                        {
+                            Indicator.UseTimes -= 1;
+                        }
                     }
                 }
-
             }
             catch (Exception ex)
             {
                 LogHelper.Error(ex);
             }
         }
-        
-        #endregion     
+
+        #endregion
 
         #region 表格引用次数添加
 
@@ -938,12 +961,16 @@ namespace FEHandler.Eva_Manage
                 {
                     //克隆该表格
                     Eva_Table table_clone = Constant.Clone<Eva_Table>(table);
-                    table_clone.UseTimes -= 1;
-                    JsonModel m3 = Constant.Eva_TableService.Update(table_clone);
-                    if (m3.errNum == 0)
+                    if (table_clone.UseTimes > 0)
                     {
-                        table.UseTimes -= 1;
+                        table_clone.UseTimes -= 1;
+                        JsonModel m3 = Constant.Eva_TableService.Update(table_clone);
+                        if (m3.errNum == 0)
+                        {
+                            table.UseTimes -= 1;
+                        }
                     }
+
                 }
             }
             catch (Exception ex)

@@ -185,6 +185,7 @@ namespace FEHandler.UserMan
                 if (m1.errNum == 0)
                 {
                     Constant.Sys_RoleOfUser_List.Add(r);
+                    r.Id = Convert.ToInt32(m1.retData);
                 }
             }
             catch (Exception ex)
@@ -263,7 +264,7 @@ namespace FEHandler.UserMan
                                 RoleId = srl.Id,
                                 RoleName = srl.Name,
                                 Code = srl.Code,
-
+                                Solid = srl.Solid,
                             };
                 jsonModel = JsonModel.get_jsonmodel(intSuccess, "success", query);
             }
@@ -418,7 +419,10 @@ namespace FEHandler.UserMan
                     CreateTime = DateTime.Now,
                     IsDelete = 0,
                     Name = Name,
-                    Sort = sortMax + 1,
+                    EditTime = DateTime.Now,
+                    EditUID = "admin",
+                    Solid = (int)SolidType.no,
+                    Sort = sortMax + 1, 
                 };
                 jsonModel = Constant.Sys_RoleService.Add(role_new);
                 if (jsonModel.errNum == 0)
@@ -529,6 +533,7 @@ namespace FEHandler.UserMan
             {
                 HttpRequest Request = context.Request;
                 string type = RequestHelper.string_transfer(Request, "type");
+                string DepartmentID = RequestHelper.string_transfer(Request, "DepartmentID");
                 if (!string.IsNullOrEmpty(type))
                 {
                     int[] types = Split_Hepler.str_to_ints(type);
@@ -537,7 +542,6 @@ namespace FEHandler.UserMan
                     List<Sys_Role> Sys_Role_List = Constant.Sys_Role_List;
                     List<Sys_RoleOfUser> Sys_RoleOfUser_List = Constant.Sys_RoleOfUser_List;
                     var query = (from ul in UserInfo_List_
-                                 //where ul.UserType ==type
                                  join SysRoleOfUser in Sys_RoleOfUser_List on ul.UniqueNo equals SysRoleOfUser.UniqueNo
                                  where types.Contains((int)SysRoleOfUser.Role_Id)
                                  join SysRole in Sys_Role_List on SysRoleOfUser.Role_Id equals SysRole.Id
@@ -555,8 +559,13 @@ namespace FEHandler.UserMan
                                      Pwd = ul.ClearPassword,
                                      UniqueNo = ul.UniqueNo,
                                      MajorId = ul.Major_ID,
-
+                                     DepartmentName = ul.DepartmentName,
                                  }).ToList();
+
+                    if (!string.IsNullOrEmpty(DepartmentID))
+                    {
+                        query = (from q in query where q.MajorId == DepartmentID select q).ToList();
+                    }
 
                     int count = query.Count();
 
@@ -586,44 +595,6 @@ namespace FEHandler.UserMan
                 HttpRequest Request = context.Request;
                 var college_TeacherUID = RequestHelper.string_transfer(Request, "college_TeacherUID");
                 object query = new object();
-                //if (string.IsNullOrEmpty(college_TeacherUID))
-                //{
-
-                //    var major_id = (from t in Constant.Teacher_List where t.UniqueNo == college_TeacherUID select t.Major_ID).First();
-
-                //    int type = RequestHelper.int_transfer(Request, "type");
-                //    List<UserInfo> UserInfo_List_ = Constant.UserInfo_List;
-                //    List<Sys_Role> Sys_Role_List = Constant.Sys_Role_List;
-                //    List<Sys_RoleOfUser> Sys_RoleOfUser_List = Constant.Sys_RoleOfUser_List;
-                //    query = (from ul in UserInfo_List_
-                //             where ul.Major_ID== major_id
-                //             join SysRoleOfUser in Sys_RoleOfUser_List on ul.UniqueNo equals SysRoleOfUser.UniqueNo
-                //             where SysRoleOfUser.Role_Id == type
-                //             join SysRole in Sys_Role_List on SysRoleOfUser.Role_Id equals SysRole.Id
-                //             join t in Constant.Teacher_List on ul.UniqueNo equals t.UniqueNo                            
-                //             join major in Constant.Major_List on t.Major_ID equals major.Id
-
-                //             orderby SysRole.Sort
-                //             select new
-                //             {
-                //                 a_Id = ul.Id,
-                //                 a_Name = (ul.Name == null) ? string.Empty : ul.Name,
-                //                 a_Sex = GetSex(Convert.ToString(ul.Sex)),
-                //                 a_LoginName = (ul.LoginName == null) ? string.Empty : ul.LoginName,
-                //                 a_Phone = (ul.Phone == null) ? string.Empty : ul.Phone,
-                //                 a_Email = (ul.Email == null) ? string.Empty : ul.Email,
-                //                 a_UserType = ul.UserType,
-                //                 a_Roleid = SysRole.Id,
-                //                 a_Pwd = ul.ClearPassword,
-                //                 a_UniqueNo = ul.UniqueNo,
-                //                 list = (from c1 in Constant.CourseRoom_List.Distinct()
-                //                         where c1.TeacherUID == ul.UniqueNo
-                //                         join c2 in Constant.Course_List on c1.Coures_Id equals c2.UniqueNo
-                //                         select c2).Distinct().ToList()
-                //             }).ToList();
-                //}
-                //else
-                //{
 
                 int type = RequestHelper.int_transfer(Request, "type");
                 List<UserInfo> UserInfo_List_ = Constant.UserInfo_List;
@@ -878,22 +849,23 @@ namespace FEHandler.UserMan
             int intSuccess = (int)errNum.Success;
             try
             {
-                HttpRequest Request = context.Request;               
+                HttpRequest Request = context.Request;
+                var ro_list = (from r in Constant.Sys_RoleOfUser_List where r.Role_Id != (int)RoleType.student && r.Role_Id != (int)RoleType.teacher select r).ToList();
                 //返回所有用户信息
                 List<UserInfo> UserInfo_List_ = Constant.UserInfo_List;
                 var query = from tea in Constant.Teacher_List
-                          
+
                             select new
                             {
                                 Name = (tea.Name == null) ? string.Empty : tea.Name,
                                 Sex = GetSex(Convert.ToString(tea.Sex)),
-                                Roleid = (int)RoleType.teacher,
+                                //Roleid = (int)RoleType.teacher,
                                 UniqueNo = tea.UniqueNo,
                                 MajorName = tea.DepartmentName,
                                 Major_ID = tea.DepartmentID,
                                 SubDepartmentID = tea.SubDepartmentID,
                                 SubDepartmentName = tea.SubDepartmentName,
-
+                                RoleList = (from li in ro_list where li.UniqueNo == tea.UniqueNo select li.Role_Id).ToList(),
                                 TeachDate = tea.TeacherSchooldate,
                                 Birthday = tea.TeacherBirthday,
                                 Status = tea.Status,

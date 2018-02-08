@@ -32,9 +32,9 @@
         }
 
         .input_root {
-            height: 35px;          
+            height: 35px;
             margin-left: 5px;
-            margin-bottom:5px;
+            margin-bottom: 5px;
         }
     </style>
 
@@ -46,14 +46,17 @@
         <div class="wrap clearfix">
             <div class="sort_nav" id="threenav">
             </div>
-            <h1 class="title mb10">
+            <h1 class="title mb10" id="nav">
                 <a style="cursor: pointer" class="reback">表格设计</a><span>&gt;</span><a href="javascript:;" class="crumbs">新增表格</a>
             </h1>
+
+
+
             <div class="selectwrap clearfix pr" style="margin: 0;">
                 <div class="fl evaltable_left">
                     <div class="search_toobar clearfix">
                         <div class="fl">
-                            <label for="">评价表名称:</label>
+                            <label for="">评价表名称：</label>
                             <input type="text" name="" id="Name" fl="评价表名称" isrequired="true" placeholder="请填写评价表名称" value="" class="text" style="border-right: 1px solid #cccccc; width: 500px; align-content: center">
                         </div>
                         <div class="fl ml10 checkbox">
@@ -69,7 +72,7 @@
                     <input type="button" name="" id="" value="选择指标" class="btn ml10" onclick="openIndicator()" />
                 </div>
                 <div class="evalheader_left fl" style="margin-top: 5px; margin-bottom: 5px">
-                    <span style="float: left; margin-top: 7px">表格分项比例系数设置：</span>
+                    <span style="float: left; margin-top: 7px;color:#666;">指标权重：</span>
                     <em class="fl">
                         <label for="A">A</label>
                         <input type="number" placeholder="0.95" value="0.95" onkeydown="onlyNum();" class="number" min="0" id="A" step="0.01">
@@ -112,12 +115,11 @@
             </div>
             <div class="test_module mt10">
                 <div class="evalheader clearfix">
-                 
+
                     <div class="nodes fl">
                         <div id="sheets" style="float: left">
                         </div>
                         <div style="float: right">
-                         
                             <input type="button" class="" onclick="add_root();" value="添加节点" />
                         </div>
                     </div>
@@ -126,7 +128,7 @@
                             <span class="isscore">实时试卷总分：
 							    <span><b id="total">0</b>分</span></span>
 
-                               <input type="button" name="name" value="预览"  class="btn ml10" onclick="OpenIFrameWindow('预览', './TableTempView.aspx', '1000px', '700px')" />
+                            <input type="button" name="name" value="预览" class="btn ml10" onclick="OpenIFrameWindow('预览', './TableTempView.aspx', '1000px', '700px')" />
                         </div>
 
                     </div>
@@ -154,15 +156,15 @@
 <%--固定表头--%>
 <script type="text/x-jquery-tmpl" id="item_check">
     <div class="fl">
-        <label for="">${name}：</label>
-        <span>【${description}】</span>
+        <label t_id="${id}" for="">${name}：</label><span>【${description}】</span>
+
     </div>
 </script>
 
 <%--自由表头--%>
 <script type="text/x-jquery-tmpl" id="item_check2">
     <div class="fl">
-        <label for="">
+        <label t_id="${t_Id}" for="">
             <input type="text" name="name" t_id="${t_Id}" value="${title}" />
         </label>
         <input readonly="readonly" v_id="${t_Id}" type="text" name="name" value="" />
@@ -173,9 +175,27 @@
 
 <script type="text/x-jquery-tmpl" id="item_sheet">
     <div style="float: left">
-       
-        <input  class="input_root" t_id="${t_Id}" value="${title}" />
+
+        <input class="input_root" t_id="${t_Id}" value="${title}" />
         <i t_id="${t_Id}" style="cursor: pointer; align-content: center" class="iconfont">&#xe672;</i>
+    </div>
+</script>
+
+<script type="text/x-jquery-tmpl" id="itemNav">
+    <div style="width: 1170px; cursor: pointer; z-index: 99; background: #fff; padding: 10px 0px;">
+        <div class="crumbs">
+            <a onclick="window.location.href='../../Evaluation/CourseEvalSee/indexqcode.aspx?Id='+getQueryString('Id')+'&Iid='+getQueryString('Iid')">课堂扫码评价</a>
+            <span>&gt;</span>
+            <a href="javascript:;" style="cursor: pointer;" onclick="window.location.href='../../Evaluation/CourseEvalSee/TableDesign.aspx?Id='+getQueryString('Id')+'&Iid='+getQueryString('Iid')" id="couse_name">评价表管理</a>
+              <span>&gt;</span>
+            <a style="cursor: pointer"  onclick="window.location=window.location.href">
+                {{if type ==1}}
+                编辑表格
+                {{else}}
+                新增表格
+                {{/if}}
+                </a>
+        </div>
     </div>
 </script>
 
@@ -187,13 +207,21 @@
                 <li class="sort_helper" sort="{{= $value.Id}}">
                     <input type="hidden" name="name_flg" value="{{= $value.flg}}" /><input type="hidden" name="name_in" value="{{= $value.Id}}" /><input type="hidden" name="name_title" value="${indicator_type_tid}" />
                     <h2 class="title"><span id="sp_{{= $value.flg}}"></span>、{{= $value.Name}}
-                    {{if $value.QuesType_Id =="1"  ||$value.QuesType_Id =="4" }}
-                       
-                         <span class="isscore"><b>(<input type="number" fl="{{= $value.Name}}下的分数" step="0.01" isrequired="true" id="t_${Id}" value="${OptionF_S_Max}" onkeydown="onlyNum();" flg="sum" class="number" min="0" />分)</b></span>
+                    {{if $value.QuesType_Id ==1  ||$value.QuesType_Id ==4 }}                       
+                         <span class="isscore"><b>(<input type="number" fl="{{= $value.Name}}下的分数" step="0.01" isrequired="true" id="t_${Id}" value="${OptionF_S_Max}" onkeydown="onlyNum();" flg="sum" class="number" min="0" />分) </b></span>
                         {{/if}}
+                             {{if $value.QuesType_Id ==1 }}
+                             【单选题】
+                             {{else $value.QuesType_Id ==2 }}
+                             【多选题】
+                             {{else $value.QuesType_Id ==3 }}
+                             【问答题】
+                             {{else $value.QuesType_Id ==4 }}
+                             【选分题】
+                             {{/if}} 
                     </h2>
                     <div class="test_desc clearfix">
-                        {{if $value.QuesType_Id =="1" ||$value.QuesType_Id =="4"}}
+                        {{if $value.QuesType_Id =="1" }}
                         {{if $value.OptionA!=""}}
                         <span class="fl">
                             <input disabled="disabled" type="radio" name="radio_{{= $value.Id}}" id="radio_{{= $value.Id}}-1" value="" />
@@ -241,41 +269,42 @@
                          {{if $value.OptionA!=""}}
                         <span class="fl">
                             <input disabled="disabled" type="radio" name="radio_{{= $value.Id}}" id="radio_{{= $value.Id}}-1" value="" />
-                            <label for="radio_{{= $value.Id}}-1">{{= $value.OptionA}}</label>                         
+                            <label for="radio_{{= $value.Id}}-1">{{= $value.OptionA}}</label>
                         </span>
                         {{/if}}
                         {{if $value.OptionB!=""}}
                         <span class="fl">
                             <input disabled="disabled" type="radio" name="radio_{{= $value.Id}}" id="radio_{{= $value.Id}}-2" value="" />
-                            <label for="radio_{{= $value.Id}}-2">{{= $value.OptionB}}</label>                           
+                            <label for="radio_{{= $value.Id}}-2">{{= $value.OptionB}}</label>
                         </span>
                         {{/if}}
                         {{if $value.OptionC!=""}}
                         <span class="fl">
                             <input disabled="disabled" type="radio" name="radio_{{= $value.Id}}" id="radio_{{= $value.Id}}-3" value="" />
-                            <label for="radio_{{= $value.Id}}-3">{{= $value.OptionC}}</label>                          
+                            <label for="radio_{{= $value.Id}}-3">{{= $value.OptionC}}</label>
                         </span>
                         {{/if}}
                         {{if $value.OptionD!=""}}
                         <span class="fl">
                             <input disabled="disabled" type="radio" name="radio_{{= $value.Id}}" id="radio_{{= $value.Id}}-4" value="" />
-                            <label for="radio_{{= $value.Id}}-4">{{= $value.OptionD}}</label>                          
+                            <label for="radio_{{= $value.Id}}-4">{{= $value.OptionD}}</label>
                         </span>
                         {{/if}}
                         {{if $value.OptionE!=""}}
                         <span class="fl">
                             <input disabled="disabled" type="radio" name="radio_{{= $value.Id}}" id="radio_{{= $value.Id}}-5" value="" />
-                            <label for="radio_{{= $value.Id}}-5">{{= $value.OptionE}}</label>                           
+                            <label for="radio_{{= $value.Id}}-5">{{= $value.OptionE}}</label>
                         </span>
                         {{/if}}
                         {{if $value.OptionF!=""}}
                         <span class="fl">
                             <input disabled="disabled" type="radio" name="radio_{{= $value.Id}}" id="radio_{{= $value.Id}}-6" value="" />
-                            <label for="radio_{{= $value.Id}}-6">{{= $value.OptionF}}</label>                            
+                            <label for="radio_{{= $value.Id}}-6">{{= $value.OptionF}}</label>
                         </span>
                         {{/if}}
-                         {{else  $value.QuesType_Id =="3" }}
-                         <%--/////////////////////////////////////////////////////////////--%>
+                           {{else  $value.QuesType_Id =="4" }}                       
+                           <input disabled="disabled" name="Name" style="width: 98%; height: 35px;" />
+                        {{else  $value.QuesType_Id =="3" }}                       
                         <textarea disabled="disabled" id="txt_{{= $value.Id}}"></textarea>
                         {{else}}
                         {{/if}}
@@ -299,6 +328,7 @@
 <script src="../../Scripts/layer/layer.js"></script>
 <script src="../../Scripts/jquery.tmpl.js"></script>
 
+<script src="../../Scripts/Sortable.min.js"></script>
 <script src="../../Scripts/WebCenter/TableDesigin.js"></script>
 <script src="../../Scripts/WebCenter/DatabaseMan.js"></script>
 <script type="text/javascript">
@@ -311,6 +341,10 @@
     var list_sheets = [];//试卷节点    t_Id    indicator_array    
     var select_sheet_Id;//当前选择的试卷节点     
     var select_sheet = [];   //当前的试题   
+
+    Type = getQueryString('_Type');
+    CreateUID = login_User.UniqueNo;
+
     //------------------------添加指标【打开窗体】----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
     var index_1 = 0;//主要为了实时统计分，在index为1 的时候显示，否则不显示
     //var select_Array = [];//已经选择的指标，存入此数组，根据此数组，选中已选择的项
@@ -319,16 +353,62 @@
         $('#footer').load('/footer.html');
         $('#threenav a').eq(getQueryString('selected')).addClass('selected').siblings().removeClass('selected');
         UI_Table_Create.Type = (type != '' && type != null && type != undefined) ? Number(type) : 0;
+
         if (UI_Table_Create.Type == 1) {
             $('.crumbs').html('编辑表格');
             UI_Table_View.PageType = 'AddEvalTable';
             UI_Table_View.Get_Eva_TableDetail_Compleate = function (data) { };
             UI_Table_View.Get_Eva_TableDetail();
         }
+
+        if (Type == 1) {
+            $('#nav').empty();
+            $("#itemNav").tmpl(1).appendTo("#nav");
+
+            $('.table_header').hide();
+        }
+
+
         //初始化准备
         UI_Table_Create.PrepareInit();
         //取消
         $("#cancel,.reback").click(function () { history.go(-1); })
+
+
+        var el = document.getElementById('list');
+        var sortable = Sortable.create(el, {
+            onUpdate: function (evt) {
+
+                var list_ar = [];
+                $('#list label').each(function () {
+                    var that = $(this);
+                    var lis = UI_Table_Create.head_value.filter(function (item) { return item.id == that.attr('t_id') });
+                    if (lis.length > 0) {
+                        list_ar.push(lis[0]);
+                    }
+                });
+                UI_Table_Create.head_value = list_ar;
+            }
+        });
+
+        var e2 = document.getElementById('list2');
+        var sortable2 = Sortable.create(e2, {
+            onUpdate: function (evt) {
+
+                var list_ar = [];
+                $('#list2 label').each(function () {
+                    var that = $(this);
+                    var lis = lisss.filter(function (item) { return item.t_Id == that.attr('t_id') });
+                    if (lis.length > 0) {
+                        list_ar.push(lis[0]);
+                    }
+                });
+
+                lisss = list_ar;
+            }
+        });
+
+
     });
     //-----------数据填充----------------------------------------------------------
     //回调函数（子页面调的回调函数）

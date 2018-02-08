@@ -91,6 +91,8 @@
     <link href="../Scripts/choosen/chosen.css" rel="stylesheet" />
     <script src="../Scripts/choosen/chosen.jquery.js"></script>
     <script src="../Scripts/choosen/prism.js"></script>
+    <script src="../Scripts/linq.min.js"></script>
+
 
     <script src="../Scripts/public.js"></script>
     <script src="../Scripts/WebCenter/Base.js"></script>
@@ -107,7 +109,7 @@
             <td title="${Course_Name}" style="width: 15%">${cutstr(CourseName,30)}</td>
             <td style="width: 30%" title="${TableName}">${cutstr(TableName,45)}</td>
             <td style="width: 7%">${AnswerName}</td>
-            <td style="width: 5%">${Score}</td>
+            <td style="width: 5%">${Score.toFixed(2)}</td>
             {{if State == 1}}
             <td style="width: 5%"><span class="nosubmit">未提交</span></td>
             {{else State == 2}}
@@ -139,7 +141,16 @@
     </script>
     <script>
         var reguType = 1;
+
+
         $(function () {
+            Get_PageBtn("/Evaluation/TaskAllot.aspx");
+
+            eva_check_depart = JudgeBtn_IsExist("eva_check_depart")
+             , eva_check_school = JudgeBtn_IsExist("eva_check_school")
+             , eva_check_indepart = JudgeBtn_IsExist("eva_check_indepart");
+
+          
             $('#top').load('/header.html');
             $('#footer').load('/footer.html');
             Mode = 2;
@@ -181,8 +192,10 @@
         function Reflesh() {
             var SectionID = $('#section').val();
             var Key = $('#Key').val();
+            Key = Key != undefined ? Key.trim() : '';
             var DepartmentID = $('#DepartMent').val();
             var TableID = $('#table').val();
+           
             Get_Eva_QuestionAnswer(pageIndex, SectionID, DepartmentID, Key, TableID);
         }
       

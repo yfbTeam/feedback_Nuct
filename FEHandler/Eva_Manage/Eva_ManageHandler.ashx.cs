@@ -83,6 +83,8 @@ namespace FEHandler.Eva_Manage
 
                     #endregion
 
+                        
+
                     #region 表格
 
                     //获取表格
@@ -142,6 +144,10 @@ namespace FEHandler.Eva_Manage
                     //筛选
                     case "Get_Eva_RegularDataSelect": Get_Eva_RegularDataSelect(context); break;
                     case "Get_Eva_RegularData_Room": Get_Eva_RegularData_Room(context); break;
+
+                        ///课堂评价扫码
+                    case "Get_Eva_RegularData_Stu": Get_Eva_RegularData_Stu(context); break;
+
                     case "Get_Eva_RegularData_RoomDetailList": Get_Eva_RegularData_RoomDetailList(context); break;
                     case "Get_Eva_RoomDetailAnswerList": Get_Eva_RoomDetailAnswerList(context); break;
 

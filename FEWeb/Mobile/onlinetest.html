@@ -175,7 +175,7 @@
                     </h1>
                     <ul id="ul_ques_<%=titem.Id%>" class="radios maxques">
                         <% if(titem.OptionA!=""){ %>
-                        <li lioption="OptionA">
+                        <li class="single" lioption="OptionA">
                             <span>
                                 A<input type="radio" flv="OptionA" name="name_<%=titem.Id%>" value="<%=titem.OptionA_S%>" />
                             </span>
@@ -183,7 +183,7 @@
                         </li>
                         <% } %>
                         <% if(titem.OptionB!=""){ %>
-                        <li lioption="OptionB">
+                        <li class="single" lioption="OptionB">
                             <span>
                                 B<input type="radio" flv="OptionB" name="name_<%=titem.Id%>" value="<%=titem.OptionB_S%>" />
                             </span>
@@ -191,7 +191,7 @@
                         </li>
                         <% } %>
                         <% if(titem.OptionC!=""){ %>
-                        <li lioption="OptionC">
+                        <li class="single" lioption="OptionC">
                             <span>
                                 C<input type="radio" flv="OptionC" name="name_<%=titem.Id%>" value="<%=titem.OptionC_S%>" />
                             </span>
@@ -199,7 +199,7 @@
                         </li>
                         <% } %>
                         <% if(titem.OptionD!=""){ %>
-                        <li lioption="OptionD">
+                        <li class="single" lioption="OptionD">
                             <span>
                                 D<input type="radio" flv="OptionD" name="name_<%=titem.Id%>" value="<%=titem.OptionD_S%>" />
                             </span>
@@ -207,7 +207,7 @@
                         </li>
                         <% } %>
                         <% if(titem.OptionE!=""){ %>
-                        <li lioption="OptionE">
+                        <li class="single" lioption="OptionE">
                             <span>
                                 E<input type="radio" flv="OptionE" name="name_<%=titem.Id%>" value="<%=titem.OptionE_S%>" />
                             </span>
@@ -215,7 +215,7 @@
                         </li>
                         <% } %>
                         <% if(titem.OptionF!=""){ %>
-                        <li lioption="OptionF">
+                        <li class="single" lioption="OptionF">
                             <span>
                                 F<input type="radio" flv="OptionF" name="name_<%=titem.Id%>" value="<%=titem.OptionF_S%>" />
                             </span>
@@ -224,6 +224,68 @@
                         <% } %>
                     </ul>
                 </div>
+
+
+
+                <% }else if(titem.QuesType_Id ==2){ %>
+                <div id="div_ques_<%=titem.Id%>" class="test_detail checkboxs">
+                    <h1 class="test_type">
+                        <b class="order_num"><%=(++tindex)%>.</b><b><%=titem.Name%></b>
+
+                    </h1>
+                    <ul id="ul_ques_<%=titem.Id%>" class="radios maxques">
+                        <% if(titem.OptionA!=""){ %>
+                        <li class="muti" lioption="OptionA">
+                            <span>
+                                A<input type="radio" flv="OptionA" value="<%=titem.OptionA_S%>" />
+                            </span>
+                            <div><%=titem.OptionA%></div>
+                        </li>
+                        <% } %>
+                        <% if(titem.OptionB!=""){ %>
+                        <li class="muti" lioption="OptionB">
+                            <span>
+                                B<input type="radio" flv="OptionB" value="<%=titem.OptionB_S%>" />
+                            </span>
+                            <div><%=titem.OptionB%></div>
+                        </li>
+                        <% } %>
+                        <% if(titem.OptionC!=""){ %>
+                        <li class="muti" lioption="OptionC">
+                            <span>
+                                C<input type="radio" flv="OptionC" value="<%=titem.OptionC_S%>" />
+                            </span>
+                            <div><%=titem.OptionC%></div>
+                        </li>
+                        <% } %>
+                        <% if(titem.OptionD!=""){ %>
+                        <li class="muti" lioption="OptionD">
+                            <span>
+                                D<input type="radio" flv="OptionD" value="<%=titem.OptionD_S%>" />
+                            </span>
+                            <div><%=titem.OptionD%></div>
+                        </li>
+                        <% } %>
+                        <% if(titem.OptionE!=""){ %>
+                        <li class="muti" lioption="OptionE">
+                            <span>
+                                E<input type="radio" flv="OptionE" value="<%=titem.OptionE_S%>" />
+                            </span>
+                            <div><%=titem.OptionE%></div>
+                        </li>
+                        <% } %>
+                        <% if(titem.OptionF!=""){ %>
+                        <li class="muti" lioption="OptionF">
+                            <span>
+                                F<input type="radio" flv="OptionF" value="<%=titem.OptionF_S%>" />
+                            </span>
+                            <div><%=titem.OptionF%></div>
+                        </li>
+                        <% } %>
+                    </ul>
+                </div>
+
+
                 <% }else if(titem.QuesType_Id ==3){ %>
                 <div id="div_ques_<%=titem.Id%>" class="test_detail">
                     <h1 class="test_type">
@@ -279,7 +341,8 @@
 
             RoomID = getQueryString('rId');
             ReguID = getQueryString('ReguID');
-
+            Eva_Role = getQueryString('Eva_Role');
+           
             UI_Table_View.PageType = 'onlinetest';
             UI_Table_View.IsPage_Display = true;
             UI_Table_View.Get_Eva_TableDetail_Compleate = function (retData) {
@@ -307,7 +370,7 @@
 
                     var DepartmentName = info.DepartmentName;
 
-                    Eva_Role = 2;
+                  
                     HeaderList = [];
 
                     $('#section').text(cutstr(DisplayName, 8));
@@ -356,8 +419,7 @@
                 HeaderList.push(obj);
             });
 
-            Type = 3;
-            Eva_Role = 2;
+            Type = 3;         
             Is_AddQuesType = true;
             SubmitQuestionCompleate = function () {
                 MesTips('提交成功');

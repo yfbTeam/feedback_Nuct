@@ -293,7 +293,7 @@ function GetScore_Answer() { //查看试卷-设置分数
 function InitControl(isscore) { //答题-控件初始化
     isscore = arguments[0] || 0;
     //多选题 修改
-    $('.checkboxs li').on('tap', function () {
+    $('.checkboxs .muti').on('tap', function () {
         if ($(this).hasClass('on')) {
             $(this).removeClass('on');
             $(this).find('input').prop('checked', false);
@@ -301,10 +301,12 @@ function InitControl(isscore) { //答题-控件初始化
             $(this).addClass('on');
             $(this).find('input').prop('checked', true);
         }
+
+       
     });
 
     //单选题
-    $('.radios li').on('tap', function () {
+    $('.radios .single').on('tap', function () {
         $(this).addClass('on').siblings().removeClass('on');
         $(this).find('input').prop('checked', true);
         if (isscore == 0) {
@@ -313,14 +315,12 @@ function InitControl(isscore) { //答题-控件初始化
     });
 
     $('.test_detail').find('input[class="number"]').on('blur', function () {
-
         if (isscore == 0) {
             inicontrol_helper();
         }
     });
 
     $('.test_detail').find('input[class="number"]').on('tap', function () {
-
         if (isscore == 0) {
             inicontrol_helper();
         }

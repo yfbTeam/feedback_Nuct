@@ -12,5 +12,7 @@ namespace FEModel.Enum
         Check = 2,
         Look = 3,
 
+        Common =4,
+
     }
 }

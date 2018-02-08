@@ -9,9 +9,63 @@
     <link rel="stylesheet" href="../../css/reset.css" />
     <link rel="stylesheet" href="../../css/layout.css" />
     <script src="../../Scripts/jquery-1.11.2.min.js"></script>
-    
+     
 
-    <script type="text/x-jquery-tmpl" id="item_eva">
+   
+</head>
+<body>
+     <div id="top"></div>
+    <div class="center" id="centerwrap">
+        <div class="wrap clearfix">
+             <div class="sort_nav" id="threenav">
+                
+            </div>
+            <div class="search_toobar clearfix mt10">
+                <div class="fl">
+                    <input type="text" name="key" id="key" placeholder="请输入关键字" value="" class="text fl" style="height: 31px;">
+                    <a class="search fl" href="javascript:search();" style="height: 31px;"><i class="iconfont">&#xe600;</i></a>
+                </div>
+                <div class="fr">
+                    <input type="button" name="" id="tabledesign_add" style="" value="新增评价表" class="btn" onclick="NewEval()">
+                </div>
+            </div>
+            <div class="table">
+                <table>
+                    <thead>
+                        <tr>
+                            <th style="text-align: left; padding-left: 20px;">评价表名称	    	 		 				 					 					   	
+                            </th>
+                            <th width="8%">是否记分
+                            </th>
+                            <th width="8%">引用次数
+                            </th>
+                            <th width="8%">状态
+                            </th>
+                            <th width="8%">创建人
+                            </th>
+                            <th width="8%">创建时间
+                            </th>
+                            <th width="20%">操作
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody id="tb_eva">
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+    </div>
+    <footer id="footer"></footer>
+    <script src="../../Scripts/Common.js"></script>
+    <script src="../../Scripts/public.js"></script>
+    
+    <script src="../../Scripts/linq.min.js"></script>
+    <script src="../../Scripts/layer/layer.js"></script>
+    <script src="../../Scripts/jquery.tmpl.js"></script>
+    <script src="../../Scripts/WebCenter/TableDesigin.js"></script>
+
+     <script type="text/x-jquery-tmpl" id="item_eva">
 
         <tr>
             <td style="text-align: left; padding-left: 20px;">${t.Name}</td>
@@ -88,67 +142,15 @@
             </td>
         </tr>
     </script>
-</head>
-<body>
-     <div id="top"></div>
-    <div class="center" id="centerwrap">
-        <div class="wrap clearfix">
-             <div class="sort_nav" id="threenav">
-                
-            </div>
-            <div class="search_toobar clearfix mt10">
-                <div class="fl">
-                    <input type="text" name="key" id="key" placeholder="请输入关键字" value="" class="text fl" style="height: 31px;">
-                    <a class="search fl" href="javascript:search();" style="height: 31px;"><i class="iconfont">&#xe600;</i></a>
-                </div>
-                <div class="fr">
-                    <input type="button" name="" id="tabledesign_add" style="" value="新增评价表" class="btn" onclick="NewEval()">
-                </div>
-            </div>
-            <div class="table">
-                <table>
-                    <thead>
-                        <tr>
-                            <th style="text-align: left; padding-left: 20px;">评价表名称	    	 		 				 					 					   	
-                            </th>
-                            <th width="8%">是否记分
-                            </th>
-                            <th width="8%">引用次数
-                            </th>
-                            <th width="8%">状态
-                            </th>
-                            <th width="8%">创建人
-                            </th>
-                            <th width="8%">创建时间
-                            </th>
-                            <th width="20%">操作
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody id="tb_eva">
-                    </tbody>
-                </table>
-            </div>
 
-        </div>
-    </div>
-    <footer id="footer"></footer>
-    <script src="../../Scripts/Common.js"></script>
-    <script src="../../Scripts/public.js"></script>
-    
-    <script src="../../Scripts/linq.min.js"></script>
-    <script src="../../Scripts/layer/layer.js"></script>
-    <script src="../../Scripts/jquery.tmpl.js"></script>
-    <script src="../../Scripts/WebCenter/TableDesigin.js"></script>
-    <script>
-        $(function () {
-            $('#top').load('../../header.html');
-            $('#footer').load('../../footer.html');
-        })
-    </script>
+  
     <script>
         var Eva_Role = get_Eva_Role_by_rid();
         $(function () {
+
+            $('#top').load('../../header.html');
+            $('#footer').load('../../footer.html');
+
             tableSlide();
             initdata();           
         })

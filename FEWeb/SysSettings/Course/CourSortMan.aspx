@@ -61,7 +61,7 @@
                     </h1>
                     <ul class="menu_list" id="menu_listscours">
                     </ul>
-                    <%--  <input type="button" value="新增分类" style="display: block" class="new" onclick="OpenIFrameWindow('新增分类', 'AddCourseSort.aspx', '500px', '200px')" />--%>
+
                 </div>
                 <div class="sort_right fr mr" style="margin-left: -20px">
                     <div class="search_toobar clearfix">
@@ -77,12 +77,13 @@
                             <thead>
                                 <tr>
                                     <th style="width: 10%;">课程编码</th>
-                                    <th style="width: 20%;">课程名称</th>
+                                    <th style="width: 15%;">课程名称</th>
                                     <th style="width: 10%;">排课分类</th>
                                     <th style="width: 10%;">课程性质</th>
-                                    <th>任务性质</th>
+                                    <th style="width: 10%;">任务性质</th>
                                     <th style="width: 15%;">部门</th>
                                     <th style="width: 15%;">子部门</th>
+                                    <th style="width: 10%;">课程分类</th>
                                     <th style="width: 10%;">操作</th>
                                 </tr>
                             </thead>
@@ -114,21 +115,29 @@
             <td>${TaskProperty}</td>
             <td title="${DepartmentName}">${cutstr(DepartmentName,15)}</td>
             <td title="${SubDepartmentName.trim()}">${cutstr(SubDepartmentName.trim(),15)}</td>
-            <td>
-                <div class="operate" onclick="removeCourseDis('${CourseRelID}','${Course_Name}')">
-                    <i class="iconfont color_purple">&#xe798;</i>
-                    <span class="operate_none bg_purple" style="display: none;">移除      
-                    </span>
-                </div>
+            <td>${CourseRel_Name}</td>
+            <td>{{if CourseRel_Id ==''}}
+                 <div class="operate">
+                     <i class="iconfont color_gray">&#xe798;</i>
+                     <span class="operate_none bg_gray" style="display: none;">移除      
+                     </span>
+                 </div>
+                {{else}}
+                 <div class="operate" onclick="removeCourseDis('${CourseRelID}','${Course_Name}')">
+                     <i class="iconfont color_purple">&#xe798;</i>
+                     <span class="operate_none bg_purple" style="display: none;">移除      
+                     </span>
+                 </div>
+                {{/if}}               
             </td>
         </tr>
     </script>
     <script id="course_item" type="text/x-jquery-tmpl">
         <li sectionid='${course_parent.SectionId}'>
-            <span>${course_parent.DisPlayName}<i class="iconfont">&#xe643;</i></span>
+            <span onclick="GetCourseinfoBySortManType('{{= course_parent.SectionId}}')">${course_parent.DisPlayName}<i class="iconfont">&#xe643;</i></span>
             <ul>
                 {{each objectlist}}
-                <li regustate="${ReguState}">
+                <li class="typeli" regustate="${ReguState}">
                     <em title="{{= $value.Value}}" onclick="GetCourseinfoBySortMan('{{= $value.Key}}','{{= $value.Value}}','{{= $value.SectionId}}')">{{= cutstr($value.Value,10)}}</em>
 
                     {{if ReguState == 3}}                        
@@ -158,7 +167,7 @@
                 {{if course_parent.Study_IsEnable == 0}}
                   <input type="button" value="新增分类" style="display: block" class="new" onclick="OpenIFrameWindow('新增分类', 'AddCourseSort.aspx?itemid=0&SectionId={{= course_parent.SectionId}}&IsEnable=0', '500px', '280px')" />
                 {{else course_parent.Study_IsEnable== 1}}
-                  <input type="button" value="新增评价" style="display: block; background: #A8A8A8" class="new" />
+                  <input type="button" value="新增分类" style="display: block; background: #A8A8A8" class="new" />
                 {{/if}}
               
             </ul>
@@ -175,7 +184,8 @@
     </script>
 
     <script type="text/x-jquery-tmpl" id="itemAllotNo">
-        <input type="button" value="分配评价表" class="btn mr10" style="background: #A8A8A8" />
+        <%-- <input type="button" value="分配评价表" class="btn mr10" style="background: #A8A8A8" />--%>
+        <input type="button" value="分配评价表" class="btn mr10" onclick="OpenTableAllot(-1)" />
         <input type="button" name="" value="分配课程" class="btn" style="background: #A8A8A8">
     </script>
 </body>
@@ -199,7 +209,7 @@
         UI_Course.PageType = 'CourSortMan';
 
         UI_Course.GetCourse_Type();
-      
+
     });
     function menu_list() {
         UI_Course.menu_list();
@@ -224,12 +234,26 @@
         pageIndex = 0;
         UI_Course.select_CourseTypeId = key;
         UI_Course.select_CourseTypeName = value;
-        var key = $("#select_where").val();
+        var key = $("#select_where").val().trim();
+
         UI_Course.GetCourseInfo(pageIndex, select_sectionid, key, select_CourseTypeId);
     }
+
+    //点击课程分类
+    function GetCourseinfoBySortManType(SectionId) {
+        select_CourseTypeId = -1;
+        select_CourseTypeName = '';
+        select_sectionid = SectionId;
+        pageIndex = 0;
+        UI_Course.select_CourseTypeId = -1;
+        UI_Course.select_CourseTypeName = '';
+        var key = $("#select_where").val().trim();
+        UI_Course.GetCourseInfo(pageIndex, select_sectionid, key, select_CourseTypeId);
+    }
+
     //搜索
     function all_change() {
-        var key = $("#select_where").val();
+        var key = $("#select_where").val().trim();
         UI_Course.GetCourseInfo(pageIndex, select_sectionid, key, select_CourseTypeId);
     }
     //分配课程
@@ -244,8 +268,8 @@
         }, function () { UI_Course.remove(id) });
     }
 
-    function OpenTableAllot() {
-        OpenIFrameWindow('分配表格', 'EvalTableAllot.aspx?Id=' + getQueryString('Id') + '&Iid=' + getQueryString('Iid') + '&select_CourseTypeId=' + select_CourseTypeId + '&select_CourseTypeName=' + select_CourseTypeName, '1000px', '650px');
+    function OpenTableAllot(state) {
+        OpenIFrameWindow('分配表格', 'EvalTableAllot.aspx?Id=' + getQueryString('Id') + '&Iid=' + getQueryString('Iid') + '&select_CourseTypeId=' + select_CourseTypeId + '&select_CourseTypeName=' + select_CourseTypeName + '&state=' + state, '1000px', '650px');
     }
 </script>
 

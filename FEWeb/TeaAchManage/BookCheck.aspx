@@ -60,15 +60,15 @@
                 <table>
                     <thead>
                         <tr>
-                            <th>书号</th>
-                            <th>书名</th>
-                            <th>分册情况</th>
-                            <th>主编姓名</th>
-                            <th>教材类型</th>
-                            <th>审核状态</th>                            
-                            <th>版次</th>
-                            <th>出版时间</th>
-                            <th>操作</th>
+                            <th width="29%">书号</th>
+                            <th width="29%">书名</th>
+                            <th width="6%">分册情况</th>
+                            <th width="6%">主编姓名</th>
+                            <th width="6%">教材类型</th>
+                            <th width="6%">审核状态</th>                            
+                            <th width="6%">版次</th>
+                            <th width="6%">出版时间</th>
+                            <th width="6%">操作</th>
                         </tr>
                     </thead>
                     <tbody id="tb_Book"></tbody>
@@ -102,7 +102,7 @@
         });
         function Book(startIndex, pageSize) {
             $("#tb_Book").empty();
-            var parmsData = { "Func": "GetTPM_BookStory", "Status": "1", BookType: $("#BookType").val(), "Name": $("#Key").val(),PageIndex: startIndex, pageSize: pageSize };
+            var parmsData = { "Func": "GetTPM_BookStory", "Status": "1", BookType: $("#BookType").val(), "Name": $("#key").val().trim(),PageIndex: startIndex, pageSize: pageSize };
             if (!list_book_auditall) {
                 parmsData["Major_ID"] = loginUser.Major_ID;
             }

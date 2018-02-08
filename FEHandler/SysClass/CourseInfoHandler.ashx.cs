@@ -331,7 +331,7 @@ namespace FEHandler.SysClass
 
                 string dictiontypevalue = Convert.ToString((int)dictiontype);
                 var courrel = (from CourseRel_ in CourseRel_List
-                               where CourseRel_.StudySection_Id == SectionId && CourseRel_.CourseType_Id == CourseTypeID
+                               where CourseRel_.StudySection_Id == SectionId 
                                join Sys_Dictionary_ in Sys_Dictionary_List.Where(i => i.Type == dictiontypevalue) on CourseRel_.CourseType_Id equals Sys_Dictionary_.Key
                                where Sys_Dictionary_.SectionId == SectionId
                                select new
@@ -340,10 +340,18 @@ namespace FEHandler.SysClass
                                    CourseRel_.Course_Id,
                                    Sys_Dictionary_.Value,
                                    Sys_Dictionary_.IsEnable,
-                                   CourseRelID = CourseRel_.Id
+                                   CourseRelID = CourseRel_.Id,                                   
                                }).ToList();
+
+                
+                if (CourseTypeID != "-1")
+                {                    
+                    courrel = (from c in courrel where  c.CourseType_Id ==CourseTypeID select c ).ToList();
+                }
+
                 var query = (from Course_ in Course_List
-                             join cr in courrel on Course_.UniqueNo equals cr.Course_Id
+                             join cr_ in courrel on Course_.UniqueNo equals cr_.Course_Id into crlist
+                             from cr in crlist.DefaultIfEmpty()
                              orderby Course_.IsEnable
                              select new
                              {
@@ -365,7 +373,11 @@ namespace FEHandler.SysClass
                                  SubDepartmentName = Course_.SubDepartmentName,
                                  CourseProperty = Course_.CourseProperty,
                              }).ToList();
-
+                if (CourseTypeID != "-1")
+                {
+                    query = (from q in query where q.CourseRel_Id != "" select q).ToList();
+                }
+                            
                 if (Key != "")
                 {
                     query = (from qu in query
@@ -477,6 +489,13 @@ namespace FEHandler.SysClass
                                   DepartMentID = q.DepartMentID,
                                   DepartmentName = q.DepartmentName
                               }).Distinct(new DepartmentSelectComparer()).ToList(),
+
+                    SDPList = (from q in query
+                              select new DepartmentSelect()
+                              {
+                                  DepartMentID = q.SubDepartmentID,
+                                  DepartmentName = q.SubDepartmentName
+                              }).Distinct(new DepartmentSelectComparer()).ToList(),
                 };
 
 
@@ -510,8 +529,10 @@ namespace FEHandler.SysClass
                 string ck = RequestHelper.string_transfer(request, "ck");
                 string cp = RequestHelper.string_transfer(request, "cp");
                 string dp = RequestHelper.string_transfer(request, "dp");
+                string sdp = RequestHelper.string_transfer(request, "sdp");
+                
 
-                jsonModel = GetNoDis_CourseInfoHelper(PageIndex, PageSize, Major_Id, SectionId, Key, pk, ck, cp, dp);
+                jsonModel = GetNoDis_CourseInfoHelper(PageIndex, PageSize, Major_Id, SectionId, Key, pk, ck, cp, dp,sdp);
             }
             catch (Exception ex)
             {
@@ -524,7 +545,7 @@ namespace FEHandler.SysClass
             }
         }
 
-        public static JsonModelNum GetNoDis_CourseInfoHelper(int PageIndex, int PageSize, string Major_Id, int SectionId, string Key, string pk, string ck, string cp, string dp)
+        public static JsonModelNum GetNoDis_CourseInfoHelper(int PageIndex, int PageSize, string Major_Id, int SectionId, string Key, string pk, string ck, string cp, string dp, string sdp)
         {
             JsonModelNum jsm = new JsonModelNum();
             int intSuccess = (int)errNum.Success;
@@ -555,6 +576,11 @@ namespace FEHandler.SysClass
                 if (dp != "")
                 {
                     Course_List = (from course in Course_List where course.DepartMentID == dp select course).ToList();
+                }
+
+                if (sdp != "")
+                {
+                    Course_List = (from course in Course_List where course.SubDepartmentID == sdp select course).ToList();
                 }
 
                 var query = (from Course_ in Course_List

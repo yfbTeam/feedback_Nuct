@@ -9,8 +9,9 @@
     <link href="../../css/reset.css" rel="stylesheet" />
     <link href="../../css/layout.css" rel="stylesheet" />
     <link href="../../css/fixed-table.css" rel="stylesheet" />
-    <script src="../../Scripts/jquery-1.11.2.min.js"></script>
 
+    <script src="../../Scripts/jquery-1.11.2.min.js"></script>
+    <link href="../../css/layui.css" rel="stylesheet" />
     <style>
         .chosen-drop {
             color: black;
@@ -99,6 +100,8 @@
 
 <body>
     <div class="main">
+
+
         <div class="InitiateEval" style="height: 500px;">
             <div class="search_toobar clearfix">
                 <div class="fl selectdiv">
@@ -154,15 +157,16 @@
                 </div>
                 <div class="fl selectdiv">
                     <label>年龄：</label>
-                    <input type="number" value="0" onkeydown="onlyNum();" class="number" min="0" max="120" step="1">
+                    <input type="number" id="BirthdayS" value="0" onkeydown="onlyNum();" class="number" min="0" max="120" step="1">
                     <span style="padding-left: 10px;">~</span>
-                    <input type="number" value="120" onkeydown="onlyNum();" class="number" min="0" max="120" step="1">
+                    <input type="number" id="BirthdayE" value="120" onkeydown="onlyNum();" class="number" min="0" max="120" step="1">
                 </div>
+
                 <div class="fl selectdiv">
                     <label>校龄：</label>
-                    <input type="number" value="0" onkeydown="onlyNum();" class="number" min="0" max="120" step="1">
+                    <input type="number" id="SchoolS" value="0" onkeydown="onlyNum();" class="number" min="0" max="120" step="1">
                     <span style="padding-left: 10px;">~</span>
-                    <input type="number" value="120" onkeydown="onlyNum();" class="number" min="0" max="120" step="1">
+                    <input type="number" id="SchoolE" value="120" onkeydown="onlyNum();" class="number" min="0" max="120" step="1">
                 </div>
 
 
@@ -183,43 +187,118 @@
                                     <div class="table-cell w-10"></div>
                                 </th>
                                 <th>
-                                    <div class="table-cell w-30">序号</div>
+
+                                    <div class="table-cell w-30">
+                                        <span>序号</span>
+                                    </div>
                                 </th>
                                 <th>
-                                    <div class="table-cell w-150">开课部门</div>
+                                    <div class="table-cell w-150" id="S_DP">
+                                        开课部门
+                                          <span class="layui-table-sort layui-inline" lay-sort="" sorttype="0">
+                                              <i class="layui-edge layui-table-sort-asc"></i>
+                                              <i class="layui-edge layui-table-sort-desc"></i>
+                                          </span>
+                                    </div>
                                 </th>
                                 <th>
-                                    <div class="table-cell w-100">课程名称</div>
+                                    <div class="table-cell w-100" id="S_CN">
+                                        课程名称
+                                        <span class="layui-table-sort layui-inline" lay-sort="" sorttype ="0">
+                                            <i class="layui-edge layui-table-sort-asc"></i>
+                                            <i class="layui-edge layui-table-sort-desc"></i>
+                                        </span>
+                                    </div>
                                 </th>
                                 <th>
-                                    <div class="table-cell w-100">课程类别</div>
+                                    <div class="table-cell w-100" id="S_CT">
+                                        课程类别
+                                         <span class="layui-table-sort layui-inline" lay-sort="" sorttype ="0">
+                                             <i class="layui-edge layui-table-sort-asc"></i>
+                                             <i class="layui-edge layui-table-sort-desc"></i>
+                                         </span>
+                                    </div>
                                 </th>
                                 <th>
-                                    <div class="table-cell w-70">课程性质</div>
+                                    <div class="table-cell w-70" id="S_CP">
+                                        课程性质
+                                         <span class="layui-table-sort layui-inline" lay-sort="" sorttype ="0">
+                                             <i class="layui-edge layui-table-sort-asc"></i>
+                                             <i class="layui-edge layui-table-sort-desc"></i>
+                                         </span>
+                                    </div>
                                 </th>
                                 <th>
-                                    <div class="table-cell w-150">教师所属部门</div>
+                                    <div class="table-cell w-150" id="S_TD">
+                                        教师所属部门
+                                         <span class="layui-table-sort layui-inline" lay-sort="" sorttype ="0">
+                                             <i class="layui-edge layui-table-sort-asc"></i>
+                                             <i class="layui-edge layui-table-sort-desc"></i>
+                                         </span>
+                                    </div>
                                 </th>
                                 <th>
-                                    <div class="table-cell w-100">教师姓名</div>
+                                    <div class="table-cell w-100" id="S_TN">
+                                        教师姓名
+                                         <span class="layui-table-sort layui-inline" lay-sort="" sorttype ="0">
+                                             <i class="layui-edge layui-table-sort-asc"></i>
+                                             <i class="layui-edge layui-table-sort-desc"></i>
+                                         </span>
+                                    </div>
                                 </th>
                                 <th>
-                                    <div class="table-cell w-150">专业部门</div>
+                                    <div class="table-cell w-150" id="S_MD">
+                                        专业部门
+                                         <span class="layui-table-sort layui-inline" lay-sort="" sorttype ="0">
+                                             <i class="layui-edge layui-table-sort-asc"></i>
+                                             <i class="layui-edge layui-table-sort-desc"></i>
+                                         </span>
+                                    </div>
                                 </th>
                                 <th>
-                                    <div class="table-cell w-100">年级</div>
+                                    <div class="table-cell w-100" id="S_GD">
+                                        年级
+                                         <span class="layui-table-sort layui-inline" lay-sort="" sorttype ="0">
+                                             <i class="layui-edge layui-table-sort-asc"></i>
+                                             <i class="layui-edge layui-table-sort-desc"></i>
+                                         </span>
+                                    </div>
                                 </th>
                                 <th>
-                                    <div class="table-cell w-100">合班</div>
+                                    <div class="table-cell w-100" id="S_CLS">
+                                        合班
+                                         <span class="layui-table-sort layui-inline" lay-sort="" sorttype ="0">
+                                             <i class="layui-edge layui-table-sort-asc"></i>
+                                             <i class="layui-edge layui-table-sort-desc"></i>
+                                         </span>
+                                    </div>
                                 </th>
                                 <th>
-                                    <div class="table-cell w-100">教师职称</div>
+                                    <div class="table-cell w-100" id="S_TJ">
+                                        教师职称
+                                         <span class="layui-table-sort layui-inline" lay-sort="" sorttype ="0">
+                                             <i class="layui-edge layui-table-sort-asc"></i>
+                                             <i class="layui-edge layui-table-sort-desc"></i>
+                                         </span>
+                                    </div>
                                 </th>
                                 <th>
-                                    <div class="table-cell w-100">年龄</div>
+                                    <div class="table-cell w-100" id="S_BR">
+                                        年龄
+                                         <span class="layui-table-sort layui-inline" lay-sort="" sorttype ="0">
+                                             <i class="layui-edge layui-table-sort-asc"></i>
+                                             <i class="layui-edge layui-table-sort-desc"></i>
+                                         </span>
+                                    </div>
                                 </th>
                                 <th>
-                                    <div class="table-cell w-100">校龄</div>
+                                    <div class="table-cell w-100" id="S_SY">
+                                        校龄
+                                         <span class="layui-table-sort layui-inline" lay-sort="" sorttype ="0">
+                                             <i class="layui-edge layui-table-sort-asc"></i>
+                                             <i class="layui-edge layui-table-sort-desc"></i>
+                                         </span>
+                                    </div>
                                 </th>
 
 
@@ -268,7 +347,7 @@
         <tr>
             <td>
                 <div class="table-cell w-10">
-                    <input class="checkbox" type="checkbox" />
+                    <input courseid="${CourseID}" course_name="${Course_Name}" teacheruid="${TeacherUID}" teacher_name="${Teacher_Name}" class="checkbox" type="checkbox" />
                 </div>
             </td>
             <td>
@@ -340,6 +419,7 @@
         var pageIndex = 0;
         $(function () {
 
+
             selectExpertUID = login_User.UniqueNo;
             selectExpertName = login_User.Name;
 
@@ -347,17 +427,36 @@
             Groups = 6;
             size = 12;
             height = 263;
+            ClassModelType = 1;
 
             PageType = 'StartEval';
-         
+            DepartmentName = login_User.DepartmentName;
+            debugger;
             GetClassInfoSelect();
             $("#DP,#CT,#CP,#TD,#TN,#MD,#GD,#CN").on('change', function () {
                 pageIndex = 0;
                 GetClassInfo(pageIndex);
             });
-           
+
+            $('.number').on('blur', function () {
+                pageIndex = 0;
+
+                BirthdayS = $('#BirthdayS').val();
+                BirthdayE = $('#BirthdayE').val();
+
+                SchoolS = $('#SchoolS').val();
+                SchoolE = $('#SchoolE').val();
+
+                GetClassInfo(pageIndex);
+            });
+
+            $('.number').on('change', function () {
+                $(this).trigger('blur');
+            });
+
+
             PrepareInit();
-           
+
             GetClassInfoCompleate = function () {
                 $('#tbody').find('.checkbox').on('click', function () {
                     $('#tbody').find('.checkbox').prop('checked', false);
@@ -365,6 +464,7 @@
                         $(this).prop('checked', true);
                         $(".btnwrap").empty();
                         $("#btn_yes").tmpl(1).appendTo(".btnwrap");
+                        AddDisOne($(this).attr('CourseID'), $(this).attr('Course_Name'), $(this).attr('TeacherUID'), $(this).attr('Teacher_Name'));
                     }
                 });
 
@@ -374,12 +474,13 @@
             GetClassInfo(pageIndex);
         })
 
-        function search() {
-            Teachers_Reflesh();
-        }
-
         function submit() {
             AddExpert_List_Teacher_Course();
+        }
+
+        function SelectByWhere() {
+            pageIndex = 0;
+            GetClassInfo(pageIndex);
         }
     </script>
 </body>

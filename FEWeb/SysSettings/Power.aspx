@@ -42,9 +42,9 @@
                 <div class="menu fl">
                     <h1 class="titlea">用户组管理
                     </h1>
-                    <ul class="menu_lists" id="ShowUserGroup">
+                    <ul class="menu_lists" id="ShowUserGroup" style="height:510px;overflow:auto;">
                     </ul>
-                    <input type="button" value="新增用户组管理" class="new" onclick="Group_User_Add(1);" />
+
                 </div>
                 <div class="sort_right fr">
                     <div class="search_toobar clearfix">
@@ -62,12 +62,10 @@
                         </div>
 
                         <div class="fl ml10">
-                            <input type="text" name="" id="key" placeholder="请输入编号或者姓名关键字" value="" style="width:200px" class="text fl">
+                            <input type="text" name="" id="key" placeholder="请输入编号或者姓名关键字" value="" style="width: 200px" class="text fl">
                             <a class="search fl" href="javascript:;" onclick="SelectByWhere()"><i class="iconfont">&#xe600;</i></a>
                         </div>
-                        <div class="fr" id="">
-                            <input type="button" name="" id="allotlimit" value="权限分配" class="btn" onclick="PowerAssign();" style="display: none;">
-                            <input type="button" name="" id="allot" value="分配人员" class="btn ml10" onclick="allotpeople()" style="display: none;">
+                        <div class="fr" id="btnpanel">
                         </div>
                     </div>
                     <div class="table">
@@ -141,9 +139,17 @@
     </script>
 
     <script type="text/x-jquery-tmpl" id="li_role">
+        {{if all || rid ==1}}
         <li roleid="${RoleId}" rolename="${RoleName}" onclick="BindDataTo_GetUserinfo(${RoleId},'${RoleName}');">
             <em title="${RoleName}">${RoleName}</em>
 
+            {{if Solid ==0}}
+            <div class="operates">
+                <div class="operate">
+                    <i class="iconfont color_purple">&#xe62b;</i>
+                </div>
+            </div>
+            {{else}}
             <div class="operates">
                 <div class="operate" onclick="Group_User_Add(2,'${RoleId}','${RoleName}');">
                     <i class="iconfont color_purple">&#xe632;</i>
@@ -154,8 +160,23 @@
                     <a class='operate_none bg_purple'>删除</a>
                 </div>
             </div>
-
+            {{/if}}            
         </li>
+        {{else department  && (RoleId ==2 || RoleId ==3|| RoleId ==16)}}
+         <li roleid="${RoleId}" rolename="${RoleName}" onclick="BindDataTo_GetUserinfo(${RoleId},'${RoleName}');">
+             <em title="${RoleName}">${RoleName}</em>
+         </li>
+
+        {{else school && (RoleId ==2 || RoleId ==3|| RoleId ==17) }}
+         <li roleid="${RoleId}" rolename="${RoleName}" onclick="BindDataTo_GetUserinfo(${RoleId},'${RoleName}');">
+             <em title="${RoleName}">${RoleName}</em>
+         </li>
+        {{else RoleId ==2 || RoleId ==3}}        
+         <li roleid="${RoleId}" rolename="${RoleName}" onclick="BindDataTo_GetUserinfo(${RoleId},'${RoleName}');">
+             <em title="${RoleName}">${RoleName}</em>
+         </li>
+
+        {{/if}} 
     </script>
 
     <script type="text/x-jquery-tmpl" id="item_College">
@@ -186,32 +207,41 @@
             <th style="width: 10%">性别</th>
             <th style="width: 30%">部门</th>
             <th style="width: 30%">子部门</th>
+
         </tr>
     </script>
 
-    <script>
+    <script type="text/x-jquery-tmpl" id="btnitem1">
+        {{if all || rid ==1}}
+        <input type="button" name="" id="allotlimit" value="权限分配" class="btn" onclick="PowerAssign();">
+        {{else}}
+        {{/if}} 
+    </script>
 
+    <script type="text/x-jquery-tmpl" id="btnadditem">
+        {{if all || rid ==1}}
+        <input type="button" value="新增用户组管理" class="new" onclick="Group_User_Add(1);" />
+        {{else}}
+        {{/if}} 
+    </script>
+
+    <script type="text/x-jquery-tmpl" id="btnitem2">
+        <input type="button" name="" id="allot" value="分配人员" class="btn ml10" onclick="allotpeople()">
+    </script>
+
+    <script>
+        var colloge = '';
         $(function () {
             $('#top').load('/header.html');
             $('#footer').load('/footer.html');
 
+            limitreflesh();
             ShowUserGroup();
-
+            
             Get_UserByRole_SelectCompleate = function () {
+                departmentreflesh();
                 $('#college').on('change', function () {
-                    pageIndex = 0;
-                    $('#class').empty();
-                    $("#class").append("<option value=''>全部</option>");
-                    var colloge = $('#college').val();
-                    if (colloge != '') {
-                        var list = ClsList.filter(function (item) { return item.Major_ID == colloge });
-                        $("#item_Class").tmpl(list).appendTo($('#class'));
-                    }
-                    else {
-                        $("#item_Class").tmpl(ClsList).appendTo($('#class'));
-
-                    }
-                    ChosenInit($('#class'));
+                    departmentreflesh();
                     BindDataTo_GetUserinfo(CurrentRoleid, CurrentRoleName);
                 });
 
@@ -219,9 +249,31 @@
                     pageIndex = 0;
                     BindDataTo_GetUserinfo(CurrentRoleid, CurrentRoleName);
                 });
+
+                $('#ShowUserGroup').find('li[roleid=' + CurrentRoleid + ']').trigger("click");
             };
             Get_UserByRole_Select();
+
+
         })
+
+        function departmentreflesh()
+        {
+            pageIndex = 0;
+            $('#class').empty();
+            $("#class").append("<option value=''>全部</option>");
+            colloge = $('#college').val();
+
+            if (colloge != '') {
+                var list = ClsList.filter(function (item) { return item.Major_ID == colloge });
+                $("#item_Class").tmpl(list).appendTo($('#class'));
+            }
+            else {
+                $("#item_Class").tmpl(ClsList).appendTo($('#class'));
+            }
+            ChosenInit($('#class'));
+           
+        }
 
         //搜索
         function SelectByWhere() {
@@ -273,18 +325,21 @@
             else {
                 $('#header_tea').tmpl(1).appendTo('#header_th');
             }
-
+            $('#btnpanel').empty();
             //教师不可进行分配人员
             if (CurrentRoleid == 3) {
-                $('#allot,#div_Class').hide();
-                $('#allotlimit,#div_Unit').show();
+                $("#btnitem1").tmpl(1).appendTo('#btnpanel');
+                $('#div_Class').hide();
+                $('#div_Unit').show();
             }
             else if (CurrentRoleid == 2) {
-                $('#allot,#allotlimit').hide();
                 $('#div_Class,#div_Unit').show();
             }
             else {
-                $('#allot,#allotlimit,#div_Unit').show();
+                $("#btnitem1").tmpl(1).appendTo('#btnpanel');
+                $("#btnitem2").tmpl(1).appendTo('#btnpanel');
+
+                $('#div_Unit').show();
                 $('#div_Class').hide();
             }
 
@@ -292,8 +347,20 @@
         };
 
         function allotpeople() {
+            if (department && rid != 1) {
+                OpenIFrameWindow('分配人员', 'AllotPeople.aspx?CurrentRoleid=' + CurrentRoleid + '&CurrentRoleName=' + CurrentRoleName + '&DepartmentID=' + login_User.Major_ID, '1000px', '700px')
+            }
+            else {
+                OpenIFrameWindow('分配人员', 'AllotPeople.aspx?CurrentRoleid=' + CurrentRoleid + '&CurrentRoleName=' + CurrentRoleName, '1000px', '700px')
+            }
+        }
+        function limitreflesh() {
+            Get_PageBtn("/SysSettings/Power.aspx");
+            department = JudgeBtn_IsExist("department");
+            school = JudgeBtn_IsExist("school");
+            all = JudgeBtn_IsExist("all");
 
-            OpenIFrameWindow('分配人员', 'AllotPeople.aspx?CurrentRoleid=' + CurrentRoleid + '&CurrentRoleName=' + CurrentRoleName, '1000px', '700px')
+            rid = login_User.Sys_Role_Id;
         }
     </script>
 

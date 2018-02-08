@@ -8,6 +8,7 @@ namespace FEModel.Enum
 {
     public enum RoleType
     {
+        student =2,
         teacher =3,
 
         department_expert = 16,

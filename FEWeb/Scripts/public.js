@@ -1,3 +1,4 @@
+/// <reference path="Common.js" />
 (function (window) {
     var theUA = window.navigator.userAgent.toLowerCase();
     if ((theUA.match(/msie\s\d+/) && theUA.match(/msie\s\d+/)[0]) || (theUA.match(/trident\s?\d+/) && theUA.match(/trident\s?\d+/)[0])) {
@@ -131,6 +132,26 @@ function BindThreeNav() {
     }
 
 }
+
+function GetFirstNav(Id, Iid) {     
+    var threeNav = getNav(Iid);
+    if (threeNav.length > 0) {
+        var item = threeNav[0];
+        if (isHasElement(item.Url, "?") >= 0) {
+            return item.Url + '&Id=' + Id + '&Iid=' + Iid;
+        }
+        else
+        {
+            return item.Url + '?Id=' + Id + '&Iid=' + Iid;
+        }
+    }
+    else
+    {
+        return null;
+    }
+}
+
+
 //表格操作
 function tableSlide() {
     $('.operate').hover(function () {
@@ -254,6 +275,7 @@ function accAdd(arg1, arg2) {
     m = Math.pow(10, Math.max(r1, r2));
     return (arg1 * m + arg2 * m) / m;
 }
+ 
 
 //获取指标分类【判定当前身份应该获取的指标类型】
 function get_IndicatorType_by_rid() {
@@ -501,6 +523,17 @@ function ChosenInit(select) {
             no_results_text: '未找到',
             search_contains: true
         });
+        
+        setTimeout(function () {
+           
+            var leng = $('.chosen-single').parent().parent().find('.select').find('option').length;
+            if (leng == 0)
+            {
+                $('.chosen-single').find('span').text('请选择');
+            }
+         
+        }, 10);
+
         select.trigger("chosen:updated");//动态更新select下的选择项时，只要在更新选择项后触发Chosen中的chosen:updated事件就可以了
     }
 }
@@ -551,7 +584,7 @@ function incontorl_helper(isscore) {
 
 
 function onlyNum() {
-    if (event.keyCode == 190) {
+    if (event.keyCode == 190 || event.keyCode == 110) {
         event.returnValue = true;
         return;
     }

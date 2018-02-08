@@ -59,19 +59,19 @@ var UI_Allot =
         if (college != "" && college != null && college != undefined) {
             reUserinfoByselect = Enumerable.From(reUserinfoByselect).Where("x=>x.Major_ID=='" + college + "'").ToArray();
         }
-
-        var sw = $("#key").val();
-        if (sw != "") {          
+    
+        var sw = $("#key").val().trim();
+        if (sw != "") {
             reUserinfoByselect = reUserinfoByselect.filter(function (item) { return item.Name.indexOf(sw) > -1 || item.UniqueNo.indexOf(sw) > -1 });
         }
         else {
             //reUserinfoByselect = Enumerable.From(reUserinfoByselect).ToArray();
         }
         UI_Allot.fenye(reUserinfoByselect.length);
-        if (IsAll_Select) {
-            select_uniques = [];
-            reUserinfoByselect.filter(function (item) { select_uniques.push(item.UniqueNo) });
-        }
+        //if (IsAll_Select) {
+        //    select_uniques = [];
+        //    reUserinfoByselect.filter(function (item) { select_uniques.push(item.UniqueNo) });
+        //}
     },
     //-----------分页---------------------------------------------------------------------------------------
 
@@ -93,12 +93,22 @@ var UI_Allot =
 
         var arrRes = Enumerable.From(reUserinfoByselect).Skip(index * pageSize).Take(pageSize).ToArray();
         UI_Allot.BindDataTo_GetUserinfo(arrRes);
+
+
+        $('#tb_indicator').find('input[type="checkbox"]').each(function () {
+            var UniqueNo = $(this).attr('UniqueNo');
+            var lengt = isHasElement(select_uniques, UniqueNo);
+            if (lengt > -1) {
+                $(this).prop('checked', true);
+            }
+        })
         UI_Allot.PageChange_Check();
     },
     data_init: function (roleid) {
         reUserinfoByselect = reUserinfoAll;
 
         select_uniques = [];
+        
         //数组合并
         for (var i = 0; i < reUserinfoByselect.length; i++) {
             var index = isHasElement(reUserinfoByselect_uniques, reUserinfoByselect[i].UniqueNo);
@@ -126,27 +136,21 @@ var UI_Allot =
         $('input:checkbox[name=se]').each(function () {
 
             $(this).on('click', function () {
-                var check = $(this).attr('checked');
+                var check = $(this).prop('checked');
                 var UniqueNo = $(this).attr('UniqueNo');
-                if (check != undefined) {
-                    select_uniques.remove(UniqueNo);
+             
+                if (!check) {                 
                     $(this).removeAttr('checked');
-
-                    var data = reUserinfoAll.filter(function (item) { return item.UniqueNo == UniqueNo });
-                    if (data.length > 0) {
-                        data[0].Roleid = 0;
-                    }
+                    RemoveUnique(UniqueNo);
 
                 }
                 else {
-                    select_uniques.push(UniqueNo)
-                    $(this).attr('checked', 'checked');
-
-                    var data = reUserinfoAll.filter(function (item) { return item.UniqueNo == UniqueNo });
-                    if (data.length > 0) {
-                        data[0].Roleid = CurrentRoleid;
-                    }
+                    $(this).attr('checked', 'checked');                   
+                    AddUnique(UniqueNo);
                 }
+
+
+                UI_Allot.PageChange_Check();
             })
         });
         //var ischeck = $(this).attr('checked')
@@ -183,26 +187,70 @@ var UI_Allot =
     SubmitUserinfo_Compleate: function (result) { },
 
     Check_All: function () {
-        select_uniques = [];
+
+        //select_uniques = [];
         if (IsAll_Select) {
-            $('.table').find('input[type="checkbox"]').attr('checked', false);
+            $('.table').find('input[type="checkbox"]').prop('checked', false);
+          
+            $('#tb_indicator').find('input[type="checkbox"]').each(function () {
+                var UniqueNo = $(this).attr('UniqueNo');
+              
+                RemoveUnique(UniqueNo);
+            })
+         
             IsAll_Select = false;
         }
         else {
-            $('.table').find('input[type="checkbox"]').attr('checked', true);
-            reUserinfoByselect.filter(function (item) { select_uniques.push(item.UniqueNo) });
+            $('.table').find('input[type="checkbox"]').prop('checked', true);
+            $('#tb_indicator').find('input[type="checkbox"]').each(function () {
+                var UniqueNo = $(this).attr('UniqueNo');
+                AddUnique(UniqueNo);
+            })
             IsAll_Select = true;
         }
-
+       
         UI_Allot.PageChange_Check();
     },
 
     PageChange_Check: function () {
-        if (IsAll_Select) {
-            $('.table').find('input[type="checkbox"]').attr('checked', true);
+
+        if ($('#tb_indicator').find('input:checked').length == $('#tb_indicator').find('input[type="checkbox"]').length) {
+            IsAll_Select = true;
+            $('#cb_all').prop('checked', true);
+        }
+        else
+        {
+            IsAll_Select = false;
+            $('#cb_all').prop('checked', false);
         }
     },
 };
+
+function RemoveUnique(UniqueNo)
+{
+    var length = isHasElement(select_uniques, UniqueNo);
+    if (length > -1) {
+        select_uniques.remove(UniqueNo);       
+    }
+    var data = reUserinfoAll.filter(function (item) { return item.UniqueNo == UniqueNo });
+    if (data.length > 0) {
+        data[0].Roleid = 0;
+        data[0].RoleList.remove(Number(CurrentRoleid));
+    }
+}
+
+function AddUnique(UniqueNo)
+{
+    var length = isHasElement(select_uniques, UniqueNo);
+    if (length == -1) {
+        select_uniques.push(UniqueNo)
+    }
+    var data = reUserinfoAll.filter(function (item) { return item.UniqueNo == UniqueNo });
+    if (data.length == 0) {
+        data[0].Roleid = CurrentRoleid;
+        data[0].RoleList.push(Number(CurrentRoleid));
+    }
+}
 
 //--------指定元素进删除---------------------------------------------------------------
 Array.prototype.remove = function (val) {
@@ -224,14 +272,8 @@ function GetTeachers_New() {
         success: function (returnVal) {
             if (returnVal.result.errMsg == "success") {
                 reUserinfoAll = returnVal.result.retData;
-                console.log(reUserinfoAll)
-                for (var i in reUserinfoAll) {
-                    var info = reUserinfoAll[i];
-                    if (info.Roleid == CurrentRoleid) {
-                        reUserinfoByselect_uniques.push(info.UniqueNo);
-                    }
-                }
-
+                reUserinfoByselect_uniques = [];
+                reUserinfoAll.filter(function (item) { if (isHasElement(item.RoleList, CurrentRoleid) > -1) { reUserinfoByselect_uniques.push(item.UniqueNo) } });
                 GetTeachers_NewCompleate();
             }
         },
@@ -267,7 +309,7 @@ function IsMutex() {
 
         },
         error: function (errMsg) {
-            debugger;
+
         }
     });
 };

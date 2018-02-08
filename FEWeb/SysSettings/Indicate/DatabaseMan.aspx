@@ -9,9 +9,10 @@
     <link rel="stylesheet" href="../../css/reset.css" />
     <link rel="stylesheet" href="../../css/layout.css" />
     <script src="../../Scripts/jquery-1.11.2.min.js"></script>
-   
+        
   
 </head>
+
 <body>
      <div id="top"></div>
     <div class="center" id="centerwrap">
@@ -24,12 +25,11 @@
                     <h1 class="titlea">
                         指标库管理
                     </h1>
-                    <ul class="menu_list">
+                    <ul class="menu_list" style="height:478px;overflow:auto">
 
                     </ul>
                     <input type="button" value="指标库分类管理"  class="new" onclick="newIndicator_type()"  id="Indicator_Add" />
-                    <%--<input type="button" value="新增指标分类" style="display:none" class="new" onclick="newIndicator_type()" id="Indicator_Add" />--%>
-                    <%--onclick="    OpenIFrameWindow('指标库分类管理', 'DataBaseSort.aspx', '900px', '650px')"--%>
+                  
                 </div>
                 <div class="sort_right fr">
                     <div class="search_toobar clearfix">
@@ -68,6 +68,7 @@
             </div>
         </div>
     </div>
+
     <footer id="footer"></footer>
     
 </body>
@@ -92,8 +93,7 @@
         <tr>
             <td style="text-align: left; padding-left: 20px; padding-right: 20px; width: 430px; line-height: 20px;">${Name}</td>
             <td>${txing(QuesType_Id)}</td>
-            <td>${UseTimes}</td>
-         <%--   <td>${Remarks}</td>--%>
+            <td>${UseTimes}</td>       
             <td>${DateTimeConvert(EditTime,'yyyy-MM-dd',true)}</td>
             <td class="operate_wrap">
 

@@ -8,6 +8,35 @@ namespace FEUtility
 {
     public static class Split_Hepler
     {
+        /// <summary>
+        /// 字符串转int lists
+        /// </summary>
+        public static string ints_to_string(List<int> stings)
+        {
+            string arri = string.Empty;
+            try
+            {
+                if (stings.Count > 0)
+                {
+                    for (int i = 0; i < stings.Count; i++)
+                    {
+                        if (i == stings.Count -1)
+                        {
+                            arri += stings[i];
+                        }
+                        else
+                        {
+                             arri += stings[i]+ ",";
+                        }                      
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                LogHelper.Error(ex);
+            }
+            return arri;
+        }
 
         /// <summary>
         /// 字符串转int lists
@@ -70,7 +99,11 @@ namespace FEUtility
                 if (!string.IsNullOrEmpty(strings))
                 {
                     //联系人的ID获取
-                    arri = strings.Split(new char[] { ',' });                   
+                    arri = strings.Split(new char[] { ',' });
+                }
+                else
+                {
+                    arri = new string[0];
                 }
             }
             catch (Exception ex)
@@ -85,7 +118,7 @@ namespace FEUtility
         /// </summary>
         /// <param name="str"></param>
         /// <returns></returns>
-         static long StrTolong(string str)
+        static long StrTolong(string str)
         {
             long result = 0;
             try
@@ -104,28 +137,28 @@ namespace FEUtility
             return result;
         }
 
-         /// <summary>
-         /// 类型转换
-         /// </summary>
-         /// <param name="str"></param>
-         /// <returns></returns>
-         static int StrToint(string str)
-         {
-             int result = 0;
-             try
-             {
-                 bool hasvalue = int.TryParse(str, out  result);
-                 if (!hasvalue)
-                 {
-                     result = 0;
-                 }
-             }
-             catch (Exception ex)
-             {
-                 LogHelper.Error(ex);
-             }
+        /// <summary>
+        /// 类型转换
+        /// </summary>
+        /// <param name="str"></param>
+        /// <returns></returns>
+        static int StrToint(string str)
+        {
+            int result = 0;
+            try
+            {
+                bool hasvalue = int.TryParse(str, out  result);
+                if (!hasvalue)
+                {
+                    result = 0;
+                }
+            }
+            catch (Exception ex)
+            {
+                LogHelper.Error(ex);
+            }
 
-             return result;
-         }       
+            return result;
+        }
     }
 }

@@ -53,9 +53,9 @@
             </div>
             <div class="input-wrap">
                 <label>起止时间：</label>
-                <input type="text" disabled="disabled" id="StartTime" name="StartTime" class="text ml10 Wdate" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})" style="width: 150px; margin-left: 10px;" />
+                <input type="text" disabled="disabled" id="StartTime" name="StartTime" class="text ml10 Wdate" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm',startDate:'%y-%M-01 00:00:00'})" style="width: 151px; margin-left: 10px;" />
                 <span style="padding-left: 10px;">~</span>
-                <input type="text" disabled="disabled" id="EndTime" name="EndTime" class="text Wdate" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})" style="width: 150px;" />
+                <input type="text" disabled="disabled" id="EndTime" name="EndTime" class="text Wdate" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm',startDate:'%y-%M-01 00:00:00'})" style="width: 151px;" />
             </div>
             <div class="input-wrap pr">
                 <label>评价表分配：</label>
