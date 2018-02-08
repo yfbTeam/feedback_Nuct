@@ -184,13 +184,11 @@ function ExpertListReflesh() {
         $(this).addClass('selected').siblings().removeClass('selected');
         selectExpertUID = $(this).attr('Id');
         selectExpertName = $(this).text().trim();
-
         select_course_teacher = [];
-
         var exp = ExpertList.filter(function (item) { return item.UniqueNo == selectExpertUID });
         var exp0 = exp.length > 0 ? exp[0] : null;
 
-        //
+      
 
         var roleId = exp0.Roleid;
         switch (roleId) {

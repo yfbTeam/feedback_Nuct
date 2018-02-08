@@ -270,7 +270,7 @@
     }
 
     function AllotTask() {
-        OpenIFrameWindow('分配任务', 'AllotTask.aspx', '1220px', '92%')
+        OpenIFrameWindow('分配任务', 'AllotTask.aspx', '1220px', '85%')
     }
     function remove(Id, value) {
 

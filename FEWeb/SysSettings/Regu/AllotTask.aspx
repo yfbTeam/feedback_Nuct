@@ -307,8 +307,6 @@
         </div>
     </div>
     <div class="btnwrap">
-        <%-- <input type="button" value="保存" class="btn" onclick="submit()" />
-            <input type="button" value="取消" class="btna" onclick="parent.CloseIFrameWindow();" />--%>
     </div>
 
     <script src="../../Scripts/Common.js"></script>
@@ -410,7 +408,7 @@
         var select_course_teacher = [];
         var select_reguid = parent.select_reguid;
         var IsAllSchool = parent.IsAllSchool;
-        debugger;
+      
         var pageIndex = 0;
         $(function () {
             var ids = GetIDs('Userinfos');
@@ -418,8 +416,7 @@
             if (isHasElement(ids, 10) > -1) {
                 GetUserByType('17');//获取
             }
-            else if (isHasElement(ids, 19) > -1)
-            {                
+            else if (isHasElement(ids, 19) > -1) {
                 DepartmentID = login_User.Major_ID;
                 GetUserByType('16');//院系专家
             }
@@ -480,9 +477,7 @@
             $('.linkman_lists li:eq(0)').trigger('click');
             GetClassInfoCompleate = function () {
                 $('#tbody').find('.checkbox').on('click', function () {
-
                     if ($(this).is(':checked')) {
-
                         AddDis($(this).attr('CourseID'), $(this).attr('Course_Name'), $(this).attr('TeacherUID'), $(this).attr('Teacher_Name'));
                     }
                     else {
@@ -511,7 +506,6 @@
         //提交分配
         function submit() {
             DisModelType = 1;
-
             AddExpert_List_Teacher_Course();
         }
 
@@ -527,8 +521,6 @@
                     $(this).prop('disabled', 'disabled');
                 }
             });
-
-
         }
 
         //填充checkbox
@@ -543,9 +535,6 @@
                 }
             });
         }
-
-
-
 
     </script>
 

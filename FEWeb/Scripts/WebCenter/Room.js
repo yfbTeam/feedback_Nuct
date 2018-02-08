@@ -137,6 +137,7 @@ function GetClassInfo(PageIndex) {
 var CCList = {};
 function GetClassInfoSelectCompleate() { };
 function GetClassInfoSelect(SectionID, TeacherUID, CourseID) {
+   
     var postData = {
         func: "GetClassInfoSelect",
         "SectionID": SectionID, "TeacherUID": TeacherUID, "CourseID": CourseID, "DepartmentName": DepartmentName
@@ -185,6 +186,7 @@ function GetClassInfoSelect(SectionID, TeacherUID, CourseID) {
                 });
                 ChosenInit($('#TD'));
 
+               
                 $("#TN").empty();
                 $("#TN").append("<option value=''>全部</option>");
                 obj.TNList.forEach(function (item) {
