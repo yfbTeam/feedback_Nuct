@@ -10,6 +10,9 @@
     <link rel="stylesheet" href="../../css/layout.css" />
     <link href="../../css/fixed-table.css" rel="stylesheet" />
     <script src="../../Scripts/jquery-1.11.2.min.js"></script>
+
+
+
     <style>
         .email_right .scroll-pane {
             width: auto;
@@ -145,6 +148,12 @@
             text-indent: 10px;
             color: #009706;
         }
+
+        .trnomessage {
+          
+            width: 1000px;
+            height: 200px;
+        }
     </style>
 
 </head>
@@ -192,7 +201,7 @@
                 </div>
                 <div class="fl selectdiv">
                     <label for="">教师姓名:</label>
-                    <select  class="select" id="TN">
+                    <select class="select" id="TN">
                         <option value="">全部</option>
                     </select>
                 </div>
@@ -380,7 +389,7 @@
             </td>
 
             <td>
-                <div  title="${TeacherBirthday}" class="table-cell w-100">${TeacherBirthday}</div>
+                <div title="${TeacherBirthday}" class="table-cell w-100">${TeacherBirthday}</div>
             </td>
 
             <td>
@@ -408,13 +417,13 @@
         var select_course_teacher = [];
         var select_reguid = parent.select_reguid;
         var IsAllSchool = parent.IsAllSchool;
-      
+
         var pageIndex = 0;
         $(function () {
-            
+
             var ids = GetIDs('Userinfos');
             var rids = ids.split(',');
-           
+
             if (isHasElement(ids, 10) > -1) {
                 GetUserByType('17');//获取
             }
@@ -447,7 +456,7 @@
             height = 263;
             ClassModelType = 1;
             PageType = 'AllotTask';
-            $("#TD").on('change', function () {                            
+            $("#TD").on('change', function () {
                 teacherreflesh();
             });
 
@@ -485,16 +494,14 @@
             PrepareInit();
             //默认第一个选中，并且添加点击事件，选中样式
             $('.linkman_lists li:eq(0)').trigger('click');
-            if ($('.linkman_lists li:eq(0)').length > 0)
-            {
-                
+            if ($('.linkman_lists li:eq(0)').length > 0) {
+
             }
-            else
-            {              
+            else {
                 var rolid = isHasElement(ids, 19) > -1 ? 16 : 17;
                 departmentInit(rolid, login_User.DepartmentName);
             }
-         
+
         })
 
         function SelectByWhere() {

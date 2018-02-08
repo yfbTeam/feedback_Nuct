@@ -676,25 +676,31 @@ var UI_Table_Create =
                     var result;
                     if (option.indexOf('OptionA_') >= 0) {
                         result = va * A_S;
+                        result = result > 0 ? result.toFixed(2) : 0;
                         list_s[0].OptionA_S = result;
                     }
                     else if (option.indexOf('OptionB_') >= 0) {
                         result = va * B_S;
+                        result = result > 0 ? result.toFixed(2) : 0;
                         list_s[0].OptionB_S = result;
                     }
                     else if (option.indexOf('OptionC_') >= 0) {
                         result = va * C_S;
+                        result = result > 0 ? result.toFixed(2) : 0;
                         list_s[0].OptionC_S = result;
                     }
                     else if (option.indexOf('OptionD_') >= 0) {
                         result = va * D_S;
+                        result = result > 0 ? result.toFixed(2) : 0;
                         list_s[0].OptionD_S = result;
                     }
                     else if (option.indexOf('OptionE_') >= 0) {
                         result = va * E_S;
+                        result = result > 0 ? result.toFixed(2) : 0;
                         list_s[0].OptionE_S = result;
                     }
                     else if (option.indexOf('OptionF_') >= 0) {
+                        result = result > 0 ? result.toFixed(2) : 0;
                         result = va * F_S;
                         list_s[0].OptionF_S = result;
                     }
@@ -707,13 +713,14 @@ var UI_Table_Create =
                 //alert(JSON.stringify($(this).attr('id')));
             })
 
-
+            va = va > 0 ? Number(va).toFixed(2) : 0;
             list_s[0].OptionF_S_Max = va;
+           
 
             //为标题内的文本框赋最大值
             //var max = Math.max.apply(null, num_array);
             //$("#t_" + Id).val(max == 0 ? "" : max);
-
+            $("#t_" + Id).val(va);
 
             //类型的文本框为标题文本框的求和
             var len = element.parents(".indicator_type").find("h2").find('input[type="text"]').length;
