@@ -183,6 +183,10 @@
             var TwoAudit_Status = 0;//教师个人参加竞赛获奖，二级审核
             if (s_type == 0) {
                 $("#Status").val("0");
+                if (!$("#Name").val().trim().length) {
+                    layer.msg("请输入获奖项目名称!");
+                    return;
+                }
                 if (!$("#ResponsMan_Name").val().trim().length) {
                     layer.msg("请输入获奖教师!");
                     return;
