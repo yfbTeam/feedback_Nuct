@@ -96,10 +96,33 @@
             vertical-align:middle;
             height:25px;
         }
+        .input-group {
+            border-top: 1px solid #ccc;
+            border-bottom: 1px solid #ccc;
+            background: #fff;
+            height: 40px;
+            padding: 6px 10px;
+            width:100%;
+            position: fixed;
+            bottom: 60px;
+            left: 0;
+            line-height:28px;
+        }
     </style>
 </head>
 <body>
     <div id="main"></div>
+    <div class="input-group">
+        <label>提交方式：</label>
+        <label>
+            <input type="radio" name="isRealName" value="0" checked="checked" />
+            <span for="NoRealName">匿名</span>
+        </label>
+        <label>
+            <input type="radio" name="isRealName" value="1" />
+            <span>实名</span>
+        </label>
+    </div>
     <div class="submitwrap">
         <input type="submit" id="btn_submit" class="button" value="提交" style="display:none;" />
     </div>
