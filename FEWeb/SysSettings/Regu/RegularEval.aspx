@@ -76,7 +76,7 @@
             <div class="sortwrap clearfix">
                 <div class="menu fl">
                     <h1 class="titlea">学年学期</h1>
-                    <ul class="menu_list" id="menu_listscours">
+                    <ul class="menu_list" id="menu_listscours" style="height:545px;overflow:auto;">
                     </ul>
 
                 </div>

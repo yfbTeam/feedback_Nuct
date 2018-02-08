@@ -42,7 +42,7 @@
                 <div class="menu fl">
                     <h1 class="titlea">用户组管理
                     </h1>
-                    <ul class="menu_lists" id="ShowUserGroup">
+                    <ul class="menu_lists" id="ShowUserGroup" style="height:510px;overflow:auto;">
                     </ul>
 
                 </div>
