@@ -235,8 +235,7 @@
             achieve_add_noaudit = JudgeBtn_IsExist("achieve_add_noaudit");
             $("#div_Achieve").empty();
             $("#div_AchInfo").tmpl({ AchieveType: UrlDate.Type }).appendTo("#div_Achieve");            
-            BindFile_Plugin();
-            BindFile_Plugin("#uploader_certi6", "#filePicker_certi6", "#dndArea_certi6");
+            BindFile_Plugin();            
             $("#Group").val(UrlDate.Group);
             BindDepart("DepartMent");
             BindUser("ResponsMan");
@@ -392,14 +391,15 @@
             $("#Gid").html('<option value="">请选择</option>');
             $("#Lid").html('<option value="">请选择</option>');
             $("#Rid").html('<option value="" ss="0">请选择</option>');
-            $("#Sort").html('<option value="" ss="0">请选择</option>');
+            $("#Sort").html('<option value="" ss="0">请选择</option>');            
             $.ajax({
                 url: HanderServiceUrl + "/TeaAchManage/AchManage.ashx",
                 type: "post",
                 dataType: "json",
                 data: { "Func": "GetAcheiveLevelData", "IsPage": "false", "Pid": UrlDate.Group },
                 success: function (json) {
-                    if (json.result.errMsg == "success") {
+                    BindFile_Plugin("#uploader_certi6", "#filePicker_certi6", "#dndArea_certi6");
+                    if (json.result.errMsg == "success") {                        
                         $(json.result.retData).each(function () {
                             $("#Gid").append('<option value="' + this.Id + '">' + this.Name + '</option>');
                         })
