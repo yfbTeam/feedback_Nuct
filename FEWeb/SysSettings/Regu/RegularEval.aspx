@@ -301,14 +301,16 @@
         mange = JudgeBtn_IsExist("mange");
         allot = JudgeBtn_IsExist("allot");
         
-        DepartmentID = login_User.Major_ID;
-        if (isHasElement(ids, 10) > -1 )
+        if (login_User.Sys_Role_Id != 1)
         {
-            ModelType = 3;
+            DepartmentID = login_User.Major_ID;
+            if (isHasElement(ids, 10) > -1) {
+                ModelType = 3;
+            }
+            else if (isHasElement(ids, 19) > -1) {
+                ModelType = 2;
+            }
         }
-        else if( isHasElement(ids, 19) >-1)
-        {
-            ModelType = 2;
-        }       
+        
     }
 </script>

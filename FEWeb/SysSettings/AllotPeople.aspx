@@ -29,8 +29,8 @@
         <td>${UniqueNo}</td>
         <td>${Name} </td>
         <td>${Sex} </td>
-        <td>${Age} </td>
-        <td>${InSchoolAge} </td>
+        <td>${TeacherBirthday} </td>
+        <td>${TeacherSchooldate} </td>
 
         <td>${MajorName}  </td>
         <td>${SubDepartmentName}  </td>

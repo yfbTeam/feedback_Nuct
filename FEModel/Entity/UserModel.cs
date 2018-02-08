@@ -25,5 +25,11 @@ namespace FEModel.Entity
         public string ClassName { get; set; }
 
         public string ClassID { get; set; }
+
+        public int? TeacherBirthday { get; set; }
+
+        public int? TeacherSchooldate { get; set; }
+
+        public string Status { get; set; }
     }
 }
