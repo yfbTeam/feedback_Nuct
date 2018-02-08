@@ -410,7 +410,7 @@
         var select_course_teacher = [];
         var select_reguid = parent.select_reguid;
         var IsAllSchool = parent.IsAllSchool;
-
+        debugger;
         var pageIndex = 0;
         $(function () {
             var ids = GetIDs('Userinfos');

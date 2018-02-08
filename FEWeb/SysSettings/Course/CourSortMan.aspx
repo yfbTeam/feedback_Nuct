@@ -77,10 +77,10 @@
                             <thead>
                                 <tr>
                                     <th style="width: 10%;">课程编码</th>
-                                    <th style="width: 20%;">课程名称</th>
+                                    <th style="width: 15%;">课程名称</th>
                                     <th style="width: 10%;">排课分类</th>
                                     <th style="width: 10%;">课程性质</th>
-                                    <th>任务性质</th>
+                                    <th style="width: 10%;">任务性质</th>
                                     <th style="width: 15%;">部门</th>
                                     <th style="width: 15%;">子部门</th>
                                     <th style="width: 10%;">课程分类</th>
@@ -115,13 +115,20 @@
             <td>${TaskProperty}</td>
             <td title="${DepartmentName}">${cutstr(DepartmentName,15)}</td>
             <td title="${SubDepartmentName.trim()}">${cutstr(SubDepartmentName.trim(),15)}</td>
-             <td>${CourseRel_Name}</td>
-            <td>
-                <div class="operate" onclick="removeCourseDis('${CourseRelID}','${Course_Name}')">
-                    <i class="iconfont color_purple">&#xe798;</i>
-                    <span class="operate_none bg_purple" style="display: none;">移除      
-                    </span>
-                </div>
+            <td>${CourseRel_Name}</td>
+            <td>{{if CourseRel_Id ==''}}
+                 <div class="operate">
+                     <i class="iconfont color_gray">&#xe798;</i>
+                     <span class="operate_none bg_gray" style="display: none;">移除      
+                     </span>
+                 </div>
+                {{else}}
+                 <div class="operate" onclick="removeCourseDis('${CourseRelID}','${Course_Name}')">
+                     <i class="iconfont color_purple">&#xe798;</i>
+                     <span class="operate_none bg_purple" style="display: none;">移除      
+                     </span>
+                 </div>
+                {{/if}}               
             </td>
         </tr>
     </script>
@@ -227,7 +234,8 @@
         pageIndex = 0;
         UI_Course.select_CourseTypeId = key;
         UI_Course.select_CourseTypeName = value;
-        var key = $("#select_where").val();
+        var key = $("#select_where").val().trim();
+
         UI_Course.GetCourseInfo(pageIndex, select_sectionid, key, select_CourseTypeId);
     }
 
@@ -239,13 +247,13 @@
         pageIndex = 0;
         UI_Course.select_CourseTypeId = -1;
         UI_Course.select_CourseTypeName = '';
-        var key = $("#select_where").val();
+        var key = $("#select_where").val().trim();
         UI_Course.GetCourseInfo(pageIndex, select_sectionid, key, select_CourseTypeId);
     }
 
     //搜索
     function all_change() {
-        var key = $("#select_where").val();
+        var key = $("#select_where").val().trim();
         UI_Course.GetCourseInfo(pageIndex, select_sectionid, key, select_CourseTypeId);
     }
     //分配课程

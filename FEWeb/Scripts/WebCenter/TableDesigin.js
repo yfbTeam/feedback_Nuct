@@ -15,12 +15,14 @@ var UI_Table =
                 btn: ['确定', '取消'], //按钮
                 title: '操作'
             }, function () {
+                CreateUID = login_User.UniqueNo;
+
                 $.ajax({
                     url: HanderServiceUrl + "/Eva_Manage/Eva_ManageHandler.ashx",
                     type: "post",
                     async: false,
                     dataType: "json",
-                    data: { Func: "Copy_Eva_Table", "table_Id": id },
+                    data: { Func: "Copy_Eva_Table", "table_Id": id, "CreateUID": CreateUID },
                     success: function (json) {
                         if (json.result.errMsg == "success") {
                             layer.msg('操作成功!');

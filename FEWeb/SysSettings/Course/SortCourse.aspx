@@ -21,6 +21,10 @@
         .select {
             width: 150px;
         }
+
+        .search_toobar .text {
+            width: 220px;
+        }
     </style>
 </head>
 <body>
@@ -57,9 +61,15 @@
                         <option value="">全部</option>
                     </select>
                 </div>
-
                 <div class="fl selectdiv">
-                    <input type="text" name="" id="key" placeholder="请输入关键字" value="" class="text fl">
+                    <label style="letter-spacing: 6px;" for="">子部</label>
+                    <label for="">门:</label>
+                    <select id="sdp" class="select">
+                        <option value="">全部</option>
+                    </select>
+                </div>
+                <div class="fl selectdiv">
+                    <input type="text" name="" id="key" placeholder="请输入课程编码或课程名称关键字" value="" class="text fl">
                     <a class="search fl" href="javascript:;" onclick="GetNoDis_CourseInfo(0);"><i class="iconfont">&#xe600;</i></a>
                 </div>
 
@@ -160,18 +170,10 @@
         GetNoDis_CourseInfo(0);
         UI_Course.PageType = "SortCourse";
         select_uniques = [];
-        $('#dp').change(function () {
+        $('#dp,#pk,#ck,#cp,#sdp').change(function () {
             GetNoDis_CourseInfo(0);
         });
-        $('#pk').change(function () {
-            GetNoDis_CourseInfo(0);
-        });
-        $('#ck').change(function () {
-            GetNoDis_CourseInfo(0);
-        });
-        $('#cp').change(function () {
-            GetNoDis_CourseInfo(0);
-        });
+       
         //UI_Allot.GetProfessInfo();
         //===========获取课程分类，选择课程分类
         UI_Course.GetCourse_Type_Compleate = function () {
