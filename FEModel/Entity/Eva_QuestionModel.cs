@@ -54,5 +54,7 @@ namespace FEModel.Entity
         public DateTime? CreateTime { get; set; }
 
         public bool IsScore { get; set; }
+
+        public string RoomID { get; set; }
     }
 }

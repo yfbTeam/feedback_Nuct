@@ -150,7 +150,6 @@
         }
 
         .trnomessage {
-          
             width: 1000px;
             height: 200px;
         }
@@ -350,7 +349,7 @@
         <tr>
             <td>
                 <div class="table-cell w-10">
-                    <input courseid="${CourseID}" course_name="${Course_Name}" teacheruid="${TeacherUID}" teacher_name="${Teacher_Name}" class="checkbox" type="checkbox" />
+                    <input courseid="${CourseID}" Id="${Id}" course_name="${Course_Name}" teacheruid="${TeacherUID}" teacher_name="${Teacher_Name}" class="checkbox" type="checkbox" />
                 </div>
             </td>
             <td>
@@ -432,15 +431,16 @@
                 GetUserByType('16');//院系专家
             }
             Get_Eva_QuestionAnswerCompleate = function (data) {
+               
                 for (var i = 0; i < data.length; i++) {
-                    AddDis(data[i].CourseID, data[i].CourseName, data[i].TeacherUID, data[i].TeacherName)
+                    AddDis(data[i].CourseID, data[i].CourseName, data[i].TeacherUID, data[i].TeacherName, data[i].Id)
                 }
                 fillData_disable(data);
             };
             GetTeacherInfo_Course_ClsCompleate = function (data) {
-
+               
                 for (var i = 0; i < data.length; i++) {
-                    AddDis(data[i].CourseId, data[i].Course_Name, data[i].TeacherUID, data[i].TeacherName)
+                    AddDis(data[i].CourseId, data[i].Course_Name, data[i].TeacherUID, data[i].TeacherName, data[i].RoomID)
                 }
                 fillData(data);
             };
@@ -480,16 +480,16 @@
             GetClassInfoCompleate = function () {
                 $('#tbody').find('.checkbox').on('click', function () {
                     if ($(this).is(':checked')) {
-                        AddDis($(this).attr('CourseID'), $(this).attr('Course_Name'), $(this).attr('TeacherUID'), $(this).attr('Teacher_Name'));
+                        AddDis($(this).attr('CourseID'), $(this).attr('Course_Name'), $(this).attr('TeacherUID'), $(this).attr('Teacher_Name'), $(this).attr('Id'));
                     }
                     else {
-                        RemoveDis($(this).attr('CourseID'), $(this).attr('TeacherUID'));
+                        RemoveDis($(this).attr('CourseID'), $(this).attr('TeacherUID'), $(this).attr('Id'));
                     }
                 });
                 Mode = 4;
                 AnswerUID = selectExpertUID;
                 Get_Eva_QuestionAnswer(0, select_sectionid);
-                GetTeacherInfo_Course_Cls();
+                //GetTeacherInfo_Course_Cls();
             };
             PrepareInit();
             //默认第一个选中，并且添加点击事件，选中样式

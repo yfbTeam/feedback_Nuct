@@ -53,9 +53,10 @@ function PrepareInit() {
     }
 }
 
-function AddDis(CourseID, CourseName, TeacherUID, TeacherName) {
+function AddDis(CourseID, CourseName, TeacherUID, TeacherName,Id) {
 
     var obj = {
+        Id: Id,
         CourseId: CourseID,
         Course_Name: CourseName,
         TeacherUID: TeacherUID,
@@ -77,9 +78,10 @@ function AddDis(CourseID, CourseName, TeacherUID, TeacherName) {
 }
 
 
-function AddDisOne(CourseID, CourseName, TeacherUID, TeacherName) {
+function AddDisOne(CourseID, CourseName, TeacherUID, TeacherName, Id) {
 
     var obj = {
+        Id:Id,
         CourseId: CourseID,
         Course_Name: CourseName,
         TeacherUID: TeacherUID,
@@ -97,8 +99,8 @@ function AddDisOne(CourseID, CourseName, TeacherUID, TeacherName) {
 
 }
 
-function RemoveDis(Course_UniqueNo, TeacherUID) {
-    var data = select_course_teacher.filter(function (item) { return item.CourseId == Course_UniqueNo && item.TeacherUID == TeacherUID });
+function RemoveDis(Course_UniqueNo, TeacherUID, Id) {
+    var data = select_course_teacher.filter(function (item) { return item.CourseId == Course_UniqueNo && item.TeacherUID == TeacherUID && item.Id == Id});
     if (data.length > 0) {
         select_course_teacher.remove(data[0]);
     }
@@ -107,7 +109,7 @@ function RemoveDis(Course_UniqueNo, TeacherUID) {
 function GetTeacherInfo_Course_ClsCompleate() { };
 var TeacherUID = '';
 function GetTeacherInfo_Course_Cls() {
-
+   
     //if (Teachers == null) {
     var postData = { func: "GetTeacherInfo_Course_Cls", "ReguId": select_reguid, "ExpertUID": selectExpertUID };
     $.ajax({
@@ -181,7 +183,7 @@ function ExpertListReflesh() {
         select_course_teacher = [];
         var exp = ExpertList.filter(function (item) { return item.UniqueNo == selectExpertUID });
         var exp0 = exp.length > 0 ? exp[0] : null;
-
+     
         var roleId = exp0.Roleid;
         departmentInit(roleId, exp0.DepartmentName);       
         ExpertListRefleshCompleate(exp0);
@@ -241,7 +243,7 @@ function AddExpert_List_Teacher_Course() {
         func: "AddExpert_List_Teacher_Course",
         "CreateUID": login_User.LoginName,
         "ExpertUID": selectExpertUID,
-        "Type": 1,
+        "Type": 1,      
         "Regu_Id": select_reguid,
         "SectionID": select_sectionid,
         "List": JSON.stringify(select_course_teacher),

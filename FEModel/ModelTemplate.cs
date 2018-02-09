@@ -675,7 +675,7 @@ namespace FEModel
 	///	
 	/// </summary>
 	[Serializable]
-    public partial class Expert_Teacher_Course
+    public partial class TPM_BookStory
     {
 
 		/// <summary>
@@ -683,41 +683,85 @@ namespace FEModel
 		/// </summary>
 		public int? Id { get; set; }
 		/// <summary>
-		/// 
+		///书名 
 		/// </summary>
-		public int? SecionID { get; set; }
+		public string Name { get; set; }
 		/// <summary>
-		/// 
+		///教材类型 1立项教材；2已出版教材 
 		/// </summary>
-		public string ReguId { get; set; }
+		public Byte? BookType { get; set; }
 		/// <summary>
-		/// 
+		///分册情况  1单册；2多册 
 		/// </summary>
-		public string ExpertUID { get; set; }
+		public Byte? IsOneVolum { get; set; }
 		/// <summary>
-		/// 
+		///是否独著 0否；1是 
 		/// </summary>
-		public string ExpertName { get; set; }
+		public Byte? IsOneAuthor { get; set; }
 		/// <summary>
-		/// 
+		///审核状态  0未提交；1待审核；2审核不通过；3审核通过 
 		/// </summary>
-		public string TeacherUID { get; set; }
+		public int? Status { get; set; }
 		/// <summary>
-		/// 
+		///主编姓名 
 		/// </summary>
-		public string TeacherName { get; set; }
+		public string MEditor { get; set; }
 		/// <summary>
-		/// 
+		///书号（ISBN号） 
 		/// </summary>
-		public string CourseId { get; set; }
+		public string ISBN { get; set; }
 		/// <summary>
-		/// 
+		///主编单位 
 		/// </summary>
-		public string Course_Name { get; set; }
+		public string MEditorDepart { get; set; }
 		/// <summary>
-		/// 
+		///使用对象 
 		/// </summary>
-		public int? Type { get; set; }
+		public string UseObj { get; set; }
+		/// <summary>
+		///出版社 
+		/// </summary>
+		public string Publisher { get; set; }
+		/// <summary>
+		///国家级“十一五”规划教材 0否；1是 
+		/// </summary>
+		public Byte? IsPlanBook { get; set; }
+		/// <summary>
+		///立项类型 1北京市精品教材立项；2国家级精品教材立项 
+		/// </summary>
+		public Byte? ProjectType { get; set; }
+		/// <summary>
+		///出版时间 
+		/// </summary>
+		public DateTime? PublisthTime { get; set; }
+		/// <summary>
+		///版次 
+		/// </summary>
+		public int? EditionNo { get; set; }
+		/// <summary>
+		///扫描文件 
+		/// </summary>
+		public string FileInfo { get; set; }
+		/// <summary>
+		///丛书名称 
+		/// </summary>
+		public string SeriesBookName { get; set; }
+		/// <summary>
+		///代表ISBN号 
+		/// </summary>
+		public string MainISBN { get; set; }
+		/// <summary>
+		///本丛书本书 
+		/// </summary>
+		public int? SeriesBookNum { get; set; }
+		/// <summary>
+		///标识列 立项教材（0 未出版；1已出版）   已出版教材（立项教材id） 
+		/// </summary>
+		public int? IdentifyCol { get; set; }
+		/// <summary>
+		///预估字数 
+		/// </summary>
+		public decimal? PredictWord { get; set; }
 		/// <summary>
 		/// 
 		/// </summary>
@@ -737,18 +781,14 @@ namespace FEModel
 		/// <summary>
 		/// 
 		/// </summary>
-		public Byte? IsEnable { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
 		public Byte? IsDelete { get; set; }
 
           public override bool Equals(object obj)
         {
             bool result = false;
-            if (obj.GetType() == typeof(Expert_Teacher_Course))
+            if (obj.GetType() == typeof(TPM_BookStory))
             {
-                Expert_Teacher_Course _obj = obj as Expert_Teacher_Course;
+                TPM_BookStory _obj = obj as TPM_BookStory;
                 if (_obj.Id == this.Id)
                 {
                     result = true;
@@ -941,6 +981,102 @@ namespace FEModel
             if (obj.GetType() == typeof(TPM_AuditReward))
             {
                 TPM_AuditReward _obj = obj as TPM_AuditReward;
+                if (_obj.Id == this.Id)
+                {
+                    result = true;
+                }
+            }
+            return result;
+        }
+
+	    public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
+    }
+
+	/// </summary>
+	///	
+	/// </summary>
+	[Serializable]
+    public partial class Expert_Teacher_Course
+    {
+
+		/// <summary>
+		/// 
+		/// </summary>
+		public int? Id { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public int? SecionID { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public string ReguId { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public string ExpertUID { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public string ExpertName { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public string TeacherUID { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public string TeacherName { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public string CourseId { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public string Course_Name { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public int? Type { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public string RoomID { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public string CreateUID { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public DateTime? CreateTime { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public string EditUID { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public DateTime? EditTime { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public Byte? IsEnable { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public Byte? IsDelete { get; set; }
+
+          public override bool Equals(object obj)
+        {
+            bool result = false;
+            if (obj.GetType() == typeof(Expert_Teacher_Course))
+            {
+                Expert_Teacher_Course _obj = obj as Expert_Teacher_Course;
                 if (_obj.Id == this.Id)
                 {
                     result = true;
@@ -2941,138 +3077,6 @@ namespace FEModel
             if (obj.GetType() == typeof(Indicator))
             {
                 Indicator _obj = obj as Indicator;
-                if (_obj.Id == this.Id)
-                {
-                    result = true;
-                }
-            }
-            return result;
-        }
-
-	    public override int GetHashCode()
-        {
-            return base.GetHashCode();
-        }
-    }
-
-	/// </summary>
-	///	
-	/// </summary>
-	[Serializable]
-    public partial class TPM_BookStory
-    {
-
-		/// <summary>
-		/// 
-		/// </summary>
-		public int? Id { get; set; }
-		/// <summary>
-		///书名 
-		/// </summary>
-		public string Name { get; set; }
-		/// <summary>
-		///教材类型 1立项教材；2已出版教材 
-		/// </summary>
-		public Byte? BookType { get; set; }
-		/// <summary>
-		///分册情况  1单册；2多册 
-		/// </summary>
-		public Byte? IsOneVolum { get; set; }
-		/// <summary>
-		///是否独著 0否；1是 
-		/// </summary>
-		public Byte? IsOneAuthor { get; set; }
-		/// <summary>
-		///审核状态  0未提交；1待审核；2审核不通过；3审核通过 
-		/// </summary>
-		public int? Status { get; set; }
-		/// <summary>
-		///主编姓名 
-		/// </summary>
-		public string MEditor { get; set; }
-		/// <summary>
-		///书号（ISBN号） 
-		/// </summary>
-		public string ISBN { get; set; }
-		/// <summary>
-		///主编单位 
-		/// </summary>
-		public string MEditorDepart { get; set; }
-		/// <summary>
-		///使用对象 
-		/// </summary>
-		public string UseObj { get; set; }
-		/// <summary>
-		///出版社 
-		/// </summary>
-		public string Publisher { get; set; }
-		/// <summary>
-		///国家级“十一五”规划教材 0否；1是 
-		/// </summary>
-		public Byte? IsPlanBook { get; set; }
-		/// <summary>
-		///立项类型 1北京市精品教材立项；2国家级精品教材立项 
-		/// </summary>
-		public Byte? ProjectType { get; set; }
-		/// <summary>
-		///出版时间 
-		/// </summary>
-		public DateTime? PublisthTime { get; set; }
-		/// <summary>
-		///版次 
-		/// </summary>
-		public int? EditionNo { get; set; }
-		/// <summary>
-		///扫描文件 
-		/// </summary>
-		public string FileInfo { get; set; }
-		/// <summary>
-		///丛书名称 
-		/// </summary>
-		public string SeriesBookName { get; set; }
-		/// <summary>
-		///代表ISBN号 
-		/// </summary>
-		public string MainISBN { get; set; }
-		/// <summary>
-		///本丛书本书 
-		/// </summary>
-		public int? SeriesBookNum { get; set; }
-		/// <summary>
-		///标识列 立项教材（0 未出版；1已出版）   已出版教材（立项教材id） 
-		/// </summary>
-		public int? IdentifyCol { get; set; }
-		/// <summary>
-		///预估字数 
-		/// </summary>
-		public decimal? PredictWord { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public string CreateUID { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public DateTime? CreateTime { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public string EditUID { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public DateTime? EditTime { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public Byte? IsDelete { get; set; }
-
-          public override bool Equals(object obj)
-        {
-            bool result = false;
-            if (obj.GetType() == typeof(TPM_BookStory))
-            {
-                TPM_BookStory _obj = obj as TPM_BookStory;
                 if (_obj.Id == this.Id)
                 {
                     result = true;

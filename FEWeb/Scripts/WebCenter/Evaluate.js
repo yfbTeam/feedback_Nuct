@@ -309,7 +309,7 @@ var Mode = 1;  //Check  Record
 var AnswerUID = ''; //专家，不填则为管理员
 
 var ReguID =0;
-var CourseID = '0';
+var CourseID = '';
 var TeacherUID = '';
 
 var IsAllSchool = 0;
@@ -317,10 +317,11 @@ var eva_check_depart = false, eva_check_school = false, eva_check_indepart = fal
 var Eva_Role = 1;  //1 为专家    2、课堂调查   3、课堂扫码评价
 function Get_Eva_QuestionAnswerCompleate() { };
 function Get_Eva_QuestionAnswer(PageIndex, SectionID, DepartmentID, Key, TableID) {
+    
     index_layer = layer.load(1, {
         shade: [0.1, '#fff'] //0.1透明度的白色背景
     });
-
+    
     $.ajax({
         url: HanderServiceUrl + "/Eva_Manage/Eva_ManageHandler.ashx",
         type: "post",

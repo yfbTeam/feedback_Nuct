@@ -114,6 +114,7 @@ namespace FEHandler.Eva_Manage
                                 CreateTime = q.CreateTime,
                                 ClassName = room != null ? room.ClassName : "",
                                 RoleList = (from ru in Constant.Sys_RoleOfUser_List where ru.UniqueNo == q.AnswerUID select ru.Role_Id).ToList(),
+                                RoomID = q.RoomID,
                                 IsScore = t.IsScore == 0 ? true : false,
                             }).ToList();
 

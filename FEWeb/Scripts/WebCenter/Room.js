@@ -84,14 +84,13 @@ function GetClassInfo(PageIndex) {
                 var data = returnVal.result.retData;
 
                 layer.close(layer_index);
-
+              
                 $("#tbody").empty();
                 if (data.length <= 0) {
                     if (PageType == 'StartEval' || PageType == 'AllotTask') {
                         //subele = 'other';
                         //size = 15;
-                        //nomessage('.fixed-table_body-wraper', subele, size, height);
-                        debugger
+                        //nomessage('.fixed-table_body-wraper', subele, size, height);  $('#tbody').find('input[teacheruid="001953"]').find('input[courseid="7120401"]')                       
                         nomessage('#tbody', subele, size, height);
                         $('#tbody').find('td').addClass('trnomessage');
                     }
@@ -106,6 +105,10 @@ function GetClassInfo(PageIndex) {
                 }
 
                 $("#itemData").tmpl(data).appendTo("#tbody");
+                for (var i = 0; i < select_course_teacher.length; i++) {
+                    $('#tbody').find('input[Id="' + select_course_teacher[i].Id + '"]').prop('checked', true);
+                }
+
                 tableSlide();
 
                 laypage({

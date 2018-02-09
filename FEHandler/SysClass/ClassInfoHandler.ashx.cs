@@ -232,7 +232,7 @@ namespace FEHandler.SysClass
                                  CourseID = CourseRoom_.Coures_Id,
                                  ClassID = CourseRoom_.ClassID,
                                  TeacherUID = CourseRoom_.TeacherUID,
-
+                                 Id = CourseRoom_.UniqueNo,
                                  //序号
                                  Num = 0,
                              });

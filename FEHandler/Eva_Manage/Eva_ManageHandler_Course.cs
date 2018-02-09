@@ -27,10 +27,10 @@ namespace FEHandler.Eva_Manage
                 string ExpertUID = RequestHelper.string_transfer(Request, "ExpertUID");
                 int Type = RequestHelper.int_transfer(Request, "Type");
                 string Regu_Id = RequestHelper.string_transfer(Request, "Regu_Id");
+                
                 int SectionID = RequestHelper.int_transfer(Request, "SectionID");
                 int DisModeltype = RequestHelper.int_transfer(Request, "DisModelType");
                 DisModelType DisModelType = (DisModelType)DisModeltype;
-
                 //表单明细
                 string List = RequestHelper.string_transfer(Request, "List");
                 try
@@ -47,6 +47,7 @@ namespace FEHandler.Eva_Manage
                         item.EditUID = item.CreateUID;
                         item.IsEnable = (int)IsEnable.Enable;
                         item.IsDelete = (int)IsDelete.No_Delete;
+                        item.RoomID = Convert.ToString(item.Id);
                     }
 
                     switch (DisModelType)
