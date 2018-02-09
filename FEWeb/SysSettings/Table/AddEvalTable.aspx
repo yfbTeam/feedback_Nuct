@@ -182,9 +182,9 @@
 </script>
 
 <script type="text/x-jquery-tmpl" id="itemNav">
-    <div style="width: 1170px; cursor: pointer; z-index: 99; background: #fff; padding: 10px 0px;">
+
         <div class="crumbs">
-            <a onclick="window.location.href='../../Evaluation/CourseEvalSee/indexqcode.aspx?Id='+getQueryString('Id')+'&Iid='+getQueryString('Iid')">课堂扫码评价</a>
+            <a onclick="window.location.href='../../Evaluation/CourseEvalSee/indexqcode.aspx?Id='+getQueryString('Id')+'&Iid='+getQueryString('Iid')" href="javascript:;">课堂扫码评价</a>
             <span>&gt;</span>
             <a href="javascript:;" style="cursor: pointer;" onclick="window.location.href='../../Evaluation/CourseEvalSee/TableDesign.aspx?Id='+getQueryString('Id')+'&Iid='+getQueryString('Iid')" id="couse_name">评价表管理</a>
               <span>&gt;</span>
@@ -196,7 +196,7 @@
                 {{/if}}
                 </a>
         </div>
-    </div>
+
 </script>
 
 <script type="text/x-jquery-tmpl" id="item_indicator_title_1">

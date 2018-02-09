@@ -57,7 +57,7 @@
 
                 <%--href="javascript:search();"--%>
                 <div class="fl ml10">
-                    <input type="text" name="key" id="key" placeholder="请输入编号或者姓名关键字" value="" style="width: 200px" class="text fl">
+                    <input type="text" name="key" id="key" placeholder="请输入教职工号或者姓名关键字" value="" style="width: 220px" class="text fl">
                     <a class="search fl" href="javascript:search();" onclick="SelectByWhere()"><i class="iconfont">&#xe600;</i></a>
                 </div>
             </div>

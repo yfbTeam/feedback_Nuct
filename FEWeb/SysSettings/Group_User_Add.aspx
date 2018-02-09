@@ -59,7 +59,11 @@
             layer.msg('操作成功!');
             parent.layer.close(index);
         };
-
+        if (CurrentRoleid == 2) {
+            $('#student').parent().hide();
+        } else {
+            $('#student').parent().show();
+        }
         switch (type) {
             case 1: //添加
                 $('.btn').on('click', function () {
