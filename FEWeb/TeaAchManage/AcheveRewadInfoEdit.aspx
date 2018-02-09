@@ -243,6 +243,7 @@
         var UrlDate = new GetUrlDate();
         var achieve_add_noaudit = false;//无需审核
         var isManage_Page = UrlDate.Iid == 3;//是否是业绩管理页面跳转的
+        var curGPid = 1;
         $(function () {
             $("#CreateUID").val(GetLoginUser().UniqueNo);
             $("#a_ParUrl").attr('href', isManage_Page ? "AchManage.aspx?Id=2&Iid=3" : "MyPerformance.aspx?Id=2&Iid=4");
@@ -269,6 +270,7 @@
                         $("#div_AchInfo").tmpl(model).appendTo("#div_Achieve");
                         cur_ResponUID = model.ResponsMan;
                         cur_AchieveType = model.AchieveType;
+                        curGPid = model.GPid;
                         $("#GropName").html(model.GName);
                         if (model.Status == "0" || model.Status == "2") {
                             $(".btn").show();
@@ -363,12 +365,15 @@
             var department = $("#DepartMent").val();
             var TwoAudit_Status = 0;//教师个人参加竞赛获奖，二级审核
             if (s_type == 0) {
-                $("#Status").val("0");                
-                var judgeobj = $("#ResponsMan");
-                if (UrlDate.Type == "1" || UrlDate.Type == "2") { judgeobj = $("#Name"); } else if (UrlDate.Type == "3") {
+                $("#Status").val("0");
+                if (curGPid != 4 && UrlDate.Type != "3" && $("#Name").val().trim().length <= 0) {
+                    layer.msg("请输入获奖项目名称!"); return;
+                }
+                var judgeobj ="";
+                if (UrlDate.Type == "5") { judgeobj = $("#ResponsMan"); } else if (UrlDate.Type == "3") {
                     judgeobj = $("#BookId");
                 }
-                if (judgeobj.val() == undefined || !judgeobj.val().trim().length) {
+                if (judgeobj!=""&&(judgeobj.val() == undefined || !judgeobj.val().trim().length)) {
                     layer.msg("请输入" + judgeobj.attr("fl")+ "!");
                     return;
                 }

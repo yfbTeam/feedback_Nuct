@@ -125,7 +125,7 @@
         });
         function Book(startIndex, pageSize) {           
             $("#tb_Book").empty();
-            var parmsData = { "Func": "GetTPM_BookStory", BookType: $("#BookType").val(), "Name": $("#key").val().trim(), PageIndex: startIndex, pageSize: pageSize, Status: 3 };
+            var parmsData = { "Func": "GetTPM_BookStory", BookType: $("#BookType").val(), "Name": $("#Key").val().trim(), PageIndex: startIndex, pageSize: pageSize, Status: 3 };
             if (list_book_operdepart && !list_book_operall) { parmsData["LoginMajor_ID"] = GetLoginUser().Major_ID; }
             if (!list_book_showall && !list_book_operall) { parmsData["Major_ID"] = GetLoginUser().Major_ID; }
             $.ajax({

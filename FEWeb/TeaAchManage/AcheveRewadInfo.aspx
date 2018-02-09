@@ -303,12 +303,15 @@
             var department = $("#DepartMent").val();
             var TwoAudit_Status = 0;//教师个人参加竞赛获奖，二级审核
             if (s_type == 0) {
-                $("#Status").val("0");               
-                var judgeobj = $("#ResponsMan");
-                if (UrlDate.Type == "1" || UrlDate.Type == "2") { judgeobj = $("#Name"); } else if (UrlDate.Type == "3") {
+                $("#Status").val("0");
+                if (AchieveGroup != 4 && UrlDate.Type != "3" && $("#Name").val().trim().length<=0) {
+                    layer.msg("请输入获奖项目名称!"); return;
+                }
+                var judgeobj = "";
+                if (UrlDate.Type == "5") { judgeobj = $("#ResponsMan"); } else if (UrlDate.Type == "3") {
                     judgeobj = $("#BookId");
                 }
-                if (judgeobj.val()== undefined || !judgeobj.val().trim().length) {
+                if (judgeobj!=""&&(judgeobj.val() == undefined || !judgeobj.val().trim().length)) {
                     layer.msg("请输入" + judgeobj.attr("fl") + "!");
                     return;
                 }
