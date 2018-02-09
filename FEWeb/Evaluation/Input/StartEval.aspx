@@ -431,7 +431,7 @@
 
             PageType = 'StartEval';
             DepartmentName = login_User.DepartmentName;
-            debugger;
+            
             GetClassInfoSelect();
             $("#DP,#CT,#CP,#TD,#TN,#MD,#GD,#CN").on('change', function () {
                 pageIndex = 0;

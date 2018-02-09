@@ -422,7 +422,7 @@ namespace FEHandler.UserMan
                     EditTime = DateTime.Now,
                     EditUID = "admin",
                     Solid = (int)SolidType.no,
-                    Sort = sortMax + 1, 
+                    Sort = sortMax + 1,
                 };
                 jsonModel = Constant.Sys_RoleService.Add(role_new);
                 if (jsonModel.errNum == 0)
@@ -869,6 +869,9 @@ namespace FEHandler.UserMan
                                 TeachDate = tea.TeacherSchooldate,
                                 Birthday = tea.TeacherBirthday,
                                 Status = tea.Status,
+
+                                tea.TeacherSchooldate,
+                                tea.TeacherBirthday,
                             };
 
                 int count = query.Count();
@@ -928,6 +931,10 @@ namespace FEHandler.UserMan
                 var list = (from user in Constant.UserInfo_List
                             join stu in Constant.Student_List on user.UniqueNo equals stu.UniqueNo into stus
                             from stu_ in stus.DefaultIfEmpty()
+
+                            join tea in Constant.Teacher_List on user.UniqueNo equals tea.UniqueNo into teas
+                            from tea_ in teas.DefaultIfEmpty()
+
                             join ru in Constant.Sys_RoleOfUser_List on user.UniqueNo equals ru.UniqueNo
                             join role in Constant.Sys_Role_List on ru.Role_Id equals role.Id
                             where role.Id == RoleID
@@ -942,6 +949,11 @@ namespace FEHandler.UserMan
                                 SubDepartmentName = user.SubDepartmentName,
                                 ClassID = stu_ != null ? stu_.ClassNo : "",
                                 ClassName = stu_ != null ? stu_.ClassName : "",
+
+                                TeacherBirthday = tea_ != null ? tea_.TeacherBirthday : 0,
+                                TeacherSchooldate = tea_ != null ? tea_.TeacherSchooldate : 0,
+                                Status = tea_ != null ? tea_.Status : "",
+
                             }).ToList();
 
                 if (Dp != "")

@@ -114,6 +114,7 @@
                     <h1 class="test_type">
                         <b class="order_num"><%=(++tindex)%>.</b><b><%=titem.Name%></b>
                         <% if(retData.IsScore==0){ %><b>(<span><%=titem.OptionF_S_Max%></span>分)</b><%}%>
+                        【单选题】
                     </h1>
                     <ul id="ul_ques_<%=titem.Id%>" class="radios maxques">
                         <% if(titem.OptionA!=""){ %>
@@ -170,7 +171,8 @@
                 <% }else if(titem.QuesType_Id ==2){ %>
                 <div id="div_ques_<%=titem.Id%>" class="test_detail" detailid="<%=titem.Id%>">
                     <h1 class="test_type">
-                        <b class="order_num"><%=(++tindex)%>.</b><b><%=titem.Name%></b>                      
+                        <b class="order_num"><%=(++tindex)%>.</b><b><%=titem.Name%></b>   
+                        【多选题】                   
                     </h1>
                     <ul id="ul_ques_<%=titem.Id%>" class="radios maxques">
                         <% if(titem.OptionA!=""){ %>
@@ -229,6 +231,7 @@
                 <div id="div_ques_<%=titem.Id%>" class="test_detail" detailid="<%=titem.Id%>">
                     <h1 class="test_type">
                         <b class="order_num"><%=(++tindex)%>.</b><b><%=titem.Name%></b>
+                        【问答题】       
                     </h1>
                     <textarea name="" id="" class="textarea" placeholder="请输入内容"></textarea>
                 </div>
@@ -236,6 +239,7 @@
                 <div id="div_ques_<%=titem.Id%>" class="test_detail" detailid="<%=titem.Id%>">
                     <h1 class="test_type">
                         <b class="order_num"><%=(++tindex)%>.</b><b><%=titem.Name%></b>
+                        【选分题】       
                     </h1>
                     <input readonly="readonly" name="Name" style="width: 98%; height: 35px;" />
                 </div>

@@ -270,7 +270,7 @@
     }
 
     function AllotTask() {
-        OpenIFrameWindow('分配任务', 'AllotTask.aspx', '1220px', '92%')
+        OpenIFrameWindow('分配任务', 'AllotTask.aspx', '1220px', '85%')
     }
     function remove(Id, value) {
 
@@ -301,14 +301,17 @@
         mange = JudgeBtn_IsExist("mange");
         allot = JudgeBtn_IsExist("allot");
         
-        DepartmentID = login_User.Major_ID;
-        if (isHasElement(ids, 10) > -1 )
+        if (login_User.Sys_Role_Id != 1)
         {
-            ModelType = 3;
+         
+            if (isHasElement(ids, 10) > -1) {
+                ModelType = 3;
+            }
+            else if (isHasElement(ids, 19) > -1) {
+                DepartmentID = login_User.Major_ID;
+                ModelType = 2;
+            }
         }
-        else if( isHasElement(ids, 19) >-1)
-        {
-            ModelType = 2;
-        }       
+        
     }
 </script>

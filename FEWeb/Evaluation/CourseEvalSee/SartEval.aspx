@@ -103,7 +103,7 @@
 
     <script type="text/x-jquery-tmpl" id="itemcourse">
         <li >
-             <input type="checkbox" class="li_other" id="${Id}" /><label  for="${Id}">${ClassName}&nbsp;&nbsp;&nbsp;${Course_Name}</label>            
+             <input type="checkbox" class="li_other" id="${Id}" /><label  for="${Id}">${Course_Name}&nbsp;&nbsp;&nbsp;${ClassName}</label>            
          </li>
     </script>
     <script>

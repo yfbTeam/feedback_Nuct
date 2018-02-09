@@ -205,7 +205,7 @@ namespace FEHandler.Eva_Manage
             {
                 HttpRequest Request = context.Request;
                 //课程类型
-                //DictionType_Enum dictiontype = DictionType_Enum.Course_Type;
+                //DictionType_Enum dictiontype = DictionType_Enum.Course_Type;  && table.IsEnable == (int)IsEnable.Enable  && table.IsEnable == (int)IsEnable.Enable
                 int Type = RequestHelper.int_transfer(Request, "Type");
                 List<Table_CourseType> Table_CourseType_List = new List<Table_CourseType>();
 
@@ -220,7 +220,7 @@ namespace FEHandler.Eva_Manage
                     Table_CourseType.Course_Value = item.Value;
                     Table_CourseType.Eva_Role = Type;
                     Table_CourseType.Eva_Table_List = (from table in Constant.Eva_Table_List
-                                                       where table.Type == Type && table.IsDelete == (int)IsDelete.No_Delete && table.IsEnable == (int)IsEnable.Enable
+                                                       where table.Type == Type && table.IsDelete == (int)IsDelete.No_Delete 
 
                                                        select table).ToList();
                     Table_CourseType_List.Add(Table_CourseType);
@@ -239,7 +239,7 @@ namespace FEHandler.Eva_Manage
                         Table_CourseType.Course_Value = item.Value;
                         Table_CourseType.Eva_Role = 3;
                         Table_CourseType.Eva_Table_List = (from table in Constant.Eva_Table_List
-                                                           where table.Type == Type && table.IsEnable == (int)IsEnable.Enable
+                                                           where table.Type == Type
                                                            select table).ToList();
                         Table_CourseType_List.Add(Table_CourseType);
                     }

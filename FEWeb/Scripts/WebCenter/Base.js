@@ -84,7 +84,7 @@ var Base = {
     },
 
     BindTableCompleate: function () { },
-    BindTable: function (SectionID, CourseID) {
+    BindTable: function (SectionID, CourseID,NoEnableSelect) {
        
         $.ajax({
             url: HanderServiceUrl + "/Eva_Manage/Eva_ManageHandler.ashx",
@@ -92,10 +92,10 @@ var Base = {
             dataType: "json",
             data: {
                 func: "Get_Eva_Table",
-                "CourseID": CourseID, "SectionID": SectionID, "Type": t_Type,"CreateUID":CreateUID
+                "CourseID": CourseID, "SectionID": SectionID, "Type": t_Type, "CreateUID": CreateUID, "NoEnableSelect": NoEnableSelect
             },
             success: function (json) {
-
+                debugger;
                 if (json.result.errNum.toString() == "0") {
                     $(json.result.retData).each(function () {
                         $("#table").append('<option title="' + this.Name + '" value="' + this.Id + '">' + cutstr(this.Name, 45) + '</option>');

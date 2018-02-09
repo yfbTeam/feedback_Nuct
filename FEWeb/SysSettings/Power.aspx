@@ -42,14 +42,14 @@
                 <div class="menu fl">
                     <h1 class="titlea">用户组管理
                     </h1>
-                    <ul class="menu_lists" id="ShowUserGroup" style="height:510px;overflow:auto;">
+                    <ul class="menu_lists" id="ShowUserGroup" style="height: 510px; overflow: auto;">
                     </ul>
 
                 </div>
                 <div class="sort_right fr">
                     <div class="search_toobar clearfix">
                         <div id="div_Unit" class=" fl">
-                            <label style="min-width: 20px">所属院(系、部)：</label>
+                            <label style="min-width: 20px">部门：</label>
                             <select class="select" id="college" style="width: 190px">
                                 <option value="">全部</option>
                             </select>
@@ -62,7 +62,7 @@
                         </div>
 
                         <div class="fl ml10">
-                            <input type="text" name="" id="key" placeholder="请输入编号或者姓名关键字" value="" style="width: 200px" class="text fl">
+                            <input type="text" name="" id="key" placeholder="请输入学号或者姓名关键字" value="" style="width: 220px" class="text fl">
                             <a class="search fl" href="javascript:;" onclick="SelectByWhere()"><i class="iconfont">&#xe600;</i></a>
                         </div>
                         <div class="fr" id="btnpanel">
@@ -113,8 +113,14 @@
             {{else}}
          <td>女 </td>
             {{/if}}
+
+            <td>${TeacherBirthday}</td>
+            <td>${TeacherSchooldate}</td>
+
             <td>${DepartmentName}</td>
             <td>${SubDepartmentName}</td>
+            <td>${Status}</td>
+
         </tr>
     </script>
 
@@ -191,7 +197,7 @@
         <tr>
             <th style="width: 5%">序号	</th>
             <th style="width: 15%">学号</th>
-            <th style="width: 10%">用户名</th>
+            <th style="width: 10%">姓名</th>
             <th style="width: 10%">性别</th>
             <th style="width: 25%">部门</th>
             <th style="width: 25%">子部门</th>
@@ -203,10 +209,13 @@
         <tr>
             <th style="width: 5%">序号	</th>
             <th style="width: 15%">教职工号</th>
-            <th style="width: 10%">用户名</th>
-            <th style="width: 10%">性别</th>
-            <th style="width: 30%">部门</th>
-            <th style="width: 30%">子部门</th>
+            <th style="width: 10%">姓名</th>
+            <th style="width: 6%">性别</th>
+            <th style="width: 6%">年龄</th>
+            <th style="width: 6%">校龄</th>
+            <th style="width: 20%">部门</th>
+            <th style="width: 20%">子部门</th>
+            <th style="width: 10%">教师状态</th>
 
         </tr>
     </script>
@@ -237,7 +246,7 @@
 
             limitreflesh();
             ShowUserGroup();
-            
+
             Get_UserByRole_SelectCompleate = function () {
                 departmentreflesh();
                 $('#college').on('change', function () {
@@ -257,8 +266,7 @@
 
         })
 
-        function departmentreflesh()
-        {
+        function departmentreflesh() {
             pageIndex = 0;
             $('#class').empty();
             $("#class").append("<option value=''>全部</option>");
@@ -272,7 +280,7 @@
                 $("#item_Class").tmpl(ClsList).appendTo($('#class'));
             }
             ChosenInit($('#class'));
-           
+
         }
 
         //搜索
@@ -321,9 +329,11 @@
             $('#header_th').empty();
             if (CurrentRoleid == 2) {
                 $('#header_stu').tmpl(1).appendTo('#header_th');
+                $('#key').prop('placeholder', '请输入学号或者姓名关键字');
             }
             else {
                 $('#header_tea').tmpl(1).appendTo('#header_th');
+                $('#key').prop('placeholder', '请输入教职工号或者姓名关键字');
             }
             $('#btnpanel').empty();
             //教师不可进行分配人员
