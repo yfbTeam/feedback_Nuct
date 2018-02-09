@@ -266,10 +266,10 @@
                         {{/if}}
                     </div>
                       {{else $value.QuesType_Id==2}}
-                    <div class="test_desc2" detailid="${Id}">
+                    <div class="test_desc" detailid="${Id}">
                         {{if $value.OptionA!=""}}
                         <span>
-                            <input type="radio"  flv="OptionA" id="inp_${$value.Id}-1" value="${$value.OptionA_S}" />
+                            <input type="checkbox"  flv="OptionA" id="inp_${$value.Id}-1" value="${$value.OptionA_S}" />
                             <label class="lbl" for="inp_${$value.Id}-1">
                                 A${$value.OptionA}
                           
@@ -277,7 +277,7 @@
                         {{/if}}
                         {{if $value.OptionB!=""}}
                         <span>
-                            <input type="radio" flv="OptionB" id="inp_${$value.Id}-2" value="${$value.OptionB_S}" />
+                            <input type="checkbox" flv="OptionB" id="inp_${$value.Id}-2" value="${$value.OptionB_S}" />
                             <label class="lbl" for="inp_${$value.Id}-2">
                                 B${$value.OptionB}
                           
@@ -285,7 +285,7 @@
                         {{/if}}
                         {{if $value.OptionC!=""}}
                         <span>
-                            <input type="radio" flv="OptionC" id="inp_${$value.Id}-3" value="${$value.OptionC_S}" />
+                            <input type="checkbox" flv="OptionC" id="inp_${$value.Id}-3" value="${$value.OptionC_S}" />
                             <label class="lbl" for="inp_${$value.Id}-3">
                                 C${$value.OptionC}
                          
@@ -293,7 +293,7 @@
                         {{/if}}
                         {{if $value.OptionD!=""}}
                         <span>
-                            <input type="radio"  flv="OptionD" id="inp_${$value.Id}-4" value="${$value.OptionD_S}" />
+                            <input type="checkbox"  flv="OptionD" id="inp_${$value.Id}-4" value="${$value.OptionD_S}" />
                             <label class="lbl" for="inp_${$value.Id}-4">
                                 D${$value.OptionD}
                                 
@@ -302,14 +302,14 @@
                         {{/if}}
                         {{if $value.OptionE!=""}}
                         <span>
-                            <input type="radio"  flv="OptionE" id="inp_${$value.Id}-5" value="${$value.OptionE_S}" />
+                            <input type="checkbox"  flv="OptionE" id="inp_${$value.Id}-5" value="${$value.OptionE_S}" />
                             <label class="lbl" for="inp_${$value.Id}-5">E${$value.OptionE}</label>
                            
                         </span>
                         {{/if}}
                          {{if $value.OptionF!=""}}
                         <span>
-                            <input type="radio"  flv="OptionF" id="inp_${$value.Id}-6" value="${$value.OptionF_S}" />
+                            <input type="checkbox"  flv="OptionF" id="inp_${$value.Id}-6" value="${$value.OptionF_S}" />
                             <label class="lbl" for="inp_${$value.Id}-6">
                                 F${$value.OptionF}
                                
@@ -324,7 +324,7 @@
                     </div>
                     {{else $value.QuesType_Id==4 }}
                     <div class="test_desc" detailid="${Id}" maxscore="${OptionF_S_Max}">
-                        <input type="number" onkeydown="onlyNum();" class="number" maxscore="${OptionF_S_Max}" name="Name" value="0" style="width: 98%;  height: 35px;" />
+                        <input type="number" onkeydown="onlyNum();" class="text" maxscore="${OptionF_S_Max}" name="Name" value="0" style="width:100%" />
                     </div>
                     {{/if}}
                 </li>

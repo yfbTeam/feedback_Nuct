@@ -112,7 +112,7 @@ var UI_Table =
                         retDataCache = Enumerable.From(retDataCache).Where("item=>item.t.Name.indexOf('" + key + "')>-1").ToArray();
                     }
                     if (retDataCache.length == 0) {
-                        nomessage('#tb_eva', 'tr', 25, 320);
+                        nomessage('#tb_eva', 'tr');
                         return;
                     }
                     if (UI_Table.PageType == 'Allot_Add_Table') {
