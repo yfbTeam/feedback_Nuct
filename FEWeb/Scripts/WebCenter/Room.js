@@ -193,7 +193,7 @@ function GetClassInfoSelect(SectionID, TeacherUID, CourseID) {
                 $("#TN").empty();
                 $("#TN").append("<option value=''>全部</option>");
                 obj.TNList.forEach(function (item) {
-                    var str = "<option value='" + item.TeacherName + "'>" + item.TeacherName + "</option>";
+                    var str = "<option value='" + item.TeacherUID + "'>" + item.TeacherName + "</option>";
                     $("#TN").append(str);
                 });
                 ChosenInit($('#TN'));

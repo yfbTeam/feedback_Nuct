@@ -177,12 +177,22 @@
                 <ul>
                     {{each Eva_TableDetail_List}}
                 <li>
-                    <h2 class="title">${Sort}、${$value.Name}
-                    {{if $value.QuesType_Id!=3}}
+                    <h2 class="title">${Sort}、 {{if $value.QuesType_Id ==1 }}
+                             【单选题】
+                             {{else $value.QuesType_Id ==2 }}
+                             【多选题】
+                             {{else $value.QuesType_Id ==3 }}
+                             【问答题】
+                             {{else $value.QuesType_Id ==4 }}
+                             【选分题】
+                             {{/if}} ${$value.Name}
+                    {{if  $value.QuesType_Id ==1  || $value.QuesType_Id ==4}}
                        <b class="isscore">（<span class="isscore">${OptionF_S_Max}分</span>）</b>
                         {{/if}}
+
+                        
                     </h2>
-                    {{if $value.QuesType_Id ==1}}
+                    {{if $value.QuesType_Id ==1 }}
                     <div class="test_desc" detailid="${Id}">
                         {{if $value.OptionA!=""}}
                         <span>
@@ -234,6 +244,52 @@
                         </span>
                         {{/if}}
                     </div>
+
+                    {{else $value.QuesType_Id ==2}}
+                    <div class="test_desc test_desc2" detailid="${Id}">
+                        {{if $value.OptionA!=""}}
+                        <span>
+                            <input disabled="disabled" type="checkbox" name="inp_${$value.Id}" flv="OptionA" id="inp_${$value.Id}-1" value="${$value.OptionA_S}" />
+                            <label class="lbl" for="inp_${$value.Id}-1">
+                                A${$value.OptionA}                          
+                        </span>
+                        {{/if}}
+                        {{if $value.OptionB!=""}}
+                        <span>
+                            <input disabled="disabled" type="checkbox" name="inp_${$value.Id}" flv="OptionB" id="inp_${$value.Id}-2" value="${$value.OptionB_S}" />
+                            <label class="lbl" for="inp_${$value.Id}-2">
+                                B${$value.OptionB}                            
+                        </span>
+                        {{/if}}
+                        {{if $value.OptionC!=""}}
+                        <span>
+                            <input disabled="disabled" type="checkbox" name="inp_${$value.Id}" flv="OptionC" id="inp_${$value.Id}-3" value="${$value.OptionC_S}" />
+                            <label class="lbl" for="inp_${$value.Id}-3">
+                                C${$value.OptionC}                            
+                        </span>
+                        {{/if}}
+                        {{if $value.OptionD!=""}}
+                        <span>
+                            <input disabled="disabled" type="checkbox" name="inp_${$value.Id}" flv="OptionD" id="inp_${$value.Id}-4" value="${$value.OptionD_S}" />
+                            <label class="lbl" for="inp_${$value.Id}-4">
+                                D${$value.OptionD}                                                            
+                        </span>
+                        {{/if}}
+                        {{if $value.OptionE!=""}}
+                        <span>
+                            <input disabled="disabled" type="checkbox" name="inp_${$value.Id}" flv="OptionE" id="inp_${$value.Id}-5" value="${$value.OptionE_S}" />
+                            <label class="lbl" for="inp_${$value.Id}-5">E${$value.OptionE}</label>                           
+                        </span>
+                        {{/if}}
+                         {{if $value.OptionF!=""}}
+                        <span>
+                            <input disabled="disabled" type="checkbox" name="inp_${$value.Id}" flv="OptionF" id="inp_${$value.Id}-6" value="${$value.OptionF_S}" />
+                            <label class="lbl" for="inp_${$value.Id}-6">
+                                F${$value.OptionF}                                                         
+                        </span>
+                        {{/if}}
+                    </div>
+
                     {{else $value.QuesType_Id==3}}
                     <div class="test_desc" detailid="${Id}">
                         <textarea readonly="readonly"></textarea>

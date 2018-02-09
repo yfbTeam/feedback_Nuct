@@ -85,6 +85,11 @@
         .lbl {
             vertical-align: middle;
         }
+
+        .numbers
+        {
+           float:none;
+        }
     </style>
 </head>
 <body>
@@ -154,10 +159,20 @@
                     <input type="hidden" value="${$value.Id}" name="name_id" />
                     <input type="hidden" value="${QuesType_Id}" name="name_QuesType_Id" />
 
-                    <h2 class="title">${Sort}、${$value.Name}
+                    <h2 class="title">${Sort}、 {{if $value.QuesType_Id ==1 }}
+                             【单选题】
+                             {{else $value.QuesType_Id ==2 }}
+                             【多选题】
+                             {{else $value.QuesType_Id ==3 }}
+                             【问答题】
+                             {{else $value.QuesType_Id ==4 }}
+                             【选分题】
+                             {{/if}} ${$value.Name}
                     {{if $value.QuesType_Id ==1 || $value.QuesType_Id ==4}}
                        <b class="isscore">（<span class="isscore">${OptionF_S_Max}分</span>）</b>
+                        
                         {{/if}}
+                        
                     </h2>
                     {{if $value.QuesType_Id == 1}}
                     <div class="test_desc">
@@ -213,7 +228,7 @@
                     </div>
 
                     {{else $value.QuesType_Id==2}}
-                    <div class="test_desc">
+                    <div class="test_desc test_desc2">
                         {{if $value.OptionA!=""}}
                         <span>
                             <input type="checkbox" flv="OptionA" id="inp_${$value.Id}-1" value="${$value.OptionA_S}" />
@@ -248,7 +263,7 @@
                         {{/if}}
                         {{if $value.OptionE!=""}}
                         <span>
-                            <input type="radio" flv="OptionE" id="inp_${$value.Id}-5" value="${$value.OptionE_S}" />
+                            <input type="checkbox" flv="OptionE" id="inp_${$value.Id}-5" value="${$value.OptionE_S}" />
                             <label class="lbl" for="inp_${$value.Id}-5">E${$value.OptionE}</label>
 
                         </span>

@@ -12,13 +12,15 @@ namespace FEModel.Entity
         public string TeacherDepartmentName { get; set; }
 
         public string TeacherName { get; set; }
+
+        public string TeacherUID { get; set; }
     }
 
     public class TNModelComparer : EqualityComparer<TNModel>
     {
         public override bool Equals(TNModel x, TNModel y)
         {
-            return x.TeacherName == y.TeacherName;
+            return x.TeacherUID == y.TeacherUID;
         }
         public override int GetHashCode(TNModel obj)
         {

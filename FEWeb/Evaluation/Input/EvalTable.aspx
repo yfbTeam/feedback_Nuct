@@ -199,11 +199,7 @@
                     <input type="hidden" value="${$value.Id}" name="name_id" />
                     <input type="hidden" value="${QuesType_Id}" name="name_QuesType_Id" />
 
-                    <h2 class="title">${Sort}、${$value.Name}
-                   {{if $value.QuesType_Id ==1 || $value.QuesType_Id ==4}}
-                       <b class="isscore">（<span class="isscore">${OptionF_S_Max}分</span>）</b>
-                        {{/if}}
-                        {{if $value.QuesType_Id ==1 }}
+                    <h2 class="title">${Sort}、 {{if $value.QuesType_Id ==1 }}
                              【单选题】
                              {{else $value.QuesType_Id ==2 }}
                              【多选题】
@@ -211,7 +207,11 @@
                              【问答题】
                              {{else $value.QuesType_Id ==4 }}
                              【选分题】
-                             {{/if}} 
+                             {{/if}} ${$value.Name}
+                   {{if $value.QuesType_Id ==1 || $value.QuesType_Id ==4}}
+                       <b class="isscore">（<span class="isscore">${OptionF_S_Max}分</span>）</b>
+                        {{/if}}
+                       
                     </h2>
                     {{if $value.QuesType_Id ==1}}
                     <div class="test_desc" detailid="${Id}">
@@ -266,7 +266,7 @@
                         {{/if}}
                     </div>
                       {{else $value.QuesType_Id==2}}
-                    <div class="test_desc" detailid="${Id}">
+                    <div class="test_desc test_desc2" detailid="${Id}">
                         {{if $value.OptionA!=""}}
                         <span>
                             <input type="checkbox"  flv="OptionA" id="inp_${$value.Id}-1" value="${$value.OptionA_S}" />

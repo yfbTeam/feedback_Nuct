@@ -225,12 +225,17 @@ function departmentInit(roleId, DepartmentName)
 }
 
 function teacherreflesh()
-{   
-    var tnlist = TNList.filter(function (item) { return item.TeacherDepartmentName == $("#TD").val() })
+{
+    var tnlist = TNList;
+    if ($("#TD").val() != '')
+    {
+        var tnlist = tnlist.filter(function (item) { return item.TeacherDepartmentName == $("#TD").val() })
+    }
+ 
     $("#TN").empty();
     $("#TN").append("<option value=''>全部</option>");
     tnlist.forEach(function (item) {
-        var str = "<option value='" + item.TeacherName + "'>" + item.TeacherName + "</option>";
+        var str = "<option value='" + item.TeacherUID + "'>" + item.TeacherName + "</option>";
         $("#TN").append(str);
     });
     ChosenInit($('#TN'));

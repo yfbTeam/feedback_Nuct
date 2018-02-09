@@ -112,9 +112,9 @@
                 <% if(titem.QuesType_Id ==1){ %>
                 <div id="div_ques_<%=titem.Id%>" class="test_detail" DetailID="<%=titem.Id%>">
                     <h1 class="test_type">
-                        <b class="order_num"><%=(++tindex)%>.</b><b><%=titem.Name%></b>
+                        <b class="order_num"><%=(++tindex)%>.【单选题】</b><b><%=titem.Name%></b>
                         <% if(retData.IsScore==0){ %><b>(<span><%=titem.OptionF_S_Max%></span>分)</b><%}%>
-                        【单选题】
+                        
                     </h1>
                     <ul id="ul_ques_<%=titem.Id%>" class="radios maxques">
                         <% if(titem.OptionA!=""){ %>
@@ -171,14 +171,14 @@
                 <% }else if(titem.QuesType_Id ==2){ %>
                 <div id="div_ques_<%=titem.Id%>" class="test_detail" detailid="<%=titem.Id%>">
                     <h1 class="test_type">
-                        <b class="order_num"><%=(++tindex)%>.</b><b><%=titem.Name%></b>   
-                        【多选题】                   
+                        <b class="order_num"><%=(++tindex)%>.【多选题】</b><b><%=titem.Name%></b>   
+                                           
                     </h1>
                     <ul id="ul_ques_<%=titem.Id%>" class="radios maxques">
                         <% if(titem.OptionA!=""){ %>
                         <li lioption="OptionA">
                             <span>
-                                A<input type="radio" flv="OptionA" name="name_<%=titem.Id%>" value="<%=titem.OptionA_S%>" />
+                                A<input type="checkbox" flv="OptionA" name="name_<%=titem.Id%>" value="<%=titem.OptionA_S%>" />
                             </span>
                             <div><%=titem.OptionA%></div>
                         </li>
@@ -186,7 +186,7 @@
                         <% if(titem.OptionB!=""){ %>
                         <li lioption="OptionB">
                             <span>
-                                B<input type="radio" flv="OptionB" name="name_<%=titem.Id%>" value="<%=titem.OptionB_S%>" />
+                                B<input type="checkbox" flv="OptionB" name="name_<%=titem.Id%>" value="<%=titem.OptionB_S%>" />
                             </span>
                             <div><%=titem.OptionB%></div>
                         </li>
@@ -194,7 +194,7 @@
                         <% if(titem.OptionC!=""){ %>
                         <li lioption="OptionC">
                             <span>
-                                C<input type="radio" flv="OptionC" name="name_<%=titem.Id%>" value="<%=titem.OptionC_S%>" />
+                                C<input type="checkbox" flv="OptionC" name="name_<%=titem.Id%>" value="<%=titem.OptionC_S%>" />
                             </span>
                             <div><%=titem.OptionC%></div>
                         </li>
@@ -202,7 +202,7 @@
                         <% if(titem.OptionD!=""){ %>
                         <li lioption="OptionD">
                             <span>
-                                D<input type="radio" flv="OptionD" name="name_<%=titem.Id%>" value="<%=titem.OptionD_S%>" />
+                                D<input type="checkbox" flv="OptionD" name="name_<%=titem.Id%>" value="<%=titem.OptionD_S%>" />
                             </span>
                             <div><%=titem.OptionD%></div>
                         </li>
@@ -210,7 +210,7 @@
                         <% if(titem.OptionE!=""){ %>
                         <li lioption="OptionE">
                             <span>
-                                E<input type="radio" flv="OptionE" name="name_<%=titem.Id%>" value="<%=titem.OptionE_S%>" />
+                                E<input type="checkbox" flv="OptionE" name="name_<%=titem.Id%>" value="<%=titem.OptionE_S%>" />
                             </span>
                             <div><%=titem.OptionE%></div>
                         </li>
@@ -218,7 +218,7 @@
                         <% if(titem.OptionF!=""){ %>
                         <li lioption="OptionF">
                             <span>
-                                F<input type="radio" flv="OptionF" name="name_<%=titem.Id%>" value="<%=titem.OptionF_S%>" />
+                                F<input type="checkbox" flv="OptionF" name="name_<%=titem.Id%>" value="<%=titem.OptionF_S%>" />
                             </span>
                             <div><%=titem.OptionF%></div>
                         </li>
@@ -230,16 +230,16 @@
                 <% }else if(titem.QuesType_Id ==3){ %>
                 <div id="div_ques_<%=titem.Id%>" class="test_detail" detailid="<%=titem.Id%>">
                     <h1 class="test_type">
-                        <b class="order_num"><%=(++tindex)%>.</b><b><%=titem.Name%></b>
-                        【问答题】       
+                        <b class="order_num"><%=(++tindex)%>.【问答题】</b><b><%=titem.Name%></b>
+                               
                     </h1>
                     <textarea name="" id="" class="textarea" placeholder="请输入内容"></textarea>
                 </div>
                 <% }else if(titem.QuesType_Id ==4){ %>
                 <div id="div_ques_<%=titem.Id%>" class="test_detail" detailid="<%=titem.Id%>">
                     <h1 class="test_type">
-                        <b class="order_num"><%=(++tindex)%>.</b><b><%=titem.Name%></b>
-                        【选分题】       
+                        <b class="order_num"><%=(++tindex)%>.【选分题】</b><b><%=titem.Name%></b>
+                               
                     </h1>
                     <input readonly="readonly" name="Name" style="width: 98%; height: 35px;" />
                 </div>

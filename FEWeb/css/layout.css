@@ -872,7 +872,7 @@ z-index: 9999;width:100%;
 .test_lists ul li .test_desc {
   line-height: 40px;overflow:hidden;
 }
-.test_lists ul li .test_desc span {
+.test_lists ul li .test_desc>span {
   font-size: 14px;
   color: #333;
   float:left;

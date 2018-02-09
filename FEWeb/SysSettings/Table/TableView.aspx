@@ -97,11 +97,7 @@
                 <ul>
                     {{each Eva_TableDetail_List}}
                 <li>
-                    <h2 class="title">${Sort}、${$value.Name}
-                    {{if $value.QuesType_Id ==1 ||$value.QuesType_Id ==4}}
-                       <b class="isscore">（<span class="isscore">${OptionF_S_Max}分</span>）</b>
-                        {{/if}}
-                        {{if $value.QuesType_Id ==1 }}
+                    <h2 class="title">${Sort}、 {{if $value.QuesType_Id ==1 }}
                              【单选题】
                              {{else $value.QuesType_Id ==2 }}
                              【多选题】
@@ -109,7 +105,11 @@
                              【问答题】
                              {{else $value.QuesType_Id ==4 }}
                              【选分题】
-                             {{/if}} 
+                             {{/if}} ${$value.Name}
+                    {{if $value.QuesType_Id ==1 ||$value.QuesType_Id ==4}}
+                       <b class="isscore">（<span class="isscore">${OptionF_S_Max}分</span>）</b>
+                        {{/if}}
+                       
                     </h2>
                     {{if $value.QuesType_Id ==1}}
                     <div class="test_desc">
@@ -158,40 +158,40 @@
                     </div>
                     {{else  $value.QuesType_Id =="2" }}
                         <%--/////////////////////////////////////////////////////////////--%>
-                         <div class="test_desc">
+                         <div class="test_desc test_desc2">
                         {{if $value.OptionA!=""}}
                         <span>
-                            <input type="radio" disabled="disabled" name="" id="" value="" />
+                            <input type="checkbox" disabled="disabled" name="" id="" value="" />
                             <label>A${$value.OptionA}</label>                           
                         </span>
                         {{/if}}
                         {{if $value.OptionB!=""}}
                         <span>
-                            <input type="radio" disabled="disabled" name="" id="" value="" />
+                            <input type="checkbox" disabled="disabled" name="" id="" value="" />
                             <label>B${$value.OptionB}</label>                         
                         </span>
                         {{/if}}
                         {{if $value.OptionC!=""}}
                         <span>
-                            <input type="radio" disabled="disabled" name="" id="" value="" />
+                            <input type="checkbox" disabled="disabled" name="" id="" value="" />
                             <label>C${$value.OptionC}</label>                          
                         </span>
                         {{/if}}
                         {{if $value.OptionD!=""}}
                         <span>
-                            <input type="radio" disabled="disabled" name="" id="" value="" />
+                            <input type="checkbox" disabled="disabled" name="" id="" value="" />
                             <label>D${$value.OptionD}</label>                            
                         </span>
                         {{/if}}
                         {{if $value.OptionE!=""}}
                         <span>
-                            <input type="radio" disabled="disabled" name="" id="" value="" />
+                            <input type="checkbox" disabled="disabled" name="" id="" value="" />
                             <label>E${$value.OptionE}</label>                           
                         </span>
                         {{/if}}
                          {{if $value.OptionF!=""}}
                         <span>
-                            <input type="radio" disabled="disabled" name="" id="" value="" />
+                            <input type="checkbox" disabled="disabled" name="" id="" value="" />
                             <label>F${$value.OptionF}</label>                          
                         </span>
                         {{/if}}
