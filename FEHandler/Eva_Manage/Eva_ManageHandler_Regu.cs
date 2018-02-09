@@ -32,11 +32,12 @@ namespace FEHandler.Eva_Manage
             int PageSize = RequestHelper.int_transfer(Request, "PageSize");
             try
             {
+                //&& table.IsEnable == (int)IsEnable.Enable
                 var regulist = (from regu in Constant.Eva_Regular_List
                                 join section in Constant.StudySection_List on regu.Section_Id equals section.Id
                                 join user in Constant.UserInfo_List on regu.CreateUID equals user.UniqueNo
                                 join table in Constant.Eva_Table_List on regu.TableID equals table.Id
-                                where regu.Type == Type && table.IsEnable == (int)IsEnable.Enable
+                                where regu.Type == Type 
 
                                 select new Regu_S()
                                 {

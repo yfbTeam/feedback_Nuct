@@ -216,25 +216,25 @@
                     <div class="test_desc2">
                         {{if $value.OptionA!=""}}
                         <span>
-                            <input type="radio"   flv="OptionA" id="inp_${$value.Id}-1" value="${$value.OptionA_S}" />
+                            <input type="radio" flv="OptionA" id="inp_${$value.Id}-1" value="${$value.OptionA_S}" />
                             <label class="lbl" for="inp_${$value.Id}-1">
-                                A${$value.OptionA}
+                            A${$value.OptionA}
                           
                         </span>
                         {{/if}}
                         {{if $value.OptionB!=""}}
                         <span>
-                            <input type="radio"  flv="OptionB" id="inp_${$value.Id}-2" value="${$value.OptionB_S}" />
+                            <input type="radio" flv="OptionB" id="inp_${$value.Id}-2" value="${$value.OptionB_S}" />
                             <label class="lbl" for="inp_${$value.Id}-2">
-                                B${$value.OptionB}
+                            B${$value.OptionB}
                            
                         </span>
                         {{/if}}
                         {{if $value.OptionC!=""}}
                         <span>
-                            <input type="radio"  flv="OptionC" id="inp_${$value.Id}-3" value="${$value.OptionC_S}" />
+                            <input type="radio" flv="OptionC" id="inp_${$value.Id}-3" value="${$value.OptionC_S}" />
                             <label class="lbl" for="inp_${$value.Id}-3">
-                                C${$value.OptionC}
+                            C${$value.OptionC}
                            
                         </span>
                         {{/if}}
@@ -242,22 +242,22 @@
                         <span>
                             <input type="radio" flv="OptionD" id="inp_${$value.Id}-4" value="${$value.OptionD_S}" />
                             <label class="lbl" for="inp_${$value.Id}-4">
-                                D${$value.OptionD}
+                            D${$value.OptionD}
                                
                         </span>
                         {{/if}}
                         {{if $value.OptionE!=""}}
                         <span>
-                            <input type="radio"  flv="OptionE" id="inp_${$value.Id}-5" value="${$value.OptionE_S}" />
+                            <input type="radio" flv="OptionE" id="inp_${$value.Id}-5" value="${$value.OptionE_S}" />
                             <label class="lbl" for="inp_${$value.Id}-5">E${$value.OptionE}</label>
-                            
+
                         </span>
                         {{/if}}
                          {{if $value.OptionF!=""}}
                         <span>
-                            <input type="radio"  flv="OptionF" id="inp_${$value.Id}-6" value="${$value.OptionF_S}" />
+                            <input type="radio" flv="OptionF" id="inp_${$value.Id}-6" value="${$value.OptionF_S}" />
                             <label class="lbl" for="inp_${$value.Id}-6">
-                                F${$value.OptionF}
+                            F${$value.OptionF}
                                
                           
                         </span>
@@ -353,8 +353,6 @@
                 $('#dp').val(DepartmentName);
                 evaluate_Model.IsScore = retdata.IsScore;
 
-              
-
             };
             UI_Table_View.PageType = 'selectTable';
             Base.BindTableCompleate = function () {
@@ -362,7 +360,7 @@
                 UI_Table_View.IsPage_Display = true;
                 UI_Table_View.Get_Eva_TableDetail();
             };
-            Base.BindTable(SectionID, CourseID);
+            Base.BindTable(SectionID, CourseID, true);
             $('#table').on('change', function () {
                 table_Id = $('#table').val();
                 UI_Table_View.IsPage_Display = true;

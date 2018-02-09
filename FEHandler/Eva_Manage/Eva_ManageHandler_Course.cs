@@ -274,7 +274,7 @@ namespace FEHandler.Eva_Manage
             HttpRequest Request = context.Request;
             string CourseTypeId = RequestHelper.string_transfer(Request, "CourseTypeId");
             int SectionId = RequestHelper.int_transfer(Request, "SectionId");
-
+            //  where b.IsEnable == (int)IsEnable.Enable
             try
             {
                 var data = (from s in Constant.Sys_Dictionary_List
@@ -282,7 +282,7 @@ namespace FEHandler.Eva_Manage
                             join tb in Constant.Eva_CourseType_Table_List on s.Key equals tb.CourseTypeId
                             where tb.StudySection_Id == SectionId
                             join b in Constant.Eva_Table_List on tb.TableId equals b.Id
-                            where b.IsEnable == (int)IsEnable.Enable
+                          
                             join user in Constant.UserInfo_List on b.CreateUID equals user.UniqueNo into users_
                             from u in users_.DefaultIfEmpty()
                             select new { tb.Id, b.Name, b.IsScore, b.UseTimes, b.CreateUID, b.CreateTime, b.IsEnable, UserName = u != null ? u.Name : "", TableId = b.Id, CourseTypeId = s.Key }).ToList();
@@ -331,7 +331,7 @@ namespace FEHandler.Eva_Manage
             try
             {
                 jsmodel = JsonModel.get_jsonmodel(intSuccess, "success", 0);
-
+                //   where t.IsEnable == (int)IsEnable.Enable
                 var tablss_add = (from vir_t in tableList
                                   join tab_c in Constant.Eva_CourseType_Table_List on new
                                   {
@@ -349,7 +349,7 @@ namespace FEHandler.Eva_Manage
                 var tablss_delete = (from tab_c in Constant.Eva_CourseType_Table_List
                                      where tab_c.CourseTypeId == CourseTypeId && tab_c.StudySection_Id == SectionId
                                      join t in Constant.Eva_Table_List on tab_c.TableId equals t.Id
-                                     where t.IsEnable == (int)IsEnable.Enable
+                                  
                                      join vir_t in tableList on t.Id equals vir_t into vir_ts
                                      from vir_t_ in vir_ts.DefaultIfEmpty()
                                      where vir_t_ == 0

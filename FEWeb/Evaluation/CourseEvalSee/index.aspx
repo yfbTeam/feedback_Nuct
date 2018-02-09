@@ -227,7 +227,8 @@
         }
 
         //二维码
-        function QRcode(id, RoomID, ReguID, RoomID) {
+        function QRcode(id, RoomID, ReguID) {
+           
             OpenIFrameWindow('二维码', 'Qcode.aspx?url=' + MobileUrl + 'Mobile/onlinetest.html?id=' + id + '&rId=' + RoomID + '&ReguID=' + ReguID + '&Eva_Role=2', '300px', '300px');
         }
     </script>

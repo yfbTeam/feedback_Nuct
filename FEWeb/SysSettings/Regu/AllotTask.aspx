@@ -10,6 +10,9 @@
     <link rel="stylesheet" href="../../css/layout.css" />
     <link href="../../css/fixed-table.css" rel="stylesheet" />
     <script src="../../Scripts/jquery-1.11.2.min.js"></script>
+
+
+
     <style>
         .email_right .scroll-pane {
             width: auto;
@@ -144,6 +147,12 @@
             margin: 0px 10px;
             text-indent: 10px;
             color: #009706;
+        }
+
+        .trnomessage {
+          
+            width: 1000px;
+            height: 200px;
         }
     </style>
 
@@ -307,8 +316,6 @@
         </div>
     </div>
     <div class="btnwrap">
-        <%-- <input type="button" value="保存" class="btn" onclick="submit()" />
-            <input type="button" value="取消" class="btna" onclick="parent.CloseIFrameWindow();" />--%>
     </div>
 
     <script src="../../Scripts/Common.js"></script>
@@ -410,28 +417,26 @@
         var select_course_teacher = [];
         var select_reguid = parent.select_reguid;
         var IsAllSchool = parent.IsAllSchool;
-        debugger;
+
         var pageIndex = 0;
         $(function () {
+
             var ids = GetIDs('Userinfos');
             var rids = ids.split(',');
+
             if (isHasElement(ids, 10) > -1) {
                 GetUserByType('17');//获取
             }
-            else if (isHasElement(ids, 19) > -1)
-            {                
+            else if (isHasElement(ids, 19) > -1) {
                 DepartmentID = login_User.Major_ID;
                 GetUserByType('16');//院系专家
             }
-
             Get_Eva_QuestionAnswerCompleate = function (data) {
-
                 for (var i = 0; i < data.length; i++) {
                     AddDis(data[i].CourseID, data[i].CourseName, data[i].TeacherUID, data[i].TeacherName)
                 }
                 fillData_disable(data);
             };
-
             GetTeacherInfo_Course_ClsCompleate = function (data) {
 
                 for (var i = 0; i < data.length; i++) {
@@ -439,27 +444,26 @@
                 }
                 fillData(data);
             };
-
             ExpertListRefleshCompleate = function (exp0) {
                 Mode = 4;
                 AnswerUID = exp0.UniqueNo;
                 Get_Eva_QuestionAnswer(0, select_sectionid);
                 GetTeacherInfo_Course_Cls();
             };
-
             PageSize = 5;
             Groups = 6;
             size = 12;
             height = 263;
             ClassModelType = 1;
-
             PageType = 'AllotTask';
+            $("#TD").on('change', function () {
+                teacherreflesh();
+            });
 
             $("#DP,#CT,#CP,#TD,#TN,#MD,#GD,#CN").on('change', function () {
                 pageIndex = 0;
                 GetClassInfo(pageIndex);
             });
-
             $('.number').on('blur', function () {
                 pageIndex = 0;
 
@@ -468,35 +472,36 @@
 
                 SchoolS = $('#SchoolS').val();
                 SchoolE = $('#SchoolE').val();
-
                 GetClassInfo(pageIndex);
             });
-
             $('.number').on('change', function () {
                 $(this).trigger('blur');
             });
-            PrepareInit();
-            //默认第一个选中，并且添加点击事件，选中样式
-            $('.linkman_lists li:eq(0)').trigger('click');
             GetClassInfoCompleate = function () {
                 $('#tbody').find('.checkbox').on('click', function () {
-
                     if ($(this).is(':checked')) {
-
                         AddDis($(this).attr('CourseID'), $(this).attr('Course_Name'), $(this).attr('TeacherUID'), $(this).attr('Teacher_Name'));
                     }
                     else {
                         RemoveDis($(this).attr('CourseID'), $(this).attr('TeacherUID'));
                     }
                 });
-                $(".fixed-table-box").fixedTable();
-
                 Mode = 4;
                 AnswerUID = selectExpertUID;
                 Get_Eva_QuestionAnswer(0, select_sectionid);
                 GetTeacherInfo_Course_Cls();
             };
-            GetClassInfo(pageIndex);
+            PrepareInit();
+            //默认第一个选中，并且添加点击事件，选中样式
+            $('.linkman_lists li:eq(0)').trigger('click');
+            if ($('.linkman_lists li:eq(0)').length > 0) {
+
+            }
+            else {
+                var rolid = isHasElement(ids, 19) > -1 ? 16 : 17;
+                departmentInit(rolid, login_User.DepartmentName);
+            }
+
         })
 
         function SelectByWhere() {
@@ -511,7 +516,6 @@
         //提交分配
         function submit() {
             DisModelType = 1;
-
             AddExpert_List_Teacher_Course();
         }
 
@@ -527,8 +531,6 @@
                     $(this).prop('disabled', 'disabled');
                 }
             });
-
-
         }
 
         //填充checkbox
@@ -543,9 +545,6 @@
                 }
             });
         }
-
-
-
 
     </script>
 
