@@ -36,6 +36,9 @@ var S_TJ = 0;
 var S_BR = 0;
 var S_SY = 0;
 var PageType = '';
+
+var select_course_teacher = [];
+
 function GetClassInfoCompleate() { };
 //绑定课程信息
 function GetClassInfo(PageIndex) {
@@ -105,9 +108,13 @@ function GetClassInfo(PageIndex) {
                 }
 
                 $("#itemData").tmpl(data).appendTo("#tbody");
-                for (var i = 0; i < select_course_teacher.length; i++) {
-                    $('#tbody').find('input[Id="' + select_course_teacher[i].Id + '"]').prop('checked', true);
+                if (select_course_teacher != undefined)
+                {
+                    for (var i = 0; i < select_course_teacher.length; i++) {
+                        $('#tbody').find('input[Id="' + select_course_teacher[i].Id + '"]').prop('checked', true);
+                    }
                 }
+               
 
                 tableSlide();
 

@@ -1014,14 +1014,18 @@ namespace FEHandler.Eva_Manage
                         break;
                     case FuncType.getcount:
                         bool result = false;
-                        foreach (var li in list)
-                        {
-                            int AnswerCount = Constant.Eva_QuestionAnswer_List.Count(q => q.ReguID == li.ReguId && q.CourseID == li.CourseID && q.State == (int)QueState.Submited);
-                            if(AnswerCount == 0)
+                        var currentSection = Constant.StudySection_List.FirstOrDefault(i => i.IsEnable == (int)IsEnable.Enable);
+                        if(currentSection != null)
+                        {                          
+                            foreach (var li in list)
                             {
-                                result = true;
+                                int AnswerCount = Constant.Eva_QuestionAnswer_List.Count(q =>q.SectionID == currentSection.Id && q.ReguID == li.ReguId && q.CourseID == li.CourseID && q.State == (int)QueState.Submited);
+                                if (AnswerCount == 0)
+                                {
+                                    result = true;
+                                }
                             }
-                        }
+                        }                      
                         //返回所有表格数据
                         jsm = JsonModelNum.GetJsonModel_o(intSuccess, "success", result);
                         break;

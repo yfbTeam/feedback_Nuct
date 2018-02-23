@@ -27,7 +27,7 @@ namespace FEHandler.Eva_Manage
                 string ExpertUID = RequestHelper.string_transfer(Request, "ExpertUID");
                 int Type = RequestHelper.int_transfer(Request, "Type");
                 string Regu_Id = RequestHelper.string_transfer(Request, "Regu_Id");
-                
+
                 int SectionID = RequestHelper.int_transfer(Request, "SectionID");
                 int DisModeltype = RequestHelper.int_transfer(Request, "DisModelType");
                 DisModelType DisModelType = (DisModelType)DisModeltype;
@@ -167,12 +167,12 @@ namespace FEHandler.Eva_Manage
                 {
                     var list = (from exp in Expert_Teacher_Course_List
                                 join section in Constant.StudySection_List on exp.SecionID equals section.Id
-                                join regu in Constant.Eva_Regular_List on exp.ReguId equals Convert.ToString( regu.Id)
-                                select new { exp, section ,regu}
+                                join regu in Constant.Eva_Regular_List on exp.ReguId equals Convert.ToString(regu.Id)
+                                select new { exp, section, regu }
                                    ).ToList();
 
                     var list0 = list.Count > 0 ? list[0] : null;
-                    if(list0!= null)
+                    if (list0 != null)
                     {
                         var exp = list0.exp;
                         var section = list0.section;
@@ -188,7 +188,7 @@ namespace FEHandler.Eva_Manage
                             ReguID = exp.ReguId,
                             ReguName = regu.Name,
                             ExpertUID = exp.ExpertUID,
-                            ExpertName =exp.ExpertName,                         
+                            ExpertName = exp.ExpertName,
                         };
                         model = JsonModel.get_jsonmodel(Success, "success", data);
                     }
@@ -196,7 +196,7 @@ namespace FEHandler.Eva_Manage
                     {
                         model = JsonModel.get_jsonmodel(failed, "failed", "数据不匹配（专家分配，学年学期，定期评价）");
                     }
-                    
+
                 }
                 else
                 {
@@ -283,7 +283,7 @@ namespace FEHandler.Eva_Manage
                             join tb in Constant.Eva_CourseType_Table_List on s.Key equals tb.CourseTypeId
                             where tb.StudySection_Id == SectionId
                             join b in Constant.Eva_Table_List on tb.TableId equals b.Id
-                          
+
                             join user in Constant.UserInfo_List on b.CreateUID equals user.UniqueNo into users_
                             from u in users_.DefaultIfEmpty()
                             select new { tb.Id, b.Name, b.IsScore, b.UseTimes, b.CreateUID, b.CreateTime, b.IsEnable, UserName = u != null ? u.Name : "", TableId = b.Id, CourseTypeId = s.Key }).ToList();
@@ -337,11 +337,13 @@ namespace FEHandler.Eva_Manage
                                   join tab_c in Constant.Eva_CourseType_Table_List on new
                                   {
                                       TableId = vir_t,
-                                      CourseTypeId = CourseTypeId
+                                      CourseTypeId = CourseTypeId,
+                                      SectionID = SectionId,
                                   } equals new
                                   {
                                       TableId = (int)tab_c.TableId,
-                                      CourseTypeId = tab_c.CourseTypeId
+                                      CourseTypeId = tab_c.CourseTypeId,
+                                      SectionID = (int)tab_c.StudySection_Id,
                                   } into tabc_cs
                                   from tac_ in tabc_cs.DefaultIfEmpty()
                                   where tac_ == null
@@ -350,7 +352,7 @@ namespace FEHandler.Eva_Manage
                 var tablss_delete = (from tab_c in Constant.Eva_CourseType_Table_List
                                      where tab_c.CourseTypeId == CourseTypeId && tab_c.StudySection_Id == SectionId
                                      join t in Constant.Eva_Table_List on tab_c.TableId equals t.Id
-                                  
+
                                      join vir_t in tableList on t.Id equals vir_t into vir_ts
                                      from vir_t_ in vir_ts.DefaultIfEmpty()
                                      where vir_t_ == 0

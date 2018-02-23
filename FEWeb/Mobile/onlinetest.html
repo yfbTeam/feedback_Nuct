@@ -108,6 +108,11 @@
             left: 0;
             line-height:28px;
         }
+
+        .ti {
+            width: 100%;
+            padding: 66px 10px 101px 10px;
+        }
     </style>
 </head>
 <body>
@@ -261,7 +266,7 @@
                     <ul id="ul_ques_<%=titem.Id%>" class="radios maxques">
                         <% if(titem.OptionA!=""){ %>
                         <li class="muti" lioption="OptionA">
-                            <span>
+                            <span style="border-radius:inherit">
                                 A<input type="checkbox" flv="OptionA" value="<%=titem.OptionA_S%>" />
                             </span>
                             <div><%=titem.OptionA%></div>
@@ -269,7 +274,7 @@
                         <% } %>
                         <% if(titem.OptionB!=""){ %>
                         <li class="muti" lioption="OptionB">
-                            <span>
+                            <span style="border-radius:inherit">
                                 B<input type="checkbox" flv="OptionB" value="<%=titem.OptionB_S%>" />
                             </span>
                             <div><%=titem.OptionB%></div>
@@ -277,7 +282,7 @@
                         <% } %>
                         <% if(titem.OptionC!=""){ %>
                         <li class="muti" lioption="OptionC">
-                            <span>
+                            <span style="border-radius:inherit">
                                 C<input type="checkbox" flv="OptionC" value="<%=titem.OptionC_S%>" />
                             </span>
                             <div><%=titem.OptionC%></div>
@@ -285,7 +290,7 @@
                         <% } %>
                         <% if(titem.OptionD!=""){ %>
                         <li class="muti" lioption="OptionD">
-                            <span>
+                            <span style="border-radius:inherit">
                                 D<input type="checkbox" flv="OptionD" value="<%=titem.OptionD_S%>" />
                             </span>
                             <div><%=titem.OptionD%></div>
@@ -293,7 +298,7 @@
                         <% } %>
                         <% if(titem.OptionE!=""){ %>
                         <li class="muti" lioption="OptionE">
-                            <span>
+                            <span style="border-radius:inherit">
                                 E<input type="checkbox" flv="OptionE" value="<%=titem.OptionE_S%>" />
                             </span>
                             <div><%=titem.OptionE%></div>
@@ -301,7 +306,7 @@
                         <% } %>
                         <% if(titem.OptionF!=""){ %>
                         <li class="muti" lioption="OptionF">
-                            <span>
+                            <span style="border-radius: inherit">
                                 F<input type="checkbox" flv="OptionF" value="<%=titem.OptionF_S%>" />
                             </span>
                             <div><%=titem.OptionF%></div>
