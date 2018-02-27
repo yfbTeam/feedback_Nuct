@@ -540,7 +540,7 @@ namespace FEHandler.Eva_Manage
                         {
                             Eva_QuestionAnswer_Detail detailClone = Constant.Clone(detail);
                             detailClone.Answer = item.Answer;
-                            detailClone.Score = item.Score;
+                            detailClone.Score = item.Score;                     
                             detailClone.State = State;
                             detailClone.EditTime = DateTime.Now;
                             var jsm = Constant.Eva_QuestionAnswer_DetailService.Update(detailClone);
@@ -550,6 +550,42 @@ namespace FEHandler.Eva_Manage
                                 detail.Score = item.Score;
                                 detail.State = State;
                                 detail.EditTime = DateTime.Now;
+                            }
+                        }
+                        else
+                        {
+                            item.SectionID = Eva_QuestionAnswer.SectionID;
+                            item.DisPlayName = Eva_QuestionAnswer.DisPlayName;
+                            item.ReguID = Eva_QuestionAnswer.ReguID;                          
+                            item.ReguName = Eva_QuestionAnswer.ReguName;
+
+                            item.TableID = Eva_QuestionAnswer.TableID;
+                            item.TableName = Eva_QuestionAnswer.TableName;
+                            item.TeacherUID = Eva_QuestionAnswer.TeacherUID;
+                            item.TeacherName = Eva_QuestionAnswer.TeacherName;
+
+                            item.CourseTypeID = Eva_QuestionAnswer.CourseTypeID;
+                            item.CourseTypeName = Eva_QuestionAnswer.CourseTypeName;
+                            item.CourseID = Eva_QuestionAnswer.CourseID;
+                            item.CourseName = Eva_QuestionAnswer.CourseName;
+
+                            item.AnswerUID = Eva_QuestionAnswer.AnswerUID;
+                            item.AnswerName = Eva_QuestionAnswer.AnswerName;
+
+                            item.QuestionID = Eva_QuestionAnswer.Id;
+
+                            item.State = Eva_QuestionAnswer.State;
+                            item.RoomID = Eva_QuestionAnswer.RoomID;
+                            item.Eva_Role = Eva_QuestionAnswer.Eva_Role;
+                            item.CreateUID = Eva_QuestionAnswer.CreateUID;
+                            item.EditUID = Eva_QuestionAnswer.EditUID;
+                            item.EditTime = DateTime.Now;
+
+                            var jsm = Constant.Eva_QuestionAnswer_DetailService.Add(item);
+                            if (jsm.errNum == 0)
+                            {
+                                Constant.Eva_QuestionAnswer_Detail_List.Add(item);
+                                item.Id = Convert.ToInt32(jsm.retData);
                             }
                         }
                     }

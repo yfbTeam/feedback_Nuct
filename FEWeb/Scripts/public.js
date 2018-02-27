@@ -541,15 +541,16 @@ function ChosenInit(select) {
 function InitControl(isscore) { //答题-控件初始化
     isscore = arguments[0] || 0;
 
+
     //单选题
     $('.test_desc').find('input[type="radio"]').on('click', function () {
         incontorl_helper(isscore);
     });
 
-    $('.test_desc').find('input[class="number"]').on('click', function () {
+    $('.test_desc').find('input[type="number"]').on('click', function () {
         incontorl_helper(isscore);
     });
-    $('.test_desc').find('input[class="number"]').on('blur', function () {
+    $('.test_desc').find('input[type="number"]').on('blur', function () {
         incontorl_helper(isscore);
     });
 
@@ -558,6 +559,8 @@ function InitControl(isscore) { //答题-控件初始化
     }).on('blur', function () {
         incontorl_helper(isscore);
     })
+
+    incontorl_helper(isscore);
 }
 
 function incontorl_helper(isscore) {
@@ -567,7 +570,7 @@ function incontorl_helper(isscore) {
             realTotal = numAdd(realTotal, $(this).val());
         });
 
-        $(".test_desc").find('input[class="number"]').each(function () {
+        $(".test_desc").find('input[type="number"]').each(function () {
             var score = $(this).val() == '' ? 0 : Number($(this).val());
             var max = $(this).attr('maxscore') == '' ? 0 : Number($(this).attr('maxscore'));
             if (score > 0 && score <= max) {

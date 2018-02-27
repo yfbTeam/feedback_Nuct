@@ -44,6 +44,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Entity\CCModel.cs" />
+    <Compile Include="Entity\CourseRoomCompare.cs" />
     <Compile Include="Entity\MuteUser.cs" />
     <Compile Include="Entity\Sys_RoleOfUserComparer.cs" />
     <Compile Include="Entity\TDModel.cs" />

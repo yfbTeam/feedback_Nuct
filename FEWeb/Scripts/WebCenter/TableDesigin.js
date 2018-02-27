@@ -196,7 +196,7 @@ var UI_Table_Create =
         //------------------存储比例系数----------------------------------------------------
         UI_Table_Create.load_score_parameter();
     },
-    load_score_parameter: function () {      
+    load_score_parameter: function () {
         var S_A_P2 = localStorage.getItem('S_A_P2');
         var S_B_P2 = localStorage.getItem('S_B_P2');
         var S_C_P2 = localStorage.getItem('S_C_P2');
@@ -222,7 +222,7 @@ var UI_Table_Create =
             $('#F').val(S_F_P2);
         }
     },
-    save_score_parameter: function () {   
+    save_score_parameter: function () {
         var S_A_P2 = $('#A').val();
         var S_B_P2 = $('#B').val();
         var S_C_P2 = $('#C').val();
@@ -631,6 +631,42 @@ var UI_Table_Create =
                 total += total_1;
             })
             $("#total").html(total.toFixed(2) + '');
+
+           //================================【新加，每个小题分数调整都可以进行整体进行刷新】
+            var list_s = Enumerable.From(select_sheet.indicator_array[0].indicator_list).Where("x=>x.Id == '" + Id + "'").ToArray();
+
+            //循环每一个试题选项的文本框的值，存在数组num_array中
+            element.parents("li").find('input[class="number"]').each(function (i) {
+                var flg = $(this).attr('flg');
+                if (flg != 'sum') {
+                    var option = $(this).attr('id');
+                    var result = $(this).val() > 0 ? Number($(this).val()) : 0;
+                    if (option.indexOf('OptionA_') >= 0) {
+                        result = result > 0 ? result.toFixed(2) : 0;
+                        list_s[0].OptionA_S = result;
+                    }
+                    else if (option.indexOf('OptionB_') >= 0) {
+                        result = result > 0 ? result.toFixed(2) : 0;
+                        list_s[0].OptionB_S = result;
+                    }
+                    else if (option.indexOf('OptionC_') >= 0) {
+                        result = result > 0 ? result.toFixed(2) : 0;
+                        list_s[0].OptionC_S = result;
+                    }
+                    else if (option.indexOf('OptionD_') >= 0) {
+                        result = result > 0 ? result.toFixed(2) : 0;
+                        list_s[0].OptionD_S = result;
+                    }
+                    else if (option.indexOf('OptionE_') >= 0) {
+                        result = result > 0 ? result.toFixed(2) : 0;
+                        list_s[0].OptionE_S = result;
+                    }
+                    else if (option.indexOf('OptionF_') >= 0) {
+                        result = result > 0 ? result.toFixed(2) : 0;
+                        list_s[0].OptionF_S = result;
+                    }
+                }
+            })
         }
     },
     text_Sum_event: function (element) {
@@ -715,7 +751,7 @@ var UI_Table_Create =
 
             va = va > 0 ? Number(va).toFixed(2) : 0;
             list_s[0].OptionF_S_Max = va;
-           
+
 
             //为标题内的文本框赋最大值
             //var max = Math.max.apply(null, num_array);
@@ -1238,7 +1274,7 @@ var UI_Table_View = {
             success: function (json) {
 
                 var retData = json.result.retData;
-             
+
                 if (retData.Table_Header_List.length == 0) {
                     $('#list').hide();
                 }
@@ -1329,7 +1365,7 @@ var UI_Table_View = {
                         UI_Table_Create.sheet_init();
 
                         retData.Table_Header_List = Enumerable.From(retData.Table_Header_List).OrderBy(function (item) { return item.Id }).ToArray();//按Id进行升序排列
-                      
+
                         //添加表头信息
                         for (var i in retData.Table_Header_List) {
                             var item = retData.Table_Header_List[i];

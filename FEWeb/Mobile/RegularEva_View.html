@@ -68,6 +68,11 @@
             .div_header2 select {
                 /*width: 210px;*/
             }
+
+        .ti {
+            width: 100%;
+            padding: 66px 10px 101px 10px;
+        }
     </style>
 </head>
 <body>
@@ -177,7 +182,7 @@
                     <ul id="ul_ques_<%=titem.Id%>" class="radios maxques">
                         <% if(titem.OptionA!=""){ %>
                         <li lioption="OptionA">
-                            <span  >
+                            <span style="border-radius:inherit">
                                 A<input type="checkbox" flv="OptionA" name="name_<%=titem.Id%>" value="<%=titem.OptionA_S%>" />
                             </span>
                             <div><%=titem.OptionA%></div>
@@ -185,7 +190,7 @@
                         <% } %>
                         <% if(titem.OptionB!=""){ %>
                         <li lioption="OptionB">
-                            <span>
+                            <span style="border-radius:inherit">
                                 B<input type="checkbox" flv="OptionB" name="name_<%=titem.Id%>" value="<%=titem.OptionB_S%>" />
                             </span>
                             <div><%=titem.OptionB%></div>
@@ -193,7 +198,7 @@
                         <% } %>
                         <% if(titem.OptionC!=""){ %>
                         <li lioption="OptionC">
-                            <span>
+                            <span style="border-radius:inherit">
                                 C<input type="checkbox" flv="OptionC" name="name_<%=titem.Id%>" value="<%=titem.OptionC_S%>" />
                             </span>
                             <div><%=titem.OptionC%></div>
@@ -201,7 +206,7 @@
                         <% } %>
                         <% if(titem.OptionD!=""){ %>
                         <li lioption="OptionD">
-                            <span>
+                            <span style="border-radius:inherit">
                                 D<input type="checkbox" flv="OptionD" name="name_<%=titem.Id%>" value="<%=titem.OptionD_S%>" />
                             </span>
                             <div><%=titem.OptionD%></div>
@@ -209,7 +214,7 @@
                         <% } %>
                         <% if(titem.OptionE!=""){ %>
                         <li lioption="OptionE">
-                            <span>
+                            <span style="border-radius:inherit">
                                 E<input type="checkbox" flv="OptionE" name="name_<%=titem.Id%>" value="<%=titem.OptionE_S%>" />
                             </span>
                             <div><%=titem.OptionE%></div>
@@ -217,7 +222,7 @@
                         <% } %>
                         <% if(titem.OptionF!=""){ %>
                         <li lioption="OptionF">
-                            <span>
+                            <span style="border-radius:inherit">
                                 F<input type="checkbox" flv="OptionF" name="name_<%=titem.Id%>" value="<%=titem.OptionF_S%>" />
                             </span>
                             <div><%=titem.OptionF%></div>

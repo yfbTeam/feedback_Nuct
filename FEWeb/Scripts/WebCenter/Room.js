@@ -45,7 +45,7 @@ function GetClassInfo(PageIndex) {
     layer_index = layer.load(1, {
         shade: [0.1, '#fff'] //0.1透明度的白色背景
     });
-
+    debugger;
     if (PageType == 'StartEval') {
         S_DP = $('#S_DP Span').attr('sorttype');
         S_CN = $('#S_CN Span').attr('sorttype');
@@ -65,9 +65,10 @@ function GetClassInfo(PageIndex) {
     var key = $('#class_key').val();
     key = key != undefined ? key.trim() : '';
 
+    var sectionid = $('#section').val() != undefined ? $('#section').val() : select_sectionid;
     var postData = {
         func: "GetClassInfo", "PageIndex": PageIndex, "PageSize": PageSize,
-        "SectionID": $('#section').val(), "DP": $('#DP').val(), "CT": $('#CT').val(),
+        "SectionID": sectionid, "DP": $('#DP').val(), "CT": $('#CT').val(),
         "CP": $('#CP').val(), "TD": $('#TD').val(), "TN": $('#TN').val(), "MD": $('#MD').val(),
         "GD": $('#GD').val(), "CN": $('#CN').val(), "Key": key, "BirthdayS": BirthdayS, "BirthdayE": BirthdayE,
         "SchoolS": SchoolS, "SchoolE": SchoolE, "ClassModelType": ClassModelType,

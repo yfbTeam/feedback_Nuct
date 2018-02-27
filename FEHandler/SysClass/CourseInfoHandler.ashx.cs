@@ -326,6 +326,7 @@ namespace FEHandler.SysClass
             try
             {
                 List<Course> Course_List = Constant.Course_List;
+                List<CourseRoom> CourseRoom_List = Constant.CourseRoom_List.Distinct(new CourseRoomCompare()).ToList();
                 List<CourseRel> CourseRel_List = Constant.CourseRel_List;
                 List<Sys_Dictionary> Sys_Dictionary_List = Constant.Sys_Dictionary_List;
 
@@ -350,8 +351,11 @@ namespace FEHandler.SysClass
                 }
 
                 var query = (from Course_ in Course_List
+                             join room in CourseRoom_List on Course_.UniqueNo equals room.Coures_Id
+                             where room.StudySection_Id == SectionId
                              join cr_ in courrel on Course_.UniqueNo equals cr_.Course_Id into crlist
                              from cr in crlist.DefaultIfEmpty()
+                            
                              orderby Course_.IsEnable
                              select new
                              {
@@ -429,6 +433,7 @@ namespace FEHandler.SysClass
             try
             {
                 List<Course> Course_List = Constant.Course_List;
+                List<CourseRoom> CourseRoom_List = Constant.CourseRoom_List.Distinct(new CourseRoomCompare()).ToList();
                 List<CourseRel> CourseRel_List = Constant.CourseRel_List;
                 DictionType_Enum dictiontype = DictionType_Enum.Course_Type;
                 List<Sys_Dictionary> Sys_Dictionary_List = Constant.Sys_Dictionary_List;
@@ -452,7 +457,10 @@ namespace FEHandler.SysClass
                 }
 
                 var query = (from Course_ in Course_List
+                             join room in CourseRoom_List on Course_.UniqueNo equals room.Coures_Id
+                             where room.StudySection_Id == SectionId
                              join cr in courrel on Course_.UniqueNo equals cr.Course_Id
+                           
                              orderby Course_.IsEnable
                              select new
                              {
@@ -552,6 +560,7 @@ namespace FEHandler.SysClass
             try
             {
                 List<Course> Course_List = Constant.Course_List;
+                List<CourseRoom> CourseRoom_List = Constant.CourseRoom_List.Distinct(new CourseRoomCompare()).ToList();
                 List<CourseRel> CourseRel_List = Constant.CourseRel_List;
                 if (Major_Id != "")
                 {
@@ -584,6 +593,8 @@ namespace FEHandler.SysClass
                 }
 
                 var query = (from Course_ in Course_List
+                             join room in CourseRoom_List on Course_.UniqueNo equals room.Coures_Id
+                             where room.StudySection_Id == SectionId
                              join cr in CourseRel_List on new
                              {
                                  UniqueNo = Course_.UniqueNo,
@@ -594,6 +605,7 @@ namespace FEHandler.SysClass
                                  SectionId = (int)cr.StudySection_Id
                              } into courelfs_
                              from courel in courelfs_.DefaultIfEmpty()
+                           
                              where courel == null
                              orderby Course_.IsEnable
                              select new

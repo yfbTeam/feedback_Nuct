@@ -468,8 +468,6 @@
                     }
                 });
 
-                $(".fixed-table-box").fixedTable();
-
             };
             GetClassInfo(pageIndex);
         })

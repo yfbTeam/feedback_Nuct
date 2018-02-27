@@ -416,10 +416,11 @@
         var select_course_teacher = [];
         var select_reguid = parent.select_reguid;
         var IsAllSchool = parent.IsAllSchool;
+        
 
         var pageIndex = 0;
         $(function () {
-
+            $(".fixed-table-box").fixedTable();
             var ids = GetIDs('Userinfos');
             var rids = ids.split(',');
 

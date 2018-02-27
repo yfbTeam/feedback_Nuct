@@ -86,10 +86,36 @@
             vertical-align: middle;
         }
 
-        .numbers
-        {
-           float:none;
+        .numbers {
+            float: none;
         }
+
+         .evalmes2 {
+            top:35%;
+            padding: 10px 0;
+            position: fixed;
+            right: 12%;
+            z-index: 99999;
+            height: 70px;
+            width: 110px;
+            background: #A66894;
+        }
+
+            .evalmes2 .div1 {
+                text-align: center;
+                color: white;
+                line-height: 35px;
+            }
+
+            .evalmes2 .div2 {
+                text-align: center;
+                line-height: 35px;
+                color: white;
+            }
+
+                .evalmes2 .div2 label {
+                    font-size: 18px;
+                }
     </style>
 </head>
 <body>
@@ -99,6 +125,18 @@
             <h1 class="title">
                 <a href="javascript:window.history.go(-1)">全部评价</a><span>&gt;</span><a href="#" class="crumbs" id="GropName">北方工业大学实验教学课堂检查表（专家用表）</a>
             </h1>
+
+            <div class="evalmes2" style="color: #999999; font-size: 14px">
+                <div class="div1">
+                    <label>
+                        实时总分
+                    </label>
+                </div>
+
+                <div class="div2">
+                    <label id="sp_realtotal">0</label>
+                </div>
+            </div>
 
             <div class="tableheader">
                 <h1 class="tablename1">
@@ -170,7 +208,7 @@
                              {{/if}} ${$value.Name}
                     {{if $value.QuesType_Id ==1 || $value.QuesType_Id ==4}}
                        <b class="isscore">（<span class="isscore">${OptionF_S_Max}分</span>）</b>
-                        
+
                         {{/if}}
                         
                     </h2>
@@ -286,7 +324,7 @@
 
                     {{else $value.QuesType_Id==4 }}
                     <div class="test_desc" maxscore="${OptionF_S_Max}">
-                        <input type="number" onkeydown="onlyNum();" class="text" name="Name" style="width: 100%;" />
+                        <input type="number" onkeydown="onlyNum();"  maxscore="${OptionF_S_Max}" class="text" name="Name" style="width: 100%;" />
                     </div>
                     {{/if}}
                 </li>
@@ -362,12 +400,13 @@
             $('#footer').load('/footer.html');
 
             UI_Table_View.Get_Eva_TableDetail_Compleate = function (retdata) {
+          
                 $('#section').val(DisplayName);
                 $('#teacher').val(TeacherName);
                 $('#course').val(CourseName);
                 $('#dp').val(DepartmentName);
                 evaluate_Model.IsScore = retdata.IsScore;
-
+                InitControl(retdata.IsScore);
             };
             UI_Table_View.PageType = 'selectTable';
             Base.BindTableCompleate = function () {
@@ -385,6 +424,8 @@
             });
 
             Reflesh();
+
+            
         })
 
         function Submit() {
@@ -439,6 +480,8 @@
                 var ClassID = $('#Cls').val();
                 GetStudentsSelect(ClassID)
             });
+
+            
         }
 
     </script>

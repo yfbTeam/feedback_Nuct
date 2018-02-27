@@ -204,14 +204,14 @@
                 Reflesh();
                 if (IsAllSchool == 1)
                 {                   
-                    DepartmentID = login_User.Major_ID;
-                    SelectUID = login_User.UniqueNo;
+                    DepartmentID = login_User.Major_ID;                  
                 }
+                SelectUID = login_User.UniqueNo;
                 Get_Eva_RegularDataCompleate = function (result) {
                     if (result) {
                         $('.dian').show();
                     }
-                };
+                };               
                 Get_Eva_RegularData();
             };
             Base.bindStudySection();
