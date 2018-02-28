@@ -420,7 +420,7 @@
                         $("#tr_MemEdit").tmpl(json.result).appendTo("#tb_Member");
                         GetAchieveUser_Score(json.result.retData);
                     }
-                    if (ach_model.ComStatus > 7) { Get_RewardBatchData($(".RewardReason")); }
+                    if (ach_model.ComStatus > 7) { Get_RewardBatchDetailData($(".RewardReason")); }
                     if (ach_model.ComStatus > 6) { $(".re_history").show(); Get_ModifyRecordData("", ach_model.IsMoneyAllot==0?"0":""); }
                 },
                 error: function (errMsg) {
@@ -594,7 +594,7 @@
                 $cur_tb.find('tr').each(function () {
                     var userno = $(this).attr('un'), money = Num_Fixed($(this).find('.td_money input[type=number]').val())
                       , oldmoney = Num_Fixed($(this).find('.td_money input[type=number]').attr('oldre'));
-                    editArray.push({ Audit_Id: auditid, RewardUser_Id: $(this).attr('uid'), AllotMoney: money, EditUID: loginUser.UniqueNo });
+                    editArray.push({ BatchDetail_Id: auditid, RewardUser_Id: $(this).attr('uid'), AllotMoney: money, EditUID: loginUser.UniqueNo });
                     if (Number(money) != Number(oldmoney)) { //修改的
                         edithis.push({
                             Type: 1, Acheive_Id: cur_AchieveId, RelationId: rew_batchid, Content: "第" + rownum + "批奖金" + loginUser.Name + '将' + $(this).find('td.td_memname').html() + oldmoney + "万" + "改为" + money + "万"

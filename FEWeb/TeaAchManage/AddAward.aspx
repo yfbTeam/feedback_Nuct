@@ -85,16 +85,16 @@
     var cur_rankid = UrlDate.rank || "", LID = UrlDate.lid || "";
     $(function () {
         $("#CreateUID").val(GetLoginUser().UniqueNo);
-        Get_RewardBatchData();
+        Get_RewardBatchDetailData();
     });
     //绑定奖项奖金信息
-    function Get_RewardBatchData() {        
+    function Get_RewardBatchDetailData() {        
         $("#tb_Award").empty();
         $.ajax({
             url: HanderServiceUrl + "/TeaAchManage/AchRewardInfo.ashx",
             type: "post",
             dataType: "json",
-            data: { "Func": "Get_RewardBatchData", "IsPage": "false", Reward_Id: UrlDate.Id, Rank_Id:cur_rankid, IsOnlyBase: 0 },
+            data: { "Func": "Get_RewardBatchDetailData", "IsPage": "false", RewardBatch_Id: UrlDate.Id, Rank_Id: cur_rankid, IsOnlyBase: 0 },
             success: function (json) {
                 if (json.result.errMsg == "success") {
                     $("#tr_Award").tmpl(json.result.retData).appendTo("#tb_Award");
@@ -120,7 +120,7 @@
                 success: function (json) {
                     if (json.result.errNum == 0) {
                         layer.msg('操作成功!');
-                        Get_RewardBatchData();
+                        Get_RewardBatchDetailData();
                         if (cur_rankid == "") {
                             parent.BindReward(LID);
                         } else { //教学成果奖

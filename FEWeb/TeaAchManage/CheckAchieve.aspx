@@ -481,7 +481,7 @@
                 success: function (json) {
                     if (json.result.errNum.toString() == "0") { 
                         Member_Data = json.result;
-                        Get_RewardBatchData("",cur_ResponUID==$('#CreateUID').val()?"":"0");
+                        Get_RewardBatchDetailData("",cur_ResponUID==$('#CreateUID').val()?"":"0");
                         if (model.AchieveType == 3) { //教材建设类                          
                             $("#tr_Info").tmpl(json.result.retData).appendTo("#tb_info");                          
                             $("#tr_Info1").tmpl(json.result.retData).appendTo("#tb_Member1");
@@ -553,7 +553,7 @@
                 success: function (json) {
                     if (json.result.errMsg == "success") {
                         layer.msg('操作成功!');
-                        //Get_RewardBatchData("",cur_ResponUID==$('#CreateUID').val()?"":"0"); 
+                        //Get_RewardBatchDetailData("",cur_ResponUID==$('#CreateUID').val()?"":"0"); 
                         parent.BindAchieve(1, 10); 
                         parent.CloseIFrameWindow();
                     }
