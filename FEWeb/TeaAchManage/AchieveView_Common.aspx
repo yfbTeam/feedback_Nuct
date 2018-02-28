@@ -438,7 +438,7 @@
                 url: HanderServiceUrl + "/TeaAchManage/AchRewardInfo.ashx",
                 type: "post",
                 dataType: "json",
-                data: { "Func": "Get_RewardBatchData", "IsPage": "false", AchieveId: cur_AchieveId},
+                data: { "Func": "Get_RewardBatchDetailData", "IsPage": "false", AchieveId: cur_AchieveId},
                 success: function (json) {
                     if (json.result.errMsg == "success") {
                         var auditlist = json.result.retData.filter(function (item) { return item.AuditStatus == 3 })//查找审核通过的奖金批次
@@ -464,7 +464,7 @@
                 success: function (json) {
                     if (json.result.errMsg == "success") {
                         $(json.result.retData).each(function (i, n) {
-                            var $td_money = $("tbody[autid='" + n.Audit_Id + "'] tr[uid='" + n.RewardUser_Id + "']").find('.td_money');
+                            var $td_money = $("tbody[autid='" + n.BatchDetail_Id + "'] tr[uid='" + n.RewardUser_Id + "']").find('.td_money');
                             if ($td_money.length) {
                                 $td_money.html(n.AllotMoney);
                             }

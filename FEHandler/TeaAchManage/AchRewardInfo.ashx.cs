@@ -23,7 +23,7 @@ namespace FEHandler.TeaAchManage
         TPM_RewardUserInfoService userbll = new TPM_RewardUserInfoService();
         TMP_RewardRankService rankbll = new TMP_RewardRankService();
         TPM_RewardBatchService rbatchbll = new TPM_RewardBatchService();
-        TPM_AuditRewardService rauditbll = new TPM_AuditRewardService();
+        TPM_RewardBatchDetailService batdetbll = new TPM_RewardBatchDetailService();
         TPM_ModifyRecordService mrecordbll = new TPM_ModifyRecordService();
         JsonModel jsonModel = JsonModel.get_jsonmodel(0, "success", "");
         public void ProcessRequest(HttpContext context)
@@ -93,6 +93,9 @@ namespace FEHandler.TeaAchManage
                     /*追加奖金*/
                     case "Get_RewardBatchData":
                         Get_RewardBatchData(context);
+                        break;
+                    case "Get_RewardBatchDetailData":
+                        Get_RewardBatchDetailData(context);
                         break;
                     case "Get_AllotReward":
                         Get_AllotReward(context);
@@ -776,16 +779,7 @@ namespace FEHandler.TeaAchManage
                     item.RId = RId;
                     item.CreateUID = CreateUID;
                     item.CreateTime = DateTime.Now;
-                    jsonModel = rankbll.Add(item);
-                    if (jsonModel.errNum == 0)
-                    {
-                        TPM_RewardBatch r_batch = new TPM_RewardBatch();
-                        r_batch.Reward_Id = RId;
-                        r_batch.Rank_Id = Convert.ToInt32(jsonModel.retData);
-                        r_batch.Money = 0;
-                        r_batch.CreateUID = RequestHelper.string_transfer(context.Request, "CreateUID");
-                        new TPM_RewardBatchService().Add(r_batch);
-                    }
+                    jsonModel = rankbll.Add(item);                    
                 }
             }
             if (!string.IsNullOrEmpty(editStr))
@@ -804,7 +798,6 @@ namespace FEHandler.TeaAchManage
                 return;
             }
             jsonModel = rankbll.DeleteFalse(Id);
-            new TPM_RewardBatchDal().DelRewBatchByRankId(Id);
         }
         #endregion
 
@@ -839,8 +832,40 @@ namespace FEHandler.TeaAchManage
         }
         #endregion
 
-        #region 追加奖金
+        #region 奖金批次
         private void Get_RewardBatchData(HttpContext context)
+        {
+            try
+            {
+                bool IsPage = true;
+                if (context.Request["IsPage"].SafeToString() != "" && context.Request["IsPage"] != "undefined")
+                {
+                    IsPage = Convert.ToBoolean(context.Request["IsPage"]);
+                }
+                Hashtable ht = new Hashtable();
+                ht.Add("PageIndex", context.Request["PageIndex"].SafeToString());
+                ht.Add("PageSize", context.Request["PageSize"].SafeToString());                
+                ht.Add("Id", context.Request["Id"].SafeToString());
+                ht.Add("Year", context.Request["Year"].SafeToString());
+                ht.Add("Name", context.Request["Name"].SafeToString());                
+                ht.Add("IsMoneyAllot", context.Request["IsMoneyAllot"].SafeToString());
+                jsonModel = rbatchbll.GetPage(ht, IsPage);
+            }
+            catch (Exception ex)
+            {
+                jsonModel = new JsonModel()
+                {
+                    errNum = 400,
+                    errMsg = ex.Message,
+                    retData = ""
+                };
+                LogService.WriteErrorLog(ex.Message);
+            }
+        }
+        #endregion
+
+        #region 奖金批次详情信息
+        private void Get_RewardBatchDetailData(HttpContext context)
         {
             try
             {
@@ -853,12 +878,11 @@ namespace FEHandler.TeaAchManage
                 ht.Add("PageIndex", context.Request["PageIndex"].SafeToString());
                 ht.Add("PageSize", context.Request["PageSize"].SafeToString());
                 ht.Add("IsOnlyBase", context.Request["IsOnlyBase"]??"1");
-                ht.Add("Reward_Id", context.Request["Reward_Id"].SafeToString());
-                ht.Add("Rank_Id", context.Request["Rank_Id"].SafeToString());                
+                ht.Add("RewardBatch_Id", context.Request["RewardBatch_Id"].SafeToString());                  
                 ht.Add("AchieveId", context.Request["AchieveId"].SafeToString());
                 ht.Add("Id", context.Request["Id"].SafeToString());
                 ht.Add("AuditStatus", context.Request["AuditStatus"].SafeToString()); 
-                jsonModel = rbatchbll.GetPage(ht, IsPage);
+                jsonModel = batdetbll.GetPage(ht, IsPage);
             }
             catch (Exception ex)
             {
@@ -909,19 +933,18 @@ namespace FEHandler.TeaAchManage
         private void Oper_AuditAllotReward(HttpContext context)
         {
             try
-            {
-                TPM_AuditReward audModel = new TPM_AuditReward();
-                audModel.Acheive_Id= RequestHelper.int_transfer(context.Request, "Acheive_Id");
-                audModel.RewardBatch_Id = RequestHelper.int_transfer(context.Request, "RewardBatch_Id");
-                audModel.Status =Convert.ToByte(context.Request["Status"]);
-                audModel.CreateUID = RequestHelper.string_transfer(context.Request, "CreateUID");                
+            {               
+                int BatchDetail_Id = RequestHelper.int_transfer(context.Request, "BatchDetail_Id");
+                TPM_RewardBatchDetail detmodel = batdetbll.GetEntityById(BatchDetail_Id).retData as TPM_RewardBatchDetail;
+                detmodel.Status =Convert.ToByte(context.Request["Status"]);
+                batdetbll.Update(detmodel);
                 string allotUser = RequestHelper.string_transfer(context.Request, "AllotUser");
                 List<TPM_AllotReward> allotlist = new List<TPM_AllotReward>();
                 if (!string.IsNullOrEmpty(allotUser))
                 {
                     allotlist = JsonConvert.DeserializeObject<List<TPM_AllotReward>>(allotUser);                    
                 }
-                jsonModel = bll.Oper_AuditAllotReward(audModel, allotlist);
+                jsonModel = bll.Oper_AuditAllotReward(detmodel, allotlist);
                 if (jsonModel.errNum == 0)
                 {                  
                     string add_Path = RequestHelper.string_transfer(context.Request, "Add_Path");
@@ -933,7 +956,7 @@ namespace FEHandler.TeaAchManage
                         {
                             pathlist = JsonConvert.DeserializeObject<List<Sys_Document>>(add_Path);
                         }
-                        new Sys_DocumentService().OperDocument(pathlist, edit_PathId,Convert.ToInt32(jsonModel.retData));
+                        new Sys_DocumentService().OperDocument(pathlist, edit_PathId, BatchDetail_Id);
                     }
                 }                
             }
@@ -1003,10 +1026,10 @@ namespace FEHandler.TeaAchManage
         {
             int achieveId = RequestHelper.int_transfer(context.Request, "AchieveId");
             int Id = RequestHelper.int_transfer(context.Request, "Id");
-            TPM_AuditReward model = rauditbll.GetEntityById(Id).retData as TPM_AuditReward;
+            TPM_RewardBatchDetail model = batdetbll.GetEntityById(Id).retData as TPM_RewardBatchDetail;
             int oldstatus = Convert.ToInt32(model.Status);
             model.Status = Convert.ToByte(context.Request["Status"]);
-            jsonModel= rauditbll.Update(model);
+            jsonModel= batdetbll.Update(model);
             if (jsonModel.errNum == 0)
             { 
                 string hisrecord = RequestHelper.string_transfer(context.Request, "HisRecord");

@@ -528,15 +528,7 @@ namespace FEHandler.TeaAchManage
                     model.Score = RequestHelper.decimal_transfer(context.Request, "Score");
                     model.ScoreType = Convert.ToByte(context.Request["ScoreType"]);
                     model.Sort =1;
-                    jsonModel = RewardInfo_bll.Add(model);
-                    if (jsonModel.errNum==0&&model.ScoreType!=3)
-                    {
-                        TPM_RewardBatch r_batch = new TPM_RewardBatch();
-                        r_batch.Reward_Id = Convert.ToInt32(jsonModel.retData);
-                        r_batch.Money = RequestHelper.decimal_transfer(context.Request, "Award");
-                        r_batch.CreateUID = RequestHelper.string_transfer(context.Request, "CreateUID");
-                        RewardBatch_bll.Add(r_batch);                        
-                    }
+                    jsonModel = RewardInfo_bll.Add(model);                    
                 }
                 else
                 {
@@ -601,31 +593,31 @@ namespace FEHandler.TeaAchManage
                 string CreateUID = RequestHelper.string_transfer(context.Request, "CreateUID");
                 if (Id==0)
                 {
-                    TPM_RewardBatch r_batch = new TPM_RewardBatch();
-                    r_batch.Reward_Id = Reward_Id;                    
-                    if (!string.IsNullOrEmpty(context.Request["Rank_Id"]))
-                    {
-                        r_batch.Rank_Id = Convert.ToInt32(context.Request["Rank_Id"]);
-                    }
-                    r_batch.Money = AddAward;
-                    r_batch.AddBasis = AddBasis;
-                    r_batch.CreateUID = CreateUID;
-                    jsonModel= RewardBatch_bll.Add(r_batch);
+                    //TPM_RewardBatch r_batch = new TPM_RewardBatch();
+                    //r_batch.Reward_Id = Reward_Id;                    
+                    //if (!string.IsNullOrEmpty(context.Request["Rank_Id"]))
+                    //{
+                    //    r_batch.Rank_Id = Convert.ToInt32(context.Request["Rank_Id"]);
+                    //}
+                    //r_batch.Money = AddAward;
+                    //r_batch.AddBasis = AddBasis;
+                    //r_batch.CreateUID = CreateUID;
+                    //jsonModel= RewardBatch_bll.Add(r_batch);
                 }
                 else
                 {
-                    int useCount = RewardInfo_bll.GetRewardMoney_UseCount(Id);//是否已经引用
-                    if (useCount > 0)
-                    {
-                        jsonModel = JsonModel.get_jsonmodel(-1, "该奖金已经被使用！", "");
-                        return;
-                    }
-                    TPM_RewardBatch model = RewardBatch_bll.GetEntityById(Id).retData as TPM_RewardBatch;                   
-                    model.Money = AddAward;
-                    model.AddBasis = AddBasis;
-                    model.EditUID = CreateUID;
-                    model.EditTime = DateTime.Now;
-                    jsonModel = RewardBatch_bll.Update(model);                    
+                    //int useCount = RewardInfo_bll.GetRewardMoney_UseCount(Id);//是否已经引用
+                    //if (useCount > 0)
+                    //{
+                    //    jsonModel = JsonModel.get_jsonmodel(-1, "该奖金已经被使用！", "");
+                    //    return;
+                    //}
+                    //TPM_RewardBatch model = RewardBatch_bll.GetEntityById(Id).retData as TPM_RewardBatch;                   
+                    //model.Money = AddAward;
+                    //model.AddBasis = AddBasis;
+                    //model.EditUID = CreateUID;
+                    //model.EditTime = DateTime.Now;
+                    //jsonModel = RewardBatch_bll.Update(model);                    
                 }            
             }
             catch (Exception ex)
@@ -645,7 +637,7 @@ namespace FEHandler.TeaAchManage
         {
             try
             {
-                int itemid = Convert.ToInt32(context.Request["ItemId"]);           
+                int itemid = Convert.ToInt32(context.Request["ItemId"]);
                 int useCount = RewardInfo_bll.GetRewardMoney_UseCount(itemid);//是否已经引用
                 if (useCount > 0)
                 {

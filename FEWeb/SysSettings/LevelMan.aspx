@@ -72,8 +72,8 @@
         <tr>
             <td>${rew.Name}</td>
             <td>${rew.Score}</td>
-            <td>${rew.FirstMoney}</td>
-            <td>${rew.AddMoney}</td>
+            <td><%--${rew.FirstMoney}--%></td>
+            <td><%--${rew.AddMoney}--%></td>
             <td class="operate_wrap">
                 <div class="operate" onclick="javascript:OpenIFrameWindow('奖金管理', '../TeaAchManage/AddAward.aspx?Id=${rew.Id}&lid=${LID}', '700px', '480px');">
                     <i class="iconfont color_purple">&#xe623;</i>

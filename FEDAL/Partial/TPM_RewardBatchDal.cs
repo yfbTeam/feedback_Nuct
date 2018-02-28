@@ -22,48 +22,31 @@ namespace FEDAL
             try
             {
                 StringBuilder str = new StringBuilder();
-                str.Append(@" select r_bat.*,b.Name as CreateName,(select count(1) from TPM_AuditReward where IsDelete=0 and Status in(1,3) and RewardBatch_Id=r_bat.Id)UseCount ");
-                if (ht["IsOnlyBase"].SafeToString()=="1") //查询关联表
-                {
-                    str.Append(@" ,info.Id AchieveId,isnull(aud.Id,0) AuditId,isnull(aud.Status,10)AuditStatus 
-                      ,isnull((select sum(AllotMoney) from TPM_AllotReward where Audit_Id=aud.Id),0)HasAllot
-                     from TPM_RewardBatch r_bat
-                     left join UserInfo b on r_bat.CreateUID=b.UniqueNo
-                     left join TPM_AcheiveRewardInfo info on r_bat.Reward_Id=info.Rid and isnull(info.Sort,0)=isnull(r_bat.Rank_Id,0) and info.IsDelete=0
-                     left join TPM_AuditReward aud on r_bat.Id=aud.RewardBatch_Id and info.Id=aud.Acheive_Id and aud.IsDelete=0 ");
-                }
-                else //只查询基础表
-                {
-                    str.Append(@" from TPM_RewardBatch r_bat 
-                                left join UserInfo b on r_bat.CreateUID=b.UniqueNo ");
-                }
-                str.Append(@" where r_bat.IsDelete=0 ");
+                str.Append(@" select r_bat.*,b.Name as CreateName,(select count(1) from TPM_RewardBatchDetail where IsDelete=0 and Status in(1,3) and RewardBatch_Id=r_bat.Id)UseCount ");
+                str.Append(@" from TPM_RewardBatch r_bat 
+                                left join UserInfo b on r_bat.CreateUID=b.UniqueNo  where r_bat.IsDelete=0 ");
                 int StartIndex = 0;
                 int EndIndex = 0;
-                if (ht.ContainsKey("Reward_Id") && !string.IsNullOrEmpty(ht["Reward_Id"].SafeToString()))
-                {
-                    str.Append(" and r_bat.Reward_Id=@Reward_Id ");
-                    pms.Add(new SqlParameter("@Reward_Id", ht["Reward_Id"].ToString()));
-                }
-                if (ht.ContainsKey("Rank_Id") && !string.IsNullOrEmpty(ht["Rank_Id"].SafeToString()))
-                {
-                    str.Append(" and r_bat.Rank_Id=@Rank_Id ");
-                    pms.Add(new SqlParameter("@Rank_Id", ht["Rank_Id"].ToString()));
-                }                
-                if (ht.ContainsKey("AchieveId") && !string.IsNullOrEmpty(ht["AchieveId"].SafeToString()))
-                {
-                    str.Append(" and info.Id=@AchieveId ");
-                    pms.Add(new SqlParameter("@AchieveId", ht["AchieveId"].ToString()));
-                }
                 if (ht.ContainsKey("Id") && !string.IsNullOrEmpty(ht["Id"].SafeToString()))
                 {
                     str.Append(" and r_bat.Id=@Id ");
                     pms.Add(new SqlParameter("@Id", ht["Id"].ToString()));
                 }
-                if (ht.ContainsKey("AuditStatus") && !string.IsNullOrEmpty(ht["AuditStatus"].SafeToString()))
+                if (ht.ContainsKey("Year") && !string.IsNullOrEmpty(ht["Year"].SafeToString()))
                 {
-                    str.Append(" and isnull(aud.Status,10) " + ht["AuditStatus"].ToString());                   
+                    str.Append(" and r_bat.Year=@Year ");
+                    pms.Add(new SqlParameter("@Year", ht["Year"].ToString()));
                 }
+                if (ht.ContainsKey("Name") && !string.IsNullOrEmpty(ht["Name"].SafeToString()))
+                {
+                    str.Append(" and r_bat.Name like N'%' + @Name + '%' ");
+                    pms.Add(new SqlParameter("@Name", ht["Name"].ToString()));
+                }                
+                if (ht.ContainsKey("IsMoneyAllot") && !string.IsNullOrEmpty(ht["IsMoneyAllot"].SafeToString()))
+                {
+                    str.Append(" and r_bat.IsMoneyAllot=@IsMoneyAllot ");
+                    pms.Add(new SqlParameter("@IsMoneyAllot", ht["IsMoneyAllot"].ToString()));
+                }               
                 if (IsPage)
                 {
                     StartIndex = Convert.ToInt32(ht["StartIndex"].ToString());
@@ -82,7 +65,7 @@ namespace FEDAL
         #region 获取奖金是否使用
         public int GetRewardMoney_UseCount(int RewardBatch_Id)
         {
-            string str = "select count(1) from TPM_AuditReward where IsDelete=0 and Status in(1,3) and RewardBatch_Id=@RewardBatch_Id";
+            string str = "select count(1) from TPM_RewardBatchDetail where IsDelete=0 and Status in(1,3) and RewardBatch_Id=@RewardBatch_Id";
             List<SqlParameter> op_pms = new List<SqlParameter>();
             op_pms.Add(new SqlParameter("@RewardBatch_Id", RewardBatch_Id));
             int result =Convert.ToInt32(SQLHelp.ExecuteScalar(str, CommandType.Text, op_pms.ToArray()));

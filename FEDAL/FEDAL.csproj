@@ -62,6 +62,7 @@
     <Compile Include="Partial\TPM_BookStoryDal.cs" />
     <Compile Include="Partial\TPM_ModifyRecordDal.cs" />
     <Compile Include="Partial\TPM_RewardBatchDal.cs" />
+    <Compile Include="Partial\TPM_RewardBatchDetailDal.cs" />
     <Compile Include="Partial\TPM_RewardInfoDal.cs" />
     <Compile Include="Partial\TPM_RewardLevelDal.cs" />
     <Compile Include="Partial\TPM_RewardUserInfoDal.cs" />
