@@ -296,6 +296,13 @@
     <Content Include="SysSettings\Regu\EditEval.aspx" />
     <Content Include="SysSettings\Regu\EditModel.aspx" />
     <Content Include="SysSettings\Regu\SeeModel.aspx" />
+    <Content Include="SysSettings\Reward\AllotDetail.aspx" />
+    <Content Include="SysSettings\Reward\AllotModal.aspx" />
+    <Content Include="SysSettings\Reward\CreateOrEditModal.aspx" />
+    <Content Include="SysSettings\Reward\CreateProject.aspx" />
+    <Content Include="SysSettings\Reward\DetailIndex.aspx" />
+    <Content Include="SysSettings\Reward\Index.aspx" />
+    <Content Include="SysSettings\Reward\SeeDetail.aspx" />
     <Content Include="SysSettings\Table\EditAddEvalTable.aspx" />
     <Content Include="SysSettings\Indicate\EvalSelectDataBase.aspx" />
     <Content Include="Evaluation\MyStatiscal.aspx" />
@@ -1291,6 +1298,55 @@
     </Compile>
     <Compile Include="SysSettings\Regu\SeeModel.aspx.designer.cs">
       <DependentUpon>SeeModel.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="SysSettings\Reward\AllotDetail.aspx.cs">
+      <DependentUpon>AllotDetail.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="SysSettings\Reward\AllotDetail.aspx.designer.cs">
+      <DependentUpon>AllotDetail.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="SysSettings\Reward\AllotModal.aspx.cs">
+      <DependentUpon>AllotModal.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="SysSettings\Reward\AllotModal.aspx.designer.cs">
+      <DependentUpon>AllotModal.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="SysSettings\Reward\CreateOrEditModal.aspx.cs">
+      <DependentUpon>CreateOrEditModal.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="SysSettings\Reward\CreateOrEditModal.aspx.designer.cs">
+      <DependentUpon>CreateOrEditModal.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="SysSettings\Reward\CreateProject.aspx.cs">
+      <DependentUpon>CreateProject.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="SysSettings\Reward\CreateProject.aspx.designer.cs">
+      <DependentUpon>CreateProject.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="SysSettings\Reward\DetailIndex.aspx.cs">
+      <DependentUpon>DetailIndex.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="SysSettings\Reward\DetailIndex.aspx.designer.cs">
+      <DependentUpon>DetailIndex.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="SysSettings\Reward\Index.aspx.cs">
+      <DependentUpon>Index.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="SysSettings\Reward\Index.aspx.designer.cs">
+      <DependentUpon>Index.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="SysSettings\Reward\SeeDetail.aspx.cs">
+      <DependentUpon>SeeDetail.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="SysSettings\Reward\SeeDetail.aspx.designer.cs">
+      <DependentUpon>SeeDetail.aspx</DependentUpon>
     </Compile>
     <Compile Include="SysSettings\Table\EditAddEvalTable.aspx.cs">
       <DependentUpon>EditAddEvalTable.aspx</DependentUpon>
