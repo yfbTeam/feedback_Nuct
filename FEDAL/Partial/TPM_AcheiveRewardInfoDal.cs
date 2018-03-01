@@ -35,8 +35,7 @@ namespace FEDAL
                     l.Type as AchieveType,ll.Name as LevelName,r.Name as RewadName,
                     (select STUFF((select ',' + CAST(Major_Name AS NVARCHAR(MAX)) from Major where Id in(select value from func_split(a.DepartMent,',')) FOR xml path('')), 1, 1, '')) as Major_Name,                   
                     case when a.GPid=1 then isnull((ran.Score),0) else r.Score end as TotalScore,ran.Name RankName,
-                    r.ScoreType,(select top 1 Money from TPM_RewardBatch where Reward_Id=r.Id and IsDelete=0 order by Id) as Award
-                    ,bk.Name as BookName,bk.BookType,case when bk.BookType=1 then '无' else bk.ISBN end as ISBN                  
+                    r.ScoreType,bk.Name as BookName,bk.BookType,case when bk.BookType=1 then '无' else bk.ISBN end as ISBN                  
                     ,isnull((select IsMoneyAllot from TPM_RewardEdition where LID=a.Gid and convert(varchar(10),a.DefindDate,21) between convert(varchar(10),BeginTime,21) and convert(varchar(10),EndTime,21)),0)as IsMoneyAllot
                     ,STUFF((select ',' + CAST(isnull(aud.Status,10) AS NVARCHAR(MAX)) from TPM_RewardBatch r_bat
                     inner join TPM_RewardBatchDetail aud on r_bat.Id=aud.RewardBatch_Id and aud.IsDelete=0

@@ -1,5 +1,4 @@
 ﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="DetailIndex.aspx.cs" Inherits="FEWeb.SysSettings.Reward.DetailIndex" %>
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -9,48 +8,51 @@
     <link href="../../css/reset.css" rel="stylesheet" />
     <link href="../../css/layout.css" rel="stylesheet" />
     <script src="../../Scripts/jquery-1.11.2.min.js"></script>
+    <script type="text/x-jquery-tmpl" id="con_item">
+        <h1 class="title">
+            <a href="Index.aspx?Id=${pageid}&Iid=${pagelid}" style="cursor: pointer;">奖金管理</a><span>&gt;</span>
+            <a href="javascript:;" class="crumbs" id="GropName">${Name}</a>
+        </h1>
+        <div class="search_toobar clearfix">
+            <div class="fl">
+                <label for="">总金额：${BatchMoney}元</label>
+            </div>
+            <div class="fl ml20">
+                <label for="">已分：${UseMoney}元</label>
+            </div>
+            <div class="fl ml20">
+                <label for="">未分：${BatchMoney-UseMoney}元</label>
+            </div>
+            <div class="fr">
+                <input type="button" value="添加奖励项目" class="btn" onclick="OpenIFrameWindow('添加奖励项目', 'Detail_Add.aspx?batchid=${Id}', '1050px', '700px')">
+                <input type="button" value="批量分配项目奖金" class="btn">
+                <input type="button" value="导出分配明细" class="btn">
+            </div>
+        </div>
+    </script>
 </head>
 <body>
     <div id="top"></div>
     <div class="center" id="centerwrap">
         <div class="wrap clearfix">
-            <h1 class="title">
-                <a href="" style="cursor: pointer;">奖金管理</a><span>&gt;</span>
-                <a href="javascript:;" class="crumbs" id="GropName">教师个人参加竞赛获奖</a>
-            </h1>
-             <div class="search_toobar clearfix">
-                <div class="fl">
-                    <label for="">总金额：50000元</label>
-                </div>
-                <div class="fl ml20">
-                    <label for="">已分：40000元</label>
-                </div>
-                <div class="fl ml20">
-                    <label for="">未分：40000元</label>
-                </div>
-                <div class="fr">
-                    <input type="button" value="添加奖励项目" class="btn" onclick="OpenIFrameWindow('添加奖励项目', 'Detail_AddReward.aspx', '1050px', '600px')">
-                    <input type="button" value="批量分配项目奖金" class="btn">
-                    <input type="button" value="导出分配明细" class="btn" >
-                </div>
-            </div>
+            <div id="div_Batch"></div>            
             <div class="search_toobar clearfix">
-                <div class="fl ml20">
+                <div class="fl">
                     <label for="">业绩类别:</label>
                     <select class="select" style="width: 198px;" id="AcheiveType" onchange="Bind_SelGInfo();"></select>
                 </div>
                 <div class="fl ml20">
                     <label for="">奖励项目：</label>
-                    <select class="select" name="Gid" id="Gid" onchange="BindData(1,10);"></select>
+                    <select class="select" name="Gid" id="Gid"></select>
                 </div>
                 <div class="fl ml20">
                     <label for="">获奖年度:</label>
-                    <input type="text"  class="text Wdate" name="Year" id="Year" onclick="WdatePicker({ dateFmt: 'yyyy年' })" style="border:1px solid #ccc;width:150px;"/>
+                    <input type="text" class="text Wdate" name="Year" id="Year" onclick="WdatePicker({ dateFmt: 'yyyy年' })" style="border: 1px solid #ccc; width: 150px;" />
                 </div>
                 <div class="fl ml20">
-                    <input type="text" name="key" id="key" placeholder="请输入获奖项目名称关键字" value="" class="text fl" style="width: 150px;">
+                    <input type="text" name="key" id="key" placeholder="请输入获奖项目名称关键字" value="" class="text fl" style="width:180px;">
                     <a class="search fl" href="javascript:search();"><i class="iconfont">&#xe600;</i></a>
-                </div>                   
+                </div>
             </div>
             <div class="table mt10">
                 <table>
@@ -60,9 +62,9 @@
                             <th width="20%">获奖项目名称</th>
                             <th width="19%">负责单位</th>
                             <th width="6%">负责人</th>
-                            <th width="6%">获奖年度</th>                                    
+                            <th width="6%">获奖年度</th>
                             <th width="6%">金额</th>
-                            <th width="6%">状态</th>                                    
+                            <th width="6%">状态</th>
                             <th width="18%">操作</th>
                         </tr>
                     </thead>
@@ -102,12 +104,65 @@
     <script src="../../Scripts/layer/layer.js"></script>
     <script src="../../Scripts/jquery.tmpl.js"></script>
     <script src="../../Scripts/linq.js"></script>
-     <script type="text/javascript" src="../../Scripts/My97DatePicker/WdatePicker.js"></script>
+    <script type="text/javascript" src="../../Scripts/My97DatePicker/WdatePicker.js"></script>
+    <script src="../../TeaAchManage/BaseUse.js"></script>
     <script>
+        var UrlDate = new GetUrlDate();
+        var pageid = getQueryString('Id'), pagelid = getQueryString('Iid');
         $(function () {
             $('#top').load('/header.html');
             $('#footer').load('/footer.html');
-        })
+            BindBatchData();
+            Bind_SelAchieve();
+        });
+        function BindBatchData() {
+            $.ajax({
+                url: HanderServiceUrl + "/TeaAchManage/AchManage.ashx",
+                type: "post",
+                dataType: "json",
+                data: { "Func": "Get_RewardBatchData", Id: UrlDate.batchid, IsPage: false },
+                success: function (json) {
+                    if (json.result.errMsg == "success") {
+                        $("#con_item").tmpl(json.result.retData).appendTo("#div_Batch");                       
+                    }
+                },
+                error: function () { }
+            });
+        }
+        function BindData(startIndex, pageSize) {
+            $("#tb_info").empty();
+            $.ajax({
+                url: HanderServiceUrl + "/TeaAchManage/AchRewardInfo.ashx",
+                type: "post",
+                dataType: "json",
+                data: { Func: "Get_RewardBatchDetailData", PageIndex: startIndex, pageSize: pageSize, AchieveLevel: $("#AcheiveType").val(), Gid: $("#Gid").val()},
+                success: function (json) {
+                    if (json.result.errMsg == "success") {
+                        $("#pageBar").show();
+                        $("#tr_Info").tmpl(json.result.retData.PagedData).appendTo("#tb_info");
+                        laypage({
+                            cont: 'pageBar', //容器。值支持id名、原生dom对象，jquery对象。【如该容器为】：<div id="page1"></div>
+                            pages: json.result.retData.PageCount, //通过后台拿到的总页数
+                            curr: json.result.retData.PageIndex || 1, //当前页
+                            skip: true, //是否开启跳页
+                            skin: '#6a264b',
+                            jump: function (obj, first) { //触发分页后的回调
+                                if (!first) { //点击跳页触发函数自身，并传递当前页：obj.curr
+                                    BindData(obj.curr, pageSize)
+                                }
+                            }
+                        });
+                        tableSlide();
+                    } else {
+                        $("#pageBar").hide();
+                        nomessage('#tb_info');
+                    }
+                },
+                error: function () {
+                    //接口错误时需要执行的
+                }
+            });
+        }
     </script>
 </body>
 </html>

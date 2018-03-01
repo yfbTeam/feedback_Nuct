@@ -26,8 +26,8 @@
                     <i class="iconfont color_purple">&#xe628;</i>
                     <span class="operate_none bg_purple">编辑</span>
                 </div>
-                <div class="operate">
-                    <i class="iconfont color_purple" onclick="window.location.href='DetailIndex.aspx?Id='+getQueryString('Id')+'&Iid='+getQueryString('Iid')+''">&#xe60b;</i>
+                <div class="operate" onclick="window.location.href = 'DetailIndex.aspx?batchid=${Id}&Id=${pageid}&Iid=${pagelid}';">
+                    <i class="iconfont color_purple">&#xe60b;</i>
                     <span class="operate_none bg_purple">详情</span>
                 </div>
                 <div class="operate">
@@ -90,11 +90,12 @@
     <script src="../../Scripts/HoneySwitch/honeySwitch-noclick.js"></script>
     <script type="text/javascript" src="../../Scripts/My97DatePicker/WdatePicker.js"></script>
      <script>
+         var pageid = getQueryString('Id'), pagelid = getQueryString('Iid');
          $(function () {
              $('#top').load('/header.html');
              $('#footer').load('/footer.html');
              GetData(1, 10);
-         });
+         });         
          var SerKey = $("#Key").val().trim();
          function search() {
              SerKey = $("#Key").val().trim();
