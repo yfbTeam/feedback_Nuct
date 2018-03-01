@@ -29,8 +29,8 @@
                     <label for="">未分：40000元</label>
                 </div>
                 <div class="fr">
-                    <input type="button" value="添加奖励项目" class="btn" onclick="OpenIFrameWindow('添加奖励项目', 'Batch_Add.aspx', '500px', '400px')">
-                    <input type="button" value="批量分配项目奖金" class="btn" onclick="OpenIFrameWindow('添加奖励项目', 'Batch_Add.aspx', '500px', '400px')">
+                    <input type="button" value="添加奖励项目" class="btn" onclick="OpenIFrameWindow('添加奖励项目', 'Detail_AddReward.aspx', '1050px', '600px')">
+                    <input type="button" value="批量分配项目奖金" class="btn">
                     <input type="button" value="导出分配明细" class="btn" >
                 </div>
             </div>
@@ -81,7 +81,7 @@
                                     <span class="operate_none bg_purple">分配</span>
                                 </div>
                                 <div class="operate">
-                                    <i class="iconfont color_purple" onclick="window.location.href='DetailIndex.aspx'">&#xe60b;</i>
+                                    <i class="iconfont color_purple" onclick="OpenIFrameWindow('奖金分配详情', 'AllotDetail.aspx', '700px', '500px')">&#xe60b;</i>
                                     <span class="operate_none bg_purple">详情</span>
                                 </div>
                                 <div class="operate">

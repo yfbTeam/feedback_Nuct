@@ -60,7 +60,7 @@
                                     <span class="operate_none bg_purple">编辑</span>
                                 </div>
                                 <div class="operate">
-                                    <i class="iconfont color_purple" onclick="window.location.href='DetailIndex.aspx'">&#xe60b;</i>
+                                    <i class="iconfont color_purple" onclick="window.location.href='DetailIndex.aspx?Id='+getQueryString('Id')+'&Iid='+getQueryString('Iid')+''">&#xe60b;</i>
                                     <span class="operate_none bg_purple">详情</span>
                                 </div>
                                 <div class="operate">

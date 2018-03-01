@@ -16,31 +16,52 @@
 <body>
     <div class="main">
         <div class="search_toobar clearfix">
-            <div class="input-wrap">
-                <label>奖励项目：：</label>
-                <span>个人竞赛奖奖励项目一</span>
+            <div class="fl ml20">
+                <label for="">业绩类别:</label>
+                <select class="select" style="width: 168px;" id="AcheiveType" onchange="Bind_SelGInfo();"></select>
             </div>
-            <div class="input-wrap">
-                <label>获奖项目名称：</label>
-                <span>测试获奖证书</span>
+            <div class="fl ml20">
+                <label for="">奖励项目：</label>
+                <select class="select" name="Gid" id="Gid" onchange="BindData(1,10);" style="width: 168px;"></select>
             </div>
-            <div class="input-wrap">
-                <label>负责单位：</label>
-                <span>经济管理学院</span>
+            <div class="fl ml20">
+                <label for="">获奖年度:</label>
+                <input type="text"  class="text Wdate" name="Year" id="Year" onclick="WdatePicker({ dateFmt: 'yyyy年' })" style="border:1px solid #ccc;width:150px;"/>
             </div>
-            <div class="input-wrap">
-                <label>负责人：</label>
-                <span>李哲</span>
+            <div class="fl ml20">
+                <input type="text" name="key" id="key" placeholder="请输入获奖项目名称关键字" value="" class="text fl" style="width: 150px;">
+                <a class="search fl" href="javascript:search();"><i class="iconfont">&#xe600;</i></a>
             </div>
-            <div class="input-wrap">
-                <label>获奖年度：</label>
-                <span>2017年</span>
-            </div>
-            <div class="input-wrap">
-                <label>金额：</label>
-                <input type="number" class="text" name="" id="" placeholder="请输入金额"/>
-            </div>
+             
         </div>
+        <div class="table mt10">
+                <table>
+                    <thead>
+                        <tr>
+                            <th width="6%">
+                                <input type="checkbox" name="name" value="" /></th>
+                            <th width="19%">奖励项目</th>
+                            <th width="20%">获奖项目名称</th>
+                            <th width="19%">负责单位</th>
+                            <th width="6%">负责人</th>
+                            <th width="6%">获奖年度</th>                                    
+                        </tr>
+                    </thead>
+                    <tbody id="tb_info">
+                        <tr>
+                            <td width="6%">
+                                <input type="checkbox" name="name" value="" /></td>
+                            <td>个人竞赛奖奖励项目一</td>
+                            <td>测试获奖证书</td>
+                            <td>经济管理学院</td>
+                            <td>李哲</td>
+                            <td>2017</td>
+                            <td>500</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div id="pageBar" class="page"></div>
+            </div>
     </div>
     <div class="btnwrap">
         <input type="button" value="保存" onclick="submit()" class="btn" />
