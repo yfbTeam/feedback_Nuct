@@ -69,11 +69,18 @@ namespace FEBLL
         }
         #endregion
 
-        #region 获取奖金是否使用
+        #region 获取奖金批次是否使用
         public int GetRewardMoney_UseCount(int RewardBatch_Id)
         {
             return bat_dal.GetRewardMoney_UseCount(RewardBatch_Id);
         }
         #endregion 
+
+        #region 获取奖金批次分配金额
+        public decimal GetRewardBatch_UseMoney(int RewardBatch_Id)
+        {
+            return bat_dal.GetRewardBatch_UseMoney(RewardBatch_Id);
+        }
+        #endregion
     }
 }

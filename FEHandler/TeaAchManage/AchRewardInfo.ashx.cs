@@ -90,10 +90,7 @@ namespace FEHandler.TeaAchManage
                     case "Get_Sys_Document": //文件
                         Get_Sys_Document(context);
                         break;
-                    /*追加奖金*/
-                    case "Get_RewardBatchData":
-                        Get_RewardBatchData(context);
-                        break;
+                    /*奖金管理*/                    
                     case "Get_RewardBatchDetailData":
                         Get_RewardBatchDetailData(context);
                         break;
@@ -818,38 +815,6 @@ namespace FEHandler.TeaAchManage
                 ht.Add("Type", context.Request["Type"].SafeToString());
                 ht.Add("RelationId", context.Request["RelationId"].SafeToString());
                 jsonModel = new Sys_DocumentService().GetPage(ht, IsPage);
-            }
-            catch (Exception ex)
-            {
-                jsonModel = new JsonModel()
-                {
-                    errNum = 400,
-                    errMsg = ex.Message,
-                    retData = ""
-                };
-                LogService.WriteErrorLog(ex.Message);
-            }
-        }
-        #endregion
-
-        #region 奖金批次
-        private void Get_RewardBatchData(HttpContext context)
-        {
-            try
-            {
-                bool IsPage = true;
-                if (context.Request["IsPage"].SafeToString() != "" && context.Request["IsPage"] != "undefined")
-                {
-                    IsPage = Convert.ToBoolean(context.Request["IsPage"]);
-                }
-                Hashtable ht = new Hashtable();
-                ht.Add("PageIndex", context.Request["PageIndex"].SafeToString());
-                ht.Add("PageSize", context.Request["PageSize"].SafeToString());                
-                ht.Add("Id", context.Request["Id"].SafeToString());
-                ht.Add("Year", context.Request["Year"].SafeToString());
-                ht.Add("Name", context.Request["Name"].SafeToString());                
-                ht.Add("IsMoneyAllot", context.Request["IsMoneyAllot"].SafeToString());
-                jsonModel = rbatchbll.GetPage(ht, IsPage);
             }
             catch (Exception ex)
             {

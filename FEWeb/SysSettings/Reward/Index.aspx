@@ -93,6 +93,7 @@
             $('#top').load('/header.html');
             $('#footer').load('/footer.html');
             honeySwitch.showOn("#IsMoneyAllot");
+            tableSlide();
         })
     </script>
 </body>

@@ -71,7 +71,18 @@ namespace FEDAL
             int result =Convert.ToInt32(SQLHelp.ExecuteScalar(str, CommandType.Text, op_pms.ToArray()));
             return result;
         }
-        #endregion  
+        #endregion
+
+        #region 获取奖金批次分配金额
+        public decimal GetRewardBatch_UseMoney(int RewardBatch_Id)
+        {
+            string str = "select ISNULL(sum(Money),0) from TPM_RewardBatchDetail where IsDelete=0 and RewardBatch_Id=@RewardBatch_Id";
+            List<SqlParameter> op_pms = new List<SqlParameter>();
+            op_pms.Add(new SqlParameter("@RewardBatch_Id", RewardBatch_Id));
+            int result = Convert.ToInt32(SQLHelp.ExecuteScalar(str, CommandType.Text, op_pms.ToArray()));
+            return result;
+        }
+        #endregion
 
         #region 根据关联Id删除信息
         public int DelRewBatchByRankId(int rank_Id)
