@@ -52,18 +52,7 @@
                             <th width="6%">获奖年度</th>                                    
                         </tr>
                     </thead>
-                    <tbody id="tb_info">
-                        <tr>
-                            <td width="6%">
-                                <input type="checkbox" name="name" value="" /></td>
-                            <td>个人竞赛奖奖励项目一</td>
-                            <td>测试获奖证书</td>
-                            <td>经济管理学院</td>
-                            <td>李哲</td>
-                            <td>2017</td>
-                            <td>500</td>
-                        </tr>
-                    </tbody>
+                    <tbody id="tb_info"></tbody>
                 </table>
                 <div id="pageBar" class="page"></div>
             </div>
