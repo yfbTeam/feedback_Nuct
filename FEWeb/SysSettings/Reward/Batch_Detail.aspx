@@ -28,24 +28,10 @@
                 <span>111</span>
             </div>
             <div class="input_lable2">
+
                 <label for="" style="min-width:100px;">附件：</label>
                 <div class="fl uploader_container pr" style="padding-left:110px;">
-                    <div id="uploader">
-                        <div class="queueList">
-                            <div id="dndArea" class="placeholder photo_lists">
-                                <div id="filePicker"></div>
-                                <ul class="filelist clearfix"></ul>
-                            </div>
-                        </div>
-                        <div class="statusBar" style="display: none;">
-                            <div class="progress">
-                                <span class="text">0%</span>
-                                <span class="percentage"></span>
-                            </div>
-                            <div class="info"></div>                                
-                        </div>
-                    </div>
-                    <div class="uploader_msg">单个文件大小不可超过50M</div>
+                    <ul id="ul_ScoreFile_${rowNum}" auid="${AuditId}" class="clearfix file-ary allot_file"></ul>
                 </div>
             </div>
             
