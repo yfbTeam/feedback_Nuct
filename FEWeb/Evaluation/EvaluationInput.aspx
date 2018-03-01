@@ -122,7 +122,7 @@
             {{else State == 2}}
               <td style="width: 5%"><span class="checking1">待审核</span></td>
             {{else State == 3}}
-               <td style="width: 5%"><span class="pass">入库</span></td>
+               <td style="width: 5%"><span class="pass">已入库</span></td>
             {{else State == 4}}
                <td style="width: 5%"><span class="nopass">不入库</span></td>
             {{/if}}             
@@ -133,7 +133,10 @@
                <i class="iconfont color_purple">&#xe60b;</i>
                <span class="operate_none bg_purple">查看</span>
            </div>
-           <div class="operate" onclick="window.location.href='./input/EvalTable.aspx?Id='+getQueryString('Id')+'&Iid='+getQueryString('Iid') +'&TeacherUID='+'${TeacherUID}'+'&TeacherName='+'${TeacherName}'
+
+         
+
+           <div class="operate" onclick="window.location.href='./input/EvalTable.aspx?IsAllSchool='+IsAllSchool+'&Id='+getQueryString('Id')+'&Iid='+getQueryString('Iid') +'&TeacherUID='+'${TeacherUID}'+'&TeacherName='+'${TeacherName}'
                   +'&SectionID='+'${SectionID}'+'&DisPlayName='+'${DisPlayName}'+'&CourseID='+'${CourseID}'+'&CourseName='+'${CourseName}'+'&ReguID='+'${ReguID}'+'&ReguName='+'${ReguName}'
                   +'&AnswerUID='+'${AnswerUID}'+'&AnswerName='+'${AnswerName}'+'&DepartmentName='+'${DepartmentName}'+'&QuestionID='+ '${Id}'+'&table_Id='+ '${TableID}'+'&TableName='+ '${TableName}'">
                <i class="iconfont color_purple">&#xe617;</i>
@@ -250,8 +253,9 @@
             Key = Key != undefined ? Key.trim() : '';
             var DepartmentID = $('#DepartMent').val();
             var TableID = $('#table').val();
-
+          
             AnswerUID = login_User.UniqueNo;
+            State = 0;
             Get_Eva_QuestionAnswer(pageIndex, SectionID, DepartmentID, Key, TableID);
         }
         function remove(id) {

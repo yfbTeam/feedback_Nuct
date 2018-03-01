@@ -192,6 +192,9 @@
                         <option value="">全部</option>
                     </select>
                 </div>
+
+               
+
                 <div class="fl selectdiv">
                     <label for="">教师所属部门:</label>
                     <select class="select" id="TD">
@@ -269,6 +272,9 @@
                                 </th>
                                 <th>
                                     <div class="table-cell w-70">课程性质</div>
+                                </th>
+                                 <th>
+                                    <div class="table-cell w-70">课程分类</div>
                                 </th>
                                 <th>
                                     <div class="table-cell w-150">教师所属部门</div>
@@ -367,6 +373,10 @@
             <td>
                 <div title="${CourseProperty}" class="table-cell w-70">${CourseProperty}</div>
             </td>
+
+             <td>
+                <div title="${CourseTypeDic}" class="table-cell w-70">${CourseTypeDic}</div>
+            </td>
             <td>
                 <div title="${TeacherDepartmentName}" class="table-cell w-150">${TeacherDepartmentName}</div>
             </td>
@@ -424,85 +434,102 @@
             var ids = GetIDs('Userinfos');
             var rids = ids.split(',');
 
+            GetUserByTypeCompleate = function(retada)
+            {
+                Get_Eva_QuestionAnswerCompleate = function (data) {
+
+                    for (var i = 0; i < data.length; i++) {
+                        AddDis(data[i].CourseID, data[i].CourseName, data[i].TeacherUID, data[i].TeacherName, data[i].Id)
+                    }
+                    fillData_disable(data);
+                };
+                GetTeacherInfo_Course_ClsCompleate = function (data) {
+
+                    for (var i = 0; i < data.length; i++) {
+                        AddDis(data[i].CourseId, data[i].Course_Name, data[i].TeacherUID, data[i].TeacherName, data[i].RoomID)
+                    }
+                    fillData(data);
+                };
+                ExpertListRefleshCompleate = function (exp0) {
+                    Mode = 4;
+                    AnswerUID = exp0.UniqueNo;
+                    Get_Eva_QuestionAnswer(0, select_sectionid);
+                    GetTeacherInfo_Course_Cls();
+                };
+
+                $("#TD").on('change', function () {
+                    teacherreflesh();
+                });
+
+                $("#DP,#CT,#CP,#TD,#TN,#MD,#GD,#CN").on('change', function () {
+                    pageIndex = 0;
+                    GetClassInfo(pageIndex);
+                });
+                $('.number').on('blur', function () {
+                    pageIndex = 0;
+
+                    BirthdayS = $('#BirthdayS').val();
+                    BirthdayE = $('#BirthdayE').val();
+
+                    SchoolS = $('#SchoolS').val();
+                    SchoolE = $('#SchoolE').val();
+                    GetClassInfo(pageIndex);
+                });
+                $('.number').on('change', function () {
+                    $(this).trigger('blur');
+                });
+                GetClassInfoCompleate = function () {
+                    $('#tbody').find('.checkbox').on('click', function () {
+                        if ($(this).is(':checked')) {
+                            AddDis($(this).attr('CourseID'), $(this).attr('Course_Name'), $(this).attr('TeacherUID'), $(this).attr('Teacher_Name'), $(this).attr('Id'));
+                        }
+                        else {
+                            RemoveDis($(this).attr('CourseID'), $(this).attr('TeacherUID'), $(this).attr('Id'));
+                        }
+                    });
+                    if (retada.length > 0) {
+                        Mode = 4;
+                        AnswerUID = selectExpertUID;
+                        Get_Eva_QuestionAnswer(0, select_sectionid);
+                    }
+                    //GetTeacherInfo_Course_Cls();
+                };
+                PageSize = 5;
+                Groups = 6;
+                size = 12;
+                height = 263;
+                ClassModelType = 1;
+                PageType = 'AllotTask';
+           
+               
+                //默认第一个选中，并且添加点击事件，选中样式
+                $('.linkman_lists li:eq(0)').trigger('click');
+
+                if ($('.linkman_lists li:eq(0)').length > 0) {
+
+                }
+                else {
+                    var rolid = isHasElement(ids, 19) > -1 ? 16 : 17;
+                    departmentInit(rolid, login_User.DepartmentName);
+                }
+
+                if(retada.length >0)
+                {
+                    PrepareInit();                  
+                }
+                else
+                {
+                    $("#btn_no").tmpl(1).appendTo(".btnwrap");
+                }
+            }
+
             if (isHasElement(ids, 10) > -1) {
                 GetUserByType('17');//获取
             }
             else if (isHasElement(ids, 19) > -1) {
                 DepartmentID = login_User.Major_ID;
                 GetUserByType('16');//院系专家
-            }
-            Get_Eva_QuestionAnswerCompleate = function (data) {
-               
-                for (var i = 0; i < data.length; i++) {
-                    AddDis(data[i].CourseID, data[i].CourseName, data[i].TeacherUID, data[i].TeacherName, data[i].Id)
-                }
-                fillData_disable(data);
-            };
-            GetTeacherInfo_Course_ClsCompleate = function (data) {
-               
-                for (var i = 0; i < data.length; i++) {
-                    AddDis(data[i].CourseId, data[i].Course_Name, data[i].TeacherUID, data[i].TeacherName, data[i].RoomID)
-                }
-                fillData(data);
-            };
-            ExpertListRefleshCompleate = function (exp0) {
-                Mode = 4;
-                AnswerUID = exp0.UniqueNo;
-                Get_Eva_QuestionAnswer(0, select_sectionid);
-                GetTeacherInfo_Course_Cls();
-            };
-            PageSize = 5;
-            Groups = 6;
-            size = 12;
-            height = 263;
-            ClassModelType = 1;
-            PageType = 'AllotTask';
-            $("#TD").on('change', function () {
-                teacherreflesh();
-            });
-
-            $("#DP,#CT,#CP,#TD,#TN,#MD,#GD,#CN").on('change', function () {
-                pageIndex = 0;
-                GetClassInfo(pageIndex);
-            });
-            $('.number').on('blur', function () {
-                pageIndex = 0;
-
-                BirthdayS = $('#BirthdayS').val();
-                BirthdayE = $('#BirthdayE').val();
-
-                SchoolS = $('#SchoolS').val();
-                SchoolE = $('#SchoolE').val();
-                GetClassInfo(pageIndex);
-            });
-            $('.number').on('change', function () {
-                $(this).trigger('blur');
-            });
-            GetClassInfoCompleate = function () {
-                $('#tbody').find('.checkbox').on('click', function () {
-                    if ($(this).is(':checked')) {
-                        AddDis($(this).attr('CourseID'), $(this).attr('Course_Name'), $(this).attr('TeacherUID'), $(this).attr('Teacher_Name'), $(this).attr('Id'));
-                    }
-                    else {
-                        RemoveDis($(this).attr('CourseID'), $(this).attr('TeacherUID'), $(this).attr('Id'));
-                    }
-                });
-                Mode = 4;
-                AnswerUID = selectExpertUID;
-                Get_Eva_QuestionAnswer(0, select_sectionid);
-                //GetTeacherInfo_Course_Cls();
-            };
-            PrepareInit();
-            //默认第一个选中，并且添加点击事件，选中样式
-            $('.linkman_lists li:eq(0)').trigger('click');
-            if ($('.linkman_lists li:eq(0)').length > 0) {
-
-            }
-            else {
-                var rolid = isHasElement(ids, 19) > -1 ? 16 : 17;
-                departmentInit(rolid, login_User.DepartmentName);
-            }
-
+            }           
         })
 
         function SelectByWhere() {

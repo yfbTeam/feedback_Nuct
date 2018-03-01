@@ -193,13 +193,28 @@ namespace FEHandler.SysClass
             try
             {
                 List<Course> Course_List = Constant.Course_List;
-                List<CourseRoom> CourseRoom_List = Constant.CourseRoom_List;
+
+                List<CourseRel> CourseRel_List = Constant.CourseRel_List;
+                List<Sys_Dictionary> Sys_Dictionary_List = Constant.Sys_Dictionary_List;
+                  List<CourseRoom> CourseRoom_List = Constant.CourseRoom_List;
                 List<StudySection> StudySection_List = Constant.StudySection_List;
+
+                var list = (from cref in CourseRel_List
+                            join dic in Sys_Dictionary_List on cref.CourseType_Id equals dic.Key
+                            join sdy in StudySection_List on dic.SectionId equals sdy.Id
+                            where cref.StudySection_Id == sdy.Id
+                            select new { SectionID = sdy.Id,CourseID = cref.Course_Id ,dic.Value}).ToList();
+
+
                 var query = (from CourseRoom_ in CourseRoom_List
                              join Course_ in Course_List on CourseRoom_.Coures_Id equals Course_.UniqueNo
                              join StudySection_ in StudySection_List on CourseRoom_.StudySection_Id equals StudySection_.Id
+                             join li in list on new { SectionID = StudySection_.Id, CourseID = Course_.UniqueNo } equals new { SectionID = li.SectionID, CourseID = li.CourseID} into lis
+                             from li_ in lis.DefaultIfEmpty()
+
                              select new ClassModel()
                              {
+                                 CourseTypeDic =li_!=null? li_.Value:"",
                                  //年度
                                  Academic = StudySection_.Academic,
                                  //级别

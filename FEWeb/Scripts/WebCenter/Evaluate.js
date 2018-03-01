@@ -36,116 +36,124 @@ var evaluate_Model = {
             //var reulst = $(this).hasClass('table_header_left');
             //if (!reulst) {
 
-                questioncount++;
-                var sub_array = new Object();
-                var TableDetailID = $(this).find("input[name='name_id']").val();
-                var sub_Score = $(this).find("input[type='radio']:checked").val();
-                if (sub_Score == undefined) {
-                    sub_Score = 0;
+            questioncount++;
+            var sub_array = new Object();
+            var TableDetailID = $(this).find("input[name='name_id']").val();
+            var sub_Score = $(this).find("input[type='radio']:checked").val();
+            if (sub_Score == undefined) {
+                sub_Score = 0;
+            }
+            var QuestionType = $(this).find("input[name='name_QuesType_Id']").val();
+
+            var Answer = '';
+
+            if (QuestionType == 3) {
+                Answer = $(this).find("textarea").val().replace(/(^\s*)|(\s*$)/g, "");
+                if (Answer != null && Answer != '') {
+                    //其中有答过一个                  
+                    ques_count3++;
                 }
-                var QuestionType = $(this).find("input[name='name_QuesType_Id']").val();
-
-                var Answer = '';
-
-                if (QuestionType == 3) {
-                    Answer = $(this).find("textarea").val().replace(/(^\s*)|(\s*$)/g, "");
-                    if (Answer != null && Answer != '') {
-                        //其中有答过一个                  
-                        ques_count3++;
-                    }
-                    else {
+                else {
+                    if (State != 1) {
                         if (Eva_Role == 1) {
                             layer.msg('请填写未提交项', { offset: '400px' });
                         }
                         else {
                             MesTips('请填写未提交项')
                         }
-                        //return false;
                     }
+
+
                 }
-                else if (QuestionType == 4) {
-                    var sco_str = $(this).find("div").find('input').val();
-                    var score = sco_str == '' ? 0 : Number(sco_str);
+            }
+            else if (QuestionType == 4) {
+                var sco_str = $(this).find("div").find('input').val();
+                var score = sco_str == '' ? '' : Number(sco_str);
 
-                    var maxscore_str = $(this).find("div").attr('MaxScore');
-                    var maxScore = maxscore_str == '' ? 0 : Number(maxscore_str);
-                    if (evaluate_Model.IsScore == 0) {
-                        if (score >= 0 && score <= maxScore) {
-                            Answer = score;
-                            sub_Score = score;
-                            ques_count4++;
-                        }
-                        else {
-                            err4_count++;
-
+                var maxscore_str = $(this).find("div").attr('MaxScore');
+                var maxScore = maxscore_str == '' ? 0 : Number(maxscore_str);
+                if (evaluate_Model.IsScore == 0) {
+                    if (score >= 0 && score <= maxScore) {
+                        Answer = score;
+                        sub_Score = score;
+                        ques_count4++;
+                    }
+                    else {
+                        err4_count++;
+                        if (State != 1) {
                             if (Eva_Role == 1) {
                                 layer.msg('填分项输入格式有误', { offset: '400px' });
                             }
                             else {
                                 MesTips('填分项输入格式有误')
                             }
-                            //return false;
                         }
-                    }
-                    else {
-                        Answer = 0;
-                        sub_Score = 0;
-                        ques_count4++;
+                        //return false;
                     }
                 }
-                else if (QuestionType == 1) {
-                    Answer = $(this).find("input[type='radio']:checked").attr('flv');
+                else {
+                    Answer = 0;
+                    sub_Score = 0;
+                    ques_count4++;
+                }
+            }
+            else if (QuestionType == 1) {
+                Answer = $(this).find("input[type='radio']:checked").attr('flv');
 
-                    if ($(this).find("input[type='radio']").length != 0 && $(this).find("input:checked").length == 1) {
-                        ques_count1++;
-                    }
-                    else {
+                if ($(this).find("input[type='radio']").length != 0 && $(this).find("input:checked").length == 1) {
+                    ques_count1++;
+                }
+                else {
+                    if (State != 1) {
                         if (Eva_Role == 1) {
                             layer.msg('请填写未提交项', { offset: '400px' });
                         }
                         else {
                             MesTips('请填写未提交项')
                         }
-                        //return false;
                     }
+                    //return false;
                 }
-                else if (QuestionType == 2) {
+            }
+            else if (QuestionType == 2) {
 
-                    var rs = $(this).find("input[type='checkbox']:checked");
+                var rs = $(this).find("input[type='checkbox']:checked");
 
-                    for (var i = 0; i < rs.length; i++) {
-                        Answer += rs.eq(i).attr('flv') + ',';
-                    }
+                for (var i = 0; i < rs.length; i++) {
+                    Answer += rs.eq(i).attr('flv') + ',';
+                }
 
-                    Answer = Answer.substring(0, Answer.length - 1);
-                    if ($(this).find("input[type='checkbox']").length != 0 && $(this).find("input:checked").length >= 1) {
-                        ques_count1++;
-                    }
-                    else {
+                Answer = Answer.substring(0, Answer.length - 1);
+                if ($(this).find("input[type='checkbox']").length != 0 && $(this).find("input:checked").length >= 1) {
+                    ques_count1++;
+                }
+                else {
+                    if (State != 1) {
                         if (Eva_Role == 1) {
                             layer.msg('请填写未提交项', { offset: '400px' });
                         }
                         else {
                             MesTips('请填写未提交项')
                         }
-                        //return false;
                     }
+                    //return false;
                 }
+            }
 
-                sub_array.TableDetailID = TableDetailID;
-                sub_array.Score = sub_Score;
+            sub_array.TableDetailID = TableDetailID;
+            sub_array.Score = sub_Score;
 
-                sub_Score = sub_Score == '' ? 0 : sub_Score;
+            sub_Score = sub_Score == '' ? 0 : sub_Score;
 
-                //总分
-                evaluate_Model.AllScore += Number(sub_Score);
+            //总分
+            evaluate_Model.AllScore += Number(sub_Score);
 
-                sub_array.Answer = Answer;
-                sub_array.IsEnable = evaluate_Model.Is_Required ? 0 : 1
-                if (evaluate_Model.Is_AddQuesType) {
-                    sub_array.QuestionType = QuestionType;
-                }
-                evaluate_Model.Submit_array.push(sub_array);
+            sub_array.Answer = Answer;
+            sub_array.IsEnable = evaluate_Model.Is_Required ? 0 : 1
+            if (evaluate_Model.Is_AddQuesType) {
+                sub_array.QuestionType = QuestionType;
+            }
+            evaluate_Model.Submit_array.push(sub_array);
 
             //}
         });
@@ -215,7 +223,7 @@ function SubmitQuestion() {
         evaluate_Model.Submit_ele = $(".indicatype");
     }
     else {
-        evaluate_Model.Submit_ele = $(".ti");    
+        evaluate_Model.Submit_ele = $(".ti");
     }
     evaluate_Model.Is_AddQuesType = Is_AddQuesType;
     evaluate_Model.Submit_Data = function () {
@@ -238,7 +246,14 @@ function SubmitQuestion() {
                 if (json.result.errMsg == "success") {
                     if (Eva_Role == 1) {
                         var data = json.result.retData;
-                        layer.msg('提交成功!', { offset: '400px' });
+
+                        if (State == 1) {
+                            layer.msg('保存成功!', { offset: '400px' });
+                        }
+                        else {
+                            layer.msg('提交成功!', { offset: '400px' });
+                        }
+
                         window.history.go(-1);
                     }
                     else {
@@ -294,7 +309,13 @@ function EditQuestion(Id) {
 
                 if (json.result.errMsg == "success") {
                     var data = json.result.retData;
-                    layer.msg('提交成功!', { offset: '400px' });
+                    debugger;
+                    if (State == 1) {
+                        layer.msg('保存成功!', { offset: '400px' });
+                    }
+                    else {
+                        layer.msg('提交成功!', { offset: '400px' });
+                    }
                     window.history.go(-1);
                 }
                 else {
@@ -340,7 +361,7 @@ function Get_Eva_QuestionAnswer(PageIndex, SectionID, DepartmentID, Key, TableID
             func: "Get_Eva_QuestionAnswer", "SectionID": SectionID,
             "ReguID": ReguID, "CourseID": CourseID, "TeacherUID": TeacherUID,
             "DepartmentID": DepartmentID,
-            "TableID": TableID, "Key": Key, "AnswerUID": AnswerUID, "Mode": Mode,
+            "TableID": TableID, "Key": Key, "AnswerUID": AnswerUID, "Mode": Mode, "State": State,
             "PageIndex": PageIndex, "PageSize": pageSize, "IsAllSchool": IsAllSchool, "Eva_Role": Eva_Role,
             "eva_check_depart": eva_check_depart, "eva_check_school": eva_check_school, "eva_check_indepart": eva_check_indepart
         },

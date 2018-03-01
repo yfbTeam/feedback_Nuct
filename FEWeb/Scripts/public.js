@@ -571,14 +571,18 @@ function incontorl_helper(isscore) {
         });
 
         $(".test_desc").find('input[type="number"]').each(function () {
-            var score = $(this).val() == '' ? 0 : Number($(this).val());
-            var max = $(this).attr('maxscore') == '' ? 0 : Number($(this).attr('maxscore'));
-            if (score > 0 && score <= max) {
-                realTotal = numAdd(realTotal, $(this).val());
+            if ($(this).val() != '')
+            {
+                var score = Number($(this).val());
+                var max = $(this).attr('maxscore') == '' ? 0 : Number($(this).attr('maxscore'));
+                if (score > 0 && score <= max) {
+                    realTotal = numAdd(realTotal, $(this).val());
+                }
+                else {
+                    $(this).val(0);
+                }
             }
-            else {
-                $(this).val(0);
-            }
+           
         });
 
         $("#sp_realtotal").html(realTotal);

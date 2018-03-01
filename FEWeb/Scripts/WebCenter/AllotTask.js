@@ -137,6 +137,7 @@ function GetTeacherInfo_Course_Cls() {
 
 
 var DepartmentID = '';
+function GetUserByTypeCompleate() { };
 //获取督导专家
 function GetUserByType(userType) {
     if (ExpertList == null) {
@@ -157,6 +158,8 @@ function GetUserByType(userType) {
                     }
                     ExpertList = json.result.retData;
                     ExpertListReflesh();
+
+                    GetUserByTypeCompleate(ExpertList)
                 }
             },
             error: function (errMsg) {

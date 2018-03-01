@@ -12,6 +12,11 @@
     <link href="../../css/layout.css" rel="stylesheet" />
     <script src="../../Scripts/jquery-1.11.2.min.js"></script>
 
+    <style>
+          .title a {
+            cursor: pointer;
+        }
+    </style>
    
 </head>
 <body>
@@ -21,6 +26,9 @@
              <div class="sort_nav" id="threenav">
             </div>
 
+             <h1 class="title">
+                <a id="level1" >全部评价</a><span>&gt;</span><a  class="crumbs" id="GropName">评价</a>
+            </h1>
 
             <div class="search_toobar clearfix">
                 <div class="fl">
@@ -84,12 +92,12 @@
 
         <script type="text/x-jquery-tmpl" id="itembtn_Enable">
             <button class="btn ml10" onclick="OpenIFrameWindow('发起评教','StartEval.aspx','1000px','650px')">发起评教</button>
-            <button class="btn" onclick="window.history.go(-1);">返回上一步</button>
+            <%--<button class="btn" onclick="window.history.go(-1);">返回上一步</button>--%>
         </script>
 
         <script type="text/x-jquery-tmpl" id="itembtn_No_Enable">
             <button class="btn ml10" style="background: #A8A8A8">发起评教</button>
-            <button class="btn" onclick="window.history.go(-1);">返回上一步</button>
+            <%--<button class="btn" onclick="window.history.go(-1);">返回上一步</button>--%>
         </script>
 
         <script type="text/x-jquery-tmpl" id="itemCount">
@@ -179,20 +187,25 @@
                 Base.CheckHasExpertRegu(reguType);
 
                 Get_Eva_RegularData(0, pageIndex);              
+                var level1 = '';
                 if (IsAllSchool == 1) {
                     $('#threenav').children().eq(0).addClass('selected');
+                    level1 = $('#threenav').children().eq(0).text();
                 }
                 else {
-                    if ($('#threenav').children().length > 1)
-                    {
+                    if ($('#threenav').children().length > 1) {
                         $('#threenav').children().eq(1).addClass('selected');
+                        level1 = $('#threenav').children().eq(1).text();
                     }
                     else {
                         $('#threenav').children().eq(0).addClass('selected');
+                        level1 = $('#threenav').children().eq(0).text();
                     }
                 }
-
-                //$('#threenav').children().eq(0).addClass('selected');
+                $('#level1').on('click', function () {
+                    window.location.href = "../EvaluationInput.aspx?IsAllSchool=" + IsAllSchool + "&Id=" + getQueryString('Id') + "&Iid=" + getQueryString('Iid');
+                });
+                $('#level1').text(level1);
             })
 
 
@@ -206,7 +219,7 @@
 
             function navicate(TeacherUID, TeacherName, SectionID, DisPlayName, CourseID, Course_Name, ReguID, ReguName, ExpertUID, ExpertName, Departent_Name)
             {               
-                window.location.href = './selectTable.aspx?Id=' + getQueryString('Id') + '&Iid=' + getQueryString('Iid') + '&TeacherUID=' + TeacherUID + '&TeacherName=' + TeacherName
+                window.location.href = './selectTable.aspx?IsAllSchool=' + IsAllSchool + '&Id=' + getQueryString('Id') + '&Iid=' + getQueryString('Iid') + '&TeacherUID=' + TeacherUID + '&TeacherName=' + TeacherName
                   + '&SectionID=' + SectionID + '&DisPlayName=' + DisPlayName + '&CourseID=' + CourseID + '&CourseName=' + Course_Name + '&ReguID=' + ReguID + '&ReguName=' + ReguName
                   + '&AnswerUID=' + ExpertUID + '&AnswerName=' + ExpertName + '&DepartmentName=' + Departent_Name;
             }

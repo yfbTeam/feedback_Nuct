@@ -154,6 +154,7 @@
             $('#top').load('/header.html');
             $('#footer').load('/footer.html');
             Mode = 2;
+            State = 2;
             $('#select').on('click', search);
             Base.bindStudySectionCompleate = function () {
                 var SectionID = $('#section').val();

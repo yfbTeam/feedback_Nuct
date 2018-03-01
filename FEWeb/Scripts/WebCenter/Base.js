@@ -95,7 +95,7 @@ var Base = {
                 "CourseID": CourseID, "SectionID": SectionID, "Type": t_Type, "CreateUID": CreateUID, "NoEnableSelect": NoEnableSelect
             },
             success: function (json) {
-                debugger;
+                
                 if (json.result.errNum.toString() == "0") {
                     $(json.result.retData).each(function () {
                         $("#table").append('<option title="' + this.Name + '" value="' + this.Id + '">' + cutstr(this.Name, 45) + '</option>');

@@ -45,7 +45,7 @@ function GetClassInfo(PageIndex) {
     layer_index = layer.load(1, {
         shade: [0.1, '#fff'] //0.1透明度的白色背景
     });
-    debugger;
+    
     if (PageType == 'StartEval') {
         S_DP = $('#S_DP Span').attr('sorttype');
         S_CN = $('#S_CN Span').attr('sorttype');
@@ -84,7 +84,7 @@ function GetClassInfo(PageIndex) {
         async: false,
         success: function (returnVal) {
             if (returnVal.result.errMsg == "success") {
-
+              
                 var data = returnVal.result.retData;
 
                 layer.close(layer_index);
@@ -109,7 +109,7 @@ function GetClassInfo(PageIndex) {
                 }
 
                 $("#itemData").tmpl(data).appendTo("#tbody");
-                if (select_course_teacher != undefined)
+                if (select_course_teacher != undefined && select_course_teacher.length>0)
                 {
                     for (var i = 0; i < select_course_teacher.length; i++) {
                         $('#tbody').find('input[Id="' + select_course_teacher[i].Id + '"]').prop('checked', true);

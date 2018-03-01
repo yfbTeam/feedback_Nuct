@@ -1305,7 +1305,7 @@ namespace FEHandler.Eva_Manage
                     var section = Constant.StudySection_List.FirstOrDefault(i => i.Id == Section_Id);
                     if (section != null)
                     {
-                        if (StartTime > section.StartTime && EndTime < section.EndTime)
+                        if (StartTime >= section.StartTime && EndTime <= section.EndTime)
                         {
                             #region 编辑评价
 
@@ -1458,7 +1458,7 @@ namespace FEHandler.Eva_Manage
                     var section = Constant.StudySection_List.FirstOrDefault(i => i.Id == Section_Id);
                     if (section != null)
                     {
-                        if (StartTime > section.StartTime && EndTime < section.EndTime)
+                        if (StartTime >= section.StartTime && EndTime <= section.EndTime)
                         {
                             #region 添加评价
 
@@ -1538,7 +1538,6 @@ namespace FEHandler.Eva_Manage
                 }
             }
         }
-
 
         #endregion
 

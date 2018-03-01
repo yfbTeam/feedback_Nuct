@@ -90,8 +90,8 @@
             float: none;
         }
 
-         .evalmes2 {
-            top:35%;
+        .evalmes2 {
+            top: 35%;
             padding: 10px 0;
             position: fixed;
             right: 12%;
@@ -116,14 +116,21 @@
                 .evalmes2 .div2 label {
                     font-size: 18px;
                 }
+
+        .title a {
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
     <div id="top"></div>
     <div class="center" id="centerwrap">
         <div class="wrap ">
+            <div class="sort_nav" id="threenav">
+            </div>
+
             <h1 class="title">
-                <a href="javascript:window.history.go(-1)">全部评价</a><span>&gt;</span><a href="#" class="crumbs" id="GropName">北方工业大学实验教学课堂检查表（专家用表）</a>
+                <a id="level1">全部评价</a><span>&gt;</span><a id="GropName">评价</a><span>&gt;</span><a class="crumbs" id="GropName2"></a>
             </h1>
 
             <div class="evalmes2" style="color: #999999; font-size: 14px">
@@ -147,7 +154,7 @@
                     <span id="sp_total"></span>
                     <span id="remark"></span>
                 </div>
-                <div class="table_header_left" style="min-height: 49px" id="list">
+                <div class="table_header_left clearfix" id="list">
                 </div>
 
             </div>
@@ -324,7 +331,7 @@
 
                     {{else $value.QuesType_Id==4 }}
                     <div class="test_desc" maxscore="${OptionF_S_Max}">
-                        <input type="number" onkeydown="onlyNum();"  maxscore="${OptionF_S_Max}" class="text" name="Name" style="width: 100%;" />
+                        <input type="number" onkeydown="onlyNum();" maxscore="${OptionF_S_Max}" class="text" name="Name" style="width: 100%;" />
                     </div>
                     {{/if}}
                 </li>
@@ -400,7 +407,7 @@
             $('#footer').load('/footer.html');
 
             UI_Table_View.Get_Eva_TableDetail_Compleate = function (retdata) {
-          
+
                 $('#section').val(DisplayName);
                 $('#teacher').val(TeacherName);
                 $('#course').val(CourseName);
@@ -413,28 +420,59 @@
                 table_Id = $('#table').val();
                 UI_Table_View.IsPage_Display = true;
                 UI_Table_View.Get_Eva_TableDetail();
+
+                $('#GropName2').text($('#table').find('option:selected').text());
             };
             Base.BindTable(SectionID, CourseID, true);
             $('#table').on('change', function () {
                 table_Id = $('#table').val();
                 UI_Table_View.IsPage_Display = true;
                 UI_Table_View.Get_Eva_TableDetail();
-
+                $('#GropName2').text($('#table').find('option:selected').text());
                 Reflesh();
             });
 
             Reflesh();
 
-            
+
+            var level1 = '';
+            if (IsAllSchool == 1) {
+                $('#threenav').children().eq(0).addClass('selected');
+                level1 = $('#threenav').children().eq(0).text();
+            }
+            else {
+                if ($('#threenav').children().length > 1) {
+                    $('#threenav').children().eq(1).addClass('selected');
+                    level1 = $('#threenav').children().eq(1).text();
+                }
+                else {
+                    $('#threenav').children().eq(0).addClass('selected');
+                    level1 = $('#threenav').children().eq(0).text();
+                }
+            }
+
+
+            $('#level1').on('click', function () {
+                window.location.href = "../EvaluationInput.aspx?IsAllSchool=" + IsAllSchool + "&Id=" + getQueryString('Id') + "&Iid=" + getQueryString('Iid');
+            });
+            $('#GropName').on('click', function () {
+                window.location.href = "./createModal.aspx?IsAllSchool=" + IsAllSchool + "&Id=" + getQueryString('Id') + "&Iid=" + getQueryString('Iid');
+            });
+            $('#level1').text(level1);
+
         })
 
         function Submit() {
             State = 2;
-            Save();
+            input();
         }
 
         function Save() {
             State = 1;
+            input();
+        }
+
+        function input() {          
             HeaderList = [];
             $('.lblheader').each(function (index) {
                 var CustomCode = $(this).attr('CustomCode');
@@ -481,7 +519,7 @@
                 GetStudentsSelect(ClassID)
             });
 
-            
+
         }
 
     </script>

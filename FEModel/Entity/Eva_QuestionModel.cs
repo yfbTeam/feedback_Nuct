@@ -56,5 +56,9 @@ namespace FEModel.Entity
         public bool IsScore { get; set; }
 
         public string RoomID { get; set; }
+
+        public string HeaderClassName { get; set; }
+
+        public string HeaderStuName { get; set; }
     }
 }

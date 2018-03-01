@@ -38,6 +38,7 @@ namespace FEHandler.Eva_Manage
                 //课程的ID
                 string Key = RequestHelper.string_transfer(Request, "Key");
                 int Mode = RequestHelper.int_transfer(Request, "Mode");
+                int State = RequestHelper.int_transfer(Request, "State");
 
                 int TableID = RequestHelper.int_transfer(Request, "TableID");
                 string AnswerUID = RequestHelper.string_transfer(Request, "AnswerUID");
@@ -56,7 +57,7 @@ namespace FEHandler.Eva_Manage
                 {
                     ModeType modeType = (ModeType)Mode;
                     jsonModel = Get_Eva_QuestionAnswer_Helper(PageIndex, PageSize, SectionID, ReguID, CourseID, TeacherUID, DepartmentID, Key,
-                        TableID, AnswerUID, (IsAllSchool)IsAllSchool, modeType, Eva_Role, eva_check_depart, eva_check_school, eva_check_indepart);
+                        TableID, AnswerUID, (IsAllSchool)IsAllSchool, modeType, Eva_Role, eva_check_depart, eva_check_school, eva_check_indepart, State);
                 }
                 catch (Exception ex)
                 {
@@ -76,7 +77,7 @@ namespace FEHandler.Eva_Manage
         /// <param name="context"></param>
         public static JsonModel Get_Eva_QuestionAnswer_Helper(int PageIndex, int PageSize, int SectionID, int ReguID, string CourseID, string TeacherUID, string DepartmentID,
             string Key, int TableID, string AnswerUID, IsAllSchool IsAllSchool, ModeType modeType, int Eva_Role,
-            bool eva_check_depart, bool eva_check_school, bool eva_check_indepart)
+            bool eva_check_depart, bool eva_check_school, bool eva_check_indepart,int State)
         {
             int intSuccess = (int)errNum.Success;
             JsonModelNum jsm = new JsonModelNum();
@@ -89,8 +90,8 @@ namespace FEHandler.Eva_Manage
                             join r in Constant.CourseRoom_List on q.RoomID equals r.UniqueNo into rooms
                             join tb in Constant.Eva_Table_List on q.TableID equals tb.Id into tables
                             from t in tables.DefaultIfEmpty()
-
                             from room in rooms.DefaultIfEmpty()
+
                             select new Eva_QuestionModel()
                             {
                                 Id = q.Id,
@@ -115,7 +116,7 @@ namespace FEHandler.Eva_Manage
                                 ClassName = room != null ? room.ClassName : "",
                                 RoleList = (from ru in Constant.Sys_RoleOfUser_List where ru.UniqueNo == q.AnswerUID select ru.Role_Id).ToList(),
                                 RoomID = q.RoomID,
-                                IsScore = t.IsScore == 0 ? true : false,
+                                IsScore = t.IsScore == 0 ? true : false,                            
                             }).ToList();
 
                 if (SectionID > 0)
@@ -147,6 +148,11 @@ namespace FEHandler.Eva_Manage
                 if (AnswerUID != "")
                 {
                     list = (from li in list where li.AnswerUID == AnswerUID select li).ToList();
+                }
+
+                if (State >0)
+                {
+                    list = (from li in list where li.State == State select li).ToList();
                 }
 
                 if (modeType == ModeType.Record || modeType == ModeType.Look)
@@ -201,6 +207,10 @@ namespace FEHandler.Eva_Manage
 
                         break;
                     case ModeType.Look:
+                        if (Key != "")
+                        {
+                            list = (from li in list where li.CourseName.Contains(Key) || li.TeacherName.Contains(Key) select li).ToList();
+                        }
                         break;
                     default:
                         break;
@@ -208,6 +218,11 @@ namespace FEHandler.Eva_Manage
                 for (int i = 0; i < list.Count; i++)
                 {
                     list[i].Num = i + 1;
+                    var header = Constant.Eva_Table_Header_List.FirstOrDefault(h => h.Custom_Code == "5" && h.Table_Id == list[i].TableID);
+                    list[i].HeaderClassName = header!=null?header.Name_Key:"";
+
+                    var header_stu = Constant.Eva_Table_Header_List.FirstOrDefault(h => h.Custom_Code == "6" && h.Table_Id == list[i].TableID);
+                    list[i].HeaderStuName = header_stu != null ? header_stu.Name_Key : "";
                 }
                 var query_last = (from an in list select an).Skip((PageIndex - 1) * PageSize).Take(PageSize).ToList();
                 //返回所有表格数据

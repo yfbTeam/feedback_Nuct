@@ -91,7 +91,7 @@
         }
 
         .evalmes2 {
-            top:35%;
+            top: 35%;
             padding: 10px 0;
             position: fixed;
             right: 12%;
@@ -116,14 +116,22 @@
                 .evalmes2 .div2 label {
                     font-size: 18px;
                 }
+
+        .title a {
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
     <div id="top"></div>
     <div class="center" id="centerwrap">
         <div class="wrap ">
+            <div class="sort_nav" id="threenav">
+            </div>
+
+
             <h1 class="title">
-                <a href="javascript:window.history.go(-1)">全部评价</a><span>&gt;</span><a href="#" class="crumbs" id="GropName">北方工业大学实验教学课堂检查表（专家用表）</a>
+                <a id="level1" href="javascript:window.history.go(-1)">全部评价</a><span>&gt;</span><a class="crumbs" id="GropName">北方工业大学实验教学课堂检查表（专家用表）</a>
             </h1>
 
             <div class="evalmes2" style="color: #999999; font-size: 14px">
@@ -149,7 +157,7 @@
                     <span id="remark"></span>
                 </div>
 
-                <div class="table_header_left" style="min-height: 49px" id="list">
+                <div class="table_header_left clearfix" id="list">
                 </div>
 
             </div>
@@ -265,13 +273,13 @@
                         </span>
                         {{/if}}
                     </div>
-                      {{else $value.QuesType_Id==2}}
+                    {{else $value.QuesType_Id==2}}
                     <div class="test_desc test_desc2" detailid="${Id}">
                         {{if $value.OptionA!=""}}
                         <span>
-                            <input type="checkbox"  flv="OptionA" id="inp_${$value.Id}-1" value="${$value.OptionA_S}" />
+                            <input type="checkbox" flv="OptionA" id="inp_${$value.Id}-1" value="${$value.OptionA_S}" />
                             <label class="lbl" for="inp_${$value.Id}-1">
-                                A${$value.OptionA}
+                            A${$value.OptionA}
                           
                         </span>
                         {{/if}}
@@ -279,7 +287,7 @@
                         <span>
                             <input type="checkbox" flv="OptionB" id="inp_${$value.Id}-2" value="${$value.OptionB_S}" />
                             <label class="lbl" for="inp_${$value.Id}-2">
-                                B${$value.OptionB}
+                            B${$value.OptionB}
                           
                         </span>
                         {{/if}}
@@ -287,44 +295,44 @@
                         <span>
                             <input type="checkbox" flv="OptionC" id="inp_${$value.Id}-3" value="${$value.OptionC_S}" />
                             <label class="lbl" for="inp_${$value.Id}-3">
-                                C${$value.OptionC}
+                            C${$value.OptionC}
                          
                         </span>
                         {{/if}}
                         {{if $value.OptionD!=""}}
                         <span>
-                            <input type="checkbox"  flv="OptionD" id="inp_${$value.Id}-4" value="${$value.OptionD_S}" />
+                            <input type="checkbox" flv="OptionD" id="inp_${$value.Id}-4" value="${$value.OptionD_S}" />
                             <label class="lbl" for="inp_${$value.Id}-4">
-                                D${$value.OptionD}
+                            D${$value.OptionD}
                                 
                           
                         </span>
                         {{/if}}
                         {{if $value.OptionE!=""}}
                         <span>
-                            <input type="checkbox"  flv="OptionE" id="inp_${$value.Id}-5" value="${$value.OptionE_S}" />
+                            <input type="checkbox" flv="OptionE" id="inp_${$value.Id}-5" value="${$value.OptionE_S}" />
                             <label class="lbl" for="inp_${$value.Id}-5">E${$value.OptionE}</label>
-                           
+
                         </span>
                         {{/if}}
                          {{if $value.OptionF!=""}}
                         <span>
-                            <input type="checkbox"  flv="OptionF" id="inp_${$value.Id}-6" value="${$value.OptionF_S}" />
+                            <input type="checkbox" flv="OptionF" id="inp_${$value.Id}-6" value="${$value.OptionF_S}" />
                             <label class="lbl" for="inp_${$value.Id}-6">
-                                F${$value.OptionF}
+                            F${$value.OptionF}
                                
                           
                         </span>
                         {{/if}}
                     </div>
-                        
+
                     {{else $value.QuesType_Id==3}}
                     <div class="test_desc" detailid="${Id}">
                         <textarea></textarea>
                     </div>
                     {{else $value.QuesType_Id==4 }}
                     <div class="test_desc" detailid="${Id}" maxscore="${OptionF_S_Max}">
-                        <input type="number" onkeydown="onlyNum();" class="text" maxscore="${OptionF_S_Max}" name="Name" value="0" style="width:100%" />
+                        <input type="number" onkeydown="onlyNum();" class="text" maxscore="${OptionF_S_Max}" name="Name"  style="width: 100%" />
                     </div>
                     {{/if}}
                 </li>
@@ -419,14 +427,40 @@
             UI_Table_View.Get_Eva_TableDetail();
 
             Reflesh();
+
+            var level1 = '';
+            if (IsAllSchool == 1) {
+                $('#threenav').children().eq(0).addClass('selected');
+                level1 = $('#threenav').children().eq(0).text();
+            }
+            else {
+                if ($('#threenav').children().length > 1) {
+                    $('#threenav').children().eq(1).addClass('selected');
+                    level1 = $('#threenav').children().eq(1).text();
+                }
+                else {
+                    $('#threenav').children().eq(0).addClass('selected');
+                    level1 = $('#threenav').children().eq(0).text();
+                }
+            }
+
+            $('#level1').text(level1);
+            $('#GropName').text(TableName);
+
+
         })
 
         function Submit() {
             State = 2;
-            Save();
+            input();
         }
 
         function Save() {
+            State = 1;
+            input();
+        }
+
+        function input() {
             HeaderList = [];
             $('.lblheader').each(function (index) {
                 var CustomCode = $(this).attr('CustomCode');

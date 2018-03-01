@@ -41,7 +41,7 @@
                     <select class="select" id="section" style="width: 198px;">
                     </select>
                 </div>
-                <div class="fl ml10">
+                <div class="fl ml10 commonUsing" style="display: none">
                     <label for="">部门:</label>
                     <select class="select" id="DepartMent" style="width: 148px;">
                         <option value="">全部</option>
@@ -67,12 +67,17 @@
                         <tr>
                             <th>序号</th>
                             <th>学年学期</th>
-                            <th>部门</th>
-                            <th>教师</th>
-                            <th>课程</th>
+                            <th>评价名称</th>
+                            <th class="commonUsing" style="display: none">部门</th>
+                            <th class="commonUsing" style="display: none">教师</th>
+                            <th>课程名称</th>
+                            <th >班级</th>
+                            <th >学生</th>
 
                             <th>评价表名称</th>
+                            <th class="commonUsing" style="display: none">评价人</th>
 
+                            <th>评价时间</th>
                             <th>得分</th>
                             <th>操作</th>
                         </tr>
@@ -103,14 +108,19 @@
     <script type="text/x-jquery-tmpl" id="itemData">
         <tr>
             <td style="width: 5%">${Num}</td>
-            <td style="width: 5%">${DisPlayName}</td>
-            <td title="${Departent_Name}" style="width: 15%">${cutstr(DepartmentName,30)}</td>
-            <td style="width: 7%">${TeacherName}</td>
-            <td title="${Course_Name}" style="width: 15%">${cutstr(CourseName,30)}</td>
+            <td style="width: 7%">${DisPlayName}</td>
+            <td style="width: 8%">${ReguName}</td>
+            <td title="${Departent_Name}" style="width: 13%">${cutstr(DepartmentName,30)}</td>
+            <td style="width: 5%">${TeacherName}</td>
+            <td title="${Course_Name}" style="width: 13%">${cutstr(CourseName,30)}</td>
+              <td title="${HeaderClassName}" style="width: 6%">${cutstr(HeaderClassName,10)}</td>
+              <td title="${HeaderStuName}" style="width: 6%">${cutstr(HeaderStuName,10)}</td>
+            <td style="width: 15%" title="${TableName}">${cutstr(TableName,30)}</td>
+            
 
-            <td style="width: 30%" title="${TableName}">${cutstr(TableName,45)}</td>
+            <td class="commonUsing" style="width: 7%; display: none">${AnswerName}</td>
+            <td style="width: 7%">${DateTimeConvert(CreateTime, 'yy-MM-dd', true)}</td>
             <td style="width: 5%">${Score.toFixed(2)}</td>
-
 
             <td style="width: 5%" class="operate_wrap" style="width: 10px">
                 <div class="operate" onclick="table_view('${TableID}','${Id}')">
@@ -224,9 +234,23 @@
             Key = Key != undefined ? Key.trim() : '';
             var DepartmentID = $('#DepartMent').val();
             var TableID = $('#table').val();
-
-            AnswerUID = login_User.UniqueNo;
+            if (IsAllSchool == 2) {
+                TeacherUID = login_User.UniqueNo;
+                
+              
+            }
+            else {
+                $('.commonUsing').show();
+            }
+            State = 3;
             Get_Eva_QuestionAnswer(pageIndex, SectionID, DepartmentID, Key, TableID);
+
+
+            if (IsAllSchool == 2) {
+            }
+            else {
+                $('.commonUsing').show();
+            }
         }
         function remove(id) {
             layer.confirm('确定要删除？', {
