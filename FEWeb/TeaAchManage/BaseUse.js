@@ -498,7 +498,7 @@ function GetCur_UserMoney(objnum) {
     });
     newMoney = Num_Fixed(newMoney);
     $span_HasAllot.html(newMoney);
-    $("#span_UnAllot_" + objnum).html("未分：" + Num_Fixed(Number($('#span_AllMoney_' + objnum).html()) - Number($span_HasAllot.html())) + "万");
+    $("#span_UnAllot_" + objnum).html("未分：" + Num_Fixed(Number($('#span_AllMoney_' + objnum).html()) - Number($span_HasAllot.html())) + "元");
     return newMoney;
 }
 //成员奖金变化时

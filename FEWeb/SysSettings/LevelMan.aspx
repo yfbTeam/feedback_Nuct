@@ -54,8 +54,8 @@
                              <tr>
                                  <th>奖项</th>
                                  <th>分数（分）</th>
-                                 <th>奖金（万元）</th>
-                                 <th>追加（万元）</th>
+                                 <th>奖金（元）</th>
+                                 <th>追加（元）</th>
                                  <th id="ops" width="230px;">操作</th>
                              </tr>
                          </thead>
@@ -152,8 +152,8 @@
                         <tr>
                             <th style="text-align:left;text-indent:45px;">排名</th>
                             <th>分数（分）</th>
-                            <th>奖金（万元）</th>
-                            <th>追加（万元）</th>
+                            <th>奖金（元）</th>
+                            <th>追加（元）</th>
                             <th id="ops" width="230px;">操作</th>
                         </tr>
                     </thead>

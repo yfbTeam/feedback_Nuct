@@ -76,7 +76,7 @@
                    {{else AuditStatus==2}}<span class="nocheck">审核不通过</span>
                    {{else}} <span class="assigning">审核通过</span>{{/if}}
                </div>
-               <div class="fr status">奖金：<span id="span_AllMoney_${rowNum}">${Money}</span>万，已分：<span id="span_HasAllot_${rowNum}">{{if AuditStatus==10||AuditStatus==0}}0{{else}}${HasAllot}{{/if}}</span>万，<span id="span_UnAllot_${rowNum}" style="color:#d02525;">未分：{{if AuditStatus==10||AuditStatus==0}}${Money}{{else}}${Money-HasAllot}{{/if}}万</span></div>
+               <div class="fr status">奖金：<span id="span_AllMoney_${rowNum}">${Money}</span>元，已分：<span id="span_HasAllot_${rowNum}">{{if AuditStatus==10||AuditStatus==0}}0{{else}}${HasAllot}{{/if}}</span>元，<span id="span_UnAllot_${rowNum}" style="color:#d02525;">未分：{{if AuditStatus==10||AuditStatus==0}}${Money}{{else}}${Money-HasAllot}{{/if}}元</span></div>
            </div>
            <table class="allot_table mt10  ">
                <thead>
@@ -597,7 +597,7 @@
                     editArray.push({ BatchDetail_Id: auditid, RewardUser_Id: $(this).attr('uid'), AllotMoney: money, EditUID: loginUser.UniqueNo });
                     if (Number(money) != Number(oldmoney)) { //修改的
                         edithis.push({
-                            Type: 1, Acheive_Id: cur_AchieveId, RelationId: rew_batchid, Content: "第" + rownum + "批奖金" + loginUser.Name + '将' + $(this).find('td.td_memname').html() + oldmoney + "万" + "改为" + money + "万"
+                            Type: 1, Acheive_Id: cur_AchieveId, RelationId: rew_batchid, Content: "第" + rownum + "批奖金" + loginUser.Name + '将' + $(this).find('td.td_memname').html() + oldmoney + "元" + "改为" + money + "元"
                                           , ModifyUID: userno, CreateUID: loginUser.UniqueNo
                         });
                     }

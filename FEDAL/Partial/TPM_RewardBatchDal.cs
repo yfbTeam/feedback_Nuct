@@ -22,7 +22,8 @@ namespace FEDAL
             try
             {
                 StringBuilder str = new StringBuilder();
-                str.Append(@" select r_bat.*,b.Name as CreateName,(select count(1) from TPM_RewardBatchDetail where IsDelete=0 and Status in(1,3) and RewardBatch_Id=r_bat.Id)UseCount ");
+                str.Append(@" select r_bat.*,b.Name as CreateName,(select count(1) from TPM_RewardBatchDetail where IsDelete=0 and Status in(1,3) and RewardBatch_Id=r_bat.Id)UseCount
+                  ,(select ISNULL(sum(Money),0) from TPM_RewardBatchDetail where IsDelete=0 and RewardBatch_Id=r_bat.Id)UseMoney  ");
                 str.Append(@" from TPM_RewardBatch r_bat 
                                 left join UserInfo b on r_bat.CreateUID=b.UniqueNo  where r_bat.IsDelete=0 ");
                 int StartIndex = 0;
@@ -34,12 +35,12 @@ namespace FEDAL
                 }
                 if (ht.ContainsKey("Year") && !string.IsNullOrEmpty(ht["Year"].SafeToString()))
                 {
-                    str.Append(" and r_bat.Year=@Year ");
-                    pms.Add(new SqlParameter("@Year", ht["Year"].ToString()));
+                    str.Append(" and r_bat.Year like N'%' + @Year + '%'");
+                    pms.Add(new SqlParameter("@Year", ht["Year"].ToString().Replace("年","")));
                 }
                 if (ht.ContainsKey("Name") && !string.IsNullOrEmpty(ht["Name"].SafeToString()))
                 {
-                    str.Append(" and r_bat.Name like N'%' + @Name + '%' ");
+                    str.Append(" and r_bat.Name like N'%' + @Name + '%'");
                     pms.Add(new SqlParameter("@Name", ht["Name"].ToString()));
                 }                
                 if (ht.ContainsKey("IsMoneyAllot") && !string.IsNullOrEmpty(ht["IsMoneyAllot"].SafeToString()))
@@ -94,5 +95,18 @@ namespace FEDAL
             return result;
         }
         #endregion    
+
+        #region 删除奖金批次
+        public int Del_RewardBatch(int itemid)
+        {
+            int result = 0;
+            List<SqlParameter> pms = new List<SqlParameter>();
+            StringBuilder str = new StringBuilder();
+            str.Append("update TPM_RewardBatch set IsDelete=1 where Id=@Id;update TPM_RewardBatchDetail set IsDelete=1 where RewardBatch_Id=@Id ");
+            pms.Add(new SqlParameter("@Id", itemid));
+            result = SQLHelp.ExecuteNonQuery(str.ToString(), CommandType.Text, pms.ToArray());
+            return result;
+        }
+        #endregion
     }
 }

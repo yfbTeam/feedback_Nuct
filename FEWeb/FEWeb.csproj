@@ -113,6 +113,7 @@
     <Content Include="NoPower.aspx" />
     <Content Include="Scripts\fixtable\fixed-table.js" />
     <Content Include="Scripts\fixtable\FixedTable.js" />
+    <Content Include="Scripts\HoneySwitch\honeySwitch-noclick.js" />
     <Content Include="Scripts\kkPage\Css.css" />
     <Content Include="Scripts\kkPage\jquery.kkPages.js" />
     <Content Include="Scripts\pdfjs\web\compatibility.js" />

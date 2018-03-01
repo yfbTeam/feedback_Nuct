@@ -94,6 +94,9 @@ namespace FEHandler.TeaAchManage
                     case "Del_RewardBatch":
                         Del_RewardBatch(context);
                         break;
+                    case "ChangeIsMoneyAllot":
+                        ChangeIsMoneyAllot(context);
+                        break;                        
                     default:
                         jsonModel = JsonModel.get_jsonmodel(5, "没有此方法", "");
                         break;
@@ -685,13 +688,7 @@ namespace FEHandler.TeaAchManage
                 model.CreateUID = RequestHelper.string_transfer(context.Request, "CreateUID");
             }
             else
-            {
-                int useCount = RewardInfo_bll.GetRewardMoney_UseCount(Id);//是否已经引用
-                if (useCount > 0)
-                {
-                    jsonModel = JsonModel.get_jsonmodel(-1, "该奖金批次已经被使用！", "");
-                    return;
-                }
+            {                
                 decimal useMoney = RewardInfo_bll.GetRewardBatch_UseMoney(Id);//已分配金额
                 if (useMoney > BatchMoney)
                 {
@@ -746,7 +743,7 @@ namespace FEHandler.TeaAchManage
                     jsonModel = JsonModel.get_jsonmodel(-1, "该奖金批次已经被使用！", "");
                     return;
                 }
-                jsonModel = RewardBatch_bll.DeleteFalse(itemid);
+                jsonModel = RewardInfo_bll.Del_RewardBatch(itemid);
             }
             catch (Exception ex)
             {
@@ -759,6 +756,29 @@ namespace FEHandler.TeaAchManage
                 LogService.WriteErrorLog(ex.Message);
             }
         }
+
+        #region 修改奖金批次金额分配状态
+        private void ChangeIsMoneyAllot(HttpContext context)
+        {
+            try
+            {
+                int Id = Convert.ToInt32(context.Request["Id"]);
+                TPM_RewardBatch model = RewardBatch_bll.GetEntityById(Id).retData as TPM_RewardBatch;
+                model.IsMoneyAllot = Convert.ToByte(context.Request["IsMoneyAllot"]);
+                jsonModel = RewardBatch_bll.Update(model);
+            }
+            catch (Exception ex)
+            {
+                jsonModel = new JsonModel()
+                {
+                    errNum = 400,
+                    errMsg = ex.Message,
+                    retData = ""
+                };
+                LogService.WriteErrorLog(ex.Message);
+            }
+        }
+        #endregion
         #endregion
 
         #endregion

@@ -16,7 +16,7 @@
     </style>
     <script type="text/x-jquery-tmpl" id="sub_Award">
         <div class="input-wrap">
-            <label>金额：</label><input type="number" value="${Money}" isrequired="true" regtype="money" fl="金额" id="Award" name="Award" min="0" step="0.01" class="text" placeholder="请输入金额"/><label class="ml10">万元</label>
+            <label>金额：</label><input type="number" value="${Money}" isrequired="true" regtype="money" fl="金额" id="Award" name="Award" min="0" step="0.01" class="text" placeholder="请输入金额"/><label class="ml10">元</label>
         </div>
         <div class="input-wrap input-wrap2 pr">
             <label>依据：</label>

@@ -36,7 +36,7 @@
                     {{else AuditStatus==2}}<span class="nocheck">审核不通过</span>
                     {{else}} <span class="assigning">审核通过</span>{{/if}}
                 </div>
-                <div class="fr status">奖金：<span id="span_AllMoney_${rowNum}">${Money}</span>万，已分：<span id="span_HasAllot_${rowNum}">${HasAllot}</span>万，<span id="span_UnAllot_${rowNum}" style="color:#d02525;">未分：${Money-HasAllot}万</span></div>
+                <div class="fr status">奖金：<span id="span_AllMoney_${rowNum}">${Money}</span>元，已分：<span id="span_HasAllot_${rowNum}">${HasAllot}</span>元，<span id="span_UnAllot_${rowNum}" style="color:#d02525;">未分：${Money-HasAllot}元</span></div>
             </div>
             <table class="allot_table mt10  ">
                 <thead>

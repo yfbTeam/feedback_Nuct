@@ -60,7 +60,7 @@
                 <thead>
                     <tr>
                         <th style="width:5%;">批次</th>
-                        <th style="width:15%;">金额（万元）</th>
+                        <th style="width:15%;">金额（元）</th>
                         <th style="width:12%;">追加人</th>
                         <th style="width:12%;">时间</th>
                         <th style="width:44%;">依据</th>

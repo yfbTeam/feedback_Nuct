@@ -1,5 +1,4 @@
 ﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Index.aspx.cs" Inherits="FEWeb.SysSettings.Reward.Index" %>
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -9,6 +8,39 @@
     <link href="../../css/reset.css" rel="stylesheet" />
     <link href="../../css/layout.css" rel="stylesheet" />
     <script src="../../Scripts/jquery-1.11.2.min.js"></script>
+    <script type="text/x-jquery-tmpl" id="tr_item">
+        <tr>
+            <td>${Year}年</td>
+            <td>${Name}</td>
+            <td>${BatchMoney}</td>
+            <td>${UseMoney}</td>
+            <td>${BatchMoney-UseMoney}</td>
+            <td>${DateTimeConvert(CreateTime)}</td>
+            <td><div class="allotstatus" onclick="ChangeIsMoneyAllot(${Id});"><span class="{{if IsMoneyAllot==0}}switch-off{{else}}switch-on{{/if}}" themecolor="#6a264b" id="IsMoneyAllot_${Id}"></span></div></td>
+            <td class="operate_wrap">
+                <div class="operate" onclick="OpenIFrameWindow('查看奖金批次', 'Batch_Detail.aspx?Id=${Id}', '500px', '400px')">
+                    <i class="iconfont color_purple">&#xe60b;</i>
+                    <span class="operate_none bg_purple">查看</span>
+                </div>
+                <div class="operate" onclick="OpenIFrameWindow('编辑奖金批次', 'Batch_Add.aspx?Id=${Id}', '500px', '400px')">
+                    <i class="iconfont color_purple">&#xe628;</i>
+                    <span class="operate_none bg_purple">编辑</span>
+                </div>
+                <div class="operate">
+                    <i class="iconfont color_purple" onclick="window.location.href='DetailIndex.aspx?Id='+getQueryString('Id')+'&Iid='+getQueryString('Iid')+''">&#xe60b;</i>
+                    <span class="operate_none bg_purple">详情</span>
+                </div>
+                <div class="operate">
+                    <i class="iconfont color_purple">&#xe63c;</i>
+                    <span class="operate_none bg_purple">导出</span>
+                </div>
+                <div class="operate" onclick="Del_RewardBatch(${Id});">
+                    <i class="iconfont color_purple">&#xe61b;</i>
+                    <span class="operate_none bg_purple">删除</span>
+                </div>
+            </td>
+        </tr>
+    </script>
 </head>
 <body>
     <div id="top"></div>
@@ -20,11 +52,11 @@
                     <input type="text"  class="text Wdate" name="Year" id="Year" onclick="WdatePicker({ dateFmt: 'yyyy年' })" style="border:1px solid #ccc;width:150px;"/>
                 </div>
                 <div class="fl ml20">
-                    <input type="text" name="key" id="key" placeholder="请输入奖金批次名称" value="" class="text fl" style="width: 150px;">
+                    <input type="text" name="Key" id="Key" placeholder="请输入奖金批次名称" value="" class="text fl" style="width: 150px;">
                     <a class="search fl" href="javascript:search();"><i class="iconfont">&#xe600;</i></a>
                 </div>
                 <div class="fr">
-                    <input type="button" value="新增奖金批次" class="btn" onclick="OpenIFrameWindow('新增奖金批次', 'Batch_Add.aspx', '500px', '400px')">
+                    <input type="button" value="新增奖金批次" class="btn" onclick="OpenIFrameWindow('新增奖金批次', 'Batch_Add.aspx?Id=0', '500px', '400px')">
                 </div>
             </div>
             <div class="table mt10">
@@ -41,39 +73,7 @@
                             <th width="18%">操作</th>
                         </tr>
                     </thead>
-                    <tbody id="tb_info">
-                        <tr>
-                            <td>2017年</td>
-                            <td>教学工作会议奖励费用</td>
-                            <td>50000</td>
-                            <td>40000</td>
-                            <td>10000</td>
-                            <td>2017-12-12</td>
-                            <td><span class="switch-on" themecolor="#6a264b" id="IsMoneyAllot"></span></td>
-                            <td class="operate_wrap">
-                                <div class="operate" onclick="OpenIFrameWindow('查看奖金批次', 'Batch_Detail.aspx', '500px', '400px')">
-                                    <i class="iconfont color_purple">&#xe60b;</i>
-                                    <span class="operate_none bg_purple">查看</span>
-                                </div>
-                                <div class="operate" onclick="OpenIFrameWindow('编辑奖金批次', 'Batch_Add.aspx', '500px', '400px')">
-                                    <i class="iconfont color_purple">&#xe628;</i>
-                                    <span class="operate_none bg_purple">编辑</span>
-                                </div>
-                                <div class="operate">
-                                    <i class="iconfont color_purple" onclick="window.location.href='DetailIndex.aspx?Id='+getQueryString('Id')+'&Iid='+getQueryString('Iid')+''">&#xe60b;</i>
-                                    <span class="operate_none bg_purple">详情</span>
-                                </div>
-                                <div class="operate">
-                                    <i class="iconfont color_purple">&#xe63c;</i>
-                                    <span class="operate_none bg_purple">导出</span>
-                                </div>
-                                <div class="operate">
-                                    <i class="iconfont color_purple">&#xe61b;</i>
-                                    <span class="operate_none bg_purple">删除</span>
-                                </div>
-                            </td>
-                        </tr>
-                    </tbody>
+                    <tbody id="tb_batch"></tbody>
                 </table>
                 <div id="pageBar" class="page"></div>
             </div>
@@ -85,16 +85,113 @@
     <script src="../../Scripts/layer/layer.js"></script>
     <script src="../../Scripts/jquery.tmpl.js"></script>
     <script src="../../Scripts/linq.js"></script>
+    <script src="../../Scripts/laypage/laypage.js"></script>
     <link href="../../Scripts/HoneySwitch/honeySwitch.css" rel="stylesheet" />
-    <script src="../../Scripts/HoneySwitch/honeySwitch.js"></script>
+    <script src="../../Scripts/HoneySwitch/honeySwitch-noclick.js"></script>
     <script type="text/javascript" src="../../Scripts/My97DatePicker/WdatePicker.js"></script>
      <script>
-        $(function () {
-            $('#top').load('/header.html');
-            $('#footer').load('/footer.html');
-            honeySwitch.showOn("#IsMoneyAllot");
-            tableSlide();
-        })
+         $(function () {
+             $('#top').load('/header.html');
+             $('#footer').load('/footer.html');
+             GetData(1, 10);
+         });
+         var SerKey = $("#Key").val().trim();
+         function search() {
+             SerKey = $("#Key").val().trim();
+             GetData(1,10);
+         }
+         function GetData(startIndex, pageSize) {
+             $("#tb_batch").empty();
+             Cur_BookData = [];
+             var parmsData = { "Func": "Get_RewardBatchData", Year: $("#Year").val(), "Name": SerKey, PageIndex: startIndex, pageSize: pageSize };
+             $.ajax({
+                 url: HanderServiceUrl + "/TeaAchManage/AchManage.ashx",
+                 type: "post",
+                 dataType: "json",
+                 data: parmsData,
+                 success: function (json) {
+                     if (json.result.errMsg == "success") {
+                         $("#pageBar").show();                        
+                         $("#tr_item").tmpl(json.result.retData.PagedData).appendTo("#tb_batch");
+                         laypage({
+                             cont: 'pageBar', //容器。值支持id名、原生dom对象，jquery对象。【如该容器为】：<div id="page1"></div>
+                             pages: json.result.retData.PageCount, //通过后台拿到的总页数
+                             curr: json.result.retData.PageIndex || 1, //当前页
+                             skip: true, //是否开启跳页
+                             skin: '#6a264b',
+                             jump: function (obj, first) { //触发分页后的回调
+                                 if (!first) { //点击跳页触发函数自身，并传递当前页：obj.curr
+                                     GetData(obj.curr, pageSize)
+                                 }
+                             }
+                         });
+                         honeySwitch.init();                         
+                         tableSlide();
+                     } else {
+                         $("#pageBar").hide();
+                         nomessage('#tb_batch');
+                     }
+                 },
+                 error: function () {
+                     //接口错误时需要执行的
+                 }
+             });
+         }
+         /* 删除奖金批次*/
+         function Del_RewardBatch(id) {
+             layer.confirm('确定删除该奖金批次吗？', {
+                 btn: ['确定', '取消'],
+                 title: '操作'
+             }, function (index) {
+                 $.ajax({
+                     url: HanderServiceUrl + "/TeaAchManage/AchManage.ashx",
+                     type: "post",
+                     async: false,
+                     dataType: "json",
+                     data: { Func: "Del_RewardBatch", ItemId: id },
+                     success: function (json) {
+                         if (json.result.errNum == 0) {
+                             layer.msg('操作成功!');
+                             GetData(1, 10);
+                         } else {
+                             layer.msg(json.result.errMsg);
+                         }
+                     },
+                     error: function () { }
+                 });
+             }, function () { });
+         }
+
+         //开启（关闭）奖金分配
+         function ChangeIsMoneyAllot(id) {
+             var IsMoneyAllot = 1;
+             if ($("#IsMoneyAllot_"+id).hasClass("switch-on")) {
+                 IsMoneyAllot = 0;
+             }
+             layer.confirm('确定' + (IsMoneyAllot == 0 ? '关闭' : '开启') + '该批次的奖金分配吗？', {
+                 btn: ['确定', '取消'],
+                 title: '操作'
+             }, function (index) {
+                 $.ajax({
+                     url: HanderServiceUrl + "/TeaAchManage/AchManage.ashx",
+                     type: "post",
+                     dataType: "json",
+                     data: { "Func": "ChangeIsMoneyAllot", Id: id, IsMoneyAllot: IsMoneyAllot },
+                     success: function (json) {
+                         if (json.result.errNum == 0) {
+                             if (IsMoneyAllot == 1) {
+                                 honeySwitch.showOn("#IsMoneyAllot_" + id);
+                             }
+                             else {
+                                 honeySwitch.showOff("#IsMoneyAllot_" + id);
+                             }
+                             layer.close(index);
+                         }
+                     },
+                     error: function () { }
+                 });
+             }, function () { });
+         }
     </script>
 </body>
 </html>

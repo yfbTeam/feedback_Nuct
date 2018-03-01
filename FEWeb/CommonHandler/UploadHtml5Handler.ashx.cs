@@ -47,6 +47,9 @@ namespace FEWeb.CommonHandler
                         case "Upload_AuditReward":
                             Upload_Batch(context, oFolder + "/AuditReward");
                             break;
+                        case "Upload_RewardBatch":
+                            Upload_Batch(context, oFolder + "/RewardBatch");
+                            break;
                         case "Del_Document":
                             Del_Document(context);
                             break;
