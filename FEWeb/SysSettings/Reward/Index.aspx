@@ -24,7 +24,7 @@
                     <a class="search fl" href="javascript:search();"><i class="iconfont">&#xe600;</i></a>
                 </div>
                 <div class="fr">
-                    <input type="button" value="新增奖金批次" class="btn" onclick="OpenIFrameWindow('新增奖金批次', 'CreateOrEditModal.aspx', '500px', '400px')">
+                    <input type="button" value="新增奖金批次" class="btn" onclick="OpenIFrameWindow('新增奖金批次', 'Batch_Add.aspx', '500px', '400px')">
                 </div>
             </div>
             <div class="table mt10">
@@ -51,11 +51,11 @@
                             <td>2017-12-12</td>
                             <td><span class="switch-on" themecolor="#6a264b" id="IsMoneyAllot"></span></td>
                             <td class="operate_wrap">
-                                <div class="operate" onclick="OpenIFrameWindow('查看奖金批次', 'SeeDetail.aspx', '500px', '400px')">
+                                <div class="operate" onclick="OpenIFrameWindow('查看奖金批次', 'Batch_Detail.aspx', '500px', '400px')">
                                     <i class="iconfont color_purple">&#xe60b;</i>
                                     <span class="operate_none bg_purple">查看</span>
                                 </div>
-                                <div class="operate" onclick="OpenIFrameWindow('编辑奖金批次', 'CreateOrEditModal.aspx', '500px', '400px')">
+                                <div class="operate" onclick="OpenIFrameWindow('编辑奖金批次', 'Batch_Add.aspx', '500px', '400px')">
                                     <i class="iconfont color_purple">&#xe628;</i>
                                     <span class="operate_none bg_purple">编辑</span>
                                 </div>

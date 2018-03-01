@@ -297,12 +297,12 @@
     <Content Include="SysSettings\Regu\EditModel.aspx" />
     <Content Include="SysSettings\Regu\SeeModel.aspx" />
     <Content Include="SysSettings\Reward\AllotDetail.aspx" />
-    <Content Include="SysSettings\Reward\AllotModal.aspx" />
-    <Content Include="SysSettings\Reward\CreateOrEditModal.aspx" />
-    <Content Include="SysSettings\Reward\CreateProject.aspx" />
+    <Content Include="SysSettings\Reward\Detail_AddReward.aspx" />
+    <Content Include="SysSettings\Reward\Batch_Add.aspx" />
+    <Content Include="SysSettings\Reward\Detail_Add.aspx" />
     <Content Include="SysSettings\Reward\DetailIndex.aspx" />
     <Content Include="SysSettings\Reward\Index.aspx" />
-    <Content Include="SysSettings\Reward\SeeDetail.aspx" />
+    <Content Include="SysSettings\Reward\Batch_Detail.aspx" />
     <Content Include="SysSettings\Table\EditAddEvalTable.aspx" />
     <Content Include="SysSettings\Indicate\EvalSelectDataBase.aspx" />
     <Content Include="Evaluation\MyStatiscal.aspx" />
@@ -1306,26 +1306,26 @@
     <Compile Include="SysSettings\Reward\AllotDetail.aspx.designer.cs">
       <DependentUpon>AllotDetail.aspx</DependentUpon>
     </Compile>
-    <Compile Include="SysSettings\Reward\AllotModal.aspx.cs">
-      <DependentUpon>AllotModal.aspx</DependentUpon>
+    <Compile Include="SysSettings\Reward\Detail_AddReward.aspx.cs">
+      <DependentUpon>Detail_AddReward.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="SysSettings\Reward\AllotModal.aspx.designer.cs">
-      <DependentUpon>AllotModal.aspx</DependentUpon>
+    <Compile Include="SysSettings\Reward\Detail_AddReward.aspx.designer.cs">
+      <DependentUpon>Detail_AddReward.aspx</DependentUpon>
     </Compile>
-    <Compile Include="SysSettings\Reward\CreateOrEditModal.aspx.cs">
-      <DependentUpon>CreateOrEditModal.aspx</DependentUpon>
+    <Compile Include="SysSettings\Reward\Batch_Add.aspx.cs">
+      <DependentUpon>Batch_Add.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="SysSettings\Reward\CreateOrEditModal.aspx.designer.cs">
-      <DependentUpon>CreateOrEditModal.aspx</DependentUpon>
+    <Compile Include="SysSettings\Reward\Batch_Add.aspx.designer.cs">
+      <DependentUpon>Batch_Add.aspx</DependentUpon>
     </Compile>
-    <Compile Include="SysSettings\Reward\CreateProject.aspx.cs">
-      <DependentUpon>CreateProject.aspx</DependentUpon>
+    <Compile Include="SysSettings\Reward\Detail_Add.aspx.cs">
+      <DependentUpon>Detail_Add.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="SysSettings\Reward\CreateProject.aspx.designer.cs">
-      <DependentUpon>CreateProject.aspx</DependentUpon>
+    <Compile Include="SysSettings\Reward\Detail_Add.aspx.designer.cs">
+      <DependentUpon>Detail_Add.aspx</DependentUpon>
     </Compile>
     <Compile Include="SysSettings\Reward\DetailIndex.aspx.cs">
       <DependentUpon>DetailIndex.aspx</DependentUpon>
@@ -1341,12 +1341,12 @@
     <Compile Include="SysSettings\Reward\Index.aspx.designer.cs">
       <DependentUpon>Index.aspx</DependentUpon>
     </Compile>
-    <Compile Include="SysSettings\Reward\SeeDetail.aspx.cs">
-      <DependentUpon>SeeDetail.aspx</DependentUpon>
+    <Compile Include="SysSettings\Reward\Batch_Detail.aspx.cs">
+      <DependentUpon>Batch_Detail.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="SysSettings\Reward\SeeDetail.aspx.designer.cs">
-      <DependentUpon>SeeDetail.aspx</DependentUpon>
+    <Compile Include="SysSettings\Reward\Batch_Detail.aspx.designer.cs">
+      <DependentUpon>Batch_Detail.aspx</DependentUpon>
     </Compile>
     <Compile Include="SysSettings\Table\EditAddEvalTable.aspx.cs">
       <DependentUpon>EditAddEvalTable.aspx</DependentUpon>

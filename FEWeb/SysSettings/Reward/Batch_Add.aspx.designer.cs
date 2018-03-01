@@ -10,6 +10,6 @@
 namespace FEWeb.SysSettings.Reward {
     
     
-    public partial class CreateOrEditModal {
+    public partial class Batch_Add {
     }
 }

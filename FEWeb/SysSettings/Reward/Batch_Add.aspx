@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="CreateOrEditModal.aspx.cs" Inherits="FEWeb.SysSettings.Reward.CreateOrEditModal" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Batch_Add.aspx.cs" Inherits="FEWeb.SysSettings.Reward.Batch_Add" %>
 
 <!DOCTYPE html>
 

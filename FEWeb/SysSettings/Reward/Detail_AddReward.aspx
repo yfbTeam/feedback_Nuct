@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="AllotModal.aspx.cs" Inherits="FEWeb.SysSettings.Reward.AllotModal" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Detail_AddReward.aspx.cs" Inherits="FEWeb.SysSettings.Reward.Detail_AddReward" %>
 
 
 <!DOCTYPE html>

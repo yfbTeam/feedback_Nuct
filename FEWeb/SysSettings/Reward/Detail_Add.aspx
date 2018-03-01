@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="CreateProject.aspx.cs" Inherits="FEWeb.SysSettings.Reward.CreateProject" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Detail_Add.aspx.cs" Inherits="FEWeb.SysSettings.Reward.Detail_Add" %>
 
 <!DOCTYPE html>
 

@@ -7,7 +7,7 @@ using System.Web.UI.WebControls;
 
 namespace FEWeb.SysSettings.Reward
 {
-    public partial class AllotModal : System.Web.UI.Page
+    public partial class Detail_AddReward : System.Web.UI.Page
     {
         protected void Page_Load(object sender, EventArgs e)
         {

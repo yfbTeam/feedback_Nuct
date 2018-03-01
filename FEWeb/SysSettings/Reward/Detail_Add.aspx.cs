@@ -7,7 +7,7 @@ using System.Web.UI.WebControls;
 
 namespace FEWeb.SysSettings.Reward
 {
-    public partial class CreateProject : System.Web.UI.Page
+    public partial class Detail_Add : System.Web.UI.Page
     {
         protected void Page_Load(object sender, EventArgs e)
         {

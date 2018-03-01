@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="SeeDetail.aspx.cs" Inherits="FEWeb.SysSettings.Reward.SeeDetail" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Batch_Detail.aspx.cs" Inherits="FEWeb.SysSettings.Reward.Batch_Detail" %>
 
 <!DOCTYPE html>
 

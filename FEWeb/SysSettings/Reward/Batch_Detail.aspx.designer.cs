@@ -10,6 +10,6 @@
 namespace FEWeb.SysSettings.Reward {
     
     
-    public partial class AllotModal {
+    public partial class Batch_Detail {
     }
 }

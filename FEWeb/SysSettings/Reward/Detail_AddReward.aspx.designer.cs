@@ -10,6 +10,6 @@
 namespace FEWeb.SysSettings.Reward {
     
     
-    public partial class SeeDetail {
+    public partial class Detail_AddReward {
     }
 }
