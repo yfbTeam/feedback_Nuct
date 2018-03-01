@@ -16,10 +16,7 @@
     <div class="center" id="centerwrap">
         <div class="wrap clearfix">
             <div class="sort_nav" id="threenav">
-                <a href="UserMan.aspx" class="selected" tarurl="/SysSettings/UserMan.aspx">角色管理</a>
-                <a href="ClassInfo.aspx" tarurl="/SysSettings/UserMan.aspx">教学安排</a>
-                <a href="CourSortMan.aspx" tarurl="/SysSettings/UserMan.aspx">课程分类管理</a>
-               
+                
             </div>
             <div class="sortwrap clearfix">
                 <div class="menu fl">

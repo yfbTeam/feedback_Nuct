@@ -498,7 +498,7 @@ function GetCur_UserMoney(objnum) {
     });
     newMoney = Num_Fixed(newMoney);
     $span_HasAllot.html(newMoney);
-    $("#span_UnAllot_" + objnum).html("未分：" + Num_Fixed(Number($('#span_AllMoney_' + objnum).html()) - Number($span_HasAllot.html())) + "万");
+    $("#span_UnAllot_" + objnum).html("未分：" + Num_Fixed(Number($('#span_AllMoney_' + objnum).html()) - Number($span_HasAllot.html())) + "元");
     return newMoney;
 }
 //成员奖金变化时
@@ -594,7 +594,7 @@ function Get_AchieveStatus(status,obj) {
 
 /********************************************************业绩-奖金分配开始***************************************************/
 //绑定奖项奖金信息
-function Get_RewardBatchData(reasonobj, no_status) {
+function Get_RewardBatchDetailData(reasonobj, no_status) {
     reasonobj = arguments[0] || "";
     no_status = arguments[1] || ""; //不赋值的状态    
     $("#div_MoneyInfo").empty();
@@ -602,7 +602,7 @@ function Get_RewardBatchData(reasonobj, no_status) {
         url: HanderServiceUrl + "/TeaAchManage/AchRewardInfo.ashx",
         type: "post",
         dataType: "json",
-        data: { "Func": "Get_RewardBatchData", "IsPage": "false", AchieveId: cur_AchieveId},
+        data: { "Func": "Get_RewardBatchDetailData", "IsPage": "false", AchieveId: cur_AchieveId},
         success: function (json) {
             if (json.result.errMsg == "success") {
                 $("#div_item").tmpl(json.result.retData).appendTo("#div_MoneyInfo");
@@ -634,7 +634,7 @@ function Get_AllotReward(no_status) {
         success: function (json) {
             if (json.result.errMsg == "success") {
                 $(json.result.retData).each(function (i, n) {
-                    var $td_money = $("tbody[autid='" + n.Audit_Id + "'] tr[uid='" + n.RewardUser_Id + "']").find('.td_money');
+                    var $td_money = $("tbody[autid='" + n.BatchDetail_Id + "'] tr[uid='" + n.RewardUser_Id + "']").find('.td_money');
                     if ($td_money.length) {
                         var $con_input = $td_money.find('input');
                         if ($con_input.length) {

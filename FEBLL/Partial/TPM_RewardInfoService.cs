@@ -69,11 +69,58 @@ namespace FEBLL
         }
         #endregion
 
-        #region 获取奖金是否使用
+        #region 获取奖金批次是否使用
         public int GetRewardMoney_UseCount(int RewardBatch_Id)
         {
             return bat_dal.GetRewardMoney_UseCount(RewardBatch_Id);
         }
         #endregion 
+
+        #region 获取奖金批次分配金额
+        public decimal GetRewardBatch_UseMoney(int RewardBatch_Id)
+        {
+            return bat_dal.GetRewardBatch_UseMoney(RewardBatch_Id);
+        }
+        #endregion
+
+        #region 删除奖金批次
+        public JsonModel Del_RewardBatch(int itemid)
+        {
+            JsonModel jsonModel = new JsonModel();
+            try
+            {
+                int result = bat_dal.Del_RewardBatch(itemid);
+                if (result > 0)
+                {
+                    jsonModel = new JsonModel()
+                    {
+                        errNum = 0,
+                        errMsg = "success",
+                        retData = ""
+                    };
+                }
+                else
+                {
+                    jsonModel = new JsonModel()
+                    {
+                        errNum = 999,
+                        errMsg = "file",
+                        retData = ""
+                    };
+                }
+                return jsonModel;
+            }
+            catch (Exception ex)
+            {
+                jsonModel = new JsonModel()
+                {
+                    errNum = 400,
+                    errMsg = ex.Message,
+                    retData = ""
+                };
+                return jsonModel;
+            }
+        }
+        #endregion    
     }
 }

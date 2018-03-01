@@ -142,19 +142,19 @@ namespace FEBLL
         #endregion        
 
         #region 保存奖金分配信息
-        public JsonModel Oper_AuditAllotReward(TPM_AuditReward audModel, List<TPM_AllotReward> items)
+        public JsonModel Oper_AuditAllotReward(TPM_RewardBatchDetail audModel, List<TPM_AllotReward> items)
         {
             JsonModel jsonModel = new JsonModel();
             try
             {
-                int[] retInfo = new TPM_AllotRewardDal().Oper_AuditAllotReward(audModel, items);
-                if (retInfo[0] > 0)
+                int result = new TPM_AllotRewardDal().Oper_AuditAllotReward(audModel, items);
+                if (result > 0)
                 {
                     jsonModel = new JsonModel()
                     {
                         errNum = 0,
                         errMsg = "success",
-                        retData = retInfo[1]
+                        retData = ""
                     };
                 }
                 else

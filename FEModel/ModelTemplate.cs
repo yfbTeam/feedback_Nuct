@@ -815,9 +815,9 @@ namespace FEModel
 		/// </summary>
 		public int? Id { get; set; }
 		/// <summary>
-		///审核钱的Id 
+		///奖金批次详情Id（TPM_RewardBatchDetail） 
 		/// </summary>
-		public int? Audit_Id { get; set; }
+		public int? BatchDetail_Id { get; set; }
 		/// <summary>
 		///奖项成员Id 
 		/// </summary>
@@ -917,70 +917,6 @@ namespace FEModel
             if (obj.GetType() == typeof(CourseRel))
             {
                 CourseRel _obj = obj as CourseRel;
-                if (_obj.Id == this.Id)
-                {
-                    result = true;
-                }
-            }
-            return result;
-        }
-
-	    public override int GetHashCode()
-        {
-            return base.GetHashCode();
-        }
-    }
-
-	/// </summary>
-	///	
-	/// </summary>
-	[Serializable]
-    public partial class TPM_AuditReward
-    {
-
-		/// <summary>
-		/// 
-		/// </summary>
-		public int? Id { get; set; }
-		/// <summary>
-		///业绩Id 
-		/// </summary>
-		public int? Acheive_Id { get; set; }
-		/// <summary>
-		///奖金批次Id 
-		/// </summary>
-		public int? RewardBatch_Id { get; set; }
-		/// <summary>
-		///审核状态 0待提交；1待审核；2审核不通过；3审核通过 
-		/// </summary>
-		public Byte? Status { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public string CreateUID { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public DateTime? CreateTime { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public string EditUID { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public DateTime? EditTime { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public Byte? IsDelete { get; set; }
-
-          public override bool Equals(object obj)
-        {
-            bool result = false;
-            if (obj.GetType() == typeof(TPM_AuditReward))
-            {
-                TPM_AuditReward _obj = obj as TPM_AuditReward;
                 if (_obj.Id == this.Id)
                 {
                     result = true;
@@ -1579,6 +1515,74 @@ namespace FEModel
 	///	
 	/// </summary>
 	[Serializable]
+    public partial class TPM_RewardBatch
+    {
+
+		/// <summary>
+		/// 
+		/// </summary>
+		public int? Id { get; set; }
+		/// <summary>
+		///年度 
+		/// </summary>
+		public string Year { get; set; }
+		/// <summary>
+		///名称 
+		/// </summary>
+		public string Name { get; set; }
+		/// <summary>
+		///批次总金额 
+		/// </summary>
+		public decimal? BatchMoney { get; set; }
+		/// <summary>
+		///金额是否分配 0否；1是 
+		/// </summary>
+		public Byte? IsMoneyAllot { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public string CreateUID { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public DateTime? CreateTime { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public string EditUID { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public DateTime? EditTime { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public Byte? IsDelete { get; set; }
+
+          public override bool Equals(object obj)
+        {
+            bool result = false;
+            if (obj.GetType() == typeof(TPM_RewardBatch))
+            {
+                TPM_RewardBatch _obj = obj as TPM_RewardBatch;
+                if (_obj.Id == this.Id)
+                {
+                    result = true;
+                }
+            }
+            return result;
+        }
+
+	    public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
+    }
+
+	/// </summary>
+	///	
+	/// </summary>
+	[Serializable]
     public partial class TPM_RewardUserInfo
     {
 
@@ -1805,6 +1809,74 @@ namespace FEModel
             if (obj.GetType() == typeof(Sys_RoleOfUser))
             {
                 Sys_RoleOfUser _obj = obj as Sys_RoleOfUser;
+                if (_obj.Id == this.Id)
+                {
+                    result = true;
+                }
+            }
+            return result;
+        }
+
+	    public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
+    }
+
+	/// </summary>
+	///	
+	/// </summary>
+	[Serializable]
+    public partial class TPM_RewardBatchDetail
+    {
+
+		/// <summary>
+		/// 
+		/// </summary>
+		public int? Id { get; set; }
+		/// <summary>
+		///奖金批次Id 
+		/// </summary>
+		public int? RewardBatch_Id { get; set; }
+		/// <summary>
+		///业绩Id 
+		/// </summary>
+		public int? Acheive_Id { get; set; }
+		/// <summary>
+		///金额 
+		/// </summary>
+		public decimal? Money { get; set; }
+		/// <summary>
+		///审核状态 10待分配；0待提交；1待审核；2审核不通过；3审核通过 
+		/// </summary>
+		public Byte? Status { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public string CreateUID { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public DateTime? CreateTime { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public string EditUID { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public DateTime? EditTime { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public Byte? IsDelete { get; set; }
+
+          public override bool Equals(object obj)
+        {
+            bool result = false;
+            if (obj.GetType() == typeof(TPM_RewardBatchDetail))
+            {
+                TPM_RewardBatchDetail _obj = obj as TPM_RewardBatchDetail;
                 if (_obj.Id == this.Id)
                 {
                     result = true;
@@ -3389,78 +3461,6 @@ namespace FEModel
             if (obj.GetType() == typeof(Sys_ButtonType))
             {
                 Sys_ButtonType _obj = obj as Sys_ButtonType;
-                if (_obj.Id == this.Id)
-                {
-                    result = true;
-                }
-            }
-            return result;
-        }
-
-	    public override int GetHashCode()
-        {
-            return base.GetHashCode();
-        }
-    }
-
-	/// </summary>
-	///	
-	/// </summary>
-	[Serializable]
-    public partial class TPM_RewardBatch
-    {
-
-		/// <summary>
-		/// 
-		/// </summary>
-		public int? Id { get; set; }
-		/// <summary>
-		/// 奖项Id 
-		/// </summary>
-		public int? Reward_Id { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public int? Rank_Id { get; set; }
-		/// <summary>
-		///金额 
-		/// </summary>
-		public decimal? Money { get; set; }
-		/// <summary>
-		///追加依据 
-		/// </summary>
-		public string AddBasis { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public string DocumentIds { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public string CreateUID { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public DateTime? CreateTime { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public string EditUID { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public DateTime? EditTime { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public Byte? IsDelete { get; set; }
-
-          public override bool Equals(object obj)
-        {
-            bool result = false;
-            if (obj.GetType() == typeof(TPM_RewardBatch))
-            {
-                TPM_RewardBatch _obj = obj as TPM_RewardBatch;
                 if (_obj.Id == this.Id)
                 {
                     result = true;

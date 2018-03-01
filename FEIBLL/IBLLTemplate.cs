@@ -19,15 +19,7 @@ namespace FEIBLL
     }	
 
 	/// </summary>
-	///	角色业务类1
-	/// </summary>
-    public interface ISys_RoleService:IBaseService<Sys_Role>
-    {
-
-    }	
-
-	/// </summary>
-	///	角色菜单关系业务类2
+	///	角色菜单关系业务类1
 	/// </summary>
     public interface ISys_RoleOfMenuService:IBaseService<Sys_RoleOfMenu>
     {
@@ -43,7 +35,7 @@ namespace FEIBLL
     }	
 
 	/// </summary>
-	///	系统账号业务类3
+	///	系统账号业务类2
 	/// </summary>
     public interface ISys_SystemInfoService:IBaseService<Sys_SystemInfo>
     {
@@ -67,6 +59,14 @@ namespace FEIBLL
     }	
 
 	/// </summary>
+	///	专业部门名称业务类3
+	/// </summary>
+    public interface ICourseRoomService:IBaseService<CourseRoom>
+    {
+
+    }	
+
+	/// </summary>
 	///	
 	/// </summary>
     public interface ITPM_AcheiveLevelService:IBaseService<TPM_AcheiveLevel>
@@ -77,7 +77,7 @@ namespace FEIBLL
 	/// </summary>
 	///	
 	/// </summary>
-    public interface IExpert_Teacher_CourseService:IBaseService<Expert_Teacher_Course>
+    public interface ITPM_BookStoryService:IBaseService<TPM_BookStory>
     {
 
     }	
@@ -101,7 +101,7 @@ namespace FEIBLL
 	/// </summary>
 	///	
 	/// </summary>
-    public interface ITPM_AuditRewardService:IBaseService<TPM_AuditReward>
+    public interface IExpert_Teacher_CourseService:IBaseService<Expert_Teacher_Course>
     {
 
     }	
@@ -118,22 +118,6 @@ namespace FEIBLL
 	///	
 	/// </summary>
     public interface IEva_Table_HeaderService:IBaseService<Eva_Table_Header>
-    {
-
-    }	
-
-	/// </summary>
-	///	业务类4
-	/// </summary>
-    public interface IEva_QuestionAnswerService:IBaseService<Eva_QuestionAnswer>
-    {
-
-    }	
-
-	/// </summary>
-	///	
-	/// </summary>
-    public interface IUserInfoService:IBaseService<UserInfo>
     {
 
     }	
@@ -157,6 +141,14 @@ namespace FEIBLL
 	/// </summary>
 	///	
 	/// </summary>
+    public interface ITeacherService:IBaseService<Teacher>
+    {
+
+    }	
+
+	/// </summary>
+	///	
+	/// </summary>
     public interface ITPM_ModifyReasonService:IBaseService<TPM_ModifyReason>
     {
 
@@ -173,13 +165,21 @@ namespace FEIBLL
 	/// </summary>
 	///	
 	/// </summary>
+    public interface ITPM_RewardBatchService:IBaseService<TPM_RewardBatch>
+    {
+
+    }	
+
+	/// </summary>
+	///	
+	/// </summary>
     public interface ITPM_RewardUserInfoService:IBaseService<TPM_RewardUserInfo>
     {
 
     }	
 
 	/// </summary>
-	///	菜单信息业务类5
+	///	菜单信息业务类4
 	/// </summary>
     public interface ISys_MenuInfoService:IBaseService<Sys_MenuInfo>
     {
@@ -187,7 +187,7 @@ namespace FEIBLL
     }	
 
 	/// </summary>
-	///	角色用户关系业务类6
+	///	角色用户关系业务类5
 	/// </summary>
     public interface ISys_RoleOfUserService:IBaseService<Sys_RoleOfUser>
     {
@@ -197,7 +197,7 @@ namespace FEIBLL
 	/// </summary>
 	///	
 	/// </summary>
-    public interface IEva_QuestionAnswer_DetailService:IBaseService<Eva_QuestionAnswer_Detail>
+    public interface ITPM_RewardBatchDetailService:IBaseService<TPM_RewardBatchDetail>
     {
 
     }	
@@ -253,7 +253,7 @@ namespace FEIBLL
 	/// </summary>
 	///	
 	/// </summary>
-    public interface IMajorService:IBaseService<Major>
+    public interface IEva_QuestionAnswer_DetailService:IBaseService<Eva_QuestionAnswer_Detail>
     {
 
     }	
@@ -261,7 +261,23 @@ namespace FEIBLL
 	/// </summary>
 	///	
 	/// </summary>
-    public interface IEva_RegularService:IBaseService<Eva_Regular>
+    public interface IMajorService:IBaseService<Major>
+    {
+
+    }	
+
+	/// </summary>
+	///	角色业务类6
+	/// </summary>
+    public interface ISys_RoleService:IBaseService<Sys_Role>
+    {
+
+    }	
+
+	/// </summary>
+	///	
+	/// </summary>
+    public interface IEva_TableService:IBaseService<Eva_Table>
     {
 
     }	
@@ -278,14 +294,6 @@ namespace FEIBLL
 	///	
 	/// </summary>
     public interface IGradeInfoService:IBaseService<GradeInfo>
-    {
-
-    }	
-
-	/// </summary>
-	///	专业部门名称业务类7
-	/// </summary>
-    public interface ICourseRoomService:IBaseService<CourseRoom>
     {
 
     }	
@@ -317,7 +325,7 @@ namespace FEIBLL
 	/// </summary>
 	///	
 	/// </summary>
-    public interface ITPM_BookStoryService:IBaseService<TPM_BookStory>
+    public interface IIndicatorTypeService:IBaseService<IndicatorType>
     {
 
     }	
@@ -325,7 +333,7 @@ namespace FEIBLL
 	/// </summary>
 	///	
 	/// </summary>
-    public interface IIndicatorTypeService:IBaseService<IndicatorType>
+    public interface IUserInfoService:IBaseService<UserInfo>
     {
 
     }	
@@ -339,33 +347,9 @@ namespace FEIBLL
     }	
 
 	/// </summary>
-	///	
-	/// </summary>
-    public interface IEva_TableService:IBaseService<Eva_Table>
-    {
-
-    }	
-
-	/// </summary>
-	///	菜单按钮类型业务类8
+	///	菜单按钮类型业务类7
 	/// </summary>
     public interface ISys_ButtonTypeService:IBaseService<Sys_ButtonType>
-    {
-
-    }	
-
-	/// </summary>
-	///	
-	/// </summary>
-    public interface ITPM_RewardBatchService:IBaseService<TPM_RewardBatch>
-    {
-
-    }	
-
-	/// </summary>
-	///	
-	/// </summary>
-    public interface ITeacherService:IBaseService<Teacher>
     {
 
     }	
@@ -387,7 +371,7 @@ namespace FEIBLL
     }	
 
 	/// </summary>
-	///	系统日志业务类9
+	///	系统日志业务类8
 	/// </summary>
     public interface ISys_LogInfoService:IBaseService<Sys_LogInfo>
     {
@@ -398,6 +382,22 @@ namespace FEIBLL
 	///	
 	/// </summary>
     public interface ITPM_AcheiveRewardInfoService:IBaseService<TPM_AcheiveRewardInfo>
+    {
+
+    }	
+
+	/// </summary>
+	///	业务类9
+	/// </summary>
+    public interface IEva_QuestionAnswerService:IBaseService<Eva_QuestionAnswer>
+    {
+
+    }	
+
+	/// </summary>
+	///	
+	/// </summary>
+    public interface IEva_RegularService:IBaseService<Eva_Regular>
     {
 
     }	

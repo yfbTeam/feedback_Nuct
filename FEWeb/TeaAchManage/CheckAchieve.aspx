@@ -343,7 +343,7 @@
                     {{else AuditStatus==2}}<span class="nocheck">审核不通过</span>
                     {{else}} <span class="assigning">审核通过</span>{{/if}}
                 </div>
-                <div class="fr status">奖金：<span id="span_AllMoney_${rowNum}">${Money}</span>万，已分：<span id="span_HasAllot_${rowNum}">{{if AuditStatus==0&&cur_ResponUID!=$('#CreateUID').val()}}0{{else}}${HasAllot}{{/if}}</span>万，<span id="span_UnAllot_${rowNum}" style="color:#d02525;">未分：{{if AuditStatus==0&&cur_ResponUID!=$('#CreateUID').val()}}${Money}{{else}}${Money-HasAllot}{{/if}}万</span></div>
+                <div class="fr status">奖金：<span id="span_AllMoney_${rowNum}">${Money}</span>元，已分：<span id="span_HasAllot_${rowNum}">{{if AuditStatus==0&&cur_ResponUID!=$('#CreateUID').val()}}0{{else}}${HasAllot}{{/if}}</span>元，<span id="span_UnAllot_${rowNum}" style="color:#d02525;">未分：{{if AuditStatus==0&&cur_ResponUID!=$('#CreateUID').val()}}${Money}{{else}}${Money-HasAllot}{{/if}}元</span></div>
             </div>
             <table class="allot_table mt10  ">
                 <thead>
@@ -481,7 +481,7 @@
                 success: function (json) {
                     if (json.result.errNum.toString() == "0") { 
                         Member_Data = json.result;
-                        Get_RewardBatchData("",cur_ResponUID==$('#CreateUID').val()?"":"0");
+                        Get_RewardBatchDetailData("",cur_ResponUID==$('#CreateUID').val()?"":"0");
                         if (model.AchieveType == 3) { //教材建设类                          
                             $("#tr_Info").tmpl(json.result.retData).appendTo("#tb_info");                          
                             $("#tr_Info1").tmpl(json.result.retData).appendTo("#tb_Member1");
@@ -539,7 +539,7 @@
                 $cur_tb.find('tr').each(function(){
                     var memname=$(this).find('td.td_memname').html(),money=$(this).find('td.td_money').html();
                     hisArray.push({
-                        Type: 1, Acheive_Id: cur_AchieveId,RelationId: rew_batchid,Content:"第" + rownum + "批奖金"+ responName+"给"+memname+"分配了"+money+"万"
+                        Type: 1, Acheive_Id: cur_AchieveId,RelationId: rew_batchid,Content:"第" + rownum + "批奖金"+ responName+"给"+memname+"分配了"+money+"元"
                          , ModifyUID: $(this).attr('un'), CreateUID: cur_ResponUID
                     });
                 });
@@ -553,7 +553,7 @@
                 success: function (json) {
                     if (json.result.errMsg == "success") {
                         layer.msg('操作成功!');
-                        //Get_RewardBatchData("",cur_ResponUID==$('#CreateUID').val()?"":"0"); 
+                        //Get_RewardBatchDetailData("",cur_ResponUID==$('#CreateUID').val()?"":"0"); 
                         parent.BindAchieve(1, 10); 
                         parent.CloseIFrameWindow();
                     }

@@ -36,7 +36,7 @@
                     {{else AuditStatus==2}}<span class="nocheck">审核不通过</span>
                     {{else}} <span class="assigning">审核通过</span>{{/if}}
                 </div>
-                <div class="fr status">奖金：<span id="span_AllMoney_${rowNum}">${Money}</span>万，已分：<span id="span_HasAllot_${rowNum}">${HasAllot}</span>万，<span id="span_UnAllot_${rowNum}" style="color:#d02525;">未分：${Money-HasAllot}万</span></div>
+                <div class="fr status">奖金：<span id="span_AllMoney_${rowNum}">${Money}</span>元，已分：<span id="span_HasAllot_${rowNum}">${HasAllot}</span>元，<span id="span_UnAllot_${rowNum}" style="color:#d02525;">未分：${Money-HasAllot}元</span></div>
             </div>
             <table class="allot_table mt10  ">
                 <thead>
@@ -309,7 +309,7 @@
                     if (json.result.errNum.toString() == "0") {
                         Member_Data = json.result;
                     }
-                    Get_RewardBatchData();       
+                    Get_RewardBatchDetailData();       
                 },
                 error: function (errMsg) {
                     layer.msg(errMsg);
@@ -341,7 +341,7 @@
             var $cur_tb=$("#tb_Member_"+rownum),upfileid="#uploader_"+rownum;
             var rew_batchid=$cur_tb.attr('rewid'); //追加奖金Id
             var auditid=$cur_tb.attr('autid'); //审核Id           
-            var object = { Func: "Oper_AuditAllotReward", Acheive_Id: cur_AchieveId,RewardBatch_Id:rew_batchid,Status:status,CreateUID:loginUser.UniqueNo};
+            var object = { Func: "Oper_AuditAllotReward", BatchDetail_Id: auditid, Status: status, CreateUID: loginUser.UniqueNo };
             var allotArray=[];
             $cur_tb.find('tr').each(function(){
                 allotArray.push({RewardUser_Id:$(this).attr('uid'),AllotMoney:$(this).find('.td_money input[type=number]').val(),CreateUID:loginUser.UniqueNo});

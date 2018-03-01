@@ -16,7 +16,7 @@
     </style>
     <script type="text/x-jquery-tmpl" id="sub_Award">
         <div class="input-wrap">
-            <label>金额：</label><input type="number" value="${Money}" isrequired="true" regtype="money" fl="金额" id="Award" name="Award" min="0" step="0.01" class="text" placeholder="请输入金额"/><label class="ml10">万元</label>
+            <label>金额：</label><input type="number" value="${Money}" isrequired="true" regtype="money" fl="金额" id="Award" name="Award" min="0" step="0.01" class="text" placeholder="请输入金额"/><label class="ml10">元</label>
         </div>
         <div class="input-wrap input-wrap2 pr">
             <label>依据：</label>
@@ -45,7 +45,7 @@
 <script src="../Scripts/layer/layer.js"></script>
 <script type="text/javascript">
     var UrlDate = new GetUrlDate();
-    var itemid = UrlDate.id, Reward_Id = UrlDate.rwid, Rank_Id = UrlDate.rankid, LID = UrlDate.lid;
+    var itemid = UrlDate.id, RewardBatch_Id = UrlDate.rwid, Rank_Id = UrlDate.rankid, LID = UrlDate.lid;
     $(function () {
         $("#CreateUID").val(GetLoginUser().UniqueNo);
         if (itemid != undefined && itemid != 0) {
@@ -60,7 +60,7 @@
             url: HanderServiceUrl + "/TeaAchManage/AchRewardInfo.ashx",
             type: "post",
             dataType: "json",
-            data: { Func: "Get_RewardBatchData", IsPage: false, Id: itemid, Reward_Id: Reward_Id, Rank_Id: Rank_Id, IsOnlyBase: 0 },
+            data: { Func: "Get_RewardBatchDetailData", IsPage: false, Id: itemid, RewardBatch_Id: RewardBatch_Id, Rank_Id: Rank_Id, IsOnlyBase: 0 },
             success: function (json) {
                 if (json.result.errMsg == "success") {
                     $("#sub_Award").tmpl(json.result.retData).appendTo("#div_Award");
@@ -79,17 +79,17 @@
             type: "post",
             dataType: "json",
             data: {
-                "Func": "AddRewardDash", Id: itemid, Reward_Id: Reward_Id,Rank_Id: Rank_Id,
+                "Func": "AddRewardDash", Id: itemid, RewardBatch_Id: RewardBatch_Id, Rank_Id: Rank_Id,
                 AddAward: $("#Award").val().trim(), AddBasis: $("#AddBasis").val().trim(), CreateUID: $("#CreateUID").val()
             },
             success: function (json) {
                 if (json.result.errNum == 0) {
                     parent.layer.msg('操作成功!');
-                    parent.Get_RewardBatchData();//刷新父级弹框
+                    parent.Get_RewardBatchDetailData();//刷新父级弹框
                     if (Rank_Id == "") { //除教学成果奖外的奖项
                         parent.parent.BindReward(LID);//刷新父级弹框的父级
                     } else { //教学成果奖
-                        parent.parent.BindRank(Reward_Id);//刷新父级弹框的父级
+                        parent.parent.BindRank(RewardBatch_Id);//刷新父级弹框的父级
                     }                    
                     parent.CloseIFrameWindow();
                 } else {

@@ -84,9 +84,19 @@ namespace FEHandler.TeaAchManage
                     case "AddRewardDash":
                         AddRewardDash(context);
                         break;
+                    /*奖金批次*/
+                    case "Get_RewardBatchData":
+                        Get_RewardBatchData(context);
+                        break;
+                    case "Add_RewardBatch":
+                        Add_RewardBatch(context);
+                        break;                        
                     case "Del_RewardBatch":
                         Del_RewardBatch(context);
                         break;
+                    case "ChangeIsMoneyAllot":
+                        ChangeIsMoneyAllot(context);
+                        break;                        
                     default:
                         jsonModel = JsonModel.get_jsonmodel(5, "没有此方法", "");
                         break;
@@ -528,15 +538,7 @@ namespace FEHandler.TeaAchManage
                     model.Score = RequestHelper.decimal_transfer(context.Request, "Score");
                     model.ScoreType = Convert.ToByte(context.Request["ScoreType"]);
                     model.Sort =1;
-                    jsonModel = RewardInfo_bll.Add(model);
-                    if (jsonModel.errNum==0&&model.ScoreType!=3)
-                    {
-                        TPM_RewardBatch r_batch = new TPM_RewardBatch();
-                        r_batch.Reward_Id = Convert.ToInt32(jsonModel.retData);
-                        r_batch.Money = RequestHelper.decimal_transfer(context.Request, "Award");
-                        r_batch.CreateUID = RequestHelper.string_transfer(context.Request, "CreateUID");
-                        RewardBatch_bll.Add(r_batch);                        
-                    }
+                    jsonModel = RewardInfo_bll.Add(model);                    
                 }
                 else
                 {
@@ -590,43 +592,46 @@ namespace FEHandler.TeaAchManage
                 LogService.WriteErrorLog(ex.Message);
             }
         }
+        #endregion
+
+        #region 奖金批次
         private void AddRewardDash(HttpContext context)
         {
             try
             {
-                int Id = RequestHelper.int_transfer(context.Request, "Id");                
+                int Id = RequestHelper.int_transfer(context.Request, "Id");
                 int Reward_Id = RequestHelper.int_transfer(context.Request["Reward_Id"]);
-                decimal AddAward = RequestHelper.decimal_transfer(context.Request["AddAward"]); 
-                string AddBasis = RequestHelper.string_transfer(context.Request,"AddBasis");
+                decimal AddAward = RequestHelper.decimal_transfer(context.Request["AddAward"]);
+                string AddBasis = RequestHelper.string_transfer(context.Request, "AddBasis");
                 string CreateUID = RequestHelper.string_transfer(context.Request, "CreateUID");
-                if (Id==0)
+                if (Id == 0)
                 {
-                    TPM_RewardBatch r_batch = new TPM_RewardBatch();
-                    r_batch.Reward_Id = Reward_Id;                    
-                    if (!string.IsNullOrEmpty(context.Request["Rank_Id"]))
-                    {
-                        r_batch.Rank_Id = Convert.ToInt32(context.Request["Rank_Id"]);
-                    }
-                    r_batch.Money = AddAward;
-                    r_batch.AddBasis = AddBasis;
-                    r_batch.CreateUID = CreateUID;
-                    jsonModel= RewardBatch_bll.Add(r_batch);
+                    //TPM_RewardBatch r_batch = new TPM_RewardBatch();
+                    //r_batch.Reward_Id = Reward_Id;                    
+                    //if (!string.IsNullOrEmpty(context.Request["Rank_Id"]))
+                    //{
+                    //    r_batch.Rank_Id = Convert.ToInt32(context.Request["Rank_Id"]);
+                    //}
+                    //r_batch.Money = AddAward;
+                    //r_batch.AddBasis = AddBasis;
+                    //r_batch.CreateUID = CreateUID;
+                    //jsonModel= RewardBatch_bll.Add(r_batch);
                 }
                 else
                 {
-                    int useCount = RewardInfo_bll.GetRewardMoney_UseCount(Id);//是否已经引用
-                    if (useCount > 0)
-                    {
-                        jsonModel = JsonModel.get_jsonmodel(-1, "该奖金已经被使用！", "");
-                        return;
-                    }
-                    TPM_RewardBatch model = RewardBatch_bll.GetEntityById(Id).retData as TPM_RewardBatch;                   
-                    model.Money = AddAward;
-                    model.AddBasis = AddBasis;
-                    model.EditUID = CreateUID;
-                    model.EditTime = DateTime.Now;
-                    jsonModel = RewardBatch_bll.Update(model);                    
-                }            
+                    //int useCount = RewardInfo_bll.GetRewardMoney_UseCount(Id);//是否已经引用
+                    //if (useCount > 0)
+                    //{
+                    //    jsonModel = JsonModel.get_jsonmodel(-1, "该奖金已经被使用！", "");
+                    //    return;
+                    //}
+                    //TPM_RewardBatch model = RewardBatch_bll.GetEntityById(Id).retData as TPM_RewardBatch;                   
+                    //model.Money = AddAward;
+                    //model.AddBasis = AddBasis;
+                    //model.EditUID = CreateUID;
+                    //model.EditTime = DateTime.Now;
+                    //jsonModel = RewardBatch_bll.Update(model);                    
+                }
             }
             catch (Exception ex)
             {
@@ -640,19 +645,127 @@ namespace FEHandler.TeaAchManage
             }
         }
 
-        #region 删除追加奖金
+        //奖金批次列表查询
+        private void Get_RewardBatchData(HttpContext context)
+        {
+            try
+            {
+                bool IsPage = true;
+                if (context.Request["IsPage"].SafeToString() != "" && context.Request["IsPage"] != "undefined")
+                {
+                    IsPage = Convert.ToBoolean(context.Request["IsPage"]);
+                }
+                Hashtable ht = new Hashtable();
+                ht.Add("PageIndex", context.Request["PageIndex"].SafeToString());
+                ht.Add("PageSize", context.Request["PageSize"].SafeToString());
+                ht.Add("Id", context.Request["Id"].SafeToString());
+                ht.Add("Year", context.Request["Year"].SafeToString());
+                ht.Add("Name", context.Request["Name"].SafeToString());
+                ht.Add("IsMoneyAllot", context.Request["IsMoneyAllot"].SafeToString());
+                jsonModel = RewardBatch_bll.GetPage(ht, IsPage);
+            }
+            catch (Exception ex)
+            {
+                jsonModel = new JsonModel()
+                {
+                    errNum = 400,
+                    errMsg = ex.Message,
+                    retData = ""
+                };
+                LogService.WriteErrorLog(ex.Message);
+            }
+        }
+
+        //添加/编辑奖金批次
+        private void Add_RewardBatch(HttpContext context)
+        {
+            TPM_RewardBatch model = null;
+            int Id = RequestHelper.int_transfer(context.Request, "Id");
+            decimal BatchMoney = Convert.ToDecimal(context.Request["BatchMoney"]);
+            if (Id == 0)
+            {
+                model = new TPM_RewardBatch();
+                model.CreateUID = RequestHelper.string_transfer(context.Request, "CreateUID");
+            }
+            else
+            {                
+                decimal useMoney = RewardInfo_bll.GetRewardBatch_UseMoney(Id);//已分配金额
+                if (useMoney > BatchMoney)
+                {
+                    jsonModel = JsonModel.get_jsonmodel(-2, "该奖金批次总金额小于已分配金额！", "");
+                    return;
+                }
+                model = RewardBatch_bll.GetEntityById(Id).retData as TPM_RewardBatch;
+                model.EditUID = RequestHelper.string_transfer(context.Request, "CreateUID");
+            }
+            string Year = context.Request["Year"].SafeToString();
+            if (!string.IsNullOrEmpty(Year))
+            {
+                model.Year = Year.Replace("年", "");
+            }
+            else
+                model.Year = "";
+            model.Name = context.Request["Name"].SafeToString();
+            model.BatchMoney = BatchMoney;
+            if (Id == 0)
+            {
+                jsonModel = RewardBatch_bll.Add(model);
+                Id = (int)jsonModel.retData;
+            }
+            else
+            {
+                jsonModel = RewardBatch_bll.Update(model);
+            }
+            if (jsonModel.errNum == 0)
+            {
+                string add_Path = RequestHelper.string_transfer(context.Request, "Add_Path");
+                string edit_PathId = RequestHelper.string_transfer(context.Request, "Edit_PathId");
+                if (!string.IsNullOrEmpty(add_Path) || !string.IsNullOrEmpty(edit_PathId))
+                {
+                    List<Sys_Document> pathlist = new List<Sys_Document>();
+                    if (!string.IsNullOrEmpty(add_Path))
+                    {
+                        pathlist = JsonConvert.DeserializeObject<List<Sys_Document>>(add_Path);
+                    }
+                    new Sys_DocumentService().OperDocument(pathlist, edit_PathId, Id);
+                }                
+            }
+        }
+        //删除奖金批次
         private void Del_RewardBatch(HttpContext context)
         {
             try
             {
-                int itemid = Convert.ToInt32(context.Request["ItemId"]);           
+                int itemid = Convert.ToInt32(context.Request["ItemId"]);
                 int useCount = RewardInfo_bll.GetRewardMoney_UseCount(itemid);//是否已经引用
                 if (useCount > 0)
                 {
-                    jsonModel = JsonModel.get_jsonmodel(-1, "该奖金已经被使用！", "");
+                    jsonModel = JsonModel.get_jsonmodel(-1, "该奖金批次已经被使用！", "");
                     return;
                 }
-                jsonModel = RewardBatch_bll.DeleteFalse(itemid);                
+                jsonModel = RewardInfo_bll.Del_RewardBatch(itemid);
+            }
+            catch (Exception ex)
+            {
+                jsonModel = new JsonModel()
+                {
+                    errNum = 400,
+                    errMsg = ex.Message,
+                    retData = ""
+                };
+                LogService.WriteErrorLog(ex.Message);
+            }
+        }
+
+        #region 修改奖金批次金额分配状态
+        private void ChangeIsMoneyAllot(HttpContext context)
+        {
+            try
+            {
+                int Id = Convert.ToInt32(context.Request["Id"]);
+                TPM_RewardBatch model = RewardBatch_bll.GetEntityById(Id).retData as TPM_RewardBatch;
+                model.IsMoneyAllot = Convert.ToByte(context.Request["IsMoneyAllot"]);
+                jsonModel = RewardBatch_bll.Update(model);
             }
             catch (Exception ex)
             {
@@ -669,6 +782,7 @@ namespace FEHandler.TeaAchManage
         #endregion
 
         #endregion
+
         #region 缓存操作方式
         /*
         #region 业绩等级

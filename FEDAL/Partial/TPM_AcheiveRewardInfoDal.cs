@@ -35,12 +35,11 @@ namespace FEDAL
                     l.Type as AchieveType,ll.Name as LevelName,r.Name as RewadName,
                     (select STUFF((select ',' + CAST(Major_Name AS NVARCHAR(MAX)) from Major where Id in(select value from func_split(a.DepartMent,',')) FOR xml path('')), 1, 1, '')) as Major_Name,                   
                     case when a.GPid=1 then isnull((ran.Score),0) else r.Score end as TotalScore,ran.Name RankName,
-                    r.ScoreType,(select top 1 Money from TPM_RewardBatch where Reward_Id=r.Id and IsDelete=0 order by Id) as Award
-                    ,bk.Name as BookName,bk.BookType,case when bk.BookType=1 then '无' else bk.ISBN end as ISBN                  
+                    r.ScoreType,bk.Name as BookName,bk.BookType,case when bk.BookType=1 then '无' else bk.ISBN end as ISBN                  
                     ,isnull((select IsMoneyAllot from TPM_RewardEdition where LID=a.Gid and convert(varchar(10),a.DefindDate,21) between convert(varchar(10),BeginTime,21) and convert(varchar(10),EndTime,21)),0)as IsMoneyAllot
                     ,STUFF((select ',' + CAST(isnull(aud.Status,10) AS NVARCHAR(MAX)) from TPM_RewardBatch r_bat
-                    left join TPM_AuditReward aud on r_bat.Id=aud.RewardBatch_Id and aud.Acheive_Id=a.Id and aud.IsDelete=0
-                    where r_bat.IsDelete=0 and r_bat.Reward_Id=a.Rid FOR xml path('')), 1, 1, '') as AuditSts ");
+                    inner join TPM_RewardBatchDetail aud on r_bat.Id=aud.RewardBatch_Id and aud.IsDelete=0
+                    where r_bat.IsDelete=0 and aud.Acheive_Id=a.Id FOR xml path('')), 1, 1, '') as AuditSts ");
                 if (ht.ContainsKey("LoginMajor_ID") && !string.IsNullOrEmpty(ht["LoginMajor_ID"].SafeToString()))
                 {
                     str.Append(@",(select count(1) from TPM_RewardUserInfo ruser left join UserInfo u on ruser.UserNo = u.UniqueNo
@@ -131,7 +130,7 @@ namespace FEDAL
                 }
                 if (ht.ContainsKey("AuditMajor_ID") && !string.IsNullOrEmpty(ht["AuditMajor_ID"].SafeToString())) //业绩审核处的查询
                 {
-                    str.Append(@" and ((a.GPid=2 and a.Status=1 and a.TwoAudit_Status in("+ ht["TwoAudit_Status"].SafeToString() + ")) or (a.GPid!=2 and a.Status=1) or a.Status=5 or a.Id in(select distinct Acheive_Id from TPM_AuditReward where IsDelete=0 and Status=1))");
+                    str.Append(@" and ((a.GPid=2 and a.Status=1 and a.TwoAudit_Status in("+ ht["TwoAudit_Status"].SafeToString() + ")) or (a.GPid!=2 and a.Status=1) or a.Status=5 or a.Id in(select distinct Acheive_Id from TPM_RewardBatchDetail where IsDelete=0 and Status=1))");
                     str.Append(@" and (a.GPid in("+ ht["Level_AllIds"].SafeToString() + ") or (a.GPid in ("+ ht["Level_DepartIds"].SafeToString() + @") and a.Id in(select distinct ruser.RIId from TPM_RewardUserInfo ruser
                               left join UserInfo u on ruser.UserNo = u.UniqueNo
                               where ruser.IsDelete = 0 and ruser.RIId!= 0 and u.Major_ID=@AuditMajor_ID))) ");
@@ -144,7 +143,7 @@ namespace FEDAL
                 }
                 if (ht.ContainsKey("Respon_LoginUID") && !string.IsNullOrEmpty(ht["Respon_LoginUID"].SafeToString())) //首页统计信息-负责人待审核
                 {
-                    str.Append(@" and a.ResponsMan=@Respon_LoginUID and ((a.Status=1 and a.GPid=2) or a.Status=5 or a.Id in(select distinct Acheive_Id from TPM_AuditReward where IsDelete=0 and Status=1))");
+                    str.Append(@" and a.ResponsMan=@Respon_LoginUID and ((a.Status=1 and a.GPid=2) or a.Status=5 or a.Id in(select distinct Acheive_Id from TPM_RewardBatchDetail where IsDelete=0 and Status=1))");
                     pms.Add(new SqlParameter("@Respon_LoginUID", ht["Respon_LoginUID"].SafeToString()));
                 }
                 if (ht.ContainsKey("MyIndex_LoginUID") && !string.IsNullOrEmpty(ht["MyIndex_LoginUID"].SafeToString()))//首页统计信息-我的业绩

@@ -21,15 +21,7 @@ namespace FEIDAL
     }
 
 	/// </summary>
-	///	角色数据处理接口类1
-	/// </summary>
-    public interface ISys_RoleDal: IBaseDal<Sys_Role>
-    {
-		
-    }
-
-	/// </summary>
-	///	角色菜单关系数据处理接口类2
+	///	角色菜单关系数据处理接口类1
 	/// </summary>
     public interface ISys_RoleOfMenuDal: IBaseDal<Sys_RoleOfMenu>
     {
@@ -45,7 +37,7 @@ namespace FEIDAL
     }
 
 	/// </summary>
-	///	系统账号数据处理接口类3
+	///	系统账号数据处理接口类2
 	/// </summary>
     public interface ISys_SystemInfoDal: IBaseDal<Sys_SystemInfo>
     {
@@ -69,6 +61,14 @@ namespace FEIDAL
     }
 
 	/// </summary>
+	///	专业部门名称数据处理接口类3
+	/// </summary>
+    public interface ICourseRoomDal: IBaseDal<CourseRoom>
+    {
+		
+    }
+
+	/// </summary>
 	///	
 	/// </summary>
     public interface ITPM_AcheiveLevelDal: IBaseDal<TPM_AcheiveLevel>
@@ -79,7 +79,7 @@ namespace FEIDAL
 	/// </summary>
 	///	
 	/// </summary>
-    public interface IExpert_Teacher_CourseDal: IBaseDal<Expert_Teacher_Course>
+    public interface ITPM_BookStoryDal: IBaseDal<TPM_BookStory>
     {
 		
     }
@@ -103,7 +103,7 @@ namespace FEIDAL
 	/// </summary>
 	///	
 	/// </summary>
-    public interface ITPM_AuditRewardDal: IBaseDal<TPM_AuditReward>
+    public interface IExpert_Teacher_CourseDal: IBaseDal<Expert_Teacher_Course>
     {
 		
     }
@@ -120,22 +120,6 @@ namespace FEIDAL
 	///	
 	/// </summary>
     public interface IEva_Table_HeaderDal: IBaseDal<Eva_Table_Header>
-    {
-		
-    }
-
-	/// </summary>
-	///	数据处理接口类4
-	/// </summary>
-    public interface IEva_QuestionAnswerDal: IBaseDal<Eva_QuestionAnswer>
-    {
-		
-    }
-
-	/// </summary>
-	///	
-	/// </summary>
-    public interface IUserInfoDal: IBaseDal<UserInfo>
     {
 		
     }
@@ -159,6 +143,14 @@ namespace FEIDAL
 	/// </summary>
 	///	
 	/// </summary>
+    public interface ITeacherDal: IBaseDal<Teacher>
+    {
+		
+    }
+
+	/// </summary>
+	///	
+	/// </summary>
     public interface ITPM_ModifyReasonDal: IBaseDal<TPM_ModifyReason>
     {
 		
@@ -175,13 +167,21 @@ namespace FEIDAL
 	/// </summary>
 	///	
 	/// </summary>
+    public interface ITPM_RewardBatchDal: IBaseDal<TPM_RewardBatch>
+    {
+		
+    }
+
+	/// </summary>
+	///	
+	/// </summary>
     public interface ITPM_RewardUserInfoDal: IBaseDal<TPM_RewardUserInfo>
     {
 		
     }
 
 	/// </summary>
-	///	菜单信息数据处理接口类5
+	///	菜单信息数据处理接口类4
 	/// </summary>
     public interface ISys_MenuInfoDal: IBaseDal<Sys_MenuInfo>
     {
@@ -189,7 +189,7 @@ namespace FEIDAL
     }
 
 	/// </summary>
-	///	角色用户关系数据处理接口类6
+	///	角色用户关系数据处理接口类5
 	/// </summary>
     public interface ISys_RoleOfUserDal: IBaseDal<Sys_RoleOfUser>
     {
@@ -199,7 +199,7 @@ namespace FEIDAL
 	/// </summary>
 	///	
 	/// </summary>
-    public interface IEva_QuestionAnswer_DetailDal: IBaseDal<Eva_QuestionAnswer_Detail>
+    public interface ITPM_RewardBatchDetailDal: IBaseDal<TPM_RewardBatchDetail>
     {
 		
     }
@@ -255,7 +255,7 @@ namespace FEIDAL
 	/// </summary>
 	///	
 	/// </summary>
-    public interface IMajorDal: IBaseDal<Major>
+    public interface IEva_QuestionAnswer_DetailDal: IBaseDal<Eva_QuestionAnswer_Detail>
     {
 		
     }
@@ -263,7 +263,23 @@ namespace FEIDAL
 	/// </summary>
 	///	
 	/// </summary>
-    public interface IEva_RegularDal: IBaseDal<Eva_Regular>
+    public interface IMajorDal: IBaseDal<Major>
+    {
+		
+    }
+
+	/// </summary>
+	///	角色数据处理接口类6
+	/// </summary>
+    public interface ISys_RoleDal: IBaseDal<Sys_Role>
+    {
+		
+    }
+
+	/// </summary>
+	///	
+	/// </summary>
+    public interface IEva_TableDal: IBaseDal<Eva_Table>
     {
 		
     }
@@ -280,14 +296,6 @@ namespace FEIDAL
 	///	
 	/// </summary>
     public interface IGradeInfoDal: IBaseDal<GradeInfo>
-    {
-		
-    }
-
-	/// </summary>
-	///	专业部门名称数据处理接口类7
-	/// </summary>
-    public interface ICourseRoomDal: IBaseDal<CourseRoom>
     {
 		
     }
@@ -319,7 +327,7 @@ namespace FEIDAL
 	/// </summary>
 	///	
 	/// </summary>
-    public interface ITPM_BookStoryDal: IBaseDal<TPM_BookStory>
+    public interface IIndicatorTypeDal: IBaseDal<IndicatorType>
     {
 		
     }
@@ -327,7 +335,7 @@ namespace FEIDAL
 	/// </summary>
 	///	
 	/// </summary>
-    public interface IIndicatorTypeDal: IBaseDal<IndicatorType>
+    public interface IUserInfoDal: IBaseDal<UserInfo>
     {
 		
     }
@@ -341,33 +349,9 @@ namespace FEIDAL
     }
 
 	/// </summary>
-	///	
-	/// </summary>
-    public interface IEva_TableDal: IBaseDal<Eva_Table>
-    {
-		
-    }
-
-	/// </summary>
-	///	菜单按钮类型数据处理接口类8
+	///	菜单按钮类型数据处理接口类7
 	/// </summary>
     public interface ISys_ButtonTypeDal: IBaseDal<Sys_ButtonType>
-    {
-		
-    }
-
-	/// </summary>
-	///	
-	/// </summary>
-    public interface ITPM_RewardBatchDal: IBaseDal<TPM_RewardBatch>
-    {
-		
-    }
-
-	/// </summary>
-	///	
-	/// </summary>
-    public interface ITeacherDal: IBaseDal<Teacher>
     {
 		
     }
@@ -389,7 +373,7 @@ namespace FEIDAL
     }
 
 	/// </summary>
-	///	系统日志数据处理接口类9
+	///	系统日志数据处理接口类8
 	/// </summary>
     public interface ISys_LogInfoDal: IBaseDal<Sys_LogInfo>
     {
@@ -400,6 +384,22 @@ namespace FEIDAL
 	///	
 	/// </summary>
     public interface ITPM_AcheiveRewardInfoDal: IBaseDal<TPM_AcheiveRewardInfo>
+    {
+		
+    }
+
+	/// </summary>
+	///	数据处理接口类9
+	/// </summary>
+    public interface IEva_QuestionAnswerDal: IBaseDal<Eva_QuestionAnswer>
+    {
+		
+    }
+
+	/// </summary>
+	///	
+	/// </summary>
+    public interface IEva_RegularDal: IBaseDal<Eva_Regular>
     {
 		
     }
