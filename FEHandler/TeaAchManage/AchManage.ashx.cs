@@ -96,7 +96,10 @@ namespace FEHandler.TeaAchManage
                         break;
                     case "ChangeIsMoneyAllot":
                         ChangeIsMoneyAllot(context);
-                        break;                        
+                        break;
+                    case "Add_RewardBatchDetail":
+                        Add_RewardBatchDetail(context);
+                        break;
                     default:
                         jsonModel = JsonModel.get_jsonmodel(5, "没有此方法", "");
                         break;
@@ -115,8 +118,6 @@ namespace FEHandler.TeaAchManage
                 context.Response.End();
             }
         }
-
-        #region 正常操作方式
 
         #region 业绩等级
         private void GetAcheiveLevelData(HttpContext context)
@@ -261,15 +262,15 @@ namespace FEHandler.TeaAchManage
             try
             {
                 int Id = RequestHelper.int_transfer(context.Request, "Id");
-                int lid= RequestHelper.int_transfer(context.Request, "LID");
-                DateTime beginTime= RequestHelper.DateTime_transfer(context.Request, "BeginTime");
+                int lid = RequestHelper.int_transfer(context.Request, "LID");
+                DateTime beginTime = RequestHelper.DateTime_transfer(context.Request, "BeginTime");
                 DateTime endTime = RequestHelper.DateTime_transfer(context.Request, "EndTime");
                 //" BeginTime>" +endTime + " or EndTime<"+beginTime 时间不重叠（not取非,获取不重叠）
-                string id_str = Id == 0 ? "" : " and Id!="+Id;
+                string id_str = Id == 0 ? "" : " and Id!=" + Id;
                 Hashtable ht = new Hashtable();
                 ht.Add("TableName", "TPM_RewardEdition");
-                JsonModel edition_result =RewardEdition_bll.GetPage(ht, false, id_str+" and IsDelete=0 and lid=" + lid+ " and not( convert(varchar(10),BeginTime,21)>'" + context.Request["endTime"] + "' or convert(varchar(10),EndTime,21)<'" + context.Request["beginTime"]+ "')" );
-                if (edition_result.errNum==0)
+                JsonModel edition_result = RewardEdition_bll.GetPage(ht, false, id_str + " and IsDelete=0 and lid=" + lid + " and not( convert(varchar(10),BeginTime,21)>'" + context.Request["endTime"] + "' or convert(varchar(10),EndTime,21)<'" + context.Request["beginTime"] + "')");
+                if (edition_result.errNum == 0)
                 {
                     jsonModel = JsonModel.get_jsonmodel(-1, "与其他版本时间交叉！", edition_result.retData);
                     return;
@@ -280,25 +281,25 @@ namespace FEHandler.TeaAchManage
                     model.Name = context.Request["Name"];
                     model.LID = lid;
                     model.BeginTime = beginTime;
-                    model.EndTime = endTime;                   
-                    jsonModel = RewardEdition_bll.Add(model);                   
-                    Id =Convert.ToInt32(jsonModel.retData);
+                    model.EndTime = endTime;
+                    jsonModel = RewardEdition_bll.Add(model);
+                    Id = Convert.ToInt32(jsonModel.retData);
                 }
                 else
                 {
                     //版本编辑时判断时间（时间、时间已在业绩中使用）
                     string definddates = SQLHelp.ExecuteScalar(@"select STUFF((select '、' + CAST(CONVERT(varchar(10),a.DefindDate,21) AS NVARCHAR(MAX)) from TPM_AcheiveRewardInfo a  
                                  left join TPM_RewardLevel lev on lev.Id = a.Lid
-                                  where a.IsDelete = 0 and lev.EID ="+ lid + " and(a.DefindDate < '"+context.Request["beginTime"]+"' or a.DefindDate > '"+context.Request["endTime"]+"') FOR xml path('')), 1, 1, '')", CommandType.Text, null).ToString();
+                                  where a.IsDelete = 0 and lev.EID =" + lid + " and(a.DefindDate < '" + context.Request["beginTime"] + "' or a.DefindDate > '" + context.Request["endTime"] + "') FOR xml path('')), 1, 1, '')", CommandType.Text, null).ToString();
                     if (!string.IsNullOrEmpty(definddates))
                     {
-                        jsonModel = JsonModel.get_jsonmodel(-2, "日期"+definddates+"已在业绩中使用！", "");
+                        jsonModel = JsonModel.get_jsonmodel(-2, "日期" + definddates + "已在业绩中使用！", "");
                         return;
                     }
                     TPM_RewardEdition model = RewardEdition_bll.GetEntityById(Id).retData as TPM_RewardEdition;
                     model.Name = context.Request["Name"];
                     model.BeginTime = beginTime;
-                    model.EndTime = endTime;                   
+                    model.EndTime = endTime;
                     jsonModel = RewardEdition_bll.Update(model);
                 }
                 if (jsonModel.errNum == 0)
@@ -356,8 +357,8 @@ namespace FEHandler.TeaAchManage
         {
             try
             {
-                int itemid = Convert.ToInt32(context.Request["ItemId"]);                
-                int useCount = Convert.ToInt32(SQLHelp.ExecuteScalar("select count(1) from TPM_AcheiveRewardInfo a left join TPM_RewardLevel lev on lev.Id = a.Lid where a.IsDelete = 0 and lev.EID ="+ itemid, CommandType.Text, null));//是否已经引用
+                int itemid = Convert.ToInt32(context.Request["ItemId"]);
+                int useCount = Convert.ToInt32(SQLHelp.ExecuteScalar("select count(1) from TPM_AcheiveRewardInfo a left join TPM_RewardLevel lev on lev.Id = a.Lid where a.IsDelete = 0 and lev.EID =" + itemid, CommandType.Text, null));//是否已经引用
                 if (useCount > 0)
                 {
                     jsonModel = JsonModel.get_jsonmodel(-1, "该版本已经被使用！", "");
@@ -411,10 +412,10 @@ namespace FEHandler.TeaAchManage
                 {
                     ht.Add("Id", Id);
                 }
-                if(!string.IsNullOrEmpty(DefindDate))
-                {                    
+                if (!string.IsNullOrEmpty(DefindDate))
+                {
                     ht.Add("DefindDate", Convert.ToDateTime(context.Request["DefindDate"]).ToString("yyyy-MM-dd"));
-                }               
+                }
                 ht.Add("PageIndex", context.Request["PageIndex"].SafeToString());
                 ht.Add("PageSize", context.Request["PageSize"].SafeToString());
                 jsonModel = RewardLevel_bll.GetPage(ht, IsPage);
@@ -534,11 +535,11 @@ namespace FEHandler.TeaAchManage
                 {
                     TPM_RewardInfo model = new TPM_RewardInfo();
                     model.Name = context.Request["Name"];
-                    model.LID = RequestHelper.int_transfer(context.Request, "LID");                    
+                    model.LID = RequestHelper.int_transfer(context.Request, "LID");
                     model.Score = RequestHelper.decimal_transfer(context.Request, "Score");
                     model.ScoreType = Convert.ToByte(context.Request["ScoreType"]);
-                    model.Sort =1;
-                    jsonModel = RewardInfo_bll.Add(model);                    
+                    model.Sort = 1;
+                    jsonModel = RewardInfo_bll.Add(model);
                 }
                 else
                 {
@@ -554,11 +555,11 @@ namespace FEHandler.TeaAchManage
                     {
                         jsonModel = JsonModel.get_jsonmodel(-2, "该奖项分数已经被使用！", "");
                         return;
-                    }                    
-                    TPM_RewardInfo model = RewardInfo_bll.GetEntityById(Id).retData as TPM_RewardInfo;                                         
+                    }
+                    TPM_RewardInfo model = RewardInfo_bll.GetEntityById(Id).retData as TPM_RewardInfo;
                     model.Score = RequestHelper.decimal_transfer(context.Request, "Score");
-                    model.Name = context.Request["Name"];                            
-                    jsonModel = RewardInfo_bll.Update(model);                    
+                    model.Name = context.Request["Name"];
+                    jsonModel = RewardInfo_bll.Update(model);
                 }
             }
             catch (Exception ex)
@@ -688,7 +689,7 @@ namespace FEHandler.TeaAchManage
                 model.CreateUID = RequestHelper.string_transfer(context.Request, "CreateUID");
             }
             else
-            {                
+            {
                 decimal useMoney = RewardInfo_bll.GetRewardBatch_UseMoney(Id);//已分配金额
                 if (useMoney > BatchMoney)
                 {
@@ -728,7 +729,7 @@ namespace FEHandler.TeaAchManage
                         pathlist = JsonConvert.DeserializeObject<List<Sys_Document>>(add_Path);
                     }
                     new Sys_DocumentService().OperDocument(pathlist, edit_PathId, Id);
-                }                
+                }
             }
         }
         //删除奖金批次
@@ -757,7 +758,7 @@ namespace FEHandler.TeaAchManage
             }
         }
 
-        #region 修改奖金批次金额分配状态
+        //修改奖金批次金额分配状态
         private void ChangeIsMoneyAllot(HttpContext context)
         {
             try
@@ -778,362 +779,29 @@ namespace FEHandler.TeaAchManage
                 LogService.WriteErrorLog(ex.Message);
             }
         }
+
+        //添加奖金批次详情
+        private void Add_RewardBatchDetail(HttpContext context)
+        {
+            try
+            {
+                int RewardBatch_Id = RequestHelper.int_transfer(context.Request, "RewardBatch_Id");
+                string Acheive_Ids = RequestHelper.string_transfer(context.Request, "Acheive_Ids");
+                string CreateUID = RequestHelper.string_transfer(context.Request, "CreateUID");
+                jsonModel=RewardInfo_bll.Add_RewardBatchDetail(RewardBatch_Id, Acheive_Ids, CreateUID);
+            }
+            catch (Exception ex)
+            {
+                jsonModel = new JsonModel()
+                {
+                    errNum = 400,
+                    errMsg = ex.Message,
+                    retData = ""
+                };
+                LogService.WriteErrorLog(ex.Message);
+            }
+        }
         #endregion
-        #endregion
-
-        #endregion
-
-        #region 缓存操作方式
-        /*
-        #region 业绩等级
-        private void GetAcheiveLevelData(HttpContext context)
-        {
-            try
-            {
-                //ID
-                int id = RequestHelper.int_transfer(context.Request, "Id");
-                //分类名称
-                string Name = HttpUtility.UrlDecode(context.Request["Name"].SafeToString());
-                var list = Constant.TPM_AcheiveLevel_List.OrderBy(m => m.Sort).ToList();
-                if (Name.Length > 0)
-                {
-                    list = list.Where(o => o.Name == Name).ToList();
-                }
-                if (list.Count > 0)
-                {
-                    jsonModel = JsonModel.get_jsonmodel(0, "success", list);
-                }
-                else
-                {
-                    jsonModel = JsonModel.get_jsonmodel(3, "failed", "没有数据");
-                }
-            }
-            catch (Exception ex)
-            {
-                jsonModel = new JsonModel()
-                {
-                    errNum = 400,
-                    errMsg = ex.Message,
-                    retData = ""
-                };
-                LogService.WriteErrorLog(ex.Message);
-            }
-        }
-        private void AddAcheiveLevelData(HttpContext context)
-        {
-            try
-            {
-                TPM_AcheiveLevel model = new TPM_AcheiveLevel();
-                model.Name = context.Request["Name"];
-                model.Pid = RequestHelper.int_transfer(context.Request, "Pid");
-                model.Id = RequestHelper.int_transfer(context.Request, "Id");
-
-                jsonModel = AcheiveLevel_bll.TPM_AcheiveLevelAdd(model);
-                if (jsonModel.errNum == 0)
-                {
-                    model.Id = Convert.ToInt32(jsonModel.retData);
-                    model.CreateTime = DateTime.Now;
-                    if (!Constant.TPM_AcheiveLevel_List.Contains(model))
-                    {
-                        Constant.TPM_AcheiveLevel_List.Add(model);
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                jsonModel = new JsonModel()
-                {
-                    errNum = 400,
-                    errMsg = ex.Message,
-                    retData = ""
-                };
-                LogService.WriteErrorLog(ex.Message);
-            }
-        }
-        private void TPM_AcheiveLevelSort(HttpContext context)
-        {
-            try
-            {
-                int Id = RequestHelper.int_transfer(context.Request, "Id");
-                string SortType = context.Request["SortType"];
-
-                jsonModel = AcheiveLevel_bll.TPM_AcheiveLevelSort(Id, SortType);
-                if (jsonModel.errNum == 0)
-                {
-                    #region 修改缓存数据
-                    var Cur = Constant.TPM_AcheiveLevel_List.Where(t => t.Id == Id).FirstOrDefault();
-
-                    if (SortType == "up")
-                    {
-                        var list = from m in Constant.TPM_AcheiveLevel_List
-                                   orderby m.Sort descending
-                                   select new { m };
-                        var Other = list.Where(obj => obj.m.Sort < Cur.Sort).FirstOrDefault();
-                        Constant.TPM_AcheiveLevel_List.Where(t => t.Id == Id).FirstOrDefault();
-                        Cur.Sort = Other.m.Sort;
-                        Other.m.Sort = Cur.Sort;
-                    }
-                    else
-                    {
-                        var list = from m in Constant.TPM_AcheiveLevel_List
-                                   orderby m.Sort
-                                   select new { m };
-                        var Other = list.Where(obj => obj.m.Sort < Cur.Sort).FirstOrDefault();
-                        Constant.TPM_AcheiveLevel_List.Where(t => t.Id == Id).FirstOrDefault();
-                        Cur.Sort = Other.m.Sort;
-                        Other.m.Sort = Cur.Sort;
-                    }
-
-
-                    #endregion
-                }
-            }
-            catch (Exception ex)
-            {
-                jsonModel = new JsonModel()
-                {
-                    errNum = 400,
-                    errMsg = ex.Message,
-                    retData = ""
-                };
-                LogService.WriteErrorLog(ex.Message);
-            }
-        }
-        private void DelAcheiveLevelData(HttpContext context)
-        {
-            try
-            {
-                int itemid = Convert.ToInt32(context.Request["ItemId"]);
-                jsonModel = AcheiveLevel_bll.Delete(itemid);
-                if (jsonModel.errNum == 0)
-                {
-                    TPM_AcheiveLevel model = Constant.TPM_AcheiveLevel_List.FirstOrDefault(t => t.Id == itemid);
-                    Constant.TPM_AcheiveLevel_List.Remove(model);
-                }
-            }
-            catch (Exception ex)
-            {
-                jsonModel = new JsonModel()
-                {
-                    errNum = 400,
-                    errMsg = ex.Message,
-                    retData = ""
-                };
-                LogService.WriteErrorLog(ex.Message);
-            }
-        }
-
-        #endregion
-
-        #region 奖励项目版本
-        private void GetRewardEditionData(HttpContext context)
-        {
-            try
-            {
-                //ID
-                int LID = RequestHelper.int_transfer(context.Request, "LID");
-                //分类名称
-                string Name = HttpUtility.UrlDecode(context.Request["Name"].SafeToString());
-                var level = from obj in Constant.TPM_RewardEdition_List.Where(t => t.LID == LID)
-                            orderby obj.CreateTime descending
-                            select new { obj };
-
-                var list = level.ToList();
-                if (list.Count > 0)
-                {
-                    jsonModel = JsonModel.get_jsonmodel(0, "success", list);
-                }
-                else
-                {
-                    jsonModel = JsonModel.get_jsonmodel(3, "failed", "没有数据");
-                }
-            }
-            catch (Exception ex)
-            {
-                jsonModel = new JsonModel()
-                {
-                    errNum = 400,
-                    errMsg = ex.Message,
-                    retData = ""
-                };
-                LogService.WriteErrorLog(ex.Message);
-            }
-        }
-        private void AddRewardEditionData(HttpContext context)
-        {
-            try
-            {
-                TPM_RewardEdition model = new TPM_RewardEdition();
-                model.Name = context.Request["Name"];
-                model.LID = RequestHelper.int_transfer(context.Request, "LID");
-                model.BeginTime = RequestHelper.DateTime_transfer(context.Request, "BeginTime");
-                model.EndTime = RequestHelper.DateTime_transfer(context.Request, "EndTime");
-
-                jsonModel = RewardEdition_bll.Add(model);
-                if (jsonModel.errNum == 0)
-                {
-                    model.Id = Convert.ToInt32(jsonModel.retData);
-                    model.CreateTime = DateTime.Now;
-                    if (!Constant.TPM_RewardEdition_List.Contains(model))
-                    {
-                        Constant.TPM_RewardEdition_List.Add(model);
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                jsonModel = new JsonModel()
-                {
-                    errNum = 400,
-                    errMsg = ex.Message,
-                    retData = ""
-                };
-                LogService.WriteErrorLog(ex.Message);
-            }
-        }
-
-        #endregion
-
-        #region 奖励项目等级
-        private void GetRewardLevelData(HttpContext context)
-        {
-            try
-            {
-                //ID
-                int EID = RequestHelper.int_transfer(context.Request, "EID");
-                //分类名称
-                string Name = HttpUtility.UrlDecode(context.Request["Name"].SafeToString());
-                var level = from obj in Constant.TPM_RewardLevel_List.Where(t => t.EID == EID)
-                            orderby obj.Sort
-                            select new { obj };
-
-                var list = level.ToList();
-                if (list.Count > 0)
-                {
-                    jsonModel = JsonModel.get_jsonmodel(0, "success", list);
-                }
-                else
-                {
-                    jsonModel = JsonModel.get_jsonmodel(3, "failed", "没有数据");
-                }
-            }
-            catch (Exception ex)
-            {
-                jsonModel = new JsonModel()
-                {
-                    errNum = 400,
-                    errMsg = ex.Message,
-                    retData = ""
-                };
-                LogService.WriteErrorLog(ex.Message);
-            }
-        }
-        private void AddRewardLevelData(HttpContext context)
-        {
-            try
-            {
-                TPM_RewardLevel model = new TPM_RewardLevel();
-                model.Name = context.Request["Name"];
-                model.EID = RequestHelper.int_transfer(context.Request, "EID");
-                model.Sort = RequestHelper.int_transfer(context.Request, "Sort");
-
-                jsonModel = RewardLevel_bll.Add(model);
-                if (jsonModel.errNum == 0)
-                {
-                    model.Id = Convert.ToInt32(jsonModel.retData);
-                    model.CreateTime = DateTime.Now;
-                    if (!Constant.TPM_RewardLevel_List.Contains(model))
-                    {
-                        Constant.TPM_RewardLevel_List.Add(model);
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                jsonModel = new JsonModel()
-                {
-                    errNum = 400,
-                    errMsg = ex.Message,
-                    retData = ""
-                };
-                LogService.WriteErrorLog(ex.Message);
-            }
-        }
-
-        #endregion
-
-        #region 奖项管理
-        private void GetRewardInfoData(HttpContext context)
-        {
-            try
-            {
-                //ID
-                int LID = RequestHelper.int_transfer(context.Request, "LID");
-                //分类名称
-                string Name = HttpUtility.UrlDecode(context.Request["Name"].SafeToString());
-                var level = from obj in Constant.TPM_RewardInfo_List.Where(t => t.LID == LID)
-                            orderby obj.Id descending
-                            select new { obj };
-
-                var list = level.ToList();
-                if (list.Count > 0)
-                {
-                    jsonModel = JsonModel.get_jsonmodel(0, "success", list);
-                }
-                else
-                {
-                    jsonModel = JsonModel.get_jsonmodel(3, "failed", "没有数据");
-                }
-            }
-            catch (Exception ex)
-            {
-                jsonModel = new JsonModel()
-                {
-                    errNum = 400,
-                    errMsg = ex.Message,
-                    retData = ""
-                };
-                LogService.WriteErrorLog(ex.Message);
-            }
-        }
-        private void AddRewardInfoData(HttpContext context)
-        {
-            try
-            {
-                TPM_RewardInfo model = new TPM_RewardInfo();
-                model.Name = context.Request["Name"];
-                model.LID = RequestHelper.int_transfer(context.Request, "LID");
-                model.Award = RequestHelper.decimal_transfer(context.Request, "Award");
-                model.Score = RequestHelper.int_transfer(context.Request, "Score");
-                model.ScoreType = Convert.ToByte(context.Request["ScoreType"]);
-
-                jsonModel = RewardInfo_bll.Add(model);
-                if (jsonModel.errNum == 0)
-                {
-                    model.Id = Convert.ToInt32(jsonModel.retData);
-                    model.CreateTime = DateTime.Now;
-                    if (!Constant.TPM_RewardInfo_List.Contains(model))
-                    {
-                        Constant.TPM_RewardInfo_List.Add(model);
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                jsonModel = new JsonModel()
-                {
-                    errNum = 400,
-                    errMsg = ex.Message,
-                    retData = ""
-                };
-                LogService.WriteErrorLog(ex.Message);
-            }
-        }
-
-        #endregion
-        */
-        #endregion
-
         public bool IsReusable
         {
             get

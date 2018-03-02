@@ -22,38 +22,39 @@ namespace FEDAL
             try
             {
                 StringBuilder str = new StringBuilder();
-                str.Append(@" select r_bat.*,b.Name as CreateName,(select count(1) from TPM_RewardBatchDetail where IsDelete=0 and Status in(1,3) and RewardBatch_Id=r_bat.Id)UseCount ");
+                str.Append(@" select r_bat.*,r_bat.Status as AuditStatus,b.Name as CreateName
+                   ,isnull((select sum(AllotMoney) from TPM_AllotReward where BatchDetail_Id=r_bat.Id),0)HasAllot ");
                 if (ht["IsOnlyBase"].SafeToString() == "1") //查询关联表
                 {
-                    str.Append(@" ,info.Id AchieveId,isnull(aud.Id,0) AuditId,isnull(aud.Status,10)AuditStatus 
-                      ,isnull((select sum(AllotMoney) from TPM_AllotReward where BatchDetail_Id=aud.Id),0)HasAllot
-                     from TPM_RewardBatch r_bat
+                    str.Append(@" ,uu.Name as ResponsName,al.Name as GidName,a.Year
+                    ,case when a.GPid=6 then bk.Name when a.GPid=4 then uu.Name else a.Name end as AchiveName
+                    ,(select STUFF((select ',' + CAST(Major_Name AS NVARCHAR(MAX)) from Major where Id in(select value from func_split(a.DepartMent,',')) FOR xml path('')), 1, 1, '')) as Major_Name                   
+                     from TPM_RewardBatchDetail r_bat
+                     inner join TPM_RewardBatch ba on r_bat.RewardBatch_Id=ba.Id
                      left join UserInfo b on r_bat.CreateUID=b.UniqueNo
-                     left join TPM_AcheiveRewardInfo info on r_bat.Reward_Id=info.Rid and isnull(info.Sort,0)=isnull(r_bat.Rank_Id,0) and info.IsDelete=0
-                     left join TPM_RewardBatchDetail aud on r_bat.Id=aud.RewardBatch_Id and info.Id=aud.Acheive_Id and aud.IsDelete=0 ");
+                     left join TPM_AcheiveRewardInfo a on r_bat.Acheive_Id=a.Id 
+                     left join UserInfo uu on a.ResponsMan=uu.UniqueNo
+                     left join TPM_AcheiveLevel al on al.Id=a.Gid
+                     left join TPM_BookStory bk on a.bookid=bk.id ");
                 }
                 else //只查询基础表
                 {
-                    str.Append(@" from TPM_RewardBatch r_bat 
+                    str.Append(@" from TPM_RewardBatchDetail r_bat 
+                                inner join TPM_RewardBatch ba on r_bat.RewardBatch_Id=ba.Id
                                 left join UserInfo b on r_bat.CreateUID=b.UniqueNo ");
                 }
-                str.Append(@" where r_bat.IsDelete=0 ");
+                str.Append(@" where r_bat.IsDelete=0 and ba.IsDelete=0 ");
                 int StartIndex = 0;
                 int EndIndex = 0;
                 if (ht.ContainsKey("RewardBatch_Id") && !string.IsNullOrEmpty(ht["RewardBatch_Id"].SafeToString()))
                 {
                     str.Append(" and r_bat.RewardBatch_Id=@RewardBatch_Id ");
                     pms.Add(new SqlParameter("@RewardBatch_Id", ht["RewardBatch_Id"].ToString()));
-                }
-                if (ht.ContainsKey("Rank_Id") && !string.IsNullOrEmpty(ht["Rank_Id"].SafeToString()))
+                }                
+                if (ht.ContainsKey("Acheive_Id") && !string.IsNullOrEmpty(ht["Acheive_Id"].SafeToString()))
                 {
-                    str.Append(" and r_bat.Rank_Id=@Rank_Id ");
-                    pms.Add(new SqlParameter("@Rank_Id", ht["Rank_Id"].ToString()));
-                }
-                if (ht.ContainsKey("AchieveId") && !string.IsNullOrEmpty(ht["AchieveId"].SafeToString()))
-                {
-                    str.Append(" and info.Id=@AchieveId ");
-                    pms.Add(new SqlParameter("@AchieveId", ht["AchieveId"].ToString()));
+                    str.Append(" and r_bat.Id=@Acheive_Id ");
+                    pms.Add(new SqlParameter("@Acheive_Id", ht["Acheive_Id"].ToString()));
                 }
                 if (ht.ContainsKey("Id") && !string.IsNullOrEmpty(ht["Id"].SafeToString()))
                 {
@@ -62,7 +63,7 @@ namespace FEDAL
                 }
                 if (ht.ContainsKey("AuditStatus") && !string.IsNullOrEmpty(ht["AuditStatus"].SafeToString()))
                 {
-                    str.Append(" and isnull(aud.Status,10) " + ht["AuditStatus"].ToString());
+                    str.Append(" and r_bat.Status " + ht["AuditStatus"].ToString());
                 }
                 if (IsPage)
                 {
@@ -78,5 +79,33 @@ namespace FEDAL
             }
             return dt;
         }
+
+        #region 添加奖金批次详情
+        public int Add_RewardBatchDetail(int batchid, string achieve_Ids, string createUID)
+        {
+            int result = 0;
+            List<SqlParameter> pms = new List<SqlParameter>();
+            StringBuilder str = new StringBuilder();
+            pms.Add(new SqlParameter("@RewardBatch_Id", batchid));
+            pms.Add(new SqlParameter("@CreateUID", createUID));
+            string[] achArray = achieve_Ids.Split(',');
+            if (achArray.Length > 0)
+            {
+                for (int i = 0; i < achArray.Length; i++)
+                {
+                    pms.Add(new SqlParameter("@Acheive_Id" + i, achArray[i]));                   
+                    string achsql = "select Id from TPM_RewardBatchDetail where RewardBatch_Id=@RewardBatch_Id and Acheive_Id=@Acheive_Id" + i + " and IsDelete=0";
+                    int allotid = Convert.ToInt32(SQLHelp.ExecuteScalar(achsql, CommandType.Text, pms.ToArray()));
+                    if (allotid<=0)
+                    {
+                        str.Append(@"insert into TPM_RewardBatchDetail(RewardBatch_Id,Acheive_Id,CreateUID) 
+                            values(@RewardBatch_Id,@Acheive_Id" + i + ",@CreateUID);");
+                    }                   
+                }
+                result = SQLHelp.ExecuteNonQuery(str.ToString(), CommandType.Text, pms.ToArray());
+            }
+            return result;
+        }
+        #endregion    
     }
 }

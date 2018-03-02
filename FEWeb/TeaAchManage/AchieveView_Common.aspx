@@ -304,7 +304,7 @@
                         {{/if}}
                     </tr>
                 </thead>
-                <tbody id="tb_Member_${rowNum}" autid="${AuditId}" rewid="${Id}">
+                <tbody id="tb_Member_${rowNum}" autid="${Id}" rewid="${Id}">
                     {{each(i, mem) Member_Data}}                        
                             <tr un="${mem.UserNo}" uid="${mem.Id}">
                                 <td class="td_memname">${mem.Name}</td>
@@ -438,7 +438,7 @@
                 url: HanderServiceUrl + "/TeaAchManage/AchRewardInfo.ashx",
                 type: "post",
                 dataType: "json",
-                data: { "Func": "Get_RewardBatchDetailData", "IsPage": "false", AchieveId: cur_AchieveId},
+                data: { "Func": "Get_RewardBatchDetailData", "IsPage": "false", Acheive_Id: cur_AchieveId },
                 success: function (json) {
                     if (json.result.errMsg == "success") {
                         var auditlist = json.result.retData.filter(function (item) { return item.AuditStatus == 3 })//查找审核通过的奖金批次
@@ -460,7 +460,7 @@
                 url: HanderServiceUrl + "/TeaAchManage/AchRewardInfo.ashx",
                 type: "post",
                 dataType: "json",
-                data: { "Func": "Get_AllotReward", "IsPage": "false", AchieveId: cur_AchieveId },
+                data: { "Func": "Get_AllotReward", "IsPage": "false", Acheive_Id: cur_AchieveId },
                 success: function (json) {
                     if (json.result.errMsg == "success") {
                         $(json.result.retData).each(function (i, n) {

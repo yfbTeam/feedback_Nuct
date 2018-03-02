@@ -55,7 +55,7 @@
                         {{/if}}
                     </tr>
                 </thead>
-                <tbody id="tb_Member_${rowNum}" autid="${AuditId}" rewid="${Id}">
+                <tbody id="tb_Member_${rowNum}" autid="${Id}" rewid="${Id}">
                     {{each(i, mem) Member_Data.retData}}                        
                             <tr un="${mem.UserNo}" uid="${mem.Id}">
                                 <td>${mem.Name}</td>
@@ -83,7 +83,7 @@
                 <div class="input_lable input_lable2">
                     <label for="" style="min-width:46px;color:#731F4F">附件：</label>
                     <div class="fl uploader_container" style="padding-left:56px;">
-                        <div id="uploader_${rowNum}" auid="${AuditId}" class="allot_file">
+                        <div id="uploader_${rowNum}" auid="${Id}" class="allot_file">
                             <div class="queueList">
                                 <div id="dndArea_${rowNum}" class="placeholder photo_lists">
                                     <div id="filePicker_${rowNum}"></div>
@@ -104,7 +104,7 @@
                       <div class="status-left">
                         <label for="" class="fl">附件：</label>
                         <div class="fl">
-                            <ul id="ul_ScoreFile_${rowNum}" auid="${AuditId}" class="clearfix file-ary allot_file"></ul>
+                            <ul id="ul_ScoreFile_${rowNum}" auid="${Id}" class="clearfix file-ary allot_file"></ul>
                         </div>
                     </div>
                     {{/if}} 

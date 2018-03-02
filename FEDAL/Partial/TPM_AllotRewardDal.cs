@@ -32,10 +32,10 @@ namespace FEDAL
                     str.Append(" and aud.RewardBatch_Id=@RewardBatch_Id ");
                     pms.Add(new SqlParameter("@RewardBatch_Id", ht["RewardBatch_Id"].ToString()));
                 }
-                if (ht.ContainsKey("AchieveId") && !string.IsNullOrEmpty(ht["AchieveId"].SafeToString()))
+                if (ht.ContainsKey("Acheive_Id") && !string.IsNullOrEmpty(ht["Acheive_Id"].SafeToString()))
                 {
-                    str.Append(" and aud.Acheive_Id=@AchieveId ");
-                    pms.Add(new SqlParameter("@AchieveId", ht["AchieveId"].ToString()));
+                    str.Append(" and aud.Acheive_Id=@Acheive_Id ");
+                    pms.Add(new SqlParameter("@Acheive_Id", ht["Acheive_Id"].ToString()));
                 }
                 if (ht.ContainsKey("Id") && !string.IsNullOrEmpty(ht["Id"].SafeToString()))
                 {

@@ -168,8 +168,8 @@
             </div>
 
             <div class="btnwrap" style="">
-                <input type="button" value="提交" onclick="Submit()" class="btn">
-                <input type="button" value="保存" onclick="Save()" class="btn">
+                <input type="button" value="提交" onclick="Submit()" class="btn ml10">
+                <input type="button" value="保存" onclick="Save()" class="btn ml10">
                 <input type="button" value="取消" class="btna ml10 n_uploadbtn" onclick="window.history.go(-1)">
             </div>
         </div>

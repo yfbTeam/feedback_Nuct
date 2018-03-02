@@ -842,9 +842,9 @@ namespace FEHandler.TeaAchManage
                 Hashtable ht = new Hashtable();
                 ht.Add("PageIndex", context.Request["PageIndex"].SafeToString());
                 ht.Add("PageSize", context.Request["PageSize"].SafeToString());
-                ht.Add("IsOnlyBase", context.Request["IsOnlyBase"]??"1");
+                ht.Add("IsOnlyBase", context.Request["IsOnlyBase"]??"0");
                 ht.Add("RewardBatch_Id", context.Request["RewardBatch_Id"].SafeToString());                  
-                ht.Add("AchieveId", context.Request["AchieveId"].SafeToString());
+                ht.Add("Acheive_Id", context.Request["Acheive_Id"].SafeToString());
                 ht.Add("Id", context.Request["Id"].SafeToString());
                 ht.Add("AuditStatus", context.Request["AuditStatus"].SafeToString()); 
                 jsonModel = batdetbll.GetPage(ht, IsPage);
@@ -876,7 +876,7 @@ namespace FEHandler.TeaAchManage
                 ht.Add("PageIndex", context.Request["PageIndex"].SafeToString());
                 ht.Add("PageSize", context.Request["PageSize"].SafeToString());             
                 ht.Add("RewardBatch_Id", context.Request["RewardBatch_Id"].SafeToString());
-                ht.Add("AchieveId", context.Request["AchieveId"].SafeToString());
+                ht.Add("Acheive_Id", context.Request["Acheive_Id"].SafeToString());
                 ht.Add("No_Status", context.Request["No_Status"].SafeToString());
                 ht.Add("Id", context.Request["Id"].SafeToString());
                 jsonModel = new TPM_AllotRewardService().GetPage(ht, IsPage);
@@ -989,7 +989,7 @@ namespace FEHandler.TeaAchManage
         #region 奖金分配审核
         private void Check_AuditReward(HttpContext context)
         {
-            int achieveId = RequestHelper.int_transfer(context.Request, "AchieveId");
+            int Acheive_Id = RequestHelper.int_transfer(context.Request, "Acheive_Id");
             int Id = RequestHelper.int_transfer(context.Request, "Id");
             TPM_RewardBatchDetail model = batdetbll.GetEntityById(Id).retData as TPM_RewardBatchDetail;
             int oldstatus = Convert.ToInt32(model.Status);
