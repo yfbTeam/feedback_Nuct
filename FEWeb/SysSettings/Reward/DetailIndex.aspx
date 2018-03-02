@@ -32,16 +32,19 @@
     </script>
     <script type="text/x-jquery-tmpl" id="tr_Info">
         <tr>
-            <td>个人竞赛奖奖励项目一</td>
-            <td>测试获奖证书</td>
-            <td>经济管理学院</td>
-            <td>李哲</td>
-            <td>2017</td>
+            <td>${GidName}</td>
+            <td>${AchiveName}</td>
+            <td>${Major_Name}</td>
+            <td>${ResponsName}</td>
+            <td>${Year}</td>          
             <td>
-                <span class="money_span">500</span>
-                <input type="number" value="" class="text money_input none"/>
+                <span class="money_span">${Money}</span>
+                <input type="number" value="${Money}" class="text money_input none"/>
             </td>
-            <td>通过</td>
+            <td>{{if AuditStatus==10||AuditStatus==0}}<span class="nosubmit">待分配</span>
+                    {{else AuditStatus==1}}<span class="checking1">待审核</span>
+                    {{else AuditStatus==2}}<span class="nocheck">审核不通过</span>
+                    {{else}} <span class="assigning">审核通过</span>{{/if}}</td>
             <td class="operate_wrap">
                 <div class="operate" onclick="OpenIFrameWindow('分配奖金', 'Detail_AddReward.aspx', '500px', '470px')">
                     <i class="iconfont color_purple">&#xe652;</i>
@@ -96,9 +99,7 @@
                             <th width="18%">操作</th>
                         </tr>
                     </thead>
-                    <tbody id="tb_info">
-                        
-                    </tbody>
+                    <tbody id="tb_info"></tbody>
                 </table>
                 <div id="pageBar" class="page"></div>
             </div>
@@ -113,9 +114,9 @@
     <script src="../../Scripts/layer/layer.js"></script>
     <script src="../../Scripts/jquery.tmpl.js"></script>
     <script src="../../Scripts/linq.js"></script>
+    <script src="../../Scripts/laypage/laypage.js"></script>
     <script type="text/javascript" src="../../Scripts/My97DatePicker/WdatePicker.js"></script>
-    <script src="../../TeaAchManage/BaseUse.js"></script>
-    
+    <script src="../../TeaAchManage/BaseUse.js"></script> 
     <script>
         
         var UrlDate = new GetUrlDate();
@@ -146,11 +147,10 @@
                 url: HanderServiceUrl + "/TeaAchManage/AchRewardInfo.ashx",
                 type: "post",
                 dataType: "json",
-                data: { Func: "Get_RewardBatchDetailData", PageIndex: startIndex, pageSize: pageSize, AchieveLevel: $("#AcheiveType").val(), Gid: $("#Gid").val()},
+                data: { Func: "Get_RewardBatchDetailData",RewardBatch_Id:UrlDate.batchid,IsOnlyBase:1,PageIndex: startIndex, pageSize: pageSize, AchieveLevel: $("#AcheiveType").val(), Gid: $("#Gid").val()},
                 success: function (json) {
                     if (json.result.errMsg == "success") {
-                        $("#pageBar").show();
-                        
+                        $("#pageBar").show();                        
                         $("#tr_Info").tmpl(json.result.retData.PagedData).appendTo("#tb_info");
                         laypage({
                             cont: 'pageBar', //容器。值支持id名、原生dom对象，jquery对象。【如该容器为】：<div id="page1"></div>

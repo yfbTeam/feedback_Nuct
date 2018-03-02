@@ -602,7 +602,7 @@ function Get_RewardBatchDetailData(reasonobj, no_status) {
         url: HanderServiceUrl + "/TeaAchManage/AchRewardInfo.ashx",
         type: "post",
         dataType: "json",
-        data: { "Func": "Get_RewardBatchDetailData", "IsPage": "false", AchieveId: cur_AchieveId},
+        data: { "Func": "Get_RewardBatchDetailData", "IsPage": "false", Acheive_Id: cur_AchieveId },
         success: function (json) {
             if (json.result.errMsg == "success") {
                 $("#div_item").tmpl(json.result.retData).appendTo("#div_MoneyInfo");
@@ -630,7 +630,7 @@ function Get_AllotReward(no_status) {
         url: HanderServiceUrl + "/TeaAchManage/AchRewardInfo.ashx",
         type: "post",
         dataType: "json",
-        data: { "Func": "Get_AllotReward", "IsPage": "false", AchieveId: cur_AchieveId, No_Status: no_status },
+        data: { "Func": "Get_AllotReward", "IsPage": "false", Acheive_Id: cur_AchieveId, No_Status: no_status },
         success: function (json) {
             if (json.result.errMsg == "success") {
                 $(json.result.retData).each(function (i, n) {

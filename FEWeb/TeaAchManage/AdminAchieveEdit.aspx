@@ -95,7 +95,7 @@
                        {{/if}}
                    </tr>
                </thead>
-               <tbody id="tb_Member_${rowNum}" autid="${AuditId}" rewid="${Id}">
+               <tbody id="tb_Member_${rowNum}" autid="${Id}" rewid="${Id}">
                    {{each(i, mem) Member_Data.retData}}                        
                             <tr un="${mem.UserNo}" uid="${mem.Id}">
                                 <td class="td_memname">${mem.Name}</td>
@@ -116,7 +116,7 @@
                <div class="status-left">
                    <label for="" class="fl">附件：</label>
                    <div class="fl">
-                       <ul id="ul_ScoreFile_${rowNum}" auid="${AuditId}" class="clearfix file-ary allot_file"></ul>
+                       <ul id="ul_ScoreFile_${rowNum}" auid="${Id}" class="clearfix file-ary allot_file"></ul>
                    </div>
                </div>
            </div>

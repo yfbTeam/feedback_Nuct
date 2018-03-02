@@ -11,7 +11,7 @@
     <script src="../../Scripts/jquery-1.11.2.min.js"></script>  
     <script type="text/x-jquery-tmpl" id="tr_Info">
         <tr>
-            <td width="6%"><input type="checkbox" name="name" value="" /></td>
+            <td width="6%"><input type="checkbox" value="${Id}" name="ss"/></td>
             <td>${GidName}</td>
             <td>${AchiveName}</td>
             <td>${Major_Name}</td>
@@ -44,7 +44,7 @@
                 <table>
                     <thead>
                         <tr>
-                            <th width="6%"><input type="checkbox" name="name" value="" /></th>
+                            <th width="6%"><input type="checkbox" id="ck_head"/></th>
                             <th width="19%">奖励项目</th>
                             <th width="20%">获奖项目名称</th>
                             <th width="19%">负责单位</th>
@@ -107,6 +107,28 @@
                 error: function () {
                     //接口错误时需要执行的
                 }
+            });
+        }
+        function submit() {
+            var checkedtr = $("input[type='checkbox'][name='ss']:checked");
+            if (checkedtr.length == 0) { layer.msg('请勾选要添加的奖励项目！'); return; }
+            var idArray = [];
+            $(checkedtr).each(function (i, n) {
+                idArray.push(n.value);
+            });
+            $.ajax({
+                url: HanderServiceUrl + "/TeaAchManage/AchManage.ashx",
+                type: "post",
+                dataType: "json",
+                data: { Func: "Add_RewardBatchDetail", RewardBatch_Id: BatchId, Acheive_Ids: idArray.join(','), CreateUID: GetLoginUser().UniqueNo},
+                success: function (json) {
+                    if (json.result.errNum == 0) {
+                        parent.layer.msg('操作成功!');                       
+                        parent.BindData(1, 10);
+                        parent.CloseIFrameWindow();
+                    } 
+                },
+                error: function (errMsg) {}
             });
         }
     </script>

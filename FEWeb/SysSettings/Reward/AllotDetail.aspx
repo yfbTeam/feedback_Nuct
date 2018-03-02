@@ -1,13 +1,11 @@
 ﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="AllotDetail.aspx.cs" Inherits="FEWeb.SysSettings.Reward.AllotDetail" %>
-
 <!DOCTYPE html>
-
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
 <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
     <link href="/images/favicon.ico" rel="shortcut icon" />
-    <title>新增奖金批次</title>
+    <title>分配奖金</title>
     <link rel="stylesheet" href="../../css/reset.css" />
     <link href="../../css/layout.css" rel="stylesheet" />
     <script src="../../Scripts/jquery-1.11.2.min.js"></script>   
@@ -34,17 +32,15 @@
                     <th>奖金</th>
                 </tr>
             </thead>
-            <tbody>
-                    
-            </tbody>
+            <tbody></tbody>
         </table>
         <div class="clearfix mt10 Enclosure">
             <div class="status-left">
                     <label for="" class="fl">附件：</label>
                     <div class="fl">
-                        <ul id="ul_ScoreFile_${rowNum}" auid="${AuditId}" class="clearfix file-ary allot_file"></ul>
+                        <ul id="ul_ScoreFile_${rowNum}" auid="${Id}" class="clearfix file-ary allot_file"></ul>
                     </div>
-                </div>
+             </div>
         </div>
     </div>
     <script src="../../Scripts/Common.js"></script>

@@ -13,7 +13,7 @@ namespace FEBLL
     {
         TPM_RewardInfoDal dal = new TPM_RewardInfoDal();
         TPM_RewardBatchDal bat_dal = new TPM_RewardBatchDal();
-
+        TPM_RewardBatchDetailDal batdetail_dal = new TPM_RewardBatchDetailDal();
         #region 调整业绩等级顺序
         public JsonModel TPM_RewardInfoSort(int id, string SortType)
         {
@@ -90,6 +90,46 @@ namespace FEBLL
             try
             {
                 int result = bat_dal.Del_RewardBatch(itemid);
+                if (result > 0)
+                {
+                    jsonModel = new JsonModel()
+                    {
+                        errNum = 0,
+                        errMsg = "success",
+                        retData = ""
+                    };
+                }
+                else
+                {
+                    jsonModel = new JsonModel()
+                    {
+                        errNum = 999,
+                        errMsg = "file",
+                        retData = ""
+                    };
+                }
+                return jsonModel;
+            }
+            catch (Exception ex)
+            {
+                jsonModel = new JsonModel()
+                {
+                    errNum = 400,
+                    errMsg = ex.Message,
+                    retData = ""
+                };
+                return jsonModel;
+            }
+        }
+        #endregion    
+
+        #region 添加奖金批次详情
+        public JsonModel Add_RewardBatchDetail(int batchid,string achieve_Ids,string createUID)
+        {
+            JsonModel jsonModel = new JsonModel();
+            try
+            {
+                int result = batdetail_dal.Add_RewardBatchDetail(batchid, achieve_Ids,createUID);
                 if (result > 0)
                 {
                     jsonModel = new JsonModel()
