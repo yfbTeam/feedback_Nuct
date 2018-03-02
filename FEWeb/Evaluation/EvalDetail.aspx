@@ -289,7 +289,7 @@
 
                     {{else $value.QuesType_Id==4 }}
                     <div class="test_desc" detailid="${Id}" maxscore="${OptionF_S_Max}">
-                        <input  readonly="readonly" name="Name" style="width: 98%; height: 35px;" />
+                        <input  readonly="readonly" name="Name" class="text" style="width:99%;"/>
                     </div>
                    
                     {{/if}}
