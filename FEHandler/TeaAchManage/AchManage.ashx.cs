@@ -100,6 +100,9 @@ namespace FEHandler.TeaAchManage
                     case "Add_RewardBatchDetail":
                         Add_RewardBatchDetail(context);
                         break;
+                    case "Del_RewardBatchDetail":
+                        Del_RewardBatchDetail(context);
+                        break;
                     default:
                         jsonModel = JsonModel.get_jsonmodel(5, "没有此方法", "");
                         break;
@@ -789,6 +792,26 @@ namespace FEHandler.TeaAchManage
                 string Acheive_Ids = RequestHelper.string_transfer(context.Request, "Acheive_Ids");
                 string CreateUID = RequestHelper.string_transfer(context.Request, "CreateUID");
                 jsonModel=RewardInfo_bll.Add_RewardBatchDetail(RewardBatch_Id, Acheive_Ids, CreateUID);
+            }
+            catch (Exception ex)
+            {
+                jsonModel = new JsonModel()
+                {
+                    errNum = 400,
+                    errMsg = ex.Message,
+                    retData = ""
+                };
+                LogService.WriteErrorLog(ex.Message);
+            }
+        }
+
+        //删除奖金批次详情
+        private void Del_RewardBatchDetail(HttpContext context)
+        {
+            try
+            {
+                int itemid = Convert.ToInt32(context.Request["ItemId"]);                
+                jsonModel = RewardInfo_bll.Del_RewardBatchDetail(itemid);
             }
             catch (Exception ex)
             {
