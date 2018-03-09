@@ -22,13 +22,13 @@
             <div class="input-wrap clearfix">
                 <label>角色类型：</label>
                 <span class="ml10">
-                    <input type="radio" name="role" id="teacher" class="magic-radio" checked value="1">
+                    <input type="radio" name="role" id="teacher" class="magic-radio" checked value="1" />
                     <label for="teacher">教师</label>
                 </span>
-                <span class="ml10">
-                    <input type="radio" name="role" id="student" class="magic-radio" value="0">
+                <%--<span class="ml10">
+                    <input type="radio" name="role" id="student" class="magic-radio" value="0" />
                     <label for="student">学生</label>
-                </span>
+                </span>--%>
             </div>
             <div class="btnwrap">
                 <input type="button" value="保存" class="btn" />
@@ -59,11 +59,6 @@
             layer.msg('操作成功!');
             parent.layer.close(index);
         };
-        if (CurrentRoleid == 2) {
-            $('#student').parent().hide();
-        } else {
-            $('#student').parent().show();
-        }
         switch (type) {
             case 1: //添加
                 $('.btn').on('click', function () {
