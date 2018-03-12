@@ -166,7 +166,7 @@
             $('#footer').load('/footer.html');
             Base.bindStudySectionCompleate = function () {
                 GetClassInfo(pageIndex);
-                GetClassInfoSelect();
+                GetClassInfoSelect($('#section').val());
             };
             Base.bindStudySection();
 
@@ -179,6 +179,7 @@
             $("#section").on('change', function () {
                 pageIndex = 0;
                 GetClassInfo(pageIndex);
+                GetClassInfoSelect($('#section').val());
             });
         })
 
