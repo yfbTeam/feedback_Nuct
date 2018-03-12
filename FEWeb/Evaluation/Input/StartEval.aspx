@@ -418,7 +418,7 @@
 
         var pageIndex = 0;
         $(function () {
-
+            $(".fixed-table-box").fixedTable();
 
             selectExpertUID = login_User.UniqueNo;
             selectExpertName = login_User.Name;
@@ -432,7 +432,7 @@
             PageType = 'StartEval';
             DepartmentName = login_User.DepartmentName;
             
-            GetClassInfoSelect();
+            GetClassInfoSelect(select_sectionid,null,null);
             $("#DP,#CT,#CP,#TD,#TN,#MD,#GD,#CN").on('change', function () {
                 pageIndex = 0;
                 GetClassInfo(pageIndex);
