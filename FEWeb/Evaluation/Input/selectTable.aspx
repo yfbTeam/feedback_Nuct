@@ -402,6 +402,8 @@
 
         var DepartmentName = getQueryString('DepartmentName');
 
+        IsAllSchool = getQueryString('IsAllSchool');
+
         $(function () {
             $('#top').load('/header.html');
             $('#footer').load('/footer.html');
