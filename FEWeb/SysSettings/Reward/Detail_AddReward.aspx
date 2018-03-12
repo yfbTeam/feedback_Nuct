@@ -80,8 +80,8 @@
                     ModifyRecord: "将" + $('#AchiveName').html() + "的金额由" + oldmoney + "元改为" + money + "元"
                 },
                 success: function (json) {
-                    if (json.result.errMsg == "success") {
-                        layer.msg('操作成功!');                      
+                    if (json.result.errNum == 0) {
+                        parent.layer.msg('操作成功!');
                         parent.BindData(1, 10);
                         parent.CloseIFrameWindow();
                     } else {

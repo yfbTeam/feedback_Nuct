@@ -229,7 +229,7 @@
                 title: '操作'
             }, function (index) {                
                 $.ajax({
-                    url: HanderServiceUrl + "/TeaAchManage/AchRewardInfo.ashx",
+                    url: HanderServiceUrl + "/TeaAchManage/AchManage.ashx",
                     type: "post",
                     dataType: "json",
                     data: object,
@@ -237,7 +237,7 @@
                         if (json.result.errNum == 0) {
                             layer.msg('操作成功!');
                             BindData(1, 10);
-                        } else if (json.result.errNum == -1) { }
+                        } else { layer.msg(json.result.errMsg); }
                     },
                     error: function (errMsg) { alert(errMsg); }
                 });

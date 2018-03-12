@@ -69,7 +69,7 @@
        <div class="clearfix allot_item">
            <div class="clearfix">
                <div class="fl status-left">
-                   <label for="" style="margin-right: 20px;">第${rowNum}批奖金</label>
+                   <label for="" style="margin-right: 20px;">${BatName}</label>
                    <label for="">状态：</label>
                    {{if AuditStatus==10||AuditStatus==0}}<span class="nosubmit">待分配</span>
                    {{else AuditStatus==1}}<span class="checking1">待审核</span>
@@ -421,7 +421,7 @@
                         GetAchieveUser_Score(json.result.retData);
                     }
                     if (ach_model.ComStatus > 7) { Get_RewardBatchDetailData($(".RewardReason")); }
-                    if (ach_model.ComStatus > 6) { $(".re_history").show(); Get_ModifyRecordData("", ach_model.IsMoneyAllot==0?"0":""); }
+                    if (ach_model.ComStatus > 6) { $(".re_history").show(); Get_ModifyRecordData("", ach_model.IsMoneyAllot.indexOf('1') == -1? "0" : ""); }
                 },
                 error: function (errMsg) {
                     layer.msg(errMsg);

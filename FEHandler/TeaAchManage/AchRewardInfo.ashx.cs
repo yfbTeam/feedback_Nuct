@@ -845,7 +845,8 @@ namespace FEHandler.TeaAchManage
                 ht.Add("PageIndex", context.Request["PageIndex"].SafeToString());
                 ht.Add("PageSize", context.Request["PageSize"].SafeToString());
                 ht.Add("IsOnlyBase", context.Request["IsOnlyBase"]??"0");
-                ht.Add("RewardBatch_Id", context.Request["RewardBatch_Id"].SafeToString());                  
+                ht.Add("RewardBatch_Id", context.Request["RewardBatch_Id"].SafeToString());
+                ht.Add("IsMoneyAllot", context.Request["IsMoneyAllot"].SafeToString());                
                 ht.Add("Acheive_Id", context.Request["Acheive_Id"].SafeToString());
                 ht.Add("Id", context.Request["Id"].SafeToString());
                 ht.Add("GPid", context.Request["AchieveLevel"].SafeToString());

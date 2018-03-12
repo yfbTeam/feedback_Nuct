@@ -284,7 +284,7 @@
         <div class="clearfix allot_item">
             <div class="clearfix">
                 <div class="fl status-left">
-                    <label for="" style="margin-right: 20px;">第${rowNum}批奖金</label>
+                    <label for="" style="margin-right: 20px;">${BatName}</label>
                 </div>
             </div>
             <table class="allot_table mt10  ">
@@ -422,7 +422,7 @@
                                 Get_SelfRewardData();
                             }
                             $(".re_history").show();
-                            Get_ModifyRecordData(loginUser.UniqueNo, model.IsMoneyAllot==0?"0":"");
+                            Get_ModifyRecordData(loginUser.UniqueNo, model.IsMoneyAllot.indexOf('1')== -1? "0" : "");
                         }
                     }
                 },
@@ -438,7 +438,7 @@
                 url: HanderServiceUrl + "/TeaAchManage/AchRewardInfo.ashx",
                 type: "post",
                 dataType: "json",
-                data: { "Func": "Get_RewardBatchDetailData", "IsPage": "false", Acheive_Id: cur_AchieveId },
+                data: { "Func": "Get_RewardBatchDetailData", "IsPage": "false", Acheive_Id: cur_AchieveId, IsMoneyAllot:1 },
                 success: function (json) {
                     if (json.result.errMsg == "success") {
                         var auditlist = json.result.retData.filter(function (item) { return item.AuditStatus == 3 })//查找审核通过的奖金批次

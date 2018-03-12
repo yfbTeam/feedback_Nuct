@@ -55,10 +55,15 @@ namespace FEDAL
                 {
                     str.Append(" and r_bat.RewardBatch_Id=@RewardBatch_Id ");
                     pms.Add(new SqlParameter("@RewardBatch_Id", ht["RewardBatch_Id"].ToString()));
+                }
+                if (ht.ContainsKey("IsMoneyAllot") && !string.IsNullOrEmpty(ht["IsMoneyAllot"].SafeToString()))
+                {
+                    str.Append(" and ba.IsMoneyAllot=@IsMoneyAllot ");
+                    pms.Add(new SqlParameter("@IsMoneyAllot", ht["IsMoneyAllot"].ToString()));
                 }                
                 if (ht.ContainsKey("Acheive_Id") && !string.IsNullOrEmpty(ht["Acheive_Id"].SafeToString()))
                 {
-                    str.Append(" and r_bat.Id=@Acheive_Id ");
+                    str.Append(" and r_bat.Acheive_Id=@Acheive_Id ");
                     pms.Add(new SqlParameter("@Acheive_Id", ht["Acheive_Id"].ToString()));
                 }
                 if (ht.ContainsKey("Id") && !string.IsNullOrEmpty(ht["Id"].SafeToString()))
