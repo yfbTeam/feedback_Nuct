@@ -162,5 +162,45 @@ namespace FEBLL
             }
         }
         #endregion    
+
+        #region 删除奖金批次详情
+        public JsonModel Del_RewardBatchDetail(int itemid)
+        {
+            JsonModel jsonModel = new JsonModel();
+            try
+            {
+                int result = batdetail_dal.Del_RewardBatchDetail(itemid);
+                if (result > 0)
+                {
+                    jsonModel = new JsonModel()
+                    {
+                        errNum = 0,
+                        errMsg = "success",
+                        retData = ""
+                    };
+                }
+                else
+                {
+                    jsonModel = new JsonModel()
+                    {
+                        errNum = 999,
+                        errMsg = "file",
+                        retData = ""
+                    };
+                }
+                return jsonModel;
+            }
+            catch (Exception ex)
+            {
+                jsonModel = new JsonModel()
+                {
+                    errNum = 400,
+                    errMsg = ex.Message,
+                    retData = ""
+                };
+                return jsonModel;
+            }
+        }
+        #endregion    
     }
 }

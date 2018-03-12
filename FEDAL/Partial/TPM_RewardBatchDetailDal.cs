@@ -22,7 +22,7 @@ namespace FEDAL
             try
             {
                 StringBuilder str = new StringBuilder();
-                str.Append(@" select r_bat.*,r_bat.Status as AuditStatus,b.Name as CreateName
+                str.Append(@" select r_bat.*,r_bat.Status as AuditStatus,b.Name as CreateName,ba.Year as BatYear,ba.Name as BatName
                    ,isnull((select sum(AllotMoney) from TPM_AllotReward where BatchDetail_Id=r_bat.Id),0)HasAllot ");
                 if (ht["IsOnlyBase"].SafeToString() == "1") //查询关联表
                 {
@@ -107,5 +107,18 @@ namespace FEDAL
             return result;
         }
         #endregion    
+
+        #region 删除奖金批次详情
+        public int Del_RewardBatchDetail(int itemid)
+        {
+            int result = 0;
+            List<SqlParameter> pms = new List<SqlParameter>();
+            StringBuilder str = new StringBuilder();
+            str.Append("update TPM_RewardBatchDetail set IsDelete=1 where Id=@Id;update TPM_AllotReward set IsDelete=1 where BatchDetail_Id=@Id ");
+            pms.Add(new SqlParameter("@Id", itemid));
+            result = SQLHelp.ExecuteNonQuery(str.ToString(), CommandType.Text, pms.ToArray());
+            return result;
+        }
+        #endregion
     }
 }

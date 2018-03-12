@@ -22,8 +22,11 @@ namespace FEDAL
             try
             {
                 StringBuilder str = new StringBuilder();
-                str.Append(@" select allot.*,aud.Acheive_Id,aud.RewardBatch_Id,aud.Status from TPM_AllotReward allot
+                str.Append(@" select allot.*,aud.Acheive_Id,aud.RewardBatch_Id,aud.Status
+                       ,ba.Year as BatYear,ba.Name as BatName
+                     from TPM_AllotReward allot
                      left join TPM_RewardBatchDetail aud on allot.BatchDetail_Id=aud.Id
+                     left join TPM_RewardBatch ba on aud.RewardBatch_Id=ba.Id
                      where allot.IsDelete=0 ");               
                 int StartIndex = 0;
                 int EndIndex = 0;
@@ -31,6 +34,11 @@ namespace FEDAL
                 {
                     str.Append(" and aud.RewardBatch_Id=@RewardBatch_Id ");
                     pms.Add(new SqlParameter("@RewardBatch_Id", ht["RewardBatch_Id"].ToString()));
+                }
+                if (ht.ContainsKey("BatchDetail_Id") && !string.IsNullOrEmpty(ht["BatchDetail_Id"].SafeToString()))
+                {
+                    str.Append(" and allot.BatchDetail_Id=@BatchDetail_Id ");
+                    pms.Add(new SqlParameter("@BatchDetail_Id", ht["BatchDetail_Id"].ToString()));
                 }
                 if (ht.ContainsKey("Acheive_Id") && !string.IsNullOrEmpty(ht["Acheive_Id"].SafeToString()))
                 {
