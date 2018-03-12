@@ -36,6 +36,11 @@ namespace FEDAL
                      left join UserInfo uu on a.ResponsMan=uu.UniqueNo
                      left join TPM_AcheiveLevel al on al.Id=a.Gid
                      left join TPM_BookStory bk on a.bookid=bk.id ");
+                    if (ht.ContainsKey("AchiveName") && !string.IsNullOrEmpty(ht["AchiveName"].SafeToString()))
+                    {
+                        Where = " and AchiveName like N'%' + @AchiveName + '%'";
+                        pms.Add(new SqlParameter("@AchiveName", ht["AchiveName"].ToString()));
+                    }
                 }
                 else //只查询基础表
                 {
@@ -60,6 +65,21 @@ namespace FEDAL
                 {
                     str.Append(" and r_bat.Id=@Id ");
                     pms.Add(new SqlParameter("@Id", ht["Id"].ToString()));
+                }
+                if (ht.ContainsKey("GPid") && !string.IsNullOrEmpty(ht["GPid"].SafeToString()))
+                {
+                    str.Append(" and a.GPid=@GPid ");
+                    pms.Add(new SqlParameter("@GPid", ht["GPid"].SafeToString()));
+                }
+                if (ht.ContainsKey("Gid") && !string.IsNullOrEmpty(ht["Gid"].SafeToString()))
+                {
+                    str.Append(" and a.Gid=@Gid ");
+                    pms.Add(new SqlParameter("@Gid", ht["Gid"].SafeToString()));
+                }
+                if (ht.ContainsKey("Year") && !string.IsNullOrEmpty(ht["Year"].SafeToString()))
+                {
+                    str.Append(" and a.Year like N'%' + @Year + '%'");
+                    pms.Add(new SqlParameter("@Year", ht["Year"].ToString().Replace("年", "")));
                 }
                 if (ht.ContainsKey("AuditStatus") && !string.IsNullOrEmpty(ht["AuditStatus"].SafeToString()))
                 {
@@ -114,10 +134,27 @@ namespace FEDAL
             int result = 0;
             List<SqlParameter> pms = new List<SqlParameter>();
             StringBuilder str = new StringBuilder();
-            str.Append("update TPM_RewardBatchDetail set IsDelete=1 where Id=@Id;update TPM_AllotReward set IsDelete=1 where BatchDetail_Id=@Id ");
+            str.Append(@"update TPM_RewardBatchDetail set IsDelete=1 where Id=@Id;
+                         update TPM_AllotReward set IsDelete=1 where BatchDetail_Id=@Id;
+                         update TPM_ModifyRecord set IsDelete=1 where RelationId=@Id");
             pms.Add(new SqlParameter("@Id", itemid));
             result = SQLHelp.ExecuteNonQuery(str.ToString(), CommandType.Text, pms.ToArray());
             return result;
+        }
+        #endregion
+
+        #region 批量分配项目奖金
+        public string BatchAllot_RewardBatchDetail(string BatchId, string BatchMoney, string LoginUID, string LoginName, string ModifyRecord)
+        {
+            SqlParameter[] param = {
+                    new SqlParameter("@BatchId", BatchId),
+                    new SqlParameter("@BatchMoney",BatchMoney),
+                    new SqlParameter("@LoginUID", LoginUID),
+                    new SqlParameter("@LoginName",LoginName),                    
+                    new SqlParameter("@ModifyRecord",ModifyRecord)
+            };
+            object obj = SQLHelp.ExecuteScalar("BatchAllot_RewardBatchDetail", CommandType.StoredProcedure, param);
+            return obj.ToString();
         }
         #endregion
     }

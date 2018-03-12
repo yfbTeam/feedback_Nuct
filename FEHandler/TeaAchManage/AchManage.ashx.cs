@@ -103,6 +103,9 @@ namespace FEHandler.TeaAchManage
                     case "Del_RewardBatchDetail":
                         Del_RewardBatchDetail(context);
                         break;
+                    case "BatchAllot_RewardBatchDetail":
+                        BatchAllot_RewardBatchDetail(context);
+                        break;
                     default:
                         jsonModel = JsonModel.get_jsonmodel(5, "没有此方法", "");
                         break;
@@ -812,6 +815,30 @@ namespace FEHandler.TeaAchManage
             {
                 int itemid = Convert.ToInt32(context.Request["ItemId"]);                
                 jsonModel = RewardInfo_bll.Del_RewardBatchDetail(itemid);
+            }
+            catch (Exception ex)
+            {
+                jsonModel = new JsonModel()
+                {
+                    errNum = 400,
+                    errMsg = ex.Message,
+                    retData = ""
+                };
+                LogService.WriteErrorLog(ex.Message);
+            }
+        }
+
+        //批量分配项目奖金
+        private void BatchAllot_RewardBatchDetail(HttpContext context)
+        {
+            try
+            {
+                string BatchId = RequestHelper.string_transfer(context.Request, "BatchId");
+                string BatchMoney = RequestHelper.string_transfer(context.Request, "BatchMoney");
+                string LoginUID = RequestHelper.string_transfer(context.Request, "LoginUID");
+                string LoginName = RequestHelper.string_transfer(context.Request, "LoginName");
+                string ModifyRecord = RequestHelper.string_transfer(context.Request, "ModifyRecord");
+                jsonModel = RewardInfo_bll.BatchAllot_RewardBatchDetail(BatchId, BatchMoney, LoginUID, LoginName, ModifyRecord);
             }
             catch (Exception ex)
             {

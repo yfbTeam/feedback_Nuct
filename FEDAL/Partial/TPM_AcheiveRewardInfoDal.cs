@@ -102,7 +102,12 @@ namespace FEDAL
                 {
                     str.Append(" and a.Gid=@Gid ");
                     pms.Add(new SqlParameter("@Gid", ht["Gid"].SafeToString()));
-                }                
+                }
+                if (ht.ContainsKey("Year") && !string.IsNullOrEmpty(ht["Year"].SafeToString()))
+                {
+                    str.Append(" and a.Year like N'%' + @Year + '%'");
+                    pms.Add(new SqlParameter("@Year", ht["Year"].ToString().Replace("年", "")));
+                }
                 if (ht.ContainsKey("BookId") && !string.IsNullOrEmpty(ht["BookId"].SafeToString()))
                 {
                     str.Append(" and a.BookId =@BookId ");
@@ -157,6 +162,11 @@ namespace FEDAL
                     EndIndex = Convert.ToInt32(ht["EndIndex"].ToString());
                 }
                 str.Append(@" ) Temp ");
+                if (ht.ContainsKey("AchiveName") && !string.IsNullOrEmpty(ht["AchiveName"].SafeToString()))
+                {
+                    Where = " and AchiveName like N'%' + @AchiveName + '%'";
+                    pms.Add(new SqlParameter("@AchiveName", ht["AchiveName"].ToString()));
+                }
                 dt = SQLHelp.GetListByPage("(" + str.ToString() + ")", Where, "", StartIndex, EndIndex, IsPage, pms.ToArray(), out RowCount);
             }
             catch (Exception ex)
