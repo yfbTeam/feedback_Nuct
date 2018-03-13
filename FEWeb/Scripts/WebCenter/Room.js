@@ -75,6 +75,7 @@ function GetClassInfo(PageIndex) {
 
         "S_DP": S_DP, "S_CN": S_CN, "S_CT": S_CT, "S_CP": S_CP, "S_TD": S_TD, "S_TN": S_TN,
         "S_MD": S_MD, "S_GD": S_GD, "S_CLS": S_CLS, "S_TJ": S_TJ, "S_BR": S_BR, "S_SY": S_SY,
+        "DepartmentName": DepartmentName,
     };
     $.ajax({
         type: "Post",

@@ -113,7 +113,7 @@ namespace FEHandler.Eva_Manage
                     tblist = (from dic in Constant.Sys_Dictionary_List
                                  where dic.Type == "0" && dic.SectionId == SectionID
                                  join cr in Constant.CourseRel_List on dic.Key equals cr.CourseType_Id
-                                 where (CourseID != "" && cr.Course_Id == CourseID) || CourseID == ""
+                                 where (CourseID != "" && cr.Course_Id == CourseID && cr.StudySection_Id == SectionID) || CourseID == ""
                                  join cb in Constant.Eva_CourseType_Table_List on dic.Key equals cb.CourseTypeId
                                  join tb in tblist on cb.TableId equals tb.Id                               
                                  select tb).Distinct(new Eva_TableComparer()).ToList();

@@ -165,9 +165,7 @@
             </div>
 
             <div class="btnwrap" style="">
-                <input type="button" value="提交" onclick="Submit()" class="btn">
-                <input type="button" value="保存" onclick="Save()" class="btn">
-                <input type="button" value="取消" class="btna ml10 n_uploadbtn" onclick="window.history.go(-1)">
+               
             </div>
         </div>
     </div>
@@ -181,6 +179,19 @@
     <script src="../../Scripts/WebCenter/Room.js"></script>
     <script src="../../Scripts/WebCenter/User.js"></script>
     <script src="../../Scripts/WebCenter/Evaluate.js"></script>
+
+    <script type="text/x-jquery-tmpl" id="EnableItem">
+        <input type="button" value="提交" onclick="Submit()" class="btn">
+        <input type="button" value="保存" onclick="Save()" class="btn">
+        <input type="button" value="取消" class="btna ml10 n_uploadbtn" onclick="window.history.go(-1)">
+    </script>
+
+    <script type="text/x-jquery-tmpl" id="DisEnableItem">
+        <input type="button" value="提交"  class="btn" style="background:#d7d7d7">
+        <input type="button" value="保存"  class="btn" style="background:#d7d7d7">
+        <input type="button" value="取消" class="btna ml10 n_uploadbtn" onclick="window.history.go(-1)">
+    </script>
+
     <script type="text/x-jquery-tmpl" id="item_table_view">
         {{if Root.trim() !=''}}
     <div class="content">
@@ -402,6 +413,8 @@
 
         var DepartmentName = getQueryString('DepartmentName');
 
+        IsAllSchool = getQueryString('IsAllSchool');
+
         $(function () {
             $('#top').load('/header.html');
             $('#footer').load('/footer.html');
@@ -418,10 +431,19 @@
             UI_Table_View.PageType = 'selectTable';
             Base.BindTableCompleate = function () {
                 table_Id = $('#table').val();
-                UI_Table_View.IsPage_Display = true;
-                UI_Table_View.Get_Eva_TableDetail();
+                if (table_Id == null) {
+                    $("#DisEnableItem").tmpl(1).appendTo(".btnwrap");
+                    $('#table').hide();
+                    nomessage('#table_view', 'li', 12, 180);
+                }
+                else {
+                    $("#EnableItem").tmpl(1).appendTo(".btnwrap");
 
-                $('#GropName2').text($('#table').find('option:selected').text());
+                    UI_Table_View.IsPage_Display = true;
+                    UI_Table_View.Get_Eva_TableDetail();
+                    $('#GropName2').text($('#table').find('option:selected').text());
+                }
+
             };
             Base.BindTable(SectionID, CourseID, true);
             $('#table').on('change', function () {
@@ -472,7 +494,7 @@
             input();
         }
 
-        function input() {          
+        function input() {
             HeaderList = [];
             $('.lblheader').each(function (index) {
                 var CustomCode = $(this).attr('CustomCode');
