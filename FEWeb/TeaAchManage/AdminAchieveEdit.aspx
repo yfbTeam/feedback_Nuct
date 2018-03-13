@@ -95,7 +95,7 @@
                        {{/if}}
                    </tr>
                </thead>
-               <tbody id="tb_Member_${rowNum}" autid="${Id}" rewid="${Id}">
+               <tbody id="tb_Member_${rowNum}" autid="${Id}" rewid="${Id}" batname="${BatName}">
                    {{each(i, mem) Member_Data.retData}}                        
                             <tr un="${mem.UserNo}" uid="${mem.Id}">
                                 <td class="td_memname">${mem.Name}</td>
@@ -590,14 +590,15 @@
                 var $cur_tb = $("#" + n.id);
                 var rownum = n.id.replace('tb_Member_', '');
                 var rew_batchid = $cur_tb.attr('rewid'); //追加奖金Id                
-                var auditid = $cur_tb.attr('autid'); //审核Id               
+                var auditid = $cur_tb.attr('autid'); //审核Id 
+                var batname = $cur_tb.attr('batname'); //奖金批次名称 
                 $cur_tb.find('tr').each(function () {
                     var userno = $(this).attr('un'), money = Num_Fixed($(this).find('.td_money input[type=number]').val())
                       , oldmoney = Num_Fixed($(this).find('.td_money input[type=number]').attr('oldre'));
                     editArray.push({ BatchDetail_Id: auditid, RewardUser_Id: $(this).attr('uid'), AllotMoney: money, EditUID: loginUser.UniqueNo });
                     if (Number(money) != Number(oldmoney)) { //修改的
                         edithis.push({
-                            Type: 1, Acheive_Id: cur_AchieveId, RelationId: rew_batchid, Content: "第" + rownum + "批奖金" + loginUser.Name + '将' + $(this).find('td.td_memname').html() + oldmoney + "元" + "改为" + money + "元"
+                            Type: 1, Acheive_Id: cur_AchieveId, RelationId: rew_batchid, Content: batname + loginUser.Name + '将' + $(this).find('td.td_memname').html() + oldmoney + "元" + "改为" + money + "元"
                                           , ModifyUID: userno, CreateUID: loginUser.UniqueNo
                         });
                     }

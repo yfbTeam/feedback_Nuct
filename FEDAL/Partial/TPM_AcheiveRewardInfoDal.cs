@@ -37,11 +37,11 @@ namespace FEDAL
                     case when a.GPid=1 then isnull((ran.Score),0) else r.Score end as TotalScore,ran.Name RankName,
                     r.ScoreType,bk.Name as BookName,bk.BookType,case when bk.BookType=1 then '无' else bk.ISBN end as ISBN                  
                     ,STUFF((select ',' + CAST(IsMoneyAllot AS NVARCHAR(MAX)) from TPM_RewardBatchDetail aud
-inner join TPM_RewardBatch r_bat on r_bat.Id=aud.RewardBatch_Id and aud.IsDelete=0
-where r_bat.IsDelete=0 and aud.Acheive_Id=a.Id FOR xml path('')), 1, 1, '') as IsMoneyAllot
-                    ,STUFF((select ',' + CAST(isnull(aud.Status,10) AS NVARCHAR(MAX)) from TPM_RewardBatch r_bat
-                    inner join TPM_RewardBatchDetail aud on r_bat.Id=aud.RewardBatch_Id and aud.IsDelete=0
-                    where r_bat.IsDelete=0 and aud.Acheive_Id=a.Id FOR xml path('')), 1, 1, '') as AuditSts ");
+                    inner join TPM_RewardBatch r_bat on r_bat.Id=aud.RewardBatch_Id and r_bat.IsDelete=0
+                    where aud.IsDelete=0 and r_bat.IsMoneyAllot=1 and aud.Acheive_Id=a.Id FOR xml path('')), 1, 1, '') as IsMoneyAllot
+                    ,STUFF((select ',' + CAST(isnull(aud.Status,10) AS NVARCHAR(MAX)) from TPM_RewardBatchDetail aud
+                    inner join TPM_RewardBatch r_bat on r_bat.Id=aud.RewardBatch_Id and r_bat.IsDelete=0
+                    where aud.IsDelete=0 and r_bat.IsMoneyAllot=1 and aud.Acheive_Id=a.Id FOR xml path('')), 1, 1, '') as AuditSts ");
                 if (ht.ContainsKey("LoginMajor_ID") && !string.IsNullOrEmpty(ht["LoginMajor_ID"].SafeToString()))
                 {
                     str.Append(@",(select count(1) from TPM_RewardUserInfo ruser left join UserInfo u on ruser.UserNo = u.UniqueNo

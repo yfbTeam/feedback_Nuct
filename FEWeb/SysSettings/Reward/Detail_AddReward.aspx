@@ -77,7 +77,7 @@
                 data: {
                     Func: "BatchAllot_RewardBatchDetail", BatchId: curid, BatchMoney: money,
                     LoginUID: loginUser.UniqueNo, LoginName: loginUser.Name,
-                    ModifyRecord: "将" + $('#AchiveName').html() + "的金额由" + oldmoney + "元改为" + money + "元"
+                    ModifyRecord:"的金额由" + oldmoney + "元改为" + money + "元"
                 },
                 success: function (json) {
                     if (json.result.errNum == 0) {

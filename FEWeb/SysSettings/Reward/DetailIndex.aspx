@@ -51,7 +51,7 @@
                     <span class="operate_none bg_purple">分配</span>
                 </div>
                 {{if AuditStatus!=10&&AuditStatus!=0}}
-                <div class="operate" onclick="OpenIFrameWindow('奖金分配详情', 'AllotDetail.aspx', '700px', '500px')">
+                <div class="operate" onclick="OpenIFrameWindow('奖金分配详情', 'AllotDetail.aspx?itemid=${Id}&achid=${Acheive_Id}&achtype=${AchieveType}', '700px', '500px')">
                     <i class="iconfont color_purple">&#xe60b;</i>
                     <span class="operate_none bg_purple">详情</span>
                 </div>                
@@ -206,7 +206,7 @@
             $('.btnwrap').hide();
         }
         function save() {
-            var idarray = [], moneyarray = [],warnarray=[];
+            var idarray = [], moneyarray = [],warnarray=[],recordarray=[];
             $("#tb_info tr").each(function (i, n) {
                 var did = n.id.replace('tr_Detail_', ''), money = Num_Fixed($(this).find('.td_money input[type=number]').val())
                       , oldmoney = Num_Fixed($(this).find('.td_money input[type=number]').attr('oldre'))
@@ -215,6 +215,7 @@
                     idarray.push(did);
                     moneyarray.push(money);
                     warnarray.push("将" + achname + "的金额由" + oldmoney + "元改为" + money + "元");
+                    recordarray.push("的金额由" + oldmoney + "元改为" + money + "元");
                 }
             });
             if (idarray.length <= 0) {
@@ -223,7 +224,7 @@
             }
             var object = { Func: "BatchAllot_RewardBatchDetail", BatchId: idarray.join(','), BatchMoney: moneyarray.join(','), LoginUID: loginUser.UniqueNo };
             object.LoginName = loginUser.Name;
-            object.ModifyRecord = warnarray.join(',');
+            object.ModifyRecord = recordarray.join(',');
             layer.confirm(warnarray.join('<br>'), {
                 btn: ['确定', '取消'], //按钮
                 title: '操作'

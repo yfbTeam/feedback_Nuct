@@ -26,7 +26,7 @@ namespace FEDAL
                    ,isnull((select sum(AllotMoney) from TPM_AllotReward where BatchDetail_Id=r_bat.Id),0)HasAllot ");
                 if (ht["IsOnlyBase"].SafeToString() == "1") //查询关联表
                 {
-                    str.Append(@" ,uu.Name as ResponsName,al.Name as GidName,a.Year
+                    str.Append(@" ,uu.Name as ResponsName,al.Name as GidName,a.Year,l.Type as AchieveType
                     ,case when a.GPid=6 then bk.Name when a.GPid=4 then uu.Name else a.Name end as AchiveName
                     ,(select STUFF((select ',' + CAST(Major_Name AS NVARCHAR(MAX)) from Major where Id in(select value from func_split(a.DepartMent,',')) FOR xml path('')), 1, 1, '')) as Major_Name                   
                      from TPM_RewardBatchDetail r_bat
@@ -34,6 +34,7 @@ namespace FEDAL
                      left join UserInfo b on r_bat.CreateUID=b.UniqueNo
                      left join TPM_AcheiveRewardInfo a on r_bat.Acheive_Id=a.Id 
                      left join UserInfo uu on a.ResponsMan=uu.UniqueNo
+                     left join TPM_AcheiveLevel l on a.gpid=l.Id 
                      left join TPM_AcheiveLevel al on al.Id=a.Gid
                      left join TPM_BookStory bk on a.bookid=bk.id ");
                     if (ht.ContainsKey("AchiveName") && !string.IsNullOrEmpty(ht["AchiveName"].SafeToString()))
