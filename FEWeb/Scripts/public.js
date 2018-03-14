@@ -525,11 +525,12 @@ function ChosenInit(select) {
         });
         
         setTimeout(function () {
-           
-            var leng = $('.chosen-single').parent().parent().find('.select').find('option').length;
-            if (leng == 0)
-            {
-                $('.chosen-single').find('span').text('请选择');
+            
+            var leng = select.find('option').length;
+            var text =select.parent().find('.chosen-single').find('span').text();
+            if (leng == 1  && text =='Select an Option')
+            {                
+                select.parent().find('.chosen-single').find('span').text('请选择');
             }
          
         }, 10);
