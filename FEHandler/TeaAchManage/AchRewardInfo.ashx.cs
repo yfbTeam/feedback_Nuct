@@ -844,7 +844,8 @@ namespace FEHandler.TeaAchManage
                 Hashtable ht = new Hashtable();
                 ht.Add("PageIndex", context.Request["PageIndex"].SafeToString());
                 ht.Add("PageSize", context.Request["PageSize"].SafeToString());
-                ht.Add("IsOnlyBase", context.Request["IsOnlyBase"]??"0");
+                ht.Add("IsOnlyBase", context.Request["IsOnlyBase"]??"0"); 
+                ht.Add("IsAllotUser", context.Request["IsAllotUser"] ?? "0");//0不查询分配用户信息；1查询分配用户信息
                 ht.Add("RewardBatch_Id", context.Request["RewardBatch_Id"].SafeToString());
                 ht.Add("IsMoneyAllot", context.Request["IsMoneyAllot"].SafeToString());                
                 ht.Add("Acheive_Id", context.Request["Acheive_Id"].SafeToString());

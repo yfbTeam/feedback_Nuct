@@ -26,10 +26,15 @@ namespace FEDAL
                    ,isnull((select sum(AllotMoney) from TPM_AllotReward where BatchDetail_Id=r_bat.Id and IsDelete=0),0)HasAllot ");
                 if (ht["IsOnlyBase"].SafeToString() == "1") //查询关联表
                 {
+                    string IsAllotUser = ht["IsAllotUser"].SafeToString();
                     str.Append(@" ,uu.Name as ResponsName,al.Name as GidName,a.Year,l.Type as AchieveType
                     ,case when a.GPid=6 then bk.Name when a.GPid=4 then uu.Name else a.Name end as AchiveName
-                    ,(select STUFF((select ',' + CAST(Major_Name AS NVARCHAR(MAX)) from Major where Id in(select value from func_split(a.DepartMent,',')) FOR xml path('')), 1, 1, '')) as Major_Name                   
-                     from TPM_RewardBatchDetail r_bat
+                    ,(select STUFF((select ',' + CAST(Major_Name AS NVARCHAR(MAX)) from Major where Id in(select value from func_split(a.DepartMent,',')) FOR xml path('')), 1, 1, '')) as Major_Name ");
+                    if (IsAllotUser == "1")
+                    {
+                        str.Append(" ,au.Name as RUserName,allot.AllotMoney ");
+                    }
+                    str.Append(@" from TPM_RewardBatchDetail r_bat
                      inner join TPM_RewardBatch ba on r_bat.RewardBatch_Id=ba.Id
                      left join UserInfo b on r_bat.CreateUID=b.UniqueNo
                      left join TPM_AcheiveRewardInfo a on r_bat.Acheive_Id=a.Id 
@@ -37,6 +42,12 @@ namespace FEDAL
                      left join TPM_AcheiveLevel l on a.gpid=l.Id 
                      left join TPM_AcheiveLevel al on al.Id=a.Gid
                      left join TPM_BookStory bk on a.bookid=bk.id ");
+                    if (IsAllotUser == "1")
+                    {
+                        str.Append(@" inner join TPM_AllotReward allot on allot.BatchDetail_Id=r_bat.Id and allot.IsDelete=0
+	                                  left join TPM_RewardUserInfo ruser on ruser.Id=allot.RewardUser_Id
+	                                  left join UserInfo au on au.UniqueNo=ruser.UserNo ");
+                    }
                     if (ht.ContainsKey("AchiveName") && !string.IsNullOrEmpty(ht["AchiveName"].SafeToString()))
                     {
                         Where = " and AchiveName like N'%' + @AchiveName + '%'";
