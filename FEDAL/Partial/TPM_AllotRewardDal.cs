@@ -133,7 +133,7 @@ namespace FEDAL
                     pms.Add(new SqlParameter("@EditUID" + i, item.EditUID));
                     pms.Add(new SqlParameter("@BatchDetail_Id" + i, item.BatchDetail_Id));
                     pms.Add(new SqlParameter("@RewardUser_Id" + i, item.RewardUser_Id));
-                    str.Append("update TPM_AllotReward set AllotMoney=@AllotMoney" + i + ",EditUID=@EditUID" + i + ",EditTime=getdate() where BatchDetail_Id=@BatchDetail_Id" + i + " and RewardUser_Id=@RewardUser_Id" +i+";");
+                    str.Append("update TPM_AllotReward set AllotMoney=@AllotMoney" + i + ",EditUID=@EditUID" + i + ",EditTime=getdate() where BatchDetail_Id=@BatchDetail_Id" + i + " and RewardUser_Id=@RewardUser_Id" +i+ " and IsDelete=0;");
                 }
                 result = SQLHelp.ExecuteNonQuery(str.ToString(), CommandType.Text, pms.ToArray());
             }

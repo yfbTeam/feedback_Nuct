@@ -23,7 +23,7 @@ namespace FEDAL
             {
                 StringBuilder str = new StringBuilder();
                 str.Append(@" select r_bat.*,r_bat.Status as AuditStatus,b.Name as CreateName,ba.Year as BatYear,ba.Name as BatName
-                   ,isnull((select sum(AllotMoney) from TPM_AllotReward where BatchDetail_Id=r_bat.Id),0)HasAllot ");
+                   ,isnull((select sum(AllotMoney) from TPM_AllotReward where BatchDetail_Id=r_bat.Id and IsDelete=0),0)HasAllot ");
                 if (ht["IsOnlyBase"].SafeToString() == "1") //查询关联表
                 {
                     str.Append(@" ,uu.Name as ResponsName,al.Name as GidName,a.Year,l.Type as AchieveType
