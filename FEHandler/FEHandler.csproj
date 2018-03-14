@@ -78,6 +78,7 @@
     <Content Include="SetMenu\SetMenuHandler.ashx" />
     <Content Include="Email\EmailHandler.ashx" />
     <Content Include="ClassDiagram1.cd" />
+    <Content Include="WebForm1.aspx" />
     <None Include="Properties\PublishProfiles\handle.pubxml" />
     <Content Include="SetMenu\SetPassWordHandler.ashx" />
     <Content Include="SetMenu\SetUserPicHandler.ashx" />
@@ -165,6 +166,13 @@
     </Compile>
     <Compile Include="UserMan\UserManHandler.ashx.cs">
       <DependentUpon>UserManHandler.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="WebForm1.aspx.cs">
+      <DependentUpon>WebForm1.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="WebForm1.aspx.designer.cs">
+      <DependentUpon>WebForm1.aspx</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup />
