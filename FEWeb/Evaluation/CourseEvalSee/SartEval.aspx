@@ -53,7 +53,7 @@
             <div class="input-wrap">
                 <label>学年学期：</label>
                 <select class="select ml10" style="width:335px;" id="section" >
-              <%--      <option value="0">全部</option>--%>
+             
                 </select>
             </div>
             <div class="input-wrap">
@@ -177,23 +177,13 @@
             mounted: function () {
                 this.role = GetLoginUser().Sys_Role_Id;
                 Base.bindStudySectionCompleate = function () {
-                    SectionID = $('#section').val();
-                    GetClassInfoSelect(SectionID, login_User.UniqueNo);
-
-                    $("#itemcourse").tmpl(CCList).appendTo("#ulist");
-
-                    $('.li_other').on('click', function () {
-                        if ($('.li_other').length == $('.li_other:checked').length)
-                        {
-                            $('#all').prop('checked', true);
-                        }
-                        else
-                        {
-                            $('#all').prop('checked', false);
-                        }
-                    });
+                    regeRange();
                 };
                 Base.bindStudySection();
+
+                $('#section').on('change', function () {
+                    regeRange();
+                });
 
                 Type = 1;
                 t_Type = 1;
@@ -202,21 +192,39 @@
                 Base.BindTable();
                 Base.BindDepart();
 
-                $('#all').on('click', function () {
-                    var that = $(this);
-                    $('.li_other').each(function () {                      
-                        if (that.is(':checked'))
-                        {
-                            $('.li_other').prop('checked', true);
-                        }
-                        else
-                        {
-                            $('.li_other').prop('checked', false);
-                        }                       
-                    });
-                });
+               
             }
         })
+
+        function regeRange()
+        {
+            SectionID = $('#section').val();
+            GetClassInfoSelect(SectionID, login_User.UniqueNo);
+            $("#ulist").empty();
+            $("#ulist").append('<li  > <input type="checkbox" id="all" /><label  for="all">全部</label>  </li>');                      
+            $("#itemcourse").tmpl(CCList).appendTo("#ulist");
+
+            $('.li_other').on('click', function () {
+                if ($('.li_other').length == $('.li_other:checked').length) {
+                    $('#all').prop('checked', true);
+                }
+                else {
+                    $('#all').prop('checked', false);
+                }
+            });
+
+            $('#all').on('click', function () {
+                var that = $(this);
+                $('.li_other').each(function () {
+                    if (that.is(':checked')) {
+                        $('.li_other').prop('checked', true);
+                    }
+                    else {
+                        $('.li_other').prop('checked', false);
+                    }
+                });
+            });
+        }
 
     </script>
 </body>

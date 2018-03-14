@@ -114,6 +114,9 @@
 
 
     <script type="text/javascript">
+
+       
+
         var page = getQueryString("page");
         $("#indicator_Type").val(page);
         var index = parent.layer.getFrameIndex(window.name);//索引

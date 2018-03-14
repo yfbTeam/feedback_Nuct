@@ -47,8 +47,8 @@
                             <input type="text" name="key" id="key" placeholder="请输入关键字" value="" class="text fl">
                             <a class="search fl" href="javascript:search();"><i class="iconfont">&#xe600;</i></a>
                         </div>
-                        <div class="fr">
-                            <input type="button" name="" id="database_add" style="" value="新增指标" class="btn" onclick="newIndicator()">
+                        <div id="btndiv" class="fr">
+                           
                         </div>
                     </div>
                     <div class="table">
@@ -163,6 +163,15 @@
             </ul>
         </li>
     </script>    
+
+    <script type="text/x-jquery-tmpl" id="itemYes">
+         <input type="button" name="" id="database_add" style="" value="新增指标" class="btn" onclick="newIndicator()">
+    </script>
+
+    <script type="text/x-jquery-tmpl" id="itemNo">
+         <input type="button" name="" id="database_add2" style="background:#A8A8A8" value="新增指标" class="btn"  >
+    </script>
+
     <script>
         var pagecount = 0;
         var pagesize = 3;
@@ -183,6 +192,9 @@
         //  [1,2,3,4]
         var reUserinfoByselect;
         $(function () {
+
+
+
             Type = 1;
             CreateUID = login_User.UniqueNo;
             reflesh_Left(type_id);
@@ -203,6 +215,15 @@
             DataBaseMainModel.PageType = 'DatabaseMan';
             //初始化指标库分类
             DataBaseMainModel.init_IndicatorType_data();
+
+            if (LeftList.length == 0) {
+                nomessage('#test1', 'no', 19, 480);
+                $("#itemNo").tmpl(1).appendTo("#btndiv");
+            }
+            else
+            {
+                $("#itemYes").tmpl(1).appendTo("#btndiv");              
+            }
 
         }
         //删除指标

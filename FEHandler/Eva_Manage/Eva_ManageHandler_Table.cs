@@ -115,7 +115,10 @@ namespace FEHandler.Eva_Manage
                                  join cr in Constant.CourseRel_List on dic.Key equals cr.CourseType_Id
                                  where (CourseID != "" && cr.Course_Id == CourseID && cr.StudySection_Id == SectionID) || CourseID == ""
                                  join cb in Constant.Eva_CourseType_Table_List on dic.Key equals cb.CourseTypeId
-                                 join tb in tblist on cb.TableId equals tb.Id                               
+                                 join tb in tblist on cb.TableId equals tb.Id      
+                                 join cy in Constant.Eva_CourseType_Table_List  on SectionID equals cy.StudySection_Id
+                                 where cy.CourseTypeId == dic.Key && cy.TableId == tb.Id
+
                                  select tb).Distinct(new Eva_TableComparer()).ToList();
 
                 }

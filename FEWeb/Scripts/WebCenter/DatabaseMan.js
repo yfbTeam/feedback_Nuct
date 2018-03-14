@@ -1,6 +1,7 @@
 ﻿
 var Type = 0;
 var CreateUID = '';
+var LeftList = [];
 var DataBaseMainModel =
     {
         PageType: 'DatabaseMan',  //DatabaseMan指标库分类   SelectDataBase//选择指标库
@@ -45,6 +46,7 @@ var DataBaseMainModel =
                 success: function (json) {
 
                     retData_type = json.result.retData;
+                    LeftList = json.result.retData;
                     var P_List = [];
                     $(".menu_list").html('');
                     retData_type = Enumerable.From(retData_type).OrderBy('$.Id').ToArray();//按Id进行升序排列
