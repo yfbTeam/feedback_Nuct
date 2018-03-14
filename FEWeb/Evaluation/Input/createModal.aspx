@@ -153,9 +153,12 @@
                         $("#Rg").append("<option value=''>全部</option>");
 
                         Get_Eva_RegularDataSelect();
+                      
                         Reflesh();
                     });
                     Get_Eva_RegularDataSelect();
+
+                    Reflesh();
                 };
                 Base.bindStudySection();
 
@@ -186,7 +189,7 @@
                 };
                 Base.CheckHasExpertRegu(reguType);
 
-                Get_Eva_RegularData(0, pageIndex);              
+                
                 var level1 = '';
                 if (IsAllSchool == 1) {
                     $('#threenav').children().eq(0).addClass('selected');
@@ -206,6 +209,7 @@
                     window.location.href = "../EvaluationInput.aspx?IsAllSchool=" + IsAllSchool + "&Id=" + getQueryString('Id') + "&Iid=" + getQueryString('Iid');
                 });
                 $('#level1').text(level1);
+
             })
 
 
@@ -213,6 +217,7 @@
                 pageIndex = 0;
                 Te = $('#Te').val();
                 SectionID = $('#section').val();
+                //debugger;
                 Get_Eva_RegularData($('#Rg').val(), pageIndex);
             }
 
