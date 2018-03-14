@@ -1,4 +1,3 @@
-﻿
 ﻿var HanderServiceUrl = "http://192.168.1.148:8012/Service/";
 var MobileUrl = "http://192.168.1.148:8012/";
 
