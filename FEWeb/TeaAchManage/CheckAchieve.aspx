@@ -335,7 +335,7 @@
        <div class="clearfix allot_item">
             <div class="clearfix">
                 <div class="fl status-left">
-                    <label for="" style="margin-right:20px;">第${rowNum}批奖金</label>
+                    <label for="" style="margin-right:20px;">${BatName}</label>
                     <label for="">状态：</label>
                     {{if AuditStatus==10}}<span class="nosubmit">待分配</span>
                     {{else AuditStatus==0}}<span class="nosubmit">{{if cur_ResponUID==$('#CreateUID').val()}}待提交{{else}}待分配{{/if}}</span>
@@ -362,7 +362,7 @@
                         {{/if}}
                     </tr>
                 </thead>
-                <tbody id="tb_Member_${rowNum}" autid="${Id}" rewid="${Id}">
+                <tbody id="tb_Member_${rowNum}" autid="${Id}" rewid="${Id}" batname="${BatName}">
                     {{each(i, mem) Member_Data.retData}}                        
                             <tr un="${mem.UserNo}" uid="${mem.Id}">
                                 <td class="td_memname">${mem.Name}</td>
@@ -461,7 +461,7 @@
                 $(".checkmes").show();
                 $(".btnwrap2").hide();
             }
-            if (model.ComStatus > 6) { $(".re_history").show(); Get_ModifyRecordData("", model.IsMoneyAllot==0?"0":""); }
+            if (model.ComStatus > 6) { $(".re_history").show(); Get_ModifyRecordData("", model.IsMoneyAllot.indexOf('1')== -1?"0":""); }
         }       
         //绑定成员信息
         var Member_Data = [];
@@ -534,12 +534,13 @@
         function AllotAudit(status,id,rownum){
             var responName=cur_ResponName;
             var $cur_tb=$("#tb_Member_"+rownum),rew_batchid=$cur_tb.attr('rewid');//追加奖金Id
+            var batname = $cur_tb.attr('batname'); //奖金批次名称 
             var hisArray=[];
             if(status==3){
                 $cur_tb.find('tr').each(function(){
                     var memname=$(this).find('td.td_memname').html(),money=$(this).find('td.td_money').html();
                     hisArray.push({
-                        Type: 1, Acheive_Id: cur_AchieveId,RelationId: rew_batchid,Content:"第" + rownum + "批奖金"+ responName+"给"+memname+"分配了"+money+"元"
+                        Type: 1, Acheive_Id: cur_AchieveId,RelationId: rew_batchid,Content:batname+ responName+"给"+memname+"分配了"+money+"元"
                          , ModifyUID: $(this).attr('un'), CreateUID: cur_ResponUID
                     });
                 });

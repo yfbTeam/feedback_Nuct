@@ -69,7 +69,7 @@
        <div class="clearfix allot_item">
            <div class="clearfix">
                <div class="fl status-left">
-                   <label for="" style="margin-right: 20px;">第${rowNum}批奖金</label>
+                   <label for="" style="margin-right: 20px;">${BatName}</label>
                    <label for="">状态：</label>
                    {{if AuditStatus==10||AuditStatus==0}}<span class="nosubmit">待分配</span>
                    {{else AuditStatus==1}}<span class="checking1">待审核</span>
@@ -95,7 +95,7 @@
                        {{/if}}
                    </tr>
                </thead>
-               <tbody id="tb_Member_${rowNum}" autid="${Id}" rewid="${Id}">
+               <tbody id="tb_Member_${rowNum}" autid="${Id}" rewid="${Id}" batname="${BatName}">
                    {{each(i, mem) Member_Data.retData}}                        
                             <tr un="${mem.UserNo}" uid="${mem.Id}">
                                 <td class="td_memname">${mem.Name}</td>
@@ -421,7 +421,7 @@
                         GetAchieveUser_Score(json.result.retData);
                     }
                     if (ach_model.ComStatus > 7) { Get_RewardBatchDetailData($(".RewardReason")); }
-                    if (ach_model.ComStatus > 6) { $(".re_history").show(); Get_ModifyRecordData("", ach_model.IsMoneyAllot==0?"0":""); }
+                    if (ach_model.ComStatus > 6) { $(".re_history").show(); Get_ModifyRecordData("", ach_model.IsMoneyAllot.indexOf('1') == -1? "0" : ""); }
                 },
                 error: function (errMsg) {
                     layer.msg(errMsg);
@@ -590,14 +590,15 @@
                 var $cur_tb = $("#" + n.id);
                 var rownum = n.id.replace('tb_Member_', '');
                 var rew_batchid = $cur_tb.attr('rewid'); //追加奖金Id                
-                var auditid = $cur_tb.attr('autid'); //审核Id               
+                var auditid = $cur_tb.attr('autid'); //审核Id 
+                var batname = $cur_tb.attr('batname'); //奖金批次名称 
                 $cur_tb.find('tr').each(function () {
                     var userno = $(this).attr('un'), money = Num_Fixed($(this).find('.td_money input[type=number]').val())
                       , oldmoney = Num_Fixed($(this).find('.td_money input[type=number]').attr('oldre'));
                     editArray.push({ BatchDetail_Id: auditid, RewardUser_Id: $(this).attr('uid'), AllotMoney: money, EditUID: loginUser.UniqueNo });
                     if (Number(money) != Number(oldmoney)) { //修改的
                         edithis.push({
-                            Type: 1, Acheive_Id: cur_AchieveId, RelationId: rew_batchid, Content: "第" + rownum + "批奖金" + loginUser.Name + '将' + $(this).find('td.td_memname').html() + oldmoney + "元" + "改为" + money + "元"
+                            Type: 1, Acheive_Id: cur_AchieveId, RelationId: rew_batchid, Content: batname + loginUser.Name + '将' + $(this).find('td.td_memname').html() + oldmoney + "元" + "改为" + money + "元"
                                           , ModifyUID: userno, CreateUID: loginUser.UniqueNo
                         });
                     }

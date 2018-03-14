@@ -23,8 +23,8 @@ namespace FEDAL
                 StringBuilder str = new StringBuilder();
                 str.Append(@" select *,
                          case when Status<7 then Status
-                         when Status>=7 and IsMoneyAllot=0 then 7
-                         when Status>=7 and IsMoneyAllot=1 then
+                         when Status>=7 and 1 not in(select value from func_split(IsMoneyAllot,',')) then 7
+                         when Status>=7 and 1 in (select value from func_split(IsMoneyAllot,',')) then
                             case when 2 in(select value from func_split(AuditSts,',')) then 11 
                              when 0 in (select value from func_split(AuditSts,',')) then 9
                              when 10 in(select value from func_split(AuditSts,',')) then 8 
@@ -36,10 +36,12 @@ namespace FEDAL
                     (select STUFF((select ',' + CAST(Major_Name AS NVARCHAR(MAX)) from Major where Id in(select value from func_split(a.DepartMent,',')) FOR xml path('')), 1, 1, '')) as Major_Name,                   
                     case when a.GPid=1 then isnull((ran.Score),0) else r.Score end as TotalScore,ran.Name RankName,
                     r.ScoreType,bk.Name as BookName,bk.BookType,case when bk.BookType=1 then '无' else bk.ISBN end as ISBN                  
-                    ,isnull((select IsMoneyAllot from TPM_RewardEdition where LID=a.Gid and convert(varchar(10),a.DefindDate,21) between convert(varchar(10),BeginTime,21) and convert(varchar(10),EndTime,21)),0)as IsMoneyAllot
-                    ,STUFF((select ',' + CAST(isnull(aud.Status,10) AS NVARCHAR(MAX)) from TPM_RewardBatch r_bat
-                    inner join TPM_RewardBatchDetail aud on r_bat.Id=aud.RewardBatch_Id and aud.IsDelete=0
-                    where r_bat.IsDelete=0 and aud.Acheive_Id=a.Id FOR xml path('')), 1, 1, '') as AuditSts ");
+                    ,STUFF((select ',' + CAST(IsMoneyAllot AS NVARCHAR(MAX)) from TPM_RewardBatchDetail aud
+                    inner join TPM_RewardBatch r_bat on r_bat.Id=aud.RewardBatch_Id and r_bat.IsDelete=0
+                    where aud.IsDelete=0 and r_bat.IsMoneyAllot=1 and aud.Acheive_Id=a.Id FOR xml path('')), 1, 1, '') as IsMoneyAllot
+                    ,STUFF((select ',' + CAST(isnull(aud.Status,10) AS NVARCHAR(MAX)) from TPM_RewardBatchDetail aud
+                    inner join TPM_RewardBatch r_bat on r_bat.Id=aud.RewardBatch_Id and r_bat.IsDelete=0
+                    where aud.IsDelete=0 and r_bat.IsMoneyAllot=1 and aud.Acheive_Id=a.Id FOR xml path('')), 1, 1, '') as AuditSts ");
                 if (ht.ContainsKey("LoginMajor_ID") && !string.IsNullOrEmpty(ht["LoginMajor_ID"].SafeToString()))
                 {
                     str.Append(@",(select count(1) from TPM_RewardUserInfo ruser left join UserInfo u on ruser.UserNo = u.UniqueNo
@@ -102,7 +104,12 @@ namespace FEDAL
                 {
                     str.Append(" and a.Gid=@Gid ");
                     pms.Add(new SqlParameter("@Gid", ht["Gid"].SafeToString()));
-                }                
+                }
+                if (ht.ContainsKey("Year") && !string.IsNullOrEmpty(ht["Year"].SafeToString()))
+                {
+                    str.Append(" and a.Year like N'%' + @Year + '%'");
+                    pms.Add(new SqlParameter("@Year", ht["Year"].ToString().Replace("年", "")));
+                }
                 if (ht.ContainsKey("BookId") && !string.IsNullOrEmpty(ht["BookId"].SafeToString()))
                 {
                     str.Append(" and a.BookId =@BookId ");
@@ -157,6 +164,11 @@ namespace FEDAL
                     EndIndex = Convert.ToInt32(ht["EndIndex"].ToString());
                 }
                 str.Append(@" ) Temp ");
+                if (ht.ContainsKey("AchiveName") && !string.IsNullOrEmpty(ht["AchiveName"].SafeToString()))
+                {
+                    Where = " and AchiveName like N'%' + @AchiveName + '%'";
+                    pms.Add(new SqlParameter("@AchiveName", ht["AchiveName"].ToString()));
+                }
                 dt = SQLHelp.GetListByPage("(" + str.ToString() + ")", Where, "", StartIndex, EndIndex, IsPage, pms.ToArray(), out RowCount);
             }
             catch (Exception ex)

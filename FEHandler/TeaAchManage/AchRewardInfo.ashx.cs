@@ -153,7 +153,9 @@ namespace FEHandler.TeaAchManage
                 ht.Add("MyUno", context.Request["MyUno"].SafeToString());
                 ht.Add("Id", context.Request["Id"].SafeToString());
                 ht.Add("GPid", context.Request["AchieveLevel"].SafeToString());
-                ht.Add("Gid", context.Request["Gid"].SafeToString());                
+                ht.Add("Gid", context.Request["Gid"].SafeToString());
+                ht.Add("Year", context.Request["Year"].SafeToString());
+                ht.Add("AchiveName", context.Request["AchiveName"].SafeToString());                
                 ht.Add("BookId", context.Request["BookId"].SafeToString());                
                 ht.Add("DepartMent", context.Request["DepartMent"].SafeToString());
                 ht.Add("BeginTime", context.Request["BeginTime"].SafeToString());
@@ -843,10 +845,15 @@ namespace FEHandler.TeaAchManage
                 ht.Add("PageIndex", context.Request["PageIndex"].SafeToString());
                 ht.Add("PageSize", context.Request["PageSize"].SafeToString());
                 ht.Add("IsOnlyBase", context.Request["IsOnlyBase"]??"0");
-                ht.Add("RewardBatch_Id", context.Request["RewardBatch_Id"].SafeToString());                  
+                ht.Add("RewardBatch_Id", context.Request["RewardBatch_Id"].SafeToString());
+                ht.Add("IsMoneyAllot", context.Request["IsMoneyAllot"].SafeToString());                
                 ht.Add("Acheive_Id", context.Request["Acheive_Id"].SafeToString());
                 ht.Add("Id", context.Request["Id"].SafeToString());
-                ht.Add("AuditStatus", context.Request["AuditStatus"].SafeToString()); 
+                ht.Add("GPid", context.Request["AchieveLevel"].SafeToString());
+                ht.Add("Gid", context.Request["Gid"].SafeToString());
+                ht.Add("AuditStatus", context.Request["AuditStatus"].SafeToString());
+                ht.Add("Year", context.Request["Year"].SafeToString());
+                ht.Add("AchiveName", context.Request["AchiveName"].SafeToString());
                 jsonModel = batdetbll.GetPage(ht, IsPage);
             }
             catch (Exception ex)
@@ -877,6 +884,7 @@ namespace FEHandler.TeaAchManage
                 ht.Add("PageSize", context.Request["PageSize"].SafeToString());             
                 ht.Add("RewardBatch_Id", context.Request["RewardBatch_Id"].SafeToString());
                 ht.Add("Acheive_Id", context.Request["Acheive_Id"].SafeToString());
+                ht.Add("BatchDetail_Id", context.Request["BatchDetail_Id"].SafeToString());                
                 ht.Add("No_Status", context.Request["No_Status"].SafeToString());
                 ht.Add("Id", context.Request["Id"].SafeToString());
                 jsonModel = new TPM_AllotRewardService().GetPage(ht, IsPage);

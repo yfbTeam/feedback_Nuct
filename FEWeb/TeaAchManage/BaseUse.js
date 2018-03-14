@@ -602,7 +602,7 @@ function Get_RewardBatchDetailData(reasonobj, no_status) {
         url: HanderServiceUrl + "/TeaAchManage/AchRewardInfo.ashx",
         type: "post",
         dataType: "json",
-        data: { "Func": "Get_RewardBatchDetailData", "IsPage": "false", Acheive_Id: cur_AchieveId },
+        data: { "Func": "Get_RewardBatchDetailData", "IsPage": "false", Acheive_Id: cur_AchieveId, IsMoneyAllot: 1 },
         success: function (json) {
             if (json.result.errMsg == "success") {
                 $("#div_item").tmpl(json.result.retData).appendTo("#div_MoneyInfo");

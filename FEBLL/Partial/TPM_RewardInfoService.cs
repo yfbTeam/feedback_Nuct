@@ -201,6 +201,45 @@ namespace FEBLL
                 return jsonModel;
             }
         }
-        #endregion    
+        #endregion
+        #region 批量分配项目奖金
+        public JsonModel BatchAllot_RewardBatchDetail(string BatchId, string BatchMoney, string LoginUID, string LoginName, string ModifyRecord)
+        {
+            JsonModel jsonModel = new JsonModel();
+            try
+            {
+                string[] result = batdetail_dal.BatchAllot_RewardBatchDetail(BatchId, BatchMoney, LoginUID, LoginName, ModifyRecord).Split('-');
+                if (Convert.ToInt32(result[0])== 0)
+                {
+                    jsonModel = new JsonModel()
+                    {
+                        errNum = 0,
+                        errMsg =result[1],
+                        retData = ""
+                    };
+                }
+                else
+                {
+                    jsonModel = new JsonModel()
+                    {
+                        errNum = 999,
+                        errMsg = result[1],
+                        retData = ""
+                    };
+                }
+                return jsonModel;
+            }
+            catch (Exception ex)
+            {
+                jsonModel = new JsonModel()
+                {
+                    errNum = 400,
+                    errMsg = ex.Message,
+                    retData = ""
+                };
+                return jsonModel;
+            }
+        }
+        #endregion        
     }
 }

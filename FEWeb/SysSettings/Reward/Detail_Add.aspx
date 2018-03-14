@@ -36,7 +36,7 @@
                 <input type="text"  class="text Wdate" name="Year" id="Year" onclick="WdatePicker({ dateFmt: 'yyyy年' })" style="border:1px solid #ccc;width:150px;"/>
             </div>
             <div class="fl ml20">
-                <input type="text" name="key" id="key" placeholder="请输入获奖项目名称关键字" value="" class="text fl" style="width:180px;"/>
+                <input type="text" name="Key" id="Key" placeholder="请输入获奖项目名称关键字" value="" class="text fl" style="width:180px;"/>
                 <a class="search fl" href="javascript:search();"><i class="iconfont">&#xe600;</i></a>
             </div>             
         </div>
@@ -75,13 +75,18 @@
         $(function () {
             Bind_SelAchieve();
         });
+        var SerKey = $("#Key").val().trim();
+        function search() {
+            SerKey = $("#Key").val().trim();
+            BindData(1, 10);
+        }
         function BindData(startIndex, pageSize) {
             $("#tb_info").empty();
             $.ajax({
                 url: HanderServiceUrl + "/TeaAchManage/AchRewardInfo.ashx",
                 type: "post",
                 dataType: "json",
-                data: { "Func": "GetAcheiveRewardInfoData", PageIndex: startIndex, pageSize: pageSize, AchieveLevel: $("#AcheiveType").val(), Gid: $("#Gid").val(),Status_Com: '>2' },
+                data: { "Func": "GetAcheiveRewardInfoData", PageIndex: startIndex, pageSize: pageSize, AchieveLevel: $("#AcheiveType").val(), Gid: $("#Gid").val(), Status_Com: '>2', Year: $("#Year").val(), AchiveName: SerKey },
                 success: function (json) {
                     if (json.result.errMsg == "success") {
                         $("#pageBar").show();

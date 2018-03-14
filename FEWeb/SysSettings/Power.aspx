@@ -294,7 +294,7 @@
         function Group_User_Add(type, RoleId, RoleName) {
             switch (type) {
                 case 1:
-                    OpenIFrameWindow('新增用户组', 'Group_User_Add.aspx?type=' + type + '&CurrentRoleid=' + CurrentRoleid + '&CurrentRoleName=' + CurrentRoleName, '550px', '260px');
+                    OpenIFrameWindow('新增用户组', 'Group_User_Add.aspx', '550px', '260px');
                     break;
                 case 2:
                     BindDataTo_GetUserinfo(RoleId, RoleName);

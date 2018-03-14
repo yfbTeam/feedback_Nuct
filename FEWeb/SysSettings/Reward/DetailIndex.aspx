@@ -31,15 +31,15 @@
         </div>
     </script>
     <script type="text/x-jquery-tmpl" id="tr_Info">
-        <tr>
+        <tr id="tr_Detail_${Id}">
             <td>${GidName}</td>
-            <td>${AchiveName}</td>
+            <td class="td_acname">${AchiveName}</td>
             <td>${Major_Name}</td>
             <td>${ResponsName}</td>
             <td>${Year}</td>          
-            <td>
+            <td class="td_money"> 
                 <span class="money_span">${Money}</span>
-                <input type="number" isrequired="true" regtype="money" fl="金额" min="0.01" step="0.01" id="Money_${Id}" name="Money_${Id}" value="${Money}" class="text money_input none"/>
+                <input type="number" isrequired="true" regtype="money" fl="金额" min="0.01" step="0.01" id="Money_${Id}" name="Money_${Id}" oldre="${Money}" value="${Money}" class="text money_input none"/>
             </td>
             <td>{{if AuditStatus==10||AuditStatus==0}}<span class="nosubmit">待分配</span>
                     {{else AuditStatus==1}}<span class="checking1">待审核</span>
@@ -51,7 +51,7 @@
                     <span class="operate_none bg_purple">分配</span>
                 </div>
                 {{if AuditStatus!=10&&AuditStatus!=0}}
-                <div class="operate" onclick="OpenIFrameWindow('奖金分配详情', 'AllotDetail.aspx', '700px', '500px')">
+                <div class="operate" onclick="OpenIFrameWindow('奖金分配详情', 'AllotDetail.aspx?itemid=${Id}&achid=${Acheive_Id}&achtype=${AchieveType}', '700px', '500px')">
                     <i class="iconfont color_purple">&#xe60b;</i>
                     <span class="operate_none bg_purple">详情</span>
                 </div>                
@@ -81,14 +81,14 @@
                 </div>
                 <div class="fl ml20">
                     <label for="">奖励项目：</label>
-                    <select class="select" name="Gid" id="Gid"></select>
+                    <select class="select" name="Gid" id="Gid" onchange="BindData(1,10);"></select>
                 </div>
                 <div class="fl ml20">
                     <label for="">获奖年度:</label>
                     <input type="text" class="text Wdate" name="Year" id="Year" onclick="WdatePicker({ dateFmt: 'yyyy年' })" style="border: 1px solid #ccc; width: 150px;" />
                 </div>
                 <div class="fl ml20">
-                    <input type="text" name="key" id="key" placeholder="请输入获奖项目名称关键字" value="" class="text fl" style="width:180px;">
+                    <input type="text" name="Key" id="Key" placeholder="请输入获奖项目名称关键字" value="" class="text fl" style="width:180px;">
                     <a class="search fl" href="javascript:search();"><i class="iconfont">&#xe600;</i></a>
                 </div>
             </div>
@@ -124,6 +124,7 @@
     <script src="../../TeaAchManage/BaseUse.js"></script> 
     <script>        
         var UrlDate = new GetUrlDate();
+        var loginUser = GetLoginUser();
         var pageid = getQueryString('Id'), pagelid = getQueryString('Iid');
         var CurDetail_Data = [];
         $(function () {
@@ -146,6 +147,11 @@
                 error: function () { }
             });
         }
+        var SerKey = $("#Key").val().trim();
+        function search() {
+            SerKey = $("#Key").val().trim();
+            BindData(1, 10);
+        }
         function BindData(startIndex, pageSize) {
             $("#tb_info").empty();
             CurDetail_Data = [];
@@ -153,7 +159,7 @@
                 url: HanderServiceUrl + "/TeaAchManage/AchRewardInfo.ashx",
                 type: "post",
                 dataType: "json",
-                data: { Func: "Get_RewardBatchDetailData",RewardBatch_Id:UrlDate.batchid,IsOnlyBase:1,IsPage: false, AchieveLevel: $("#AcheiveType").val(), Gid: $("#Gid").val()},
+                data: { Func: "Get_RewardBatchDetailData", RewardBatch_Id: UrlDate.batchid, IsOnlyBase: 1, IsPage: false, AchieveLevel: $("#AcheiveType").val(), Gid: $("#Gid").val(), Year: $("#Year").val(), AchiveName: SerKey },
                 success: function (json) {
                     if (json.result.errMsg == "success") {                       
                         CurDetail_Data = json.result.retData;
@@ -167,7 +173,27 @@
             });
         }
         function Del_BatchDetail(detid) { //删除奖励项目
-
+            layer.confirm('确定删除该奖励项目吗？', {
+                btn: ['确定', '取消'],
+                title: '操作'
+            }, function (index) {
+                $.ajax({
+                    url: HanderServiceUrl + "/TeaAchManage/AchManage.ashx",
+                    type: "post",
+                    async: false,
+                    dataType: "json",
+                    data: { Func: "Del_RewardBatchDetail", ItemId: detid },
+                    success: function (json) {
+                        if (json.result.errNum == 0) {
+                            layer.msg('操作成功!');
+                            BindData(1, 10);
+                        } else {
+                            layer.msg(json.result.errMsg);
+                        }
+                    },
+                    error: function () { }
+                });
+            }, function () { });
         }
         function BatchAllotReward() {
             $('#tb_info').find('.money_input').show();
@@ -180,7 +206,43 @@
             $('.btnwrap').hide();
         }
         function save() {
-
+            var idarray = [], moneyarray = [],warnarray=[],recordarray=[];
+            $("#tb_info tr").each(function (i, n) {
+                var did = n.id.replace('tr_Detail_', ''), money = Num_Fixed($(this).find('.td_money input[type=number]').val())
+                      , oldmoney = Num_Fixed($(this).find('.td_money input[type=number]').attr('oldre'))
+                , achname = $(this).find('.td_acname').html();
+                if (Number(money) != Number(oldmoney)) { //修改的
+                    idarray.push(did);
+                    moneyarray.push(money);
+                    warnarray.push("将" + achname + "的金额由" + oldmoney + "元改为" + money + "元");
+                    recordarray.push("的金额由" + oldmoney + "元改为" + money + "元");
+                }
+            });
+            if (idarray.length <= 0) {
+                layer.msg("没有金额变动!");
+                return;
+            }
+            var object = { Func: "BatchAllot_RewardBatchDetail", BatchId: idarray.join(','), BatchMoney: moneyarray.join(','), LoginUID: loginUser.UniqueNo };
+            object.LoginName = loginUser.Name;
+            object.ModifyRecord = recordarray.join(',');
+            layer.confirm(warnarray.join('<br>'), {
+                btn: ['确定', '取消'], //按钮
+                title: '操作'
+            }, function (index) {                
+                $.ajax({
+                    url: HanderServiceUrl + "/TeaAchManage/AchManage.ashx",
+                    type: "post",
+                    dataType: "json",
+                    data: object,
+                    success: function (json) {
+                        if (json.result.errNum == 0) {
+                            layer.msg('操作成功!');
+                            BindData(1, 10);
+                        } else { layer.msg(json.result.errMsg); }
+                    },
+                    error: function (errMsg) { alert(errMsg); }
+                });
+            }, function () { });
         }
     </script>
 </body>
