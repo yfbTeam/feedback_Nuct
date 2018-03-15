@@ -933,3 +933,29 @@ function RtnULevel(uLevel) {
     }
 }
 /********************************************************教材打印结束***************************************************/
+
+/********************************************************导出奖金分配明细***************************************************/
+function Export_RewardBatchDetail(batid, batname) {
+    $("#tb_Export").empty();
+    var export_Data = [];
+    $.ajax({
+        url: HanderServiceUrl + "/TeaAchManage/AchRewardInfo.ashx",
+        type: "post",
+        dataType: "json",
+        data: { Func: "Get_RewardBatchDetailData", RewardBatch_Id: batid, IsOnlyBase: 1, IsPage: false, IsAllotUser: 1, AuditStatus: "=3" },
+        success: function (json) {
+            if (json.result.errMsg == "success") {
+                export_Data = json.result.retData;
+            }
+            if (!export_Data.length) {
+                layer.msg("无导出内容！");
+                return;
+            }
+            $("#tr_Export").tmpl(export_Data).appendTo("#tb_Export");
+            $("#table_1").find('caption').remove();
+            $("#table_1").tableExport({ formats: ["xlsx"], bootstrap: false, fileName: batname });
+            $("button[data-fileblob]").trigger("click");
+        },
+        error: function () { }
+    });
+}

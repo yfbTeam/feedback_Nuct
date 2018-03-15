@@ -30,7 +30,7 @@
                     <i class="iconfont color_purple">&#xe60b;</i>
                     <span class="operate_none bg_purple">详情</span>
                 </div>
-                <div class="operate">
+                <div class="operate" onclick="Export_RewardBatchDetail(${Id},'${Name}');">
                     <i class="iconfont color_purple">&#xe63c;</i>
                     <span class="operate_none bg_purple">导出</span>
                 </div>
@@ -41,6 +41,25 @@
             </td>
         </tr>
     </script>
+    <script id="tr_Export" type="text/x-jquery-tmpl">
+        <tr>
+            <td>${GidName}</td>
+            <td>${AchiveName}</td>
+            <td>${Major_Name}</td>
+            <td>${Year}</td>   
+            <td>${RUserName}</td>                   
+            <td>${AllotMoney}</td>
+        </tr>
+    </script>
+    <style>       
+        #table_1 {
+            width: 0px;
+            height: 0px;
+            position: absolute;
+            left: -99999px;
+            top: -999999px;
+        }
+    </style>
 </head>
 <body>
     <div id="top"></div>
@@ -80,6 +99,21 @@
         </div>
     </div>
     <footer id="footer"></footer>
+    <div id="table_1">
+        <table>
+            <thead>
+                <tr>
+                    <th width="27%">奖励项目</th>
+                    <th width="27%">获奖项目名称</th>
+                    <th width="25%">负责单位</th>                    
+                    <th width="7%">获奖年度</th>
+                    <th width="7%">获奖人</th>
+                    <th width="7%">金额（元）</th>                   
+                </tr>
+            </thead>
+            <tbody id="tb_Export"></tbody>
+        </table>
+    </div>
     <script src="../../Scripts/Common.js"></script>
     <script src="../../Scripts/public.js"></script>
     <script src="../../Scripts/layer/layer.js"></script>
@@ -89,6 +123,12 @@
     <link href="../../Scripts/HoneySwitch/honeySwitch.css" rel="stylesheet" />
     <script src="../../Scripts/HoneySwitch/honeySwitch-noclick.js"></script>
     <script type="text/javascript" src="../../Scripts/My97DatePicker/WdatePicker.js"></script>
+     <link href="../../Scripts/tableexport/dist/css/tableexport.min.css" rel="stylesheet">
+    <script src="../../Scripts/tableexport/js/xlsx.core.min.js"></script>
+	<script src="../../Scripts/tableexport/js/blob.js"></script>
+	<script src="../../Scripts/tableexport/js/FileSaver.min.js"></script>
+	<script src="../../Scripts/tableexport/dist/js/tableexport.js"></script>
+    <script src="../../TeaAchManage/BaseUse.js"></script> 
      <script>
          var pageid = getQueryString('Id'), pagelid = getQueryString('Iid');
          $(function () {
