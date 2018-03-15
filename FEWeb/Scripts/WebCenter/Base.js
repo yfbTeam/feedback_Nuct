@@ -85,7 +85,7 @@ var Base = {
 
     BindTableCompleate: function () { },
     BindTable: function (SectionID, CourseID,NoEnableSelect) {
-       
+      
         $.ajax({
             url: HanderServiceUrl + "/Eva_Manage/Eva_ManageHandler.ashx",
             type: "post",
