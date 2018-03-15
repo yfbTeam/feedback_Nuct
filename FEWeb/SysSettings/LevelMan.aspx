@@ -54,8 +54,8 @@
                              <tr>
                                  <th>奖项</th>
                                  <th>分数（分）</th>
-                                 <th>奖金（元）</th>
-                                 <th>追加（元）</th>
+                                 <%--<th>奖金（元）</th>
+                                 <th>追加（元）</th>--%>
                                  <th id="ops" width="230px;">操作</th>
                              </tr>
                          </thead>
@@ -72,13 +72,13 @@
         <tr>
             <td>${rew.Name}</td>
             <td>${rew.Score}</td>
-            <td><%--${rew.FirstMoney}--%></td>
-            <td><%--${rew.AddMoney}--%></td>
+            <%--<td>${rew.FirstMoney}</td>
+            <td>${rew.AddMoney}</td>--%>
             <td class="operate_wrap">
-                <div class="operate" onclick="javascript:OpenIFrameWindow('奖金管理', '../TeaAchManage/AddAward.aspx?Id=${rew.Id}&lid=${LID}', '700px', '480px');">
+                <%--<div class="operate" onclick="javascript:OpenIFrameWindow('奖金管理', '../TeaAchManage/AddAward.aspx?Id=${rew.Id}&lid=${LID}', '700px', '480px');">
                     <i class="iconfont color_purple">&#xe623;</i>
                     <span class="operate_none bg_purple">奖金</span>
-                </div>
+                </div>--%>
                 <div class="operate" onclick="javascript:OpenIFrameWindow('编辑奖项', '../TeaAchManage/RewardAdd.aspx?Id=${rew.Id}&batid=${rew.FirstId}&stype=1', '500px', '320px');">
                     <i class="iconfont color_purple">&#xe628;</i>
                     <span class="operate_none bg_purple">编辑</span>
@@ -152,9 +152,9 @@
                         <tr>
                             <th style="text-align:left;text-indent:45px;">排名</th>
                             <th>分数（分）</th>
-                            <th>奖金（元）</th>
+                           <%-- <th>奖金（元）</th>
                             <th>追加（元）</th>
-                            <th id="ops" width="230px;">操作</th>
+                            <th id="ops" width="230px;">操作</th>--%>
                         </tr>
                     </thead>
                     <tbody id="tb_RewRank_${rew.Id}"></tbody>
@@ -168,14 +168,14 @@
         <tr>
             <td style="padding-left:45px;text-align:left;">${Name}</td>
             <td>${Score}</td>
-            <td>${FirstMoney}</td>
+            <%--<td>${FirstMoney}</td>
             <td>${AddMoney}</td>
             <td class="operate_wrap">
                 <div class="operate" onclick="javascript:OpenIFrameWindow('奖金管理', '../TeaAchManage/AddAward.aspx?Id=${RId}&rank=${Id}', '700px', '480px');">
                     <i class="iconfont color_purple">&#xe623;</i>
                     <span class="operate_none bg_purple">奖金</span>
                 </div> 
-            </td>
+            </td>--%>
         </tr>
     </script>
 </head>
@@ -202,10 +202,10 @@
                     <div class="nav_title clearfix">
                         <span id="BigGroupName"></span>
                         <div class="fr clearfix">
-                            <div class="input-wrap fl mr10" style="margin-bottom: 0;" onclick="ChangeRewardEditionAllot()">
+                            <%--<div class="input-wrap fl mr10" style="margin-bottom: 0;" onclick="ChangeRewardEditionAllot()">
                                 <label for="" style="min-width: auto;">金额分配：</label>
                                 <span class="switch-on" themecolor="#6a264b" id="IsMoneyAllot"></span>
-                            </div>
+                            </div>--%>
                             <input type="button" name="name" value="新增等级" class="btn" id="NewLevel" />
                         </div>
                     </div>
@@ -436,13 +436,13 @@
             else{
                 $("#EID").val(EID);
             }
-            var IsMoneyAllot = $(".nav_version_left").find('#'+EID).attr('switch');
-            if (IsMoneyAllot == "0") {
-                honeySwitch.showOff("#IsMoneyAllot");
-            }
-            else {
-                honeySwitch.showOn("#IsMoneyAllot");
-            }
+            //var IsMoneyAllot = $(".nav_version_left").find('#'+EID).attr('switch');
+            //if (IsMoneyAllot == "0") {
+            //    honeySwitch.showOff("#IsMoneyAllot");
+            //}
+            //else {
+            //    honeySwitch.showOn("#IsMoneyAllot");
+            //}
             cur_AchieveType=$('.menu_list li.selected').parent('ul').attr('atype');           
             $(".version_lists").html("");
             cur_RewardLevelData=[];
