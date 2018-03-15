@@ -104,7 +104,7 @@
                 </div>
                 <div class="fl ml20">
                     <label for="">获奖年度:</label>
-                    <input type="text" class="text Wdate" name="Year" id="Year" onclick="WdatePicker({ dateFmt: 'yyyy年' })" style="border: 1px solid #ccc; width: 150px;" />
+                    <input type="text" class="text Wdate" name="Year" id="Year" onclick="WdatePicker({ dateFmt: 'yyyy年', onpicked: function () { BindData(1, 10); }, oncleared: function () { BindData(1, 10); } })" style="border: 1px solid #ccc; width: 150px;" />
                 </div>
                 <div class="fl ml20">
                     <input type="text" name="Key" id="Key" placeholder="请输入获奖项目名称关键字" value="" class="text fl" style="width:180px;">
