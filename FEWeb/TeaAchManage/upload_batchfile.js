@@ -27,7 +27,7 @@ function Get_Sys_Document(type, relationid, upobj) { //获取文件信息
 function File_Viewer(filepath) { //预览
     var exten_str = filepath.substr(filepath.lastIndexOf(".")).toLowerCase();//后缀
     if (exten_str=='pdf') {
-        window.open("Pdf_View.html?src=" + filepath);
+        window.open("/TeaAchManage/Pdf_View.html?src=" + filepath);
     } else {
         window.open(filepath);
     }
@@ -219,7 +219,7 @@ function BindFile_Plugin(wrap, pickid, dndid) { //绑定上传文件插件
                         return;
                     case 1:
                         if (!file.type.match(/^image/)) {
-                            window.open("Pdf_View.html?src=" + file.return_src);
+                            window.open("/TeaAchManage/Pdf_View.html?src=" + file.return_src);
                         } else {
                             window.open(file.return_src);
                         }

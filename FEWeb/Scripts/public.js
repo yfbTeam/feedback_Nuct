@@ -500,7 +500,7 @@ function Get_LookPage_Document(type, relationid, ul_file) {
 function File_Viewer(filepath) {
     var exten_str = filepath.substr(filepath.lastIndexOf(".")).toLowerCase();//后缀
     if (exten_str == 'pdf') {
-        window.open("Pdf_View.html?src=" + filepath);
+        window.open("/TeaAchManage/Pdf_View.html?src=" + filepath);
     } else {
         window.open(filepath);
     }
