@@ -12,7 +12,7 @@
     <script type="text/x-jquery-tmpl" id="con_item">
        <div class="input-wrap">
                 <label>年度：</label>
-                <span>${Year}</span>
+                <span>${Year}年</span>
             </div>
             <div class="input-wrap">
                 <label>名称：</label>
@@ -20,7 +20,7 @@
             </div>
             <div class="input-wrap">
                 <label>总金额：</label>
-                <span>${BatchMoney}</span>
+                <span>${BatchMoney}元</span>
             </div>
             <div class="input_lable2">
                 <label for="" style="min-width:100px;">附件：</label>

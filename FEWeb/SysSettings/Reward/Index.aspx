@@ -68,7 +68,7 @@
             <div class="search_toobar clearfix" id="div_ache_bar">
                 <div class="fl ml20">
                     <label for="">年度:</label>
-                    <input type="text"  class="text Wdate" name="Year" id="Year" onclick="WdatePicker({ dateFmt: 'yyyy年', onpicked: function () { GetData(1, 10); }, oncleared: function () { GetData(1, 10); } })" style="border:1px solid #ccc;width:150px;"/>
+                    <input type="text"  class="text Wdate" name="Year" id="Year" readonly="readonly" placeholder="请选择年度" onclick="WdatePicker({ dateFmt: 'yyyy年', onpicked: function () { GetData(1, 10); }, oncleared: function () { GetData(1, 10); } })" style="border:1px solid #ccc;width:150px;"/>
                 </div>
                 <div class="fl ml20">
                     <input type="text" name="Key" id="Key" placeholder="请输入奖金批次名称" value="" class="text fl" style="width: 150px;">
