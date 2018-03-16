@@ -32,7 +32,7 @@
             </div>
             <div class="input-wrap td_money">
                 <label>金额：</label>
-                <input type="number" isrequired="true" regtype="money" fl="金额" class="text" min="0.01" step="0.01" name="Money" id="Money" oldre="${Money}" value="${Money}" placeholder="请输入金额" style="margin-left:0px;"/>
+                <input type="number" isrequired="true" regtype="money" fl="金额" class="text" min="0.01" step="0.01" name="Money" id="Money" oldre="${Money}" value="${Money}" placeholder="请输入金额" style="margin-left:0px;"/><span style="padding-left:7px;">元</span>
             </div>
     </script>
 </head>
@@ -82,6 +82,7 @@
                 success: function (json) {
                     if (json.result.errNum == 0) {
                         parent.layer.msg('操作成功!');
+                        parent.BindBatchData();
                         parent.BindData(1, 10);
                         parent.CloseIFrameWindow();
                     } else {

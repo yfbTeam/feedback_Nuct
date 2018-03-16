@@ -26,7 +26,7 @@
             </div>
             <div class="input-wrap">
                 <label>总金额：</label>
-                <input type="number" isrequired="true" regtype="money" fl="总金额" class="text" min="0.01" step="0.01" name="BatchMoney" id="BatchMoney" placeholder="请输入总金额"/>
+                <input type="number" isrequired="true" regtype="money" fl="总金额" class="text" min="0.01" step="0.01" name="BatchMoney" id="BatchMoney" placeholder="请输入总金额"/><span style="padding-left:7px;">元</span>
             </div>
             <div class="input_lable2">
                 <label for="" style="min-width:100px;">附件：</label>
@@ -81,7 +81,7 @@
                 success: function (json) {
                     if (json.result.errMsg == "success") {
                         $(json.result.retData).each(function () {
-                            $("#Year").val(this.Year);
+                            $("#Year").val(this.Year+"年");
                             $("#Name").val(this.Name);
                             $("#BatchMoney").val(this.BatchMoney);
                         });

@@ -39,7 +39,7 @@
             <td>${Year}</td>          
             <td class="td_money"> 
                 <span class="money_span">${Money}</span>
-                <input type="number" isrequired="true" regtype="money" fl="金额" min="0.01" step="0.01" id="Money_${Id}" name="Money_${Id}" oldre="${Money}" value="${Money}" class="text money_input none"/>
+                <input type="number" isrequired="true" regtype="money" fl="金额" min="0.01" step="0.01" id="Money_${Id}" name="Money_${Id}" oldre="${Money}" value="${Money}" class="text money_input none" style="width:130px;"/>
             </td>
             <td>{{if AuditStatus==10||AuditStatus==0}}<span class="nosubmit">待分配</span>
                     {{else AuditStatus==1}}<span class="checking1">待审核</span>
@@ -104,7 +104,7 @@
                 </div>
                 <div class="fl ml20">
                     <label for="">获奖年度:</label>
-                    <input type="text" class="text Wdate" name="Year" id="Year" onclick="WdatePicker({ dateFmt: 'yyyy年', onpicked: function () { BindData(1, 10); }, oncleared: function () { BindData(1, 10); } })" style="border: 1px solid #ccc; width: 150px;" />
+                    <input type="text" class="text Wdate" name="Year" id="Year" readonly="readonly" placeholder="请选择年度" onclick="WdatePicker({ dateFmt: 'yyyy年', onpicked: function () { BindData(1, 10); }, oncleared: function () { BindData(1, 10); } })" style="border: 1px solid #ccc; width: 150px;" />
                 </div>
                 <div class="fl ml20">
                     <input type="text" name="Key" id="Key" placeholder="请输入获奖项目名称关键字" value="" class="text fl" style="width:180px;">
@@ -120,9 +120,9 @@
                             <th width="19%">负责单位</th>
                             <th width="6%">负责人</th>
                             <th width="6%">获奖年度</th>
-                            <th width="6%">金额</th>
+                            <th width="8%">金额（元）</th>
                             <th width="6%">状态</th>
-                            <th width="18%">操作</th>
+                            <th width="16%">操作</th>
                         </tr>
                     </thead>
                     <tbody id="tb_info"></tbody>
@@ -173,6 +173,7 @@
             Bind_SelAchieve();
         });
         function BindBatchData() {
+            $("#div_Batch").empty();
             $.ajax({
                 url: HanderServiceUrl + "/TeaAchManage/AchManage.ashx",
                 type: "post",
@@ -225,6 +226,7 @@
                     success: function (json) {
                         if (json.result.errNum == 0) {
                             layer.msg('操作成功!');
+                            BindBatchData();
                             BindData(1, 10);
                         } else {
                             layer.msg(json.result.errMsg);
@@ -276,6 +278,7 @@
                     success: function (json) {
                         if (json.result.errNum == 0) {
                             layer.msg('操作成功!');
+                            BindBatchData();
                             BindData(1, 10);
                         } else { layer.msg(json.result.errMsg); }
                     },
