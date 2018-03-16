@@ -14,7 +14,7 @@
             <td>${Name}</td>
             <td>${BatchMoney}</td>
             <td>${UseMoney}</td>
-            <td>${BatchMoney-UseMoney}</td>
+            <td>${Num_Fixed(BatchMoney-UseMoney)}</td>
             <td>${DateTimeConvert(CreateTime)}</td>
             <td><div class="allotstatus" onclick="ChangeIsMoneyAllot(${Id});"><span class="{{if IsMoneyAllot==0}}switch-off{{else}}switch-on{{/if}}" themecolor="#6a264b" id="IsMoneyAllot_${Id}"></span></div></td>
             <td class="operate_wrap">

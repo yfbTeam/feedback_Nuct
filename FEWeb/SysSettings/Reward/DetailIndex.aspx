@@ -278,6 +278,7 @@
                     success: function (json) {
                         if (json.result.errNum == 0) {
                             layer.msg('操作成功!');
+                            cancel();
                             BindBatchData();
                             BindData(1, 10);
                         } else { layer.msg(json.result.errMsg); }
