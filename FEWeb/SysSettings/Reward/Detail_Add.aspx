@@ -72,6 +72,7 @@
     <script>
         var UrlDate = new GetUrlDate();
         var BatchId = UrlDate.batchid;
+        var Select_DetIdArray = [];
         $(function () {
             Bind_SelAchieve();
         });
@@ -82,11 +83,12 @@
         }
         function BindData(startIndex, pageSize) {
             $("#tb_info").empty();
+            $("#ck_head").prop('checked', false);
             $.ajax({
                 url: HanderServiceUrl + "/TeaAchManage/AchRewardInfo.ashx",
                 type: "post",
                 dataType: "json",
-                data: { "Func": "GetAcheiveRewardInfoData", PageIndex: startIndex, pageSize: pageSize, AchieveLevel: $("#AcheiveType").val(), Gid: $("#Gid").val(), Status_Com: '>2', Year: $("#Year").val(), AchiveName: SerKey },
+                data: { "Func": "GetAcheiveRewardInfoData", RewardBatch_Id: BatchId, PageIndex: startIndex, pageSize: pageSize, AchieveLevel: $("#AcheiveType").val(), Gid: $("#Gid").val(), Status_Com: '>2', Year: $("#Year").val(), AchiveName: SerKey },
                 success: function (json) {
                     if (json.result.errMsg == "success") {
                         $("#pageBar").show();
@@ -104,6 +106,8 @@
                             }
                         });
                         tableSlide();
+                        Table_SetCheck($('input:checkbox'));
+                        Table_CheckAll($('input:checkbox'));
                     } else {
                         $("#pageBar").hide();
                         nomessage('#tb_info');
@@ -115,12 +119,8 @@
             });
         }
         function submit() {
-            var checkedtr = $("input[type='checkbox'][name='ss']:checked");
-            if (checkedtr.length == 0) { layer.msg('请勾选要添加的奖励项目！'); return; }
-            var idArray = [];
-            $(checkedtr).each(function (i, n) {
-                idArray.push(n.value);
-            });
+            if (Select_DetIdArray.length == 0) { layer.msg('请勾选要添加的奖励项目！'); return; }
+            var idArray = Select_DetIdArray;            
             $.ajax({
                 url: HanderServiceUrl + "/TeaAchManage/AchManage.ashx",
                 type: "post",
@@ -135,6 +135,58 @@
                 },
                 error: function (errMsg) {}
             });
+        }
+        function Table_SetCheck(oInput) {//设置初始是否选中
+            var isCheckAll = function () {
+                for (var i = 1, n = 0; i < oInput.length; i++) {
+                    oInput[i].checked && n++
+                }
+                oInput[0].checked = n == oInput.length - 1;
+            };
+            for (var i = 1; i < oInput.length; i++) {
+                var cindex = $.inArray(oInput[i].value, Select_DetIdArray);
+                if (cindex > -1) {
+                    oInput[i].checked = true;
+                }               
+            }
+             isCheckAll()
+        }
+        function Table_CheckAll(oInput) {
+            var isCheckAll = function () {
+                for (var i = 1, n = 0; i < oInput.length; i++) {
+                    oInput[i].checked && n++
+                }
+                oInput[0].checked = n == oInput.length - 1;
+            };
+            //全选
+            oInput[0].onchange = function () {
+                for (var i = 1; i < oInput.length; i++) {
+                    oInput[i].checked = this.checked;
+                    AddORDelCkNo(oInput[i].value, $(this).is(':checked'));
+                }
+                isCheckAll()
+            };
+            //根据复选个数更新全选框状态
+            for (var i = 1; i < oInput.length; i++) {                
+                oInput[i].onchange = function () {   //单选              
+                    AddORDelCkNo(this.value, $(this).is(':checked'));
+                    isCheckAll()
+                }
+            }
+        }
+        //数组添加或移除编号
+        function AddORDelCkNo(val_No, ischeck) {
+            var cindex = $.inArray(val_No, Select_DetIdArray);
+            if (!ischeck) { //取消选中          
+                if (cindex > -1) {
+                    Select_DetIdArray.splice(cindex, 1);
+                }
+            }
+            else { //选中  
+                if (cindex == -1) {
+                    Select_DetIdArray.push(val_No);
+                }
+            }
         }
     </script>
 </body>
