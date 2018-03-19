@@ -21,7 +21,7 @@
                 <label for="">已分：${UseMoney}元</label>
             </div>
             <div class="fl ml20">
-                <label for="">未分：${BatchMoney-UseMoney}元</label>
+                <label for="">未分：${Num_Fixed(BatchMoney-UseMoney)}元</label>
             </div>
             <div class="fr">
                 <input type="button" value="添加奖励项目" class="btn" onclick="OpenIFrameWindow('添加奖励项目', 'Detail_Add.aspx?batchid=${Id}', '1050px', '700px')">
