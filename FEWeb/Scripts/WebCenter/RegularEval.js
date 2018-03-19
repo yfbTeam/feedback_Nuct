@@ -421,7 +421,7 @@ function Get_Eva_RegularData(Id, PageIndex) {
             shade: [0.1, '#fff'] //0.1透明度的白色背景
         });
     }
-   
+
     $.ajax({
         type: "Post",
         url: HanderServiceUrl + "/Eva_Manage/Eva_ManageHandler.ashx",
@@ -486,7 +486,7 @@ function Get_Eva_RegularData_Room(PageIndex) {
     var postData = {
         func: "Get_Eva_RegularData_Room", "PageIndex": PageIndex,
         "PageSize": pageSize,
-        "SectionID": SectionID, "ReguID": ReguID,
+        "SectionID": SectionID, "ReguID": ReguID, "TeacherUID": TeacherUID,
         "Te": Te, "RP": RP, "Gr": Gr, "Key": key,
     };
     layer_index = layer.load(1, {

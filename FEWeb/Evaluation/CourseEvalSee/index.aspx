@@ -175,26 +175,30 @@
     </script>
     <script>
         var pageIndex = 0;
-
+        var rid = login_User.Sys_Role_Id;
         $(function () {
             $('#top').load('/header.html');
             $('#footer').load('/footer.html');
 
             $(".search_toobar").empty();
-            var rid = login_User.Sys_Role_Id;           
+                
             if (rid == 1)
             {
                 $("#item_mange_select").tmpl(1).appendTo(".search_toobar");
+
             }
             else
             {
                 $("#item_normal_select").tmpl(1).appendTo(".search_toobar");
+                TeacherUID = login_User.UniqueNo;
+                Te = login_User.UniqueNo;
             }
-
+       
             Base.bindStudySectionCompleate = function () {
                 SectionID = $('#section').val();
                 Type = 2;
                 Get_Eva_Regular_Select();
+
                 GetClassInfoSelect(SectionID);
             };
             Base.bindStudySection();
@@ -206,9 +210,12 @@
                 $("#Rg").empty();
                 $("#Rg").append("<option value=''>全部</option>");
 
+               
                 Get_Eva_Regular_Select();
                 GetClassInfoSelect(SectionID);
                 Refesh();
+
+              
             });
 
             $('#Rg,#RP,#TN,#GD').on('change', Refesh);
@@ -223,6 +230,14 @@
             RP = $('#RP').val();
             Te = $('#TN').val();
             Gr = $('#GD').val();
+
+            if (rid == 1) {
+            }
+            else {
+                TeacherUID = login_User.UniqueNo;
+                Te = login_User.UniqueNo;
+            }
+           
             Get_Eva_RegularData_Room(pageIndex);
         }
 
