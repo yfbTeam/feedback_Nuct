@@ -208,6 +208,7 @@
                     } else {                       
                         nomessage('#tb_info');
                     }
+                    cancel();
                 },
                 error: function () {}
             });
@@ -277,8 +278,7 @@
                     data: object,
                     success: function (json) {
                         if (json.result.errNum == 0) {
-                            layer.msg('操作成功!');
-                            cancel();
+                            layer.msg('操作成功!');                            
                             BindBatchData();
                             BindData(1, 10);
                         } else { layer.msg(json.result.errMsg); }
