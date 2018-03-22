@@ -25,13 +25,13 @@
             </div>
             <div class="fr">
                 <input type="button" value="添加奖励项目" class="btn" onclick="OpenIFrameWindow('添加奖励项目', 'Detail_Add.aspx?batchid=${Id}', '1050px', '700px')">
-                <input type="button" value="批量分配项目奖金" class="btn" onclick="BatchAllotReward();">
+                <input type="button" value="批量分配项目奖金" id="btn_BatchAllot" class="btn" onclick="BatchAllotReward();">
                 <input type="button" value="导出分配明细" class="btn" onclick="Export_RewardBatchDetail(${Id},'${Name}');">
             </div>
         </div>
     </script>
     <script type="text/x-jquery-tmpl" id="tr_Info">
-        <tr id="tr_Detail_${Id}">
+        <tr id="tr_Detail_${Id}" class="detail_tr">
             <td>${GidName}</td>
             <td class="td_acname">${AchiveName}</td>
             <td>${Major_Name}</td>
@@ -111,7 +111,7 @@
                     <a class="search fl" href="javascript:search();"><i class="iconfont">&#xe600;</i></a>
                 </div>
             </div>
-            <div class="table mt10">
+            <div class="table mt10" style="height:540px;overflow:auto;">
                 <table>
                     <thead>
                         <tr>
@@ -208,6 +208,12 @@
                     } else {                       
                         nomessage('#tb_info');
                     }
+                    var $btn_BatchAllot=$("#btn_BatchAllot");
+                    if($("#tb_info tr.detail_tr").length==0){
+                        $btn_BatchAllot.css('background','#ccc');
+                    }else{
+                        $btn_BatchAllot.css('background','#6a264b');
+                    }
                     cancel();
                 },
                 error: function () {}
@@ -238,9 +244,16 @@
             }, function () { });
         }
         function BatchAllotReward() {
-            $('#tb_info').find('.money_input').show();
-            $('#tb_info').find('.money_span').hide();
-            $('.btnwrap').show();
+            var $tb_tr=$("#tb_info tr.detail_tr");
+            $tb_tr.each(function (i, n) {
+                var $inp_money=$(this).find('.td_money input[type=number]');
+                $inp_money.val($inp_money.attr('oldre'));
+            });
+            if($tb_tr.length>0){
+                $('#tb_info').find('.money_input').show();
+                $('#tb_info').find('.money_span').hide();
+                $('.btnwrap').show(); 
+            }                    
         }
         function cancel() {
             $('#tb_info').find('.money_input').hide();
