@@ -260,4 +260,16 @@ function GetClassInfoSelect(SectionID, TeacherUID, CourseID) {
         }
     });
 }
+function Sel_TeaDepart_Change() {
+    var Tea_NameData = TNList;  //重新绑定教师姓名选择框              
+    if ($("#TD").val() != '') {
+        Tea_NameData = Tea_NameData.filter(function (item) { return item.TeacherDepartmentName == $("#TD").val() })
+    }
+    $("#TN").empty().append("<option value=''>全部</option>");
+    Tea_NameData.forEach(function (item) {
+        var str = "<option value='" + item.TeacherUID + "'>" + item.TeacherName + "</option>";
+        $("#TN").append(str);
+    });
+    ChosenInit($('#TN'));
+}
 
