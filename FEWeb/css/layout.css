@@ -77,6 +77,18 @@ body{background: #f9f4f8;}
 .textoverflow{
     text-overflow:ellipsis;overflow:hidden;white-space:nowrap;
 }
+.btngray{height: 34px;
+    min-width: 100px;
+    padding: 0px 22px;
+    color: #fff;
+    border: none;
+    background: #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+    cursor: pointer;
+    display: inline-block;
+    line-height: 34px;
+    text-align: center;}
 /*iconfont*/
 .iconfont {
   font-family: "iconfont" !important;
