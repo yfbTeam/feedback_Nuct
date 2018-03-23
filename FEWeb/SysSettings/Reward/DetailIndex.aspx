@@ -25,7 +25,7 @@
             </div>
             <div class="fr">
                 <input type="button" value="添加奖励项目" class="btn" onclick="OpenIFrameWindow('添加奖励项目', 'Detail_Add.aspx?batchid=${Id}', '1050px', '700px')">
-                <input type="button" value="批量分配项目奖金" id="btn_BatchAllot" class="btn" onclick="BatchAllotReward();">
+                <input type="button" value="批量分配项目奖金" id="btn_BatchAllot" class="btngray" onclick="BatchAllotReward();">
                 <input type="button" value="导出分配明细" class="btn" onclick="Export_RewardBatchDetail(${Id},'${Name}');">
             </div>
         </div>
@@ -177,6 +177,7 @@
             $.ajax({
                 url: HanderServiceUrl + "/TeaAchManage/AchManage.ashx",
                 type: "post",
+                async: false,
                 dataType: "json",
                 data: { "Func": "Get_RewardBatchData", Id: UrlDate.batchid, IsPage: false },
                 success: function (json) {
@@ -204,15 +205,15 @@
                     if (json.result.errMsg == "success") {                       
                         CurDetail_Data = json.result.retData;
                         $("#tr_Info").tmpl(json.result.retData).appendTo("#tb_info");                        
-                        tableSlide();
+                        tableSlide();                        
                     } else {                       
                         nomessage('#tb_info');
                     }
                     var $btn_BatchAllot=$("#btn_BatchAllot");
                     if($("#tb_info tr.detail_tr").length==0){
-                        $btn_BatchAllot.css('background','#ccc');
+                        $btn_BatchAllot.removeClass('btn').addClass('btngray');
                     }else{
-                        $btn_BatchAllot.css('background','#6a264b');
+                        $btn_BatchAllot.removeClass('btngray').addClass('btn');
                     }
                     cancel();
                 },
