@@ -18,11 +18,11 @@
         <div class="search_toobar clearfix">
             <div class="input-wrap">
                 <label>年度：</label>
-                <input type="text"  class="text Wdate" name="Year" id="Year" onclick="WdatePicker({ dateFmt: 'yyyy年' })" style="border:1px solid #ccc;width:250px;"/>
+                <input type="text"  class="text Wdate" isrequired="true" fl="年度" name="Year" id="Year" readonly="readonly" placeholder="请选择年度" onclick="WdatePicker({ dateFmt: 'yyyy年' })" style="border:1px solid #ccc;width:250px;"/>
             </div>
             <div class="input-wrap">
                 <label>名称：</label>
-                <input type="text" class="text" name="Name" id="Name" placeholder="请输入名称"/>
+                <input type="text" class="text" isrequired="true" fl="名称" name="Name" id="Name" placeholder="请输入名称"/>
             </div>
             <div class="input-wrap">
                 <label>总金额：</label>

@@ -108,10 +108,10 @@
     <script type="text/x-jquery-tmpl" id="itemData">
         <tr>
             <td style="width: 5%">${Num}</td>
-            <td style="width: 7%">${DisPlayName}</td>
+            <td  style="width: 7%">${DisPlayName}</td>
             <td style="width: 8%">${ReguName}</td>
-            <td title="${Departent_Name}" style="width: 13%;display: none">${cutstr(DepartmentName,30)}</td>
-            <td style="width: 5%;display: none">${TeacherName}</td>
+            <td title="${Departent_Name}" class="commonUsing"  style="width: 13%;display: none">${cutstr(DepartmentName,30)}</td>
+            <td class="commonUsing"  style="width: 5%;display: none">${TeacherName}</td>
             <td title="${Course_Name}" style="width: 13%">${cutstr(CourseName,30)}</td>
               <td title="${HeaderClassName}" style="width: 6%">${cutstr(HeaderClassName,10)}</td>
               <td title="${HeaderStuName}" style="width: 6%">${cutstr(HeaderStuName,10)}</td>

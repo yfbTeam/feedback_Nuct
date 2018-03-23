@@ -549,7 +549,8 @@ var IndicateType_Model = {
             for (var i = 0; i < P_List.length; i++) {
                 self_list.push(P_List[i].self);
             }
-
+            if (P_List.length == 0) { $("#btn_AddIndicate").hide();$("#Child").empty(); return; }
+            $("#btn_AddIndicate").show();
             //$('.menu_list li:eq(0)').addClass('selected');                   
             $('.menu_list li').click(function () {
                 $(this).addClass('selected').siblings().removeClass('selected');

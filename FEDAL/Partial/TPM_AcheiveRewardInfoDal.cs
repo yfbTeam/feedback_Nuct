@@ -158,6 +158,12 @@ namespace FEDAL
                     str.Append(" and a.Status>6 and a.Id in(select distinct RIId from TPM_RewardUserInfo where IsDelete =0 and UserNo=@MyIndex_LoginUID)");
                     pms.Add(new SqlParameter("@MyIndex_LoginUID", ht["MyIndex_LoginUID"].SafeToString()));
                 }
+                if (ht.ContainsKey("RewardBatch_Id") && !string.IsNullOrEmpty(ht["RewardBatch_Id"].SafeToString()))//奖金批次id
+                {
+                    str.Append(@" and a.Id not in(select distinct Acheive_Id from TPM_RewardBatchDetail 
+                              where IsDelete = 0 and RewardBatch_Id=@RewardBatch_Id)");
+                    pms.Add(new SqlParameter("@RewardBatch_Id", ht["RewardBatch_Id"].SafeToString()));
+                }                
                 if (IsPage)
                 {
                     StartIndex = Convert.ToInt32(ht["StartIndex"].ToString());

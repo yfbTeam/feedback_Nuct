@@ -215,7 +215,7 @@
             DataBaseMainModel.PageType = 'DatabaseMan';
             //初始化指标库分类
             DataBaseMainModel.init_IndicatorType_data();
-
+            $("#btndiv").empty();
             if (LeftList.length == 0) {
                 nomessage('#test1', 'no', 19, 480);
                 $("#itemNo").tmpl(1).appendTo("#btndiv");

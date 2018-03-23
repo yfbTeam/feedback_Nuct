@@ -166,7 +166,8 @@ namespace FEHandler.TeaAchManage
                 ht.Add("Level_DepartIds", context.Request["Level_DepartIds"].SafeToString()); //业绩审核，按院系查询的十大业绩Id
                 ht.Add("Level_AllIds", context.Request["Level_AllIds"].SafeToString());//业绩审核，按全校查询的十大业绩Id
                 ht.Add("TwoAudit_Status", context.Request["TwoAudit_Status"].SafeToString());//个人竞赛奖状态
-                ht.Add("MyAch_LoginUID", context.Request["MyAch_LoginUID"].SafeToString());//我的业绩处的查询           
+                ht.Add("MyAch_LoginUID", context.Request["MyAch_LoginUID"].SafeToString());//我的业绩处的查询 
+                ht.Add("RewardBatch_Id", context.Request["RewardBatch_Id"].SafeToString());//奖金批次id                
                 jsonModel = bll.GetPage(ht, IsPage);
 
             }

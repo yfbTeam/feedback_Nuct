@@ -315,6 +315,7 @@ namespace FEHandler.Eva_Manage
 
 
             string Te = RequestHelper.string_transfer(Request, "Te");
+            //string TeacherUID = RequestHelper.string_transfer(Request, "TeacherUID");
             string RP = RequestHelper.string_transfer(Request, "RP");
             string Gr = RequestHelper.string_transfer(Request, "Gr");
             string Key = RequestHelper.string_transfer(Request, "Key");
@@ -393,9 +394,15 @@ namespace FEHandler.Eva_Manage
                                     where q.ReguID == ReguID
                                     select q).ToList();
                 }
+
+                //if (TeacherUID != "")
+                //{
+                //    list = (from li in list where li.TeacherUID == TeacherUID select li).ToList();
+                //}
+
                 if (Te != "")
                 {
-                    list = (from li in list where li.TeacherName == Te select li).ToList();
+                    list = (from li in list where li.TeacherUID == Te select li).ToList();
                 }
                 if (RP != "")
                 {
