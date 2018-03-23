@@ -44,14 +44,12 @@ var DataBaseMainModel =
                 dataType: "json",
                 data: { Func: "Get_IndicatorType", "Type": Type, "CreateUID": CreateUID },
                 success: function (json) {
-
                     retData_type = json.result.retData;
                     LeftList = json.result.retData;
                     var P_List = [];
                     $(".menu_list").html('');
                     retData_type = Enumerable.From(retData_type).OrderBy('$.Id').ToArray();//按Id进行升序排列
                     var i_index = 0;
-
                     for (var i = 0; i < retData_type.length; i++) {
                         if (retData_type[i].Parent_Id == 0) {//获取分类父Id
                             var child_list = Enumerable.From(retData_type).Where(function (x) { return x.Parent_Id == retData_type[i].Id; }).ToArray();
@@ -60,8 +58,7 @@ var DataBaseMainModel =
                     }
                     $("#item_indicatorType").tmpl(P_List).appendTo(".menu_list");
                     DataBaseMainModel.menu_list();
-
-
+                    if (P_List.length == 0) { SetBtn_AddDataBase(0, 0); } else { SetBtn_AddDataBase(1, P_List[0].child_list.length); }
                     //默认选择第一条内容【约定俗成】
                     $('.menu_list li:eq(0)').find('span').trigger('click');
                     $('.menu_list li:eq(0)').find('li:eq(0)').trigger('click');
@@ -71,7 +68,6 @@ var DataBaseMainModel =
                         var Id = P_List[0].child_list[0].Id;
                         that.initdata(Id);
                     }
-
                 },
                 error: function () {
                     //接口错误时需要执行的
@@ -106,9 +102,9 @@ var DataBaseMainModel =
             })
         },
         menu_list: function () {
-
             $('.menu_list').find('li:has(ul)').children('span').click(function () {
                 var $next = $(this).next('ul');
+                SetBtn_AddDataBase(1, $next.find('li').length);
                 if ($next.is(':hidden')) {
                     $(this).addClass('selected');
                     $next.stop().slideDown();
@@ -523,7 +519,19 @@ var DataBaseMainModel =
         },
     };
 
-
+function SetBtn_AddDataBase(perlen,chrlen) { //设置新增指标按钮样式
+    var $btndiv = $("#btndiv");
+    if ($btndiv) {
+        $("#btndiv").empty();
+        if (perlen == 0 || (perlen > 0 && chrlen==0)) {
+            nomessage('#test1', 'no', 19, 480);
+            $("#itemNo").tmpl(1).appendTo("#btndiv");
+        }
+        else {
+            $("#itemYes").tmpl(1).appendTo("#btndiv");
+        }
+    }    
+}
 //==========================指标库类型信息===================================================
 var IndicateType_Model = {
     PageType: 'DatabaseMan',  //DataBaseSort指标库分类维护 
