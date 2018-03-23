@@ -1,5 +1,4 @@
 ﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="DatabaseMan.aspx.cs" Inherits="FEWeb.Evaluation.CourseEvalSee.DatabaseMan" %>
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -9,37 +8,28 @@
     <link href="../../css/reset.css" rel="stylesheet" />
     <link href="../../css/layout.css" rel="stylesheet" />
     <script src="../../Scripts/jquery-1.11.2.min.js"></script>
-
 </head>
 <body>
     <div id="top"></div>
     <div class="center" id="centerwrap">
         <div class="wrap clearfix" id="courseEvalSee">
-            <div class="sort_nav" id="threenav">
-            </div>
-
+            <div class="sort_nav" id="threenav"></div>
             <h1 class="title mb10" >
                  <div style="width: 1170px;cursor:pointer;  z-index: 99; background: #fff;  padding: 10px 0px;">
                 <div class="crumbs">
                     <a onclick="window.location.href='indexqcode.aspx?Id='+getQueryString('Id')+'&Iid='+getQueryString('Iid')" >课堂扫码评价</a>
                     <span>&gt;</span>
-                    <a href="javascript:;" style="cursor:pointer;" onclick="window.location=window.location.href"  id="couse_name">指标库分类管理</a>
-                 
+                    <a href="javascript:;" style="cursor:pointer;" onclick="window.location=window.location.href"  id="couse_name">指标库分类管理</a>                 
                 </div>
             </div>
-            </h1>
-           
-
+            </h1>          
            <div class="sortwrap clearfix mt20">
                 <div class="menu fl">
                     <h1 class="titlea">
                         指标库管理
                     </h1>
-                    <ul class="menu_list" style="height:478px;overflow:auto">
-
-                    </ul>
-                    <input type="button" value="指标库分类管理"  class="new" onclick="newIndicator_type()"  id="Indicator_Add" />
-                  
+                    <ul class="menu_list" style="height:478px;overflow:auto"></ul>
+                    <input type="button" value="指标库分类管理"  class="new" onclick="newIndicator_type()"  id="Indicator_Add" />                  
                 </div>
                 <div class="sort_right fr" style="overflow:auto">
                     <div class="search_toobar clearfix">
@@ -47,33 +37,24 @@
                             <input type="text" name="key" id="key" placeholder="请输入关键字" value="" class="text fl">
                             <a class="search fl" href="javascript:search();"><i class="iconfont">&#xe600;</i></a>
                         </div>
-                        <div id="btndiv" class="fr">
-                           
-                        </div>
+                        <div id="btndiv" class="fr"></div>
                     </div>
                     <div class="table">
                         <table>
                             <thead>
                                 <tr>
-                                    <th style="text-align: left; padding-left: 20px;width:50%">指标名称	 	    	 		 				 					 					   	
-                                    </th>
-                                    <th width="60px">题型</th>
-                                    
-                                    <th width="80px">引用次数 </th>
-                                   
-                                    <th width="80px">修改时间</th>
-                                    
-                                    <th width="120px" style="display:none;" id="ss">操作</th>
-                                    
+                                    <th style="text-align: left; padding-left: 20px;width:50%">指标名称</th>
+                                    <th width="60px">题型</th>                                    
+                                    <th width="80px">引用次数 </th>                                   
+                                    <th width="80px">修改时间</th>                                    
+                                    <th width="120px" style="display:none;" id="ss">操作</th>                                    
                                 </tr>
                             </thead>
                             <tbody id="tb_indicator">
                             </tbody>
                         </table>
-
                     </div>
-                     <div class="pagination"" id="test1">
-                    </div>
+                     <div class="pagination"" id="test1"></div>
                 </div>
             </div>
         </div>
@@ -215,16 +196,6 @@
             DataBaseMainModel.PageType = 'DatabaseMan';
             //初始化指标库分类
             DataBaseMainModel.init_IndicatorType_data();
-            $("#btndiv").empty();
-            if (LeftList.length == 0) {
-                nomessage('#test1', 'no', 19, 480);
-                $("#itemNo").tmpl(1).appendTo("#btndiv");
-            }
-            else
-            {
-                $("#itemYes").tmpl(1).appendTo("#btndiv");              
-            }
-
         }
         //删除指标
         function delete_indicator(id) {
