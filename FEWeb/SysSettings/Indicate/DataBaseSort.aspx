@@ -1,5 +1,4 @@
 ﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="DataBaseSort.aspx.cs" Inherits="FEWeb.SysSettings.DataBaseSort" %>
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -62,29 +61,24 @@
             border: 1px solid #e5f8f4;
         }
     </style>
-
 </head>
 <body style="background: #fff;" onkeydown="Key_Add();">
     <div class="main clearfix">
         <div class="menu fl">
-            <ul class="menu_list" style="height: 490px;overflow:auto;">
-            </ul>
+            <ul class="menu_list" style="height: 490px;overflow:auto;"></ul>
             <div style="margin-left: 45px; margin-top: 20px">
                 <input type="button" value="新增指标分类" onclick="Add_Parent();" class="btn fl " />
             </div>
         </div>
         <div class="menu_right" style="height: 560px;overflow:auto;">
             <div class=" clearfix mb20">
-                <input type="button" value="新增指标项" onclick="Add();" class="btn fr ml20" />
-
+                <input type="button" id="btn_AddIndicate" style="display:none;" value="新增指标项" onclick="Add();" class="btn fr ml20" />
             </div>
-            <ul id="Child" class="mt10">
-            </ul>
+            <ul id="Child" class="mt10"></ul>
         </div>
     </div>
 </body>
 </html>
-
 <script src="../../Scripts/Common.js"></script>
 <script src="../../Scripts/public.js"></script>
 <script src="../../Scripts/linq.min.js"></script>
@@ -109,7 +103,6 @@
         </div>
     </li>
 </script>
-
 <script type="text/x-jquery-tmpl" id="item_Indicate_Type_No_Delete">
     <li class="clearfix">
         <input type="text" name="" onkeydown="Key_Edit(${Id},${Parent_Id})" value="${Name}" id="${Id}" class="text fl" />
