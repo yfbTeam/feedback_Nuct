@@ -39,7 +39,7 @@
             <td>${Year}</td>          
             <td class="td_money"> 
                 <span class="money_span">${Money}</span>
-                <input type="number" isrequired="true" regtype="money" fl="金额" min="0.01" step="0.01" id="Money_${Id}" name="Money_${Id}" oldre="${Money}" value="${Money}" class="text money_input none" style="width:130px;"/>
+                <input type="number" regtype="money" fl="金额" min="0.01" step="0.01" id="Money_${Id}" name="Money_${Id}" oldre="${Money}" value="${Money}" class="text money_input none" style="width:130px;"/>
             </td>
             <td>{{if AuditStatus==10||AuditStatus==0}}<span class="nosubmit">待分配</span>
                     {{else AuditStatus==1}}<span class="checking1">待审核</span>
@@ -262,6 +262,10 @@
             $('.btnwrap').hide();
         }
         function save() {
+            var valid_flag = validateForm($('input[type="number"]'));
+            if (valid_flag != "0") {
+                return false;
+            }
             var idarray = [], moneyarray = [],warnarray=[],recordarray=[];
             $("#tb_info tr").each(function (i, n) {
                 var did = n.id.replace('tr_Detail_', ''), money = Num_Fixed($(this).find('.td_money input[type=number]').val())
