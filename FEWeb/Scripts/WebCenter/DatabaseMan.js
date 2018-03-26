@@ -519,17 +519,16 @@ var DataBaseMainModel =
         },
     };
 
-function SetBtn_AddDataBase(perlen,chrlen) { //设置新增指标按钮样式
+function SetBtn_AddDataBase(perlen, chrlen) { //设置新增指标按钮样式
     var $btndiv = $("#btndiv");
-    if ($btndiv) {
+    if ($btndiv.length) {
         $("#btndiv").empty();
         if (perlen == 0 || (perlen > 0 && chrlen==0)) {
             nomessage('#test1', 'no', 19, 480);
             $("#itemNo").tmpl(1).appendTo("#btndiv");
         }
-        else {
-            
-            //$("#itemYes").tmpl().appendTo("#btndiv");
+        else {            
+            $("#itemYes").tmpl(1).appendTo("#btndiv");
         }
     }    
 }
