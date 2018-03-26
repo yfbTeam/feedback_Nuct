@@ -30,7 +30,7 @@
                 </ul>
                 <%--<input type="button" value="新增指标分类" class="new" id="Indicator_Add" />--%>
             </div>
-            <div class="sort_right fr" style="width: 890px;height:565px;overflow:auto">
+            <div class="sort_right fr" style="width: 890px;height:617px;overflow:auto">
                 <div class="search_toobar clearfix">
                     <div class="fl">
                         <input type="text" name="key" id="key" placeholder="请输入关键字" value="" class="text fl">
