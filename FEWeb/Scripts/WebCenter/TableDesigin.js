@@ -319,7 +319,7 @@ var UI_Table_Create =
                 select_sheet_Id = $(this).attr('t_id');
                 //alert(select_sheet_Id)
                 //变更样式
-                $(this).css('border-color', 'red').parent().siblings(0).children('input').css('border-color', '');
+                $(this).addClass('border-red').parent().siblings(0).children('input').removeClass('border-red');
                 $(this).prop('readonly', '')
                 for (var i in list_sheets) {
                     if (list_sheets[i].t_Id == select_sheet_Id) {
@@ -342,13 +342,14 @@ var UI_Table_Create =
                 select_sheet_Id = $(this).attr('t_id');
                 for (var i in list_sheets) {
                     if (list_sheets[i].t_Id == select_sheet_Id) {
-
+                        if ($(this).prev().hasClass('border-red')) {
+                            select_sheet_Id = null;
+                        }
                         list_sheets.splice(i, 1);
                         $(this).parent().remove();
                         break;
                     }
                 }
-
             });
         });
     },

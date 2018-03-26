@@ -1,4 +1,7 @@
-﻿.uploader_msg {
+﻿.border-red{
+    border:1px solid #ff0000;
+}
+.uploader_msg {
     position:absolute;top:0px;left:240px;line-height:35px;color:#333;
 }.msg_label, .msg_control {
     line-height: 35px;
