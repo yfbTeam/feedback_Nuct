@@ -73,7 +73,7 @@
             <h1 class="title mb10" style="text-align: left;" >
                  <div style="width: 1170px;cursor:pointer;  z-index: 99; background: #fff;  padding: 10px 0px;">
                 <div class="crumbs">
-                    <a onclick="window.location.href='index.aspx?Id='+getQueryString('Id')+'&Iid='+getQueryString('Iid')" >课堂调查</a>
+                    <a href="javascript:history.go(-1)" id="crumb"></a>
                     <span>&gt;</span>
                     <a href="javascript:;" style="cursor:pointer;" onclick="window.location=window.location.href"  id="couse_name">统计详情</a>
                  
@@ -245,9 +245,11 @@
             $('#footer').load('/footer.html');
 
             if (Type == 3) {
+                $('#crumb').html($('#threenav').children().eq(0).html())
                 $('#threenav').children().eq(0).addClass('selected');
             }
             else {
+                $('#crumb').html($('#threenav').children().eq(1).html())
                 $('#threenav').children().eq(1).addClass('selected');
             }
 
@@ -281,7 +283,7 @@
                         }
                     }
                 }
-                //console.log(list)
+                console.log(list)
                 $("#itemdata").tmpl(list).appendTo(".details_lists");
                 animate();
             };
@@ -299,6 +301,7 @@
             Get_Eva_RegularData_RoomDetailList();
 
         })
+        
         function animate() {
             $('.objective_lists').find('li:has(dt)').find('dt').click(function () {
                 var $next = $(this).next('dd');

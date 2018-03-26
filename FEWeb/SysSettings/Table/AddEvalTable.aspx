@@ -491,7 +491,7 @@
     //选择指标
     function openIndicator() {
 
-        if (select_sheet_Id != null && select_sheet_Id != undefined) {
+        if (select_sheet_Id != null && select_sheet_Id != undefined && select_sheet.indicator_array!=null) {
             DataBaseMainModel.select_Array = [];
             if (select_sheet.indicator_array.length > 0) {
                 select_sheet.indicator_array[0].indicator_list.filter(function (item) {
