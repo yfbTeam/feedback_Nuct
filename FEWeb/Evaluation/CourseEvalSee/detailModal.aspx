@@ -283,7 +283,7 @@
                         }
                     }
                 }
-                //console.log(list)
+                console.log(list)
                 $("#itemdata").tmpl(list).appendTo(".details_lists");
                 animate();
             };
@@ -301,6 +301,7 @@
             Get_Eva_RegularData_RoomDetailList();
 
         })
+        
         function animate() {
             $('.objective_lists').find('li:has(dt)').find('dt').click(function () {
                 var $next = $(this).next('dd');
