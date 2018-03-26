@@ -413,7 +413,7 @@ namespace FEHandler.SysClass
 
                 if(DepartmentName!= "")
                 {
-                    query = (from q in query where q.DepartmentName == DepartmentName select q);
+                    query = (from q in query where q.TeacherDepartmentName == DepartmentName select q);
                 }
             }
             catch (Exception ex)
