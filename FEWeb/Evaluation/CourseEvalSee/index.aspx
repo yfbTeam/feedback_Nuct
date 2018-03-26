@@ -141,7 +141,7 @@
                     </select>
                 </div>
                 <div class="fr ml10">
-                    <input type="text" name="key" id="key" placeholder="请输入课程名称" value="" class="text fl" style="width: 130px;">
+                    <input type="text" name="Key" id="Key" placeholder="请输入课程名称" value="" class="text fl" style="width: 130px;">
                     <a href="javascript:;" class="search fl"><i class="iconfont">&#xe600;</i></a>
                 </div>
     </script>
@@ -165,7 +165,7 @@
                     </select>
                 </div>               
                 <div class="fr ml10">
-                    <input type="text" name="key" id="key" placeholder="请输入课程名称" value="" class="text fl" style="width: 130px;">
+                    <input type="text" name="Key" id="Key" placeholder="请输入课程名称" value="" class="text fl" style="width: 130px;">
                     <a href="javascript:;" class="search fl"><i class="iconfont">&#xe600;</i></a>
                 </div>
     </script>
@@ -198,8 +198,8 @@
                 SectionID = $('#section').val();
                 Type = 2;
                 Get_Eva_Regular_Select();
-
                 GetClassInfoSelect(SectionID);
+                Get_Eva_RegularData_Room(pageIndex);
             };
             Base.bindStudySection();
 
@@ -226,8 +226,7 @@
             });
 
             $('#Rg,#RP,#TN,#GD').on('change', Refesh);
-            $('.search').on('click', Refesh);
-            Get_Eva_RegularData_Room(pageIndex);
+            $('.search').on('click', Refesh);            
         })
 
         function Refesh() {

@@ -41,7 +41,7 @@
 
 
                 <div class="fr pr ml10">
-                    <button class="btn" onclick="OpenIFrameWindow('新增评价', 'SartEval.aspx', '545px', '450px')">发起评价</button>
+                    <button class="btn" onclick="OpenIFrameWindow('发起评价', 'SartEval.aspx', '545px', '450px')">发起评价</button>
                     <b class="dian" style="display: none"></b>
                 </div>
 
