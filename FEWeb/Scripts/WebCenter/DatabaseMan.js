@@ -175,7 +175,7 @@ var DataBaseMainModel =
                             if (key != "") {
                                 retDataCache = Enumerable.From(retDataCache).Where("item=>item.Name.indexOf('" + key + "')>-1").Where("x=>x.IndicatorType_Id==" + IndicatorType_Id + "").ToArray();
                             }
-
+                           
                             $("#item_indicator").tmpl(retDataCache).appendTo("#tb_indicator");
                             if (retDataCache.length == 0) {
                                 nomessage('#tb_indicator');
@@ -519,15 +519,15 @@ var DataBaseMainModel =
         },
     };
 
-function SetBtn_AddDataBase(perlen,chrlen) { //设置新增指标按钮样式
+function SetBtn_AddDataBase(perlen, chrlen) { //设置新增指标按钮样式
     var $btndiv = $("#btndiv");
-    if ($btndiv) {
+    if ($btndiv.length) {
         $("#btndiv").empty();
         if (perlen == 0 || (perlen > 0 && chrlen==0)) {
             nomessage('#test1', 'no', 19, 480);
             $("#itemNo").tmpl(1).appendTo("#btndiv");
         }
-        else {
+        else {            
             $("#itemYes").tmpl(1).appendTo("#btndiv");
         }
     }    

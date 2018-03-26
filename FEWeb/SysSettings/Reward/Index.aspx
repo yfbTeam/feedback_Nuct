@@ -27,7 +27,7 @@
                     <span class="operate_none bg_purple">编辑</span>
                 </div>
                 <div class="operate" onclick="window.location.href = 'DetailIndex.aspx?batchid=${Id}&Id=${pageid}&Iid=${pagelid}';">
-                    <i class="iconfont color_purple">&#xe60b;</i>
+                    <i class="iconfont color_purple">&#xe61c;</i>
                     <span class="operate_none bg_purple">详情</span>
                 </div>
                 <div class="operate" onclick="Export_RewardBatchDetail(${Id},'${Name}');">
