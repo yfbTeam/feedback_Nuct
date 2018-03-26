@@ -86,9 +86,9 @@
                             <th>排课分类</th>
                             <th>课程性质</th>
                             <th>任务性质</th>
-                            <th>部门</th>
+                            <th>部门</th>                            
                             <th>子部门</th>
-
+                            <th>课程分类</th>
                         </tr>
                     </thead>
                     <tbody id="ShowCourseInfo">
@@ -137,8 +137,9 @@
         <td>${PkType}</td>
         <td>${CourseProperty}</td>
         <td>${TaskProperty}</td>
-        <td title="${DepartmentName}">${cutstr(DepartmentName,15)}</td>
+        <td title="${DepartmentName}">${cutstr(DepartmentName,15)}</td>       
         <td title="${SubDepartmentName.trim()}">${cutstr(SubDepartmentName.trim(),15)}</td>
+        <td>${CourseRel_Name}</td>
     </tr>
 </script>
 

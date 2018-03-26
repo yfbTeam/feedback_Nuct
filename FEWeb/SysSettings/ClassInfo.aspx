@@ -170,12 +170,15 @@
             };
             Base.bindStudySection();
 
-
-            $("#DP,#CT,#CP,#TD,#TN,#MD,#GD,#CN").on('change', function () {
+            $("#DP,#CT,#CP,#TN,#MD,#GD,#CN").on('change', function () {
                 pageIndex = 0;
                 GetClassInfo(pageIndex);
             });
-
+            $("#TD").on('change', function () {
+                Sel_TeaDepart_Change();
+                pageIndex = 0;
+                GetClassInfo(pageIndex);
+            });            
             $("#section").on('change', function () {
                 pageIndex = 0;
                 GetClassInfo(pageIndex);

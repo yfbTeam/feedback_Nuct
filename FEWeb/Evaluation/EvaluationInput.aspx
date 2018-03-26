@@ -72,12 +72,13 @@
                         <tr>
                             <th>序号</th>
                             <th>学年学期</th>
+                            <th>评价名称</th>
                             <th>部门</th>
                             <th>教师</th>
                             <th>课程</th>
-
+                            <th>班级</th>
+                            <th>学生</th>
                             <th>评价表名称</th>
-
                             <th>得分</th>
                             <th>状态</th>
                             <th>操作</th>
@@ -111,11 +112,13 @@
         <tr>
             <td style="width: 5%">${Num}</td>
             <td style="width: 5%">${DisPlayName}</td>
-            <td title="${Departent_Name}" style="width: 15%">${cutstr(DepartmentName,30)}</td>
-            <td style="width: 7%">${TeacherName}</td>
-            <td title="${Course_Name}" style="width: 15%">${cutstr(CourseName,30)}</td>
-
-            <td style="width: 30%" title="${TableName}">${cutstr(TableName,45)}</td>
+            <td style="width: 8%">${ReguName}</td>
+            <td title="${Departent_Name}" style="width: 13%">${cutstr(DepartmentName,30)}</td>
+            <td style="width: 5%">${TeacherName}</td>
+            <td title="${Course_Name}" style="width: 13%">${cutstr(CourseName,30)}</td>
+            <td title="${HeaderClassName}" style="width: 6%">${cutstr(HeaderClassName,10)}</td>
+             <td title="${HeaderStuName}" style="width: 6%">${cutstr(HeaderStuName,10)}</td>
+            <td style="width: 15%" title="${TableName}">${cutstr(TableName,45)}</td>
             <td style="width: 5%">${Score.toFixed(2)}</td>
             {{if State == 1}}
             <td style="width: 5%"><span class="nosubmit">未提交</span></td>
