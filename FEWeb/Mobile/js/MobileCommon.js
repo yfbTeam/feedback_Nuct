@@ -1,4 +1,4 @@
-﻿var HanderServiceUrl = "http://192.168.1.148:8010/Service/";
+﻿var HanderServiceUrl = "http://192.168.1.148:8012/Service/";
 var login_User = GetLoginUser();
 /**日期转换成时间字符串**/
 /** date日期  **/
