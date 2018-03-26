@@ -430,8 +430,9 @@
             ClassModelType = 1;
 
             PageType = 'StartEval';
-            DepartmentName = login_User.DepartmentName;
-            
+            if (IsAllSchool == 1) {
+                DepartmentName = login_User.DepartmentName;
+            }                    
             GetClassInfoSelect(select_sectionid,null,null);
             $("#DP,#CT,#CP,#TD,#TN,#MD,#GD,#CN").on('change', function () {
                 pageIndex = 0;
