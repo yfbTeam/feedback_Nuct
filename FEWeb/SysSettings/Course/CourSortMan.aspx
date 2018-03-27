@@ -65,8 +65,12 @@
                 </div>
                 <div class="sort_right fr mr" style="margin-left: -20px">
                     <div class="search_toobar clearfix">
-                        <div class="fl">
-                            <input type="text" name="" id="select_where" placeholder="请输入关键字" value="" class="text fl">
+                        <div class="fl" style="display:none;" id="div_CourseType">
+                            <label for="">课程分类:</label>
+                            <select id="sel_CourseType" secid="" class="select" style="width:150px;"></select>
+                        </div>
+                        <div class="fl ml10">
+                            <input type="text" name="" id="select_where" placeholder="请输入课程编码或课程名称关键字" value="" style="width:220px;" class="text fl">
                             <a class="search fl" href="javascript:;" onclick="all_change();"><i class="iconfont">&#xe600;</i></a>
                         </div>
                         <div class="fr" style="display: block" id="operator">
@@ -137,7 +141,7 @@
             <span onclick="GetCourseinfoBySortManType('{{= course_parent.SectionId}}')">${course_parent.DisPlayName}<i class="iconfont">&#xe643;</i></span>
             <ul>
                 {{each objectlist}}
-                <li class="typeli" regustate="${ReguState}">
+                <li class="typeli" regustate="${ReguState}" ctypeK="{{= $value.Key}}" ctypeV="{{= $value.Value}}">
                     <em title="{{= $value.Value}}" onclick="GetCourseinfoBySortMan('{{= $value.Key}}','{{= $value.Value}}','{{= $value.SectionId}}')">{{= cutstr($value.Value,10)}}</em>
 
                     {{if ReguState == 3}}                        
@@ -228,6 +232,7 @@
     }
     //点击课程分类
     function GetCourseinfoBySortMan(key, value, SectionId) {
+        $("#div_CourseType").hide();
         select_CourseTypeId = key;
         select_CourseTypeName = value;
         select_sectionid = SectionId;
@@ -240,7 +245,7 @@
     }
 
     //点击课程分类
-    function GetCourseinfoBySortManType(SectionId) {
+    function GetCourseinfoBySortManType(SectionId) {        
         select_CourseTypeId = -1;
         select_CourseTypeName = '';
         select_sectionid = SectionId;
@@ -248,9 +253,25 @@
         UI_Course.select_CourseTypeId = -1;
         UI_Course.select_CourseTypeName = '';
         var key = $("#select_where").val().trim();
+        BindSel_CourseType(SectionId);
         UI_Course.GetCourseInfo(pageIndex, select_sectionid, key, select_CourseTypeId);
     }
-
+    function BindSel_CourseType(SectionId) { //绑定课程分类
+        $("#div_CourseType").show();
+        var $sel_CourseType = $("#sel_CourseType");
+        $sel_CourseType.attr('secid', SectionId);
+        $sel_CourseType.empty().append('<option value="-1" selected="selected">全部</option><option value="null">未分类</option>');
+        var curtypes = $('#menu_listscours li[sectionid=' + SectionId + ']').find('ul li');
+        $(curtypes).each(function (i, n) {
+            $sel_CourseType.append('<option value="' + $(this).attr('ctypeK') + '">' + $(this).attr('ctypeV') + '</option>');
+        });
+        $sel_CourseType.on('change', function () {
+            pageIndex = 0;
+            var key = $("#select_where").val().trim();
+            select_CourseTypeId = $(this).val();
+            UI_Course.GetCourseInfo(pageIndex, $(this).attr('secid'), key, select_CourseTypeId);
+        });
+    }
     //搜索
     function all_change() {
         var key = $("#select_where").val().trim();
