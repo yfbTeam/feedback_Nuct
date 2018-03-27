@@ -181,8 +181,9 @@
             });            
             $("#section").on('change', function () {
                 pageIndex = 0;
+                $("#DP,#CT,#CP,#TD,#TN,#MD,#GD,#CN").empty();
+                GetClassInfo(pageIndex);
                 GetClassInfoSelect($('#section').val());
-                GetClassInfo(pageIndex);                
             });
         })
 
