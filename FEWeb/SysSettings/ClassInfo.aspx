@@ -181,8 +181,8 @@
             });            
             $("#section").on('change', function () {
                 pageIndex = 0;
-                GetClassInfo(pageIndex);
                 GetClassInfoSelect($('#section').val());
+                GetClassInfo(pageIndex);                
             });
         })
 

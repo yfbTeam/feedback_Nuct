@@ -344,8 +344,8 @@ namespace FEHandler.SysClass
                                    CourseRelID = CourseRel_.Id,                                   
                                }).ToList();
 
-                
-                if (CourseTypeID != "-1")
+
+                if (CourseTypeID != "-1" && CourseTypeID != "null") //课程分类不是全部和未分类
                 {                    
                     courrel = (from c in courrel where  c.CourseType_Id ==CourseTypeID select c ).ToList();
                 }
@@ -377,9 +377,16 @@ namespace FEHandler.SysClass
                                  SubDepartmentName = Course_.SubDepartmentName,
                                  CourseProperty = Course_.CourseProperty,
                              }).ToList();
-                if (CourseTypeID != "-1")
+                if (CourseTypeID != "-1")//不是全部
                 {
-                    query = (from q in query where q.CourseRel_Id != "" select q).ToList();
+                    if (CourseTypeID == "null") //未分类
+                    {
+                        query = (from q in query where q.CourseRel_Id == "" select q).ToList();
+                    }
+                    else //其他类别
+                    {
+                        query = (from q in query where q.CourseRel_Id != "" select q).ToList();
+                    }                    
                 }
                             
                 if (Key != "")
