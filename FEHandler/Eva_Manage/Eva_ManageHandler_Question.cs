@@ -85,6 +85,7 @@ namespace FEHandler.Eva_Manage
             {
                 var list = (from q in Constant.Eva_QuestionAnswer_List
                             where q.Eva_Role == Eva_Role
+                            join reg in Constant.Eva_Regular_List on q.ReguID equals reg.Id
                             join u in Constant.UserInfo_List on q.TeacherUID equals u.UniqueNo
                             join d in Constant.Major_List on u.Major_ID equals d.Id
                             join r in Constant.CourseRoom_List on q.RoomID equals r.UniqueNo into rooms
@@ -116,7 +117,9 @@ namespace FEHandler.Eva_Manage
                                 ClassName = room != null ? room.ClassName : "",
                                 RoleList = (from ru in Constant.Sys_RoleOfUser_List where ru.UniqueNo == q.AnswerUID select ru.Role_Id).ToList(),
                                 RoomID = q.RoomID,
-                                IsScore = t.IsScore == 0 ? true : false,                            
+                                IsScore = t.IsScore == 0 ? true : false,
+                                RegStartTime=reg.StartTime,
+                                RegEndTime=reg.EndTime
                             }).ToList();
 
                 if (SectionID > 0)

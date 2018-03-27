@@ -60,5 +60,7 @@ namespace FEModel.Entity
         public string HeaderClassName { get; set; }
 
         public string HeaderStuName { get; set; }
+        public DateTime? RegStartTime { get; set; }
+        public DateTime? RegEndTime { get; set; }
     }
 }

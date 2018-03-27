@@ -117,7 +117,7 @@
             <td style="width: 5%">${TeacherName}</td>
             <td title="${Course_Name}" style="width: 13%">${cutstr(CourseName,30)}</td>
             <td title="${HeaderClassName}" style="width: 6%">${cutstr(HeaderClassName,10)}</td>
-             <td title="${HeaderStuName}" style="width: 6%">${cutstr(HeaderStuName,10)}</td>
+            <td title="${HeaderStuName}" style="width: 6%">${cutstr(HeaderStuName,10)}</td>
             <td style="width: 15%" title="${TableName}">${cutstr(TableName,45)}</td>
             <td style="width: 5%">${Score.toFixed(2)}</td>
             {{if State == 1}}
@@ -128,63 +128,41 @@
                <td style="width: 5%"><span class="pass">已入库</span></td>
             {{else State == 4}}
                <td style="width: 5%"><span class="nopass">不入库</span></td>
-            {{/if}}             
-          
-            {{if State == 1}}
-       <td class="operate_wrap" style="width: 10px">
-           <div class="operate" onclick="table_view('${TableID}','${Id}')">
-               <i class="iconfont color_purple">&#xe60b;</i>
-               <span class="operate_none bg_purple">查看</span>
-           </div>
-
-         
-
-           <div class="operate" onclick="window.location.href='./input/EvalTable.aspx?IsAllSchool='+IsAllSchool+'&Id='+getQueryString('Id')+'&Iid='+getQueryString('Iid') +'&TeacherUID='+'${TeacherUID}'+'&TeacherName='+'${TeacherName}'
-                  +'&SectionID='+'${SectionID}'+'&DisPlayName='+'${DisPlayName}'+'&CourseID='+'${CourseID}'+'&CourseName='+'${CourseName}'+'&ReguID='+'${ReguID}'+'&ReguName='+'${ReguName}'
-                  +'&AnswerUID='+'${AnswerUID}'+'&AnswerName='+'${AnswerName}'+'&DepartmentName='+'${DepartmentName}'+'&QuestionID='+ '${Id}'+'&table_Id='+ '${TableID}'+'&TableName='+ '${TableName}'">
-               <i class="iconfont color_purple">&#xe617;</i>
-               <span class="operate_none bg_purple">编辑</span>
-           </div>
-           <div class="operate" onclick="remove('${Id}');">
-               <i class="iconfont color_purple"></i>
-               <span class="operate_none bg_purple">删除       
-               </span>
-           </div>
-       </td>
-
-            {{else State == 2}}          
-             <td class="operate_wrap" style="width: 10px">
-                 <div class="operate" onclick="table_view('${TableID}','${Id}')">
-                     <i class="iconfont color_purple">&#xe60b;</i>
-                     <span class="operate_none bg_purple">查看</span>
-                 </div>
-                 <div class="operate">
-                     <i class="iconfont color_gray">&#xe617;</i>
-                     <span class="operate_none bg_gray">编辑</span>
-                 </div>
-                 <div class="operate">
-                     <i class="iconfont color_gray"></i>
-                     <span class="operate_none bg_gray">删除       
-                     </span>
-                 </div>
-             </td>
-            {{else State ==3 || State ==4}}
-             <td class="operate_wrap" style="width: 10px">
-                 <div class="operate" onclick="table_view('${TableID}','${Id}')">
-                     <i class="iconfont color_purple">&#xe60b;</i>
-                     <span class="operate_none bg_purple">查看</span>
-                 </div>
-                 <div class="operate">
-                     <i class="iconfont color_gray">&#xe617;</i>
-                     <span class="operate_none bg_gray">编辑</span>
-                 </div>
-                 <div class="operate">
-                     <i class="iconfont color_gray"></i>
-                     <span class="operate_none bg_gray">删除       
-                     </span>
-                 </div>
-             </td>
-            {{/if}}
+            {{/if}}                              
+           <td class="operate_wrap" style="width: 10px">
+               <div class="operate" onclick="table_view('${TableID}','${Id}')">
+                   <i class="iconfont color_purple">&#xe60b;</i>
+                   <span class="operate_none bg_purple">查看</span>
+               </div>
+               {{if State == 1}}                      
+                   {{if DateTimeConvert(RegStartTime,'yyyy-MM-dd',true)<= getNowFormatDate()&& DateTimeConvert(RegEndTime,'yyyy-MM-dd',true) >= getNowFormatDate()}}
+                   <div class="operate" onclick="window.location.href='./input/EvalTable.aspx?IsAllSchool='+IsAllSchool+'&Id='+getQueryString('Id')+'&Iid='+getQueryString('Iid') +'&TeacherUID='+'${TeacherUID}'+'&TeacherName='+'${TeacherName}'
+                      +'&SectionID='+'${SectionID}'+'&DisPlayName='+'${DisPlayName}'+'&CourseID='+'${CourseID}'+'&CourseName='+'${CourseName}'+'&ReguID='+'${ReguID}'+'&ReguName='+'${ReguName}'
+                      +'&AnswerUID='+'${AnswerUID}'+'&AnswerName='+'${AnswerName}'+'&DepartmentName='+'${DepartmentName}'+'&QuestionID='+ '${Id}'+'&table_Id='+ '${TableID}'+'&TableName='+ '${TableName}'">
+                       <i class="iconfont color_purple">&#xe617;</i>
+                       <span class="operate_none bg_purple">编辑</span>
+                   </div>
+                   {{else}}
+                        <div class="operate">
+                            <i class="iconfont color_gray">&#xe617;</i>
+                            <span class="operate_none bg_gray">编辑</span>
+                        </div>
+                   {{/if}}
+                   <div class="operate" onclick="remove('${Id}');">
+                       <i class="iconfont color_purple"></i>
+                       <span class="operate_none bg_purple">删除</span>
+                   </div>
+               {{else State == 2||State ==3 || State ==4}}    
+                <div class="operate">
+                    <i class="iconfont color_gray">&#xe617;</i>
+                    <span class="operate_none bg_gray">编辑</span>
+                </div>
+               <div class="operate">
+                   <i class="iconfont color_gray"></i>
+                   <span class="operate_none bg_gray">删除</span>
+               </div>
+               {{/if}}          
+           </td>
         </tr>
     </script>
     <script type="text/x-jquery-tmpl" id="itemCount">
