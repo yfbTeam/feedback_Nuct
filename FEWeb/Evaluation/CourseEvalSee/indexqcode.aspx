@@ -165,7 +165,7 @@
                      <span class="operate_none bg_purple">统计</span>
                  </div>
                 <div class="operate" onclick="location.href='TeaRegEval_Single.aspx?Id='+getQueryString('Id')+'&Iid='+getQueryString('Iid')+'&TableID='+'${TableID}'+'&SectionID='+'${SectionID}'+'&ReguID='+'${ReguID}'+'&CourseID='+'${CourseID}'+'&TeacherUID='+'${TeacherUID}'+'&Type=3'">
-                    <i class="iconfont color_purple">&#xe617</i>
+                    <i class="iconfont color_purple">&#xe61c;</i>
                     <span class="operate_none bg_purple">详情
                     </span>
                 </div>
@@ -175,7 +175,7 @@
                       <span class="operate_none bg_gray">统计</span>
                   </div>
                 <div class="operate">
-                    <i class="iconfont color_gray">&#xe617</i>
+                    <i class="iconfont color_gray">&#xe61c;</i>
                     <span class="operate_none bg_gray">详情
                     </span>
                 </div>

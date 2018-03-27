@@ -3,14 +3,30 @@ body{background:#f2f2f2;}
 .ti{width:100%;padding:85px 10px 60px 10px}
 .test_area{width:100%;}
 .test_area .test_type{color:#666666;font-size:1rem;font-weight:normal;line-height:20px;padding:10px 0px;}
-.test_area .test_type:first-child{border-bottom:1px solid #ccc;}
-.test_detail ul{border:1px solid #cccccc;background:#fff;border-radius:2px;border-top:0px;}
+.test_detail ul{border:1px solid #cccccc;background:#fff;border-radius:2px;}
 .test_detail ul li{padding:10px;border-bottom:1px solid #ccc;position:relative;}
 .test_detail ul li input{display:none;}
 .test_detail ul li:last-child{border-bottom:none;}
 .test_detail ul li div{padding-left:32px;font-size:0.8125rem;color:#999999;}
-.test_detail ul li span{width:20px;height:20px;border:1px solid #ccc;line-height:20px;text-align:center;font-size:0.8125rem;color:#60d580;display:block;position:absolute;left:10px;top:6px;}
-.test_detail ul li.on span{background:#60d580;color:#fff;border:none;line-height:20px;}
+    .test_detail ul li span {
+        width: 20px;
+        height: 20px;
+        border: 1px solid #ccc;
+        line-height: 20px;
+        text-align: center;
+        font-size: 0.8125rem;
+        color: #C374A9;
+        display: block;
+        position: absolute;
+        left: 10px;
+        top: 6px;
+    }
+    .test_detail ul li.on span {
+        background: #C374A9;
+        color: #fff;
+        border: none;
+        line-height: 20px;
+    }
 .test_detail .textarea{width:100%;height:115px;border:1px solid #cccccc;background:#fff;border-radius:2px;padding:10px;color:#999999;font-size:1rem;outline:none;}
 .submitwrap{height:60px;background:#f2f2f2;padding:10px;position:fixed;bottom:0px;left:0;z-index:9999;width:100%;}
 .button{border:none;height:40px;color:#fff;background:#C374A9;border-radius:2px;font-size:0.875rem;width:100%;}
@@ -132,22 +148,22 @@ body{background:#f2f2f2;}
     background:#C374A9;color:#fff;
 }
 .eval_lists li{
-    width:100%;height:70px;background:#fff;padding:12px 24px 12px 12px;margin-bottom:10px;border-bottom:1px solid #EBEBEB;border-top:1px solid #EBEBEB;position:relative;
+    width:100%;background:#fff;padding:12px 24px 12px 12px;margin-bottom:10px;border-bottom:1px solid #EBEBEB;border-top:1px solid #EBEBEB;position:relative;
 }
 .eval_lists li:first-child{
     border-top:none;
 }
 .eval_lists li .iconfont{
-    height:70px;width:14px;font-size:1rem;right:5px;top:0;color:#666;line-height:70px;position:absolute;
+    width:14px;font-size:1rem;right:5px;color:#666;line-height:1;position:absolute;top:50%;margin-top:-8px;
 }
 .eval_lists li .title{
     font-size:1.125rem;line-height:25px;color:#333;
 }
 .eval_lists li p{
-    line-height:20px;color:#666;font-size:1rem;
+    line-height:20px;color:#666;font-size:1rem;display:flex;flex-direction:row;
 }
-.eval_lists li p .type{float:left;}
-.eval_lists li p .time{float:right;font-size:0.8135rem;}
+.eval_lists li p .type{flex:1;line-height:25px;}
+.eval_lists li p .time{flex:0 0 80px;font-size:0.8135rem;text-align:right}
 .chat{
     height:45px;width:100%;background:#fafafa;padding:7px 10px;position:fixed;top:45px;left:0;z-index:9999;border-bottom:1px solid #EBEBEB;
 }
@@ -369,3 +385,6 @@ body{background:#f2f2f2;}
       width:100%;border-radius:5px;height:45px;background:#007158;border:0px;margin:20px auto;display:block;font-size:18px;color:#fff;font-family:'Microsoft YaHei';letter-spacing:5px;box-shadow: 0px 0px 10px rgba(16,135,18,0.38);
 }
 .zi{font-size:1rem;text-align:center;line-height: 40px;position: absolute;bottom:0;width:100%;color:#990556}
+.flex{
+    display:flex;
+}
