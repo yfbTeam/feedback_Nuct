@@ -342,11 +342,12 @@ var UI_Table_Create =
                 select_sheet_Id = $(this).attr('t_id');
                 for (var i in list_sheets) {
                     if (list_sheets[i].t_Id == select_sheet_Id) {
-                        if ($(this).prev().hasClass('border-red')) {
+                        if ($(this).prev().hasClass('border-red')) { //如果当前节点是选中状态
                             select_sheet_Id = null;
+                            UI_Table_Create.Reflesh_View({ indicator_array: [] });//删除时，同时改变页面
                         }
                         list_sheets.splice(i, 1);
-                        $(this).parent().remove();
+                        $(this).parent().remove();                        
                         break;
                     }
                 }
