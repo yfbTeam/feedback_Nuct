@@ -58,5 +58,6 @@ namespace FEModel.Entity
         public string Id { get; set; }
 
         public string CourseTypeDic { get; set; }
+        public int TableCount { get; set; }
     }
 }

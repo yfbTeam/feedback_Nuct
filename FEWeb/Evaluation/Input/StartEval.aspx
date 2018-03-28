@@ -347,7 +347,7 @@
         <tr>
             <td>
                 <div class="table-cell w-10">
-                    <input courseid="${CourseID}" course_name="${Course_Name}" teacheruid="${TeacherUID}" teacher_name="${Teacher_Name}" class="checkbox" type="checkbox" />
+                    <input tbcount="${TableCount}" courseid="${CourseID}" course_name="${Course_Name}" teacheruid="${TeacherUID}" teacher_name="${Teacher_Name}" class="checkbox" type="checkbox" />
                 </div>
             </td>
             <td>
@@ -415,7 +415,7 @@
         var select_course_teacher = [];
         var select_reguid = parent.select_reguid;
         var IsAllSchool = parent.IsAllSchool;
-
+        var cur_TableCount = 0;
         var pageIndex = 0;
         $(function () {
             $(".fixed-table-box").fixedTable();
@@ -465,6 +465,7 @@
                         $(this).prop('checked', true);
                         $(".btnwrap").empty();
                         $("#btn_yes").tmpl(1).appendTo(".btnwrap");
+                        cur_TableCount = Number($(this).attr('tbcount'));
                         AddDisOne($(this).attr('CourseID'), $(this).attr('Course_Name'), $(this).attr('TeacherUID'), $(this).attr('Teacher_Name'));
                     }
                 });
@@ -474,7 +475,14 @@
         })
 
         function submit() {
-            AddExpert_List_Teacher_Course();
+            if (cur_TableCount > 0) {
+                AddExpert_List_Teacher_Course();
+            } else {
+                layer.confirm('该课程没有相关的评价表！<br>请联系管理员进行处理。', {
+                    btn: ['确定'],
+                    title: '操作'
+                }, function (index) { layer.close(index); });
+            }            
         }
 
         function SelectByWhere() {

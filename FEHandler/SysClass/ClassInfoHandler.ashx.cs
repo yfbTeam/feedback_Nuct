@@ -276,7 +276,13 @@ namespace FEHandler.SysClass
                 });
 
                 var query_last = (from an in queryList select an).Skip((PageIndex - 1) * PageSize).Take(PageSize).ToList();
-
+                foreach (var li in query_last)
+                {                    
+                    li.TableCount = (from r in Constant.CourseRel_List
+                                     where r.Course_Id == li.CourseID && r.StudySection_Id == li.SectionID
+                                     join t in Constant.Eva_CourseType_Table_List on new { CourseTypeId = r.CourseType_Id, r.StudySection_Id } equals new { CourseTypeId = t.CourseTypeId, t.StudySection_Id }
+                                     select r).ToList().Count();
+                }
                 jsm = JsonModelNum.GetJsonModel_o(intSuccess, "success", query_last);
                 jsm.PageIndex = PageIndex;
                 jsm.PageSize = PageSize;

@@ -44,7 +44,7 @@ namespace FEModel.Entity
         public int? SectionID { get; set; }
 
         public int AnswerCount { get; set; }
-
+        public int TableCount { get; set; }        
         public int Num { get; set; }
 
         public string DepartmentID { get; set; }
