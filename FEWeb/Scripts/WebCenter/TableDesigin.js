@@ -864,109 +864,11 @@ var UI_Table_Create =
     //----------------------------------------------------------------------------------------提交表格设计
     submit: function () {
         var func = UI_Table_Create.Type == 1 ? 'Edit_Eva_Table' : 'Add_Eva_Table';
+        var scoreflag = 0;
         //试题加载
         var all_array = [];
         for (var i in list_sheets) {
             if (list_sheets[i].indicator_array.length > 0) {
-                for (var j in list_sheets[i].indicator_array) {
-                    all_array.push(list_sheets[i].indicator_array[j]);
-                    var indicator_list = list_sheets[i].indicator_array[j].indicator_list;
-                    for (var h in indicator_list) {
-                        indicator_list[h].Root = $('#sheets').find('input[t_id="' + list_sheets[i].t_Id + '"]').val();
-                        indicator_list[h].RootID = Number(i) + 1;
-                    }
-                }
-            }
-        }
-
-        var Name = $("#Name").val().trim();
-
-        //请输入评价表名称
-        if (Name == '') {
-            layer.msg('请输入评价表名称！');
-            return false;
-        }
-
-
-        var IsScore = "0";
-        //是否记分
-        if ($("#IsScore").is(":checked")) {
-            IsScore = "0";
-            //验证 为0表示验证通过
-            var valid_flag = validateForm($('input[type="text"],input[class="number"]'));
-            if (valid_flag != "0")////验证失败的情况  需要表单的input控件 有isrequired 值为true或false 和fl 值为不为空的名称两个属性
-            {
-                return false;
-            }
-        }
-        else {
-            IsScore = "1";
-        }
-        var Remarks = $("#Remarks").val();
-        var CreateUID = GetLoginUser().UniqueNo;
-        var EditUID = GetLoginUser().UniqueNo;
-        //是否选择指标
-        if (all_array.length <= 0) {
-            layer.msg('您还未选择指标！');
-            return false;
-        }
-
-        var lisss_IsNull = false;
-        //表头信息填充
-        for (var i in lisss) {
-            lisss[i].title = $('#list2').find('input[t_id="' + lisss[i].t_Id + '"]').val();
-            if (lisss[i].title.trim() == '') { lisss_IsNull = true }
-        }
-        if (lisss_IsNull) {
-            layer.msg('请输入自定义表头信息！');
-            return false;
-        }
-        //启用或禁用
-        var IsEnable = $("#disalbe").is(":checked") ? 0 : 1;
-
-        for (var h in all_array) {
-            for (var f in all_array[h].indicator_list) {
-                var obj = all_array[h].indicator_list[f];
-                obj.OptionF_S_Max = obj.OptionF_S_Max == '' ? 0 : obj.OptionF_S_Max;
-
-                obj.OptionA_S = obj.OptionA_S == '' ? 0 : obj.OptionA_S;
-                obj.OptionB_S = obj.OptionB_S == '' ? 0 : obj.OptionB_S;
-                obj.OptionC_S = obj.OptionC_S == '' ? 0 : obj.OptionC_S;
-                obj.OptionD_S = obj.OptionD_S == '' ? 0 : obj.OptionD_S;
-                obj.OptionE_S = obj.OptionE_S == '' ? 0 : obj.OptionE_S;
-                obj.OptionF_S = obj.OptionF_S == '' ? 0 : obj.OptionF_S;
-            }
-        }
-        $.ajax({
-            url: HanderServiceUrl + "/Eva_Manage/Eva_ManageHandler.ashx",
-            type: "post",
-            async: false,
-            dataType: "json",
-            data: {
-                "func": func, "table_Id": table_Id, "Name": Name, "IsScore": IsScore, "Remarks": Remarks,
-                "CreateUID": CreateUID, "EditUID": EditUID, "List": JSON.stringify(all_array),
-                "head_value": JSON.stringify(UI_Table_Create.head_value), "lisss": JSON.stringify(lisss), "IsEnable": IsEnable, "Type": Type
-            },//组合input标签
-            success: function (json) {
-                if (json.result.errMsg == "success") {
-
-                    UI_Table_Create.submit_Compleate();
-                    layer.msg('操作成功!');
-                }
-            },
-            error: function () {
-                //接口错误时需要执行的
-            }
-        });
-
-    },
-    submit: function () {
-        var func = UI_Table_Create.Type == 1 ? 'Edit_Eva_Table' : 'Add_Eva_Table';
-        //试题加载
-        var all_array = [];
-        for (var i in list_sheets) {
-            if (list_sheets[i].indicator_array.length > 0) {
-
                 for (var j in list_sheets[i].indicator_array) {
                     all_array.push(list_sheets[i].indicator_array[j]);
                     var indicator_list = list_sheets[i].indicator_array[j].indicator_list;
@@ -975,7 +877,32 @@ var UI_Table_Create =
                         indicator_list[h].Sort = Number(h) + 1;
                         indicator_list[h].RootID = Number(i) + 1;
                         indicator_list[h].Id = indicator_list[h].Indicator_Id == undefined ? indicator_list[h].Id : indicator_list[h].Indicator_Id;
-
+                        var cur_indmodel = indicator_list[h];//当前对象
+                        if (cur_indmodel.QuesType_Id == 1 || cur_indmodel.QuesType_Id == 4) {
+                            if (cur_indmodel.OptionF_S_Max == null || cur_indmodel.OptionF_S_Max == '' || cur_indmodel.OptionF_S_Max == undefined || isNaN(Number(cur_indmodel.OptionF_S_Max))) {
+                                scoreflag++; break;                               
+                            }
+                            if (cur_indmodel.QuesType_Id == 1) {
+                                if (cur_indmodel.OptionA_S == null || cur_indmodel.OptionA_S == '' || cur_indmodel.OptionA_S == undefined || isNaN(Number(cur_indmodel.OptionA_S))) {
+                                    scoreflag++; break;
+                                }
+                                if (cur_indmodel.OptionB_S == null || cur_indmodel.OptionB_S == '' || cur_indmodel.OptionB_S == undefined || isNaN(Number(cur_indmodel.OptionB_S))) {
+                                    scoreflag++; break;
+                                }
+                                if (cur_indmodel.OptionC_S == null || cur_indmodel.OptionC_S == '' || cur_indmodel.OptionC_S == undefined || isNaN(Number(cur_indmodel.OptionC_S))) {
+                                    scoreflag++; break;
+                                }
+                                if (cur_indmodel.OptionD.length && (cur_indmodel.OptionD_S == null || cur_indmodel.OptionD_S == '' || cur_indmodel.OptionD_S == undefined || isNaN(Number(cur_indmodel.OptionD_S)))) {
+                                    scoreflag++; break;
+                                }
+                                if (cur_indmodel.OptionE.length && (cur_indmodel.OptionE_S == null || cur_indmodel.OptionE_S == '' || cur_indmodel.OptionE_S == undefined || isNaN(Number(cur_indmodel.OptionE_S)))) {
+                                    scoreflag++; break;
+                                }
+                                if (cur_indmodel.OptionF.length && (cur_indmodel.OptionF_S == null || cur_indmodel.OptionF_S == '' || cur_indmodel.OptionF_S == undefined || isNaN(Number(cur_indmodel.OptionF_S)))) {
+                                    scoreflag++; break;
+                                }
+                            }                            
+                        }                        
                     }
                 }
             }
@@ -999,6 +926,7 @@ var UI_Table_Create =
             {
                 return false;
             }
+            if (scoreflag > 0) { layer.msg('存在未赋分的指标项，请赋分后再进行保存！'); return false; }
         }
         else {
             IsScore = "1";
@@ -1068,7 +996,6 @@ var UI_Table_Create =
         });
 
     },
-
 
     submit_Compleate: function () {
     },
