@@ -930,6 +930,7 @@ namespace FEHandler.Eva_Manage
                                                    ReguId = regu.Id,
                                                    DisPlayName = section.DisPlayName,
                                                    SectionID = section.Id,
+                                                  
                                                }).ToList();
 
 
@@ -1010,6 +1011,12 @@ namespace FEHandler.Eva_Manage
                             li.StateType = (int)regustate;
 
                             li.AnswerCount = Constant.Eva_QuestionAnswer_List.Count(q => q.ReguID == li.ReguId && q.CourseID == li.CourseID && q.State == (int)QueState.Submited);
+
+                            var tableCount = (from r in Constant.CourseRel_List
+                                                  where r.Course_Id == li.CourseID
+                                                  join t in Constant.Eva_CourseType_Table_List on r.CourseType_Id equals t.CourseTypeId
+                                                select r).ToList();
+                                                  
                         }
                         //返回所有表格数据
                         jsm = JsonModelNum.GetJsonModel_o(intSuccess, "success", query_last);
