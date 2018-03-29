@@ -241,12 +241,10 @@ var UI_Table_Create =
     },
     //-------------------------------------------新添节点【自定义表头】
     add_checkItem2: function () {
-        //alert(1)
         var header = Object();
         if (lisss.length == 0) {
             header.Num = 1;
             header.t_Id = 't_' + header.Num;
-
         }
         else {
             header.Num = lisss[lisss.length - 1].Num + 1;
@@ -254,13 +252,11 @@ var UI_Table_Create =
         }
         header.title = '新填节点' + header.Num;
         lisss.push(header);
-        //$("#list2").html('');
-        $("#item_check2").tmpl(header).appendTo("#list2");
-
+        $("#item_check2").tmpl(header).appendTo("#list");
         UI_Table_Create.header_init();
     },
     header_init: function () {
-        $("#list2 .fl").children('.iconfont').each(function () {
+        $("#list li").children('.iconfont').each(function () {
             $(this).unbind("click");
             $(this).on('click', function () {
                 var _t_Id = $(this).attr('t_Id');
@@ -916,7 +912,7 @@ var UI_Table_Create =
         var lisss_IsNull = false;
         //表头信息填充
         for (var i in lisss) {
-            lisss[i].title = $('#list2').find('input[t_id="' + lisss[i].t_Id + '"]').val();
+            lisss[i].title = $('#list').find('input[t_id="' + lisss[i].t_Id + '"]').val();
             if (lisss[i].title.trim() == '') { lisss_IsNull = true }
         }
         if (lisss_IsNull) {
@@ -1283,7 +1279,7 @@ var UI_Table_View = {
                                     header.t_Id = 't_' + header.Num;
                                 }
                                 lisss.push(header);
-                                $("#item_check2").tmpl(header).appendTo("#list2");
+                                $("#item_check2").tmpl(header).appendTo("#list");
                             }
                             else {
                                 //自由表头
@@ -1347,7 +1343,7 @@ function Refresh_View_Display() {
     var lisss_IsNull = false;
     //表头信息填充
     for (var i in lisss) {
-        lisss[i].title = $('#list2').find('input[t_id="' + lisss[i].t_Id + '"]').val();
+        lisss[i].title = $('#list').find('input[t_id="' + lisss[i].t_Id + '"]').val();
         if (lisss[i].title.trim() == '') { lisss_IsNull = true }
     }
 
