@@ -37,7 +37,7 @@ namespace FEHandler.Eva_Manage
                 List<Eva_Table> tblist = (from t in Constant.Eva_Table_List where t.Type == Type  select t).ToList();
                 if (TableType == FEModel.Enum.TableType.teacherself)
                 {
-                    tblist = (from t in Constant.Eva_Table_List where t.CreateUID == CreateUID select t).ToList();
+                    tblist = (from t in tblist where t.CreateUID == CreateUID select t).ToList();
                 }
                 var table_submiter = (from t in tblist
                                       join u in Constant.UserInfo_List on t.CreateUID equals u.UniqueNo
