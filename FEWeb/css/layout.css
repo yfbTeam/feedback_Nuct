@@ -984,23 +984,40 @@ z-index: 9999;width:100%;
     border:1px solid #DCDCDC;position:relative;
 }
 .table_header .table_header_left{
-    padding-right:134px;min-height:98px;
+    padding-right:134px;min-height:88px;padding-bottom:10px;
 }
-.table_header .table_header_left div{
+.table_header .table_header_left li{
     padding:10px;overflow:hidden;padding-bottom:0px;
 }
-.table_header .table_header_left div label{
-    min-width:50px;height:30px;border:2px dashed #999999;display:block;padding:0px 10px;line-height:30px;color:#666666;font-size:14px;float:left;
-}
-.table_header .table_header_left div label input{
-    width:100%;height:29px;border:none;border-bottom:1px solid #CCCCCC;
-}
-.table_header .table_header_left div>input{
-    min-width:153px;height:33px;border-bottom:1px solid #666666;margin-left:10px;
-}
-.table_header .table_header_left div span{
-    line-height:34px;margin-left:10px;font-size:14px;color:#666;
-}
+    .table_header .table_header_left li label {
+        min-width: 50px;
+        height: 30px;
+        border: 2px dashed #999999;
+        display: block;
+        padding: 0px 10px;
+        line-height: 30px;
+        color: #666666;
+        font-size: 14px;
+        float: left;
+    }
+        .table_header .table_header_left li label input {
+            width: 123px;
+            height: 29px;
+            border: none;
+            border-bottom: 1px solid #CCCCCC;
+        }
+    .table_header .table_header_left li > input {
+        width: 123px;
+        height: 32px;
+        border: 1px solid #ccc;
+        margin-left: 10px;
+    }
+    .table_header .table_header_left li span {
+        line-height: 34px;
+        margin-left: 10px;
+        font-size: 14px;
+        color: #666;
+    }
 .table_header .table_header_right{
     width:114px;padding:10px;position:absolute;right:0;top:0;
 }
