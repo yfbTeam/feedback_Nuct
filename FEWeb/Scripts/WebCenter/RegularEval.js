@@ -208,15 +208,7 @@ function Add_Eva_Regular(Type) {
     var index_layer = layer.load(1, {
         shade: [0.1, '#fff'] //0.1透明度的白色背景
     });
-    RoomID = '';
-    $('.li_other').each(function (item) {
-        if ($(this).prop('checked')) {
-            var roomId = $(this).prop('id');
-            RoomID += roomId + ',';
-        }
-    })
-    RoomID = RoomID.substr(0, RoomID.length - 1);
-
+    RoomID=$('.li_other:checked').prop('id');
     var postData = {
         func: "Add_Eva_Regular", "Name": $('#name').val(), "StartTime": $('#StartTime').val(), "EndTime": $('#EndTime').val(), "LookType": LookType,
         "Look_StartTime": '', "Look_EndTime": '', "MaxPercent": '', "MinPercent": '', "Remarks": '', "CreateUID": cookie_Userinfo.UniqueNo
@@ -252,16 +244,7 @@ function Edit_Eva_Regular(Type) {
     var index_layer = layer.load(1, {
         shade: [0.1, '#fff'] //0.1透明度的白色背景
     });
-
-    RoomID = '';
-    $('.li_other').each(function (item) {
-        if ($(this).prop('checked')) {
-            var roomId = $(this).prop('id');
-            RoomID += roomId + ',';
-        }
-    })
-    RoomID = RoomID.substr(0, RoomID.length - 1);
-
+    RoomID = $('.li_other:checked').prop('id');
     var postData = {
         func: "Edit_Eva_Regular", "Id": Id, "Name": $('#name').val(), "StartTime": $('#StartTime').val(), "EndTime": $('#EndTime').val(), "LookType": LookType,
         "Look_StartTime": '', "Look_EndTime": '', "MaxPercent": '', "MinPercent": '', "Remarks": ''
@@ -322,7 +305,6 @@ function DeleteExpert_List_Teacher_Course(Id) {
 function Get_Eva_RegularSingleCompleate() { };
 
 function Get_Eva_RegularSingle(Type, IsEdit) {
-
     var postData = {
         func: "Get_Eva_RegularSingle", "Id": Id
     };
@@ -334,7 +316,6 @@ function Get_Eva_RegularSingle(Type, IsEdit) {
         success: function (returnVal) {
             if (returnVal.result.errMsg == "success") {
                 var regu = returnVal.result.retData;
-
                 $('#name').val(regu.Name);
                 $('#StartTime').val(DateTimeConvert(regu.StartTime, 'yyyy-MM-dd HH:mm', true));
                 $('#EndTime').val(DateTimeConvert(regu.EndTime, 'yyyy-MM-dd HH:mm', true));

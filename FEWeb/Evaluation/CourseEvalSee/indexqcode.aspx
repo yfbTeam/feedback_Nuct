@@ -123,13 +123,13 @@
             {{/if}}
          
             <td class="operate_wrap">{{if StateType ==1}}
-                 <div class="operate" onclick="OpenIFrameWindow('编辑评价','EditModel.aspx?Id=${Id}&CourseName=${CourseName}&ClassName=${ClassName}&StateType=${StateType}','545px','450px')">
+                 <div class="operate" onclick="OpenIFrameWindow('编辑评价','EditModel.aspx?Id=${Id}&roomid=${RoomID}&StateType=${StateType}','545px','450px')">
                      <i class="iconfont color_purple">&#xe628;</i>
                      <span class="operate_none bg_purple">编辑
                      </span>
                  </div>
                 {{else StateType ==2}}
-                <div class="operate" onclick="OpenIFrameWindow('编辑评价','EditModel.aspx?Id=${Id}&CourseName=${CourseName}&ClassName=${ClassName}&StateType=${StateType}','545px','450px')">
+                <div class="operate" onclick="OpenIFrameWindow('编辑评价','EditModel.aspx?Id=${Id}&roomid=${RoomID}&StateType=${StateType}','545px','450px')">
                     <i class="iconfont color_purple">&#xe628;</i>
                     <span class="operate_none bg_purple">编辑
                     </span>

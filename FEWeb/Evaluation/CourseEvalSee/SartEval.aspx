@@ -1,5 +1,4 @@
 ﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="SartEval.aspx.cs" Inherits="FEWeb.Evaluation.CourseEvalSee.SartEval" %>
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -52,9 +51,7 @@
             </div>
             <div class="input-wrap">
                 <label>学年学期：</label>
-                <select class="select ml10" style="width:335px;" id="section" >
-             
-                </select>
+                <select class="select ml10" style="width:335px;" id="section"></select>
             </div>
             <div class="input-wrap">
                 <label>起止时间：</label>
@@ -64,21 +61,12 @@
             </div>
             <div class="input-wrap1 pr pb20" >
                 <label style="width:100px;margin-right:6px;display:inline-block">评价表分配：</label>
-                <select id ="table" class="select ml10" style="width:335px;"   title="12">
-                         
-                </select>
+                <select id ="table" class="select ml10" style="width:335px;"></select>
             </div>
             <div class="input-wrap clearfix"  v-cloak>
                 <label class="fl">评价范围：</label>
-
-                <ul id="ulist" class="fl">
-                    <li  >
-                     <input type="checkbox" id="all" /><label  for="all">全部</label>            
-                    </li>
-                </ul>
-               
-            </div>
-          
+                <ul id="ulist" class="fl"></ul>               
+            </div>          
         </div>
         <div class="btnwrap">
             <input type="button" value="保存" class="btn" @click="submit" />
@@ -100,14 +88,10 @@
     <script src="../../Scripts/choosen/prism.js"></script>
     <script type="text/javascript" src="../../scripts/My97DatePicker/WdatePicker.js"></script>
     <script src="../../Scripts/WebCenter/RegularEval.js"></script>
-
     <script type="text/x-jquery-tmpl" id="itemcourse">
-        <li >
-             <input type="checkbox" class="li_other" id="${Id}" /><label  for="${Id}">${Course_Name}&nbsp;&nbsp;&nbsp;${ClassName}</label>            
-         </li>
+        <li><input type="radio" class="li_other" id="${Id}" name="rd_everange"/><label for="${Id}">${Course_Name}&nbsp;&nbsp;&nbsp;${ClassName}</label></li>
     </script>
     <script>
-
         var that = this;
         var newEval = new Vue({
             el: '#newEval',
@@ -121,14 +105,12 @@
                     this.picked == 1 ? this.appoint = true : this.appoint = false;
 
                 },
-
                 submit: function () {
                     var name = $('#name').val();
                     if (name == '') {
                         layer.msg('请输入评价名称');
                         return;
                     }
-
                     var startime = $('#StartTime').val();
                     var endtime = $('#EndTime').val();
                     if (startime == '') {
@@ -150,18 +132,15 @@
                             return;
                         }
                         DepartmentIDs = [];
-
                         departmests.filter(function (item) { DepartmentIDs += item + ',' });
                         DepartmentIDs = DepartmentIDs.substring(0, DepartmentIDs.length - 1);
-
                         LookType = 1;
                     }
                     else {
                         LookType = 0;
                         DepartmentIDs = [];
-                    }                   
-                    if ($('.li_other:checked').length == 0)
-                    {
+                    }
+                    if ($('.li_other:checked').length == 0) {
                         layer.msg('请指定评价范围');
                         return;
                     }
@@ -180,52 +159,24 @@
                     regeRange();
                 };
                 Base.bindStudySection();
-
                 $('#section').on('change', function () {
                     regeRange();
                 });
-
                 Type = 1;
                 t_Type = 1;
                 CreateUID = login_User.UniqueNo;
-
                 Base.BindTable();
                 Base.BindDepart();
-
-               
             }
-        })
+        });
 
         function regeRange()
         {
             SectionID = $('#section').val();
             GetClassInfoSelect(SectionID, login_User.UniqueNo);
-            $("#ulist").empty();
-            $("#ulist").append('<li  > <input type="checkbox" id="all" /><label  for="all">全部</label>  </li>');                      
-            $("#itemcourse").tmpl(CCList).appendTo("#ulist");
-
-            $('.li_other').on('click', function () {
-                if ($('.li_other').length == $('.li_other:checked').length) {
-                    $('#all').prop('checked', true);
-                }
-                else {
-                    $('#all').prop('checked', false);
-                }
-            });
-
-            $('#all').on('click', function () {
-                var that = $(this);
-                $('.li_other').each(function () {
-                    if (that.is(':checked')) {
-                        $('.li_other').prop('checked', true);
-                    }
-                    else {
-                        $('.li_other').prop('checked', false);
-                    }
-                });
-            });
+            $("#ulist").empty();                             
+            $("#itemcourse").tmpl(CCList).appendTo("#ulist");            
         }
-
     </script>
 </body>
 </html>

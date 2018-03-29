@@ -1,5 +1,4 @@
 ﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="EditModel.aspx.cs" Inherits="FEWeb.Evaluation.CourseEvalSee.EditModel" %>
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -51,9 +50,7 @@
             </div>
             <div class="input-wrap">
                 <label>学年学期：</label>
-                <select class="select ml10" style="width:335px;" id="section" disabled="disabled">
-           
-                </select>
+                <select class="select ml10" style="width:335px;" id="section" disabled="disabled"></select>
             </div>
             <div class="input-wrap">
                 <label>起止时间：</label>
@@ -63,16 +60,11 @@
             </div>
             <div class="input-wrap1 pr pb20" >
                 <label style="width:100px;margin-right:6px;display:inline-block">评价表分配：</label>
-                <select id ="table" disabled="disabled" class="select ml10" style="width:335px;">
-                         
-                </select>
+                <select id ="table" disabled="disabled" class="select ml10" style="width:335px;"></select>
             </div>
             <div class="input-wrap clearfix" v-cloak>
                 <label class="fl">评价范围：</label>
-
-                <ul id="ulist" class="fl">
-                </ul>
-
+                <ul id="ulist" class="fl"></ul>
             </div>
         </div>
         <div class="btnwrap">
@@ -89,22 +81,19 @@
     <script src="../../Scripts/linq.min.js"></script>
     <script src="../../scripts/layer/layer.js"></script>
     <script src="../../scripts/jquery.tmpl.js"></script>
+    <script src="../../Scripts/WebCenter/Room.js"></script>
     <script src="../../Scripts/WebCenter/Base.js"></script>
     <script src="../../Scripts/choosen/chosen.jquery.js"></script>
     <script src="../../Scripts/choosen/prism.js"></script>
     <script type="text/javascript" src="../../scripts/My97DatePicker/WdatePicker.js"></script>
     <script src="../../Scripts/WebCenter/RegularEval.js"></script>
-
-    <script type="text/x-jquery-tmpl" id="itemCourse">
-        <li>            
-           ${CourseName} &nbsp;&nbsp;&nbsp;  ${ClassName}
-        </li>
+    <script type="text/x-jquery-tmpl" id="itemcourse">
+        <li><input type="radio" class="li_other" id="${Id}" name="rd_everange" disabled="disabled"/><label for="${Id}">${Course_Name}&nbsp;&nbsp;&nbsp;${ClassName}</label></li>            
     </script>
    
     <script>
         var Id = getQueryString('Id');
-        var CourseName = getQueryString('CourseName');
-        var ClassName = getQueryString('ClassName');
+        var roomid = getQueryString('roomid');
         var StateType = getQueryString('StateType');
         var newEval = new Vue({
             el: '#newEval',
@@ -146,51 +135,60 @@
                             return;
                         }
                         DepartmentIDs = [];
-
                         departmests.filter(function (item) { DepartmentIDs += item + ',' });
                         DepartmentIDs = DepartmentIDs.substring(0, DepartmentIDs.length - 1);
-
                         LookType = 1;
                     }
                     else {
                         LookType = 0;
                         DepartmentIDs = [];
                     }
+                    if ($('.li_other:checked').length == 0) {
+                        layer.msg('请指定评价范围');
+                        return;
+                    }
                     TableID = $('#table').val();
 
                     select_sectionid = $('#section').val();
                     Edit_Eva_RegularCompleate = function () {
-                        parent.Reflesh();
+                        parent.Refesh();
                     };
-                    Edit_Eva_Regular(2);
+                    Edit_Eva_Regular(3);
                 }
             },
             mounted: function () {
                 this.role = GetLoginUser().Sys_Role_Id;
-
                 if (StateType == 1)
                 {
                     $('#name').prop('readonly', false);
                     $('#section,#StartTime,#table').prop('disabled', false);
-                    
                 }
-
-
+                Base.bindStudySectionCompleate = function () {
+                    regeRange();
+                    $('.li_other[id=' + roomid + ']').prop('checked', true);
+                    if (StateType == 1) {
+                        $('.li_other').prop('disabled', false);
+                    }                    
+                };
                 Base.bindStudySection();
+                $('#section').on('change', function () {
+                    regeRange();
+                });
                 t_Type = 1;
                 CreateUID = login_User.UniqueNo;
-
                 Base.BindTableCompleate = function () {
                     Get_Eva_RegularSingle(2, true);
                 };
                 Base.BindTable();
                 Base.BindDepart();
-
-                var obj = { CourseName: CourseName, ClassName: ClassName };
-                $("#itemCourse").tmpl(obj).appendTo("#ulist");
             }
         })
-
+        function regeRange() {
+            SectionID = $('#section').val();
+            GetClassInfoSelect(SectionID, login_User.UniqueNo);
+            $("#ulist").empty();
+            $("#itemcourse").tmpl(CCList).appendTo("#ulist");
+        }
     </script>
 </body>
 </html>

@@ -1309,7 +1309,7 @@ namespace FEHandler.Eva_Manage
 
                 #endregion
 
-                if (!hasAcross)
+                if ((!hasAcross&& Type==1)||Type!=1)
                 {
                     var section = Constant.StudySection_List.FirstOrDefault(i => i.Id == Section_Id);
                     if (section != null)
@@ -1471,7 +1471,7 @@ namespace FEHandler.Eva_Manage
                         {
                             #region 添加评价
 
-                            if (!hasAcross)
+                            if ((!hasAcross&& Type == 1)||Type!=1)
                             {
                                 //新建定期评价
                                 Eva_Regular Eva_Regular_Add = new Eva_Regular()

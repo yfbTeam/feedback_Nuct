@@ -337,7 +337,8 @@ var UI_Table_Create =
                             UI_Table_Create.Reflesh_View({ indicator_array: [] });//删除时，同时改变页面
                         }
                         list_sheets.splice(i, 1);
-                        $(this).parent().remove();                        
+                        $(this).parent().remove();
+                        UI_Table_Create.calculate_realtotal();
                         break;
                     }
                 }
@@ -365,7 +366,7 @@ var UI_Table_Create =
                 flg--;//题号需要减减
             }
         }
-
+        UI_Table_Create.calculate_realtotal();
         //if (select_sheet.indicator_list.length == 0) {//如果长度为0了表示该类型下无问题了， 要删除类型标题行的
         //    select_sheet.splice(i, 1);
         //    $("#test_lists").html('<ul id="text_list1"><li id="default_li" style="min-height: 475px; background: #fff url(/images/no.jpg) no-repeat center center; border-bottom: none;"></li></ul>');
