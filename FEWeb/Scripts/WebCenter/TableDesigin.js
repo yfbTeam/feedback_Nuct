@@ -167,11 +167,13 @@ var UI_Table =
         },
 
     };
+
 //=================================================================================================================================
 var UI_Table_Create =
 {
     PageType: '', //AddEvalTable 表格设计   SelTabelHead 添加表头
     Type: 0, //1为编辑 其余则视为添加
+
     head_value: [],//自由表格头部
     PrepareInit: function () {
         $("#IsScore").click(function () {//计分的情况
@@ -241,12 +243,10 @@ var UI_Table_Create =
     },
     //-------------------------------------------新添节点【自定义表头】
     add_checkItem2: function () {
-        //alert(1)
         var header = Object();
         if (lisss.length == 0) {
             header.Num = 1;
             header.t_Id = 't_' + header.Num;
-
         }
         else {
             header.Num = lisss[lisss.length - 1].Num + 1;
@@ -254,13 +254,13 @@ var UI_Table_Create =
         }
         header.title = '新填节点' + header.Num;
         lisss.push(header);
-        //$("#list2").html('');
-        $("#item_check2").tmpl(header).appendTo("#list2");
+        
+        $("#item_check2").tmpl(header).appendTo("#list");
 
         UI_Table_Create.header_init();
     },
     header_init: function () {
-        $("#list2 .fl").children('.iconfont').each(function () {
+        $("#list li").children('.iconfont').each(function () {
             $(this).unbind("click");
             $(this).on('click', function () {
                 var _t_Id = $(this).attr('t_Id');
@@ -539,6 +539,7 @@ var UI_Table_Create =
     },
     //计算离开文本框的方法
     text_blur: function () {
+
         $(".number").blur(function () {
             var flg = $(this).attr('flg');
             if (flg == 'sum') {
@@ -547,7 +548,7 @@ var UI_Table_Create =
             else {
                 text_change_event($(this))
             }
-        });
+        })
 
         $(".number").bind('keydown', function (event) {
             if (event.keyCode == "13") {
@@ -562,9 +563,11 @@ var UI_Table_Create =
         })
     },
     text_change_event: function (element) {
+
         var va = element.val();
         if (va != null && va != '' && va != undefined) {
             var Id = element.parents("li").children("input[name='name_in']").val();//获取试题的id
+
             var sum = $("#t_" + Id).val();
             if (sum != null && sum != '' && sum != undefined) {
                 if (Number(va) >= Number(sum)) {
@@ -577,6 +580,7 @@ var UI_Table_Create =
             var all_array = [];//定义类型需要存的数组         
             var Title = element.parents("li").children("input[name='name_title']").val();//获取试题类型的id
             var num_array = [];//定义标题内文本框需要存的数组
+
             //循环每一个试题选项的文本框的值，存在数组num_array中
             element.parents("li").find('input[class="number"]').each(function () {
                 var flg = $(this).attr('flg');
@@ -596,7 +600,8 @@ var UI_Table_Create =
                 if ($(this).val() != "") {
                     all_array.push($(this).val());
                 }
-            });
+            })
+
             //对all_array进行遍历，进行求和
             var sum = 0;
             for (var i = 0; i < all_array.length; i++) {
@@ -604,8 +609,24 @@ var UI_Table_Create =
             }
             //赋值
             $("#h_" + Title).val(sum == 0 ? "" : sum);
+
+            //实时总分
+            var total = 0;
+            $("#text_list1 li h2").each(function () {
+                var total_1 = $(this).find('input[type="Number"]').val();
+                if (total_1 != '' && total_1 != undefined) {
+                    total_1 = Number(total_1);
+                }
+                else {
+                    total_1 = 0;
+                }
+                total += total_1;
+            })
+            $("#total").html(total.toFixed(2) + '');
+
            //================================【新加，每个小题分数调整都可以进行整体进行刷新】
             var list_s = Enumerable.From(select_sheet.indicator_array[0].indicator_list).Where("x=>x.Id == '" + Id + "'").ToArray();
+
             //循环每一个试题选项的文本框的值，存在数组num_array中
             element.parents("li").find('input[class="number"]').each(function (i) {
                 var flg = $(this).attr('flg');
@@ -638,7 +659,6 @@ var UI_Table_Create =
                     }
                 }
             })
-            UI_Table_Create.calculate_realtotal();
         }
     },
     text_Sum_event: function (element) {
@@ -647,6 +667,7 @@ var UI_Table_Create =
             var va_num = Number(va)
             if (isNaN(va_num)) {
                 layer.msg('输入的格式不正确,请重新输入');
+
                 var lastvalue = element.attr('lastvalue');
                 if (lastvalue != null && lastvalue != '' && lastvalue != undefined) {
                     element.val(lastvalue);
@@ -673,6 +694,7 @@ var UI_Table_Create =
             //var A_S_Parameter = element.val();
 
             var list_s = Enumerable.From(select_sheet.indicator_array[0].indicator_list).Where("x=>x.Id == '" + Id + "'").ToArray();
+
 
             //循环每一个试题选项的文本框的值，存在数组num_array中
             element.parents("li").find('input[class="number"]').each(function (i) {
@@ -717,53 +739,49 @@ var UI_Table_Create =
                     num_array.push($(this).val());
                 }
                 //alert(JSON.stringify($(this).attr('id')));
-            });
+            })
+
             va = va > 0 ? Number(va).toFixed(2) : 0;
             list_s[0].OptionF_S_Max = va;
+
 
             //为标题内的文本框赋最大值
             //var max = Math.max.apply(null, num_array);
             //$("#t_" + Id).val(max == 0 ? "" : max);
             $("#t_" + Id).val(va);
+
             //类型的文本框为标题文本框的求和
             var len = element.parents(".indicator_type").find("h2").find('input[type="text"]').length;
             //循环每个标题文本框的text控件，并把值赋予all_array
             element.parents(".indicator_type").find("h2").find('input[type="text"]').each(function () {
+
                 if ($(this).val() != "") {
                     all_array.push($(this).val());
                 }
-            });
+            })
 
             //对all_array进行遍历，进行求和
             var sum = 0;
+
             for (var i = 0; i < all_array.length; i++) {
                 sum = numAdd(sum, all_array[i]);//防止值为字符串 导致计算错误
             }
             //赋值
             $("#h_" + Title).val(sum == 0 ? "" : sum);
-            UI_Table_Create.calculate_realtotal();
-        }
-    },
-    calculate_realtotal: function () { //计算实时总分        
-        var total = 0;//实时总分
-        for (var i in list_sheets) {
-            if (list_sheets[i].indicator_array.length > 0) {
-                for (var j in list_sheets[i].indicator_array) {                    
-                    var indicator_list = list_sheets[i].indicator_array[j].indicator_list;
-                    for (var h in indicator_list) {                       
-                        var cur_indmodel = indicator_list[h];//当前对象
-                        if (cur_indmodel.QuesType_Id == 1 || cur_indmodel.QuesType_Id == 4) {
-                            var total_1 = cur_indmodel.OptionF_S_Max;
-                            if (total_1 != null && total_1 != '' && total_1 != undefined && !isNaN(Number(total_1))) {
-                                total_1 = Number(total_1);
-                                total += total_1;
-                            }                            
-                        }
-                    }
+
+            var total = 0;
+            $("#text_list1 li h2").each(function () {
+                var total_1 = $(this).find('input[type="Number"]').val();
+                if (total_1 != '' && total_1 != undefined) {
+                    total_1 = Number(total_1);
                 }
-            }
+                else {
+                    total_1 = 0;
+                }
+                total += total_1;
+            })
+            $("#total").html(total.toFixed(2) + '');
         }
-        $("#total").html(total.toFixed(2) + '');
     },
     //选择指标
     openIndicator: function () {
@@ -915,7 +933,7 @@ var UI_Table_Create =
         var lisss_IsNull = false;
         //表头信息填充
         for (var i in lisss) {
-            lisss[i].title = $('#list2').find('input[t_id="' + lisss[i].t_Id + '"]').val();
+            lisss[i].title = $('#list').find('input[t_id="' + lisss[i].t_Id + '"]').val();
             if (lisss[i].title.trim() == '') { lisss_IsNull = true }
         }
         if (lisss_IsNull) {
@@ -929,6 +947,7 @@ var UI_Table_Create =
 
         //启用或禁用
         var IsEnable = $("#disalbe").is(":checked") ? 0 : 1;
+
         for (var h in all_array) {
             for (var f in all_array[h].indicator_list) {
                 var obj = all_array[h].indicator_list[f];
@@ -1094,7 +1113,7 @@ var UI_Table_Create =
                     retData = json.result.retData;
                     switch (UI_Table_Create.PageType) {
                         case 'SelTabelHead':
-
+                            
                             $("#item_check").tmpl(retData).appendTo("#list");
                             UI_Table_Create.Get_Eva_Table_Header_Custom_List_Compleate(retData);
                             break;
@@ -1268,6 +1287,7 @@ var UI_Table_View = {
 
                         //添加表头信息
                         for (var i in retData.Table_Header_List) {
+                            
                             var item = retData.Table_Header_List[i];
                             if (item.Type == 0) {
                                 var header = Object();
@@ -1282,7 +1302,7 @@ var UI_Table_View = {
                                     header.t_Id = 't_' + header.Num;
                                 }
                                 lisss.push(header);
-                                $("#item_check2").tmpl(header).appendTo("#list2");
+                                $("#item_check2").tmpl(header).appendTo("#list");
                             }
                             else {
                                 //自由表头
@@ -1346,7 +1366,7 @@ function Refresh_View_Display() {
     var lisss_IsNull = false;
     //表头信息填充
     for (var i in lisss) {
-        lisss[i].title = $('#list2').find('input[t_id="' + lisss[i].t_Id + '"]').val();
+        lisss[i].title = $('#list').find('input[t_id="' + lisss[i].t_Id + '"]').val();
         if (lisss[i].title.trim() == '') { lisss_IsNull = true }
     }
 

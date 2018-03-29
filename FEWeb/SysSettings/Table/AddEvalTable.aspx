@@ -1,5 +1,4 @@
 ﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="AddEvalTable.aspx.cs" Inherits="FEWeb.SysSettings.AddEvalTable" %>
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -9,8 +8,6 @@
     <link rel="stylesheet" href="../../css/reset.css" />
     <link rel="stylesheet" href="../../css/layout.css" />
     <script src="../../Scripts/jquery-1.11.2.min.js"></script>
-
-
     <style type="text/css">
         .number {
             width: 50px;
@@ -22,13 +19,14 @@
             color: #009706;
         }
 
-        #list2 .iconfont {
+        #list .iconfont {
             width: 34px;
             height: 34px;
             display: inline-block;
             line-height: 34px;
             text-align: center;
             cursor: pointer;
+            color:#ff0000;
         }
 
         .input_root {
@@ -103,14 +101,12 @@
 
             </div>
             <div class="table_header mt10 clearfix" style="min-height: 98px">
-                <div class="table_header_left clearfix" style="min-height: 49px" id="list">
-                </div>
+                <ul class="table_header_left clearfix" id="list">
 
-                <div class="table_header_left clearfix" style="min-height: 49px" id="list2">
-                </div>
+                </ul>
                 <div class="table_header_right fr">
                     <input type="button" name="name" value="选择表头" class="btn2" onclick="OpenIFrameWindow('选择表头', './SelTabelHead.aspx', '700px', '340px')" />
-                    <input type="button" name="name" value="自定义表头" class="btn2 mt10" onclick="add_checkItem2();" />
+                    <input type="button" name="name" value="自定义表头" class="btn2 mt10" onclick="UI_Table_Create.add_checkItem2();" />
                 </div>
             </div>
             <div class="test_module mt10">
@@ -138,8 +134,6 @@
                         <li id="default_li" style="min-height: 475px; background: #fff url(/images/no.jpg) no-repeat center center; border-bottom: none;"></li>
                     </ul>
                 </div>
-
-
             </div>
             <div class="btnwrap" style="position: static; border: 1px solid #ccc; border-top: none; box-sizing: border-box;">
                 <input type="button" value="保存" onclick="submit()" class="btn" />
@@ -148,41 +142,30 @@
         </div>
     </div>
     <footer id="footer"></footer>
-
 </body>
 </html>
-
-
 <%--固定表头--%>
 <script type="text/x-jquery-tmpl" id="item_check">
-    <div class="fl">
-        <label t_id="${id}" for="">${name}：</label><span>【${description}】</span>
-
-    </div>
+    <li t_id="${id}" class="fl">
+        <label>${name}：</label>
+        <span>【${description}】</span>
+    </li>
 </script>
-
 <%--自由表头--%>
 <script type="text/x-jquery-tmpl" id="item_check2">
-    <div class="fl">
-        <label t_id="${t_Id}" for="">
-            <input type="text" name="name" t_id="${t_Id}" value="${title}" />
-        </label>
+    <li t_id="${t_Id}" class="fl">
+        <label><input type="text" name="name" t_id="${t_Id}" value="${title}" /></label>
         <input readonly="readonly" v_id="${t_Id}" type="text" name="name" value="" />
-
         <i t_id="${t_Id}" style="cursor: pointer" class="iconfont">&#xe672;</i>
-    </div>
+    </li>
 </script>
-
 <script type="text/x-jquery-tmpl" id="item_sheet">
     <div style="float: left">
-
         <input class="input_root" t_id="${t_Id}" value="${title}" />
         <i t_id="${t_Id}" style="cursor: pointer; align-content: center" class="iconfont">&#xe672;</i>
     </div>
 </script>
-
 <script type="text/x-jquery-tmpl" id="itemNav">
-
         <div class="crumbs">
             <a onclick="window.location.href='../../Evaluation/CourseEvalSee/indexqcode.aspx?Id='+getQueryString('Id')+'&Iid='+getQueryString('Iid')" href="javascript:;">课堂扫码评价</a>
             <span>&gt;</span>
@@ -196,9 +179,7 @@
                 {{/if}}
                 </a>
         </div>
-
 </script>
-
 <script type="text/x-jquery-tmpl" id="item_indicator_title_1">
     <div class="indicator_type" ques="${QuesType_Id}">
         <div class="test_lists">
@@ -327,12 +308,10 @@
 <script src="../../Scripts/linq.min.js"></script>
 <script src="../../Scripts/layer/layer.js"></script>
 <script src="../../Scripts/jquery.tmpl.js"></script>
-
 <script src="../../Scripts/Sortable.min.js"></script>
 <script src="../../Scripts/WebCenter/TableDesigin.js"></script>
 <script src="../../Scripts/WebCenter/DatabaseMan.js"></script>
 <script type="text/javascript">
-
     var type = getQueryString('type'); //1:编辑 1其他的则视为添加
     var table_Id = getQueryString('table_id');//表格的Id
     var indicator_array = [];//回调参数 用于数据的显示和提交
@@ -360,55 +339,29 @@
             UI_Table_View.Get_Eva_TableDetail_Compleate = function (data) { };
             UI_Table_View.Get_Eva_TableDetail();
         }
-
         if (Type == 1) {
             $('#nav').empty();
             $("#itemNav").tmpl(1).appendTo("#nav");
 
             $('.table_header').hide();
         }
-
-
         //初始化准备
         UI_Table_Create.PrepareInit();
         //取消
         $("#cancel,.reback").click(function () { history.go(-1); })
-
-
-        var el = document.getElementById('list');
-        var sortable = Sortable.create(el, {
-            onUpdate: function (evt) {
-
+        //拖拽排序
+        var sortable = Sortable.create($('#list')[0],{
+            onUpdate:function(evt){
                 var list_ar = [];
-                $('#list label').each(function () {
-                    var that = $(this);
-                    var lis = UI_Table_Create.head_value.filter(function (item) { return item.id == that.attr('t_id') });
+                $('#list li').each(function(){
+                    var lis = UI_Table_Create.head_value.filter(function (item) { return item.id == $(this).attr('t_id') });
                     if (lis.length > 0) {
                         list_ar.push(lis[0]);
                     }
-                });
+                })
                 UI_Table_Create.head_value = list_ar;
             }
         });
-
-        var e2 = document.getElementById('list2');
-        var sortable2 = Sortable.create(e2, {
-            onUpdate: function (evt) {
-
-                var list_ar = [];
-                $('#list2 label').each(function () {
-                    var that = $(this);
-                    var lis = lisss.filter(function (item) { return item.t_Id == that.attr('t_id') });
-                    if (lis.length > 0) {
-                        list_ar.push(lis[0]);
-                    }
-                });
-
-                lisss = list_ar;
-            }
-        });
-
-
     });
     //-----------数据填充----------------------------------------------------------
     //回调函数（子页面调的回调函数）
@@ -424,10 +377,7 @@
     function save_score_parameter() {
         UI_Table_Create.save_score_parameter();
     }
-    //-------------------------------------------新添节点【自定义表头】
-    function add_checkItem2() {
-        UI_Table_Create.add_checkItem2();
-    }
+    
     //-------------------------------------添加节点【试题】
     function add_root() {
         UI_Table_Create.add_root();
@@ -439,9 +389,7 @@
     }
     //-----------选择表头【子窗体使用】------------------------------------------
     function tablehead(headvalue) {
-
         UI_Table_Create.head_value = headvalue;
-        $("#list").html('');
         $("#item_check").tmpl(headvalue).appendTo("#list");
     }
     //-----------获取表头【子窗体使用】------------------------------------------
