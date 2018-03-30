@@ -60,7 +60,7 @@
             </div>
             <div class="input-wrap1 pr pb20" >
                 <label style="width:100px;margin-right:6px;display:inline-block">评价表分配：</label>
-                <select id ="table" disabled="disabled" class="select ml10" style="width:335px;"></select>
+                <select id="table" disabled="disabled" class="select ml10" style="width:335px;"></select>
             </div>
             <div class="input-wrap clearfix" v-cloak>
                 <label class="fl">评价范围：</label>
@@ -143,6 +143,10 @@
                         LookType = 0;
                         DepartmentIDs = [];
                     }
+                    if (!$('#table').val().length) {
+                        layer.msg('请选择评价表');
+                        return;
+                    }
                     if ($('.li_other:checked').length == 0) {
                         layer.msg('请指定评价范围');
                         return;
@@ -179,6 +183,8 @@
                 Base.BindTableCompleate = function () {
                     Get_Eva_RegularSingle(2, true);
                 };
+                $("#table").empty();
+                $("#table").append('<option value="">请选择</option>');
                 Base.BindTable();
                 Base.BindDepart();
             }

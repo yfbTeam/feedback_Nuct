@@ -140,6 +140,10 @@
                         LookType = 0;
                         DepartmentIDs = [];
                     }
+                    if (!$('#table').val().length) {
+                        layer.msg('请选择评价表');
+                        return;
+                    }
                     if ($('.li_other:checked').length == 0) {
                         layer.msg('请指定评价范围');
                         return;
@@ -165,6 +169,8 @@
                 Type = 1;
                 t_Type = 1;
                 CreateUID = login_User.UniqueNo;
+                $("#table").empty();
+                $("#table").append('<option value="">请选择</option>');
                 Base.BindTable();
                 Base.BindDepart();
             }
