@@ -94,7 +94,7 @@
     <script>
         var Id = getQueryString('Id');
         var roomid = getQueryString('roomid');
-        var StateType = getQueryString('StateType');
+        var StateType = getQueryString('StateType');        
         var newEval = new Vue({
             el: '#newEval',
             data: {
@@ -183,6 +183,7 @@
                 Base.BindTableCompleate = function () {
                     Get_Eva_RegularSingle(2, true);
                 };
+                CurTableId = getQueryString('tableid');
                 $("#table").empty();
                 $("#table").append('<option value="">请选择</option>');
                 Base.BindTable();

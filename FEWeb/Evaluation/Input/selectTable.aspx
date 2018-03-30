@@ -1,5 +1,4 @@
 ﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="selectTable.aspx.cs" Inherits="FEWeb.Evaluation.Input.selectTable" %>
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -9,20 +8,16 @@
     <link href="../../css/reset.css" rel="stylesheet" />
     <link href="../../css/layout.css" rel="stylesheet" />
     <script src="../../Scripts/jquery-1.11.2.min.js"></script>
-
     <style>
         .test_module {
             border: none;
         }
-
         .test_lists ul li {
             padding-right: 0;
         }
-
         .tableheader {
             margin-top: 20px;
         }
-
             .tableheader .evalmes {
                 text-align: center;
             }
@@ -32,64 +27,49 @@
             background: #f9f4f8;
             height: 40px;
         }
-
             .h1_div h1 {
                 margin-top: 13px;
                 margin-left: 20px;
             }
-
-
         .tableheader .tablename1 {
             height: 32px;
             text-align: center;
         }
-
         .tableheader .evalmes span {
             line-height: 40px;
         }
-
         .test_desc label {
             cursor: pointer;
         }
-
         .div_header {
             height: 10px;
             margin-bottom: 20px;
             margin-left: 20px;
         }
-
             .div_header select {
                 margin-top: 0px;
             }
-
         .input_bottom {
             width: 100px;
             border: 0;
             border-bottom: 1px solid #000;
             text-align: center;
         }
-
-
         #table_view {
             margin-top: 30px;
         }
-
         .div_header select {
             min-width: 120px;
         }
-
         input[Type="radio"] {
             vertical-align: middle;
         }
-
         .lbl {
             vertical-align: middle;
         }
-
         .numbers {
             float: none;
         }
-
         .evalmes2 {
             top: 35%;
             padding: 10px 0;
@@ -100,23 +80,19 @@
             width: 110px;
             background: #A66894;
         }
-
             .evalmes2 .div1 {
                 text-align: center;
                 color: white;
                 line-height: 35px;
             }
-
             .evalmes2 .div2 {
                 text-align: center;
                 line-height: 35px;
                 color: white;
             }
-
                 .evalmes2 .div2 label {
                     font-size: 18px;
                 }
-
         .title a {
             cursor: pointer;
         }
@@ -126,47 +102,32 @@
     <div id="top"></div>
     <div class="center" id="centerwrap">
         <div class="wrap ">
-            <div class="sort_nav" id="threenav">
-            </div>
-
+            <div class="sort_nav" id="threenav"></div>
             <h1 class="title">
                 <a id="level1">全部评价</a><span>&gt;</span><a id="GropName">评价</a><span>&gt;</span><a class="crumbs" id="GropName2"></a>
             </h1>
-
             <div class="evalmes2" style="color: #999999; font-size: 14px">
                 <div class="div1">
-                    <label>
-                        实时总分
-                    </label>
+                    <label>实时总分</label>
                 </div>
-
                 <div class="div2">
                     <label id="sp_realtotal">0</label>
                 </div>
             </div>
-
             <div class="tableheader">
                 <h1 class="tablename1">
-                    <select v-model="" class="tableheader_select" id="table">
-                    </select>
+                    <select v-model="" class="tableheader_select" id="table"></select>
                 </h1>
                 <div class="evalmes" style="color: #999999; font-size: 14px">
                     <span id="sp_total"></span>
                     <span id="remark"></span>
                 </div>
-                <div class="table_header_left clearfix" id="list">
-                </div>
-
+                <div class="table_header_left clearfix" id="list"></div>
             </div>
-
             <div class="content">
-                <ul id="table_view">
-                </ul>
+                <ul id="table_view"></ul>
             </div>
-
-            <div class="btnwrap" style="">
-               
-            </div>
+            <div class="btnwrap" style=""></div>
         </div>
     </div>
     <footer id="footer"></footer>
@@ -179,19 +140,16 @@
     <script src="../../Scripts/WebCenter/Room.js"></script>
     <script src="../../Scripts/WebCenter/User.js"></script>
     <script src="../../Scripts/WebCenter/Evaluate.js"></script>
-
     <script type="text/x-jquery-tmpl" id="EnableItem">
         <input type="button" value="提交" onclick="Submit()" class="btn">
         <input type="button" value="保存" onclick="Save()" class="btn ml10">
         <input type="button" value="取消" class="btna ml10 n_uploadbtn" onclick="window.history.go(-1)">
     </script>
-
     <script type="text/x-jquery-tmpl" id="DisEnableItem">
         <input type="button" value="提交"  class="btn" style="background:#d7d7d7">
         <input type="button" value="保存"  class="btn" style="background:#d7d7d7">
         <input type="button" value="取消" class="btna ml10 n_uploadbtn" onclick="window.history.go(-1)">
     </script>
-
     <script type="text/x-jquery-tmpl" id="item_table_view">
         {{if Root.trim() !=''}}
     <div class="content">
@@ -202,19 +160,16 @@
         </div>
         {{else}}
             <div class="content " style="margin-top: -20px;">
-                {{/if}}    
-
+         {{/if}}   
         <div class="test_module">
             <input type="hidden" value="${indicator_type_tid}" name="name_title" />
             <div class="test_lists">
                 <ul>
                     {{each Eva_TableDetail_List}}
                 <li class="ti">
-
                     <input type="hidden" value="${$value.Eva_table_Id}" name="name_title" />
                     <input type="hidden" value="${$value.Id}" name="name_id" />
                     <input type="hidden" value="${QuesType_Id}" name="name_QuesType_Id" />
-
                     <h2 class="title">${Sort}、 {{if $value.QuesType_Id ==1 }}
                              【单选题】
                              {{else $value.QuesType_Id ==2 }}
@@ -226,9 +181,7 @@
                              {{/if}} ${$value.Name}
                     {{if $value.QuesType_Id ==1 || $value.QuesType_Id ==4}}
                        <b class="isscore">（<span class="isscore">${OptionF_S_Max}分</span>）</b>
-
-                        {{/if}}
-                        
+                        {{/if}}                        
                     </h2>
                     {{if $value.QuesType_Id == 1}}
                     <div class="test_desc">
@@ -282,7 +235,6 @@
                         </span>
                         {{/if}}
                     </div>
-
                     {{else $value.QuesType_Id==2}}
                     <div class="test_desc test_desc2">
                         {{if $value.OptionA!=""}}
@@ -375,7 +327,9 @@
                 {{else  CustomCode == 2}}  
            <input readonly="readonly" class="input_bottom" id="course" />
                 {{else CustomCode == 1}}
-             <input readonly="readonly" class="input_bottom" id="dp" />
+           <input readonly="readonly" class="input_bottom" id="dp" />
+                {{else CustomCode==8}}
+           <input class="input_bottom" id="txt_copies" type="number" fl="份数" regtype="money" min="1" step="1"/>
                 {{else 1==1}}
             【${Header}】
                 {{/if}}            
@@ -395,7 +349,6 @@
     <script>
 
         var table_Id = 0;
-
         var SectionID = getQueryString('SectionID');
         var DisplayName = getQueryString('DisplayName');
 
@@ -505,7 +458,7 @@
                 CustomCode = (CustomCode != undefined && CustomCode != null) ? CustomCode.trim() : "";
                 Name = (Name != undefined && Name != null) ? Name.trim() : "";
 
-                if (CustomCode == "" || CustomCode == "2" || CustomCode == "3" || CustomCode == "7") {
+                if (CustomCode == "" || CustomCode == "2" || CustomCode == "3" || CustomCode == "7" || CustomCode == "8") {
                     Value = $(this).find('input').val();
                 }
                 else {

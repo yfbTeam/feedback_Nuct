@@ -367,6 +367,8 @@
            <input readonly="readonly" class="input_bottom" id="course" value="${Value}" />
                 {{else CustomCode == 1}}
              <input readonly="readonly" class="input_bottom" id="dp" value="${Value}" />
+                {{else CustomCode==8}}
+           <input class="input_bottom" id="txt_copies" type="number" fl="份数" regtype="money" value="${Value}" min="1" step="1"/>
                 {{else 1==1}}
             【${Value}】
                 {{/if}}            
@@ -472,7 +474,7 @@
                 CustomCode = (CustomCode != undefined && CustomCode != null) ? CustomCode.trim() : "";
                 Name = (Name != undefined && Name != null) ? Name.trim() : "";
 
-                if (CustomCode == "" || CustomCode == "1" || CustomCode == "2" || CustomCode == "3" || CustomCode == "7") {
+                if (CustomCode == "" || CustomCode == "1" || CustomCode == "2" || CustomCode == "3" || CustomCode == "7" || CustomCode == "8") {
                     Value = $(this).find('input').val();
                 }
                 else {

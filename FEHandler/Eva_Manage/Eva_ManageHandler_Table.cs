@@ -66,18 +66,16 @@ namespace FEHandler.Eva_Manage
         /// <param name="context">当前上下文</param>
         public void Get_Eva_Table(HttpContext context)
         {
-
             HttpRequest Request = context.Request;
-
             string CourseID = RequestHelper.string_transfer(Request, "CourseID");
             int SectionID = RequestHelper.int_transfer(Request, "SectionID");
             bool NoEnableSelect = RequestHelper.bool_transfer(Request, "NoEnableSelect");
             int Type = RequestHelper.int_transfer(Request, "Type");        
             string CreateUID = RequestHelper.string_transfer(Request, "CreateUID");
-
+            int CurTableId = RequestHelper.int_transfer(Request, "CurTableId");            
             try
             {
-                jsonModel = Get_Eva_TableHelper(SectionID, CourseID,Type,CreateUID,NoEnableSelect);
+                jsonModel = Get_Eva_TableHelper(SectionID, CourseID,Type,CreateUID,NoEnableSelect, CurTableId);
             }
             catch (Exception ex)
             {
@@ -90,7 +88,7 @@ namespace FEHandler.Eva_Manage
             }
         }
 
-        public static JsonModel Get_Eva_TableHelper(int SectionID, string CourseID, int Type, string CreateUID, bool NoEnableSelect)
+        public static JsonModel Get_Eva_TableHelper(int SectionID, string CourseID, int Type, string CreateUID, bool NoEnableSelect,int CurTableId)
         {
             int intSuccess = (int)errNum.Success;
             JsonModel jsmodel = new JsonModel();
@@ -122,7 +120,16 @@ namespace FEHandler.Eva_Manage
                                  select tb).Distinct(new Eva_TableComparer()).ToList();
 
                 }
-
+                if (CurTableId > 0) //编辑时
+                {
+                    bool isExist= tblist.Any(t => t.Id==CurTableId); //查找结果中是否有正在使用的表
+                    if (!isExist) //若不存在
+                    {
+                        var tableModel = Constant.Eva_Table_List.Where(t => t.Id == CurTableId).FirstOrDefault();
+                        if (tableModel != null)
+                            tblist.Add(tableModel);//查找并加入到结果中
+                    }
+                }
                 //返回所有表格数据
                 jsmodel = JsonModel.get_jsonmodel(intSuccess, "success", tblist);
             }
