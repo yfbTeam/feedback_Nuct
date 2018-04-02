@@ -116,6 +116,7 @@
 
         function Reflesh() {
             IsAllSchool = 3;
+            State = 2;
             Get_Eva_QuestionAnswer(pageIndex, SectionID, DepartmentID, Key, TableID);
         }
 
