@@ -177,8 +177,8 @@ namespace FEHandler.Eva_Manage
                     case "Get_Eva_QuestionAnswer": Get_Eva_QuestionAnswer(context); break;
                     //定期评价-答题获取
                     case "Get_Eva_QuestionAnswerDetail": Get_Eva_QuestionAnswerDetail(context); break;
-
-                
+                    //根据评价信息判断评价是否有效、学生是否已答题
+                    case "GetIsAnswer_Eva_ByInfo": GetIsAnswer_Eva_ByInfo(context); break;
                     #endregion
 
                     #region other

@@ -727,5 +727,60 @@ namespace FEHandler.Eva_Manage
 
         #endregion
 
+        #region 根据评价信息判断评价是否有效、学生是否已答题
+        public void GetIsAnswer_Eva_ByInfo(HttpContext context)
+        {
+            HttpRequest Request = context.Request;             
+            int table_Id = RequestHelper.int_transfer(Request, "table_Id");//表格ID
+            string RoomID = RequestHelper.string_transfer(Request, "RoomID");
+            int ReguID = RequestHelper.int_transfer(Request, "ReguID");
+            string UserID = RequestHelper.string_transfer(Request, "UserID");
+            try
+            {
+                Eva_Regular task = Constant.Eva_Regular_List.FirstOrDefault(t => t.Id == ReguID);//扫码、课堂调查任务
+                if (task != null)
+                {
+                    if (DateTime.Now.Date < Convert.ToDateTime(task.StartTime).Date)
+                    {
+                        jsonModel = JsonModel.get_jsonmodel(2, "failed", "评价还未开始");
+                        return;
+                    }
+                    if (DateTime.Now.Date > Convert.ToDateTime(task.EndTime).Date)
+                    {
+                        jsonModel = JsonModel.get_jsonmodel(3, "failed", "该二维码已失效");
+                        return;
+                    }                    
+                    int isexist = (from room in Constant.CourseRoom_List
+                                   where room.Id == Convert.ToInt32(RoomID)
+                                   join rel in Constant.Class_StudentInfo_List on room.ClassID equals rel.Class_Id
+                                   where rel.UniqueNo == UserID
+                                   select rel.Class_Id).ToArray().Count();//班级      
+                    if (isexist <=0)
+                    {
+                        jsonModel = JsonModel.get_jsonmodel(5, "failed", "您不在调查范围内！");
+                        return;
+                    }
+                    int ansCount = Constant.Eva_QuestionAnswer_List.Where(t => t.TableID == table_Id && t.ReguID == ReguID && t.RoomID == RoomID && t.AnswerUID == UserID).Count();
+                    if (ansCount > 0)
+                    {
+                        jsonModel = JsonModel.get_jsonmodel(6, "success", "您已经评价过了");
+                        return;
+                    }else
+                    {
+                        jsonModel = JsonModel.get_jsonmodel(0, "success", "");
+                    }                    
+                }
+                else { jsonModel = JsonModel.get_jsonmodel(4, "failed", "该调查不存在"); }
+            }
+            catch (Exception ex)
+            {
+                LogHelper.Error(ex);
+            }
+            finally
+            {
+                context.Response.Write("{\"result\":" + Constant.jss.Serialize(jsonModel) + "}");
+            }
+        }
+        #endregion
     }
 }

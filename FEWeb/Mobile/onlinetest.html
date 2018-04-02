@@ -20,8 +20,6 @@
     <script src="js/linq.min.js"></script>
     <script src="js/MobileCommon.js"></script>
     <script src="js/ejs.min.js"></script>
-
-
     <style>
         .h1_div {
             margin-top: 10px;
@@ -32,22 +30,18 @@
             border-top: 1px solid #cccccc;
             border-bottom: 1px solid #cccccc;
         }
-
             .h1_div h1 {
                 margin-top: 10px;
                 margin-left: 20px;
             }
-
         .test_time {
             font-size: 1.1rem;
         }
-
         .table_header_left {
             /*min-height: 49px;*/
             /*margin-top: 90px;*/
             /*margin-bottom: 60px;*/
         }
-
         .input_bottom {
             width: 210px;
             border: 0;
@@ -55,7 +49,6 @@
             text-align: center;
             background: transparent;
         }
-
         .input_bottom_lbl {
             /* width: 45px; */
             width: 50%;
@@ -64,13 +57,11 @@
             /* text-align: center; */
             background: transparent;
         }
-
         .div_header1 {
             margin: 5px;
             width: 45%;
             margin-left: 10px;
         }
-
             .div_header1 select {
                 width: 210px;
             }
@@ -84,9 +75,7 @@
         }
             .div_header2 label {
                 text-overflow: ellipsis;
-            }
-        
-        
+            }               
          .div_header2 select {
             width: 210px;
         }
@@ -108,7 +97,6 @@
             left: 0;
             line-height:28px;
         }
-
         .ti {
             width: 100%;
             padding: 66px 10px 101px 10px;
@@ -131,12 +119,10 @@
     <div class="submitwrap">
         <input type="submit" id="btn_submit" class="button" value="提交" style="display:none;" />
     </div>
-
     <script src="../Scripts/WebCenter/TableDesigin.js"></script>
     <script src="../Scripts/WebCenter/Evaluate.js"></script>
     <script src="../../Scripts/WebCenter/Room.js"></script>
     <script src="../../Scripts/WebCenter/User.js"></script>
-
     <!--答题-->
     <script type="text/template" id="item_table_view">
         <div class="header" style="position:fixed;">
@@ -353,40 +339,48 @@
         var table_Id = UrlDate.id;
         var isAnswer = 0; //是否答题 0未答题；1已答题
         var total = 0;//试卷总分数
-
         var SectionID = 0;
-
         $(function () {
-
             State = 2;
-            initdata();
-
+            GetIsAnswer_Eva_ByInfo();
             $('#btn_submit').on('tap', function () {
                 SaveEvlData();
             });
         });
-
+        //根据评价信息判断评价是否有效、学生是否已答题
+        function GetIsAnswer_Eva_ByInfo() {
+            $.ajax({
+                url: HanderServiceUrl + "/Eva_Manage/Eva_ManageHandler.ashx",
+                type: "post",
+                async: false,
+                dataType: "json",
+                data: { Func: "GetIsAnswer_Eva_ByInfo", "table_Id": table_Id, "RoomID": getQueryString('rId'), "ReguID": getQueryString('ReguID'), "UserID": login_User.UniqueNo },
+                success: function (json) {
+                    if (json.result.errNum == 0) { //未答题                        
+                        initdata();
+                    } else {
+                        window.location.href = "NoCode.html?te=" + json.result.errNum;
+                    }
+                },
+                error: function () { } //接口错误时需要执行的
+            });
+        }
         //初始化表格列表
         function initdata() {
             $("#btn_submit").show();
             $("#main").empty();
-
             RoomID = getQueryString('rId');
             ReguID = getQueryString('ReguID');
-            Eva_Role = getQueryString('Eva_Role');
-           
+            Eva_Role = getQueryString('Eva_Role');           
             UI_Table_View.PageType = 'onlinetest';
             UI_Table_View.IsPage_Display = true;
-            UI_Table_View.Get_Eva_TableDetail_Compleate = function (retData) {
-                
+            UI_Table_View.Get_Eva_TableDetail_Compleate = function (retData) {                
                 if (retData.Info.IsInClass)
                 {
                     $("#main").append(ejs.render($('#item_table_view').html(), { retData: retData }));
                     GetTask_Score(0, retData.IsScore);
                     InitControl(retData.IsScore);
-
                     var info = retData.Info;
-
                     SectionID = info.SectionID;
                     DisplayName = info.DisplayName;
                     ReguID = info.ReguID;
@@ -395,47 +389,34 @@
                     CourseName = info.CourseName;
                     TeacherUID = info.TeacherUID;
                     TeacherName = info.TeacherName;
-
                     AnswerUID = login_User.UniqueNo;
                     AnswerName = login_User.Name;
                     TableName = retData.Name;
-
-                    var DepartmentName = info.DepartmentName;
-
-                  
+                    var DepartmentName = info.DepartmentName;                  
                     HeaderList = [];
-
                     $('#section').text(cutstr(DisplayName, 8));
                     $('#teacher').text(cutstr(TeacherName, 8));
                     $('#course').text(cutstr(CourseName, 8));
                     $('#dp').text(cutstr(DepartmentName, 8));
-
                     UI_Table_View.scoreInit(retData);
-
                     $('#list').css('height', (retData.headerList.length / 2) * 20 + retData.head_value.length * 35 + 'px');
-
                     Reflesh();
                 }
                 else {
                     location.href = '../Mobile/NoCode.html?te=5';
-                }
-               
-                
+                }                             
             };
             UI_Table_View.Get_Eva_TableDetail();
         }
         function SaveEvlData() {
-
             HeaderList = [];
             $('.lblheader').each(function (index) {
                 var CustomCode = $(this).attr('CustomCode');
                 var Name = $(this).attr('Name');
                 var ValueID = '';
                 var Value = '';
-
                 CustomCode = (CustomCode != undefined && CustomCode != null) ? CustomCode.trim() : "";
                 Name = (Name != undefined && Name != null) ? Name.trim() : "";
-
                 if (CustomCode == "") {
                     Value = $(this).find('input').val().trim();
                 }
@@ -446,11 +427,9 @@
                     ValueID = $(this).find('select').find('option:selected').val();
                     Value = $(this).find('select').find('option:selected').text();
                 }
-
                 var obj = { "CustomCode": CustomCode, "Name": Name, "ValueID": ValueID, "Value": Value };
                 HeaderList.push(obj);
             });
-
             Type = 3;         
             Is_AddQuesType = true;
             SubmitQuestionCompleate = function () {
@@ -467,11 +446,9 @@
         function GetTask_Score(type, isscore) { //答题-设置分数
             type = arguments[0] || 0;
             if (isscore == 0) {
-
                 if (type != 0) {
                     var realTotal = 0;//实时总分
-                    $(".radios li").each(function () {
-                        
+                    $(".radios li").each(function () {                        
                         if ($(this).hasClass('on')) {
                            
                             var score =$(this).find('b.numbers').html()
@@ -485,14 +462,12 @@
                 $("#sp_realtotal").html("不计");
             }
         }
-
         function Reflesh() {
             GetClassInfoSelectCompleate = function () {
                 var ClassID = $('#Cls').val();
                 GetStudentsSelect(ClassID)
             };
             GetClassInfoSelect(SectionID, TeacherUID, CourseID);
-
             $('#Cls').on('change', function () {
                 var ClassID = $('#Cls').val();
                 GetStudentsSelect(ClassID)
