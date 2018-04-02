@@ -91,114 +91,114 @@
             <input type="hidden" value="${indicator_type_tid}" name="name_title" />
             <div class="test_lists">
                 <ul>
-                    {{each Eva_TableDetail_List}}
+                    {{each(j,det) Eva_TableDetail_List}}
                 <li>
-                    <h2 class="title">${Sort}、 {{if $value.QuesType_Id ==1 }}
+                    <h2 class="title">${j+1}、 {{if det.QuesType_Id ==1 }}
                              【单选题】
-                             {{else $value.QuesType_Id ==2 }}
+                             {{else det.QuesType_Id ==2 }}
                              【多选题】
-                             {{else $value.QuesType_Id ==3 }}
+                             {{else det.QuesType_Id ==3 }}
                              【问答题】
-                             {{else $value.QuesType_Id ==4 }}
+                             {{else det.QuesType_Id ==4 }}
                              【选分题】
-                             {{/if}} ${$value.Name}
-                    {{if $value.QuesType_Id =="1"  ||$value.QuesType_Id =="4" }}
-                      <b class="isscore">（<span class="isscore">${OptionF_S_Max}分</span>）</b>
+                             {{/if}} ${det.Name}
+                    {{if det.QuesType_Id =="1"  ||det.QuesType_Id =="4" }}
+                      <b class="isscore">（<span class="isscore">${Num_Fixed(OptionF_S_Max)}分</span>）</b>
                         {{/if}}
                          
                     </h2>
-                    {{if $value.QuesType_Id ==1}}
+                    {{if det.QuesType_Id ==1}}
                     <div class="test_desc">
-                        {{if $value.OptionA!=""}}
+                        {{if det.OptionA!=""}}
                         <span>
                             <input type="radio" disabled="disabled" name="" id="" value="" />
-                            <label>A${$value.OptionA}</label>
-                            <b class="isscore">(<span class="numbers">${$value.OptionA_S.toFixed(2)}</span>分)</b>
+                            <label>A${det.OptionA}</label>
+                            <b class="isscore">(<span class="numbers">${Num_Fixed(det.OptionA_S)}</span>分)</b>
                         </span>
                         {{/if}}
-                        {{if $value.OptionB!=""}}
+                        {{if det.OptionB!=""}}
                         <span>
                             <input type="radio" disabled="disabled" name="" id="" value="" />
-                            <label>B${$value.OptionB}</label>
-                            <b class="isscore">(<span class="numbers">${$value.OptionB_S.toFixed(2)}</span>分)</b>
+                            <label>B${det.OptionB}</label>
+                            <b class="isscore">(<span class="numbers">${Num_Fixed(det.OptionB_S)}</span>分)</b>
                         </span>
                         {{/if}}
-                        {{if $value.OptionC!=""}}
+                        {{if det.OptionC!=""}}
                         <span>
                             <input type="radio" disabled="disabled" name="" id="" value="" />
-                            <label>C${$value.OptionC}</label>
-                            <b class="isscore">(<span class="numbers">${$value.OptionC_S.toFixed(2)}</span>分)</b>
+                            <label>C${det.OptionC}</label>
+                            <b class="isscore">(<span class="numbers">${Num_Fixed(det.OptionC_S)}</span>分)</b>
                         </span>
                         {{/if}}
-                        {{if $value.OptionD!=""}}
+                        {{if det.OptionD!=""}}
                         <span>
                             <input type="radio" disabled="disabled" name="" id="" value="" />
-                            <label>D${$value.OptionD}</label>
-                            <b class="isscore">(<span class="numbers">${$value.OptionD_S.toFixed(2)}</span>分)</b>
+                            <label>D${det.OptionD}</label>
+                            <b class="isscore">(<span class="numbers">${Num_Fixed(det.OptionD_S)}</span>分)</b>
                         </span>
                         {{/if}}
-                        {{if $value.OptionE!=""}}
+                        {{if det.OptionE!=""}}
                         <span>
                             <input type="radio" disabled="disabled" name="" id="" value="" />
-                            <label>E${$value.OptionE}</label>
-                            <b class="isscore">(<span class="numbers">${$value.OptionE_S.toFixed(2)}</span>分)</b>
+                            <label>E${det.OptionE}</label>
+                            <b class="isscore">(<span class="numbers">${Num_Fixed(det.OptionE_S)}</span>分)</b>
                         </span>
                         {{/if}}
-                         {{if $value.OptionF!=""}}
+                         {{if det.OptionF!=""}}
                         <span>
                             <input type="radio" disabled="disabled" name="" id="" value="" />
-                            <label>F${$value.OptionF}</label>
-                            <b class="isscore">(<span class="numbers">${$value.OptionF_S.toFixed(2)}</span>分)</b>
+                            <label>F${det.OptionF}</label>
+                            <b class="isscore">(<span class="numbers">${Num_Fixed(det.OptionF_S)}</span>分)</b>
                         </span>
                         {{/if}}
                     </div>
-                     {{else  $value.QuesType_Id =="2" }}
+                     {{else  det.QuesType_Id =="2" }}
                         <%--/////////////////////////////////////////////////////////////--%>
                          <div class="test_desc test_desc2">
-                        {{if $value.OptionA!=""}}
+                        {{if det.OptionA!=""}}
                         <span>
                             <input type="checkbox" disabled="disabled" name="" id="" value="" />
-                            <label>A${$value.OptionA}</label>
+                            <label>A${det.OptionA}</label>
                            
                         </span>
                         {{/if}}
-                        {{if $value.OptionB!=""}}
+                        {{if det.OptionB!=""}}
                         <span>
                             <input type="checkbox" disabled="disabled" name="" id="" value="" />
-                            <label>B${$value.OptionB}</label>                          
+                            <label>B${det.OptionB}</label>                          
                         </span>
                         {{/if}}
-                        {{if $value.OptionC!=""}}
+                        {{if det.OptionC!=""}}
                         <span>
                             <input type="checkbox" disabled="disabled" name="" id="" value="" />
-                            <label>C${$value.OptionC}</label>                           
+                            <label>C${det.OptionC}</label>                           
                         </span>
                         {{/if}}
-                        {{if $value.OptionD!=""}}
+                        {{if det.OptionD!=""}}
                         <span>
                             <input type="checkbox" disabled="disabled" name="" id="" value="" />
-                            <label>D${$value.OptionD}</label>                           
+                            <label>D${det.OptionD}</label>                           
                         </span>
                         {{/if}}
-                        {{if $value.OptionE!=""}}
+                        {{if det.OptionE!=""}}
                         <span>
                             <input type="checkbox" disabled="disabled" name="" id="" value="" />
-                            <label>E${$value.OptionE}</label>                            
+                            <label>E${det.OptionE}</label>                            
                         </span>
                         {{/if}}
-                         {{if $value.OptionF!=""}}
+                         {{if det.OptionF!=""}}
                         <span>
                             <input type="checkbox" disabled="disabled" name="" id="" value="" />
-                            <label>F${$value.OptionF}</label>                            
+                            <label>F${det.OptionF}</label>                            
                         </span>
                         {{/if}}
                     </div>
-                    {{else $value.QuesType_Id==3 }}
+                    {{else det.QuesType_Id==3 }}
                     <div class="test_desc">
                         <textarea readonly="readonly"></textarea>
                     </div>
 
-                    {{else $value.QuesType_Id==4 }}
+                    {{else det.QuesType_Id==4 }}
                     <div class="test_desc">
                          <input type="text" class="text" name="Name" style="width: 98%; height: 35px;" readonly="readonly" />
                     </div>
@@ -263,9 +263,12 @@
             $('#sp_total').text("总分：不计分");
         }
         else {
-            $('#sp_total').text("总分：" + sp_total);
+            $('#sp_total').text("总分：" + sp_total.toFixed(2));
         }
 
     })
-
+    function Num_Fixed(num, count) {
+        count = arguments[1] || 2;
+        return Number(num || 0).toFixed(count);
+    }
 </script>
