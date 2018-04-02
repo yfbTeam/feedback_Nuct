@@ -432,7 +432,7 @@ namespace FEHandler.Eva_Manage
                             }
 
                             //详情题干添加
-                            var table_details = (from detail in Constant.Eva_TableDetail_List where detail.Eva_table_Id == table_Id select detail).ToList();
+                            var table_details = (from detail in Constant.Eva_TableDetail_List where detail.Eva_table_Id == table_Id select detail).OrderBy(t=>t.Id).ToList();
                             foreach (var detail in table_details)
                             {
                                 Eva_TableDetail detail_clone = Constant.Clone<Eva_TableDetail>(detail);
