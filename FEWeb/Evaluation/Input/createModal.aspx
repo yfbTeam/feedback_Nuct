@@ -156,6 +156,7 @@
                         Reflesh();
                     });
                     Get_Eva_RegularDataSelect();
+                    Reflesh();
                 };
                 Base.bindStudySection();
 
@@ -184,9 +185,7 @@
                         $("#itembtn_No_Enable").tmpl(1).appendTo("#btCtrl");
                     }
                 };
-                Base.CheckHasExpertRegu(reguType);
-
-                Get_Eva_RegularData(0, pageIndex);              
+                Base.CheckHasExpertRegu(reguType);            
                 var level1 = '';
                 if (IsAllSchool == 1) {
                     $('#threenav').children().eq(0).addClass('selected');
@@ -219,7 +218,6 @@
 
             function navicate(TableCount,TeacherUID, TeacherName, SectionID, DisPlayName, CourseID, Course_Name, ReguID, ReguName, ExpertUID, ExpertName, Departent_Name)
             {
-                debugger;
                 if (TableCount > 0) {
                     window.location.href = './selectTable.aspx?IsAllSchool=' + IsAllSchool + '&Id=' + getQueryString('Id') + '&Iid=' + getQueryString('Iid') + '&TeacherUID=' + TeacherUID + '&TeacherName=' + TeacherName
                                      + '&SectionID=' + SectionID + '&DisPlayName=' + DisPlayName + '&CourseID=' + CourseID + '&CourseName=' + Course_Name + '&ReguID=' + ReguID + '&ReguName=' + ReguName
