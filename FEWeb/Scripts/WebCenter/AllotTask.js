@@ -273,8 +273,8 @@ function AddExpert_List_Teacher_Course() {
                                 parent.Get_Eva_RegularData(select_reguid, 0);
                                 break;
                             case "StartEval":                               
-                                parent.navicate(data.TeacherUID, data.TeacherName, data.SectionID, data.DisplayName, data.CourseID,
-                                    data.CourseName, data.ReguID, data.ReguName, data.ExpertUID, data.ExpertName, DepartmentName,data.TableCount);
+                                parent.navicate(data.TableCount,data.TeacherUID, data.TeacherName, data.SectionID, data.DisplayName, data.CourseID,
+                                    data.CourseName, data.ReguID, data.ReguName, data.ExpertUID, data.ExpertName, DepartmentName);
                                 break;
                             default:
                         }

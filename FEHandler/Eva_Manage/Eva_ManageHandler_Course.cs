@@ -189,7 +189,11 @@ namespace FEHandler.Eva_Manage
                             ReguName = regu.Name,
                             ExpertUID = exp.ExpertUID,
                             ExpertName = exp.ExpertName,
-                        };
+                            TableCount = (from r in Constant.CourseRel_List
+                                           where r.Course_Id == exp.CourseId && r.StudySection_Id == exp.SecionID
+                                           join t in Constant.Eva_CourseType_Table_List on new { CourseTypeId = r.CourseType_Id, r.StudySection_Id } equals new { CourseTypeId = t.CourseTypeId, t.StudySection_Id }
+                                           select r).ToList().Count()
+                    };
                         model = JsonModel.get_jsonmodel(Success, "success", data);
                     }
                     else
