@@ -302,6 +302,7 @@ namespace FEHandler.Eva_Manage
         {
             lock (obj_Add_Eva_QuestionAnswer)
             {
+                var sing2 = Constant.Eva_QuestionAnswer_Detail_List;
                 int intSuccess = (int)errNum.Success;
                 HttpRequest Request = context.Request;
 
@@ -427,10 +428,15 @@ namespace FEHandler.Eva_Manage
 
                         //序列化表单详情列表
                         List<Eva_QuestionAnswer_Detail> Eva_QuestionAnswer_Detail_List = JsonConvert.DeserializeObject<List<Eva_QuestionAnswer_Detail>>(List);
-
+                        decimal allScore = 0;
+                        var quest = (from p in Eva_QuestionAnswer_Detail_List
+                                     join st in Constant.Eva_TableDetail_List on p.TableDetailID equals st.Id
+                                     select new { p, st }).ToList();
                         //答题任务详情填充
-                        foreach (Eva_QuestionAnswer_Detail item in Eva_QuestionAnswer_Detail_List)
+                        foreach (var chid in quest)
                         {
+                            var item = chid.p;
+                            var table_dt = chid.st;
                             item.SectionID = SectionID;
                             item.DisPlayName = DisPlayName;
                             item.ReguID = ReguID;
@@ -447,10 +453,8 @@ namespace FEHandler.Eva_Manage
                             item.TableID = TableID;
                             item.TableName = TableName;
                             item.Eva_Role = Eva_Role;
-
                             item.RoomID = RoomID;
                             item.State = State;
-
                             item.IsRealName = (byte)IsRealName;
                             item.CreateTime = DateTime.Now;
                             item.CreateUID = AnswerUID;
@@ -458,16 +462,44 @@ namespace FEHandler.Eva_Manage
                             item.EditTime = DateTime.Now;
                             item.IsDelete = (int)IsDelete.No_Delete;
                             item.IsEnable = (int)IsEnable.Enable;
+                            switch (item.Answer)
+                            {
+                                case "OptionA":
+                                    item.Score = table_dt.OptionA_S;
+                                    break;
+                                case "OptionB":
+                                    item.Score = table_dt.OptionB_S;
+                                    break;
+                                case "OptionC":
+                                    item.Score = table_dt.OptionC_S;
+                                    break;
+                                case "OptionD":
+                                    item.Score = table_dt.OptionD_S;
+                                    break;
+                                case "OptionE":
+                                    item.Score = table_dt.OptionE_S;
+                                    break;
+                                case "OptionF":
+                                    item.Score = table_dt.OptionF_S;
+                                    break;
+                                default:
+                                    break;
+                            }
+                            if (item.Score != null)
+                            {
+                                allScore += (decimal)item.Score;
+                            }
                             //数据库插入
                             JsonModel jsm = Constant.Eva_QuestionAnswer_DetailService.Add(item);
                             //插入成功入缓存
                             if (jsm.errNum == intSuccess)
                             {
                                 item.Id = Convert.ToInt32(jsm.retData);
-                                Constant.Eva_QuestionAnswer_Detail_List.Add(item);
+                                if (!sing2.Contains(item)) { Constant.Eva_QuestionAnswer_Detail_List.Add(item);}                                    
                             }
                         }
-
+                        Eva_QuestionAnswer.Score = allScore;
+                        Constant.Eva_QuestionAnswerService.Update(Eva_QuestionAnswer);
                         #endregion
                     }
                 }

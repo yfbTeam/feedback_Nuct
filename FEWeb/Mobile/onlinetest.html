@@ -107,14 +107,14 @@
     <div id="main"></div>
     <div class="input-group">
         <label>提交方式：</label>
-        <label>
-            <input type="radio" name="isRealName" value="1" checked="checked" />
-            <span for="NoRealName">匿名</span>
-        </label>
-        <label>
-            <input type="radio" name="isRealName" value="0" />
-            <span>实名</span>
-        </label>
+        <span>
+            <input type="radio" name="isRealName" value="1" checked="checked" id="ra_anonymous"/>
+            <label for="ra_anonymous">匿名</label>
+        </span>
+        <span>
+            <input type="radio" name="isRealName" value="0" id="ra_realName"/>
+            <label for="ra_realName">实名</label>
+        </span>
     </div>
     <div class="submitwrap">
         <input type="submit" id="btn_submit" class="button" value="提交" style="display:none;" />
