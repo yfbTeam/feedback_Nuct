@@ -108,11 +108,11 @@
     <div class="input-group">
         <label>提交方式：</label>
         <label>
-            <input type="radio" name="isRealName" value="0" checked="checked" />
+            <input type="radio" name="isRealName" value="1" checked="checked" />
             <span for="NoRealName">匿名</span>
         </label>
         <label>
-            <input type="radio" name="isRealName" value="1" />
+            <input type="radio" name="isRealName" value="0" />
             <span>实名</span>
         </label>
     </div>
@@ -432,6 +432,7 @@
             });
             Type = 3;         
             Is_AddQuesType = true;
+            IsRealName = $('input[name="isRealName"]:checked').val();
             SubmitQuestionCompleate = function () {
                 MesTips('提交成功');
                 window.location.href = "Index.html";
