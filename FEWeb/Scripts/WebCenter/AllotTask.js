@@ -12,7 +12,6 @@ var selectExpertName = '';
 
 
 function PrepareInit() {
-
     switch (PageType) {
         case 'StartEval':
             $("#btn_no").tmpl(1).appendTo(".btnwrap");
@@ -22,28 +21,7 @@ function PrepareInit() {
                 var str = "<option value='" + login_User.DepartmentName + "'>" + login_User.DepartmentName + "</option>";
                 $('#TD').append(str)
                 ChosenInit($('#TD'));
-            }
-            
-            $('.fixed-table_header div').on('click', function (item) {
-                var s = $(this).find('.layui-table-sort');
-                if (s.length > 0) {
-                    var lay = s.attr('lay-sort');
-                    if (lay == '') {
-                        s.attr('lay-sort', 'asc');
-                        s.attr('sorttype', '1');
-                    }
-                    else if (lay == 'asc') {
-                        s.attr('lay-sort', 'desc');
-                        s.attr('sorttype', '2');
-                    }
-                    else if (lay == 'desc') {
-                        s.attr('lay-sort', '');
-                        s.attr('sorttype', '0');
-                    }
-                    pageIndex = 0;
-                    GetClassInfo(pageIndex);
-                }
-            });
+            }                      
             break;
 
         case 'AllotTask':
@@ -51,6 +29,26 @@ function PrepareInit() {
             break;
         default:
     }
+    $('.fixed-table_header div').on('click', function (item) {
+        var s = $(this).find('.layui-table-sort');
+        if (s.length > 0) {
+            var lay = s.attr('lay-sort');
+            if (lay == '') {
+                s.attr('lay-sort', 'asc');
+                s.attr('sorttype', '1');
+            }
+            else if (lay == 'asc') {
+                s.attr('lay-sort', 'desc');
+                s.attr('sorttype', '2');
+            }
+            else if (lay == 'desc') {
+                s.attr('lay-sort', '');
+                s.attr('sorttype', '0');
+            }
+            pageIndex = 0;
+            GetClassInfo(pageIndex);
+        }
+    });
 }
 
 function AddDis(CourseID, CourseName, TeacherUID, TeacherName,Id) {

@@ -45,8 +45,7 @@ function GetClassInfo(PageIndex) {
     layer_index = layer.load(1, {
         shade: [0.1, '#fff'] //0.1透明度的白色背景
     });
-    
-    if (PageType == 'StartEval') {
+    if (PageType == 'StartEval' || PageType == 'AllotTask') {
         S_DP = $('#S_DP Span').attr('sorttype');
         S_CN = $('#S_CN Span').attr('sorttype');
         S_CT = $('#S_CT Span').attr('sorttype');

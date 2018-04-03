@@ -1,5 +1,4 @@
 ﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="AllotTask.aspx.cs" Inherits="FEWeb.SysSettings.AllotTask" %>
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -10,9 +9,7 @@
     <link rel="stylesheet" href="../../css/layout.css" />
     <link href="../../css/fixed-table.css" rel="stylesheet" />
     <script src="../../Scripts/jquery-1.11.2.min.js"></script>
-
-
-
+    <link href="../../css/layui.css" rel="stylesheet" />
     <style>
         .email_right .scroll-pane {
             width: auto;
@@ -20,20 +17,16 @@
             overflow: auto;
             outline: none;
         }
-
         .email_right {
             width: 200px;
         }
-
         .searchwrap input[type=text] {
             width: 126px;
         }
-
         .select_expertdiv {
             height: 322px;
             overflow: auto;
         }
-
         .linkman_lists li {
             padding: 10px 15px;
             font-size: 14px;
@@ -43,78 +36,59 @@
             /*border-top: 1px solid #dcdcdc;*/
             border-bottom: 1px solid #dcdcdc;
         }
-
         .search_toobar .text {
             height: 31px;
         }
-
         .linkman_lists li:hover, .linkman_lists li.selected {
             background: #fff;
             border-left: 2px solid #ffac32;
         }
-
         .scroll-pane {
             border-top: 1px solid #dcdcdc;
         }
-
         .chosen-drop {
             color: black;
         }
-
         .select_expertdiv {
             height: 322px;
             overflow: auto;
             width: 100%;
         }
-
-
         .chosen-drop {
             color: black;
         }
-
         .select_expertdiv {
             /*height: 322px;*/
             overflow: auto;
             width: 100%;
         }
-
         .fixed-table-box {
             width: 100%;
         }
-
-
         .w-150 {
             width: 150px;
         }
-
         .w-120 {
             width: 120px;
         }
-
         .w-300 {
             width: 300px;
         }
-
         .w-100 {
             width: 100px;
         }
-
         .w-50 {
             width: 50px;
         }
-
         .w-30 {
             width: 30px;
         }
-
         .w-10 {
             width: 10px;
         }
-
         .w-70 {
             width: 70px;
         }
-
         .btnno {
             height: 34px;
             min-width: 100px;
@@ -129,16 +103,13 @@
             line-height: 34px;
             text-align: center;
         }
-
         .selectdiv {
             margin-right: 10px;
             margin-bottom: 10px;
         }
-
         .select {
             width: 150px;
         }
-
         .number {
             width: 50px;
             height: 30px;
@@ -148,16 +119,13 @@
             text-indent: 10px;
             color: #009706;
         }
-
         .trnomessage {
             width: 1000px;
             height: 200px;
         }
     </style>
-
 </head>
 <body>
-
     <div class="main clearfix">
         <div class="email_right fl">
             <h1>专家列表</h1>
@@ -166,9 +134,7 @@
                 <a class="search fl" href="javascript:search1();"><i class="iconfont">&#xe600;</i></a>
             </div>
             <div class="scroll-pane">
-                <ul class="linkman_lists" id="experts" style="height: 400px; overflow-y: auto">
-                    <%--  <li class="selected">（兼）李华东</li>--%>
-                </ul>
+                <ul class="linkman_lists" id="experts" style="height: 400px; overflow-y: auto"></ul>
             </div>
         </div>
         <div class="InitiateEval fr" style="width: 955px;">
@@ -179,7 +145,6 @@
                         <option value="">全部</option>
                     </select>
                 </div>
-
                 <div class="fl selectdiv">
                     <label for="">课程类别:</label>
                     <select class="select" id="CT">
@@ -191,10 +156,7 @@
                     <select class="select" id="CP">
                         <option value="">全部</option>
                     </select>
-                </div>
-
-               
-
+                </div>              
                 <div class="fl selectdiv">
                     <label for="">教师所属部门:</label>
                     <select class="select" id="TD">
@@ -233,22 +195,17 @@
                     <span style="padding-left: 10px;">~</span>
                     <input type="number" id="BirthdayE" value="120" onkeydown="onlyNum();" class="number" min="0" max="120" step="1">
                 </div>
-
                 <div class="fl selectdiv">
                     <label>校龄：</label>
                     <input type="number" id="SchoolS" value="0" onkeydown="onlyNum();" class="number" min="0" max="120" step="1">
                     <span style="padding-left: 10px;">~</span>
                     <input type="number" id="SchoolE" value="120" onkeydown="onlyNum();" class="number" min="0" max="120" step="1">
                 </div>
-
-
                 <div class="fl ml3">
                     <input type="text" name="" id="class_key" placeholder="课程名称关键字搜索" value="" style="width: 164px" class="text fl">
                     <a class="search fl" href="javascript:;" onclick="SelectByWhere()"><i class="iconfont">&#xe600;</i></a>
                 </div>
-
             </div>
-
             <div class="fixed-table-box row-col-fixed">
                 <!-- 表头 start -->
                 <div class="fixed-table_header-wraper">
@@ -262,46 +219,116 @@
                                     <div class="table-cell w-30">序号</div>
                                 </th>
                                 <th>
-                                    <div class="table-cell w-150">开课部门</div>
+                                    <div class="table-cell w-150" id="S_DP">
+                                        开课部门
+                                          <span class="layui-table-sort layui-inline" lay-sort="" sorttype="0">
+                                              <i class="layui-edge layui-table-sort-asc"></i>
+                                              <i class="layui-edge layui-table-sort-desc"></i>
+                                          </span>
+                                    </div>
                                 </th>
                                 <th>
-                                    <div class="table-cell w-100">课程名称</div>
+                                    <div class="table-cell w-100" id="S_CN">
+                                        课程名称
+                                        <span class="layui-table-sort layui-inline" lay-sort="" sorttype ="0">
+                                            <i class="layui-edge layui-table-sort-asc"></i>
+                                            <i class="layui-edge layui-table-sort-desc"></i>
+                                        </span>
+                                    </div>
                                 </th>
                                 <th>
-                                    <div class="table-cell w-100">课程类别</div>
+                                    <div class="table-cell w-100" id="S_CT">
+                                    课程类别
+                                        <span class="layui-table-sort layui-inline" lay-sort="" sorttype ="0">
+                                            <i class="layui-edge layui-table-sort-asc"></i>
+                                            <i class="layui-edge layui-table-sort-desc"></i>
+                                        </span>
+                                    </div>
                                 </th>
                                 <th>
-                                    <div class="table-cell w-70">课程性质</div>
+                                    <div class="table-cell w-70" id="S_CP">
+                                        课程性质
+                                         <span class="layui-table-sort layui-inline" lay-sort="" sorttype ="0">
+                                             <i class="layui-edge layui-table-sort-asc"></i>
+                                             <i class="layui-edge layui-table-sort-desc"></i>
+                                         </span>
+                                    </div>
                                 </th>
                                  <th>
                                     <div class="table-cell w-70">课程分类</div>
                                 </th>
-                                <th>
-                                    <div class="table-cell w-150">教师所属部门</div>
+                                <th>                                    
+                                    <div class="table-cell w-150" id="S_TD">
+                                        教师所属部门
+                                         <span class="layui-table-sort layui-inline" lay-sort="" sorttype ="0">
+                                             <i class="layui-edge layui-table-sort-asc"></i>
+                                             <i class="layui-edge layui-table-sort-desc"></i>
+                                         </span>
+                                    </div>
+                                </th>
+                                <th>                                    
+                                    <div class="table-cell w-100" id="S_TN">
+                                        教师姓名
+                                         <span class="layui-table-sort layui-inline" lay-sort="" sorttype ="0">
+                                             <i class="layui-edge layui-table-sort-asc"></i>
+                                             <i class="layui-edge layui-table-sort-desc"></i>
+                                         </span>
+                                    </div>
+                                </th>
+                                <th>                                 
+                                    <div class="table-cell w-150" id="S_MD">
+                                        专业部门
+                                         <span class="layui-table-sort layui-inline" lay-sort="" sorttype ="0">
+                                             <i class="layui-edge layui-table-sort-asc"></i>
+                                             <i class="layui-edge layui-table-sort-desc"></i>
+                                         </span>
+                                    </div>
                                 </th>
                                 <th>
-                                    <div class="table-cell w-100">教师姓名</div>
+                                    <div class="table-cell w-100" id="S_GD">
+                                        年级
+                                         <span class="layui-table-sort layui-inline" lay-sort="" sorttype ="0">
+                                             <i class="layui-edge layui-table-sort-asc"></i>
+                                             <i class="layui-edge layui-table-sort-desc"></i>
+                                         </span>
+                                    </div>
                                 </th>
                                 <th>
-                                    <div class="table-cell w-150">专业部门</div>
+                                    <div class="table-cell w-100" id="S_CLS">
+                                        合班
+                                         <span class="layui-table-sort layui-inline" lay-sort="" sorttype ="0">
+                                             <i class="layui-edge layui-table-sort-asc"></i>
+                                             <i class="layui-edge layui-table-sort-desc"></i>
+                                         </span>
+                                    </div>
                                 </th>
                                 <th>
-                                    <div class="table-cell w-100">年级</div>
+                                    <div class="table-cell w-100" id="S_TJ">
+                                        教师职称
+                                         <span class="layui-table-sort layui-inline" lay-sort="" sorttype ="0">
+                                             <i class="layui-edge layui-table-sort-asc"></i>
+                                             <i class="layui-edge layui-table-sort-desc"></i>
+                                         </span>
+                                    </div>
                                 </th>
-                                <th>
-                                    <div class="table-cell w-100">合班</div>
+                                <th>                                   
+                                    <div class="table-cell w-100" id="S_BR">
+                                        年龄
+                                         <span class="layui-table-sort layui-inline" lay-sort="" sorttype ="0">
+                                             <i class="layui-edge layui-table-sort-asc"></i>
+                                             <i class="layui-edge layui-table-sort-desc"></i>
+                                         </span>
+                                    </div>
                                 </th>
-                                <th>
-                                    <div class="table-cell w-100">教师职称</div>
+                                <th>                        
+                                    <div class="table-cell w-100" id="S_SY">
+                                        校龄
+                                         <span class="layui-table-sort layui-inline" lay-sort="" sorttype ="0">
+                                             <i class="layui-edge layui-table-sort-asc"></i>
+                                             <i class="layui-edge layui-table-sort-desc"></i>
+                                         </span>
+                                    </div>
                                 </th>
-                                <th>
-                                    <div class="table-cell w-100">年龄</div>
-                                </th>
-                                <th>
-                                    <div class="table-cell w-100">校龄</div>
-                                </th>
-
-
                             </tr>
                         </thead>
                     </table>
@@ -310,44 +337,33 @@
                 <!-- 表格内容 start -->
                 <div class="fixed-table_body-wraper">
                     <table class="fixed-table_body" border="0">
-                        <tbody id="tbody">
-                        </tbody>
+                        <tbody id="tbody"></tbody>
                     </table>
                 </div>
                 <!-- 表格内容 end -->
                 <div id="pageBar" class="page"></div>
-
             </div>
         </div>
     </div>
-    <div class="btnwrap">
-    </div>
-
+    <div class="btnwrap"></div>
     <script src="../../Scripts/Common.js"></script>
     <script src="../../Scripts/layer/layer.js"></script>
     <script src="../../Scripts/public.js"></script>
     <script src="../../Scripts/linq.min.js"></script>
     <script src="../../Scripts/jquery.tmpl.js"></script>
-
     <link href="../../Scripts/choosen/prism.css" rel="stylesheet" />
     <link href="../../Scripts/choosen/chosen.css" rel="stylesheet" />
     <script src="../../Scripts/choosen/chosen.jquery.js"></script>
     <script src="../../Scripts/choosen/prism.js"></script>
-
     <script src="../../Scripts/WebCenter/Evaluate.js"></script>
     <script src="../../Scripts/WebCenter/Base.js"></script>
     <script src="../../Scripts/WebCenter/AllotTask.js"></script>
     <script src="../../Scripts/WebCenter/Room.js"></script>
-
-
-
     <script src="../../Scripts/laypage/laypage.js"></script>
     <script src="../../Scripts/fixtable/fixed-table.js"></script>
     <script type="text/x-jquery-tmpl" id="item_Expert">
-        <li id="${UniqueNo}">${Name}
-        </li>
+        <li id="${UniqueNo}">${Name}</li>
     </script>
-
     <script type="text/x-jquery-tmpl" id="itemCount">
         <span style="margin-left: 5px; font-size: 14px;">共${RowCount}条，共${PageCount}页</span>
     </script>
@@ -425,9 +441,7 @@
         var select_sectionid = parent.select_sectionid;
         var select_course_teacher = [];
         var select_reguid = parent.select_reguid;
-        var IsAllSchool = parent.IsAllSchool;
-        
-
+        var IsAllSchool = parent.IsAllSchool;       
         var pageIndex = 0;
         $(function () {
             $(".fixed-table-box").fixedTable();
