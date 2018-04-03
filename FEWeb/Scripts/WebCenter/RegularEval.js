@@ -573,7 +573,7 @@ function Get_Eva_RegularData_Stu(PageIndex) {
                     groups: 10,
                     jump: function (obj, first) { //触发分页后的回调
                         if (!first) { //点击跳页触发函数自身，并传递当前页：obj.curr                                       
-                            Get_Eva_RegularData_Room(obj.curr)
+                            Get_Eva_RegularData_Stu(obj.curr)
                             pageIndex = obj.curr;
                         }
                     }

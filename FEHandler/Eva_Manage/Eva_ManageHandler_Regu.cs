@@ -347,7 +347,7 @@ namespace FEHandler.Eva_Manage
                                                    where regu.Type == (int)ReguType.RoomStudent
                                                    join section in Constant.StudySection_List on regu.Section_Id equals section.Id
                                                    from room in Constant.CourseRoom_List
-                                                   where (regu.DepartmentIDs.Contains(room.Major_Id)) || regu.DepartmentIDs == ""
+                                                   where room.StudySection_Id==regu.Section_Id&&((regu.DepartmentIDs.Contains(room.Major_Id)) || regu.DepartmentIDs == "")
                                                    orderby regu.EndTime descending
                                                    select new RegularDataRoomModel()
                                                    {
