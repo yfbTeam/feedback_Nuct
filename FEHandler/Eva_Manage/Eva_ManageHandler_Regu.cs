@@ -434,7 +434,7 @@ namespace FEHandler.Eva_Manage
                     }
 
                     var chilist = (from q in questionList
-                                   where q.TeacherUID == li.TeacherUID && q.CourseID == li.CourseID
+                                   where q.SectionID==li.SectionID&&q.ReguID==li.ReguID&&q.TeacherUID == li.TeacherUID && q.CourseID == li.CourseID&&Convert.ToInt32(q.RoomID)==li.RoomID
                                    select q).ToList();
                     int que_count = chilist.Count;
                     if (que_count > 0)
