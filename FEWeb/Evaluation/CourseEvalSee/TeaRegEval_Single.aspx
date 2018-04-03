@@ -70,21 +70,15 @@
             <td style="width: 7%">${ReguName}</td>
             <td style="width: 15%">${CourseName}</td>
             <td style="width: 15%" title="${ClassName}">${cutstr(ClassName,10)}</td>
-
             <td style="width: 15%">${AnswerName}</td>
-            <td style="width: 15%">${DateTimeConvert(CreateTime,'yyyy-MM-dd HH:mm',true)}</td>
-
-            {{if State == 1}}
-            <td style="width: 5%">${Score}</td>
-            {{else State == 2}}
-            <td style="width: 5%">-</td>
-            {{/if}}                                  
-           <td class="operate_wrap" style="width: 10px">
-               <div class="operate" onclick="table_view('${TableID}','${Id}')">
-                   <i class="iconfont color_purple">&#xe60b;</i>
-                   <span class="operate_none bg_purple">查看</span>
-               </div>
-           </td>
+            <td style="width: 15%">${DateTimeConvert(CreateTime,'yyyy-MM-dd HH:mm',true)}</td>            
+            <td style="width: 5%">{{if IsScore}}${Score}{{else}}-{{/if}}</td>                                           
+            <td class="operate_wrap" style="width: 10px">
+                <div class="operate" onclick="table_view('${TableID}','${Id}')">
+                    <i class="iconfont color_purple">&#xe60b;</i>
+                    <span class="operate_none bg_purple">查看</span>
+                </div>
+            </td>
         </tr>
     </script>
     <script type="text/x-jquery-tmpl" id="itemCount">
