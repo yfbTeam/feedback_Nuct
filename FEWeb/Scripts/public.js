@@ -175,8 +175,10 @@ function pageIndex() {
     return pageNum++;
 }
 /****************************************结束********************************************************/
-
-
+function Num_Fixed(num, count) {
+    count = arguments[1] || 2;
+    return Number(num || 0).toFixed(count);
+}
 function Arabia_To_SimplifiedChinese(Num) {
     for (i = Num.length - 1; i >= 0; i--) {
         Num = Num.replace(",", "")//替换Num中的“,”

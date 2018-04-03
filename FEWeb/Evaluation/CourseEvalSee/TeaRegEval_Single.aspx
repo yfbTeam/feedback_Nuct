@@ -72,7 +72,7 @@
             <td style="width: 15%" title="${ClassName}">${cutstr(ClassName,10)}</td>
             <td style="width: 15%">${AnswerName}</td>
             <td style="width: 15%">${DateTimeConvert(CreateTime,'yyyy-MM-dd HH:mm',true)}</td>            
-            <td style="width: 5%">{{if IsScore}}${Score}{{else}}-{{/if}}</td>                                           
+            <td style="width: 5%">{{if IsScore}}${Num_Fixed(Score)}{{else}}-{{/if}}</td>                                           
             <td class="operate_wrap" style="width: 10px">
                 <div class="operate" onclick="table_view('${TableID}','${Id}')">
                     <i class="iconfont color_purple">&#xe60b;</i>
