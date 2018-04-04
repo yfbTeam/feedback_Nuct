@@ -630,9 +630,10 @@ namespace FEHandler.Eva_Manage
             string CourseID = RequestHelper.string_transfer(Request, "CourseID");
             int Eva_Role = RequestHelper.int_transfer(Request, "Eva_Role");
             int State = RequestHelper.int_transfer(Request, "State");
+            string RoomID = RequestHelper.string_transfer(Request, "RoomID");            
             try
             {
-                jsonModel = Get_Eva_RegularData_RoomDetailList_Helper(SectionID, ReguID, TableID, TeacherUID, CourseID, Eva_Role, State);
+                jsonModel = Get_Eva_RegularData_RoomDetailList_Helper(SectionID, ReguID, TableID, TeacherUID, CourseID, RoomID,Eva_Role, State);
             }
             catch (Exception ex)
             {
@@ -656,7 +657,7 @@ namespace FEHandler.Eva_Manage
         /// <param name="Eva_Role"></param>
         /// <param name="State"></param>
         /// <returns></returns>
-        public static JsonModel Get_Eva_RegularData_RoomDetailList_Helper(int SectionID, int ReguID, int TableID, string TeacherUID, string CourseID, int Eva_Role, int State)
+        public static JsonModel Get_Eva_RegularData_RoomDetailList_Helper(int SectionID, int ReguID, int TableID, string TeacherUID, string CourseID,string RoomID, int Eva_Role, int State)
         {
             int intSuccess = (int)errNum.Success;
             JsonModelNum jsm = new JsonModelNum();
@@ -664,7 +665,7 @@ namespace FEHandler.Eva_Manage
             {
                 var list = (from q in Constant.Eva_QuestionAnswer_Detail_List
                             where q.SectionID == SectionID && q.ReguID == ReguID
-                                && q.TableID == TableID && q.TeacherUID == TeacherUID && q.CourseID == CourseID && q.Eva_Role == Eva_Role
+                                && q.TableID == TableID && q.TeacherUID == TeacherUID && q.CourseID == CourseID &&q.RoomID==RoomID&& q.Eva_Role == Eva_Role
                             select q).ToList();
                 var group = list.GroupBy(i => i.TableDetailID).ToList();
 
@@ -736,6 +737,7 @@ namespace FEHandler.Eva_Manage
             int TableDetailID = RequestHelper.int_transfer(Request, "TableDetailID");
             string TeacherUID = RequestHelper.string_transfer(Request, "TeacherUID");
             string CourseID = RequestHelper.string_transfer(Request, "CourseID");
+            string RoomID = RequestHelper.string_transfer(Request, "RoomID");
             int Eva_Role = RequestHelper.int_transfer(Request, "Eva_Role");
             int State = RequestHelper.int_transfer(Request, "State");
 
@@ -743,7 +745,7 @@ namespace FEHandler.Eva_Manage
             int PageSize = RequestHelper.int_transfer(Request, "PageSize");
             try
             {
-                jsonModel = Get_Eva_RoomDetailAnswerList_Helper(PageIndex, PageSize, SectionID, ReguID, TableID, TableDetailID, TeacherUID, CourseID, Eva_Role, State);
+                jsonModel = Get_Eva_RoomDetailAnswerList_Helper(PageIndex, PageSize, SectionID, ReguID, TableID, TableDetailID, TeacherUID, CourseID, RoomID, Eva_Role, State);
             }
             catch (Exception ex)
             {
@@ -767,7 +769,7 @@ namespace FEHandler.Eva_Manage
         /// <param name="Eva_Role"></param>
         /// <param name="State"></param>
         /// <returns></returns>
-        public static JsonModel Get_Eva_RoomDetailAnswerList_Helper(int PageIndex, int PageSize, int SectionID, int ReguID, int TableID, int TableDetailID, string TeacherUID, string CourseID, int Eva_Role, int State)
+        public static JsonModel Get_Eva_RoomDetailAnswerList_Helper(int PageIndex, int PageSize, int SectionID, int ReguID, int TableID, int TableDetailID, string TeacherUID, string CourseID,string RoomID,int Eva_Role, int State)
         {
             int intSuccess = (int)errNum.Success;
             JsonModelNum jsm = new JsonModelNum();
@@ -775,7 +777,7 @@ namespace FEHandler.Eva_Manage
             {
                 var data = (from q in Constant.Eva_QuestionAnswer_Detail_List
                             where q.SectionID == SectionID && q.ReguID == ReguID && q.TableID == TableID && q.TableDetailID == TableDetailID && q.TeacherUID == TeacherUID
-                                && q.CourseID == CourseID && q.Eva_Role == Eva_Role
+                                && q.CourseID == CourseID&&q.RoomID==RoomID && q.Eva_Role == Eva_Role
                             select new { q.Answer, q.CreateTime, AnswerName = q.IsRealName == (byte)IsRealNameType.yes ? q.AnswerName : "匿名" }
                              ).ToList();
 

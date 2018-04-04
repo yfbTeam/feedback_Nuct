@@ -847,28 +847,28 @@ var UI_Table_Create =
                         indicator_list[h].RootID = Number(i) + 1;
                         indicator_list[h].Id = indicator_list[h].Indicator_Id == undefined ? indicator_list[h].Id : indicator_list[h].Indicator_Id;
                         var cur_indmodel = indicator_list[h];//当前对象
-                        if (cur_indmodel.QuesType_Id == 1 || cur_indmodel.QuesType_Id == 4) {
+                        if ($("#IsScore").is(":checked")&&(cur_indmodel.QuesType_Id == 1 || cur_indmodel.QuesType_Id == 4)) {
                             if (cur_indmodel.OptionF_S_Max == null || cur_indmodel.OptionF_S_Max == '' || cur_indmodel.OptionF_S_Max == undefined || isNaN(Number(cur_indmodel.OptionF_S_Max))) {
-                                scoreflag++; break;                               
+                                scoreflag++;                              
                             }
                             if (cur_indmodel.QuesType_Id == 1) {
                                 if (cur_indmodel.OptionA_S == null || cur_indmodel.OptionA_S == '' || cur_indmodel.OptionA_S == undefined || isNaN(Number(cur_indmodel.OptionA_S))) {
-                                    scoreflag++; break;
+                                    scoreflag++; 
                                 }
                                 if (cur_indmodel.OptionB_S == null || cur_indmodel.OptionB_S == '' || cur_indmodel.OptionB_S == undefined || isNaN(Number(cur_indmodel.OptionB_S))) {
-                                    scoreflag++; break;
+                                    scoreflag++; 
                                 }
                                 if (cur_indmodel.OptionC_S == null || cur_indmodel.OptionC_S == '' || cur_indmodel.OptionC_S == undefined || isNaN(Number(cur_indmodel.OptionC_S))) {
-                                    scoreflag++; break;
+                                    scoreflag++; 
                                 }
                                 if (cur_indmodel.OptionD.length && (cur_indmodel.OptionD_S == null || cur_indmodel.OptionD_S == '' || cur_indmodel.OptionD_S == undefined || isNaN(Number(cur_indmodel.OptionD_S)))) {
-                                    scoreflag++; break;
+                                    scoreflag++; 
                                 }
                                 if (cur_indmodel.OptionE.length && (cur_indmodel.OptionE_S == null || cur_indmodel.OptionE_S == '' || cur_indmodel.OptionE_S == undefined || isNaN(Number(cur_indmodel.OptionE_S)))) {
-                                    scoreflag++; break;
+                                    scoreflag++; 
                                 }
                                 if (cur_indmodel.OptionF.length && (cur_indmodel.OptionF_S == null || cur_indmodel.OptionF_S == '' || cur_indmodel.OptionF_S == undefined || isNaN(Number(cur_indmodel.OptionF_S)))) {
-                                    scoreflag++; break;
+                                    scoreflag++; 
                                 }
                             }                            
                         }                        

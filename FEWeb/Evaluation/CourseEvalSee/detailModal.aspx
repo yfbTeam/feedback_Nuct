@@ -237,6 +237,7 @@
         ReguID = getQueryString('ReguID');
         CourseID = getQueryString('CourseID');
         TeacherUID = getQueryString('TeacherUID');
+        RoomID = getQueryString('RoomID');        
         Eva_Role = Type;
         State = 2;
         //var pageIndex = 0;
