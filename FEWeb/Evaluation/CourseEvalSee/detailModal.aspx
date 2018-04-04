@@ -193,7 +193,7 @@
                        {{if QuesType_Id ==3}}
                         <li>
                             <dt tabledetailid="${Id}" style="border: none;" class="clearfix">
-                                <div class="objective_name fl">7.希望与要求</div>
+                                <div class="objective_name fl">${Name}</div>
                                 <div class="fl pagebar"></div>
                                 <i class="toggle iconfont">&#xe643;</i>
                             </dt>
@@ -237,8 +237,8 @@
         ReguID = getQueryString('ReguID');
         CourseID = getQueryString('CourseID');
         TeacherUID = getQueryString('TeacherUID');
-        Eva_Role = 2;
-        State = 1;
+        Eva_Role = Type;
+        State = 2;
         //var pageIndex = 0;
         $(function () {
             $('#top').load('/header.html');
