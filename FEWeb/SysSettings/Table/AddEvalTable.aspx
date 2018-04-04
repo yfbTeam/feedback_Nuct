@@ -351,14 +351,18 @@
         $("#cancel,.reback").click(function () { history.go(-1); })
         //拖拽排序
         var sortable = Sortable.create($('#list')[0],{
-            onUpdate:function(evt){
+            onUpdate: function (evt) {
                 var list_ar = [];
-                $('#list li').each(function(){
-                    var lis = UI_Table_Create.head_value.filter(function (item) { return item.id == $(this).attr('t_id') });
+                $('#list li').each(function () {
+                    var t_id = $(this).attr('t_id');
+                    var lis = UI_Table_Create.head_value.filter(function (item) {
+                        return item.id == t_id
+                    });
                     if (lis.length > 0) {
                         list_ar.push(lis[0]);
                     }
                 })
+                
                 UI_Table_Create.head_value = list_ar;
             }
         });

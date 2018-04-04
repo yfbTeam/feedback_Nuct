@@ -5,7 +5,7 @@
 <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>评价录入</title>
+    <title>专家评价查看</title>
     <link href="../../css/reset.css" rel="stylesheet" />
     <link href="../../css/layout.css" rel="stylesheet" />
     <script src="../../Scripts/jquery-1.11.2.min.js"></script>
@@ -55,7 +55,7 @@
                     </select>
                 </div>
                 <div class="fl ml10">
-                    <input type="text" name="" id="Key" placeholder="请输入课程、教师关键字" value="" class="text fl">
+                    <input type="text" name="" id="Key" placeholder="请输入课程名称关键字" value="" class="text fl">
                     <a class="search fl" href="javascript:;" id="select"><i class="iconfont"></i></a>
                 </div>
 
