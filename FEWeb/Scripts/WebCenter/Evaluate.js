@@ -593,7 +593,7 @@ function Get_Eva_RegularData_RoomDetailList() {
         dataType: "json",
         data: {
             func: "Get_Eva_RegularData_RoomDetailList", "SectionID": SectionID, "ReguID": ReguID,
-            "TableID": table_Id, "TeacherUID": TeacherUID, "CourseID": CourseID, "Eva_Role": Eva_Role, "State": State,
+            "TableID": table_Id, "TeacherUID": TeacherUID, "CourseID": CourseID,RoomID: RoomID, "Eva_Role": Eva_Role, "State": State,
         },
         dataType: "json",
         success: function (returnVal) {
@@ -641,7 +641,7 @@ function Get_Eva_RoomDetailAnswerList(PageIndex, TableDetailID) {
         dataType: "json",
         data: {
             func: "Get_Eva_RoomDetailAnswerList", "SectionID": SectionID, "ReguID": ReguID,
-            "TableID": table_Id, "TableDetailID": TableDetailID, "TeacherUID": TeacherUID, "CourseID": CourseID, "Eva_Role": Eva_Role, "State": State,
+            "TableID": table_Id, "TableDetailID": TableDetailID, "TeacherUID": TeacherUID, "CourseID": CourseID, RoomID: RoomID, "Eva_Role": Eva_Role, "State": State,
             "PageIndex": PageIndex, "PageSize": page_Size,
         },
         dataType: "json",

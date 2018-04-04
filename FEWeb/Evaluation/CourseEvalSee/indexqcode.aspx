@@ -160,7 +160,7 @@
                 {{/if}}
              
                {{if QuestionCount >0}}
-                 <div class="operate" onclick="location.href='detailModal.aspx?Id='+getQueryString('Id')+'&Iid='+getQueryString('Iid')+'&TableID='+'${TableID}'+'&SectionID='+'${SectionID}'+'&ReguID='+'${ReguID}'+'&CourseID='+'${CourseID}'+'&TeacherUID='+'${TeacherUID}'+'&Type=3'">
+                 <div class="operate" onclick="location.href='detailModal.aspx?Id='+getQueryString('Id')+'&Iid='+getQueryString('Iid')+'&TableID='+'${TableID}'+'&SectionID='+'${SectionID}'+'&ReguID='+'${ReguID}'+'&CourseID='+'${CourseID}'+'&TeacherUID='+'${TeacherUID}'+'&RoomID='+'${RoomID}'+'&Type=3'">
                      <i class="iconfont color_purple">&#xe606;</i>
                      <span class="operate_none bg_purple">统计</span>
                  </div>
