@@ -340,8 +340,8 @@
     <%--自由表头--%>
     <script type="text/x-jquery-tmpl" id="item_check2">
         <div class="fl" style="margin-bottom: 20px; margin-left: 20px">
-            <label class="lblheader" for="" customcode="" name="${Header}">
-                ${Header}：<input class="input_bottom" />
+            <label class="lblheader" for="" customcode="" name="${Value}">
+                ${Value}：<input class="input_bottom" />
             </label>
         </div>
     </script>
@@ -450,8 +450,8 @@
         function input() {
             HeaderList = [];
             $('.lblheader').each(function (index) {
-                var CustomCode = $(this).attr('CustomCode');
-                var Name = $(this).attr('Name');
+                var CustomCode = $(this).attr('customCode');
+                var Name = $(this).attr('name');
                 var ValueID = '';
                 var Value = '';
 

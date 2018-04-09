@@ -1154,6 +1154,7 @@ var UI_Table_View = {
 
     headerInit: function (retData) {
         $("#list").empty();
+        
         retData.Table_Header_List.forEach(function (item) {
             if (item.Type == 0) {
                 $("#item_check2").tmpl(item).appendTo("#list");
@@ -1196,13 +1197,12 @@ var UI_Table_View = {
             dataType: "json",
             data: { Func: "Get_Eva_TableDetail", "table_Id": table_Id, "IsPage_Display": UI_Table_View.IsPage_Display, "RoomID": RoomID, "ReguID": ReguID, "UserID": login_User.UniqueNo },
             success: function (json) {
-                debugger;
                 var retData = json.result.retData;
-
                 if (retData.Table_Header_List.length == 0) {
                     $('#list').hide();
+                } else {
+                    $('#list').show();
                 }
-
                 $(".tablename").html(retData.Name);
                 UI_Table_View.IsScore = retData.IsScore;
                 switch (UI_Table_View.PageType) {
