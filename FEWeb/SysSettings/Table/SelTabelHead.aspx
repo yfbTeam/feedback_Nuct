@@ -50,7 +50,7 @@
                 var head_vs = parent.get_tablehead();
                
                 for (var i in head_vs) {
-                    $('#' + head_vs[i].CustomCode).attr('checked', true);
+                    $('#' + head_vs[i].id).attr('checked', true);
                 }
             };
             UI_Table_Create.Get_Eva_Table_Header_Custom_List();
