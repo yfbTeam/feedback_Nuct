@@ -519,9 +519,9 @@ function Get_Eva_QuestionAnswerDetail(Id) {
                             $("#sp_total").html('分数：' + data.Score.toFixed(2) + '分')
                         }
                         else {
-                            $("#sp_total").html('不计分')
+                            $("#sp_total").html('不计分');
+                            $('.isscore').hide();
                         }
-
                         break;
                     case 'EvalTable':
 
