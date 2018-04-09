@@ -1153,6 +1153,7 @@ var UI_Table_View = {
     },
 
     headerInit: function (retData) {
+        $("#list").empty();
         retData.Table_Header_List.forEach(function (item) {
             if (item.Type == 0) {
                 $("#item_check2").tmpl(item).appendTo("#list");
@@ -1209,7 +1210,6 @@ var UI_Table_View = {
                         UI_Table_View.TableView_Init(retData);
                         UI_Table_View.headerInit(retData);
                         UI_Table_View.scoreInit(retData);
-
                         break;
                     case 'selectTable':
                         UI_Table_View.TableView_Init(retData);
