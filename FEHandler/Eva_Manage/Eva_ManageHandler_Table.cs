@@ -344,9 +344,9 @@ namespace FEHandler.Eva_Manage
                         //从数据库返回的ID绑定
                         Eva_Table_Add.Id = RequestHelper.int_transfer(Convert.ToString(jsonModel.retData));
                         string head_value = RequestHelper.string_transfer(Request, "head_value");
-                        string lisss = RequestHelper.string_transfer(Request, "lisss");
+                        //string lisss = RequestHelper.string_transfer(Request, "lisss");
                         //添加头部内容
-                        Table_Header((int)Eva_Table_Add.Id, head_value, lisss);
+                        Table_Header((int)Eva_Table_Add.Id, head_value ); //lisss
                         if (jsonModel.errNum == intSuccess)
                         {
                             //缓存添加
@@ -541,9 +541,9 @@ namespace FEHandler.Eva_Manage
                                 Eva_TableAdd_Helper(Eva_Table_edit.EditUID, EditUID, Eva_Table_edit, Table_A_List);
 
                                 string head_value = RequestHelper.string_transfer(Request, "head_value");
-                                string lisss = RequestHelper.string_transfer(Request, "lisss");
+                                //string lisss = RequestHelper.string_transfer(Request, "lisss");
                                 //表头信息添加
-                                Table_Header((int)Eva_Table_edit.Id, head_value, lisss);
+                                Table_Header((int)Eva_Table_edit.Id, head_value);//lisss
                             }
                         }
                         else
@@ -730,7 +730,7 @@ namespace FEHandler.Eva_Manage
         /// </summary>
         /// <param name="table_Id"></param>
         /// <param name="Request"></param>
-        public static void Table_Header(int table_Id, string head_value, string lisss)
+        public static void Table_Header(int table_Id, string head_value) //string lisss
         {
             try
             {
@@ -769,22 +769,22 @@ namespace FEHandler.Eva_Manage
                 }
 
 
-                if (!string.IsNullOrEmpty(lisss))
-                {
-                    //序列化表表头固化
-                    List<lisss> lisss_s = JsonConvert.DeserializeObject<List<lisss>>(lisss);
+                //if (!string.IsNullOrEmpty(lisss))
+                //{
+                //    //序列化表表头固化
+                //    List<lisss> lisss_s = JsonConvert.DeserializeObject<List<lisss>>(lisss);
 
-                    foreach (var item in lisss_s)
-                    {
-                        Eva_Table_Header header = new Eva_Table_Header() { Name_Key = item.title, Name_Value = item.name, Table_Id = table_Id, Type = 0 };
-                        var josnmodel = Constant.Eva_Table_HeaderService.Add(header);
-                        if (josnmodel.errNum == 0)
-                        {
-                            header.Id = Convert.ToInt32(josnmodel.retData);
-                            Constant.Eva_Table_Header_List.Add(header);
-                        }
-                    }
-                }
+                //    foreach (var item in lisss_s)
+                //    {
+                //        Eva_Table_Header header = new Eva_Table_Header() { Name_Key = item.title, Name_Value = item.name, Table_Id = table_Id, Type = 0 };
+                //        var josnmodel = Constant.Eva_Table_HeaderService.Add(header);
+                //        if (josnmodel.errNum == 0)
+                //        {
+                //            header.Id = Convert.ToInt32(josnmodel.retData);
+                //            Constant.Eva_Table_Header_List.Add(header);
+                //        }
+                //    }
+                //}
             }
             catch (Exception ex)
             {

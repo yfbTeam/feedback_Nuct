@@ -985,7 +985,7 @@ var UI_Table_Create =
             data: {
                 "func": func, "table_Id": table_Id, "Name": Name, "IsScore": IsScore, "Remarks": Remarks,
                 "CreateUID": CreateUID, "EditUID": EditUID, "List": JSON.stringify(all_array),
-                "head_value": JSON.stringify(_head_value), "lisss": '', "IsEnable": IsEnable,
+                "head_value": JSON.stringify(_head_value), "IsEnable": IsEnable,
                 "Type": Type
             },//组合input标签
             success: function (json) {
