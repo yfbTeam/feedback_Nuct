@@ -519,9 +519,9 @@ function Get_Eva_QuestionAnswerDetail(Id) {
                             $("#sp_total").html('分数：' + data.Score.toFixed(2) + '分')
                         }
                         else {
-                            $("#sp_total").html('不计分')
+                            $("#sp_total").html('不计分');
+                            $('.isscore').hide();
                         }
-
                         break;
                     case 'EvalTable':
 
@@ -600,7 +600,6 @@ function Get_Eva_RegularData_RoomDetailList() {
 
             if (returnVal.result.errMsg == "success") {
                 var data = returnVal.result.retData;
-
                 for (var i in data.Score_ModelList) {
                     var obj = data.Score_ModelList[i];
                     $('#' + obj.TableDetialID + '_A').text(obj.A);
@@ -608,8 +607,17 @@ function Get_Eva_RegularData_RoomDetailList() {
                     $('#' + obj.TableDetialID + '_C').text(obj.C);
                     $('#' + obj.TableDetialID + '_D').text(obj.D);
                     $('#' + obj.TableDetialID + '_E').text(obj.E);
+                    $('#' + obj.TableDetialID + '_F').text(obj.E);
                 }
-
+                for (var i in data.Multi_ModelList) {
+                    var obj = data.Multi_ModelList[i];
+                    $('#' + obj.TableDetialID + '_A').text(obj.A);
+                    $('#' + obj.TableDetialID + '_B').text(obj.B);
+                    $('#' + obj.TableDetialID + '_C').text(obj.C);
+                    $('#' + obj.TableDetialID + '_D').text(obj.D);
+                    $('#' + obj.TableDetialID + '_E').text(obj.E);
+                    $('#' + obj.TableDetialID + '_F').text(obj.E);
+                }
                 for (var i in data.AnswerScore_ModelList) {
                     var obj = data.AnswerScore_ModelList[i];
                     $('#' + obj.TableDetialID + '_AnswerScore').text(obj.ScoreAve);

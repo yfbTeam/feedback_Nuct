@@ -9,6 +9,7 @@ namespace FEModel.Entity
     public class AnsysRoomModel
     {
         public List<Score_Model> Score_ModelList { get; set; }
+        public List<Score_Model> Multi_ModelList { get; set; }
 
         public List<AnswerScore_Model> AnswerScore_ModelList { get; set; }
 

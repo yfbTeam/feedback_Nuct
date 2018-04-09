@@ -1,5 +1,4 @@
 ﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="detailModal.aspx.cs" Inherits="FEWeb.Evaluation.CourseEvalSee.detailModal" %>
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -9,7 +8,6 @@
     <link href="../../css/reset.css" rel="stylesheet" />
     <link href="../../css/layout.css" rel="stylesheet" />
     <script src="../../Scripts/jquery-1.11.2.min.js"></script>
-
     <style>
         .test_module {
             border: none;
@@ -56,7 +54,7 @@
         }
 
         .allot_table .th_score {
-            width: 5%;
+            width:34px;
         }
 
         .page {
@@ -75,13 +73,11 @@
                 <div class="crumbs">
                     <a href="javascript:history.go(-1)" id="crumb"></a>
                     <span>&gt;</span>
-                    <a href="javascript:;" style="cursor:pointer;" onclick="window.location=window.location.href"  id="couse_name">统计详情</a>
-                 
+                    <a href="javascript:;" style="cursor:pointer;" onclick="window.location=window.location.href"  id="couse_name">统计详情</a>                 
                 </div>
             </div>
             </h1>
             <h1 class="tablename" style="font-weight: bold;"></h1>
-
             <div class="evalmes" style="color: #999999; font-size: 14px">
                 <span id="sp_total"></span>
                 <span id="remark"></span>
@@ -92,14 +88,12 @@
                 <ul class="details_lists">
                 </ul>
             </div>
-
         </div>
     </div>
     <footer id="footer"></footer>
     <script src="../../Scripts/Common.js"></script>
     <script src="../../Scripts/layer/layer.js"></script>
     <script src="../../Scripts/public.js"></script>
-
     <script src="../../Scripts/jquery.tmpl.js"></script>
     <script src="../../Scripts/nav.js"></script>
     <script src="../../Scripts/WebCenter/TableDesigin.js"></script>
@@ -111,7 +105,6 @@
             <label for="">${Value}：【<label id="${CustomCode}"></label>】</label>
         </div>
     </script>
-
     <script type="text/x-jquery-tmpl" id="itemdata">
         <li>
             <dl>
@@ -120,22 +113,13 @@
                         <table class="allot_table mt10">
                             <thead>
                                 <tr>
-                                    <th>调查项目</th>
-                                    {{if Que1_M.OptionA !=''}}
-                                     <th class="th_score">A</th>
-                                    {{/if}}
-                                    {{if Que1_M.OptionB !=''}}
-                                     <th class="th_score">B</th>
-                                    {{/if}}
-                                    {{if Que1_M.OptionC !=''}}
-                                     <th class="th_score">C</th>
-                                    {{/if}}
-                                    {{if Que1_M.OptionD !=''}}
-                                     <th class="th_score">D</th>
-                                    {{/if}}
-                                    {{if Que1_M.OptionE !=''}}
-                                     <th class="th_score">E</th>
-                                    {{/if}}
+                                    <th>调查项目</th>                                    
+                                    <th class="th_score">A</th>                                   
+                                    <th class="th_score">B</th>                                    
+                                    <th class="th_score">C</th>                                   
+                                    <th class="th_score">D</th>                                    
+                                    <th class="th_score">E</th>
+                                    <th class="th_score">F</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -143,34 +127,54 @@
                                     {{if QuesType_Id ==1}}
                                         <tr>
                                             <td class="tl">${Sort}.${Name}</td>
-                                            {{if OptionA !='' }}
-                                     <td id="${Id}_A">0人</td>
-                                            {{/if}}
-                                     {{if  OptionB !=''}}
-                                     <td id="${Id}_B">0人</td>
-                                            {{/if}}
-                                     {{if OptionC !=''}}
-                                      <td id="${Id}_C">0人</td>
-                                            {{/if}}
-                                    {{if OptionD !=''}}
-                                    <td id="${Id}_D">0人</td>
-                                            {{/if}}
-                                     {{if OptionE !=''}}
-                                    <td id="${Id}_E">0人</td>
-                                            {{/if}}                                  
+                                            <td id="${Id}_A">0</td>
+                                            <td id="${Id}_B">0</td>
+                                            <td id="${Id}_C">0</td>
+                                            <td id="${Id}_D">0</td>
+                                            <td id="${Id}_E">0</td>
+                                            <td id="${Id}_F">0</td>
                                         </tr>
                                 {{/if}}                            
                                 {{/each}}                                   
                             </tbody>
                         </table>
                     {{/if}}
-
-                  {{if HasQue4 == true}}
+                    {{if HasQue2 == true}}
+                        <table class="allot_table mt10">
+                            <thead>
+                                <tr>
+                                    <th>调查项目</th>                                   
+                                    <th class="th_score">A</th>                                    
+                                    <th class="th_score">B</th>                                   
+                                    <th class="th_score">C</th>                                   
+                                    <th class="th_score">D</th>                                   
+                                    <th class="th_score">E</th> 
+                                    <th class="th_score">F</th>                                 
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {{each Eva_TableDetail_List}}
+                                    {{if QuesType_Id ==2}}
+                                        <tr>
+                                            <td class="tl">${Sort}.${Name}</td>
+                                            <td id="${Id}_A">0</td>
+                                            <td id="${Id}_B">0</td>
+                                            <td id="${Id}_C">0</td>
+                                            <td id="${Id}_D">0</td>
+                                            <td id="${Id}_E">0</td>
+                                            <td id="${Id}_F">0</td>                           
+                                        </tr>
+                                {{/if}}                            
+                                {{/each}}                                   
+                            </tbody>
+                        </table>
+                    {{/if}}
+                    {{if HasQue4 == true}}
                         <table class="allot_table mt10">
                             <thead>
                                 <tr>
                                     <th>调查项目</th>
-                                    <th width="20%">平均分</th>
+                                    <th width="309px">平均分</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -186,8 +190,7 @@
                             </tbody>
                         </table>
                     {{/if}}
-
-                   {{if HasQue3 == true}}
+                    {{if HasQue3 == true}}
                     <ul class="objective_lists">
                         {{each Eva_TableDetail_List}}
                        {{if QuesType_Id ==3}}
@@ -209,18 +212,13 @@
                         {{/each}}       
                     </ul>
                     {{/if}}
-
-                  
-
                 </dd>
             </dl>
         </li>
     </script>
-
     <script type="text/x-jquery-tmpl" id="itemData">
         <tr>
             <td style="border: 0; float: left">${Answer}</td>
-
             <td style="border: 0; width: 7%; float: right">${DateTimeConvert(CreateTime,'yyyy-MM-dd',true)}</td>
             <td style="border: 0; float: right">${AnswerName}</td>
         </tr>
@@ -228,9 +226,7 @@
     <script type="text/x-jquery-tmpl" id="itemCount">
         <span style="margin-left: 5px; font-size: 14px;">共${RowCount}条，共${PageCount}页</span>
     </script>
-
     <script>
-
         var table_Id = getQueryString('TableID');
         var Type = getQueryString('Type');
         SectionID = getQueryString('SectionID');
@@ -244,7 +240,6 @@
         $(function () {
             $('#top').load('/header.html');
             $('#footer').load('/footer.html');
-
             if (Type == 3) {
                 $('#crumb').html($('#threenav').children().eq(0).html())
                 $('#threenav').children().eq(0).addClass('selected');
@@ -253,19 +248,15 @@
                 $('#crumb').html($('#threenav').children().eq(1).html())
                 $('#threenav').children().eq(1).addClass('selected');
             }
-
-
             UI_Table_View.PageType = 'detailModal';
             UI_Table_View.IsPage_Display = true;
             UI_Table_View.Get_Eva_TableDetail_Compleate = function (retData) {
-
                 var headerList = retData.Table_Header_List.filter(function (item) { return item.CustomCode != null && item.CustomCode != '' });
                 $("#item_check").tmpl(headerList).appendTo("#list");
-
                 var list = retData.Table_Detail_Dic_List;
-
                 for (var i in list) {
                     list[i].HasQue1 = false;
+                    list[i].HasQue2 = false;
                     list[i].HasQue3 = false;
                     list[i].HasQue4 = false;
                     for (var j in list[i].Eva_TableDetail_List) {
@@ -277,6 +268,9 @@
                         else if (child.QuesType_Id == 1) {
                             list[i].HasQue1 = true;
                             list[i].Que1_M = child;
+                        }else if (child.QuesType_Id == 2) {
+                            list[i].HasQue2 = true;
+                            list[i].Que2_M = child;
                         }
                         else if (child.QuesType_Id == 4) {
                             list[i].HasQue4 = true;
@@ -289,7 +283,6 @@
                 animate();
             };
             UI_Table_View.Get_Eva_TableDetail();
-
             Get_Eva_RegularData_RoomDetailListCompleate = function (data) {
 
                 for (var i in data.HeaderModelList) {
@@ -298,9 +291,7 @@
                     $('#' + obj.CustomCode).text(obj.Value);
                 }
             };
-
             Get_Eva_RegularData_RoomDetailList();
-
         })
         
         function animate() {
@@ -310,25 +301,19 @@
                     $(this).parent().siblings('li').removeClass('active');
                     $(this).parent('li').addClass('active');
                     $next.stop().slideDown();
-
                     if ($(this).parent('li').siblings('li').children('dd').is(':visible')) {
                         $(this).parent("li").siblings("li").removeClass('active');
                         $(this).parent("li").siblings("li").find("dd").slideUp();
                     }
-
                 } else {
                     $(this).parent('li').removeClass('active');
                     $next.stop().slideUp();
                 }
-
                 var $next = $(this).parent().find('dd').eq(0);
                 if ($next.prop('clientHeight') == 1) {
-
                     var TableDetailID = $(this).attr('TableDetailID');
-
                     Get_Eva_RoomDetailAnswerList(0, TableDetailID);
                 }
-
             })
         }
     </script>

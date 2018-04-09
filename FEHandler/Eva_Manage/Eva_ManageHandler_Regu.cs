@@ -669,7 +669,7 @@ namespace FEHandler.Eva_Manage
                             select q).ToList();
                 var group = list.GroupBy(i => i.TableDetailID).ToList();
 
-                AnsysRoomModel data = new AnsysRoomModel { Score_ModelList = new List<Score_Model>(), AnswerScore_ModelList = new List<AnswerScore_Model>(), HeaderModelList = new List<HeaderModel>() };
+                AnsysRoomModel data = new AnsysRoomModel { Score_ModelList = new List<Score_Model>(), Multi_ModelList=new List<Score_Model>(), AnswerScore_ModelList = new List<AnswerScore_Model>(), HeaderModelList = new List<HeaderModel>() };
                 Eva_QuestionAnswer_Detail detail = null;
                 foreach (var itemlist in group)
                 {
@@ -690,6 +690,18 @@ namespace FEHandler.Eva_Manage
                                     D = itemlist.Count(i => i.Answer == "OptionD"),
                                     E = itemlist.Count(i => i.Answer == "OptionE"),
                                     F = itemlist.Count(i => i.Answer == "OptionF"),
+                                });
+                                break;
+                            case Question_Type.multiselect:
+                                data.Multi_ModelList.Add(new Score_Model()
+                                {
+                                    TableDetialID = detail.TableDetailID,
+                                    A = itemlist.Count(i => i.Answer.Contains("OptionA")),
+                                    B = itemlist.Count(i => i.Answer.Contains("OptionB")),
+                                    C = itemlist.Count(i => i.Answer.Contains("OptionC")),
+                                    D = itemlist.Count(i => i.Answer.Contains("OptionD")),
+                                    E = itemlist.Count(i => i.Answer.Contains("OptionE")),
+                                    F = itemlist.Count(i => i.Answer.Contains("OptionF")),
                                 });
                                 break;
                             case Question_Type.answer:

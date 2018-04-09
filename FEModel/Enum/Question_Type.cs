@@ -13,6 +13,10 @@ namespace FEModel.Enum
         /// </summary>
         select = 1,
         /// <summary>
+        /// 多选
+        /// </summary>
+        multiselect=2,
+        /// <summary>
         /// 问答题
         /// </summary>
         answer = 3,
