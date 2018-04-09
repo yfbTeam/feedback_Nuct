@@ -970,7 +970,7 @@ var UI_Table_Create =
                     name: item.title,
                     id: 0,
                     description: '',
-                    Code: item.Num
+                    Code: ''
                 }
             } else {
                 return item
@@ -1231,6 +1231,7 @@ var UI_Table_View = {
 
                         break;
                     case 'onlinetest':
+                       
                         retData.headerList = retData.Table_Header_List.filter(function (item) { return item.CustomCode != null && item.CustomCode != '' });
                         retData.head_value = retData.Table_Header_List.filter(function (item) { return item.CustomCode == null || item.CustomCode == '' });
 

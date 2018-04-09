@@ -99,7 +99,7 @@
         }
         .ti {
             width: 100%;
-            padding: 66px 10px 101px 10px;
+            padding: 95px 10px 101px 10px;
         }
     </style>
 </head>
@@ -135,7 +135,7 @@
         </div>
 
         <div class="ti">
-            <div class="table_header_left" id="list">
+            <div class="table_header_left clearfix" id="list">
                 <% $.each(retData.headerList,function(hindex,child){ %>
                 <div class="fl div_header1">
                     <label class="lblheader" customcode="<%=child.CustomCode%>" code="<%=child.Id%>" name="<%=child.Value%>">
@@ -374,7 +374,8 @@
             Eva_Role = getQueryString('Eva_Role');           
             UI_Table_View.PageType = 'onlinetest';
             UI_Table_View.IsPage_Display = true;
-            UI_Table_View.Get_Eva_TableDetail_Compleate = function (retData) {                
+            UI_Table_View.Get_Eva_TableDetail_Compleate = function (retData) {
+                debugger;
                 if (retData.Info.IsInClass)
                 {
                     $("#main").append(ejs.render($('#item_table_view').html(), { retData: retData }));
@@ -399,7 +400,7 @@
                     $('#course').text(cutstr(CourseName, 8));
                     $('#dp').text(cutstr(DepartmentName, 8));
                     UI_Table_View.scoreInit(retData);
-                    $('#list').css('height', (retData.headerList.length / 2) * 20 + retData.head_value.length * 35 + 'px');
+                    //$('#list').css('height', (retData.headerList.length / 2) * 20 + retData.head_value.length * 35 + 'px');
                     Reflesh();
                 }
                 else {
@@ -411,8 +412,8 @@
         function SaveEvlData() {
             HeaderList = [];
             $('.lblheader').each(function (index) {
-                var CustomCode = $(this).attr('CustomCode');
-                var Name = $(this).attr('Name');
+                var CustomCode = $(this).attr('customCode');
+                var Name = $(this).attr('name');
                 var ValueID = '';
                 var Value = '';
                 CustomCode = (CustomCode != undefined && CustomCode != null) ? CustomCode.trim() : "";
