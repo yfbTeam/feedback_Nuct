@@ -184,7 +184,7 @@
                              {{else $value.QuesType_Id ==3 }}
                              【问答题】
                              {{else $value.QuesType_Id ==4 }}
-                             【选分题】
+                             【评分题】
                              {{/if}} ${$value.Name}
                     {{if  $value.QuesType_Id ==1  || $value.QuesType_Id ==4}}
                        <b class="isscore">（<span class="isscore">${OptionF_S_Max}分</span>）</b>
