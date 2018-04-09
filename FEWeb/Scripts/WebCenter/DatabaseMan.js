@@ -299,7 +299,7 @@ var DataBaseMainModel =
                     _return = '问答题'
                     break;
                 case 4:
-                    _return = '选分题'
+                    _return = '评分题'
                     break;
                 default:
                     _return = '无';

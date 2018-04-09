@@ -21,7 +21,7 @@ namespace FEModel.Enum
         /// </summary>
         answer = 3,
         /// <summary>
-        /// 选分题
+        /// 评分题
         /// </summary>
         scoreSelect = 4,
     }

@@ -204,7 +204,7 @@
                              {{else $value.QuesType_Id ==3 }}
                              【问答题】
                              {{else $value.QuesType_Id ==4 }}
-                             【选分题】
+                             【评分题】
                              {{/if}} 
                     </h2>
                     <div class="test_desc clearfix">

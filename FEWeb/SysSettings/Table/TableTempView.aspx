@@ -100,7 +100,7 @@
                              {{else det.QuesType_Id ==3 }}
                              【问答题】
                              {{else det.QuesType_Id ==4 }}
-                             【选分题】
+                             【评分题】
                              {{/if}} ${det.Name}
                     {{if det.QuesType_Id =="1"  ||det.QuesType_Id =="4" }}
                       <b class="isscore">（<span class="isscore">${Num_Fixed(OptionF_S_Max)}分</span>）</b>
