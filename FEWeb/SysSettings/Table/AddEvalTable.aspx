@@ -149,6 +149,7 @@
     <li t_id="${id}" class="fl">
         <label>${name}：</label>
         <span>【${description}】</span>
+        <i style="cursor: pointer" class="iconfont" onclick="UI_Table_Create.removeTableHeader('${id}')">&#xe672;</i>
     </li>
 </script>
 <%--自由表头--%>
@@ -156,7 +157,7 @@
     <li t_id="${t_Id}" class="fl">
         <label><input type="text" name="name" t_id="${t_Id}" value="${title}" /></label>
         <input readonly="readonly" v_id="${t_Id}" type="text" name="name" value="" />
-        <i t_id="${t_Id}" style="cursor: pointer" class="iconfont">&#xe672;</i>
+        <i t_id="${t_Id}" style="cursor: pointer" class="iconfont" onclick="UI_Table_Create.removeCustomHeader('${t_Id}')">&#xe672;</i>
     </li>
 </script>
 <script type="text/x-jquery-tmpl" id="item_sheet">
@@ -323,10 +324,11 @@
 
     Type = getQueryString('_Type');
     CreateUID = login_User.UniqueNo;
-
-    //------------------------添加指标【打开窗体】----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+    /**
+     * 添加指标【打开窗体】
+     */
     var index_1 = 0;//主要为了实时统计分，在index为1 的时候显示，否则不显示
-    //var select_Array = [];//已经选择的指标，存入此数组，根据此数组，选中已选择的项
+   
     $(function () {
         $('#top').load('/header.html');
         $('#footer').load('/footer.html');
@@ -356,7 +358,11 @@
                 $('#list li').each(function () {
                     var t_id = $(this).attr('t_id');
                     var lis = UI_Table_Create.head_value.filter(function (item) {
-                        return item.id == t_id
+                        if (item.hasOwnProperty('id')) {
+                            return item.id == t_id
+                        } else if (item.hasOwnProperty('t_Id')) {
+                            return item.t_Id == t_id
+                        }
                     });
                     if (lis.length > 0) {
                         list_ar.push(lis[0]);
@@ -394,9 +400,20 @@
     //-----------选择表头【子窗体使用】------------------------------------------
     function tablehead(headvalue) {
         UI_Table_Create.head_value = headvalue;
-        $("#item_check").tmpl(headvalue).appendTo("#list");
+        $('#list').empty();
+        var fixed_head = [], custom_head = [];
+        headvalue.forEach(function (item) {
+            if (item.hasOwnProperty('id')) {
+                fixed_head.push(item)
+            } else if (item.hasOwnProperty('t_Id')) {
+                custom_head.push(item)
+            }
+        })
+        $("#item_check").tmpl(fixed_head).appendTo("#list");
+        $("#item_check2").tmpl(custom_head).appendTo("#list");
     }
     //-----------获取表头【子窗体使用】------------------------------------------
+    
     function get_tablehead() {
 
         return UI_Table_Create.head_value;
@@ -411,38 +428,52 @@
     function sel_CousrseType() {
         UI_Table_Create.sel_CousrseType();
     }
-    //---------------------------------移除试题-----------------------------------------------------
-    //移除
+    /**
+     * 移除
+     * @param _this
+     * @param id
+     */
     function remove1(_this, id) {
-
         UI_Table_Create.remove1(_this, id);
     }
-    //试题向上排序
+    /**
+     * 试题向上排序
+     * @param _this
+     */
     function up(_this) {
         UI_Table_Create.up(_this);
     }
-    //试题向下排序
+    /**
+     * 试题向下排序
+     * @param _this
+     */
     function down(_this) {
         UI_Table_Create.down(_this);
     }
+    /**
+     * 标题的向下排序
+     * @param _this
+     */
     //标题的向上排序
     function t_up(_this) {
         UI_Table_Create.t_up(_this);
     }
-    //标题的向下排序
     function t_down(_this) {
         UI_Table_Create.t_down(_this);
     }
-    //计算离开文本框的方法
+    /**
+     * 计算离开文本框的方法
+     */
     function text_blur() {
         UI_Table_Create.text_blur();
     }
     function text_change_event(element) {
         UI_Table_Create.text_change_event(element);
     }
-    //选择指标
+    /**
+     * openIndicator
+     */
     function openIndicator() {
-
         if (select_sheet_Id != null && select_sheet_Id != undefined && select_sheet.indicator_array!=null) {
             DataBaseMainModel.select_Array = [];
             if (select_sheet.indicator_array.length > 0) {
@@ -469,5 +500,4 @@
     function onlyNum() {
         UI_Table_Create.onlyNum();
     }
-
 </script>

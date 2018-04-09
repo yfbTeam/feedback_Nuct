@@ -182,7 +182,6 @@ var UI_Table_Create =
                 $('.isscore').hide();
             }
         })
-        UI_Table_Create.header_init();
         //------------------存储比例系数----------------------------------------------------
         UI_Table_Create.load_score_parameter();
     },
@@ -252,24 +251,31 @@ var UI_Table_Create =
         }
         header.title = '新填节点' + header.Num;
         lisss.push(header);
+        this.head_value = this.head_value.concat(lisss)
         $("#item_check2").tmpl(header).appendTo("#list");
-        UI_Table_Create.header_init();
     },
-    header_init: function () {
-        $("#list li").children('.iconfont').each(function () {
-            $(this).unbind("click");
-            $(this).on('click', function () {
-                var _t_Id = $(this).attr('t_Id');
-                for (var i = 0; i < lisss.length; i++) {
-                    if (_t_Id == lisss[i].t_Id) {
-                        lisss.splice(i, 1);
-                        $(this).parent().remove();
-                        break;
-                    }
-                }
-            });
-
-        });
+    /**
+     * 移除表头
+     * @param id
+     */
+    removeTableHeader: function (id) {
+        this.head_value = this.head_value.filter(function (item){
+            return item.id!=id
+        })
+        $('#list li[t_id=' + id + ']').remove();
+    },
+     /**
+     * 移除自定义表头
+     * @param id
+     */
+    removeCustomHeader: function (id) {
+        this.head_value = this.head_value.filter(function (item) {
+            return item.t_Id!=id
+        })
+        lisss = lisss.filter(function (item) {
+            return item.t_Id != id;
+        })
+        $('#list li[t_id=' + id + ']').remove();
     },
     //-------------------------------------添加节点【试题】
     add_root: function () {
@@ -1079,32 +1085,22 @@ var UI_Table_Create =
         }
     },
     //【SelTabelHead】
-    Get_Eva_Table_Header_Custom_List: function () {
+    Get_Eva_Table_Header_Custom_List: function (successCb) {
         $.ajax({
             url: HanderServiceUrl + "/Eva_Manage/Eva_ManageHandler.ashx",
             type: "post",
-            async: false,
             dataType: "json",
             data: { Func: "Get_Eva_Table_Header_Custom_List" },
             success: function (json) {
-                if (json.result.errMsg == "success") {
-                    retData = json.result.retData;
-                    switch (UI_Table_Create.PageType) {
-                        case 'SelTabelHead':
+                successCb(json);
 
-                            $("#item_check").tmpl(retData).appendTo("#list");
-                            UI_Table_Create.Get_Eva_Table_Header_Custom_List_Compleate(retData);
-                            break;
-                        default:
-                    }
-                }
             },
             error: function () {
                 //接口错误时需要执行的
             }
         });
     },
-    Get_Eva_Table_Header_Custom_List_Compleate: function (retData) { },
+    //Get_Eva_Table_Header_Custom_List_Compleate: function (retData) { },
 };
 
 
@@ -1126,7 +1122,7 @@ var UI_Table_View = {
     },
 
     headerInit: function (retData) {
-        $('#list').empty();
+        //$('#list').empty();
         headerList = retData.Table_Header_List.filter(function (item) { return item.CustomCode != null && item.CustomCode != '' });
         var head_value = retData.Table_Header_List.filter(function (item) { return item.CustomCode == null || item.CustomCode == '' });
 
