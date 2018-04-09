@@ -19,7 +19,7 @@
             color: #009706;
         }
 
-        #list .iconfont {
+        #list .iconfont ,#list2 .iconfont{
             width: 34px;
             height: 34px;
             display: inline-block;
@@ -101,9 +101,15 @@
 
             </div>
             <div class="table_header mt10 clearfix" style="min-height: 98px">
-                <ul class="table_header_left clearfix" id="list">
+                <div class="table_header_left clearfix">
+                    <ul id="list" class="clearfix" style="min-height:49px;">
+                       
+                    </ul>
+                    <ul id="list2" class="clearfix" style="min-height:49px;">
+                       
+                    </ul>
+                </div>
 
-                </ul>
                 <div class="table_header_right fr">
                     <input type="button" name="name" value="选择表头" class="btn2" onclick="OpenIFrameWindow('选择表头', './SelTabelHead.aspx', '700px', '340px')" />
                     <input type="button" name="name" value="自定义表头" class="btn2 mt10" onclick="UI_Table_Create.add_checkItem2();" />
@@ -366,6 +372,21 @@
                 UI_Table_Create.head_value = list_ar;
             }
         });
+        var sortable = Sortable.create($('#list2')[0], {
+            onUpdate: function (evt) {
+                var list_ar = [];
+                $('#list2 li').each(function () {
+                    var t_id = $(this).attr('t_id');
+                    var lis = lisss.filter(function (item) {
+                        return item.t_Id == t_id
+                    });
+                    if (lis.length > 0) {
+                        list_ar.push(lis[0]);
+                    }
+                })
+                lisss = list_ar;
+            }
+        });
     });
     //-----------数据填充----------------------------------------------------------
     //回调函数（子页面调的回调函数）
@@ -394,6 +415,7 @@
     //-----------选择表头【子窗体使用】------------------------------------------
     function tablehead(headvalue) {
         UI_Table_Create.head_value = headvalue;
+        $("#list").empty();
         $("#item_check").tmpl(headvalue).appendTo("#list");
     }
     //-----------获取表头【子窗体使用】------------------------------------------
