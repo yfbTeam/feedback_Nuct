@@ -58,9 +58,9 @@
                             <input type="text" name="" id="Name" fl="评价表名称" isrequired="true" placeholder="请填写评价表名称" value="" class="text" style="border-right: 1px solid #cccccc; width: 500px; align-content: center">
                         </div>
                         <div class="fl ml10 checkbox">
-                            <input type="checkbox" name="" id="IsScore" class="magic-checkbox">
+                            <input type="checkbox" name="" id="IsScore" class="magic-checkbox" checked>
                             <label for="IsScore">记分</label>
-                            <input type="checkbox" name="" id="disalbe" class="magic-checkbox ">
+                            <input type="checkbox" name="" id="disalbe" class="magic-checkbox " checked>
                             <label for="disalbe" class="ml10">启用</label>
                         </div>
 
@@ -339,6 +339,7 @@
             $('.crumbs').html('编辑表格');
             UI_Table_View.PageType = 'AddEvalTable';
             UI_Table_View.Get_Eva_TableDetail_Compleate = function (data) { };
+            
             UI_Table_View.Get_Eva_TableDetail();
         }
         if (Type == 1) {
@@ -401,16 +402,14 @@
     function tablehead(headvalue) {
         UI_Table_Create.head_value = headvalue;
         $('#list').empty();
-        var fixed_head = [], custom_head = [];
+        
         headvalue.forEach(function (item) {
             if (item.hasOwnProperty('id')) {
-                fixed_head.push(item)
+                $("#item_check").tmpl(item).appendTo("#list");
             } else if (item.hasOwnProperty('t_Id')) {
-                custom_head.push(item)
+                $("#item_check2").tmpl(item).appendTo("#list");
             }
-        })
-        $("#item_check").tmpl(fixed_head).appendTo("#list");
-        $("#item_check2").tmpl(custom_head).appendTo("#list");
+        })    
     }
     //-----------获取表头【子窗体使用】------------------------------------------
     

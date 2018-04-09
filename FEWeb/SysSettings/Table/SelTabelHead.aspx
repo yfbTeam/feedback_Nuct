@@ -52,7 +52,12 @@
                     retData = json.result.retData;
                     $("#item_check").tmpl(retData).appendTo("#list");
                     for (var i in head_vs) {
-                        $('#' + head_vs[i].id).prop('checked', true);
+                        if (head_vs[i].hasOwnProperty('Code')) {
+                            $('#' + head_vs[i].Code).prop('checked', true);
+                        } else {
+                            $('#' + head_vs[i].CustomCode).prop('checked', true);
+                        }
+                        
                     }
                 }
             })
@@ -71,7 +76,9 @@
                 })
             }
         }
+        
         function submit() {
+            
             parent.tablehead(head_vs);
             closeWindow()
         }

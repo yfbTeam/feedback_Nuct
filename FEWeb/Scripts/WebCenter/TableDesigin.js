@@ -2,8 +2,25 @@
 /// <reference path="../public.js" />
 /// <reference path="../Common.js" />
 /// <reference path="../Common.js" />
-
-
+function array_remove_repeat(a) { // 去重
+    var r = [];
+    for (var i = 0; i < a.length; i++) {
+        var flag = true;
+        var temp = a[i];
+        for (var j = 0; j < r.length; j++) {
+            if (temp.hasOwnProperty('t_Id')) {
+                if (temp.Num === r[j].Num) {
+                    flag = false;
+                    break;
+                }
+            }
+        }
+        if (flag) {
+            r.push(temp);
+        }
+    }
+    return r;
+}
 var Type = 0;
 var CreateUID = '';
 
@@ -251,7 +268,8 @@ var UI_Table_Create =
         }
         header.title = '新填节点' + header.Num;
         lisss.push(header);
-        this.head_value = this.head_value.concat(lisss)
+        this.head_value = this.head_value.concat(lisss);
+        this.head_value = array_remove_repeat(this.head_value);
         $("#item_check2").tmpl(header).appendTo("#list");
     },
     /**
@@ -945,7 +963,20 @@ var UI_Table_Create =
                 obj.OptionF_S = obj.OptionF_S == '' ? 0 : obj.OptionF_S;
             }
         }
-
+       
+        var _head_value = this.head_value.map(function (item) {
+            if (item.hasOwnProperty('t_Id')) {
+                return {
+                    name: item.title,
+                    id: 0,
+                    description: '',
+                    Code: item.Num
+                }
+            } else {
+                return item
+            }
+        })
+        debugger;
         $.ajax({
             url: HanderServiceUrl + "/Eva_Manage/Eva_ManageHandler.ashx",
             type: "post",
@@ -954,7 +985,7 @@ var UI_Table_Create =
             data: {
                 "func": func, "table_Id": table_Id, "Name": Name, "IsScore": IsScore, "Remarks": Remarks,
                 "CreateUID": CreateUID, "EditUID": EditUID, "List": JSON.stringify(all_array),
-                "head_value": JSON.stringify(UI_Table_Create.head_value), "lisss": JSON.stringify(lisss), "IsEnable": IsEnable,
+                "head_value": JSON.stringify(_head_value), "lisss": '', "IsEnable": IsEnable,
                 "Type": Type
             },//组合input标签
             success: function (json) {
@@ -1165,7 +1196,7 @@ var UI_Table_View = {
             dataType: "json",
             data: { Func: "Get_Eva_TableDetail", "table_Id": table_Id, "IsPage_Display": UI_Table_View.IsPage_Display, "RoomID": RoomID, "ReguID": ReguID, "UserID": login_User.UniqueNo },
             success: function (json) {
-
+                debugger;
                 var retData = json.result.retData;
 
                 if (retData.Table_Header_List.length == 0) {
@@ -1262,19 +1293,21 @@ var UI_Table_View = {
                         //添加表头信息
                         for (var i in retData.Table_Header_List) {
                             var item = retData.Table_Header_List[i];
+                            debugger;
                             if (item.Type == 0) {
                                 var header = Object();
-                                header.title = item.Header;
+                                header.title = item.Value;
                                 if (lisss.length == 0) {
                                     header.Num = 1;
                                     header.t_Id = 't_' + header.Num;
-
                                 }
                                 else {
                                     header.Num = lisss[lisss.length - 1].Num + 1;
                                     header.t_Id = 't_' + header.Num;
                                 }
                                 lisss.push(header);
+                                UI_Table_Create.head_value = UI_Table_Create.head_value.concat(lisss);
+                                UI_Table_Create.head_value = array_remove_repeat(UI_Table_Create.head_value);
                                 $("#item_check2").tmpl(header).appendTo("#list");
                             }
                             else {

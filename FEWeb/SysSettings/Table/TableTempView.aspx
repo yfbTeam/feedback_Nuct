@@ -233,12 +233,13 @@
 
         $('.tablename').text(parent.TableName);
         var head_value = parent.head_value;
-        var headerList = parent.lisss;
-
-        $("#item_check").tmpl(head_value).appendTo("#list");
-        $("#item_check2").tmpl(headerList).appendTo("#list");
-        
-
+        head_value.forEach(function (item) {
+            if (item.hasOwnProperty('id')) {
+                $("#item_check").tmpl(item).appendTo("#list");
+            } else if (item.hasOwnProperty('t_Id')) {
+                $("#item_check2").tmpl(item).appendTo("#list");
+            }
+        })  
         var All_Array = parent.All_Array;
         var objArray = [];
         var sp_total = 0;

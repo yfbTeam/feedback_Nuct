@@ -235,11 +235,11 @@
             ids = (ids.substring(ids.length - 1) == ',') ? ids.substring(0, ids.length - 1) : ids;
             return ids;
         }
-        function Checkcookie(){
+        function Checkcookie() {
             var cookie_Userinfo = localStorage.getItem('Userinfo_LG');
             var LoginTime = localStorage.getItem('LoginTime');
             var curData = Date.parse(new Date());
-            if (cookie_Userinfo != null && cookie_Userinfo != "null" && LoginTime != null && (curData - LoginTime)<=1000*60*60){
+            if (cookie_Userinfo != null && cookie_Userinfo != "null" && LoginTime != null && (curData - LoginTime)>=1000*60*60){
                 window.location.href = "/Index.aspx";
             }
         }
