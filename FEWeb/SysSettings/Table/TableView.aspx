@@ -224,7 +224,7 @@
 <script type="text/x-jquery-tmpl" id="item_check2">
     <div class="fl" style="margin-bottom: 20px; margin-left: 20px">
         <label for="">
-            ${Header}：____________
+            ${Value}：____________
         </label>
     </div>
 </script>
@@ -235,7 +235,6 @@
     var total = 0;
 
     $(function () {
-        ;
         //$('#header').load('../../header.html');
         $('#footer').load('../../footer.html');
         UI_Table_View.PageType = 'TableView';

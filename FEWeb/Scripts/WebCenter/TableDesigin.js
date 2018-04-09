@@ -1153,14 +1153,13 @@ var UI_Table_View = {
     },
 
     headerInit: function (retData) {
-        //$('#list').empty();
-        headerList = retData.Table_Header_List.filter(function (item) { return item.CustomCode != null && item.CustomCode != '' });
-        var head_value = retData.Table_Header_List.filter(function (item) { return item.CustomCode == null || item.CustomCode == '' });
-
-        $("#item_check").tmpl(headerList).appendTo("#list");
-        $("#item_check2").tmpl(head_value).appendTo("#list");
-
-
+        retData.Table_Header_List.forEach(function (item) {
+            if (item.Type == 0) {
+                $("#item_check2").tmpl(item).appendTo("#list");
+            } else {
+                $("#item_check").tmpl(item).appendTo("#list");
+            }
+        })
     },
 
     scoreInit: function (retData) {
