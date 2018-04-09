@@ -350,7 +350,7 @@
             <label class="lblheader" customcode="${CustomCode}" code="${Id}" name="${Name}">
                 ${Name}：
               
-                {{if CustomCode == 4}}
+            {{if CustomCode == 4}}
             <select id="major">
             </select>
                 {{else  CustomCode == 5}}
@@ -465,9 +465,9 @@
         function input() {
             HeaderList = [];
             $('.lblheader').each(function (index) {
-                var CustomCode = $(this).attr('CustomCode');
-                var Name = $(this).attr('Name');
-                var Id = $(this).attr('Code');
+                var CustomCode = $(this).attr('customCode');
+                var Name = $(this).attr('name');
+                var Id = $(this).attr('code');
                 var ValueID = '';
                 var Value = '';
 
@@ -500,11 +500,15 @@
 
         function Reflesh() {
             $('#list').empty();
-            var headerList = HeaderList.filter(function (item) { return item.CustomCode != null && item.CustomCode != '' });
-            var head_value = HeaderList.filter(function (item) { return item.CustomCode == null || item.CustomCode == '' });
 
-            $("#item_check").tmpl(headerList).appendTo("#list");
-            $("#item_check2").tmpl(head_value).appendTo("#list");
+            HeaderList.forEach(function (item) {
+                if (item.CustomCode != '' && item.CustomCode != null) {
+                    $("#item_check").tmpl(item).appendTo("#list");
+                } else {
+                    $("#item_check2").tmpl(item).appendTo("#list");
+                }
+            })
+            
 
             $('.table_header_left').css('height', (HeaderList.length / 5) * 25 + 'px');
 

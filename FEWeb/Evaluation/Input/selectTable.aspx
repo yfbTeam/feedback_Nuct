@@ -42,7 +42,7 @@
             cursor: pointer;
         }
         .div_header {
-            height: 10px;
+           
             margin-bottom: 20px;
             margin-left: 20px;
         }
