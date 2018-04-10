@@ -212,6 +212,7 @@
                 pageIndex = 0;
                 Te = $('#Te').val();
                 SectionID = $('#section').val();
+                SelfCreateUID = login_User.UniqueNo;
                 Get_Eva_RegularData($('#Rg').val(), pageIndex);
             }
 

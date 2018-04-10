@@ -387,15 +387,15 @@ var IsAllSchool = 0;
 var ModelType = '1'; //1 普通所有  2为院管获取  3为校管获取
 var FuncType = 0; //0 普通分页  1获取数量
 var DepartmentID = '';
+var SelfCreateUID='';
 function Get_Eva_RegularData(Id, PageIndex) {
-
     var key = $('#Key').val()
     key = key != undefined ? key.trim() : '';
     var postData = {
         func: "Get_Eva_RegularData", "ReguId": Id, "PageIndex": PageIndex,
         "PageSize": pageSize, "Key": key, "SelectUID": SelectUID, "SectionID": SectionID,
         "DepartmentID": DepartmentID, "FuncType": FuncType,
-        "Te": Te, "ModelType": ModelType
+        "Te": Te, "ModelType": ModelType, SelfCreateUID: SelfCreateUID
     };
     if (FuncType == 0) {
         layer_index = layer.load(1, {
