@@ -221,11 +221,12 @@ namespace FEHandler.Eva_Manage
                 for (int i = 0; i < list.Count; i++)
                 {
                     list[i].Num = i + 1;
-                    var header = Constant.Eva_Table_Header_List.FirstOrDefault(h => h.Custom_Code == "5" && h.Table_Id == list[i].TableID);
-                    list[i].HeaderClassName = header!=null?header.Name_Key:"";
+                    var header = Constant.Eva_QuestionAnswer_Header_List.Where(h =>h.QuestionID == list[i].Id);
+                    var header_class = header.FirstOrDefault(h => h.CustomCode == "5");
+                    list[i].HeaderClassName = header_class != null? header_class.Value:"";
 
-                    var header_stu = Constant.Eva_Table_Header_List.FirstOrDefault(h => h.Custom_Code == "6" && h.Table_Id == list[i].TableID);
-                    list[i].HeaderStuName = header_stu != null ? header_stu.Name_Key : "";
+                    var header_stu =header.FirstOrDefault(h => h.CustomCode == "6");
+                    list[i].HeaderStuName = header_stu != null ? header_stu.Value : "";
                 }
                 var query_last = (from an in list select an).Skip((PageIndex - 1) * PageSize).Take(PageSize).ToList();
                 //返回所有表格数据

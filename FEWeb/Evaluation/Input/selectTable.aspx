@@ -135,6 +135,10 @@
     <script src="../../Scripts/layer/layer.js"></script>
     <script src="../../Scripts/public.js"></script>
     <script src="../../Scripts/jquery.tmpl.js"></script>
+    <link href="../../Scripts/choosen/prism.css" rel="stylesheet" />
+    <link href="../../Scripts/choosen/chosen.css" rel="stylesheet" />
+    <script src="../../Scripts/choosen/chosen.jquery.js"></script>
+    <script src="../../Scripts/choosen/prism.js"></script>
     <script src="../../Scripts/WebCenter/Base.js"></script>
     <script src="../../Scripts/WebCenter/TableDesigin.js"></script>
     <script src="../../Scripts/WebCenter/Room.js"></script>
