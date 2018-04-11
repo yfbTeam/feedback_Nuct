@@ -161,8 +161,8 @@
 
                 <% $.each(retData.head_value,function(hindex,child){ %>
                 <div class="fl div_header2">
-                    <label  class="lblheader" code="<%=child.Id %>" name="<%=child.Header%>">
-                        <%=child.Header%>：<input class="input_bottom" value="<%=child.Value%>" />
+                    <label  class="lblheader" code="<%=child.Id %>" name="<%= child.Value%>">
+                        <%= child.Value%>：<input class="input_bottom" value="<%=child.Header%>" />
                     </label>
                 </div>
                 <% }) %>
@@ -375,7 +375,7 @@
             UI_Table_View.PageType = 'onlinetest';
             UI_Table_View.IsPage_Display = true;
             UI_Table_View.Get_Eva_TableDetail_Compleate = function (retData) {
-                debugger;
+               
                 if (retData.Info.IsInClass)
                 {
                     $("#main").append(ejs.render($('#item_table_view').html(), { retData: retData }));
