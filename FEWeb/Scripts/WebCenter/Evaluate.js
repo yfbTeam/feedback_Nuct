@@ -27,7 +27,7 @@ var evaluate_Model = {
         var ques_count4 = 0;
 
         var err4_count = 0;
-        //debugger;
+        
         //if (Eva_Role != 1) {
         //    evaluate_Model.Submit_ele = evaluate_Model.Submit_ele.children()
         //}
@@ -309,7 +309,6 @@ function EditQuestion(Id) {
 
                 if (json.result.errMsg == "success") {
                     var data = json.result.retData;
-                    debugger;
                     if (State == 1) {
                         layer.msg('保存成功!', { offset: '400px' });
                     }
