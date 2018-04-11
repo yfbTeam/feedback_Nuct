@@ -172,6 +172,7 @@ var UI_Table_Create =
     PageType: '', //AddEvalTable 表格设计   SelTabelHead 添加表头
     Type: 0, //1为编辑 其余则视为添加
     head_value: [],//自由表格头部
+    Header_Name:null,
     PrepareInit: function () {
         $("#IsScore").click(function () {//计分的情况
             if ($(this).is(":checked")) {
@@ -237,7 +238,7 @@ var UI_Table_Create =
         }
         layer.msg('设置成功');
     },
-    //-------------------------------------------新添节点【自定义表头】
+    //新添节点【自定义表头】
     add_checkItem2: function () {
         var header = Object();
         if (lisss.length == 0) {
@@ -252,6 +253,21 @@ var UI_Table_Create =
         lisss.push(header);
         this.head_value.push(header);
         $("#item_check2").tmpl(header).appendTo("#list");
+    },
+    /**
+    * 失去焦点判断是否是重复数据
+    *@param id
+    */
+    customBlur: function (id) {
+        var val = $('#list input[t_id=' + id + ']').val();
+        this.Header_Name = this.head_value.find(function (item) {
+            if (item.hasOwnProperty('id')) {
+                return item.name == val
+            } else if (item.hasOwnProperty('t_Id')) {
+                return item.t_Id == val
+            }
+        })
+        
     },
     /**
      * 移除表头
@@ -275,6 +291,7 @@ var UI_Table_Create =
             return item.t_Id != id;
         })
         $('#list li[t_id=' + id + ']').remove();
+        this.Header_Name=null
     },
     //-------------------------------------添加节点【试题】
     add_root: function () {
@@ -883,7 +900,10 @@ var UI_Table_Create =
         }
 
         var Name = $("#Name").val().trim();
-
+        if (this.Header_Name != null) {
+            layer.msg('表头名字有重复，请重新输入！');
+            return false;
+        }
         //请输入评价表名称
         if (Name == '') {
             layer.msg('请输入评价表名称！');
@@ -1269,7 +1289,6 @@ var UI_Table_View = {
                         UI_Table_Create.sheet_init();
 
                         retData.Table_Header_List = Enumerable.From(retData.Table_Header_List).OrderBy(function (item) { return item.Id }).ToArray();//按Id进行升序排列
-
                         //添加表头信息
                         for (var i in retData.Table_Header_List) {
                             var item = retData.Table_Header_List[i];
