@@ -19,7 +19,7 @@
             color: #009706;
         }
 
-        #list .iconfont ,#list2 .iconfont{
+        #list .iconfont {
             width: 34px;
             height: 34px;
             display: inline-block;
@@ -58,9 +58,9 @@
                             <input type="text" name="" id="Name" fl="评价表名称" isrequired="true" placeholder="请填写评价表名称" value="" class="text" style="border-right: 1px solid #cccccc; width: 500px; align-content: center">
                         </div>
                         <div class="fl ml10 checkbox">
-                            <input type="checkbox" name="" id="IsScore" class="magic-checkbox">
+                            <input type="checkbox" name="" id="IsScore" class="magic-checkbox" checked>
                             <label for="IsScore">记分</label>
-                            <input type="checkbox" name="" id="disalbe" class="magic-checkbox ">
+                            <input type="checkbox" name="" id="disalbe" class="magic-checkbox " checked>
                             <label for="disalbe" class="ml10">启用</label>
                         </div>
 
@@ -101,15 +101,9 @@
 
             </div>
             <div class="table_header mt10 clearfix" style="min-height: 98px">
-                <div class="table_header_left clearfix">
-                    <ul id="list" class="clearfix" style="min-height:49px;">
-                       
-                    </ul>
-                    <ul id="list2" class="clearfix" style="min-height:49px;">
-                       
-                    </ul>
-                </div>
+                <ul class="table_header_left clearfix" id="list">
 
+                </ul>
                 <div class="table_header_right fr">
                     <input type="button" name="name" value="选择表头" class="btn2" onclick="OpenIFrameWindow('选择表头', './SelTabelHead.aspx', '700px', '340px')" />
                     <input type="button" name="name" value="自定义表头" class="btn2 mt10" onclick="UI_Table_Create.add_checkItem2();" />
@@ -155,6 +149,7 @@
     <li t_id="${id}" class="fl">
         <label>${name}：</label>
         <span>【${description}】</span>
+        <i style="cursor: pointer" class="iconfont" onclick="UI_Table_Create.removeTableHeader('${id}')">&#xe672;</i>
     </li>
 </script>
 <%--自由表头--%>
@@ -162,7 +157,7 @@
     <li t_id="${t_Id}" class="fl">
         <label><input type="text" name="name" t_id="${t_Id}" value="${title}" /></label>
         <input readonly="readonly" v_id="${t_Id}" type="text" name="name" value="" />
-        <i t_id="${t_Id}" style="cursor: pointer" class="iconfont">&#xe672;</i>
+        <i t_id="${t_Id}" style="cursor: pointer" class="iconfont" onclick="UI_Table_Create.removeCustomHeader('${t_Id}')">&#xe672;</i>
     </li>
 </script>
 <script type="text/x-jquery-tmpl" id="item_sheet">
@@ -329,10 +324,11 @@
 
     Type = getQueryString('_Type');
     CreateUID = login_User.UniqueNo;
-
-    //------------------------添加指标【打开窗体】----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+    /**
+     * 添加指标【打开窗体】
+     */
     var index_1 = 0;//主要为了实时统计分，在index为1 的时候显示，否则不显示
-    //var select_Array = [];//已经选择的指标，存入此数组，根据此数组，选中已选择的项
+   
     $(function () {
         $('#top').load('/header.html');
         $('#footer').load('/footer.html');
@@ -343,6 +339,7 @@
             $('.crumbs').html('编辑表格');
             UI_Table_View.PageType = 'AddEvalTable';
             UI_Table_View.Get_Eva_TableDetail_Compleate = function (data) { };
+            
             UI_Table_View.Get_Eva_TableDetail();
         }
         if (Type == 1) {
@@ -362,7 +359,11 @@
                 $('#list li').each(function () {
                     var t_id = $(this).attr('t_id');
                     var lis = UI_Table_Create.head_value.filter(function (item) {
-                        return item.id == t_id
+                        if (item.hasOwnProperty('id')) {
+                            return item.id == t_id
+                        } else if (item.hasOwnProperty('t_Id')) {
+                            return item.t_Id == t_id
+                        }
                     });
                     if (lis.length > 0) {
                         list_ar.push(lis[0]);
@@ -370,21 +371,6 @@
                 })
                 
                 UI_Table_Create.head_value = list_ar;
-            }
-        });
-        var sortable = Sortable.create($('#list2')[0], {
-            onUpdate: function (evt) {
-                var list_ar = [];
-                $('#list2 li').each(function () {
-                    var t_id = $(this).attr('t_id');
-                    var lis = lisss.filter(function (item) {
-                        return item.t_Id == t_id
-                    });
-                    if (lis.length > 0) {
-                        list_ar.push(lis[0]);
-                    }
-                })
-                lisss = list_ar;
             }
         });
     });
@@ -415,10 +401,18 @@
     //-----------选择表头【子窗体使用】------------------------------------------
     function tablehead(headvalue) {
         UI_Table_Create.head_value = headvalue;
-        $("#list").empty();
-        $("#item_check").tmpl(headvalue).appendTo("#list");
+        $('#list').empty();
+        
+        headvalue.forEach(function (item) {
+            if (item.hasOwnProperty('id')) {
+                $("#item_check").tmpl(item).appendTo("#list");
+            } else if (item.hasOwnProperty('t_Id')) {
+                $("#item_check2").tmpl(item).appendTo("#list");
+            }
+        })    
     }
     //-----------获取表头【子窗体使用】------------------------------------------
+    
     function get_tablehead() {
 
         return UI_Table_Create.head_value;
@@ -433,38 +427,52 @@
     function sel_CousrseType() {
         UI_Table_Create.sel_CousrseType();
     }
-    //---------------------------------移除试题-----------------------------------------------------
-    //移除
+    /**
+     * 移除
+     * @param _this
+     * @param id
+     */
     function remove1(_this, id) {
-
         UI_Table_Create.remove1(_this, id);
     }
-    //试题向上排序
+    /**
+     * 试题向上排序
+     * @param _this
+     */
     function up(_this) {
         UI_Table_Create.up(_this);
     }
-    //试题向下排序
+    /**
+     * 试题向下排序
+     * @param _this
+     */
     function down(_this) {
         UI_Table_Create.down(_this);
     }
+    /**
+     * 标题的向下排序
+     * @param _this
+     */
     //标题的向上排序
     function t_up(_this) {
         UI_Table_Create.t_up(_this);
     }
-    //标题的向下排序
     function t_down(_this) {
         UI_Table_Create.t_down(_this);
     }
-    //计算离开文本框的方法
+    /**
+     * 计算离开文本框的方法
+     */
     function text_blur() {
         UI_Table_Create.text_blur();
     }
     function text_change_event(element) {
         UI_Table_Create.text_change_event(element);
     }
-    //选择指标
+    /**
+     * openIndicator
+     */
     function openIndicator() {
-
         if (select_sheet_Id != null && select_sheet_Id != undefined && select_sheet.indicator_array!=null) {
             DataBaseMainModel.select_Array = [];
             if (select_sheet.indicator_array.length > 0) {
@@ -491,5 +499,4 @@
     function onlyNum() {
         UI_Table_Create.onlyNum();
     }
-
 </script>

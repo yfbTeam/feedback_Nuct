@@ -113,7 +113,7 @@
                         <table class="allot_table mt10">
                             <thead>
                                 <tr>
-                                    <th>调查项目</th>                                    
+                                    <th>评价指标（单选题）</th>                                    
                                     <th class="th_score">A</th>                                   
                                     <th class="th_score">B</th>                                    
                                     <th class="th_score">C</th>                                   
@@ -143,7 +143,7 @@
                         <table class="allot_table mt10">
                             <thead>
                                 <tr>
-                                    <th>调查项目</th>                                   
+                                    <th>评价指标（多选题）</th>                                   
                                     <th class="th_score">A</th>                                    
                                     <th class="th_score">B</th>                                   
                                     <th class="th_score">C</th>                                   
@@ -173,7 +173,7 @@
                         <table class="allot_table mt10">
                             <thead>
                                 <tr>
-                                    <th>调查项目</th>
+                                    <th>评价指标（评分题）</th>
                                     <th width="309px">平均分</th>
                                 </tr>
                             </thead>

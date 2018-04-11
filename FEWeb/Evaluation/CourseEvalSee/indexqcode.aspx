@@ -263,11 +263,13 @@
             GetClassInfoSelect(SectionID, TeacherUID);
 
             $("#course,#class").empty();
-            $("#course").append('<option value="">全部</option>')
-            $("#itemCourse").tmpl(CCList).appendTo("#course");
+            $("#course").append('<option value="">全部</option>');
+            var courseData = CCList;
+            courseData = courseData.map(function (item, index) {return {CourseID: item.CourseID, Course_Name:item.Course_Name}});
+            courseData = Enumerable.From(courseData).Distinct("x=>x.CourseID").ToArray();
+            $("#itemCourse").tmpl(courseData).appendTo("#course");
             $("#class").append('<option value="">全部</option>')
             $("#itemClass").tmpl(CCList).appendTo("#class");
-
             Refesh();
         }
 

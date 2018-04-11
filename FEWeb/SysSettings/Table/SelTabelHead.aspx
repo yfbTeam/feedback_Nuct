@@ -19,7 +19,7 @@
 
     <script type="text/x-jquery-tmpl" id="item_check">
         <div class="options fl mr10">
-            <input type="checkbox" description="${description}" name="ck_item" id="${id}" Code="${Code}" class="magic-checkbox">
+            <input type="checkbox" description="${description}" name="ck_item" id="${id}" Code="${Code}" onclick="check('${id}')">
             <label for="${id}">${name}</label>
         </div>
     </script>
@@ -44,36 +44,45 @@
     <script src="../../Scripts/WebCenter/TableDesigin.js"></script>
     <script type="text/javascript">
         var index = parent.layer.getFrameIndex(window.name);//弹框的索引
+        var head_vs = parent.get_tablehead();
+       
         $(function () {
-            UI_Table_Create.PageType = 'SelTabelHead';
-            UI_Table_Create.Get_Eva_Table_Header_Custom_List_Compleate = function () {
-                var head_vs = parent.get_tablehead();
-               
-                for (var i in head_vs) {
-                    $('#' + head_vs[i].id).attr('checked', true);
+            UI_Table_Create.Get_Eva_Table_Header_Custom_List(function (json) {
+                if (json.result.errMsg == "success") {
+                    retData = json.result.retData;
+                    $("#item_check").tmpl(retData).appendTo("#list");
+                    for (var i in head_vs) {
+                        if (head_vs[i].hasOwnProperty('Code')) {
+                            $('#' + head_vs[i].Code).prop('checked', true);
+                        } else {
+                            $('#' + head_vs[i].CustomCode).prop('checked', true);
+                        }
+                        
+                    }
                 }
-            };
-            UI_Table_Create.Get_Eva_Table_Header_Custom_List();
+            })
         });
-        function submit() {
-            var nodes = new Array();
-            //父页面的回调函数，很重要
-            $(".options").each(function () {
-                var check = $(this).children("input").eq(0);
-                var label = $(this).children("label").eq(0);
-                if (check.is(":checked")) {
-                    var obj = new Object();
-                    obj.id = check.attr("id");
-                    obj.description = check.attr("description");
-                    obj.name = label.text();
-                    obj.Code = check.attr("Code");
-                    nodes.push(obj);
-                }
-            });
-            parent.tablehead(nodes);
-            closeWindow();
+        function check(id) {
+            if ($('#' + id).is(':checked')) {
+                head_vs.push({
+                    id: id,
+                    description: $('#' + id).attr("description"),
+                    name: $('#' + id).next().text(),
+                    Code: $('#' + id).attr("Code")
+                })
+            } else {
+                head_vs = head_vs.filter(function (item) {
+                    return item.id !=id
+                })
+            }
         }
-        function closeWindow() {
+        
+        function submit() {
+            
+            parent.tablehead(head_vs);
+            closeWindow()
+        }
+        function closeWindow(){
             parent.layer.close(index);
         }
     </script>

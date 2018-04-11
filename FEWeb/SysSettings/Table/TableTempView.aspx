@@ -100,7 +100,7 @@
                              {{else det.QuesType_Id ==3 }}
                              【问答题】
                              {{else det.QuesType_Id ==4 }}
-                             【选分题】
+                             【评分题】
                              {{/if}} ${det.Name}
                     {{if det.QuesType_Id =="1"  ||det.QuesType_Id =="4" }}
                       <b class="isscore">（<span class="isscore">${Num_Fixed(OptionF_S_Max)}分</span>）</b>
@@ -233,12 +233,13 @@
 
         $('.tablename').text(parent.TableName);
         var head_value = parent.head_value;
-        var headerList = parent.lisss;
-
-        $("#item_check").tmpl(head_value).appendTo("#list");
-        $("#item_check2").tmpl(headerList).appendTo("#list");
-        
-
+        head_value.forEach(function (item) {
+            if (item.hasOwnProperty('id')) {
+                $("#item_check").tmpl(item).appendTo("#list");
+            } else if (item.hasOwnProperty('t_Id')) {
+                $("#item_check2").tmpl(item).appendTo("#list");
+            }
+        })  
         var All_Array = parent.All_Array;
         var objArray = [];
         var sp_total = 0;

@@ -42,7 +42,7 @@
             cursor: pointer;
         }
         .div_header {
-            height: 10px;
+           
             margin-bottom: 20px;
             margin-left: 20px;
         }
@@ -177,7 +177,7 @@
                              {{else $value.QuesType_Id ==3 }}
                              【问答题】
                              {{else $value.QuesType_Id ==4 }}
-                             【选分题】
+                             【评分题】
                              {{/if}} ${$value.Name}
                     {{if $value.QuesType_Id ==1 || $value.QuesType_Id ==4}}
                        <b class="isscore">（<span class="isscore">${OptionF_S_Max}分</span>）</b>
@@ -340,8 +340,8 @@
     <%--自由表头--%>
     <script type="text/x-jquery-tmpl" id="item_check2">
         <div class="fl" style="margin-bottom: 20px; margin-left: 20px">
-            <label class="lblheader" for="" customcode="" name="${Header}">
-                ${Header}：<input class="input_bottom" />
+            <label class="lblheader" for="" customcode="" name="${Value}">
+                ${Value}：<input class="input_bottom" />
             </label>
         </div>
     </script>
@@ -450,8 +450,8 @@
         function input() {
             HeaderList = [];
             $('.lblheader').each(function (index) {
-                var CustomCode = $(this).attr('CustomCode');
-                var Name = $(this).attr('Name');
+                var CustomCode = $(this).attr('customCode');
+                var Name = $(this).attr('name');
                 var ValueID = '';
                 var Value = '';
 

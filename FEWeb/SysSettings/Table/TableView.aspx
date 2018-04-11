@@ -104,7 +104,7 @@
                              {{else $value.QuesType_Id ==3 }}
                              【问答题】
                              {{else $value.QuesType_Id ==4 }}
-                             【选分题】
+                             【评分题】
                              {{/if}} ${$value.Name}
                     {{if $value.QuesType_Id ==1 ||$value.QuesType_Id ==4}}
                        <b class="isscore">（<span class="isscore">${OptionF_S_Max}分</span>）</b>
@@ -224,7 +224,7 @@
 <script type="text/x-jquery-tmpl" id="item_check2">
     <div class="fl" style="margin-bottom: 20px; margin-left: 20px">
         <label for="">
-            ${Header}：____________
+            ${Value}：____________
         </label>
     </div>
 </script>
@@ -235,7 +235,6 @@
     var total = 0;
 
     $(function () {
-        ;
         //$('#header').load('../../header.html');
         $('#footer').load('../../footer.html');
         UI_Table_View.PageType = 'TableView';

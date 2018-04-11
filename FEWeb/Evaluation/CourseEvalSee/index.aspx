@@ -176,9 +176,8 @@
     <script>
         var pageIndex = 0;
         var rid = login_User.Sys_Role_Id;
-
-        var IsAdmin = JudgeBtn_IsExist("IsAdmin"), IsNormal = JudgeBtn_IsExist("IsNormal")//管理员
-
+        Get_PageBtn("/Evaluation/CourseEvalSee/index.aspx");
+        var IsAdmin = JudgeBtn_IsExist("Manage"), IsNormal = JudgeBtn_IsExist("Normal")//普通教师
         $(function () {
             $('#top').load('/header.html');
             $('#footer').load('/footer.html');

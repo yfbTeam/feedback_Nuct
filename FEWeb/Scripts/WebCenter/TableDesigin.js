@@ -2,8 +2,25 @@
 /// <reference path="../public.js" />
 /// <reference path="../Common.js" />
 /// <reference path="../Common.js" />
-
-
+function array_remove_repeat(a) { // 去重
+    var r = [];
+    for (var i = 0; i < a.length; i++) {
+        var flag = true;
+        var temp = a[i];
+        for (var j = 0; j < r.length; j++) {
+            if (temp.hasOwnProperty('t_Id')) {
+                if (temp.Num === r[j].Num) {
+                    flag = false;
+                    break;
+                }
+            }
+        }
+        if (flag) {
+            r.push(temp);
+        }
+    }
+    return r;
+}
 var Type = 0;
 var CreateUID = '';
 
@@ -182,7 +199,6 @@ var UI_Table_Create =
                 $('.isscore').hide();
             }
         })
-        UI_Table_Create.header_init();
         //------------------存储比例系数----------------------------------------------------
         UI_Table_Create.load_score_parameter();
     },
@@ -252,24 +268,32 @@ var UI_Table_Create =
         }
         header.title = '新填节点' + header.Num;
         lisss.push(header);
-        $("#item_check2").tmpl(header).appendTo("#list2");
-        UI_Table_Create.header_init();
+        this.head_value = this.head_value.concat(lisss);
+        this.head_value = array_remove_repeat(this.head_value);
+        $("#item_check2").tmpl(header).appendTo("#list");
     },
-    header_init: function () {
-        $("#list2 li").children('.iconfont').each(function () {
-            $(this).unbind("click");
-            $(this).on('click', function () {
-                var _t_Id = $(this).attr('t_Id');
-                for (var i = 0; i < lisss.length; i++) {
-                    if (_t_Id == lisss[i].t_Id) {
-                        lisss.splice(i, 1);
-                        $(this).parent().remove();
-                        break;
-                    }
-                }
-            });
-
-        });
+    /**
+     * 移除表头
+     * @param id
+     */
+    removeTableHeader: function (id) {
+        this.head_value = this.head_value.filter(function (item){
+            return item.id!=id
+        })
+        $('#list li[t_id=' + id + ']').remove();
+    },
+     /**
+     * 移除自定义表头
+     * @param id
+     */
+    removeCustomHeader: function (id) {
+        this.head_value = this.head_value.filter(function (item) {
+            return item.t_Id!=id
+        })
+        lisss = lisss.filter(function (item) {
+            return item.t_Id != id;
+        })
+        $('#list li[t_id=' + id + ']').remove();
     },
     //-------------------------------------添加节点【试题】
     add_root: function () {
@@ -912,7 +936,7 @@ var UI_Table_Create =
         var lisss_IsNull = false;
         //表头信息填充
         for (var i in lisss) {
-            lisss[i].title = $('#list2').find('input[t_id="' + lisss[i].t_Id + '"]').val();
+            lisss[i].title = $('#list').find('input[t_id="' + lisss[i].t_Id + '"]').val();
             if (lisss[i].title.trim() == '') { lisss_IsNull = true }
         }
         if (lisss_IsNull) {
@@ -939,7 +963,20 @@ var UI_Table_Create =
                 obj.OptionF_S = obj.OptionF_S == '' ? 0 : obj.OptionF_S;
             }
         }
-
+       
+        var _head_value = this.head_value.map(function (item) {
+            if (item.hasOwnProperty('t_Id')) {
+                return {
+                    name: item.title,
+                    id: 0,
+                    description: '',
+                    Code: ''
+                }
+            } else {
+                return item
+            }
+        })
+        debugger;
         $.ajax({
             url: HanderServiceUrl + "/Eva_Manage/Eva_ManageHandler.ashx",
             type: "post",
@@ -948,7 +985,7 @@ var UI_Table_Create =
             data: {
                 "func": func, "table_Id": table_Id, "Name": Name, "IsScore": IsScore, "Remarks": Remarks,
                 "CreateUID": CreateUID, "EditUID": EditUID, "List": JSON.stringify(all_array),
-                "head_value": JSON.stringify(UI_Table_Create.head_value), "lisss": JSON.stringify(lisss), "IsEnable": IsEnable,
+                "head_value": JSON.stringify(_head_value), "IsEnable": IsEnable,
                 "Type": Type
             },//组合input标签
             success: function (json) {
@@ -1079,32 +1116,22 @@ var UI_Table_Create =
         }
     },
     //【SelTabelHead】
-    Get_Eva_Table_Header_Custom_List: function () {
+    Get_Eva_Table_Header_Custom_List: function (successCb) {
         $.ajax({
             url: HanderServiceUrl + "/Eva_Manage/Eva_ManageHandler.ashx",
             type: "post",
-            async: false,
             dataType: "json",
             data: { Func: "Get_Eva_Table_Header_Custom_List" },
             success: function (json) {
-                if (json.result.errMsg == "success") {
-                    retData = json.result.retData;
-                    switch (UI_Table_Create.PageType) {
-                        case 'SelTabelHead':
+                successCb(json);
 
-                            $("#item_check").tmpl(retData).appendTo("#list");
-                            UI_Table_Create.Get_Eva_Table_Header_Custom_List_Compleate(retData);
-                            break;
-                        default:
-                    }
-                }
             },
             error: function () {
                 //接口错误时需要执行的
             }
         });
     },
-    Get_Eva_Table_Header_Custom_List_Compleate: function (retData) { },
+    //Get_Eva_Table_Header_Custom_List_Compleate: function (retData) { },
 };
 
 
@@ -1126,14 +1153,15 @@ var UI_Table_View = {
     },
 
     headerInit: function (retData) {
-        $('#list').empty();
-        headerList = retData.Table_Header_List.filter(function (item) { return item.CustomCode != null && item.CustomCode != '' });
-        var head_value = retData.Table_Header_List.filter(function (item) { return item.CustomCode == null || item.CustomCode == '' });
-
-        $("#item_check").tmpl(headerList).appendTo("#list");
-        $("#item_check2").tmpl(head_value).appendTo("#list");
-
-
+        $("#list").empty();
+        
+        retData.Table_Header_List.forEach(function (item) {
+            if (item.Type == 0) {
+                $("#item_check2").tmpl(item).appendTo("#list");
+            } else {
+                $("#item_check").tmpl(item).appendTo("#list");
+            }
+        })
     },
 
     scoreInit: function (retData) {
@@ -1169,13 +1197,12 @@ var UI_Table_View = {
             dataType: "json",
             data: { Func: "Get_Eva_TableDetail", "table_Id": table_Id, "IsPage_Display": UI_Table_View.IsPage_Display, "RoomID": RoomID, "ReguID": ReguID, "UserID": login_User.UniqueNo },
             success: function (json) {
-
                 var retData = json.result.retData;
-
                 if (retData.Table_Header_List.length == 0) {
                     $('#list').hide();
+                } else {
+                    $('#list').show();
                 }
-
                 $(".tablename").html(retData.Name);
                 UI_Table_View.IsScore = retData.IsScore;
                 switch (UI_Table_View.PageType) {
@@ -1183,7 +1210,6 @@ var UI_Table_View = {
                         UI_Table_View.TableView_Init(retData);
                         UI_Table_View.headerInit(retData);
                         UI_Table_View.scoreInit(retData);
-
                         break;
                     case 'selectTable':
                         UI_Table_View.TableView_Init(retData);
@@ -1205,6 +1231,7 @@ var UI_Table_View = {
 
                         break;
                     case 'onlinetest':
+                       
                         retData.headerList = retData.Table_Header_List.filter(function (item) { return item.CustomCode != null && item.CustomCode != '' });
                         retData.head_value = retData.Table_Header_List.filter(function (item) { return item.CustomCode == null || item.CustomCode == '' });
 
@@ -1266,20 +1293,22 @@ var UI_Table_View = {
                         //添加表头信息
                         for (var i in retData.Table_Header_List) {
                             var item = retData.Table_Header_List[i];
+                            debugger;
                             if (item.Type == 0) {
                                 var header = Object();
-                                header.title = item.Header;
+                                header.title = item.Value;
                                 if (lisss.length == 0) {
                                     header.Num = 1;
                                     header.t_Id = 't_' + header.Num;
-
                                 }
                                 else {
                                     header.Num = lisss[lisss.length - 1].Num + 1;
                                     header.t_Id = 't_' + header.Num;
                                 }
                                 lisss.push(header);
-                                $("#item_check2").tmpl(header).appendTo("#list2");
+                                UI_Table_Create.head_value = UI_Table_Create.head_value.concat(lisss);
+                                UI_Table_Create.head_value = array_remove_repeat(UI_Table_Create.head_value);
+                                $("#item_check2").tmpl(header).appendTo("#list");
                             }
                             else {
                                 //自由表头
@@ -1343,7 +1372,7 @@ function Refresh_View_Display() {
     var lisss_IsNull = false;
     //表头信息填充
     for (var i in lisss) {
-        lisss[i].title = $('#list2').find('input[t_id="' + lisss[i].t_Id + '"]').val();
+        lisss[i].title = $('#list').find('input[t_id="' + lisss[i].t_Id + '"]').val();
         if (lisss[i].title.trim() == '') { lisss_IsNull = true }
     }
 
