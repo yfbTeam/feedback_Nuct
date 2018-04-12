@@ -267,7 +267,10 @@ var UI_Table_Create =
                 return item.t_Id == val
             }
         })
-        
+        if (this.Header_Name != null) {
+            layer.msg('表头名字有重复，请重新输入！');
+            return false;
+        }
     },
     /**
      * 移除表头

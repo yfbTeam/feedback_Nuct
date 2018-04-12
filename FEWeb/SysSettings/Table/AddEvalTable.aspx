@@ -155,7 +155,7 @@
 <%--自由表头--%>
 <script type="text/x-jquery-tmpl" id="item_check2">
     <li t_id="${t_Id}" class="fl">
-        <label><input type="text" name="name" t_id="${t_Id}" value="${title}" onblur="UI_Table_Create.customBlur('${t_Id}')"/></label>
+        <label><input type="text" name="name" t_id="${t_Id}" value="${title}" onchange="UI_Table_Create.customBlur('${t_Id}')"/></label>
         <input readonly="readonly" v_id="${t_Id}" type="text" name="name" value="" />
         <i t_id="${t_Id}" style="cursor: pointer" class="iconfont" onclick="UI_Table_Create.removeCustomHeader('${t_Id}')">&#xe672;</i>
     </li>
