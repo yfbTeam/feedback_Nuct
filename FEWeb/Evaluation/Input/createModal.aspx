@@ -21,13 +21,6 @@
 </head>
 <body>
         <div class="main" id="createInput">
-             <%--<div class="sort_nav" id="threenav">
-            </div>
-
-             <h1 class="title">
-                <a id="level1" >全部评价</a><span>&gt;</span><a  class="crumbs" id="GropName">评价</a>
-            </h1>--%>
-
             <div class="search_toobar clearfix">
                 <div class="fl">
                     <label for="">学年学期:</label>

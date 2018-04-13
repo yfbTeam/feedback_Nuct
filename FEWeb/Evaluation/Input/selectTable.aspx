@@ -104,7 +104,7 @@
         <div class="wrap ">
             <div class="sort_nav" id="threenav"></div>
             <h1 class="title">
-                <a id="level1">全部评价</a><span>&gt;</span><a id="GropName">评价</a><span>&gt;</span><a class="crumbs" id="GropName2"></a>
+                <a id="level1">全部评价</a><span>&gt;</span><a class="crumbs" id="GropName"></a>
             </h1>
             <div class="evalmes2" style="color: #999999; font-size: 14px">
                 <div class="div1">
@@ -398,7 +398,7 @@
 
                     UI_Table_View.IsPage_Display = true;
                     UI_Table_View.Get_Eva_TableDetail();
-                    $('#GropName2').text($('#table').find('option:selected').text());
+                    $('#GropName').text($('#table').find('option:selected').text());
                 }
 
             };
@@ -407,7 +407,7 @@
                 table_Id = $('#table').val();
                 UI_Table_View.IsPage_Display = true;
                 UI_Table_View.Get_Eva_TableDetail();
-                $('#GropName2').text($('#table').find('option:selected').text());
+                $('#GropName').text($('#table').find('option:selected').text());
                 Reflesh();
             });
 
@@ -434,9 +434,7 @@
             $('#level1').on('click', function () {
                 window.location.href = "../EvaluationInput.aspx?IsAllSchool=" + IsAllSchool + "&Id=" + getQueryString('Id') + "&Iid=" + getQueryString('Iid');
             });
-            $('#GropName').on('click', function () {
-                window.location.href = "./createModal.aspx?IsAllSchool=" + IsAllSchool + "&Id=" + getQueryString('Id') + "&Iid=" + getQueryString('Iid');
-            });
+           
             $('#level1').text(level1);
 
         })
