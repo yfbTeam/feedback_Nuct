@@ -20,15 +20,13 @@
    
 </head>
 <body>
-    <div id="top"></div>
-    <div class="center" id="centerwrap">
-        <div class="wrap clearfix" id="createInput">
-             <div class="sort_nav" id="threenav">
+        <div class="main" id="createInput">
+             <%--<div class="sort_nav" id="threenav">
             </div>
 
              <h1 class="title">
                 <a id="level1" >全部评价</a><span>&gt;</span><a  class="crumbs" id="GropName">评价</a>
-            </h1>
+            </h1>--%>
 
             <div class="search_toobar clearfix">
                 <div class="fl">
@@ -50,8 +48,7 @@
                     </select>
                 </div>
 
-                <div class="fr" id="btCtrl">
-                </div>
+                
             </div>
             <div class="table mt10">
                 <table>
@@ -74,7 +71,6 @@
                 <div id="pageBar" class="page"></div>
             </div>
         </div>
-        <footer id="footer"></footer>
         <script src="../../js/vue.min.js"></script>
         <script src="../../Scripts/Common.js"></script>
         <script src="../../Scripts/layer/layer.js"></script>
@@ -90,15 +86,7 @@
         <script src="../../Scripts/WebCenter/RegularEval.js"></script>
         <script src="../../Scripts/laypage/laypage.js"></script>
 
-        <script type="text/x-jquery-tmpl" id="itembtn_Enable">
-            <button class="btn ml10" onclick="OpenIFrameWindow('发起评教','StartEval.aspx','1000px','650px')">发起评教</button>
-            <%--<button class="btn" onclick="window.history.go(-1);">返回上一步</button>--%>
-        </script>
-
-        <script type="text/x-jquery-tmpl" id="itembtn_No_Enable">
-            <button class="btn ml10" style="background: #A8A8A8">发起评教</button>
-            <%--<button class="btn" onclick="window.history.go(-1);">返回上一步</button>--%>
-        </script>
+        
 
         <script type="text/x-jquery-tmpl" id="itemCount">
             <span style="margin-left: 5px; font-size: 14px;">共${RowCount}条，共${PageCount}页</span>
@@ -140,9 +128,7 @@
            
             IsAllSchool = getQueryString('IsAllSchool');
             $(function () {
-                $('#top').load('/header.html');
-                $('#footer').load('/footer.html');
-
+                
                 ModelType = IsAllSchool == 1 ? 2 : 3;
 
                 Base.bindStudySectionCompleate = function () {
@@ -171,19 +157,6 @@
                     $('#Te').on('change', function () {
                         Reflesh();
                     });
-                };
-
-
-                Base.CheckHasExpertReguCompleate = function (result, data) {
-                    $('#btCtrl').empty();
-                    if (result) {
-                        $("#itembtn_Enable").tmpl(1).appendTo("#btCtrl");
-                        select_sectionid = data[0].Section_Id;
-                        select_reguid = data[0].Id;
-                    }
-                    else {
-                        $("#itembtn_No_Enable").tmpl(1).appendTo("#btCtrl");
-                    }
                 };
                 Base.CheckHasExpertRegu(reguType);            
                 var level1 = '';

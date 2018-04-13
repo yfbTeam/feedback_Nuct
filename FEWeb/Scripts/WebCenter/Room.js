@@ -36,7 +36,7 @@ var S_TJ = 0;
 var S_BR = 0;
 var S_SY = 0;
 var PageType = '';
-
+var UnEvaTeaRoleId = 0;//不被评价教师组
 var select_course_teacher = [];
 
 function GetClassInfoCompleate() { };
@@ -74,7 +74,7 @@ function GetClassInfo(PageIndex) {
 
         "S_DP": S_DP, "S_CN": S_CN, "S_CT": S_CT, "S_CP": S_CP, "S_TD": S_TD, "S_TN": S_TN,
         "S_MD": S_MD, "S_GD": S_GD, "S_CLS": S_CLS, "S_TJ": S_TJ, "S_BR": S_BR, "S_SY": S_SY,
-        "DepartmentName": DepartmentName,
+        "DepartmentName": DepartmentName, "UnEvaTeaRoleId": UnEvaTeaRoleId
     };
     $.ajax({
         type: "Post",

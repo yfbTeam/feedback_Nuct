@@ -27,6 +27,12 @@
             margin-top: 1px;
         }
     </style>
+    <script type="text/x-jquery-tmpl" id="itembtn_Enable">
+        <button class="btn ml10" onclick="OpenIFrameWindow('发起评教','./input/StartEval.aspx','1000px','650px')">发起评教</button>
+    </script>
+    <script type="text/x-jquery-tmpl" id="itembtn_No_Enable">
+        <button class="btn ml10" style="background: #A8A8A8">发起评教</button>
+    </script>
 </head>
 <body>
     <div id="top"></div>
@@ -39,7 +45,7 @@
             <div class="search_toobar clearfix">
                 <div class="fl">
                     <label for="">学年学期:</label>
-                    <select class="select" id="section" style="width: 198px;">
+                    <select class="select" id="section" style="width: 128px;">
                         <%-- <option value="">全部</option>--%>
                     </select>
                 </div>
@@ -60,10 +66,12 @@
                     <input type="text" name="" id="Key" placeholder="请输入课程、教师关键字" value="" class="text fl">
                     <a class="search fl" href="javascript:;" id="select"><i class="iconfont"></i></a>
                 </div>
-
+                
                 <div class="fr pr">
-                    <button class="btn" onclick="window.location.href='./Input/createModal.aspx?IsAllSchool='+IsAllSchool+'&Id='+getQueryString('Id')+'&Iid='+getQueryString('Iid')">评价任务</button>
+                    <button class="btn" onclick="evalTask()">评价任务</button>
                     <b class="dian" style="display: none"></b>
+                </div>
+                <div class="fr mr10" id="btCtrl">
                 </div>
             </div>
             <div class="table">
@@ -199,7 +207,18 @@
                 Get_Eva_RegularData();
             };
             Base.bindStudySection();
-
+            Base.CheckHasExpertReguCompleate = function (result, data) {
+                $('#btCtrl').empty();
+                if (result) {
+                    $("#itembtn_Enable").tmpl(1).appendTo("#btCtrl");
+                    select_sectionid = data[0].Section_Id;
+                    select_reguid = data[0].Id;
+                }
+                else {
+                    $("#itembtn_No_Enable").tmpl(1).appendTo("#btCtrl");
+                }
+            };
+            Base.CheckHasExpertRegu(reguType);           
             $('#section').on('change', function () {
 
                 $("#table").empty();
@@ -222,7 +241,9 @@
 
             Base.BindDepart('188px');
         })
-
+        function evalTask() {
+            OpenIFrameWindow('评价任务', './Input/createModal.aspx?IsAllSchool=' + IsAllSchool+'', '1000px', '600px')
+        }
         function search() {
             pageIndex = 0;
             Reflesh();
@@ -250,6 +271,18 @@
         function table_view(table_Id, QuestionID) {
             OpenIFrameWindow('答题详情', 'EvalDetail.aspx?table_Id=' + table_Id + '&QuestionID=' + QuestionID + '&Id=' + getQueryString('Id') + '&Iid=' + getQueryString('Iid'), '1000px', '600px')
         };
+        function navicate(TableCount, TeacherUID, TeacherName, SectionID, DisPlayName, CourseID, Course_Name, ReguID, ReguName, ExpertUID, ExpertName, Departent_Name) {
+            if (TableCount > 0) {
+                window.location.href = './selectTable.aspx?IsAllSchool=' + IsAllSchool + '&Id=' + getQueryString('Id') + '&Iid=' + getQueryString('Iid') + '&TeacherUID=' + TeacherUID + '&TeacherName=' + TeacherName
+                    + '&SectionID=' + SectionID + '&DisPlayName=' + DisPlayName + '&CourseID=' + CourseID + '&CourseName=' + Course_Name + '&ReguID=' + ReguID + '&ReguName=' + ReguName
+                    + '&AnswerUID=' + ExpertUID + '&AnswerName=' + ExpertName + '&DepartmentName=' + Departent_Name;
+            } else {
+                layer.confirm('该课程没有相关的评价表！<br>请联系管理员进行处理。', {
+                    btn: ['确定'],
+                    title: '操作'
+                }, function (index) { layer.close(index); });
+            }
+        }
     </script>
 </body>
 </html>

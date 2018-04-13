@@ -416,6 +416,7 @@
         var select_reguid = parent.select_reguid;
         var IsAllSchool = parent.IsAllSchool;
         var cur_TableCount = 0;
+        UnEvaTeaRoleId = 8;
         var pageIndex = 0;
         $(function () {
             $(".fixed-table-box").fixedTable();
