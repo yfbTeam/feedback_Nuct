@@ -441,7 +441,8 @@
         var select_sectionid = parent.select_sectionid;
         var select_course_teacher = [];
         var select_reguid = parent.select_reguid;
-        var IsAllSchool = parent.IsAllSchool;       
+        var IsAllSchool = parent.IsAllSchool;
+        UnEvaTeaRoleId = 8;
         var pageIndex = 0;
         $(function () {
             $(".fixed-table-box").fixedTable();

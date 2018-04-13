@@ -154,9 +154,9 @@ namespace FEHandler.SysClass
             SortType S_TJ = (SortType)RequestHelper.int_transfer(request, "S_TJ");
             SortType S_BR = (SortType)RequestHelper.int_transfer(request, "S_BR");
             SortType S_SY = (SortType)RequestHelper.int_transfer(request, "S_SY");
-
+            
             string DepartmentName = RequestHelper.string_transfer(request, "DepartmentName");
-
+            int UnEvaTeaRoleId = RequestHelper.int_transfer(request, "UnEvaTeaRoleId");
             int ClassModeltype = RequestHelper.int_transfer(request, "ClassModelType");
             ClassModelType ClassModelType = (ClassModelType)ClassModeltype;
 
@@ -170,7 +170,7 @@ namespace FEHandler.SysClass
             {
                 jsonModel = GetClassInfo_Helper(PageIndex, PageSize, SectionID, DP, CT, CP, TD, TN, MD, GD,
                     CN, Key, ClassModelType, BirthdayS, BirthdayE, SchoolS, SchoolE,
-                    S_DP, S_CN, S_CT, S_CP, S_TD, S_TN, S_MD, S_GD, S_CLS, S_TJ, S_BR, S_SY, DepartmentName);
+                    S_DP, S_CN, S_CT, S_CP, S_TD, S_TN, S_MD, S_GD, S_CLS, S_TJ, S_BR, S_SY, DepartmentName, UnEvaTeaRoleId);
             }
             catch (Exception ex)
             {
@@ -186,7 +186,7 @@ namespace FEHandler.SysClass
         public static JsonModelNum GetClassInfo_Helper(int PageIndex, int PageSize, int SectionID, string DP, string CT, string CP, string TD,
             string TN, string MD, string GD, string CN, string Key, ClassModelType ClassModelType, int BirthdayS, int BirthdayE, int SchoolS, int SchoolE,
             SortType S_DP, SortType S_CN, SortType S_CT, SortType S_CP, SortType S_TD, SortType S_TN,
-            SortType S_MD, SortType S_GD, SortType S_CLS, SortType S_TJ, SortType S_BR, SortType S_SY, string DepartmentName)
+            SortType S_MD, SortType S_GD, SortType S_CLS, SortType S_TJ, SortType S_BR, SortType S_SY, string DepartmentName,int UnEvaTeaRoleId)
         {
             int intSuccess = (int)errNum.Success;
             JsonModelNum jsm = new JsonModelNum();
@@ -251,6 +251,11 @@ namespace FEHandler.SysClass
                                  //序号
                                  Num = 0,
                              });
+                if (UnEvaTeaRoleId != 0)
+                {
+                    string[] unEvaTeachers = Constant.Sys_RoleOfUser_List.Where(t=>t.Role_Id==UnEvaTeaRoleId).Select(t=>t.UniqueNo).ToArray();
+                    query = query.Where(t => unEvaTeachers.Contains(t.TeacherUID) == false);
+                }
                 query = GetClassInfoNormalHelper(SectionID, DP, CT, CP, TD, TN, MD, GD, CN, Key, DepartmentName, query);
 
                 switch (ClassModelType)
