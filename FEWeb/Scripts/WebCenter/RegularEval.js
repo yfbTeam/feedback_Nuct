@@ -598,6 +598,8 @@ function Get_Eva_RegularDataSelect() {
     var postData = {
         func: "Get_Eva_RegularDataSelect", "SelectUID": SelectUID, "SectionID": SectionID
     };
+    $("#Te").empty();
+    $("#Te").append("<option value=''>全部</option>");
     $.ajax({
         type: "Post",
         url: HanderServiceUrl + "/Eva_Manage/Eva_ManageHandler.ashx",
@@ -605,7 +607,6 @@ function Get_Eva_RegularDataSelect() {
         dataType: "json",
         success: function (returnVal) {
             if (returnVal.result.errMsg == "success") {
-
                 var obj = returnVal.result.retData;
                 obj.RgList.forEach(function (item) {
                     var str = str = "<option value='" + item.ReguId + "'>" + item.ReguName + "</option>";
