@@ -181,10 +181,8 @@
         $(function () {
             $('#top').load('/header.html');
             $('#footer').load('/footer.html');
-
             $(".search_toobar").empty();
-                
-            if (rid == 1)
+            if (IsAdmin || rid == 1)
             {
                 $("#item_mange_select").tmpl(1).appendTo(".search_toobar");
             }
