@@ -188,14 +188,10 @@
             }
             else
             {
-                $("#item_normal_select").tmpl(1).appendTo(".search_toobar");             
-            }
-            if (IsAdmin || rid == 1) {
-            }
-            else {
+                $("#item_normal_select").tmpl(1).appendTo(".search_toobar");
                 TeacherUID = login_User.UniqueNo;
                 Te = login_User.UniqueNo;
-            }
+            }            
             Base.bindStudySectionCompleate = function () {
                 SectionID = $('#section').val();
                 Type = 2;
