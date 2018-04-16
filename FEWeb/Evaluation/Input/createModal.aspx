@@ -97,7 +97,7 @@
                 <td style="width: 6%">${AnswerCount}</td>
                 {{if StateType == 2}}
           <td style="width: 5%" class="operate_wrap">
-              <div class="operate" onclick="navicate(${TableCount},'${TeacherUID}','${TeacherName}','${SectionID}','${DisPlayName}','${CourseID}','${Course_Name}','${ReguId}','${ReguName}','${ExpertUID}','${ExpertName}','${Departent_Name}');">
+              <div class="operate" onclick="parent.navicate(${TableCount},'${TeacherUID}','${TeacherName}','${SectionID}','${DisPlayName}','${CourseID}','${Course_Name}','${ReguId}','${ReguName}','${ExpertUID}','${ExpertName}','${Departent_Name}');">
                   <i class="iconfont color_purple">&#xe617;</i>
                   <span class="operate_none bg_purple">评价</span>
               </div>
@@ -183,20 +183,7 @@
             }
 
 
-            function navicate(TableCount,TeacherUID, TeacherName, SectionID, DisPlayName, CourseID, Course_Name, ReguID, ReguName, ExpertUID, ExpertName, Departent_Name)
-            {
-                if (TableCount > 0) {
-                    parent.CloseIFrameWindow()
-                    window.location.href = './selectTable.aspx?IsAllSchool=' + IsAllSchool + '&Id=' + getQueryString('Id') + '&Iid=' + getQueryString('Iid') + '&TeacherUID=' + TeacherUID + '&TeacherName=' + TeacherName
-                                     + '&SectionID=' + SectionID + '&DisPlayName=' + DisPlayName + '&CourseID=' + CourseID + '&CourseName=' + Course_Name + '&ReguID=' + ReguID + '&ReguName=' + ReguName
-                                     + '&AnswerUID=' + ExpertUID + '&AnswerName=' + ExpertName + '&DepartmentName=' + Departent_Name;
-                } else {
-                    layer.confirm('该课程没有相关的评价表！<br>请联系管理员进行处理。', {
-                        btn: ['确定'],
-                        title: '操作'
-                    }, function (index) { layer.close(index); });
-                }               
-            }
+            
 
         </script>
 </body>
