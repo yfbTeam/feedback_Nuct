@@ -70,9 +70,7 @@
         }
 
 
-        #table_view {
-            margin-top: 30px;
-        }
+       
 
         .div_header select {
             min-width: 120px;
@@ -180,124 +178,145 @@
     <script src="../../Scripts/WebCenter/Room.js"></script>
     <script src="../../Scripts/WebCenter/User.js"></script>
     <script src="../../Scripts/WebCenter/Evaluate.js"></script>
-    <script type="text/x-jquery-tmpl" id="item_table_view">
+     <script type="text/x-jquery-tmpl" id="item_table_view">
         {{if Root.trim() !=''}}
-            <div class="h1_div">
-                <h1 class="test_title" style="display: inline-block">
-                    <b class="order_num"></b><b>${Root}</b>
-                </h1>
-            </div>
-        {{else}}
+        <div class="h1_div">
+            <h1 class="test_title" style="display: inline-block">
+                <b class="order_num"></b><b>${Root}</b>
+            </h1>
+        </div>
+        {{/if}}    
+
         <div class="test_module">
             <input type="hidden" value="${indicator_type_tid}" name="name_title" />
             <div class="test_lists">
                 <ul>
                     {{each Eva_TableDetail_List}}
-                        <li class="ti">
-                            <input type="hidden" value="${$value.Eva_table_Id}" name="name_title" />
-                            <input type="hidden" value="${$value.Id}" name="name_id" />
-                            <input type="hidden" value="${QuesType_Id}" name="name_QuesType_Id" />
-                            <h2 class="title">${Sort}、 {{if $value.QuesType_Id ==1 }}【单选题】{{else $value.QuesType_Id ==2 }}【多选题】{{else $value.QuesType_Id ==3 }}【问答题】{{else $value.QuesType_Id ==4 }}【评分题】{{/if}} ${$value.Name}
-                            {{if $value.QuesType_Id ==1 || $value.QuesType_Id ==4}}
-                                <b class="isscore">（<span class="isscore">${OptionF_S_Max}分</span>）</b>
-                            {{/if}}
-                            </h2>
-                            {{if $value.QuesType_Id ==1}}
-                            <div class="test_desc" detailid="${Id}">
-                                {{if $value.OptionA!=""}}
-                                <span>
-                                    <input type="radio" name="inp_${$value.Id}" flv="OptionA" id="inp_${$value.Id}-1" value="${$value.OptionA_S}" />
-                                    <label class="lbl" for="inp_${$value.Id}-1">
-                                        A${$value.OptionA}
-                                    <b class="isscore">(<span class="numbers">${$value.OptionA_S}</span>分)</b></label>
-                                </span>
-                                {{/if}}
-                                {{if $value.OptionB!=""}}
-                                <span>
-                                    <input type="radio" name="inp_${$value.Id}" flv="OptionB" id="inp_${$value.Id}-2" value="${$value.OptionB_S}" />
-                                    <label class="lbl" for="inp_${$value.Id}-2">
-                                        B${$value.OptionB}
-                                    <b class="isscore">(<span class="numbers">${$value.OptionB_S}</span>分)</b></label>
-                                </span>
-                                {{/if}}
-                                {{if $value.OptionC!=""}}
-                                <span>
-                                    <input type="radio" name="inp_${$value.Id}" flv="OptionC" id="inp_${$value.Id}-3" value="${$value.OptionC_S}" />
-                                    <label class="lbl" for="inp_${$value.Id}-3">
-                                        C${$value.OptionC}
-                                    <b class="isscore">(<span class="numbers">${$value.OptionC_S}</span>分)</b></label>
-                                </span>
-                                {{/if}}
-                                {{if $value.OptionD!=""}}
-                                <span>
-                                    <input type="radio" name="inp_${$value.Id}" flv="OptionD" id="inp_${$value.Id}-4" value="${$value.OptionD_S}" />
-                                    <label class="lbl" for="inp_${$value.Id}-4">
-                                        D${$value.OptionD}
+                <li class="ti">
+
+                    <input type="hidden" value="${$value.Eva_table_Id}" name="name_title" />
+                    <input type="hidden" value="${$value.Id}" name="name_id" />
+                    <input type="hidden" value="${QuesType_Id}" name="name_QuesType_Id" />
+
+                    <h2 class="title">${Sort}、 {{if $value.QuesType_Id ==1 }}
+                             【单选题】
+                             {{else $value.QuesType_Id ==2 }}
+                             【多选题】
+                             {{else $value.QuesType_Id ==3 }}
+                             【问答题】
+                             {{else $value.QuesType_Id ==4 }}
+                             【评分题】
+                             {{/if}} ${$value.Name}
+                   {{if $value.QuesType_Id ==1 || $value.QuesType_Id ==4}}
+                       <b class="isscore">（<span class="isscore">${OptionF_S_Max}分</span>）</b>
+                        {{/if}}
+                       
+                    </h2>
+                    {{if $value.QuesType_Id ==1}}
+                    <div class="test_desc" detailid="${Id}">
+                        {{if $value.OptionA!=""}}
+                        <span>
+                            <input type="radio" name="inp_${$value.Id}" flv="OptionA" id="inp_${$value.Id}-1" value="${$value.OptionA_S}" />
+                            <label class="lbl" for="inp_${$value.Id}-1">
+                                A${$value.OptionA}
+                            <b class="isscore">(<span class="numbers">${$value.OptionA_S}</span>分)</b></label>
+                        </span>
+                        {{/if}}
+                        {{if $value.OptionB!=""}}
+                        <span>
+                            <input type="radio" name="inp_${$value.Id}" flv="OptionB" id="inp_${$value.Id}-2" value="${$value.OptionB_S}" />
+                            <label class="lbl" for="inp_${$value.Id}-2">
+                                B${$value.OptionB}
+                            <b class="isscore">(<span class="numbers">${$value.OptionB_S}</span>分)</b></label>
+                        </span>
+                        {{/if}}
+                        {{if $value.OptionC!=""}}
+                        <span>
+                            <input type="radio" name="inp_${$value.Id}" flv="OptionC" id="inp_${$value.Id}-3" value="${$value.OptionC_S}" />
+                            <label class="lbl" for="inp_${$value.Id}-3">
+                                C${$value.OptionC}
+                            <b class="isscore">(<span class="numbers">${$value.OptionC_S}</span>分)</b></label>
+                        </span>
+                        {{/if}}
+                        {{if $value.OptionD!=""}}
+                        <span>
+                            <input type="radio" name="inp_${$value.Id}" flv="OptionD" id="inp_${$value.Id}-4" value="${$value.OptionD_S}" />
+                            <label class="lbl" for="inp_${$value.Id}-4">
+                                D${$value.OptionD}
                                 
-                                    <b class="isscore">(<span class="numbers">${$value.OptionD_S}</span>分)</b></label>
-                                </span>
-                                {{/if}}
-                                {{if $value.OptionE!=""}}
-                                <span>
-                                    <input type="radio" name="inp_${$value.Id}" flv="OptionE" id="inp_${$value.Id}-5" value="${$value.OptionE_S}" />
-                                    <label class="lbl" for="inp_${$value.Id}-5">E${$value.OptionE}</label>
-                                    <b class="isscore">(<span class="numbers">${$value.OptionE_S}</span>分)</b>
-                                </span>
-                                {{/if}}
-                                 {{if $value.OptionF!=""}}
-                                <span>
-                                    <input type="radio" name="inp_${$value.Id}" flv="OptionF" id="inp_${$value.Id}-6" value="${$value.OptionF_S}" />
-                                    <label class="lbl" for="inp_${$value.Id}-6">
-                                        F${$value.OptionF}
+                            <b class="isscore">(<span class="numbers">${$value.OptionD_S}</span>分)</b></label>
+                        </span>
+                        {{/if}}
+                        {{if $value.OptionE!=""}}
+                        <span>
+                            <input type="radio" name="inp_${$value.Id}" flv="OptionE" id="inp_${$value.Id}-5" value="${$value.OptionE_S}" />
+                            <label class="lbl" for="inp_${$value.Id}-5">E${$value.OptionE}</label>
+                            <b class="isscore">(<span class="numbers">${$value.OptionE_S}</span>分)</b>
+                        </span>
+                        {{/if}}
+                         {{if $value.OptionF!=""}}
+                        <span>
+                            <input type="radio" name="inp_${$value.Id}" flv="OptionF" id="inp_${$value.Id}-6" value="${$value.OptionF_S}" />
+                            <label class="lbl" for="inp_${$value.Id}-6">
+                                F${$value.OptionF}
                                
-                                    <b class="isscore">(<span class="numbers">${$value.OptionF_S}</span>分)</b></label>
-                                </span>
-                                {{/if}}
-                            </div>
-                        {{else $value.QuesType_Id==2}}
-                            <div class="test_desc test_desc2" detailid="${Id}">
-                                {{if $value.OptionA!=""}}
-                                <span>
-                                    <input type="checkbox" flv="OptionA" id="inp_${$value.Id}-1" value="${$value.OptionA_S}" />
-                                    <label class="lbl" for="inp_${$value.Id}-1">
-                                    A${$value.OptionA}
-                                </span>
-                                {{/if}}
-                                {{if $value.OptionB!=""}}
-                                <span>
-                                    <input type="checkbox" flv="OptionB" id="inp_${$value.Id}-2" value="${$value.OptionB_S}" />
-                                    <label class="lbl" for="inp_${$value.Id}-2">
-                                    B${$value.OptionB}
-                                </span>
-                                {{/if}}
-                                {{if $value.OptionC!=""}}
-                                <span>
-                                    <input type="checkbox" flv="OptionC" id="inp_${$value.Id}-3" value="${$value.OptionC_S}" />
-                                    <label class="lbl" for="inp_${$value.Id}-3">
-                                    C${$value.OptionC}
-                                </span>
-                                {{/if}}
-                                {{if $value.OptionD!=""}}
-                                <span>
-                                    <input type="checkbox" flv="OptionD" id="inp_${$value.Id}-4" value="${$value.OptionD_S}" />
-                                    <label class="lbl" for="inp_${$value.Id}-4">
-                                    D${$value.OptionD}
-                                </span>
-                                {{/if}}
-                                {{if $value.OptionE!=""}}
-                                <span>
-                                    <input type="checkbox" flv="OptionE" id="inp_${$value.Id}-5" value="${$value.OptionE_S}" />
-                                    <label class="lbl" for="inp_${$value.Id}-5">E${$value.OptionE}</label>
-                                </span>
-                                {{/if}}
-                                 {{if $value.OptionF!=""}}
-                                <span>
-                                    <input type="checkbox" flv="OptionF" id="inp_${$value.Id}-6" value="${$value.OptionF_S}" />
-                                    <label class="lbl" for="inp_${$value.Id}-6">
-                                    F${$value.OptionF}
-                                </span>
-                                {{/if}}
-                            </div>
+                            <b class="isscore">(<span class="numbers">${$value.OptionF_S}</span>分)</b></label>
+                        </span>
+                        {{/if}}
+                    </div>
+                    {{else $value.QuesType_Id==2}}
+                    <div class="test_desc test_desc2" detailid="${Id}">
+                        {{if $value.OptionA!=""}}
+                        <span>
+                            <input type="checkbox" flv="OptionA" id="inp_${$value.Id}-1" value="${$value.OptionA_S}" />
+                            <label class="lbl" for="inp_${$value.Id}-1">
+                            A${$value.OptionA}
+                          
+                        </span>
+                        {{/if}}
+                        {{if $value.OptionB!=""}}
+                        <span>
+                            <input type="checkbox" flv="OptionB" id="inp_${$value.Id}-2" value="${$value.OptionB_S}" />
+                            <label class="lbl" for="inp_${$value.Id}-2">
+                            B${$value.OptionB}
+                          
+                        </span>
+                        {{/if}}
+                        {{if $value.OptionC!=""}}
+                        <span>
+                            <input type="checkbox" flv="OptionC" id="inp_${$value.Id}-3" value="${$value.OptionC_S}" />
+                            <label class="lbl" for="inp_${$value.Id}-3">
+                            C${$value.OptionC}
+                         
+                        </span>
+                        {{/if}}
+                        {{if $value.OptionD!=""}}
+                        <span>
+                            <input type="checkbox" flv="OptionD" id="inp_${$value.Id}-4" value="${$value.OptionD_S}" />
+                            <label class="lbl" for="inp_${$value.Id}-4">
+                            D${$value.OptionD}
+                                
+                          
+                        </span>
+                        {{/if}}
+                        {{if $value.OptionE!=""}}
+                        <span>
+                            <input type="checkbox" flv="OptionE" id="inp_${$value.Id}-5" value="${$value.OptionE_S}" />
+                            <label class="lbl" for="inp_${$value.Id}-5">E${$value.OptionE}</label>
+
+                        </span>
+                        {{/if}}
+                         {{if $value.OptionF!=""}}
+                        <span>
+                            <input type="checkbox" flv="OptionF" id="inp_${$value.Id}-6" value="${$value.OptionF_S}" />
+                            <label class="lbl" for="inp_${$value.Id}-6">
+                            F${$value.OptionF}
+                               
+                          
+                        </span>
+                        {{/if}}
+                    </div>
+
                     {{else $value.QuesType_Id==3}}
                     <div class="test_desc" detailid="${Id}">
                         <textarea></textarea>
@@ -311,6 +330,8 @@
                     {{/each}}
                 </ul>
             </div>
+        </div>
+
     </script>
     <%--学年学期7  --%><%--教师3  --%>
 
@@ -480,7 +501,6 @@
             })
             
 
-            $('.table_header_left').css('height', (HeaderList.length / 5) * 25 + 'px');
 
             GetClassInfoSelectCompleate = function () {
                 var ClassID = $('#Cls').val();
