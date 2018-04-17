@@ -47,7 +47,7 @@
                          
                 </select>
             </div>
-            <div class="input-wrap clearfix" v-if="role==1" v-cloak>
+            <div class="input-wrap clearfix" <%--v-if="role==1" v-cloak--%>>
                 <label>评价范围：</label>
                 <span class="ml10">
                     <input type="radio" name="rank" id="all" class="magic-radio"  v-model="picked" value="0"  @change="DepartToggle">

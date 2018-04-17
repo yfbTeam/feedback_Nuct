@@ -48,5 +48,7 @@ namespace FEModel.Entity
         public int Num { get; set; }
 
         public string DepartmentID { get; set; }
+        public string ClassName { get; set; }
+        public string ClassID { get; set; }
     }
 }

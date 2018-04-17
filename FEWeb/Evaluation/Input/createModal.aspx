@@ -54,6 +54,7 @@
                             <th>评价课程</th>
                             <th>被评价教师</th>
                             <th>部门</th>
+                            <th>班级</th>
                             <th>已评价次数</th>
                             <th>操作</th>
                         </tr>
@@ -89,12 +90,13 @@
             <tr>
                 <td style="width: 5%">${Num}</td>
                 <td style="width: 10%">${DisPlayName}</td>
-                <td style="width: 10%" title="${ReguName}">${cutstr(ReguName,10)}</td>
+                <td title="${ReguName}">${cutstr(ReguName,10)}</td>
                 <td style="width: 10%">${ DateTimeConvert(EndTime, 'yy-MM-dd', true)}</td>
-                <td title="${Course_Name}" style="width: 20%">${cutstr(Course_Name,30)}</td>
-                <td style="width: 7%">${TeacherName}</td>
-                <td title="${Departent_Name}" style="width: 20%">${cutstr(Departent_Name,30)}</td>
-                <td style="width: 6%">${AnswerCount}</td>
+                <td title="${Course_Name}">${cutstr(Course_Name,30)}</td>
+                <td>${TeacherName}</td>
+                <td title="${Departent_Name}">${cutstr(Departent_Name,30)}</td>
+                <td title="${ClassName}">${cutstr(ClassName,15)}</td>
+                <td>${AnswerCount}</td>
                 {{if StateType == 2}}
           <td style="width: 5%" class="operate_wrap">
               <div class="operate" onclick="parent.navicate(${TableCount},'${TeacherUID}','${TeacherName}','${SectionID}','${DisPlayName}','${CourseID}','${Course_Name}','${ReguId}','${ReguName}','${ExpertUID}','${ExpertName}','${Departent_Name}');">

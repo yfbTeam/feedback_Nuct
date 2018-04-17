@@ -926,6 +926,7 @@ namespace FEHandler.Eva_Manage
                                                join teacher in Constant.Teacher_List on exp.TeacherUID equals teacher.UniqueNo
                                                join regu in Constant.Eva_Regular_List on exp.ReguId equals Convert.ToString(regu.Id)
                                                join section in Constant.StudySection_List on regu.Section_Id equals section.Id
+                                               join room in Constant.CourseRoom_List on exp.RoomID equals room.Id.ToString()
                                                orderby exp.CreateTime descending
                                                select new RegularDataModel()
                                                {
@@ -947,7 +948,9 @@ namespace FEHandler.Eva_Manage
                                                    LookType = regu.LookType,
                                                    ReguId = regu.Id,
                                                    DisPlayName = section.DisPlayName,
-                                                   SectionID = section.Id
+                                                   SectionID = section.Id,
+                                                   ClassName = room.ClassName,
+                                                   ClassID = room.ClassID,
                                                }).ToList();
 
 

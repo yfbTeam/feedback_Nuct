@@ -96,8 +96,9 @@
                                     <th>序号</th>
                                     <th>评价名称</th>
                                     <th>授课教师</th>
-                                    <th>学院</th>
+                                    <th>部门</th>
                                     <th>课程名称</th>
+                                    <th>班级</th>
                                     <th>评价人</th>
                                     <th>状态</th>
                                     <th>操作</th>
@@ -139,8 +140,9 @@
             <td>${Num}</td>
             <td title="${ReguName}">${cutstr(ReguName,10)}</td>
             <td>${TeacherName}</td>
-            <td title="${Departent_Name}" style="width: 25%">${cutstr(Departent_Name,30)}</td>
-            <td title="${Course_Name}" style="width: 25%">${cutstr(Course_Name,30)}</td>
+            <td title="${Departent_Name}">${cutstr(Departent_Name,30)}</td>
+            <td title="${Course_Name}">${cutstr(Course_Name,30)}</td>
+            <td title="${ClassName}">${cutstr(ClassName,15)}</td>
             <td>${ExpertName}</td>
             <td>${State}</td>
             {{if StateType == 2 || StateType ==3}}
