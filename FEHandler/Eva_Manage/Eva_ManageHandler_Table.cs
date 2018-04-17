@@ -620,7 +620,7 @@ namespace FEHandler.Eva_Manage
                     if (jsonModel.errNum == intSuccess)
                     {
                         Eva_Table_delete.IsDelete = (int)IsDelete.Delete;
-
+                        Constant.Eva_Table_List.Remove(Eva_Table_delete);
                         List<Eva_Table_Header> Eva_Table_Header_List = Constant.Eva_Table_Header_List.Where(t => t.Table_Id == Id).ToList();
                         foreach (Eva_Table_Header item in Eva_Table_Header_List)
                         {
