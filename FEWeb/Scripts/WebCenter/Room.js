@@ -151,7 +151,7 @@ function GetClassInfoSelect(SectionID, TeacherUID, CourseID) {
 
     var postData = {
         func: "GetClassInfoSelect",
-        "SectionID": SectionID, "TeacherUID": TeacherUID, "CourseID": CourseID, "DepartmentName": DepartmentName
+        "SectionID": SectionID, "TeacherUID": TeacherUID, "CourseID": CourseID, "DepartmentName": DepartmentName, "UnEvaTeaRoleId": UnEvaTeaRoleId
     };
     $.ajax({
         type: "Post",

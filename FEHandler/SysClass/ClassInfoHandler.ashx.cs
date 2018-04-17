@@ -444,11 +444,11 @@ namespace FEHandler.SysClass
             int SectionID = RequestHelper.int_transfer(request, "SectionID");
             string TeacherUID = RequestHelper.string_transfer(request, "TeacherUID");
             string CourseID = RequestHelper.string_transfer(request, "CourseID");
-
             string DepartmentName = RequestHelper.string_transfer(request, "DepartmentName");
+            int UnEvaTeaRoleId = RequestHelper.int_transfer(request, "UnEvaTeaRoleId");
             try
             {
-                jsonModel = GetClassInfoSelect_Helper(SectionID, TeacherUID, CourseID, DepartmentName);
+                jsonModel = GetClassInfoSelect_Helper(SectionID, TeacherUID, CourseID, DepartmentName, UnEvaTeaRoleId);
             }
             catch (Exception ex)
             {
@@ -461,7 +461,7 @@ namespace FEHandler.SysClass
             }
         }
 
-        public static JsonModelNum GetClassInfoSelect_Helper(int SectionID, string TeacherUID, string CourseID, string DepartmentName)
+        public static JsonModelNum GetClassInfoSelect_Helper(int SectionID, string TeacherUID, string CourseID, string DepartmentName,int UnEvaTeaRoleId)
         {
             int intSuccess = (int)errNum.Success;
             JsonModelNum jsm = new JsonModelNum();
@@ -529,7 +529,11 @@ namespace FEHandler.SysClass
                 {
                     query = (from q in query where q.DepartmentName == DepartmentName select q).ToList();
                 }
-
+                if (UnEvaTeaRoleId != 0)
+                {
+                    string[] unEvaTeachers = Constant.Sys_RoleOfUser_List.Where(t => t.Role_Id == UnEvaTeaRoleId).Select(t => t.UniqueNo).ToArray();
+                    query = query.Where(t => unEvaTeachers.Contains(t.TeacherUID) == false).ToList();
+                }
                 var data = new
                 {
                     DPList = (from qe in query where qe.DepartmentName != "" select qe.DepartmentName).Distinct().ToList(),
