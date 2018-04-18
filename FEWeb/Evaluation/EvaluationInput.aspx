@@ -191,7 +191,7 @@
 
             Base.bindStudySectionCompleate = function () {
                 SectionID = $('#section').val();
-                Base.BindTable(SectionID);
+                Base.BindTable(SectionID,'',true);
                 pageIndex = 0;
                 Reflesh();
                 if (IsAllSchool == 1)
@@ -225,7 +225,7 @@
                 $("#table").append('<option >全部</option>');
 
                 SectionID = $('#section').val();
-                Base.BindTable(SectionID);
+                Base.BindTable(SectionID, '', true);
                 pageIndex = 0;
                 Reflesh();
             });
