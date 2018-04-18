@@ -57,17 +57,14 @@
             margin-left: 20px;
         }
 
-            .div_header select {
-                margin-top: 0px;
-            }
-
-        .input_bottom {
+        
+       .input_bottom {
+            height:34px;
             width: 100px;
             border: 0;
             border-bottom: 1px solid #000;
             text-align: center;
         }
-
 
         #table_view {
             margin-top: 30px;
@@ -75,6 +72,8 @@
 
         .div_header select {
             min-width: 120px;
+            height:35px;
+            border-radius:3px;
         }
 
         input[Type="radio"] {

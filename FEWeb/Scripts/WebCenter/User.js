@@ -13,7 +13,6 @@ function GetStudentsSelect(ClassID) {
         async: false,
         success: function (returnVal) {
             if (returnVal.result.errMsg == "success") {
-                
                 var obj = returnVal.result.retData;
                 $('#Stu').empty();
                 obj.StuList.forEach(function (item) {

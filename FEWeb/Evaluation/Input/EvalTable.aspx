@@ -58,22 +58,17 @@
             margin-left: 20px;
         }
 
-            .div_header select {
-                margin-top: 0px;
-            }
-
-        .input_bottom {
+.input_bottom {
+            height:34px;
             width: 100px;
             border: 0;
             border-bottom: 1px solid #000;
             text-align: center;
         }
-
-
-       
-
         .div_header select {
             min-width: 120px;
+             height:35px;
+            border-radius:3px;
         }
 
         input[Type="radio"] {
@@ -340,28 +335,27 @@
         <div class="fl div_header">
             <label class="lblheader" customcode="${CustomCode}" code="${Id}" name="${Name}">
                 ${Name}：
-              
-            {{if CustomCode == 4}}
-            <select id="major">
-            </select>
+                {{if CustomCode == 4}}
+                <select id="major">
+                </select>
                 {{else  CustomCode == 5}}
-            <select id="Cls">
-            </select>
+                <select id="Cls">
+                </select>
                 {{else  CustomCode == 6}}
-            <select id="Stu">
-            </select>
+                <select id="Stu">
+                </select>
                 {{else  CustomCode == 7}} 
-           <input readonly="readonly" class="input_bottom" id="section" value="${Value}" />
+                <input readonly="readonly" class="input_bottom" id="section" value="${Value}" />
                 {{else  CustomCode == 3}}  
-           <input readonly="readonly" class="input_bottom" id="teacher" value="${Value}" />
+                <input readonly="readonly" class="input_bottom" id="teacher" value="${Value}" />
                 {{else  CustomCode == 2}}  
-           <input readonly="readonly" class="input_bottom" id="course" value="${Value}" />
+                <input readonly="readonly" class="input_bottom" id="course" value="${Value}" />
                 {{else CustomCode == 1}}
-             <input readonly="readonly" class="input_bottom" id="dp" value="${Value}" />
+                <input readonly="readonly" class="input_bottom" id="dp" value="${Value}" />
                 {{else CustomCode==8}}
-           <input class="input_bottom" id="txt_copies" type="number" fl="份数" regtype="money" value="${Value}" min="1" step="1"/>
+                <input class="input_bottom" id="txt_copies" type="number" fl="份数" regtype="money" value="${Value}" min="1" step="1"/>
                 {{else 1==1}}
-            【${Value}】
+                【${Value}】
                 {{/if}}            
             </label>
         </div>
@@ -399,7 +393,7 @@
         var DepartmentName = getQueryString('DepartmentName');
 
         var QuestionID = getQueryString("QuestionID");
-
+        var IsAllSchool = getQueryString('IsAllSchool');
         $(function () {
             PageType = "EvalTable";
 
@@ -491,7 +485,6 @@
 
         function Reflesh() {
             $('#list').empty();
-
             HeaderList.forEach(function (item) {
                 if (item.CustomCode != '' && item.CustomCode != null) {
                     $("#item_check").tmpl(item).appendTo("#list");
