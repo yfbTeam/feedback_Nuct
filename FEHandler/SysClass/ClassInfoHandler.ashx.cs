@@ -527,7 +527,7 @@ namespace FEHandler.SysClass
 
                 if (DepartmentName != "")
                 {
-                    query = (from q in query where q.DepartmentName == DepartmentName select q).ToList();
+                    query = (from q in query where q.TeacherDepartmentName == DepartmentName select q).ToList();
                 }
                 if (UnEvaTeaRoleId != 0)
                 {
