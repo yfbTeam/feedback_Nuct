@@ -773,12 +773,12 @@ namespace FEHandler.Eva_Manage
                 Eva_Regular task = Constant.Eva_Regular_List.FirstOrDefault(t => t.Id == ReguID);//扫码、课堂调查任务
                 if (task != null)
                 {
-                    if (DateTime.Now.Date < Convert.ToDateTime(task.StartTime).Date)
+                    if (DateTime.Now < Convert.ToDateTime(task.StartTime))
                     {
                         jsonModel = JsonModel.get_jsonmodel(2, "failed", "评价还未开始");
                         return;
                     }
-                    if (DateTime.Now.Date > Convert.ToDateTime(task.EndTime).Date)
+                    if (DateTime.Now > Convert.ToDateTime(task.EndTime))
                     {
                         jsonModel = JsonModel.get_jsonmodel(3, "failed", "该二维码已失效");
                         return;
