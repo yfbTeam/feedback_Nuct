@@ -137,17 +137,6 @@ namespace FEBLL
 	/// </summary>
 	///	
 	/// </summary>
-    public partial class Expert_Teacher_CourseService:BaseService<Expert_Teacher_Course>,IExpert_Teacher_CourseService
-    {
-	 public override void SetCurrentDal()
-        {
-            CurrentDal = DalFactory.GetExpert_Teacher_CourseDal();
-        }
-    }	
-
-	/// </summary>
-	///	
-	/// </summary>
     public partial class Sys_DocumentService:BaseService<Sys_Document>,ISys_DocumentService
     {
 	 public override void SetCurrentDal()
@@ -324,6 +313,17 @@ namespace FEBLL
 	/// </summary>
 	///	
 	/// </summary>
+    public partial class sysdiagramsService:BaseService<sysdiagrams>,IsysdiagramsService
+    {
+	 public override void SetCurrentDal()
+        {
+            CurrentDal = DalFactory.GetsysdiagramsDal();
+        }
+    }	
+
+	/// </summary>
+	///	
+	/// </summary>
     public partial class Class_StudentInfoService:BaseService<Class_StudentInfo>,IClass_StudentInfoService
     {
 	 public override void SetCurrentDal()
@@ -472,6 +472,17 @@ namespace FEBLL
 	 public override void SetCurrentDal()
         {
             CurrentDal = DalFactory.GetLinkManInfoDal();
+        }
+    }	
+
+	/// </summary>
+	///	
+	/// </summary>
+    public partial class Expert_Teacher_CourseService:BaseService<Expert_Teacher_Course>,IExpert_Teacher_CourseService
+    {
+	 public override void SetCurrentDal()
+        {
+            CurrentDal = DalFactory.GetExpert_Teacher_CourseDal();
         }
     }	
 

@@ -935,102 +935,6 @@ namespace FEModel
 	///	
 	/// </summary>
 	[Serializable]
-    public partial class Expert_Teacher_Course
-    {
-
-		/// <summary>
-		/// 
-		/// </summary>
-		public int? Id { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public int? SecionID { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public string ReguId { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public string ExpertUID { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public string ExpertName { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public string TeacherUID { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public string TeacherName { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public string CourseId { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public string Course_Name { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public int? Type { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public string RoomID { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public string CreateUID { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public DateTime? CreateTime { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public string EditUID { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public DateTime? EditTime { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public Byte? IsEnable { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public Byte? IsDelete { get; set; }
-
-          public override bool Equals(object obj)
-        {
-            bool result = false;
-            if (obj.GetType() == typeof(Expert_Teacher_Course))
-            {
-                Expert_Teacher_Course _obj = obj as Expert_Teacher_Course;
-                if (_obj.Id == this.Id)
-                {
-                    result = true;
-                }
-            }
-            return result;
-        }
-
-	    public override int GetHashCode()
-        {
-            return base.GetHashCode();
-        }
-    }
-
-	/// </summary>
-	///	
-	/// </summary>
-	[Serializable]
     public partial class Sys_Document
     {
 
@@ -1039,7 +943,7 @@ namespace FEModel
 		/// </summary>
 		public int? Id { get; set; }
 		/// <summary>
-		///0 业绩获奖文件；1版本相关文件；2教材扫描文件；3业绩分数分配附件；4奖金分配附件（TPM_AuditReward 的Id）; 5分配历史记录；6业绩获奖证书 
+		///0 业绩获奖文件；1版本相关文件；2教材扫描文件；3业绩分数分配附件；4奖金分配附件（TPM_AuditReward 的Id）; 5分配历史记录；6业绩获奖证书；7奖金批次附件 
 		/// </summary>
 		public int? Type { get; set; }
 		/// <summary>
@@ -1183,7 +1087,7 @@ namespace FEModel
 		/// </summary>
 		public Byte? Type { get; set; }
 		/// <summary>
-		///分数-0；奖金- 奖金表（TPM_RewardBatch）id 
+		///分数-0；奖金- 奖金表（TPM_RewardBatchDetail）id 
 		/// </summary>
 		public int? RelationId { get; set; }
 		/// <summary>
@@ -2182,6 +2086,54 @@ namespace FEModel
             {
                 Course _obj = obj as Course;
                 if (_obj.Id == this.Id)
+                {
+                    result = true;
+                }
+            }
+            return result;
+        }
+
+	    public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
+    }
+
+	/// </summary>
+	///	
+	/// </summary>
+	[Serializable]
+    public partial class sysdiagrams
+    {
+
+		/// <summary>
+		/// 
+		/// </summary>
+		public string name { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public int? principal_id { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public int? diagram_id { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public int? version { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public byte[] definition { get; set; }
+
+          public override bool Equals(object obj)
+        {
+            bool result = false;
+            if (obj.GetType() == typeof(sysdiagrams))
+            {
+                sysdiagrams _obj = obj as sysdiagrams;
+                if (_obj.principal_id == this.principal_id)
                 {
                     result = true;
                 }
@@ -3432,6 +3384,110 @@ namespace FEModel
     }
 
 	/// </summary>
+	///	
+	/// </summary>
+	[Serializable]
+    public partial class Expert_Teacher_Course
+    {
+
+		/// <summary>
+		/// 
+		/// </summary>
+		public int? Id { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public int? SecionID { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public string ReguId { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public string ExpertUID { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public string ExpertName { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public string TeacherUID { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public string TeacherName { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public string CourseId { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public string Course_Name { get; set; }
+		/// <summary>
+		///评价任务来源 1院管理员；2校管理员 
+		/// </summary>
+		public int? SourceType { get; set; }
+		/// <summary>
+		///是否自发起 1不是；2自发起 
+		/// </summary>
+		public int? IsSelfStart { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public int? Type { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public string RoomID { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public string CreateUID { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public DateTime? CreateTime { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public string EditUID { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public DateTime? EditTime { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public Byte? IsEnable { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public Byte? IsDelete { get; set; }
+
+          public override bool Equals(object obj)
+        {
+            bool result = false;
+            if (obj.GetType() == typeof(Expert_Teacher_Course))
+            {
+                Expert_Teacher_Course _obj = obj as Expert_Teacher_Course;
+                if (_obj.Id == this.Id)
+                {
+                    result = true;
+                }
+            }
+            return result;
+        }
+
+	    public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
+    }
+
+	/// </summary>
 	///	菜单按钮类型实体类
 	/// </summary>
 	[Serializable]
@@ -3879,7 +3935,7 @@ namespace FEModel
 		/// </summary>
 		public int? Eva_Role { get; set; }
 		/// <summary>
-		///审核状态（1:未提交 2:待审核 3:已入库） 
+		///审核状态（1:未提交 2:待审核 3:已入库 4:未入库） 
 		/// </summary>
 		public int? State { get; set; }
 		/// <summary>

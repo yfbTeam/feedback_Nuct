@@ -101,14 +101,6 @@ namespace FEIBLL
 	/// </summary>
 	///	
 	/// </summary>
-    public interface IExpert_Teacher_CourseService:IBaseService<Expert_Teacher_Course>
-    {
-
-    }	
-
-	/// </summary>
-	///	
-	/// </summary>
     public interface ISys_DocumentService:IBaseService<Sys_Document>
     {
 
@@ -237,6 +229,14 @@ namespace FEIBLL
 	/// </summary>
 	///	
 	/// </summary>
+    public interface IsysdiagramsService:IBaseService<sysdiagrams>
+    {
+
+    }	
+
+	/// </summary>
+	///	
+	/// </summary>
     public interface IClass_StudentInfoService:IBaseService<Class_StudentInfo>
     {
 
@@ -342,6 +342,14 @@ namespace FEIBLL
 	///	
 	/// </summary>
     public interface ILinkManInfoService:IBaseService<LinkManInfo>
+    {
+
+    }	
+
+	/// </summary>
+	///	
+	/// </summary>
+    public interface IExpert_Teacher_CourseService:IBaseService<Expert_Teacher_Course>
     {
 
     }	

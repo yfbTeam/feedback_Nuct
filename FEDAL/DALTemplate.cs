@@ -210,24 +210,6 @@ namespace FEDAL
 	     /// </summary>
 	     ///	
 	     /// </summary>
-		 public partial class Expert_Teacher_CourseDal:BaseDal<Expert_Teacher_Course>,IExpert_Teacher_CourseDal
-         {
-
-
-         }	
-
-        public partial class DalFactory
-        {
-            public static IExpert_Teacher_CourseDal GetExpert_Teacher_CourseDal()
-            {
-                return new Expert_Teacher_CourseDal();
-            }
-	    }
-
-
-	     /// </summary>
-	     ///	
-	     /// </summary>
 		 public partial class Sys_DocumentDal:BaseDal<Sys_Document>,ISys_DocumentDal
          {
 
@@ -516,6 +498,24 @@ namespace FEDAL
 	     /// </summary>
 	     ///	
 	     /// </summary>
+		 public partial class sysdiagramsDal:BaseDal<sysdiagrams>,IsysdiagramsDal
+         {
+
+
+         }	
+
+        public partial class DalFactory
+        {
+            public static IsysdiagramsDal GetsysdiagramsDal()
+            {
+                return new sysdiagramsDal();
+            }
+	    }
+
+
+	     /// </summary>
+	     ///	
+	     /// </summary>
 		 public partial class Class_StudentInfoDal:BaseDal<Class_StudentInfo>,IClass_StudentInfoDal
          {
 
@@ -761,6 +761,24 @@ namespace FEDAL
             public static ILinkManInfoDal GetLinkManInfoDal()
             {
                 return new LinkManInfoDal();
+            }
+	    }
+
+
+	     /// </summary>
+	     ///	
+	     /// </summary>
+		 public partial class Expert_Teacher_CourseDal:BaseDal<Expert_Teacher_Course>,IExpert_Teacher_CourseDal
+         {
+
+
+         }	
+
+        public partial class DalFactory
+        {
+            public static IExpert_Teacher_CourseDal GetExpert_Teacher_CourseDal()
+            {
+                return new Expert_Teacher_CourseDal();
             }
 	    }
 

@@ -103,14 +103,6 @@ namespace FEIDAL
 	/// </summary>
 	///	
 	/// </summary>
-    public interface IExpert_Teacher_CourseDal: IBaseDal<Expert_Teacher_Course>
-    {
-		
-    }
-
-	/// </summary>
-	///	
-	/// </summary>
     public interface ISys_DocumentDal: IBaseDal<Sys_Document>
     {
 		
@@ -239,6 +231,14 @@ namespace FEIDAL
 	/// </summary>
 	///	
 	/// </summary>
+    public interface IsysdiagramsDal: IBaseDal<sysdiagrams>
+    {
+		
+    }
+
+	/// </summary>
+	///	
+	/// </summary>
     public interface IClass_StudentInfoDal: IBaseDal<Class_StudentInfo>
     {
 		
@@ -344,6 +344,14 @@ namespace FEIDAL
 	///	
 	/// </summary>
     public interface ILinkManInfoDal: IBaseDal<LinkManInfo>
+    {
+		
+    }
+
+	/// </summary>
+	///	
+	/// </summary>
+    public interface IExpert_Teacher_CourseDal: IBaseDal<Expert_Teacher_Course>
     {
 		
     }
