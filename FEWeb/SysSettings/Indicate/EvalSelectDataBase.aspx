@@ -280,7 +280,7 @@
 
         //新增指标 打开窗口页
         function newIndicator() {
-            OpenIFrameWindow('新增指标', '/SysSettings/AddDatabase.aspx?typeid=' + type_child_id + "&page=" + page, '800px', '600px')
+            OpenIFrameWindow('新增指标', '/SysSettings/AddDatabase.aspx?typeid=' + type_child_id + "&page=" + page, '950px', '600px')
         }
 
         //获取左侧指标分类

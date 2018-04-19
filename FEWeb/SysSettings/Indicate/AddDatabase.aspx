@@ -9,12 +9,7 @@
     <link rel="stylesheet" href="../../css/reset.css" />
     <link rel="stylesheet" href="../../css/layout.css" />
     <script src="../../Scripts/jquery-1.11.2.min.js"></script>
-    <style>
-        .option_lists {
-            padding-left: 110px;
-            margin-top: 0;
-        }
-    </style>
+    
 </head>
 <body>
     <input type="hidden" name="Func" value="Add_Indicator" />
@@ -54,7 +49,7 @@
             </div>
         </div>
     </div>
-    <div class="main" style="margin-top: 10px; min-height: 270px;">
+    <div class="main" style="margin-top: 10px;">
     </div>
     <div class="btnwrap">
         <input type="button" value="保存" onclick="submit()" class="btn" />
