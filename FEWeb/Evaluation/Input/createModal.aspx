@@ -122,6 +122,7 @@
             var pageIndex = 0;
            
             IsAllSchool = getQueryString('IsAllSchool');
+            SourceType = IsAllSchool == 1 ? 1 : 2;
             $(function () {
                 
                 ModelType = IsAllSchool == 1 ? 2 : 3;
@@ -136,6 +137,7 @@
                         Get_Eva_RegularDataSelect();
                         Reflesh();
                     });
+                    SectionID = $('#section').val();
                     Get_Eva_RegularDataSelect();
                     Reflesh();
                 };

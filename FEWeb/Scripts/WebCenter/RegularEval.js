@@ -592,11 +592,11 @@ function Get_Eva_RegularData_Stu(PageIndex) {
 
 
 
-
+var SourceType = '';
 function Get_Eva_RegularDataSelectCompleate() { }
 function Get_Eva_RegularDataSelect() {
     var postData = {
-        func: "Get_Eva_RegularDataSelect", "SelectUID": SelectUID, "SectionID": SectionID
+        func: "Get_Eva_RegularDataSelect", "SelectUID": SelectUID, "SectionID": SectionID, SourceType: SourceType
     };
     $("#Te").empty();
     $("#Te").append("<option value=''>全部</option>");
