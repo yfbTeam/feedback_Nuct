@@ -83,7 +83,7 @@
                 <div class="sort_right fr">
                     <div class="search_toobar clearfix">
                         <div class="fl">
-                            <input type="text" name="" id="key" placeholder="请输入教师名称" value="" class="text fl">
+                            <input type="text" name="" id="Key" placeholder="请输入授课教师、评价人关键字" value="" class="text fl" style="width:210px;">
                             <a class="search fl" href="javascript:;" onclick="SelectByWhere()"><i class="iconfont">&#xe600;</i></a>
                         </div>
                         <div class="fr " id="operator">

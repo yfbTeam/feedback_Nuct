@@ -8,7 +8,8 @@ namespace FEModel.Entity
 {
     public class Eva_QuestionModel
     {
-
+        
+        public int? RelationID { get; set; }
         public int? SectionID { get; set; }
 
         public string DisPlayName { get; set; }

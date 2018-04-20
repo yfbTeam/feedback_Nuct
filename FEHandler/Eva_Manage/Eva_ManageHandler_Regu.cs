@@ -890,14 +890,14 @@ namespace FEHandler.Eva_Manage
             string DepartmentID = RequestHelper.string_transfer(Request, "DepartmentID");
             int ModelType = RequestHelper.int_transfer(Request, "ModelType");
             int FuncType = RequestHelper.int_transfer(Request, "FuncType");
-            string SelfCreateUID= RequestHelper.string_transfer(Request, "SelfCreateUID");//创建人UID
+            int IsSelfStart = RequestHelper.int_transfer(Request, "IsSelfStart");//是否自发起
             int PageIndex = RequestHelper.int_transfer(Request, "PageIndex");
             int PageSize = RequestHelper.int_transfer(Request, "PageSize");
 
             FuncType _FuncType = (FuncType)FuncType;
             try
             {
-                jsonModel = Get_Eva_RegularData_Helper(PageIndex, PageSize, SectionID, ReguId, Key, SelectUID, Te, DepartmentID, (ModelType)ModelType, _FuncType, SelfCreateUID);
+                jsonModel = Get_Eva_RegularData_Helper(PageIndex, PageSize, SectionID, ReguId, Key, SelectUID, Te, DepartmentID,ModelType, _FuncType, IsSelfStart);
             }
             catch (Exception ex)
             {
@@ -911,15 +911,20 @@ namespace FEHandler.Eva_Manage
         }
 
         public static JsonModel Get_Eva_RegularData_Helper(int PageIndex, int PageSize, int SectionID, int ReguId,
-            string Key, string SelectUID, string Te, string DepartmentID, ModelType ModelType, FuncType _FuncType,string SelfCreateUID)
+            string Key, string SelectUID, string Te, string DepartmentID,int ModelType, FuncType _FuncType,int IsSelfStart)
         {
             int intSuccess = (int)errNum.Success;
             JsonModelNum jsm = new JsonModelNum();
             try
             {
                 var export_tc = Constant.Expert_Teacher_Course_List;
-                if (!string.IsNullOrEmpty(SelfCreateUID)) {
-                    export_tc = (from etc in export_tc where etc.CreateUID != SelfCreateUID select etc).ToList();
+                if (IsSelfStart>0) {
+                    export_tc = (from etc in export_tc where etc.IsSelfStart == IsSelfStart select etc).ToList();
+                }
+                if (ModelType > 1)
+                {
+                    int SourceType = ModelType == 2 ? 1 : 2;
+                    export_tc = (from etc in export_tc where etc.SourceType == SourceType select etc).ToList();
                 }
                 //获取数据【分校管理员和院系管理员】
                 List<RegularDataModel> list = (from exp in export_tc
@@ -951,29 +956,8 @@ namespace FEHandler.Eva_Manage
                                                    SectionID = section.Id,
                                                    ClassName = room.ClassName,
                                                    ClassID = room.ClassID,
+                                                   RoomID = exp.RoomID
                                                }).ToList();
-
-
-                switch (ModelType)
-                {
-                    case ModelType.common:
-                        break;
-                    case ModelType.department:
-                        list = (from li in list
-                                join r in Constant.Sys_RoleOfUser_List on li.ExpertUID equals r.UniqueNo
-                                where r.Role_Id == (int)RoleType.department_expert
-                                select li).ToList();
-
-                        break;
-                    case ModelType.school:
-                        list = (from li in list
-                                join r in Constant.Sys_RoleOfUser_List on li.ExpertUID equals r.UniqueNo
-                                where r.Role_Id == (int)RoleType.school_expert
-                                select li).ToList();
-                        break;
-                    default:
-                        break;
-                }
 
                 if (SectionID > 0)
                 {
@@ -1000,7 +984,7 @@ namespace FEHandler.Eva_Manage
                 }
                 if (Key != "")
                 {
-                    list = (from li in list where li.TeacherName.Contains(Key) select li).ToList();
+                    list = (from li in list where li.TeacherName.Contains(Key)||li.ExpertName.Contains(Key) select li).ToList();
                 }
                 switch (_FuncType)
                 {

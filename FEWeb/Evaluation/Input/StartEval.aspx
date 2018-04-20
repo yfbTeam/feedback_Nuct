@@ -347,7 +347,7 @@
         <tr>
             <td>
                 <div class="table-cell w-10">
-                    <input tbcount="${TableCount}" courseid="${CourseID}" course_name="${Course_Name}" teacheruid="${TeacherUID}" teacher_name="${Teacher_Name}" class="checkbox" type="checkbox" />
+                    <input tbcount="${TableCount}" Id="${Id}" courseid="${CourseID}" course_name="${Course_Name}" teacheruid="${TeacherUID}" teacher_name="${Teacher_Name}" class="checkbox" type="checkbox" />
                 </div>
             </td>
             <td>
@@ -467,7 +467,7 @@
                         $(".btnwrap").empty();
                         $("#btn_yes").tmpl(1).appendTo(".btnwrap");
                         cur_TableCount = Number($(this).attr('tbcount'));
-                        AddDisOne($(this).attr('CourseID'), $(this).attr('Course_Name'), $(this).attr('TeacherUID'), $(this).attr('Teacher_Name'));
+                        AddDisOne($(this).attr('CourseID'), $(this).attr('Course_Name'), $(this).attr('TeacherUID'), $(this).attr('Teacher_Name'), $(this).attr('Id'));
                     }
                 });
 

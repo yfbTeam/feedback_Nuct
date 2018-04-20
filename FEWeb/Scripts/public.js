@@ -72,7 +72,12 @@ function GetIDs(itemname) {
 
     return ids;
 }
-
+function GetRoleArray(itemname) {
+    var r_array =[];
+    var data = JSON.parse(localStorage.getItem(itemname));
+    data.filter(function (item) { r_array.push(item.Sys_Role_Id)});
+    return r_array;
+}
 //判断访问权限
 function powerAssign() {
     var host = 'http://' + window.location.host;

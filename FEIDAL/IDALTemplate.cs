@@ -397,17 +397,17 @@ namespace FEIDAL
     }
 
 	/// </summary>
-	///	数据处理接口类9
+	///	
 	/// </summary>
-    public interface IEva_QuestionAnswerDal: IBaseDal<Eva_QuestionAnswer>
+    public interface IEva_RegularDal: IBaseDal<Eva_Regular>
     {
 		
     }
 
 	/// </summary>
-	///	
+	///	数据处理接口类9
 	/// </summary>
-    public interface IEva_RegularDal: IBaseDal<Eva_Regular>
+    public interface IEva_QuestionAnswerDal: IBaseDal<Eva_QuestionAnswer>
     {
 		
     }

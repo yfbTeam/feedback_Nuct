@@ -68,7 +68,7 @@ function AddDis(CourseID, CourseName, TeacherUID, TeacherName,Id) {
         Type: expType,
     };
 
-    var list = select_course_teacher.filter(function (i) { return i.TeacherUID == TeacherUID && i.CourseId == CourseID });
+    var list = select_course_teacher.filter(function (i) { return i.TeacherUID == TeacherUID && i.CourseId == CourseID && i.Id == Id });
     if (list.length == 0) {
 
         select_course_teacher.push(obj);
@@ -242,10 +242,11 @@ function teacherreflesh()
     });
     ChosenInit($('#TN'));
 }
-
 var DisModelType = 0;
+var IsSelfStart = 1;//默认不是自发起任务
 function AddExpert_List_Teacher_CourseCompleate() { };
 function AddExpert_List_Teacher_Course() {
+    if (PageType == "StartEval") { IsSelfStart = 2; }
     var postData = {
         func: "AddExpert_List_Teacher_Course",
         "CreateUID": login_User.LoginName,
@@ -254,7 +255,9 @@ function AddExpert_List_Teacher_Course() {
         "Regu_Id": select_reguid,
         "SectionID": select_sectionid,
         "List": JSON.stringify(select_course_teacher),
-        "DisModelType": DisModelType
+        "DisModelType": DisModelType,
+        SourceType: $.inArray(10, GetRoleArray('Userinfos'))==-1?1:2, //判断是否是校管理员
+        IsSelfStart: IsSelfStart
     };
     $.ajax({
         type: "Post",
@@ -275,7 +278,7 @@ function AddExpert_List_Teacher_Course() {
                                 break;
                             case "StartEval":                               
                                 parent.navicate(data.TableCount,data.TeacherUID, data.TeacherName, data.SectionID, data.DisplayName, data.CourseID,
-                                    data.CourseName, data.ReguID, data.ReguName, data.ExpertUID, data.ExpertName, DepartmentName);
+                                    data.CourseName, data.ReguID, data.ReguName, data.ExpertUID, data.ExpertName, DepartmentName, data.RoomID, data.Id);
                                 break;
                             default:
                         }
