@@ -387,7 +387,7 @@ var IsAllSchool = 0;
 var ModelType = '1'; //1 普通所有  2为院管获取  3为校管获取
 var FuncType = 0; //0 普通分页  1获取数量
 var DepartmentID = '';
-var IsSelfStart = '';
+var IsSelfStart = '1';
 function Get_Eva_RegularData(Id, PageIndex) {
     var key = $('#Key').val()
     key = key != undefined ? key.trim() : '';

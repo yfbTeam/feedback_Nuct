@@ -180,13 +180,8 @@
                 pageIndex = 0;
                 Te = $('#Te').val();
                 SectionID = $('#section').val();
-                IsSelfStart = 2;
                 Get_Eva_RegularData($('#Rg').val(), pageIndex);
             }
-
-
-            
-
         </script>
 </body>
 </html>

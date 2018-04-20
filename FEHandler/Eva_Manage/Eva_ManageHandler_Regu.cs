@@ -897,7 +897,7 @@ namespace FEHandler.Eva_Manage
             FuncType _FuncType = (FuncType)FuncType;
             try
             {
-                jsonModel = Get_Eva_RegularData_Helper(PageIndex, PageSize, SectionID, ReguId, Key, SelectUID, Te, DepartmentID, (ModelType)ModelType, _FuncType, IsSelfStart);
+                jsonModel = Get_Eva_RegularData_Helper(PageIndex, PageSize, SectionID, ReguId, Key, SelectUID, Te, DepartmentID,ModelType, _FuncType, IsSelfStart);
             }
             catch (Exception ex)
             {
@@ -911,7 +911,7 @@ namespace FEHandler.Eva_Manage
         }
 
         public static JsonModel Get_Eva_RegularData_Helper(int PageIndex, int PageSize, int SectionID, int ReguId,
-            string Key, string SelectUID, string Te, string DepartmentID, ModelType ModelType, FuncType _FuncType,int IsSelfStart)
+            string Key, string SelectUID, string Te, string DepartmentID,int ModelType, FuncType _FuncType,int IsSelfStart)
         {
             int intSuccess = (int)errNum.Success;
             JsonModelNum jsm = new JsonModelNum();
@@ -919,7 +919,12 @@ namespace FEHandler.Eva_Manage
             {
                 var export_tc = Constant.Expert_Teacher_Course_List;
                 if (IsSelfStart>0) {
-                    export_tc = (from etc in export_tc where etc.IsSelfStart != IsSelfStart select etc).ToList();
+                    export_tc = (from etc in export_tc where etc.IsSelfStart == IsSelfStart select etc).ToList();
+                }
+                if (ModelType > 1)
+                {
+                    int SourceType = ModelType == 2 ? 1 : 2;
+                    export_tc = (from etc in export_tc where etc.SourceType == SourceType select etc).ToList();
                 }
                 //获取数据【分校管理员和院系管理员】
                 List<RegularDataModel> list = (from exp in export_tc
@@ -953,28 +958,6 @@ namespace FEHandler.Eva_Manage
                                                    ClassID = room.ClassID,
                                                    RoomID = exp.RoomID
                                                }).ToList();
-
-
-                switch (ModelType)
-                {
-                    case ModelType.common:
-                        break;
-                    case ModelType.department:
-                        list = (from li in list
-                                join r in Constant.Sys_RoleOfUser_List on li.ExpertUID equals r.UniqueNo
-                                where r.Role_Id == (int)RoleType.department_expert
-                                select li).ToList();
-
-                        break;
-                    case ModelType.school:
-                        list = (from li in list
-                                join r in Constant.Sys_RoleOfUser_List on li.ExpertUID equals r.UniqueNo
-                                where r.Role_Id == (int)RoleType.school_expert
-                                select li).ToList();
-                        break;
-                    default:
-                        break;
-                }
 
                 if (SectionID > 0)
                 {
