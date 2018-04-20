@@ -193,14 +193,15 @@ function ExpertListReflesh() {
 
 }
 
-function departmentInit(roleId, DepartmentName)
+function departmentInit(roleId, departmentName)
 {
    
     switch (roleId) {
-        case 16:         
+        case 16:
+            DepartmentName = departmentName;
             GetClassInfoSelect(select_sectionid);
             $('#TD').empty();
-            var str = "<option value='" + DepartmentName + "'>" + DepartmentName + "</option>";
+            var str = "<option value='" + departmentName + "'>" + departmentName + "</option>";
             $('#TD').append(str)
             ChosenInit($('#TD'));
             teacherreflesh();
