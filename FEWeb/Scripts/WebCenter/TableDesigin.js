@@ -843,7 +843,7 @@ var UI_Table_Create =
         }
         flg = flg * 2;//这样写是为了保证永远没有重复的sp_1 标题的id  为了有正确的题的序号，相同的flg会导致序号排列错误
 
-        OpenIFrameWindow('选择指标库', '../../SysSettings/Indicate/SelectDataBase.aspx?page=0' + '&Type=' + Type, '1170px', '700px');//page 为1表示定期  2表示即时和扫码
+        OpenIFrameWindow('选择指标库', '../../SysSettings/Indicate/SelectDataBase.aspx?page=0' + '&Type=' + Type, '1170px', '700px');//Type 0为公用型，1为私用型（教师自用）  
     },
     onlyNum: function () {
         if (event.keyCode == 190 || event.keyCode == 110) {

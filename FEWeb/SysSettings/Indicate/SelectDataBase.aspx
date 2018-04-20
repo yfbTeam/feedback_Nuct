@@ -175,7 +175,7 @@
         }
         //新增指标 打开窗口页
         function newIndicator() {
-            OpenIFrameWindow('新增指标', 'AddDatabase.aspx?typeid=' + type_child_id + "&page=" + page, '950px', '500px')
+            OpenIFrameWindow('新增指标', 'AddDatabase.aspx?typeid=' + type_child_id + '&Type=' + Type + "&page=" + page, '950px', '500px')
         }
         function search() {
             initdata(indicatorType_Id);
