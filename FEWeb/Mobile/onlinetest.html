@@ -85,6 +85,9 @@
             left: 0;
             line-height:28px;
         }
+        .ti {
+            padding: 95px 10px 110px 10px;
+        }
     </style>
 </head>
 <body>
@@ -135,6 +138,8 @@
                         <select id="Cls"></select>
                         <% }else if(child.CustomCode == 6){ %>
                         <select id="Stu"></select>
+                        <% }else if(child.CustomCode ==8){ %>
+                        <input type="number" name="name" value="" class="input_bottom" id="CopyNum" style="width:60%;"/>
                         <% }else if(child.CustomCode == 7){ %>
                         <label class="input_bottom_lbl" id="section" />
                         <% }else if(child.CustomCode == 3){ %>
@@ -364,7 +369,7 @@
             UI_Table_View.PageType = 'onlinetest';
             UI_Table_View.IsPage_Display = true;
             UI_Table_View.Get_Eva_TableDetail_Compleate = function (retData) {
-               
+                console.log(retData)
                 if (retData.Info.IsInClass)
                 {
                     $("#main").append(ejs.render($('#item_table_view').html(), { retData: retData }));
@@ -399,8 +404,10 @@
             UI_Table_View.Get_Eva_TableDetail();
         }
         function SaveEvlData() {
+            
             HeaderList = [];
             $('.lblheader').each(function (index) {
+               
                 var CustomCode = $(this).attr('customCode');
                 var Name = $(this).attr('name');
                 var ValueID = '';
@@ -412,6 +419,9 @@
                 }
                 else if (CustomCode == "1"||CustomCode == "2" || CustomCode == "3" || CustomCode == "7") {
                     Value = $(this).find('label').text().trim();
+                }
+                else if (CustomCode == '8') {
+                    Value = $(this).find('input').val().trim();
                 }
                 else {
                     ValueID = $(this).find('select').find('option:selected').val();
@@ -431,6 +441,7 @@
                 $('.radios li').off('tap');
                 InitControl_Answer();
             };
+            debugger;
             SubmitQuestion();
         }
 
