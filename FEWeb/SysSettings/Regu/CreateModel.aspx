@@ -121,6 +121,10 @@
                         layer.msg('开始时间不能大于结束时间');
                         return;
                     }
+                    if (!$('#table').val().length) {
+                        layer.msg('请选择评价表');
+                        return;
+                    }
                     if (Number(this.picked) == 1) {
                         var departmests = $('#DepartMent').val() == null ? '' : $('#DepartMent').val();
                         if (departmests == '') {
@@ -148,9 +152,10 @@
                 }
             },
             mounted: function () {
-                this.role = GetLoginUser().Sys_Role_Id;
-              
+                this.role = GetLoginUser().Sys_Role_Id;              
                 Base.bindStudySection();
+                $("#table").empty();
+                $("#table").append('<option value="">请选择</option>');
                 Base.BindTable();
                 Base.BindDepart();
             }
