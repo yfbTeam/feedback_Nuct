@@ -81,9 +81,7 @@
             <td style="width: 6%">${StudentCount}</td>
             <td style="width: 6%">${QuestionCount}</td>
             <td style="width: 4%">${QuestionAve*100}%</td>
-            <td style="width: 5%">${ScoreAve}</td>
-
-
+            <td style="width: 5%">{{if IsScore}}${ScoreAve}{{else}}-{{/if}}</td>
             <td class="operate_wrap">{{if QuestionCount >0}}
                 <div class="operate" onclick="location.href='detailModal.aspx?Id='+getQueryString('Id')+'&Iid='+getQueryString('Iid')+'&TableID='+'${TableID}'+'&SectionID='+'${SectionID}'+'&ReguID='+'${ReguID}'+'&CourseID='+'${CourseID}'+'&TeacherUID='+'${TeacherUID}'+'&RoomID='+'${RoomID}'+'&Type=2'">
                     <i class="iconfont color_purple">&#xe606;</i>

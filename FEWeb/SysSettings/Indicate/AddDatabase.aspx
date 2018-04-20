@@ -40,7 +40,7 @@
                     <option value="1">单选题</option>
                     <option value="2">多选题</option>
                     <option value="3">问答题</option>
-                    <option value="4">填分题</option>
+                    <option value="4">评分题</option>
                 </select>
             </div>
             <div class="fl ml10">
