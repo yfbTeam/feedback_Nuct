@@ -346,6 +346,8 @@ namespace FEHandler.Eva_Manage
                 List<RegularDataRoomModel> list = (from regu in Constant.Eva_Regular_List
                                                    where regu.Type == (int)ReguType.RoomStudent
                                                    join section in Constant.StudySection_List on regu.Section_Id equals section.Id
+                                                   join table in Constant.Eva_Table_List on regu.TableID equals table.Id into tables
+                                                   from tb in tables.DefaultIfEmpty()
                                                    from room in Constant.CourseRoom_List
                                                    where room.StudySection_Id==regu.Section_Id&&((regu.DepartmentIDs.Contains(room.Major_Id)) || regu.DepartmentIDs == "")
                                                    orderby regu.EndTime descending
@@ -372,6 +374,7 @@ namespace FEHandler.Eva_Manage
                                                        StartTime = regu.StartTime,
                                                        EndTime = regu.EndTime,
                                                        IsOverTime = true,
+                                                       IsScore =tb==null?false:(tb.IsScore == 0 ? true : false)
                                                    }).ToList();
 
                 var questionList = (from q in Constant.Eva_QuestionAnswer_List
