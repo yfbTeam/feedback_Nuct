@@ -530,7 +530,7 @@ function Get_Eva_QuestionAnswerDetail(Id) {
                     case 'RegularEva_View':
                         $("#list").append(ejs.render($('#item_check').html(), { retData: data.HeaderList }));
 
-                        $('#list').css('height', (data.HeaderList.length / 2) * 25 + 'px');
+                       
                         if (IsScore == 0) {
                             $("#sp_total").html('分数：' + data.Score + '分')
                         }

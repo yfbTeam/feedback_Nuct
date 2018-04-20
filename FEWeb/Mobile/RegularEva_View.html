@@ -24,62 +24,41 @@
 
     <style>
         .h1_div {
-            margin-top: 10px;
+          
             background: white;
             text-align: center;
             height: 40px;
-            margin: 20px -10px 0px -10px;
+            margin: 10px -10px 0px -10px;
             border-top: 1px solid #cccccc;
             border-bottom: 1px solid #cccccc;
         }
-
-            .h1_div h1 {
-                margin-top: 10px;
-                margin-left: 20px;
-            }
-
+        .h1_div h1 {
+            margin-top: 10px;
+            margin-left: 20px;
+        }
         .test_time {
             font-size: 1.1rem;
         }
-
-        .table_header_left {
-            /*min-height: 49px;*/
-            /*margin-top: 90px;*/
-            /*margin-bottom: 60px;*/
-        }
-
         .input_bottom {
-            /* width: 45px; */
             width: 50%;
             border: 0;
-            /* border-bottom: 1px solid #000; */
-            /* text-align: center; */
             background: transparent;
         }
-
-
         .div_header2 {
             margin-top:5px;
             margin-bottom:5px;
             width: 50%;
-            /*margin-left: 10px;*/
         }
-
-            .div_header2 select {
-                /*width: 210px;*/
-            }
-
         .ti {
-            width: 100%;
-            padding: 66px 10px 101px 10px;
+            padding: 95px 10px 10px 10px;
         }
     </style>
 </head>
 <body>
     <div id="main"></div>
-    <div class="submitwrap">
-        <input type="submit" id="btn_submit" class="button" value="提交" style="display:none;" />
-    </div>
+    <!--<div class="submitwrap">
+        <input type="submit" id="btn_submit" class="button" value="提交"  />
+    </div>-->
 
     <script src="../Scripts/WebCenter/TableDesigin.js"></script>
     <script src="../Scripts/WebCenter/Evaluate.js"></script>
@@ -98,7 +77,7 @@
 
         <div class="ti test_lists">
 
-            <div class="table_header_left" id="list">
+            <div class="table_header_left clearfix" id="list">
             </div>
 
             <% $.each(retData.Table_Detail_Dic_List,function(hederindex,child){ %>
@@ -287,7 +266,7 @@
             UI_Table_View.PageType = 'RegularEva_View';
             UI_Table_View.IsPage_Display = true;
 
-            UI_Table_View.Get_Eva_TableDetail_Compleate = function (retData) {             
+            UI_Table_View.Get_Eva_TableDetail_Compleate = function (retData) {
                 $("#main").append(ejs.render($('#item_table_view').html(), { retData: retData }));
             };
             UI_Table_View.Get_Eva_TableDetail();

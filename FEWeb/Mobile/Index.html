@@ -15,18 +15,6 @@
     <title>首页</title>
     <link rel="stylesheet" href="css/reset.css" />
     <link rel="stylesheet" href="css/style.css" />
-    <script src="js/mui.min.js"></script>
-    <script type="text/javascript" src="js/zepto.min.js"></script>
-    <script src="js/linq.min.js"></script>
-    <script src="js/MobileCommon.js"></script>
-    <script src="js/ejs.min.js"></script>
-
-    <style>
-        .nav {
-            width: 195%;
-        }
-    </style>
-
     <!--已评价表-->
     <script type="text/template" id="item_HasEva">
         <% $.each(retData,function(index,item){ %>
@@ -51,9 +39,7 @@
         <h1 style="vertical-align: middle; text-align: center; margin-top: 18px">课堂评价-已评价</h1>
     </div>
     <div class="content" style="top:100px;">
-
         <div class="lists_wrap">
-            <!--<ul id="ul_WaitEva" class="eval_lists"></ul>-->
             <ul id="ul_HasEva" class="eval_lists"></ul>
         </div>
     </div>
@@ -63,12 +49,17 @@
             <b></b>
             <p>首页</p>
         </a>
-        <a href="My.html" class="fr" style="float: right; ">
+        <a href="My.html" class="fr">
             <i class="iconfont">&#xe692;</i>
             <b></b>
             <p>我的</p>
         </a>
     </footer>
+    <script src="js/mui.min.js"></script>
+    <script type="text/javascript" src="js/zepto.min.js"></script>
+    <script src="js/linq.min.js"></script>
+    <script src="js/MobileCommon.js"></script>
+    <script src="js/ejs.min.js"></script>
     <script>
         mui.init({
             swipeBack: true,//启用右滑关闭功能
@@ -79,31 +70,20 @@
         });
         var UrlDate = new GetUrlDate();
         $(function () {
-            $('.nav a').on('tap', function () {
-                $(this).addClass('active').siblings().removeClass('active');
-                var n = $(this).index();
-                $('.lists_wrap>ul').eq(n).css('display', 'block').siblings().css('display', 'none');
-            });
             Get_Backlog();
         });
         //获取评价
         function Get_Backlog() {
-            $("#ul_WaitEva").empty();
             $("#ul_HasEva").empty();
-
             var StudentUID = login_User.UniqueNo;
             $.ajax({
                 url: HanderServiceUrl + "/Eva_Manage/Eva_ManageHandler.ashx",
                 type: "post",
-                async: false,
                 dataType: "json",
                 data: { Func: "Get_Backlog", StudentUID: StudentUID },
                 success: function (json) {
                     var retDataCache = json.result.retData;
-                    console.log(retDataCache);
                     if (retDataCache.length == 0) {
-                        nomessage('ul_WaitEva');
-                        $("#span_WaitEva_Count").html(0);
                         nomessage('ul_HasEva');
                         return;
                     }

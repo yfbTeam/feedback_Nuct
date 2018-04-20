@@ -16,12 +16,7 @@
     <title>我的</title>
     <link rel="stylesheet" href="css/reset.css" />
     <link rel="stylesheet" href="css/style.css" />
-    <script src="js/mui.min.js"></script>
-    <script type="text/javascript" src="js/zepto.min.js"></script>
-    <script src="js/linq.min.js"></script>
-    <script src="js/MobileCommon.js"></script>
-    <script src="js/ejs.min.js"></script>
-    <script src="js/upload.js"></script>
+    
 </head>
 <body>
     <header class="header">
@@ -30,7 +25,7 @@
         </a>
         <span class="title">修改密码</span>
     </header>
-    <div class="content">
+    <div class="content" style="bottom:0">
         <div class="input_row mt10" style="padding: 5px 14px; border-top: 1px solid #E5E7E6;">
             <label>
                 原始密码
@@ -52,8 +47,13 @@
         <div style="padding:10px 14px">
             <input type="submit" id="btn_submit" class="button" value="确认" />
         </div>
-        
     </div>
+    <script src="js/mui.min.js"></script>
+    <script type="text/javascript" src="js/zepto.min.js"></script>
+    <script src="js/linq.min.js"></script>
+    <script src="js/MobileCommon.js"></script>
+    <script src="js/ejs.min.js"></script>
+    <script src="js/upload.js"></script>
     <script>
         mui.init({
             swipeBack: true,//启用右滑关闭功能
@@ -84,7 +84,6 @@
                 url: HanderServiceUrl + "/SetMenu/SetPassWordHandler.ashx",
                 data: postData,
                 dataType: "json",
-                async: false,
                 success: function (returnVal) {
                     if (returnVal.result.errMsg == "success") {
                         MesTips("密码修改成功");
