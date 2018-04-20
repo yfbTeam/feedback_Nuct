@@ -49,15 +49,14 @@ namespace FEHandler.Eva_Manage
                 bool eva_check_depart = RequestHelper.bool_transfer(Request, "eva_check_depart");
                 bool eva_check_school = RequestHelper.bool_transfer(Request, "eva_check_school");
                 bool eva_check_indepart = RequestHelper.bool_transfer(Request, "eva_check_indepart");
-
-
+                int SourceType = RequestHelper.int_transfer(Request, "SourceType");                
                 int PageIndex = RequestHelper.int_transfer(Request, "PageIndex");
                 int PageSize = RequestHelper.int_transfer(Request, "PageSize");
                 try
                 {
                     ModeType modeType = (ModeType)Mode;
                     jsonModel = Get_Eva_QuestionAnswer_Helper(PageIndex, PageSize, SectionID, ReguID, CourseID, TeacherUID, DepartmentID, Key,
-                        TableID, AnswerUID, (IsAllSchool)IsAllSchool, modeType, Eva_Role, eva_check_depart, eva_check_school, eva_check_indepart, State);
+                        TableID, AnswerUID, (IsAllSchool)IsAllSchool, modeType, Eva_Role, eva_check_depart, eva_check_school, eva_check_indepart, State, SourceType);
                 }
                 catch (Exception ex)
                 {
@@ -77,7 +76,7 @@ namespace FEHandler.Eva_Manage
         /// <param name="context"></param>
         public static JsonModel Get_Eva_QuestionAnswer_Helper(int PageIndex, int PageSize, int SectionID, int ReguID, string CourseID, string TeacherUID, string DepartmentID,
             string Key, int TableID, string AnswerUID, IsAllSchool IsAllSchool, ModeType modeType, int Eva_Role,
-            bool eva_check_depart, bool eva_check_school, bool eva_check_indepart,int State)
+            bool eva_check_depart, bool eva_check_school, bool eva_check_indepart,int State,int SourceType)
         {
             int intSuccess = (int)errNum.Success;
             JsonModelNum jsm = new JsonModelNum();
@@ -96,6 +95,7 @@ namespace FEHandler.Eva_Manage
                             select new Eva_QuestionModel()
                             {
                                 Id = q.Id,
+                                RelationID = q.RelationID,
                                 SectionID = q.SectionID,
                                 DisPlayName = q.DisPlayName,
                                 TeacherUID = q.TeacherUID,
@@ -156,24 +156,26 @@ namespace FEHandler.Eva_Manage
                 if (State >0)
                 {
                     list = (from li in list where li.State == State select li).ToList();
-                }
-
+                }               
                 if (modeType == ModeType.Record || modeType == ModeType.Look)
                 {
-                    switch (IsAllSchool)
+                    if (SourceType > 0)
                     {
-                        case IsAllSchool.School:
-
-
-                            list = (from li in list where li.RoleList.Contains((int)RoleType.school_expert) select li).ToList();
-                            break;
-                        case IsAllSchool.Departemnt:
-                            list = (from li in list where li.RoleList.Contains((int)RoleType.department_expert) select li).ToList();
-
-                            break;
-                        default:
-                            break;
+                        list = (from li in list
+                                join exp in Constant.Expert_Teacher_Course_List on li.RelationID equals exp.Id
+                                where exp.SourceType==SourceType select li).ToList();
                     }
+                    //switch (IsAllSchool)
+                    //{
+                    //    case IsAllSchool.School:
+                    //        list = (from li in list where li.RoleList.Contains((int)RoleType.school_expert) select li).ToList();
+                    //        break;
+                    //    case IsAllSchool.Departemnt:
+                    //        list = (from li in list where li.RoleList.Contains((int)RoleType.department_expert) select li).ToList();
+                    //        break;
+                    //    default:
+                    //        break;
+                    //}
                 }
 
                 switch (modeType)
@@ -307,6 +309,7 @@ namespace FEHandler.Eva_Manage
                 int intSuccess = (int)errNum.Success;
                 HttpRequest Request = context.Request;
 
+                int RelationID = RequestHelper.int_transfer(Request, "RelationID");
                 //学年学期的ID
                 int SectionID = RequestHelper.int_transfer(Request, "SectionID");
                 string DisPlayName = RequestHelper.string_transfer(Request, "DisPlayName");
@@ -358,6 +361,7 @@ namespace FEHandler.Eva_Manage
                     //学生回答任务信息表
                     Eva_QuestionAnswer Eva_QuestionAnswer = new Eva_QuestionAnswer()
                     {
+                        RelationID= RelationID,
                         SectionID = SectionID,
                         DisPlayName = DisPlayName,
                         ReguID = ReguID,

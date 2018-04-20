@@ -99,7 +99,7 @@
                 <td>${AnswerCount}</td>
                 {{if StateType == 2}}
           <td style="width: 5%" class="operate_wrap">
-              <div class="operate" onclick="parent.navicate(${TableCount},'${TeacherUID}','${TeacherName}','${SectionID}','${DisPlayName}','${CourseID}','${Course_Name}','${ReguId}','${ReguName}','${ExpertUID}','${ExpertName}','${Departent_Name}');">
+              <div class="operate" onclick="parent.navicate(${TableCount},'${TeacherUID}','${TeacherName}','${SectionID}','${DisPlayName}','${CourseID}','${Course_Name}','${ReguId}','${ReguName}','${ExpertUID}','${ExpertName}','${Departent_Name}','${RoomID}','${Id}');">
                   <i class="iconfont color_purple">&#xe617;</i>
                   <span class="operate_none bg_purple">评价</span>
               </div>
@@ -180,7 +180,7 @@
                 pageIndex = 0;
                 Te = $('#Te').val();
                 SectionID = $('#section').val();
-                SelfCreateUID = login_User.UniqueNo;
+                IsSelfStart = 2;
                 Get_Eva_RegularData($('#Rg').val(), pageIndex);
             }
 

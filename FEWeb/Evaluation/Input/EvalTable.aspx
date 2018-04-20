@@ -374,7 +374,7 @@
 
         var table_Id = getQueryString('table_Id');
         var TableName = getQueryString('TableName');
-
+        var RelationID = getQueryString('RelationID');
         var SectionID = getQueryString('SectionID');
         var DisplayName = getQueryString('DisplayName');
 
@@ -393,6 +393,7 @@
         var DepartmentName = getQueryString('DepartmentName');
 
         var QuestionID = getQueryString("QuestionID");
+        var RoomID = getQueryString("RoomID");
         var IsAllSchool = getQueryString('IsAllSchool');
         $(function () {
             PageType = "EvalTable";

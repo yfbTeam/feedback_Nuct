@@ -542,17 +542,6 @@ namespace FEBLL
     }	
 
 	/// </summary>
-	///	业务类9
-	/// </summary>
-    public partial class Eva_QuestionAnswerService:BaseService<Eva_QuestionAnswer>,IEva_QuestionAnswerService
-    {
-	 public override void SetCurrentDal()
-        {
-            CurrentDal = DalFactory.GetEva_QuestionAnswerDal();
-        }
-    }	
-
-	/// </summary>
 	///	
 	/// </summary>
     public partial class Eva_RegularService:BaseService<Eva_Regular>,IEva_RegularService
@@ -560,6 +549,17 @@ namespace FEBLL
 	 public override void SetCurrentDal()
         {
             CurrentDal = DalFactory.GetEva_RegularDal();
+        }
+    }	
+
+	/// </summary>
+	///	业务类9
+	/// </summary>
+    public partial class Eva_QuestionAnswerService:BaseService<Eva_QuestionAnswer>,IEva_QuestionAnswerService
+    {
+	 public override void SetCurrentDal()
+        {
+            CurrentDal = DalFactory.GetEva_QuestionAnswerDal();
         }
     }	
 

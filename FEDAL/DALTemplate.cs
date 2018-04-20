@@ -874,24 +874,6 @@ namespace FEDAL
 
 
 	     /// </summary>
-	     ///	数据处理类9
-	     /// </summary>
-		 public partial class Eva_QuestionAnswerDal:BaseDal<Eva_QuestionAnswer>,IEva_QuestionAnswerDal
-         {
-
-
-         }	
-
-        public partial class DalFactory
-        {
-            public static IEva_QuestionAnswerDal GetEva_QuestionAnswerDal()
-            {
-                return new Eva_QuestionAnswerDal();
-            }
-	    }
-
-
-	     /// </summary>
 	     ///	
 	     /// </summary>
 		 public partial class Eva_RegularDal:BaseDal<Eva_Regular>,IEva_RegularDal
@@ -905,6 +887,24 @@ namespace FEDAL
             public static IEva_RegularDal GetEva_RegularDal()
             {
                 return new Eva_RegularDal();
+            }
+	    }
+
+
+	     /// </summary>
+	     ///	数据处理类9
+	     /// </summary>
+		 public partial class Eva_QuestionAnswerDal:BaseDal<Eva_QuestionAnswer>,IEva_QuestionAnswerDal
+         {
+
+
+         }	
+
+        public partial class DalFactory
+        {
+            public static IEva_QuestionAnswerDal GetEva_QuestionAnswerDal()
+            {
+                return new Eva_QuestionAnswerDal();
             }
 	    }
 

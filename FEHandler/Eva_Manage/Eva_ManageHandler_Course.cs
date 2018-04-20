@@ -31,6 +31,8 @@ namespace FEHandler.Eva_Manage
                 int SectionID = RequestHelper.int_transfer(Request, "SectionID");
                 int DisModeltype = RequestHelper.int_transfer(Request, "DisModelType");
                 DisModelType DisModelType = (DisModelType)DisModeltype;
+                int SourceType= RequestHelper.int_transfer(Request, "SourceType");
+                int IsSelfStart= RequestHelper.int_transfer(Request, "IsSelfStart");
                 //表单明细
                 string List = RequestHelper.string_transfer(Request, "List");
                 try
@@ -48,6 +50,8 @@ namespace FEHandler.Eva_Manage
                         item.IsEnable = (int)IsEnable.Enable;
                         item.IsDelete = (int)IsDelete.No_Delete;
                         item.RoomID = Convert.ToString(item.Id);
+                        item.SourceType = SourceType;
+                        item.IsSelfStart = IsSelfStart;
                     }
 
                     switch (DisModelType)
@@ -87,14 +91,14 @@ namespace FEHandler.Eva_Manage
                 List<Expert_Teacher_Course> data_r_Copy = new List<Expert_Teacher_Course>();
                 //指定某个学年学期定期评价某专家的数据
                 List<Expert_Teacher_Course> data_r = (from s in Constant.Expert_Teacher_Course_List
-                                                      where s.ReguId == Regu_Id && s.ExpertUID == ExpertUID && s.SecionID == SectionID
+                                                      where s.ReguId == Regu_Id && s.ExpertUID == ExpertUID && s.SecionID == SectionID&&s.IsSelfStart==1
                                                       select s).ToList();
 
                 Expert_Teacher_Course_List.ForEach(i => Expert_Teacher_Course_List_Copy.Add(i));
                 data_r.ForEach(i => data_r_Copy.Add(i));
 
                 //找到相同的，剩余的就是需要去库里删除的
-                var list_remove = data_r_Copy.Where(child => Expert_Teacher_Course_List_Copy.Count(item => item.TeacherUID == child.TeacherUID && item.CourseId == child.CourseId && Regu_Id == child.ReguId) > 0).ToList();
+                var list_remove = data_r_Copy.Where(child => Expert_Teacher_Course_List_Copy.Count(item => item.TeacherUID == child.TeacherUID && item.CourseId == child.CourseId && Regu_Id == child.ReguId&&child.RoomID==item.RoomID&&child.SourceType==item.SourceType) > 0).ToList();
                 for (int i = list_remove.Count - 1; i > -1; i--)
                 {
                     if (data_r.Contains(list_remove[i]))
@@ -104,7 +108,7 @@ namespace FEHandler.Eva_Manage
                     }
                 }
                 //找出库里面已经有的
-                var list_exits = Expert_Teacher_Course_List_Copy.Where(item => data_r_Copy.Count(child => child.TeacherUID == item.TeacherUID && item.CourseId == child.CourseId && child.ReguId == Regu_Id) > 0).ToList();
+                var list_exits = Expert_Teacher_Course_List_Copy.Where(item => data_r_Copy.Count(child => child.TeacherUID == item.TeacherUID && item.CourseId == child.CourseId && child.ReguId == Regu_Id&&item.RoomID==child.RoomID && item.SourceType == child.SourceType) > 0).ToList();
                 for (int i = list_exits.Count - 1; i > -1; i--)
                 {
                     if (Expert_Teacher_Course_List.Contains(list_exits[i]))
@@ -152,7 +156,7 @@ namespace FEHandler.Eva_Manage
 
                 foreach (var item in Expert_Teacher_Course_List)
                 {
-                    var expc = Constant.Expert_Teacher_Course_List.Count(i => i.SecionID == item.SecionID && i.ReguId == item.ReguId && i.ExpertUID == item.ExpertUID && i.TeacherUID == item.TeacherUID);
+                    var expc = Constant.Expert_Teacher_Course_List.Count(i => i.SecionID == item.SecionID && i.ReguId == item.ReguId && i.ExpertUID == item.ExpertUID && i.TeacherUID == item.TeacherUID&&i.SourceType==item.SourceType&&i.IsSelfStart==2);
                     if (expc == 0)
                     {
                         var jsm = Constant.Expert_Teacher_CourseService.Add(item);
@@ -189,6 +193,8 @@ namespace FEHandler.Eva_Manage
                             ReguName = regu.Name,
                             ExpertUID = exp.ExpertUID,
                             ExpertName = exp.ExpertName,
+                            RoomID=exp.RoomID,
+                            Id = exp.Id,
                             TableCount = (from r in Constant.CourseRel_List
                                            where r.Course_Id == exp.CourseId && r.StudySection_Id == exp.SecionID
                                            join t in Constant.Eva_CourseType_Table_List on new { CourseTypeId = r.CourseType_Id, r.StudySection_Id } equals new { CourseTypeId = t.CourseTypeId, t.StudySection_Id }

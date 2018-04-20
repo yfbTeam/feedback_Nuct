@@ -395,17 +395,17 @@ namespace FEIBLL
     }	
 
 	/// </summary>
-	///	业务类9
+	///	
 	/// </summary>
-    public interface IEva_QuestionAnswerService:IBaseService<Eva_QuestionAnswer>
+    public interface IEva_RegularService:IBaseService<Eva_Regular>
     {
 
     }	
 
 	/// </summary>
-	///	
+	///	业务类9
 	/// </summary>
-    public interface IEva_RegularService:IBaseService<Eva_Regular>
+    public interface IEva_QuestionAnswerService:IBaseService<Eva_QuestionAnswer>
     {
 
     }	

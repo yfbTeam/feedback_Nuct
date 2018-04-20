@@ -890,14 +890,14 @@ namespace FEHandler.Eva_Manage
             string DepartmentID = RequestHelper.string_transfer(Request, "DepartmentID");
             int ModelType = RequestHelper.int_transfer(Request, "ModelType");
             int FuncType = RequestHelper.int_transfer(Request, "FuncType");
-            string SelfCreateUID= RequestHelper.string_transfer(Request, "SelfCreateUID");//创建人UID
+            int IsSelfStart = RequestHelper.int_transfer(Request, "IsSelfStart");//是否自发起
             int PageIndex = RequestHelper.int_transfer(Request, "PageIndex");
             int PageSize = RequestHelper.int_transfer(Request, "PageSize");
 
             FuncType _FuncType = (FuncType)FuncType;
             try
             {
-                jsonModel = Get_Eva_RegularData_Helper(PageIndex, PageSize, SectionID, ReguId, Key, SelectUID, Te, DepartmentID, (ModelType)ModelType, _FuncType, SelfCreateUID);
+                jsonModel = Get_Eva_RegularData_Helper(PageIndex, PageSize, SectionID, ReguId, Key, SelectUID, Te, DepartmentID, (ModelType)ModelType, _FuncType, IsSelfStart);
             }
             catch (Exception ex)
             {
@@ -911,15 +911,15 @@ namespace FEHandler.Eva_Manage
         }
 
         public static JsonModel Get_Eva_RegularData_Helper(int PageIndex, int PageSize, int SectionID, int ReguId,
-            string Key, string SelectUID, string Te, string DepartmentID, ModelType ModelType, FuncType _FuncType,string SelfCreateUID)
+            string Key, string SelectUID, string Te, string DepartmentID, ModelType ModelType, FuncType _FuncType,int IsSelfStart)
         {
             int intSuccess = (int)errNum.Success;
             JsonModelNum jsm = new JsonModelNum();
             try
             {
                 var export_tc = Constant.Expert_Teacher_Course_List;
-                if (!string.IsNullOrEmpty(SelfCreateUID)) {
-                    export_tc = (from etc in export_tc where etc.CreateUID != SelfCreateUID select etc).ToList();
+                if (IsSelfStart>0) {
+                    export_tc = (from etc in export_tc where etc.IsSelfStart != IsSelfStart select etc).ToList();
                 }
                 //获取数据【分校管理员和院系管理员】
                 List<RegularDataModel> list = (from exp in export_tc
@@ -951,6 +951,7 @@ namespace FEHandler.Eva_Manage
                                                    SectionID = section.Id,
                                                    ClassName = room.ClassName,
                                                    ClassID = room.ClassID,
+                                                   RoomID = exp.RoomID
                                                }).ToList();
 
 

@@ -354,6 +354,7 @@
     <script>
 
         var table_Id = 0;
+        var RelationID = getQueryString('RelationID');
         var SectionID = getQueryString('SectionID');
         var DisplayName = getQueryString('DisplayName');
 
@@ -370,7 +371,7 @@
         var AnswerName = getQueryString('AnswerName');
 
         var DepartmentName = getQueryString('DepartmentName');
-
+        var RoomID = getQueryString("RoomID");
         IsAllSchool = getQueryString('IsAllSchool');
 
         $(function () {
