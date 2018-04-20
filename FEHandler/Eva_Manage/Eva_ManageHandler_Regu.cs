@@ -1067,9 +1067,10 @@ namespace FEHandler.Eva_Manage
             HttpRequest Request = context.Request;
             int SectionID = RequestHelper.int_transfer(Request, "SectionID");
             string SelectUID = RequestHelper.string_transfer(Request, "SelectUID");
+            int SourceType= RequestHelper.int_transfer(Request, "SourceType");
             try
             {
-                jsonModel = Get_Eva_RegularDataSelect_Helper(SectionID, SelectUID);
+                jsonModel = Get_Eva_RegularDataSelect_Helper(SectionID, SelectUID, SourceType);
             }
             catch (Exception ex)
             {
@@ -1082,16 +1083,22 @@ namespace FEHandler.Eva_Manage
             }
         }
 
-        public static JsonModel Get_Eva_RegularDataSelect_Helper(int SectionID, string SelectUID)
+        public static JsonModel Get_Eva_RegularDataSelect_Helper(int SectionID, string SelectUID,int SourceType)
         {
             int intSuccess = (int)errNum.Success;
             JsonModelNum jsm = new JsonModelNum();
             try
             {
-                var list = (from exp in Constant.Expert_Teacher_Course_List
+                var export_tc = Constant.Expert_Teacher_Course_List.Where(t=>t.IsSelfStart==1);                
+                if (SourceType>0)
+                {                    
+                    export_tc = (from etc in export_tc where etc.SourceType == SourceType select etc).ToList();
+                }               
+                var list = (from exp in export_tc
                             join teacher in Constant.Teacher_List on exp.TeacherUID equals teacher.UniqueNo
                             join regu in Constant.Eva_Regular_List on exp.ReguId equals Convert.ToString(regu.Id)
                             join section in Constant.StudySection_List on regu.Section_Id equals section.Id
+                            join room in Constant.CourseRoom_List on exp.RoomID equals room.Id.ToString()
                             select new
                            {
                                SectionID = section.Id,
