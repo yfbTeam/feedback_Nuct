@@ -984,7 +984,7 @@ namespace FEHandler.Eva_Manage
                 }
                 if (Key != "")
                 {
-                    list = (from li in list where li.TeacherName.Contains(Key) select li).ToList();
+                    list = (from li in list where li.TeacherName.Contains(Key)||li.ExpertName.Contains(Key) select li).ToList();
                 }
                 switch (_FuncType)
                 {
