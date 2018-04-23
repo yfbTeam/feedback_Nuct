@@ -63,7 +63,6 @@
         });
         var UrlDate = new GetUrlDate();
         $(function () {
-
             $('#BtnRegister').on('tap', function () {
                 Register();
             })
@@ -103,7 +102,6 @@
                             localStorage.setItem('Userinfo_LG', JSON.stringify(data));
                             window.location.href = 'Index.html';
                         }
-
                     }
                 },
                 error: function (errMsg) {
