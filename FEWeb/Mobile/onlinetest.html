@@ -369,10 +369,10 @@
                     TableName = retData.Name;
                     var DepartmentName = info.DepartmentName;                  
                     HeaderList = [];
-                    $('#section').text(cutstr(DisplayName, 8));
-                    $('#teacher').text(cutstr(TeacherName, 8));
-                    $('#course').text(cutstr(CourseName, 8));
-                    $('#dp').text(cutstr(DepartmentName, 8));
+                    $('#section').text(DisplayName);
+                    $('#teacher').text(TeacherName);
+                    $('#course').text(CourseName);
+                    $('#dp').text(DepartmentName);
                     UI_Table_View.scoreInit(retData);
                     Reflesh();
                 }
