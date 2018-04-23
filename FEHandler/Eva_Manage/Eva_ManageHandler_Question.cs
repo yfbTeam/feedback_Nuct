@@ -49,14 +49,15 @@ namespace FEHandler.Eva_Manage
                 bool eva_check_depart = RequestHelper.bool_transfer(Request, "eva_check_depart");
                 bool eva_check_school = RequestHelper.bool_transfer(Request, "eva_check_school");
                 bool eva_check_indepart = RequestHelper.bool_transfer(Request, "eva_check_indepart");
-                int SourceType = RequestHelper.int_transfer(Request, "SourceType");                
+                int SourceType = RequestHelper.int_transfer(Request, "SourceType");
+                int IsSelfStart = RequestHelper.int_transfer(Request, "IsSelfStart");
                 int PageIndex = RequestHelper.int_transfer(Request, "PageIndex");
                 int PageSize = RequestHelper.int_transfer(Request, "PageSize");
                 try
                 {
                     ModeType modeType = (ModeType)Mode;
                     jsonModel = Get_Eva_QuestionAnswer_Helper(PageIndex, PageSize, SectionID, ReguID, CourseID, TeacherUID, DepartmentID, Key,
-                        TableID, AnswerUID, (IsAllSchool)IsAllSchool, modeType, Eva_Role, eva_check_depart, eva_check_school, eva_check_indepart, State, SourceType);
+                        TableID, AnswerUID, (IsAllSchool)IsAllSchool, modeType, Eva_Role, eva_check_depart, eva_check_school, eva_check_indepart, State, SourceType, IsSelfStart);
                 }
                 catch (Exception ex)
                 {
@@ -76,7 +77,7 @@ namespace FEHandler.Eva_Manage
         /// <param name="context"></param>
         public static JsonModel Get_Eva_QuestionAnswer_Helper(int PageIndex, int PageSize, int SectionID, int ReguID, string CourseID, string TeacherUID, string DepartmentID,
             string Key, int TableID, string AnswerUID, IsAllSchool IsAllSchool, ModeType modeType, int Eva_Role,
-            bool eva_check_depart, bool eva_check_school, bool eva_check_indepart,int State,int SourceType)
+            bool eva_check_depart, bool eva_check_school, bool eva_check_indepart,int State,int SourceType,int IsSelfStart)
         {
             int intSuccess = (int)errNum.Success;
             JsonModelNum jsm = new JsonModelNum();
@@ -156,28 +157,26 @@ namespace FEHandler.Eva_Manage
                 if (State >0)
                 {
                     list = (from li in list where li.State == State select li).ToList();
-                }               
-                if (modeType == ModeType.Record || modeType == ModeType.Look)
-                {
-                    if (SourceType > 0)
-                    {
-                        list = (from li in list
-                                join exp in Constant.Expert_Teacher_Course_List on li.RelationID equals exp.Id
-                                where exp.SourceType==SourceType select li).ToList();
-                    }
-                    //switch (IsAllSchool)
-                    //{
-                    //    case IsAllSchool.School:
-                    //        list = (from li in list where li.RoleList.Contains((int)RoleType.school_expert) select li).ToList();
-                    //        break;
-                    //    case IsAllSchool.Departemnt:
-                    //        list = (from li in list where li.RoleList.Contains((int)RoleType.department_expert) select li).ToList();
-                    //        break;
-                    //    default:
-                    //        break;
-                    //}
                 }
-
+                if (modeType == ModeType.Check)
+                {
+                    if (eva_check_depart || (!eva_check_depart && eva_check_indepart)) { SourceType = 1; }
+                    if (eva_check_school) { SourceType = 2; } //校管理员
+                }
+                if (SourceType > 0)
+                {
+                    list = (from li in list
+                            join exp in Constant.Expert_Teacher_Course_List on li.RelationID equals exp.Id
+                            where exp.SourceType == SourceType
+                            select li).ToList();
+                }
+                if (IsSelfStart > 0)
+                {
+                    list = (from li in list
+                            join exp in Constant.Expert_Teacher_Course_List on li.RelationID equals exp.Id
+                            where exp.IsSelfStart == IsSelfStart
+                            select li).ToList();
+                }
                 switch (modeType)
                 {
                     case ModeType.Record:
@@ -192,24 +191,12 @@ namespace FEHandler.Eva_Manage
                         {
                             list = (from li in list where li.CourseName.Contains(Key) || li.TeacherName.Contains(Key) || li.AnswerName.Contains(Key) select li).ToList();
                         }
-                        List<Eva_QuestionModel> modellist = new List<Eva_QuestionModel>();
-                        if (eva_check_depart)
-                        {
-
-                            modellist.AddRange((from li in list where li.RoleList.Contains((int)RoleType.department_expert) select li).ToList());
-                        }
+                        List<Eva_QuestionModel> modellist = list;                        
                         if (!eva_check_depart && eva_check_indepart)
                         {
-                            modellist.AddRange((from li in list where li.RoleList.Contains((int)RoleType.department_expert) select li).ToList());
-
-                        }
-
-                        if (eva_check_school)
-                        {
-                            modellist.AddRange((from li in list where li.RoleList.Contains((int)RoleType.school_expert) select li).ToList());
+                            //modellist.AddRange((from li in list where li. select li).ToList()); //院系范围
                         }
                         list = modellist;
-
                         break;
                     case ModeType.Look:
                         if (Key != "")

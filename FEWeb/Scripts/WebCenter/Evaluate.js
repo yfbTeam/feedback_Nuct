@@ -344,7 +344,7 @@ var TeacherUID = '';
 var IsAllSchool = 0;
 var eva_check_depart = false, eva_check_school = false, eva_check_indepart = false;//专家 所有  专家（校）
 var Eva_Role = 1;  //1 为专家    2、课堂调查   3、课堂扫码评价
-var SourceType = '';//评价任务来源 1院管理员；2校管理员
+var SourceType = '',IsSelfStart='';//评价任务来源 1院管理员；2校管理员
 function Get_Eva_QuestionAnswerCompleate() { };
 function Get_Eva_QuestionAnswer(PageIndex, SectionID, DepartmentID, Key, TableID) {
 
@@ -364,7 +364,7 @@ function Get_Eva_QuestionAnswer(PageIndex, SectionID, DepartmentID, Key, TableID
             "TableID": TableID, "Key": Key, "AnswerUID": AnswerUID, "Mode": Mode, "State": State,
             "PageIndex": PageIndex, "PageSize": pageSize, "IsAllSchool": IsAllSchool, "Eva_Role": Eva_Role,
             "eva_check_depart": eva_check_depart, "eva_check_school": eva_check_school, "eva_check_indepart": eva_check_indepart,
-            SourceType: SourceType
+            SourceType: SourceType, IsSelfStart: IsSelfStart
         },
         dataType: "json",
         success: function (returnVal) {

@@ -170,7 +170,7 @@
             <ul>
                 {{each objectlist}}
                 <li regustate="${ReguState}">
-                    <em title="{{= $value.Value}}" onclick="GetCourseinfoBySortMan('{{= $value.Id}}')">{{= cutstr($value.Value,10)}}</em>
+                    <em title="{{= $value.Value}}" rid="{{= $value.Id}}" onclick="GetCourseinfoBySortMan('{{= $value.Id}}')">{{= cutstr($value.Value,10)}}</em>
 
                     {{if mange == true || rid ==1}}
                      <div class="operates">

@@ -38,7 +38,7 @@ function PrepareInit() {
         $('.menu_list').find('li:has(ul)').find('li').removeClass('selected');
         $(this).parent('li').addClass('selected');
         $(this).addClass('selected');
-
+        select_reguid = $(this).children('em').attr('rid');
         select_sectionid = $(this).parent().parent('li').attr('sectionid');
         $('#operator').empty();
         var ReguState = Number($(this).attr('ReguState'));

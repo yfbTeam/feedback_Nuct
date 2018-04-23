@@ -441,14 +441,16 @@
         var select_sectionid = parent.select_sectionid;
         var select_course_teacher = [];
         var select_reguid = parent.select_reguid;
+        ReguID = select_reguid;
         var IsAllSchool = parent.IsAllSchool;
-        UnEvaTeaRoleId = 8;
+        UnEvaTeaRoleId = 8;        
         var pageIndex = 0;
         $(function () {
             $(".fixed-table-box").fixedTable();
             var ids = GetIDs('Userinfos');
             var rids = ids.split(',');
-
+            SourceType = $.inArray(10, GetRoleArray('Userinfos')) == -1 ? 1 : 2; //判断是否是校管理员
+            IsSelfStart = 1;
             GetUserByTypeCompleate = function(retada)
             {
                 Get_Eva_QuestionAnswerCompleate = function (data) {
@@ -566,9 +568,8 @@
         function fillData_disable(list) {
             $('#tbody').find('.checkbox').each(function () {
                 var TeacherUID = $(this).attr('TeacherUID');
-                var CourseID = $(this).attr('CourseID');
-
-                var data = list.filter(function (item) { return item.TeacherUID == TeacherUID && item.CourseID == CourseID });
+                var CourseID = $(this).attr('CourseID'), RoomID = $(this).attr('Id');
+                var data = list.filter(function (item) { return item.TeacherUID == TeacherUID && item.CourseID == CourseID && item.RoomID == RoomID });
                 if (data.length > 0) {
                     $(this).prop('checked', true);
                     $(this).prop('disabled', 'disabled');
@@ -580,9 +581,8 @@
         function fillData(list) {
             $('#tbody').find('.checkbox').each(function () {
                 var TeacherUID = $(this).attr('TeacherUID');
-                var CourseID = $(this).attr('CourseID');
-
-                var data = list.filter(function (item) { return item.TeacherUID == TeacherUID && item.CourseId == CourseID });
+                var CourseID = $(this).attr('CourseID'), RoomID = $(this).attr('Id');
+                var data = list.filter(function (item) { return item.TeacherUID == TeacherUID && item.CourseId == CourseID && item.RoomID == RoomID });
                 if (data.length > 0) {
                     $(this).prop('checked', true);
                 }

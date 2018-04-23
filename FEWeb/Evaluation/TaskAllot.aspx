@@ -158,7 +158,7 @@
             $('#select').on('click', search);
             Base.bindStudySectionCompleate = function () {
                 var SectionID = $('#section').val();
-                Base.BindTable(SectionID);
+                Base.BindTable(SectionID, '', true);
                 pageIndex = 0;
                 Reflesh();
             };
@@ -169,7 +169,7 @@
                 $("#table").append('<option >全部</option>');
 
                 var SectionID = $('#section').val();
-                Base.BindTable(SectionID);
+                Base.BindTable(SectionID, '', true);
 
                 pageIndex = 0;
                 Reflesh();

@@ -779,9 +779,19 @@ namespace FEHandler.Eva_Manage
             HttpRequest Request = context.Request;
             string ExpertUID = RequestHelper.string_transfer(Request, "ExpertUID");
             string ReguId = RequestHelper.string_transfer(Request, "ReguId");
+            int SourceType = RequestHelper.int_transfer(Request, "SourceType");
+            int IsSelfStart = RequestHelper.int_transfer(Request, "IsSelfStart");
             try
             {
                 List<Expert_Teacher_Course> list = (from li in Constant.Expert_Teacher_Course_List where li.ExpertUID == ExpertUID && li.ReguId == ReguId  select li).ToList();
+                if (SourceType > 0)
+                {
+                    list = list.Where(t=>t.SourceType== SourceType).ToList();
+                }
+                if (IsSelfStart > 0)
+                {
+                    list = list.Where(t => t.IsSelfStart == IsSelfStart).ToList(); 
+                }
                 if (list.Count > 0)
                 {
                     jsonModel = JsonModel.get_jsonmodel(intSuccess, "success", list);

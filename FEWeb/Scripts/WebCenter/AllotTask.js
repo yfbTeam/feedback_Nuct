@@ -109,7 +109,7 @@ var TeacherUID = '';
 function GetTeacherInfo_Course_Cls() {
    
     //if (Teachers == null) {
-    var postData = { func: "GetTeacherInfo_Course_Cls", "ReguId": select_reguid, "ExpertUID": selectExpertUID };
+    var postData = { func: "GetTeacherInfo_Course_Cls", "ReguId": select_reguid, "ExpertUID": selectExpertUID, SourceType: SourceType, IsSelfStart: 1 };
     $.ajax({
         type: "Post",
         url: HanderServiceUrl + "/Eva_Manage/Eva_ManageHandler.ashx",
