@@ -20,11 +20,8 @@
     <script src="js/linq.min.js"></script>
     <script src="js/MobileCommon.js"></script>
     <script src="js/ejs.min.js"></script>
-
-
     <style>
         .h1_div {
-          
             background: white;
             text-align: center;
             height: 40px;
@@ -45,9 +42,12 @@
             background: transparent;
         }
         .div_header2 {
-            margin-top:5px;
-            margin-bottom:5px;
+            margin-top: 5px;
+            margin-bottom: 5px;
             width: 50%;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
         }
         .ti {
             padding: 95px 10px 10px 10px;
@@ -56,15 +56,10 @@
 </head>
 <body>
     <div id="main"></div>
-    <!--<div class="submitwrap">
-        <input type="submit" id="btn_submit" class="button" value="提交"  />
-    </div>-->
-
     <script src="../Scripts/WebCenter/TableDesigin.js"></script>
     <script src="../Scripts/WebCenter/Evaluate.js"></script>
     <script src="../../Scripts/WebCenter/Room.js"></script>
     <script src="../../Scripts/WebCenter/User.js"></script>
-
     <!--答题-->
     <script type="text/template" id="item_table_view">
         <div class="header" style="position:fixed;">
@@ -74,12 +69,9 @@
         <div class="test_time ">
             <b id="sp_total" style="color:white;"></b>
         </div>
-
         <div class="ti test_lists">
-
             <div class="table_header_left clearfix" id="list">
             </div>
-
             <% $.each(retData.Table_Detail_Dic_List,function(hederindex,child){ %>
             <div class="h1_div">
                 <h1 class="test_title" style="display: inline-block">
@@ -87,18 +79,15 @@
                 </h1>
             </div>
             <% $.each(child.Eva_TableDetail_List,function(tindex,titem){ %>
-
             <div class="test_area indicatype">
                 <input type="hidden" value="<%=titem.Eva_table_Id%>" name="name_title" />
                 <input type="hidden" value="<%=titem.Id%>" name="name_id" />
                 <input type="hidden" value="<%=titem.QuesType_Id%>" name="name_QuesType_Id" />
-                
                 <% if(titem.QuesType_Id ==1){ %>
                 <div id="div_ques_<%=titem.Id%>" class="test_detail" DetailID="<%=titem.Id%>">
                     <h1 class="test_type">
                         <b class="order_num"><%=(++tindex)%>.【单选题】</b><b><%=titem.Name%></b>
                         <% if(retData.IsScore==0){ %><b>(<span><%=titem.OptionF_S_Max%></span>分)</b><%}%>
-                        
                     </h1>
                     <ul id="ul_ques_<%=titem.Id%>" class="radios maxques">
                         <% if(titem.OptionA!=""){ %>
@@ -151,12 +140,10 @@
                         <% } %>
                     </ul>
                 </div>
-
                 <% }else if(titem.QuesType_Id ==2){ %>
                 <div id="div_ques_<%=titem.Id%>" class="test_detail" detailid="<%=titem.Id%>">
                     <h1 class="test_type">
-                        <b class="order_num"><%=(++tindex)%>.【多选题】</b><b><%=titem.Name%></b>   
-                                           
+                        <b class="order_num"><%=(++tindex)%>.【多选题】</b><b><%=titem.Name%></b>             
                     </h1>
                     <ul id="ul_ques_<%=titem.Id%>" class="radios maxques">
                         <% if(titem.OptionA!=""){ %>
@@ -209,13 +196,10 @@
                         <% } %>
                     </ul>
                 </div>
-
-
                 <% }else if(titem.QuesType_Id ==3){ %>
                 <div id="div_ques_<%=titem.Id%>" class="test_detail" detailid="<%=titem.Id%>">
                     <h1 class="test_type">
-                        <b class="order_num"><%=(++tindex)%>.【问答题】</b><b><%=titem.Name%></b>
-                               
+                        <b class="order_num"><%=(++tindex)%>.【问答题】</b><b><%=titem.Name%></b>   
                     </h1>
                     <textarea name="" id="" class="textarea" placeholder="请输入内容"></textarea>
                 </div>
@@ -223,30 +207,24 @@
                 <div id="div_ques_<%=titem.Id%>" class="test_detail" detailid="<%=titem.Id%>">
                     <h1 class="test_type">
                         <b class="order_num"><%=(++tindex)%>.【评分题】</b><b><%=titem.Name%></b>
-                               
                     </h1>
                     <input readonly="readonly" name="Name" style="width:100%; height: 35px;border-radius: 2px;border:1px solid #ccc;padding:0px 10px" />
                 </div>
                 <%} %>
             </div>
             <% }) %>
-
             <% }) %>
         </div>
     </script>
-
     <script type="text/template" id="item_check">
-
         <% $.each(retData,function(hindex,child){ %>
         <div class="fl div_header2">
             <label class="lblheader" customcode="<%=child.CustomCode%>" name="<%=child.Name%>">
-                <%=cutstr(child.Name,8)%>：<%=cutstr(child.Value,8)%>
+                <%= child.Name%>：<%= child.Value%>
             </label>
         </div>
         <% }) %>
-
     </script>
-
     <script type="text/javascript">
         mui.init({
             swipeBack: true,//启用右滑关闭功能
@@ -255,17 +233,13 @@
             },
             statusBarBackground: '#6a264b',
         });
-
-
         var table_Id = getQueryString("table_Id");
         var QuestionID = getQueryString("QuestionID");
         //求分类的总分
         var total = 0;
-
         $(function () {
             UI_Table_View.PageType = 'RegularEva_View';
             UI_Table_View.IsPage_Display = true;
-
             UI_Table_View.Get_Eva_TableDetail_Compleate = function (retData) {
                 $("#main").append(ejs.render($('#item_table_view').html(), { retData: retData }));
             };
@@ -274,7 +248,6 @@
             PageType = 'RegularEva_View';
             Get_Eva_QuestionAnswerDetail(QuestionID)
         });
-
     </script>
 </body>
 </html>
