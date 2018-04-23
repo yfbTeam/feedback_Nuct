@@ -83,7 +83,7 @@
                     </span>
                 </div>
 
-                <div class="operate" onclick="OpenIFrameWindow('编辑评价','EditModel.aspx?Id=${Id}','545px','450px')">
+                <div class="operate" onclick="OpenIFrameWindow('编辑评价','EditModel.aspx?Id=${Id}&tableid=${TableID}','545px','450px')">
                     <i class="iconfont color_purple">&#xe602;</i>
                     <span class="operate_none bg_purple">编辑</span>
                 </div>

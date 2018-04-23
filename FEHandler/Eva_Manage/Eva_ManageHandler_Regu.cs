@@ -53,6 +53,7 @@ namespace FEHandler.Eva_Manage
                                     TableName = table.Name,
                                     Id = regu.Id,
                                     LookType = regu.LookType,
+                                    TableID = regu.TableID
                                 }).ToList();
 
                 if (SectionId > 0)

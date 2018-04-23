@@ -319,7 +319,6 @@ function Get_Eva_RegularSingle(Type, IsEdit) {
                 $('#name').val(regu.Name);
                 $('#StartTime').val(DateTimeConvert(regu.StartTime, 'yyyy-MM-dd HH:mm', true));
                 $('#EndTime').val(DateTimeConvert(regu.EndTime, 'yyyy-MM-dd HH:mm', true));
-
                 if (Type == 2) {
                     if (IsEdit) {
                         $('#section').val(regu.SectionID);
@@ -337,6 +336,10 @@ function Get_Eva_RegularSingle(Type, IsEdit) {
                                 });
                                 $('#DepartMent').trigger('chosen:updated');//更新选项  
                             }
+                            setTimeout(function () {
+                                $('#table').val(regu.TableID);
+                                $('#table').trigger("chosen:updated");
+                            }, 10);
                         }
                         else {
                             newEval.$data.appoint = false;

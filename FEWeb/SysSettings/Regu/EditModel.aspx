@@ -155,6 +155,7 @@
             mounted: function () {
                 this.role = GetLoginUser().Sys_Role_Id;               
                 Base.bindStudySection();
+                CurTableId = getQueryString('tableid');
                 $("#table").empty();
                 $("#table").append('<option value="">请选择</option>');
                 Base.BindTable();

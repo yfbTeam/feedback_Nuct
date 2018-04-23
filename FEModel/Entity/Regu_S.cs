@@ -28,7 +28,7 @@ namespace FEModel.Entity
         public string State { get; set; }     
 
         public string TableName { get; set; }
-
+        public int? TableID { get; set; }        
         public int? Id { get; set; }
 
         public byte? LookType { get; set; }
