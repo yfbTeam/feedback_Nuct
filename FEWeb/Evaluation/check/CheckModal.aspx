@@ -197,7 +197,7 @@
                         <span>
                             <input disabled="disabled" type="radio" name="inp_${$value.Id}" flv="OptionA" id="inp_${$value.Id}-1" value="${$value.OptionA_S}" />
                             <label class="lbl" for="inp_${$value.Id}-1">
-                                A${$value.OptionA}
+                                ${$value.OptionA}
                             <b class="isscore">(<span class="numbers">${$value.OptionA_S}</span>分)</b></label>
                         </span>
                         {{/if}}
@@ -205,7 +205,7 @@
                         <span>
                             <input disabled="disabled" type="radio" name="inp_${$value.Id}" flv="OptionB" id="inp_${$value.Id}-2" value="${$value.OptionB_S}" />
                             <label class="lbl" for="inp_${$value.Id}-2">
-                                B${$value.OptionB}
+                                ${$value.OptionB}
                             <b class="isscore">(<span class="numbers">${$value.OptionB_S}</span>分)</b></label>
                         </span>
                         {{/if}}
@@ -213,7 +213,7 @@
                         <span>
                             <input disabled="disabled" type="radio" name="inp_${$value.Id}" flv="OptionC" id="inp_${$value.Id}-3" value="${$value.OptionC_S}" />
                             <label class="lbl" for="inp_${$value.Id}-3">
-                                C${$value.OptionC}
+                                ${$value.OptionC}
                             <b class="isscore">(<span class="numbers">${$value.OptionC_S}</span>分)</b></label>
                         </span>
                         {{/if}}
@@ -221,7 +221,7 @@
                         <span>
                             <input disabled="disabled" type="radio" name="inp_${$value.Id}" flv="OptionD" id="inp_${$value.Id}-4" value="${$value.OptionD_S}" />
                             <label class="lbl" for="inp_${$value.Id}-4">
-                                D${$value.OptionD}
+                                ${$value.OptionD}
                                 
                             <b class="isscore">(<span class="numbers">${$value.OptionD_S}</span>分)</b></label>
                         </span>
@@ -229,7 +229,7 @@
                         {{if $value.OptionE!=""}}
                         <span>
                             <input disabled="disabled" type="radio" name="inp_${$value.Id}" flv="OptionE" id="inp_${$value.Id}-5" value="${$value.OptionE_S}" />
-                            <label class="lbl" for="inp_${$value.Id}-5">E${$value.OptionE}</label>
+                            <label class="lbl" for="inp_${$value.Id}-5">${$value.OptionE}</label>
                             <b class="isscore">(<span class="numbers">${$value.OptionE_S}</span>分)</b>
                         </span>
                         {{/if}}
@@ -237,7 +237,7 @@
                         <span>
                             <input disabled="disabled" type="radio" name="inp_${$value.Id}" flv="OptionF" id="inp_${$value.Id}-6" value="${$value.OptionF_S}" />
                             <label class="lbl" for="inp_${$value.Id}-6">
-                                F${$value.OptionF}
+                                ${$value.OptionF}
                                
                             <b class="isscore">(<span class="numbers">${$value.OptionF_S}</span>分)</b></label>
                         </span>
