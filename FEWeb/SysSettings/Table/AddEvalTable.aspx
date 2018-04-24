@@ -249,38 +249,38 @@
                         <%--/////////////////////////////////////////////////////////////--%>
                          {{if $value.OptionA!=""}}
                         <span class="fl">
-                            <input disabled="disabled" type="radio" name="radio_{{= $value.Id}}" id="radio_{{= $value.Id}}-1" value="" />
-                            <label for="radio_{{= $value.Id}}-1">{{= $value.OptionA}}</label>
+                            <input disabled="disabled" type="checkbox" name="checkbox_{{= $value.Id}}" id="checkbox_{{= $value.Id}}-1" value="" />
+                            <label for="checkbox_{{= $value.Id}}-1">{{= $value.OptionA}}</label>
                         </span>
                         {{/if}}
                         {{if $value.OptionB!=""}}
                         <span class="fl">
-                            <input disabled="disabled" type="radio" name="radio_{{= $value.Id}}" id="radio_{{= $value.Id}}-2" value="" />
-                            <label for="radio_{{= $value.Id}}-2">{{= $value.OptionB}}</label>
+                            <input disabled="disabled" type="checkbox" name="checkbox_{{= $value.Id}}" id="checkbox_{{= $value.Id}}-2" value="" />
+                            <label for="checkbox_{{= $value.Id}}-2">{{= $value.OptionB}}</label>
                         </span>
                         {{/if}}
                         {{if $value.OptionC!=""}}
                         <span class="fl">
-                            <input disabled="disabled" type="radio" name="radio_{{= $value.Id}}" id="radio_{{= $value.Id}}-3" value="" />
+                            <input disabled="disabled" type="checkbox" name="checkbox_{{= $value.Id}}" id="checkbox_{{= $value.Id}}-3" value="" />
                             <label for="radio_{{= $value.Id}}-3">{{= $value.OptionC}}</label>
                         </span>
                         {{/if}}
                         {{if $value.OptionD!=""}}
                         <span class="fl">
-                            <input disabled="disabled" type="radio" name="radio_{{= $value.Id}}" id="radio_{{= $value.Id}}-4" value="" />
-                            <label for="radio_{{= $value.Id}}-4">{{= $value.OptionD}}</label>
+                            <input disabled="disabled" type="checkbox" name="radio_{{= $value.Id}}" id="checkbox_{{= $value.Id}}-4" value="" />
+                            <label for="checkbox_{{= $value.Id}}-4">{{= $value.OptionD}}</label>
                         </span>
                         {{/if}}
                         {{if $value.OptionE!=""}}
                         <span class="fl">
-                            <input disabled="disabled" type="radio" name="radio_{{= $value.Id}}" id="radio_{{= $value.Id}}-5" value="" />
-                            <label for="radio_{{= $value.Id}}-5">{{= $value.OptionE}}</label>
+                            <input disabled="disabled" type="checkbox" name="radio_{{= $value.Id}}" id="checkbox_{{= $value.Id}}-5" value="" />
+                            <label for="checkbox_{{= $value.Id}}-5">{{= $value.OptionE}}</label>
                         </span>
                         {{/if}}
                         {{if $value.OptionF!=""}}
                         <span class="fl">
-                            <input disabled="disabled" type="radio" name="radio_{{= $value.Id}}" id="radio_{{= $value.Id}}-6" value="" />
-                            <label for="radio_{{= $value.Id}}-6">{{= $value.OptionF}}</label>
+                            <input disabled="disabled" type="checkbox" name="radio_{{= $value.Id}}" id="checkbox_{{= $value.Id}}-6" value="" />
+                            <label for="checkbox_{{= $value.Id}}-6">{{= $value.OptionF}}</label>
                         </span>
                         {{/if}}
                            {{else  $value.QuesType_Id =="4" }}                       

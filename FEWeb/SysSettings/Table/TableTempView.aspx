@@ -112,42 +112,42 @@
                         {{if det.OptionA!=""}}
                         <span>
                             <input type="radio" disabled="disabled" name="" id="" value="" />
-                            <label>A${det.OptionA}</label>
+                            <label>${det.OptionA}</label>
                             <b class="isscore">(<span class="numbers">${Num_Fixed(det.OptionA_S)}</span>分)</b>
                         </span>
                         {{/if}}
                         {{if det.OptionB!=""}}
                         <span>
                             <input type="radio" disabled="disabled" name="" id="" value="" />
-                            <label>B${det.OptionB}</label>
+                            <label>${det.OptionB}</label>
                             <b class="isscore">(<span class="numbers">${Num_Fixed(det.OptionB_S)}</span>分)</b>
                         </span>
                         {{/if}}
                         {{if det.OptionC!=""}}
                         <span>
                             <input type="radio" disabled="disabled" name="" id="" value="" />
-                            <label>C${det.OptionC}</label>
+                            <label>${det.OptionC}</label>
                             <b class="isscore">(<span class="numbers">${Num_Fixed(det.OptionC_S)}</span>分)</b>
                         </span>
                         {{/if}}
                         {{if det.OptionD!=""}}
                         <span>
                             <input type="radio" disabled="disabled" name="" id="" value="" />
-                            <label>D${det.OptionD}</label>
+                            <label>${det.OptionD}</label>
                             <b class="isscore">(<span class="numbers">${Num_Fixed(det.OptionD_S)}</span>分)</b>
                         </span>
                         {{/if}}
                         {{if det.OptionE!=""}}
                         <span>
                             <input type="radio" disabled="disabled" name="" id="" value="" />
-                            <label>E${det.OptionE}</label>
+                            <label>${det.OptionE}</label>
                             <b class="isscore">(<span class="numbers">${Num_Fixed(det.OptionE_S)}</span>分)</b>
                         </span>
                         {{/if}}
                          {{if det.OptionF!=""}}
                         <span>
                             <input type="radio" disabled="disabled" name="" id="" value="" />
-                            <label>F${det.OptionF}</label>
+                            <label>${det.OptionF}</label>
                             <b class="isscore">(<span class="numbers">${Num_Fixed(det.OptionF_S)}</span>分)</b>
                         </span>
                         {{/if}}
