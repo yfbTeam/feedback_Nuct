@@ -1497,6 +1497,7 @@ namespace FEHandler
                     Eva_QuestionAnswer t = new Eva_QuestionAnswer()
                     {
                         Id = Convert.ToInt32(dr["Id"]),
+                        RelationID= Convert.ToInt32(dr["RelationID"]),
                         AnswerName = Convert.ToString(dr["AnswerName"]),
                         Eva_Role = Convert.ToInt32(dr["Eva_Role"]),
                         AnswerUID = Convert.ToString(dr["AnswerUID"]),
