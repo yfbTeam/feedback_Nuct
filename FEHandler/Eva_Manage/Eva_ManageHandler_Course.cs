@@ -156,8 +156,8 @@ namespace FEHandler.Eva_Manage
 
                 foreach (var item in Expert_Teacher_Course_List)
                 {
-                    var expc = Constant.Expert_Teacher_Course_List.Count(i => i.SecionID == item.SecionID && i.ReguId == item.ReguId && i.ExpertUID == item.ExpertUID && i.TeacherUID == item.TeacherUID&&i.SourceType==item.SourceType&&i.IsSelfStart==2);
-                    if (expc == 0)
+                    var expc = Constant.Expert_Teacher_Course_List.FirstOrDefault(i => i.SecionID == item.SecionID && i.ReguId == item.ReguId && i.ExpertUID == item.ExpertUID && i.TeacherUID == item.TeacherUID&&i.SourceType==item.SourceType&&i.IsSelfStart==2);
+                    if (expc == null)
                     {
                         var jsm = Constant.Expert_Teacher_CourseService.Add(item);
                         if (jsm.errNum == Success)
@@ -165,7 +165,7 @@ namespace FEHandler.Eva_Manage
                             item.Id = Convert.ToInt32(jsm.retData);
                             Constant.Expert_Teacher_Course_List.Add(item);
                         }
-                    }
+                    }else { item.Id = expc.Id; }
                 }
                 if (Expert_Teacher_Course_List.Count() > 0)
                 {
