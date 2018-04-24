@@ -57,6 +57,8 @@ var UI_Course = {
                 $('.typeli').removeClass('selected');
                 $('.menu_list').find('li:has(ul)').children('span').removeClass('selected');
                 $(this).addClass('selected');
+                select_CourseTypeId = $(this).attr('ctypeK');;
+                select_CourseTypeName = $(this).attr('ctypeV');
                 select_sectionid = $(this).parent().parent('li').attr('sectionid');
             }           
         });

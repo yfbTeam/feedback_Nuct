@@ -450,7 +450,7 @@
             var ids = GetIDs('Userinfos');
             var rids = ids.split(',');
             SourceType = $.inArray(10, GetRoleArray('Userinfos')) == -1 ? 1 : 2; //判断是否是校管理员
-            IsSelfStart = 1;
+            IsSelfStart = Ans_IsSelfStart = 1;
             GetUserByTypeCompleate = function(retada)
             {
                 Get_Eva_QuestionAnswerCompleate = function (data) {
