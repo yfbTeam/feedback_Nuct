@@ -188,11 +188,7 @@
                 {{each (indicator_list)}}
                 <li class="sort_helper" sort="{{= $value.Id}}">
                     <input type="hidden" name="name_flg" value="{{= $value.flg}}" /><input type="hidden" name="name_in" value="{{= $value.Id}}" /><input type="hidden" name="name_title" value="${indicator_type_tid}" />
-                    <h2 class="title"><span id="sp_{{= $value.flg}}"></span>、{{= $value.Name}}
-                    {{if $value.QuesType_Id ==1  ||$value.QuesType_Id ==4 }}                       
-                         <span class="isscore"><b>(<input type="number" fl="{{= $value.Name}}下的分数" step="0.01" isrequired="true" id="t_${Id}" value="${OptionF_S_Max}" onkeydown="onlyNum();" flg="sum" class="number" min="0" />分) </b></span>
-                        {{/if}}
-                             {{if $value.QuesType_Id ==1 }}
+                    <h2 class="title"><span id="sp_{{= $value.flg}}"></span>、{{if $value.QuesType_Id ==1 }}
                              【单选题】
                              {{else $value.QuesType_Id ==2 }}
                              【多选题】
@@ -200,7 +196,10 @@
                              【问答题】
                              {{else $value.QuesType_Id ==4 }}
                              【评分题】
-                             {{/if}} 
+                             {{/if}} {{= $value.Name}}
+                    {{if $value.QuesType_Id ==1  ||$value.QuesType_Id ==4 }}                       
+                         <span class="isscore"><b>(<input type="number" fl="{{= $value.Name}}下的分数" step="0.01" isrequired="true" id="t_${Id}" value="${OptionF_S_Max}" onkeydown="onlyNum();" flg="sum" class="number" min="0" />分) </b></span>
+                        {{/if}}                             
                     </h2>
                     <div class="test_desc clearfix">
                         {{if $value.QuesType_Id =="1" }}
