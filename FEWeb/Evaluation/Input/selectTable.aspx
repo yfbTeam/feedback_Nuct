@@ -253,7 +253,7 @@
                         {{if $value.OptionB!=""}}
                         <span>
                             <input type="checkbox" flv="OptionB" id="checkbox_${$value.Id}-2" value="${$value.OptionB_S}" />
-                            <label class="lbl" for="inp_${$value.Id}-2">
+                            <label class="lbl" for="checkbox_${$value.Id}-2">
                             B${$value.OptionB}
                            
                         </span>
@@ -261,7 +261,7 @@
                         {{if $value.OptionC!=""}}
                         <span>
                             <input type="checkbox" flv="OptionC" id="checkbox_${$value.Id}-3" value="${$value.OptionC_S}" />
-                            <label class="lbl" for="inp_${$value.Id}-3">
+                            <label class="lbl" for="checkbox_${$value.Id}-3">
                             C${$value.OptionC}
                            
                         </span>
@@ -277,7 +277,7 @@
                         {{if $value.OptionE!=""}}
                         <span>
                             <input type="checkbox" flv="OptionE" id="checkbox_${$value.Id}-5" value="${$value.OptionE_S}" />
-                            <label class="lbl" for="inp_${$value.Id}-5">E${$value.OptionE}</label>
+                            <label class="lbl" for="checkbox_${$value.Id}-5">E${$value.OptionE}</label>
 
                         </span>
                         {{/if}}
