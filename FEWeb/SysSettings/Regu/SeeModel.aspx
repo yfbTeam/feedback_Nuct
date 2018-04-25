@@ -15,7 +15,7 @@
             min-width: 110px;
             height: 35px;
             text-align: left;
-            font-size: 15px;
+            
             color: #555;
             float: left;
             line-height: 35px;
@@ -25,18 +25,16 @@
             margin-bottom: 10px;
             margin-left: 15px;
             float: left;
-            font-size: 16px;
-            /*width: 200px;*/
+            font-size: 14px;
             float: left;
         }
 
         .search_result1 {
-            margin-top: 10px;
+           
              width: 335px; 
             border: 1px solid #eef3f2;
              margin-left: 110px; 
-            margin-top: 10px;
-            margin-bottom: 10px;
+           
         }
     </style>
 </head>
@@ -74,7 +72,7 @@
                 </span>
             </div>
             <div class="input-wrap1 pb20" v-cloak v-show="appoint">
-               <div class="clearfix search_result1" style="margin-top: 10px;">
+               <div class="clearfix search_result1">
 
                 <ul id="_slect_department" style="margin-top: 15px; margin-bottom: 15px">               
 
