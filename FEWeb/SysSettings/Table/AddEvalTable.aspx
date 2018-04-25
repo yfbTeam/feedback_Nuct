@@ -246,7 +246,7 @@
                         </span>
                         {{/if}}
                         {{else  $value.QuesType_Id =="2" }}
-                        <%--/////////////////////////////////////////////////////////////--%>
+                       
                          {{if $value.OptionA!=""}}
                         <span class="fl">
                             <input disabled="disabled" type="checkbox" name="checkbox_{{= $value.Id}}" id="checkbox_{{= $value.Id}}-1" value="" />
@@ -284,7 +284,7 @@
                         </span>
                         {{/if}}
                            {{else  $value.QuesType_Id =="4" }}                       
-                           <input disabled="disabled" name="Name" style="width: 98%; height: 35px;" />
+                           <input disabled="disabled" name="Name" class="text" style="width:100%" />
                         {{else  $value.QuesType_Id =="3" }}                       
                         <textarea disabled="disabled" id="txt_{{= $value.Id}}"></textarea>
                         {{else}}

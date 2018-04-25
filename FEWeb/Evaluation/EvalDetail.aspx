@@ -242,43 +242,38 @@
                     <div class="test_desc test_desc2" DetailID="${Id}">
                         {{if $value.OptionA!=""}}
                         <span>
-                            <input disabled="disabled" type="checkbox"  flv="OptionA" id="inp_${$value.Id}-1" value="${$value.OptionA_S}" />
-                            <label class="lbl" for="inp_${$value.Id}-1">
-                                A${$value.OptionA}                           
+                            <input disabled="disabled" type="checkbox"  flv="OptionA" id="checkbox_${$value.Id}-1" value="${$value.OptionA_S}" />
+                            <label class="lbl" for="checkbox_${$value.Id}-1">A${$value.OptionA}</label>                       
                         </span>
                         {{/if}}
                         {{if $value.OptionB!=""}}
                         <span>
-                            <input disabled="disabled" type="checkbox"   flv="OptionB" id="inp_${$value.Id}-2" value="${$value.OptionB_S}" />
-                            <label class="lbl" for="inp_${$value.Id}-2">
-                                B${$value.OptionB}                          
+                            <input disabled="disabled" type="checkbox"   flv="OptionB" id="checkbox_${$value.Id}-2" value="${$value.OptionB_S}" />
+                            <label class="lbl" for="checkbox_${$value.Id}-2">B${$value.OptionB}</label>
                         </span>
                         {{/if}}
                         {{if $value.OptionC!=""}}
                         <span>
-                            <input disabled="disabled" type="checkbox"  flv="OptionC" id="inp_${$value.Id}-3" value="${$value.OptionC_S}" />
-                            <label class="lbl" for="inp_${$value.Id}-3">
-                                C${$value.OptionC}                           
+                            <input disabled="disabled" type="checkbox"  flv="OptionC" id="checkbox_${$value.Id}-3" value="${$value.OptionC_S}" />
+                            <label class="lbl" for="checkbox_${$value.Id}-3">C${$value.OptionC}</label>
                         </span>
                         {{/if}}
                         {{if $value.OptionD!=""}}
                         <span>
-                            <input disabled="disabled" type="checkbox"   flv="OptionD" id="inp_${$value.Id}-4" value="${$value.OptionD_S}" />
-                            <label class="lbl" for="inp_${$value.Id}-4">
-                                D${$value.OptionD}                                                           
+                            <input disabled="disabled" type="checkbox"   flv="OptionD" id="checkbox_${$value.Id}-4" value="${$value.OptionD_S}" />
+                            <label class="lbl" for="checkbox_${$value.Id}-4">D${$value.OptionD}</label>            
                         </span>
                         {{/if}}
                         {{if $value.OptionE!=""}}
                         <span>
-                            <input disabled="disabled" type="checkbox"   flv="OptionE" id="inp_${$value.Id}-5" value="${$value.OptionE_S}" />
-                            <label class="lbl" for="inp_${$value.Id}-5">E${$value.OptionE}</label>                        
+                            <input disabled="disabled" type="checkbox"   flv="OptionE" id="checkbox_${$value.Id}-5" value="${$value.OptionE_S}" />
+                            <label class="lbl" for="checkbox_${$value.Id}-5">E${$value.OptionE}</label>                        
                         </span>
                         {{/if}}
                          {{if $value.OptionF!=""}}
                         <span>
-                            <input disabled="disabled" type="checkbox"   flv="OptionF" id="inp_${$value.Id}-6" value="${$value.OptionF_S}" />
-                            <label class="lbl" for="inp_${$value.Id}-6">
-                                F${$value.OptionF}                                                        
+                            <input disabled="disabled" type="checkbox"   flv="OptionF" id="checkbox_${$value.Id}-6" value="${$value.OptionF_S}" />
+                            <label class="lbl" for="checkbox_${$value.Id}-6">F${$value.OptionF}</label>    
                         </span>
                         {{/if}}
                     </div>
@@ -289,7 +284,7 @@
 
                     {{else $value.QuesType_Id==4 }}
                     <div class="test_desc" detailid="${Id}" maxscore="${OptionF_S_Max}">
-                        <input  readonly="readonly" name="Name" class="text" style="width:99%;"/>
+                        <input  readonly="readonly" name="Name" class="text" style="width:100%;"/>
                     </div>
                    
                     {{/if}}

@@ -226,8 +226,8 @@
                         {{if $value.OptionE!=""}}
                         <span>
                             <input type="radio" name="inp_${$value.Id}" flv="OptionE" id="inp_${$value.Id}-5" value="${$value.OptionE_S}" />
-                            <label class="lbl" for="inp_${$value.Id}-5">${$value.OptionE}</label>
-                            <b class="isscore">(<span class="numbers">${$value.OptionE_S}</span>分)</b>
+                            <label class="lbl" for="inp_${$value.Id}-5">${$value.OptionE}
+                            <b class="isscore">(<span class="numbers">${$value.OptionE_S}</span>分)</b></label>
                         </span>
                         {{/if}}
                          {{if $value.OptionF!=""}}
@@ -244,15 +244,15 @@
                     <div class="test_desc test_desc2">
                         {{if $value.OptionA!=""}}
                         <span>
-                            <input type="checkbox" flv="OptionA" id="inp_${$value.Id}-1" value="${$value.OptionA_S}" />
-                            <label class="lbl" for="inp_${$value.Id}-1">
+                            <input type="checkbox" flv="OptionA" id="checkbox_${$value.Id}-1" value="${$value.OptionA_S}" />
+                            <label class="lbl" for="checkbox_${$value.Id}-1">
                             A${$value.OptionA}
                           
                         </span>
                         {{/if}}
                         {{if $value.OptionB!=""}}
                         <span>
-                            <input type="checkbox" flv="OptionB" id="inp_${$value.Id}-2" value="${$value.OptionB_S}" />
+                            <input type="checkbox" flv="OptionB" id="checkbox_${$value.Id}-2" value="${$value.OptionB_S}" />
                             <label class="lbl" for="inp_${$value.Id}-2">
                             B${$value.OptionB}
                            
@@ -260,7 +260,7 @@
                         {{/if}}
                         {{if $value.OptionC!=""}}
                         <span>
-                            <input type="checkbox" flv="OptionC" id="inp_${$value.Id}-3" value="${$value.OptionC_S}" />
+                            <input type="checkbox" flv="OptionC" id="checkbox_${$value.Id}-3" value="${$value.OptionC_S}" />
                             <label class="lbl" for="inp_${$value.Id}-3">
                             C${$value.OptionC}
                            
@@ -268,23 +268,23 @@
                         {{/if}}
                         {{if $value.OptionD!=""}}
                         <span>
-                            <input type="checkbox" flv="OptionD" id="inp_${$value.Id}-4" value="${$value.OptionD_S}" />
-                            <label class="lbl" for="inp_${$value.Id}-4">
+                            <input type="checkbox" flv="OptionD" id="checkbox_${$value.Id}-4" value="${$value.OptionD_S}" />
+                            <label class="lbl" for="checkbox_${$value.Id}-4">
                             D${$value.OptionD}
                                
                         </span>
                         {{/if}}
                         {{if $value.OptionE!=""}}
                         <span>
-                            <input type="checkbox" flv="OptionE" id="inp_${$value.Id}-5" value="${$value.OptionE_S}" />
+                            <input type="checkbox" flv="OptionE" id="checkbox_${$value.Id}-5" value="${$value.OptionE_S}" />
                             <label class="lbl" for="inp_${$value.Id}-5">E${$value.OptionE}</label>
 
                         </span>
                         {{/if}}
                          {{if $value.OptionF!=""}}
                         <span>
-                            <input type="checkbox" flv="OptionF" id="inp_${$value.Id}-6" value="${$value.OptionF_S}" />
-                            <label class="lbl" for="inp_${$value.Id}-6">
+                            <input type="checkbox" flv="OptionF" id="checkbox_${$value.Id}-6" value="${$value.OptionF_S}" />
+                            <label class="lbl" for="checkbox_${$value.Id}-6">
                             F${$value.OptionF}
                                
                           

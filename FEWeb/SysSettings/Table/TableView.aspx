@@ -202,7 +202,7 @@
                     </div>
                    {{else $value.QuesType_Id==4 }}
                     <div class="test_desc">
-                         <input type="text" class="text" name="Name" style="width: 98%; height: 35px;" readonly="readonly" />
+                         <input type="text" class="text" name="Name" readonly="readonly" style="width:100%"/>
                     </div>
                     {{/if}}
                 </li>
