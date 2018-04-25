@@ -352,7 +352,7 @@
                 $('#div_Unit').show();
                 $('#div_Class').hide();
             }
-
+            pageIndex = 0;
             Get_UserByRoleID(pageIndex);
         };
 
