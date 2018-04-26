@@ -209,7 +209,7 @@
                 </div>
                  <div class="fl ml20">
                     <input type="text" name="key" id="key" placeholder="请输入关键字" value="" class="text fl" style="width: 130px;">
-                    <a class="search fl" href="javascript:search();"><i class="iconfont">&#xe600;</i></a>
+                    <a class="search fl" href="javascript:;" onclick="tool_search();"><i class="iconfont">&#xe600;</i></a>
                 </div>
                  <div class="fr">
                      <input type="button" name="name" value="创建评价任务" class="btn"  onclick="NewEval();" />
@@ -515,7 +515,7 @@
           }
 
           //点击搜索
-          function search() {
+          function tool_search() {
               initdata('');
           }
           var user = GetLoginUser();

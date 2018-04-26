@@ -35,7 +35,7 @@
                     <div class="search_toobar clearfix">
                         <div class="fl">
                             <input type="text" name="key" id="key" placeholder="请输入关键字" value="" class="text fl">
-                            <a class="search fl" href="javascript:search();"><i class="iconfont">&#xe600;</i></a>
+                            <a class="search fl" href="javascript:;" onclick="tool_search();"><i class="iconfont">&#xe600;</i></a>
                         </div>
                         <div id="btndiv" class="fr"></div>
                     </div>
@@ -225,7 +225,7 @@
         function newIndicator_type() {
             OpenIFrameWindow('新增指标分类', '../../SysSettings/Indicate/DataBaseSort.aspx?type_id=' + type_id + '&Type=' + 1, '950px', '650px')
         }
-        function search() {
+        function tool_search() {
             DataBaseMainModel.initdata(indicator_type_id);
         }
         //暂时使用 题型的转换

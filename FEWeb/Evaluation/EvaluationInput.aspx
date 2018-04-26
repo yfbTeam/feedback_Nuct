@@ -64,7 +64,7 @@
                 </div>
                 <div class="fl ml10">
                     <input type="text" name="" id="Key" placeholder="请输入课程、教师关键字" value="" class="text fl">
-                    <a class="search fl" href="javascript:;" id="select"><i class="iconfont"></i></a>
+                    <a class="search fl" href="javascript:;" onclick="tool_search();" id="select"><i class="iconfont"></i></a>
                 </div>
                 
                 <div class="fr pr">
@@ -186,8 +186,7 @@
             $('#top').load('/header.html');
             $('#footer').load('/footer.html');
             Mode = 1;
-            FuncType = 1;
-            $('#select').on('click', search);
+            FuncType = 1;            
             SourceType = IsAllSchool == 1 ? 1 : 2;
             Base.bindStudySectionCompleate = function () {
                 SectionID = $('#section').val();
@@ -244,7 +243,7 @@
         function evalTask() {
             OpenIFrameWindow('评价任务', './Input/createModal.aspx?IsAllSchool=' + IsAllSchool+'', '1000px', '600px')
         }
-        function search() {
+        function tool_search() {
             pageIndex = 0;
             Reflesh();
         }

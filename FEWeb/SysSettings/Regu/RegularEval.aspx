@@ -176,7 +176,7 @@
                      <div class="operates">
                          {{if ReguState == 1}}                        
                          
-                         <div class="operate" onclick="OpenIFrameWindow('编辑评价', 'EditEval.aspx?Id={{= $value.Id}}', '600px', '250px')">
+                         <div class="operate" onclick="GetCourseinfoBySortMan('{{= $value.Id}}');OpenIFrameWindow('编辑评价', 'EditEval.aspx?Id={{= $value.Id}}', '600px', '250px')">
                              <i class="iconfont color_purple">&#xe632;</i>
                              <a class='operate_none bg_purple'>设置</a>
                          </div>
@@ -186,7 +186,7 @@
                          </div>
 
                          {{else ReguState ==2}}
-                         <div class="operate" onclick="OpenIFrameWindow('编辑评价', 'EditEval.aspx?Id={{= $value.Id}}', '600px', '250px')">
+                         <div class="operate" onclick="GetCourseinfoBySortMan('{{= $value.Id}}');OpenIFrameWindow('编辑评价', 'EditEval.aspx?Id={{= $value.Id}}', '600px', '250px')">
                              <i class="iconfont color_purple">&#xe632;</i>
                              <a class='operate_none bg_purple'>设置</a>
                          </div>
@@ -275,7 +275,7 @@
         OpenIFrameWindow('分配任务', 'AllotTask.aspx', '1220px', '630px')
     }
     function remove(Id, value) {
-
+        GetCourseinfoBySortMan(Id);
         layer.confirm('确定删除"' + value + '"吗？', {
             btn: ['确定', '取消'], //按钮
             title: '操作'

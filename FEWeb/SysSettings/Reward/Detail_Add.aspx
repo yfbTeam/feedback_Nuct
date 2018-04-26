@@ -37,7 +37,7 @@
             </div>
             <div class="fl ml20">
                 <input type="text" name="Key" id="Key" placeholder="请输入获奖项目名称关键字" value="" class="text fl" style="width:180px;"/>
-                <a class="search fl" href="javascript:search();"><i class="iconfont">&#xe600;</i></a>
+                <a class="search fl" href="javascript:;" onclick="tool_search();"><i class="iconfont">&#xe600;</i></a>
             </div>             
         </div>
         <div class="table mt10">
@@ -77,7 +77,7 @@
             Bind_SelAchieve();
         });
         var SerKey = $("#Key").val().trim();
-        function search() {
+        function tool_search() {
             SerKey = $("#Key").val().trim();
             BindData(1, 10);
         }

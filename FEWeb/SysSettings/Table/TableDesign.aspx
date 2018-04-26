@@ -23,7 +23,7 @@
             <div class="search_toobar clearfix mt10">
                 <div class="fl">
                     <input type="text" name="key" id="key" placeholder="请输入关键字" value="" class="text fl" style="height: 31px;">
-                    <a class="search fl" href="javascript:search();" style="height: 31px;"><i class="iconfont">&#xe600;</i></a>
+                    <a class="search fl" href="javascript:;" onclick="tool_search();" style="height: 31px;"><i class="iconfont">&#xe600;</i></a>
                 </div>
                 <div class="fr">
                     <input type="button" name="" id="tabledesign_add" style="" value="新增评价表" class="btn" onclick="NewEval()">
@@ -155,7 +155,7 @@
             initdata();           
         })
         //搜索
-        function search() {
+        function tool_search() {
             initdata();
         }
         function NewEval() {

@@ -38,7 +38,16 @@
             initContaniner();
         })
     })
+    Tool_TextEnter();
 })();
+function Tool_TextEnter() {
+    $('a.search').prev().keydown(function (e) {
+        e = e || window.event;
+        if ((e.keyCode || e.which) == "13") {
+            $(this).next().trigger('click');
+        }
+    })
+}
 //检测是否登录
 var cookie_Userinfo = JSON.parse(localStorage.getItem('Userinfo_LG'));
 var LoginTime = localStorage.getItem('LoginTime');

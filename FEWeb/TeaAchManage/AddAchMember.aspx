@@ -29,7 +29,7 @@
                 </div>
                 <div class="fl ml10">
                     <input type="text" name="key" id="key" placeholder="请输入姓名或教职工号" value="" class="text fl" style="width:150px;">
-                    <a class="search fl" onclick="BindTeacher();"><i class="iconfont">&#xe600;</i></a>
+                    <a class="search fl" href="javascript:;" onclick="BindTeacher();"><i class="iconfont">&#xe600;</i></a>
                 </div>
             </div>
         </div>

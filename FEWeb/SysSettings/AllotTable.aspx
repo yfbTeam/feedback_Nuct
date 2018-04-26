@@ -38,7 +38,7 @@
                 <div class="allot_left fl">
                      <div class="search_toobar clearfix">
                         <input type="text" name="key" id="key" placeholder="请输入关键字" value="" class="text fl" style="width: 130px;">
-                        <a class="search fl" href="javascript:search();"><i class="iconfont">&#xe600;</i></a>
+                        <a class="search fl" href="javascript:;" onclick="tool_search();"><i class="iconfont">&#xe600;</i></a>
                       </div>
                     <div class="table">
                         <table>
@@ -83,7 +83,7 @@
                         </div>
                         <div class="fl ml20">
                             <input type="text" name="key" id="key" placeholder="请输入关键字" value="" class="text fl" style="width: 130px;">
-                        <a class="search fl" href="javascript:search();"><i class="iconfont">&#xe600;</i></a>
+                        <a class="search fl" href="javascript:;" onclick="tool_search();"><i class="iconfont">&#xe600;</i></a>
                         </div>
                    </div>
                     <div class="table">
@@ -162,7 +162,7 @@
                 <div class="allot_right fr">
                     <div class="search_toobar clearfix">
                         <input type="text" name="key" id="key" placeholder="请输入关键字" value="" class="text fl" style="width: 130px;">
-                        <a class="search fl" href="javascript:search();"><i class="iconfont">&#xe600;</i></a>
+                        <a class="search fl" href="javascript:;" onclick="tool_search();"><i class="iconfont">&#xe600;</i></a>
                       </div>
                     <div class="table">
                         <table>
@@ -219,6 +219,7 @@
             $('#top').load('/header.html');
             $('#footer').load('/footer.html');
         })
+        function tool_search() { }
     </script>
 </body>
 </html>

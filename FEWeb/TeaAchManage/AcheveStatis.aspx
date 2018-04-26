@@ -73,7 +73,7 @@
                 </div>
                 <div class="fl ml20">
                     <input type="text" name="key" id="key" placeholder="请输入教师姓名关键字" value="" class="text fl" style="width: 150px;">
-                    <a class="search fl" onclick="BindData(1,10);"><i class="iconfont">&#xe600;</i></a>
+                    <a class="search fl" href="javascript:;" onclick="BindData(1,10);"><i class="iconfont">&#xe600;</i></a>
                 </div>
                 <div class="fr ml20">
                     <label id="lbl_AllScore" for="" style="color:#731F4F;"></label>
