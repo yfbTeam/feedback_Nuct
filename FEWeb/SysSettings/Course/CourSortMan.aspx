@@ -65,11 +65,11 @@
                 </div>
                 <div class="sort_right fr mr" style="margin-left: -20px">
                     <div class="search_toobar clearfix">
-                        <div class="fl" style="display:none;" id="div_CourseType">
+                        <div class="fl mr10" style="display:none;" id="div_CourseType">
                             <label for="">课程分类:</label>
                             <select id="sel_CourseType" secid="" class="select" style="width:150px;"></select>
                         </div>
-                        <div class="fl ml10">
+                        <div class="fl">
                             <input type="text" name="" id="select_where" placeholder="请输入课程编码或课程名称关键字" value="" style="width:220px;" class="text fl">
                             <a class="search fl" href="javascript:;" onclick="all_change();"><i class="iconfont">&#xe600;</i></a>
                         </div>

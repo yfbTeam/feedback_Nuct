@@ -425,7 +425,7 @@
                             } else {
                                 $checkbox.prop('checked', true);
                             }
-                            CheckSub($(this).parent().find('input[type=checkbox]'));
+                            CheckSub($checkbox);
                         })
                         GetAchieveUser_Score(json.result.retData);
                     }
