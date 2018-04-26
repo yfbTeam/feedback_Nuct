@@ -68,7 +68,7 @@ function GetClassInfo(PageIndex) {
     var postData = {
         func: "GetClassInfo", "PageIndex": PageIndex, "PageSize": PageSize,
         "SectionID": sectionid, "DP": $('#DP').val(), "CT": $('#CT').val(),
-        "CP": $('#CP').val(), "TD": $('#TD').val(), "TN": $('#TN').val(), "MD": $('#MD').val(),
+        "CP": $('#CP').val(), "TD": $('#TD').val(), "TN": $('#TN').val(), "MD": $('#RP').val(),
         "GD": $('#GD').val(), "CN": $('#CN').val(), "Key": key, "BirthdayS": BirthdayS, "BirthdayE": BirthdayE,
         "SchoolS": SchoolS, "SchoolE": SchoolE, "ClassModelType": ClassModelType,
 
