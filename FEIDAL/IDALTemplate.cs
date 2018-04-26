@@ -61,7 +61,15 @@ namespace FEIDAL
     }
 
 	/// </summary>
-	///	专业部门名称数据处理接口类3
+	///	数据处理接口类3
+	/// </summary>
+    public interface IEva_QuestionAnswerDal: IBaseDal<Eva_QuestionAnswer>
+    {
+		
+    }
+
+	/// </summary>
+	///	专业部门名称数据处理接口类4
 	/// </summary>
     public interface ICourseRoomDal: IBaseDal<CourseRoom>
     {
@@ -167,13 +175,21 @@ namespace FEIDAL
 	/// </summary>
 	///	
 	/// </summary>
+    public interface IExpert_Teacher_CourseDal: IBaseDal<Expert_Teacher_Course>
+    {
+		
+    }
+
+	/// </summary>
+	///	
+	/// </summary>
     public interface ITPM_RewardUserInfoDal: IBaseDal<TPM_RewardUserInfo>
     {
 		
     }
 
 	/// </summary>
-	///	菜单信息数据处理接口类4
+	///	菜单信息数据处理接口类5
 	/// </summary>
     public interface ISys_MenuInfoDal: IBaseDal<Sys_MenuInfo>
     {
@@ -181,7 +197,7 @@ namespace FEIDAL
     }
 
 	/// </summary>
-	///	角色用户关系数据处理接口类5
+	///	角色用户关系数据处理接口类6
 	/// </summary>
     public interface ISys_RoleOfUserDal: IBaseDal<Sys_RoleOfUser>
     {
@@ -269,7 +285,7 @@ namespace FEIDAL
     }
 
 	/// </summary>
-	///	角色数据处理接口类6
+	///	角色数据处理接口类7
 	/// </summary>
     public interface ISys_RoleDal: IBaseDal<Sys_Role>
     {
@@ -349,15 +365,7 @@ namespace FEIDAL
     }
 
 	/// </summary>
-	///	
-	/// </summary>
-    public interface IExpert_Teacher_CourseDal: IBaseDal<Expert_Teacher_Course>
-    {
-		
-    }
-
-	/// </summary>
-	///	菜单按钮类型数据处理接口类7
+	///	菜单按钮类型数据处理接口类8
 	/// </summary>
     public interface ISys_ButtonTypeDal: IBaseDal<Sys_ButtonType>
     {
@@ -381,7 +389,7 @@ namespace FEIDAL
     }
 
 	/// </summary>
-	///	系统日志数据处理接口类8
+	///	系统日志数据处理接口类9
 	/// </summary>
     public interface ISys_LogInfoDal: IBaseDal<Sys_LogInfo>
     {
@@ -400,14 +408,6 @@ namespace FEIDAL
 	///	
 	/// </summary>
     public interface IEva_RegularDal: IBaseDal<Eva_Regular>
-    {
-		
-    }
-
-	/// </summary>
-	///	数据处理接口类9
-	/// </summary>
-    public interface IEva_QuestionAnswerDal: IBaseDal<Eva_QuestionAnswer>
     {
 		
     }

@@ -444,6 +444,142 @@ namespace FEModel
     }
 
 	/// </summary>
+	///	实体类
+	/// </summary>
+	[Serializable]
+    public partial class Eva_QuestionAnswer
+    {
+
+		/// <summary>
+		/// 
+		/// </summary>
+		public int? Id { get; set; }
+		/// <summary>
+		///专家表id 
+		/// </summary>
+		public int? RelationID { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public int? SectionID { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public string DisPlayName { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public int? ReguID { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public string ReguName { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public int? TableID { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public string TableName { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public string TeacherUID { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public string TeacherName { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public string CourseTypeID { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public string CourseTypeName { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public string CourseID { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public string CourseName { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public string AnswerUID { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public string AnswerName { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public decimal? Score { get; set; }
+		/// <summary>
+		///身份类型（1、专家评价 2、课堂扫码评价） 
+		/// </summary>
+		public int? Eva_Role { get; set; }
+		/// <summary>
+		///审核状态（1:未提交 2:待审核 3:已入库 4:未入库） 
+		/// </summary>
+		public int? State { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public string RoomID { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public Byte? IsRealName { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public string CreateUID { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public DateTime? CreateTime { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public string EditUID { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public DateTime? EditTime { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public Byte? IsEnable { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public Byte? IsDelete { get; set; }
+
+          public override bool Equals(object obj)
+        {
+            bool result = false;
+            if (obj.GetType() == typeof(Eva_QuestionAnswer))
+            {
+                Eva_QuestionAnswer _obj = obj as Eva_QuestionAnswer;
+                if (_obj.Id == this.Id)
+                {
+                    result = true;
+                }
+            }
+            return result;
+        }
+
+	    public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
+    }
+
+	/// </summary>
 	///	专业部门名称实体类
 	/// </summary>
 	[Serializable]
@@ -1469,6 +1605,114 @@ namespace FEModel
             if (obj.GetType() == typeof(TPM_RewardBatch))
             {
                 TPM_RewardBatch _obj = obj as TPM_RewardBatch;
+                if (_obj.Id == this.Id)
+                {
+                    result = true;
+                }
+            }
+            return result;
+        }
+
+	    public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
+    }
+
+	/// </summary>
+	///	
+	/// </summary>
+	[Serializable]
+    public partial class Expert_Teacher_Course
+    {
+
+		/// <summary>
+		/// 
+		/// </summary>
+		public int? Id { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public int? SecionID { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public string ReguId { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public string ExpertUID { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public string ExpertName { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public string TeacherUID { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public string TeacherName { get; set; }
+		/// <summary>
+		///被评价教师部门 
+		/// </summary>
+		public string TeacherMajor_ID { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public string CourseId { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public string Course_Name { get; set; }
+		/// <summary>
+		///评价任务来源 1院管理员；2校管理员 
+		/// </summary>
+		public int? SourceType { get; set; }
+		/// <summary>
+		///是否自发起 1不是；2自发起 
+		/// </summary>
+		public int? IsSelfStart { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public int? Type { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public string RoomID { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public string CreateUID { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public DateTime? CreateTime { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public string EditUID { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public DateTime? EditTime { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public Byte? IsEnable { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public Byte? IsDelete { get; set; }
+
+          public override bool Equals(object obj)
+        {
+            bool result = false;
+            if (obj.GetType() == typeof(Expert_Teacher_Course))
+            {
+                Expert_Teacher_Course _obj = obj as Expert_Teacher_Course;
                 if (_obj.Id == this.Id)
                 {
                     result = true;
@@ -3384,110 +3628,6 @@ namespace FEModel
     }
 
 	/// </summary>
-	///	
-	/// </summary>
-	[Serializable]
-    public partial class Expert_Teacher_Course
-    {
-
-		/// <summary>
-		/// 
-		/// </summary>
-		public int? Id { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public int? SecionID { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public string ReguId { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public string ExpertUID { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public string ExpertName { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public string TeacherUID { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public string TeacherName { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public string CourseId { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public string Course_Name { get; set; }
-		/// <summary>
-		///评价任务来源 1院管理员；2校管理员 
-		/// </summary>
-		public int? SourceType { get; set; }
-		/// <summary>
-		///是否自发起 1不是；2自发起 
-		/// </summary>
-		public int? IsSelfStart { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public int? Type { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public string RoomID { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public string CreateUID { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public DateTime? CreateTime { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public string EditUID { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public DateTime? EditTime { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public Byte? IsEnable { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public Byte? IsDelete { get; set; }
-
-          public override bool Equals(object obj)
-        {
-            bool result = false;
-            if (obj.GetType() == typeof(Expert_Teacher_Course))
-            {
-                Expert_Teacher_Course _obj = obj as Expert_Teacher_Course;
-                if (_obj.Id == this.Id)
-                {
-                    result = true;
-                }
-            }
-            return result;
-        }
-
-	    public override int GetHashCode()
-        {
-            return base.GetHashCode();
-        }
-    }
-
-	/// </summary>
 	///	菜单按钮类型实体类
 	/// </summary>
 	[Serializable]
@@ -3957,142 +4097,6 @@ namespace FEModel
             if (obj.GetType() == typeof(Eva_Regular))
             {
                 Eva_Regular _obj = obj as Eva_Regular;
-                if (_obj.Id == this.Id)
-                {
-                    result = true;
-                }
-            }
-            return result;
-        }
-
-	    public override int GetHashCode()
-        {
-            return base.GetHashCode();
-        }
-    }
-
-	/// </summary>
-	///	实体类
-	/// </summary>
-	[Serializable]
-    public partial class Eva_QuestionAnswer
-    {
-
-		/// <summary>
-		/// 
-		/// </summary>
-		public int? Id { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public int? RelationID { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public int? SectionID { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public string DisPlayName { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public int? ReguID { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public string ReguName { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public int? TableID { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public string TableName { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public string TeacherUID { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public string TeacherName { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public string CourseTypeID { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public string CourseTypeName { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public string CourseID { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public string CourseName { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public string AnswerUID { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public string AnswerName { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public decimal? Score { get; set; }
-		/// <summary>
-		///身份类型（1、专家评价 2、课堂扫码评价） 
-		/// </summary>
-		public int? Eva_Role { get; set; }
-		/// <summary>
-		///审核状态（1:未提交 2:待审核 3:已入库 4:未入库） 
-		/// </summary>
-		public int? State { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public string RoomID { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public Byte? IsRealName { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public string CreateUID { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public DateTime? CreateTime { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public string EditUID { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public DateTime? EditTime { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public Byte? IsEnable { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
-		public Byte? IsDelete { get; set; }
-
-          public override bool Equals(object obj)
-        {
-            bool result = false;
-            if (obj.GetType() == typeof(Eva_QuestionAnswer))
-            {
-                Eva_QuestionAnswer _obj = obj as Eva_QuestionAnswer;
                 if (_obj.Id == this.Id)
                 {
                     result = true;

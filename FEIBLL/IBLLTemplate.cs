@@ -59,7 +59,15 @@ namespace FEIBLL
     }	
 
 	/// </summary>
-	///	专业部门名称业务类3
+	///	业务类3
+	/// </summary>
+    public interface IEva_QuestionAnswerService:IBaseService<Eva_QuestionAnswer>
+    {
+
+    }	
+
+	/// </summary>
+	///	专业部门名称业务类4
 	/// </summary>
     public interface ICourseRoomService:IBaseService<CourseRoom>
     {
@@ -165,13 +173,21 @@ namespace FEIBLL
 	/// </summary>
 	///	
 	/// </summary>
+    public interface IExpert_Teacher_CourseService:IBaseService<Expert_Teacher_Course>
+    {
+
+    }	
+
+	/// </summary>
+	///	
+	/// </summary>
     public interface ITPM_RewardUserInfoService:IBaseService<TPM_RewardUserInfo>
     {
 
     }	
 
 	/// </summary>
-	///	菜单信息业务类4
+	///	菜单信息业务类5
 	/// </summary>
     public interface ISys_MenuInfoService:IBaseService<Sys_MenuInfo>
     {
@@ -179,7 +195,7 @@ namespace FEIBLL
     }	
 
 	/// </summary>
-	///	角色用户关系业务类5
+	///	角色用户关系业务类6
 	/// </summary>
     public interface ISys_RoleOfUserService:IBaseService<Sys_RoleOfUser>
     {
@@ -267,7 +283,7 @@ namespace FEIBLL
     }	
 
 	/// </summary>
-	///	角色业务类6
+	///	角色业务类7
 	/// </summary>
     public interface ISys_RoleService:IBaseService<Sys_Role>
     {
@@ -347,15 +363,7 @@ namespace FEIBLL
     }	
 
 	/// </summary>
-	///	
-	/// </summary>
-    public interface IExpert_Teacher_CourseService:IBaseService<Expert_Teacher_Course>
-    {
-
-    }	
-
-	/// </summary>
-	///	菜单按钮类型业务类7
+	///	菜单按钮类型业务类8
 	/// </summary>
     public interface ISys_ButtonTypeService:IBaseService<Sys_ButtonType>
     {
@@ -379,7 +387,7 @@ namespace FEIBLL
     }	
 
 	/// </summary>
-	///	系统日志业务类8
+	///	系统日志业务类9
 	/// </summary>
     public interface ISys_LogInfoService:IBaseService<Sys_LogInfo>
     {
@@ -398,14 +406,6 @@ namespace FEIBLL
 	///	
 	/// </summary>
     public interface IEva_RegularService:IBaseService<Eva_Regular>
-    {
-
-    }	
-
-	/// </summary>
-	///	业务类9
-	/// </summary>
-    public interface IEva_QuestionAnswerService:IBaseService<Eva_QuestionAnswer>
     {
 
     }	

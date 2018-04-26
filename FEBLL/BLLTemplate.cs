@@ -80,7 +80,18 @@ namespace FEBLL
     }	
 
 	/// </summary>
-	///	专业部门名称业务类3
+	///	业务类3
+	/// </summary>
+    public partial class Eva_QuestionAnswerService:BaseService<Eva_QuestionAnswer>,IEva_QuestionAnswerService
+    {
+	 public override void SetCurrentDal()
+        {
+            CurrentDal = DalFactory.GetEva_QuestionAnswerDal();
+        }
+    }	
+
+	/// </summary>
+	///	专业部门名称业务类4
 	/// </summary>
     public partial class CourseRoomService:BaseService<CourseRoom>,ICourseRoomService
     {
@@ -225,6 +236,17 @@ namespace FEBLL
 	/// </summary>
 	///	
 	/// </summary>
+    public partial class Expert_Teacher_CourseService:BaseService<Expert_Teacher_Course>,IExpert_Teacher_CourseService
+    {
+	 public override void SetCurrentDal()
+        {
+            CurrentDal = DalFactory.GetExpert_Teacher_CourseDal();
+        }
+    }	
+
+	/// </summary>
+	///	
+	/// </summary>
     public partial class TPM_RewardUserInfoService:BaseService<TPM_RewardUserInfo>,ITPM_RewardUserInfoService
     {
 	 public override void SetCurrentDal()
@@ -234,7 +256,7 @@ namespace FEBLL
     }	
 
 	/// </summary>
-	///	菜单信息业务类4
+	///	菜单信息业务类5
 	/// </summary>
     public partial class Sys_MenuInfoService:BaseService<Sys_MenuInfo>,ISys_MenuInfoService
     {
@@ -245,7 +267,7 @@ namespace FEBLL
     }	
 
 	/// </summary>
-	///	角色用户关系业务类5
+	///	角色用户关系业务类6
 	/// </summary>
     public partial class Sys_RoleOfUserService:BaseService<Sys_RoleOfUser>,ISys_RoleOfUserService
     {
@@ -366,7 +388,7 @@ namespace FEBLL
     }	
 
 	/// </summary>
-	///	角色业务类6
+	///	角色业务类7
 	/// </summary>
     public partial class Sys_RoleService:BaseService<Sys_Role>,ISys_RoleService
     {
@@ -476,18 +498,7 @@ namespace FEBLL
     }	
 
 	/// </summary>
-	///	
-	/// </summary>
-    public partial class Expert_Teacher_CourseService:BaseService<Expert_Teacher_Course>,IExpert_Teacher_CourseService
-    {
-	 public override void SetCurrentDal()
-        {
-            CurrentDal = DalFactory.GetExpert_Teacher_CourseDal();
-        }
-    }	
-
-	/// </summary>
-	///	菜单按钮类型业务类7
+	///	菜单按钮类型业务类8
 	/// </summary>
     public partial class Sys_ButtonTypeService:BaseService<Sys_ButtonType>,ISys_ButtonTypeService
     {
@@ -520,7 +531,7 @@ namespace FEBLL
     }	
 
 	/// </summary>
-	///	系统日志业务类8
+	///	系统日志业务类9
 	/// </summary>
     public partial class Sys_LogInfoService:BaseService<Sys_LogInfo>,ISys_LogInfoService
     {
@@ -549,17 +560,6 @@ namespace FEBLL
 	 public override void SetCurrentDal()
         {
             CurrentDal = DalFactory.GetEva_RegularDal();
-        }
-    }	
-
-	/// </summary>
-	///	业务类9
-	/// </summary>
-    public partial class Eva_QuestionAnswerService:BaseService<Eva_QuestionAnswer>,IEva_QuestionAnswerService
-    {
-	 public override void SetCurrentDal()
-        {
-            CurrentDal = DalFactory.GetEva_QuestionAnswerDal();
         }
     }	
 
