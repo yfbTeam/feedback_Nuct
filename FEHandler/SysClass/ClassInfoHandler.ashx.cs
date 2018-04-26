@@ -318,26 +318,24 @@ namespace FEHandler.SysClass
                 }
                 if (S_CT != SortType.normal)
                 {
-                    query = S_DP == SortType.desc ? (from q in query orderby q.CourseType descending select q)
+                    query = S_CT == SortType.desc ? (from q in query orderby q.CourseType descending select q)
                    : (from q in query orderby q.CourseType ascending select q);
                 }
                 if (S_CP != SortType.normal)
                 {
-                    query = S_DP == SortType.desc ? (from q in query orderby q.CourseProperty descending select q)
+                    query = S_CP == SortType.desc ? (from q in query orderby q.CourseProperty descending select q)
                    : (from q in query orderby q.CourseProperty ascending select q);
                 }
                 if (S_TD != SortType.normal)
                 {
-                    query = S_DP == SortType.desc ? (from q in query orderby q.TeacherDepartmentName descending select q)
+                    query = S_TD == SortType.desc ? (from q in query orderby q.TeacherDepartmentName descending select q)
                    : (from q in query orderby q.TeacherDepartmentName ascending select q);
                 }
                 if (S_TN != SortType.normal)
                 {
-                    query = S_DP == SortType.desc ? (from q in query orderby q.Teacher_Name descending select q)
+                    query = S_TN == SortType.desc ? (from q in query orderby q.Teacher_Name descending select q)
                    : (from q in query orderby q.Teacher_Name ascending select q);
-                }
-
-                //, , , , , 
+                } 
                 if (S_MD != SortType.normal)
                 {
                     query = S_MD == SortType.desc ? (from q in query orderby q.RoomDepartmentName descending select q)
@@ -365,7 +363,7 @@ namespace FEHandler.SysClass
                 }
                 if (S_SY != SortType.normal)
                 {
-                    query = S_DP == SortType.desc ? (from q in query orderby q.TeacherSchooldate descending select q)
+                    query = S_SY == SortType.desc ? (from q in query orderby q.TeacherSchooldate descending select q)
                    : (from q in query orderby q.TeacherSchooldate ascending select q);
                 }
             }
