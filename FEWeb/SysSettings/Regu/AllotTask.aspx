@@ -33,7 +33,6 @@
             text-align: center;
             color: #333;
             cursor: pointer;
-            /*border-top: 1px solid #dcdcdc;*/
             border-bottom: 1px solid #dcdcdc;
         }
         .search_toobar .text {
@@ -496,20 +495,19 @@
                     $(this).trigger('blur');
                 });
                 GetClassInfoCompleate = function () {
+                    $('#tbody tr').css('cursor', 'pointer');
                     $('#tbody').find('.checkbox').on('click', function () {
-                        if ($(this).is(':checked')) {
-                            AddDis($(this).attr('CourseID'), $(this).attr('Course_Name'), $(this).attr('TeacherUID'), $(this).attr('Teacher_Name'), $(this).attr('Id'));
-                        }
-                        else {
-                            RemoveDis($(this).attr('CourseID'), $(this).attr('TeacherUID'), $(this).attr('Id'));
-                        }
+                        ischecked(this);
                     });
+                    $('#tbody td').click(function () {
+                        ischecked($(this).parent().find('.checkbox'))
+                    })
                     if (retada.length > 0) {
                         Mode = 4;
                         AnswerUID = selectExpertUID;
                         Get_Eva_QuestionAnswer(0, select_sectionid);
                     }
-                    //GetTeacherInfo_Course_Cls();
+                    
                 };
                 PageSize = 5;
                 Groups = 6;
@@ -548,7 +546,16 @@
                 GetUserByType('16');//院系专家
             }           
         })
-
+        function ischecked(obj) {
+            if ($(obj).is(':checked')) {
+                $(obj).prop('checked', false);
+                RemoveDis($(obj).attr('CourseID'), $(obj).attr('TeacherUID'), $(obj).attr('Id'));
+            }
+            else {
+                $(obj).prop('checked', true);
+                AddDis($(obj).attr('CourseID'), $(obj).attr('Course_Name'), $(obj).attr('TeacherUID'), $(obj).attr('Teacher_Name'), $(obj).attr('Id'));
+            }
+        }
         function SelectByWhere() {
             pageIndex = 0;
             GetClassInfo(pageIndex);

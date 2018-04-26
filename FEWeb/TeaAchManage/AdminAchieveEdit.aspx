@@ -418,6 +418,15 @@
                     if (json.result.errNum.toString() == "0") {
                         Member_Data = json.result;
                         $("#tr_MemEdit").tmpl(json.result).appendTo("#tb_Member");
+                        $('#tb_Member td').not($('#tb_Member td').has('input[type=checkbox]')).click(function () {
+                            var $checkbox = $(this).parent().find('input[type=checkbox]');
+                            if ($checkbox.is(':checked')) {
+                                $checkbox.prop('checked', false);
+                            } else {
+                                $checkbox.prop('checked', true);
+                            }
+                            CheckSub($(this).parent().find('input[type=checkbox]'));
+                        })
                         GetAchieveUser_Score(json.result.retData);
                     }
                     if (ach_model.ComStatus > 7) { Get_RewardBatchDetailData($(".RewardReason")); }
