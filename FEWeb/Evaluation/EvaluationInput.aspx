@@ -142,7 +142,7 @@
                    <i class="iconfont color_purple">&#xe60b;</i>
                    <span class="operate_none bg_purple">查看</span>
                </div>
-               {{if State == 1}}                      
+               {{if State == 1|| State ==4}}                      
                    {{if DateTimeConvert(RegStartTime,'yyyy-MM-dd',true)<= getNowFormatDate()&& DateTimeConvert(RegEndTime,'yyyy-MM-dd',true) >= getNowFormatDate()}}
                    <div class="operate" onclick="window.location.href='./input/EvalTable.aspx?IsAllSchool='+IsAllSchool+'&Id='+getQueryString('Id')+'&Iid='+getQueryString('Iid') +'&TeacherUID='+'${TeacherUID}'+'&TeacherName='+'${TeacherName}'
                       +'&SectionID='+'${SectionID}'+'&DisPlayName='+'${DisPlayName}'+'&CourseID='+'${CourseID}'+'&CourseName='+'${CourseName}'+'&ReguID='+'${ReguID}'+'&ReguName='+'${ReguName}'
@@ -160,7 +160,7 @@
                        <i class="iconfont color_purple"></i>
                        <span class="operate_none bg_purple">删除</span>
                    </div>
-               {{else State == 2||State ==3 || State ==4}}    
+               {{else State == 2||State ==3}}    
                 <div class="operate">
                     <i class="iconfont color_gray">&#xe617;</i>
                     <span class="operate_none bg_gray">编辑</span>
