@@ -51,13 +51,14 @@ namespace FEHandler.Eva_Manage
                 bool eva_check_indepart = RequestHelper.bool_transfer(Request, "eva_check_indepart");
                 int SourceType = RequestHelper.int_transfer(Request, "SourceType");
                 int IsSelfStart = RequestHelper.int_transfer(Request, "IsSelfStart");
+                string TeacherMajor_ID = RequestHelper.string_transfer(Request, "TeacherMajor_ID");//专家院系
                 int PageIndex = RequestHelper.int_transfer(Request, "PageIndex");
                 int PageSize = RequestHelper.int_transfer(Request, "PageSize");
                 try
                 {
                     ModeType modeType = (ModeType)Mode;
                     jsonModel = Get_Eva_QuestionAnswer_Helper(PageIndex, PageSize, SectionID, ReguID, CourseID, TeacherUID, DepartmentID, Key,
-                        TableID, AnswerUID, (IsAllSchool)IsAllSchool, modeType, Eva_Role, eva_check_depart, eva_check_school, eva_check_indepart, State, SourceType, IsSelfStart);
+                        TableID, AnswerUID, (IsAllSchool)IsAllSchool, modeType, Eva_Role, eva_check_depart, eva_check_school, eva_check_indepart, State, SourceType, IsSelfStart,TeacherMajor_ID);
                 }
                 catch (Exception ex)
                 {
@@ -77,7 +78,7 @@ namespace FEHandler.Eva_Manage
         /// <param name="context"></param>
         public static JsonModel Get_Eva_QuestionAnswer_Helper(int PageIndex, int PageSize, int SectionID, int ReguID, string CourseID, string TeacherUID, string DepartmentID,
             string Key, int TableID, string AnswerUID, IsAllSchool IsAllSchool, ModeType modeType, int Eva_Role,
-            bool eva_check_depart, bool eva_check_school, bool eva_check_indepart,int State,int SourceType,int IsSelfStart)
+            bool eva_check_depart, bool eva_check_school, bool eva_check_indepart,int State,int SourceType,int IsSelfStart,string TeacherMajor_ID)
         {
             int intSuccess = (int)errNum.Success;
             JsonModelNum jsm = new JsonModelNum();
@@ -158,11 +159,6 @@ namespace FEHandler.Eva_Manage
                 {
                     list = (from li in list where li.State == State select li).ToList();
                 }
-                if (modeType == ModeType.Check)
-                {
-                    if (eva_check_depart || (!eva_check_depart && eva_check_indepart)) { SourceType = 1; }
-                    if (eva_check_school) { SourceType = 2; } //校管理员
-                }
                 if (SourceType > 0)
                 {
                     list = (from li in list
@@ -191,10 +187,33 @@ namespace FEHandler.Eva_Manage
                         {
                             list = (from li in list where li.CourseName.Contains(Key) || li.TeacherName.Contains(Key) || li.AnswerName.Contains(Key) select li).ToList();
                         }
-                        List<Eva_QuestionModel> modellist = list;                        
-                        if (!eva_check_depart && eva_check_indepart)
+                        List<Eva_QuestionModel> modellist = new List<Eva_QuestionModel>();
+                        var evaquery = (from li in list
+                                join exp in Constant.Expert_Teacher_Course_List on li.RelationID equals exp.Id select new { li, exp.SourceType,exp.TeacherMajor_ID });                                               
+                        //本院院专家为true=》本院院专家数据（SourceType==1&&TeacherMajor_ID）
+                        if (eva_check_indepart && !eva_check_depart && !eva_check_school)
                         {
-                            //modellist.AddRange((from li in list where li. select li).ToList()); //院系范围
+                            modellist = evaquery.Where(t =>t.SourceType == 1 && t.TeacherMajor_ID == TeacherMajor_ID).Select(t => t.li).ToList();
+                        }
+                        //校专家为true=》校专家数据（SourceType==2）
+                        else if (!eva_check_indepart && !eva_check_depart && eva_check_school)
+                        {
+                            modellist = evaquery.Where(t => SourceType == 2).Select(t => t.li).ToList();
+                        }
+                        //全校院专家为true||本院院专家、全校院专家为true，校专家为false=》全校院专家（SourceType==1）
+                        else if ((!eva_check_indepart&& eva_check_depart&&!eva_check_school) ||(eva_check_indepart && eva_check_depart&&!eva_check_school))
+                        {
+                            modellist = evaquery.Where(t => t.SourceType == 1).Select(t => t.li).ToList();
+                        }
+                        //本院院专家、校专家为true=》本院院专家数据和校专家数据（(SourceType==1&&TeacherMajor_ID)||SourceType==2）
+                        else if (eva_check_indepart && !eva_check_depart && eva_check_school)
+                        {
+                            modellist = evaquery.Where(t => (t.SourceType == 1&&t.TeacherMajor_ID==TeacherMajor_ID)|| SourceType==2).Select(t => t.li).ToList();
+                        }
+                        //全校院专家为、校专家为true||全部为true=》全部数据
+                        else if ((!eva_check_indepart && eva_check_depart && eva_check_school)||(eva_check_indepart && eva_check_depart && eva_check_school))
+                        {
+                            modellist = evaquery.Select(t => t.li).ToList();
                         }
                         list = modellist;
                         break;

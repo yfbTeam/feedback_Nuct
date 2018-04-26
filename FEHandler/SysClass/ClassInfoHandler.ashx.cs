@@ -236,9 +236,9 @@ namespace FEHandler.SysClass
                                  //课程性质
                                  CourseProperty = Course_.CourseProperty,
                                  //教师部门
-                                 TeacherDepartmentName = CourseRoom_.TeacherDepartmentName,
-                                 //专业部门
+                                 TeacherDepartmentName = CourseRoom_.TeacherDepartmentName,                                 
                                  CourseDepartmentName = CourseRoom_.DepartmentName,
+                                 //专业部门
                                  RoomDepartmentName = CourseRoom_.RoomDepartmentName,
 
                                  TeacherJobTitle = CourseRoom_.TeacherJobTitle,
@@ -406,7 +406,7 @@ namespace FEHandler.SysClass
                 }
                 if (MD != "")
                 {
-                    query = (from q in query where q.CourseDepartmentName == MD select q);
+                    query = (from q in query where q.RoomDepartmentName == MD select q);
                 }
                 if (GD != "")
                 {
@@ -499,10 +499,9 @@ namespace FEHandler.SysClass
                                  //课程性质
                                  CourseProperty = Course_.CourseProperty,
                                  //教师部门
-                                 TeacherDepartmentName = CourseRoom_.TeacherDepartmentName,
-                                 //专业部门
+                                 TeacherDepartmentName = CourseRoom_.TeacherDepartmentName,                                 
                                  CourseDepartmentName = CourseRoom_.DepartmentName,
-
+                                 //专业部门
                                  RoomDepartmentName = CourseRoom_.RoomDepartmentName,
 
                                  TeacherUID = CourseRoom_.TeacherUID,

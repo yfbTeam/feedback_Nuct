@@ -118,7 +118,25 @@ namespace FEDAL
 
 
 	     /// </summary>
-	     ///	专业部门名称数据处理类3
+	     ///	数据处理类3
+	     /// </summary>
+		 public partial class Eva_QuestionAnswerDal:BaseDal<Eva_QuestionAnswer>,IEva_QuestionAnswerDal
+         {
+
+
+         }	
+
+        public partial class DalFactory
+        {
+            public static IEva_QuestionAnswerDal GetEva_QuestionAnswerDal()
+            {
+                return new Eva_QuestionAnswerDal();
+            }
+	    }
+
+
+	     /// </summary>
+	     ///	专业部门名称数据处理类4
 	     /// </summary>
 		 public partial class CourseRoomDal:BaseDal<CourseRoom>,ICourseRoomDal
          {
@@ -354,6 +372,24 @@ namespace FEDAL
 	     /// </summary>
 	     ///	
 	     /// </summary>
+		 public partial class Expert_Teacher_CourseDal:BaseDal<Expert_Teacher_Course>,IExpert_Teacher_CourseDal
+         {
+
+
+         }	
+
+        public partial class DalFactory
+        {
+            public static IExpert_Teacher_CourseDal GetExpert_Teacher_CourseDal()
+            {
+                return new Expert_Teacher_CourseDal();
+            }
+	    }
+
+
+	     /// </summary>
+	     ///	
+	     /// </summary>
 		 public partial class TPM_RewardUserInfoDal:BaseDal<TPM_RewardUserInfo>,ITPM_RewardUserInfoDal
          {
 
@@ -370,7 +406,7 @@ namespace FEDAL
 
 
 	     /// </summary>
-	     ///	菜单信息数据处理类4
+	     ///	菜单信息数据处理类5
 	     /// </summary>
 		 public partial class Sys_MenuInfoDal:BaseDal<Sys_MenuInfo>,ISys_MenuInfoDal
          {
@@ -388,7 +424,7 @@ namespace FEDAL
 
 
 	     /// </summary>
-	     ///	角色用户关系数据处理类5
+	     ///	角色用户关系数据处理类6
 	     /// </summary>
 		 public partial class Sys_RoleOfUserDal:BaseDal<Sys_RoleOfUser>,ISys_RoleOfUserDal
          {
@@ -586,7 +622,7 @@ namespace FEDAL
 
 
 	     /// </summary>
-	     ///	角色数据处理类6
+	     ///	角色数据处理类7
 	     /// </summary>
 		 public partial class Sys_RoleDal:BaseDal<Sys_Role>,ISys_RoleDal
          {
@@ -766,25 +802,7 @@ namespace FEDAL
 
 
 	     /// </summary>
-	     ///	
-	     /// </summary>
-		 public partial class Expert_Teacher_CourseDal:BaseDal<Expert_Teacher_Course>,IExpert_Teacher_CourseDal
-         {
-
-
-         }	
-
-        public partial class DalFactory
-        {
-            public static IExpert_Teacher_CourseDal GetExpert_Teacher_CourseDal()
-            {
-                return new Expert_Teacher_CourseDal();
-            }
-	    }
-
-
-	     /// </summary>
-	     ///	菜单按钮类型数据处理类7
+	     ///	菜单按钮类型数据处理类8
 	     /// </summary>
 		 public partial class Sys_ButtonTypeDal:BaseDal<Sys_ButtonType>,ISys_ButtonTypeDal
          {
@@ -838,7 +856,7 @@ namespace FEDAL
 
 
 	     /// </summary>
-	     ///	系统日志数据处理类8
+	     ///	系统日志数据处理类9
 	     /// </summary>
 		 public partial class Sys_LogInfoDal:BaseDal<Sys_LogInfo>,ISys_LogInfoDal
          {
@@ -887,24 +905,6 @@ namespace FEDAL
             public static IEva_RegularDal GetEva_RegularDal()
             {
                 return new Eva_RegularDal();
-            }
-	    }
-
-
-	     /// </summary>
-	     ///	数据处理类9
-	     /// </summary>
-		 public partial class Eva_QuestionAnswerDal:BaseDal<Eva_QuestionAnswer>,IEva_QuestionAnswerDal
-         {
-
-
-         }	
-
-        public partial class DalFactory
-        {
-            public static IEva_QuestionAnswerDal GetEva_QuestionAnswerDal()
-            {
-                return new Eva_QuestionAnswerDal();
             }
 	    }
 

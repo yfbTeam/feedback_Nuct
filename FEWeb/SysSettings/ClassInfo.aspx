@@ -66,7 +66,7 @@
                 </div>
                 <div class="fl selectdiv">
                     <label for="">专业部门:</label>
-                    <select class="select" id="MD">
+                    <select class="select" id="RP">
                         <option value="">全部</option>
                     </select>
                 </div>
@@ -170,7 +170,7 @@
             };
             Base.bindStudySection();
 
-            $("#DP,#CT,#CP,#TN,#MD,#GD,#CN").on('change', function () {
+            $("#DP,#CT,#CP,#TN,#RP,#GD,#CN").on('change', function () {
                 pageIndex = 0;
                 GetClassInfo(pageIndex);
             });
@@ -181,7 +181,7 @@
             });            
             $("#section").on('change', function () {
                 pageIndex = 0;
-                $("#DP,#CT,#CP,#TD,#TN,#MD,#GD,#CN").empty();
+                $("#DP,#CT,#CP,#TD,#TN,#RP,#GD,#CN").empty();
                 GetClassInfo(pageIndex);
                 GetClassInfoSelect($('#section').val());
             });
