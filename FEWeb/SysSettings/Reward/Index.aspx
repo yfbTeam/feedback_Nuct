@@ -72,7 +72,7 @@
                 </div>
                 <div class="fl ml20">
                     <input type="text" name="Key" id="Key" placeholder="请输入奖金批次名称" value="" class="text fl" style="width: 150px;">
-                    <a class="search fl" href="javascript:search();"><i class="iconfont">&#xe600;</i></a>
+                    <a class="search fl" href="javascript:;" onclick="tool_search();"><i class="iconfont">&#xe600;</i></a>
                 </div>
                 <div class="fr">
                     <input type="button" value="新增奖金批次" class="btn" onclick="OpenIFrameWindow('新增奖金批次', 'Batch_Add.aspx?Id=0', '500px', '400px')">
@@ -137,7 +137,7 @@
              GetData(1, 10);
          });         
          var SerKey = $("#Key").val().trim();
-         function search() {
+         function tool_search() {
              SerKey = $("#Key").val().trim();
              GetData(1,10);
          }

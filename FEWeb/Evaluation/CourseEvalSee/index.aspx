@@ -213,7 +213,8 @@
               
             });
             $('#Rg,#RP,#TN,#GD').on('change', Refesh);
-            $('.search').on('click', Refesh);            
+            $('.search').on('click', Refesh);
+            Tool_TextEnter();
         })
 
         function Refesh() {

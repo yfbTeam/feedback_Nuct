@@ -54,7 +54,7 @@
                 </div>
                 <div class="fl ml10">
                     <input type="text" name="" id="Key" placeholder="请输入课程、教师、评价人关键字" value="" class="text fl">
-                    <a class="search fl" href="javascript:;" id="select"><i class="iconfont"></i></a>
+                    <a class="search fl" href="javascript:;" onclick="tool_search();" id="select"><i class="iconfont"></i></a>
                 </div>
             </div>
             <div class="table">
@@ -155,7 +155,6 @@
             $('#footer').load('/footer.html');
             Mode = 2;
             State = 2;
-            $('#select').on('click', search);
             Base.bindStudySectionCompleate = function () {
                 var SectionID = $('#section').val();
                 Base.BindTable(SectionID, '', true);
@@ -186,7 +185,7 @@
             Base.BindDepart('188px');
         })
 
-        function search() {
+        function tool_search() {
             pageIndex = 0;
             Reflesh();
         }

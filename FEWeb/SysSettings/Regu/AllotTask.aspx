@@ -131,7 +131,7 @@
             <h1>专家列表</h1>
             <div class="searchwrap">
                 <input type="text" name="name" id="key1" value="" placeholder="查找专家" />
-                <a class="search fl" href="javascript:search1();"><i class="iconfont">&#xe600;</i></a>
+                <a class="search fl" href="javascript:;" onclick="search1();"><i class="iconfont">&#xe600;</i></a>
             </div>
             <div class="scroll-pane">
                 <ul class="linkman_lists" id="experts" style="height: 400px; overflow-y: auto"></ul>

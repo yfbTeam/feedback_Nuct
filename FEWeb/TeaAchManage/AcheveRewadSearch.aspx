@@ -64,7 +64,7 @@
                 </div>
                 <div class="fl ml20">
                     <input type="text" name="key" id="key" placeholder="请输入负责人关键字" value="" class="text fl" style="width: 150px;">
-                    <a class="search fl" href="javascript:search();"><i class="iconfont">&#xe600;</i></a>
+                    <a class="search fl" href="javascript:;" onclick="tool_search();"><i class="iconfont">&#xe600;</i></a>
                 </div>
             </div>
             <div class="table mt10">
@@ -116,7 +116,7 @@
             navTab('.sort_nav', '.table');
         });        
         var resonname = "";
-        function search() {
+        function tool_search() {
             resonname = $("#key").val().trim();
             BindData(1, 10);
         }

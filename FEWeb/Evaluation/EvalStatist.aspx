@@ -25,7 +25,7 @@
                 </div>
                  <div class="fl ml20">
                     <input type="text" name="key" id="key" placeholder="请输入关键字" value="" class="text fl" style="width: 130px;">
-                    <a class="search fl" href="javascript:search();"><i class="iconfont">&#xe600;</i></a>
+                    <a class="search fl" href="javascript:;" onclick="tool_search();"><i class="iconfont">&#xe600;</i></a>
                 </div>
             </div>
             <div class="table">
@@ -98,6 +98,7 @@
             $('#footer').load('/footer.html');
             Base.bindStudySection();
         })
+        function tool_search(){}
     </script>
 </body>
 </html>
