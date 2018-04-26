@@ -156,7 +156,47 @@
         $("#tb_indicator").empty();
         var arrRes = Enumerable.From(curlist).Skip(index * pageSize).Take(pageSize).ToArray();
         $("#itemData").tmpl(arrRes).appendTo("#tb_indicator");
-        Table_CheckAll($('input:checkbox'));
+        //点击checkbox选中
+        $('#tb_indicator input[type=checkbox]').click(function () {
+            if ($(this).is(':checked')) {
+                addNo(this)
+            } else {
+                removeNo(this)
+            }
+        })
+        //点击行选中
+        $('#tb_indicator td').not($('#tb_indicator td').has('input[type=checkbox]')).click(function () {
+            var $checkbox = $(this).parent().find('input[type=checkbox]');
+            if ($checkbox.is(':checked')) {
+                $checkbox.prop('checked', false);
+                removeNo($checkbox)
+            } else {
+                $checkbox.prop('checked', true);
+                addNo($checkbox)
+            }
+            var sublen = $('#tb_indicator input[type=checkbox]').length;
+            var checkdlen = $('#tb_indicator input[type=checkbox]:checked').length;
+            if (sublen == checkdlen) {
+                $("#ck_head").prop('checked', true);
+            } else {
+                $("#ck_head").prop('checked', false);
+            }
+        })
+        //全选
+        $("#ck_head").click(function () {
+            if ($(this).is(':checked')) {
+                $('#tb_indicator input[type=checkbox]').prop('checked', true);
+                $('#tb_indicator input[type=checkbox]').each(function () {
+                    addNo(this)
+                })
+            } else {
+                $('#tb_indicator input[type=checkbox]').prop('checked', false);
+                $('#tb_indicator input[type=checkbox]').each(function () {
+                    removeNo(this)
+                })
+            }
+        })
+        //hyd
         $("#ck_head").removeAttr('checked');
         if (select_uniques.length > 0) {
             var $check_Sub = $('input:checkbox[name=ss]');
@@ -170,41 +210,16 @@
             $('input:checkbox')[0].checked = seltimes == $check_Sub.length;
         }
     }
-    function Table_CheckAll(oInput) {
-        var isCheckAll = function () {
-            for (var i = 1, n = 0; i < oInput.length; i++) {
-                oInput[i].checked && n++
-            }
-            oInput[0].checked = n == oInput.length - 1;
-        };
-        //全选
-        oInput[0].onchange = function () {
-            for (var i = 1; i < oInput.length; i++) {
-                oInput[i].checked = this.checked;               
-                AddORDelCkNo(oInput[i].value, $(this).is(':checked'));
-            }
-            isCheckAll()
-        };
-        //根据复选个数更新全选框状态
-        for (var i = 1; i < oInput.length; i++) {
-            oInput[i].onchange = function () {   //单选              
-                AddORDelCkNo(this.value, $(this).is(':checked'));
-                isCheckAll()
-            }
+    function addNo(obj) {
+        var cindex = $.inArray($(obj).val(), select_uniques);
+        if (cindex == -1) {
+            select_uniques.push($(obj).val());
         }
     }
-    //数组添加或移除编号
-    function AddORDelCkNo(val_No, ischeck) {
-        var cindex = $.inArray(val_No, select_uniques);
-        if (!ischeck) { //取消选中          
-            if (cindex > -1) {
-                select_uniques.splice(cindex, 1);
-            }
-        }
-        else { //选中  
-            if (cindex == -1) {
-                select_uniques.push(val_No);
-            }
+    function removeNo(obj) {
+        var cindex = $.inArray($(obj).val(), select_uniques);
+        if (cindex > -1) {
+            select_uniques.splice(cindex, 1);
         }
     }
 </script>
