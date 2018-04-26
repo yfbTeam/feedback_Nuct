@@ -125,37 +125,34 @@ var UI_Allot =
 
     //-----------绑定数据--------------------------------------------------------------------------------------
     BindDataTo_GetUserinfo: function (bindData) {
+        var that = this;
         $("#tb_indicator").empty();
         $("#itemData").tmpl(bindData).appendTo("#tb_indicator");
-        //$("#tb_indicator").append(strall);
+        
         if (Enumerable.From(bindData).ToArray().length == 0) {
 
             nomessage('#tb_indicator', 'tr', 20, 425);
         }
         tableSlide();
-        $('input:checkbox[name=se]').each(function () {
-
-            $(this).on('click', function () {
-                var check = $(this).prop('checked');
-                var UniqueNo = $(this).attr('UniqueNo');
-             
-                if (!check) {                 
-                    $(this).removeAttr('checked');
-                    RemoveUnique(UniqueNo);
-
-                }
-                else {
-                    $(this).attr('checked', 'checked');                   
-                    AddUnique(UniqueNo);
-                }
-
-
-                UI_Allot.PageChange_Check();
-            })
+        $('.table tbody tr').css('cursor', 'pointer');
+        $('input:checkbox[name=se]').click(function () {
+            that.isChecked(this)
         });
-        //var ischeck = $(this).attr('checked')
+        $('.table tbody td').click(function () {
+            that.isChecked($(this).parent().find('input:checkbox[name=se]'))
+        })
     },
-
+    isChecked: function (obj) {
+        var UniqueNo = $(obj).attr('UniqueNo');
+        if ($(obj).is(':checked')) {
+            $(obj).prop('checked', false);
+            RemoveUnique(UniqueNo);
+        } else {
+            $(obj).prop('checked', true);
+            AddUnique(UniqueNo);
+        }
+        UI_Allot.PageChange_Check();
+    },
     //-----------提交信息---------------------------------------------------------------------------------------  
     SubmitUserinfo: function () {
         //var CurrentRoleName = parent.GetCurrentRoleName();

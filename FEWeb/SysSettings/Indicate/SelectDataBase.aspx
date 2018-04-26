@@ -82,10 +82,10 @@
         <tr>
             <td>
                 <input type="checkbox" id="cb_${Id}" name="cb_item" value="${Id}" /><input type="hidden" value="" /></td>
-            <td style="text-align: left; padding-left: 20px;">${Name}</td>
-            <td>${questionType(QuesType_Id)}</td>
-            <td>${Remarks}</td>
-            <td>${DateTimeConvert(EditTime,'yyyy-MM-dd',true)}</td>
+            <td style="text-align: left; padding-left: 20px;" class="td_select">${Name}</td>
+            <td class="td_select">${questionType(QuesType_Id)}</td>
+            <td class="td_select">${Remarks}</td>
+            <td class="td_select">${DateTimeConvert(EditTime,'yyyy-MM-dd',true)}</td>
         </tr>
     </script>
 

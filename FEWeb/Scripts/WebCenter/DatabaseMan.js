@@ -191,6 +191,7 @@ var DataBaseMainModel =
                                 }
                             }
                             set_F();
+
                             $("input[name='cb_item']").click(function () {
                                 if ($(this).is(":checked") == false) {
                                     check_arr.splice(check_arr.indexOf($(this).val()), 1);
@@ -338,13 +339,7 @@ var DataBaseMainModel =
         //全选
         Check_All: function () {
             if ($("#cb_all").is(":checked")) {
-                //$("input[name='cb_item']").each(function () {
-                //    for (var i = 0; i < check_arr.length; i++) {
-                //        if ($(this).is("checked")) {
-                //            check_arr.splice(i, 1);
-                //        }
-                //    }
-                //})
+              
 
                 $("input[name='cb_item']").prop("checked", true);
                 $("input[name='cb_item']").each(function () {
@@ -435,12 +430,6 @@ var DataBaseMainModel =
         },
         //选择后存储一个子父级的一个大的数组
         storage_array: function (_this) {
-
-
-            //console.log(check_arr);
-            //console.log($(_this).val());
-            //console.log(typeof (parseInt($(_this).val())));
-            //console.log(check_arr.indexOf($(_this).val()));
             if ($(_this).is(":checked") && check_arr.indexOf($(_this).val()) == -1) {
                 DataBaseMainModel.index_1++;
                 check_arr.push($(_this).val());
