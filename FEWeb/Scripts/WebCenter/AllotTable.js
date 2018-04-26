@@ -200,8 +200,8 @@ Array.prototype.remove = function (val) {
 
 ////================================================================================获取信息=============================================================================================
 
-function GetCourseType_Table(CourseTypeId, SectionId) {
-    var postData = { func: "GetCourseType_Table", "CourseTypeId": CourseTypeId, SectionId: SectionId };
+function GetCourseType_Table(CourseTypeId, SectionId, key) {
+    var postData = { func: "GetCourseType_Table", "CourseTypeId": CourseTypeId, SectionId: SectionId, Key: key };
     $.ajax({
         type: "Post",
         url: HanderServiceUrl + "/Eva_Manage/Eva_ManageHandler.ashx",

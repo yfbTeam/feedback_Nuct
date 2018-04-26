@@ -120,7 +120,7 @@
 
             <td class="commonUsing" style="width: 7%; display: none">${AnswerName}</td>
             <td style="width: 7%">${DateTimeConvert(CreateTime, 'yy-MM-dd', true)}</td>
-            <td style="width: 5%">${Score.toFixed(2)}</td>
+            <td style="width: 5%">{{if IsScore}}${Score.toFixed(2)}{{else}}-{{/if}}</td>
 
             <td style="width: 5%" class="operate_wrap" style="width: 10px">
                 <div class="operate" onclick="table_view('${TableID}','${Id}')">

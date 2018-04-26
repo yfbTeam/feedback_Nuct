@@ -285,6 +285,7 @@ namespace FEHandler.Eva_Manage
             HttpRequest Request = context.Request;
             string CourseTypeId = RequestHelper.string_transfer(Request, "CourseTypeId");
             int SectionId = RequestHelper.int_transfer(Request, "SectionId");
+            string Key = RequestHelper.string_transfer(Request, "Key");
             //  where b.IsEnable == (int)IsEnable.Enable
             try
             {
@@ -297,6 +298,10 @@ namespace FEHandler.Eva_Manage
                             join user in Constant.UserInfo_List on b.CreateUID equals user.UniqueNo into users_
                             from u in users_.DefaultIfEmpty()
                             select new { tb.Id, b.Name, b.IsScore, b.UseTimes, b.CreateUID, b.CreateTime, b.IsEnable, UserName = u != null ? u.Name : "", TableId = b.Id, CourseTypeId = s.Key }).ToList();
+                if (!string.IsNullOrEmpty(Key))
+                {
+                    data =data.Where(t=>t.Name.Contains(Key)).ToList();
+                }
                 jsonModel = JsonModel.get_jsonmodel(0, "success", data);
             }
             catch (Exception ex)

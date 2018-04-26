@@ -26,7 +26,7 @@
                         </div>
                         <div class="fr" style="margin-top: 1px">
                             <input type="text" name="" id="key" placeholder="请输入关键字" value="" class="text fl">
-                            <a class="search fl" href="javascript:;" onclick="SelectByWhereList()"><i class="iconfont">&#xe600;</i></a>
+                            <a class="search fl" href="javascript:;" onclick="reflesh();"><i class="iconfont">&#xe600;</i></a>
                         </div>
                     </div>
                     <div class="table">
@@ -127,12 +127,10 @@
         var CourseType_Table_Dat = [];
         var select_sectionid = parent.select_sectionid
         $(function () {
-            if (state == -1)
-            {
+            if (state == -1) {
                 $("#itembtnsNo").tmpl(1).appendTo("#disdiv");
             }
-            else
-            {
+            else {
                 $("#itembtns").tmpl(1).appendTo("#disdiv");
             }
 
@@ -140,13 +138,13 @@
             $('#distable').on('click', function () {
                 OpenIFrameWindow('分配表格', 'Allot_Add_Table.aspx?course_TypeId=' + select_CourseTypeId + '&select_CourseTypeName=' + select_CourseTypeName, '800px', '500px');
             });
-            PageType = 'EvalTableAllot';         
-            GetCourseType_Table(select_CourseTypeId, select_sectionid);
-        })
+            PageType = 'EvalTableAllot';
+            GetCourseType_Table(select_CourseTypeId, select_sectionid,$("#key").val().trim());
+        });
         var returnVal_Courseinfo;
         var reUserinfoByselect;
         function reflesh() {
-            GetCourseType_Table(select_CourseTypeId, select_sectionid);
+            GetCourseType_Table(select_CourseTypeId, select_sectionid,$("#key").val().trim());
         }
     </script>
 </body>
