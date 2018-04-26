@@ -568,7 +568,7 @@
         //提交分配
         function submit() {
             DisModelType = 1;
-            AddExpert_List_Teacher_Course();
+            AddExpert_List_Teacher_Course($.inArray(10, GetRoleArray('Userinfos')) == -1 ? 1 : 2);
         }
 
         //填充checkbox
