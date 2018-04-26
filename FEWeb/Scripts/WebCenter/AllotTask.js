@@ -245,7 +245,7 @@ function teacherreflesh()
 var DisModelType = 0;
 var IsSelfStart = 1;//默认不是自发起任务
 function AddExpert_List_Teacher_CourseCompleate() { };
-function AddExpert_List_Teacher_Course() {
+function AddExpert_List_Teacher_Course(sourtype) {
     if (PageType == "StartEval") { IsSelfStart = 2; }
     var postData = {
         func: "AddExpert_List_Teacher_Course",
@@ -256,7 +256,7 @@ function AddExpert_List_Teacher_Course() {
         "SectionID": select_sectionid,
         "List": JSON.stringify(select_course_teacher),
         "DisModelType": DisModelType,
-        SourceType: $.inArray(10, GetRoleArray('Userinfos'))==-1?1:2, //判断是否是校管理员
+        SourceType:sourtype, //判断是否是校管理员
         IsSelfStart: IsSelfStart
     };
     $.ajax({

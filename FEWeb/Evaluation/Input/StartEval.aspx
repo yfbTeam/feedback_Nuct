@@ -474,10 +474,9 @@
             };
             GetClassInfo(pageIndex);
         })
-
         function submit() {
             if (cur_TableCount > 0) {
-                AddExpert_List_Teacher_Course();
+                AddExpert_List_Teacher_Course($.inArray(17, GetRoleArray('Userinfos')) == -1 ? 1 : 2); //判断是否是校管理员);
             } else {
                 layer.confirm('该课程没有相关的评价表！<br>请联系管理员进行处理。', {
                     btn: ['确定'],
