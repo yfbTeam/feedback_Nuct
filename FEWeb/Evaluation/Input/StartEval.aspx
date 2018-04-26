@@ -460,20 +460,26 @@
             PrepareInit();
 
             GetClassInfoCompleate = function () {
+                $('#tbody tr').css('cursor', 'pointer');
                 $('#tbody').find('.checkbox').on('click', function () {
-                    $('#tbody').find('.checkbox').prop('checked', false);
-                    if (!$(this).is(':checked')) {
-                        $(this).prop('checked', true);
-                        $(".btnwrap").empty();
-                        $("#btn_yes").tmpl(1).appendTo(".btnwrap");
-                        cur_TableCount = Number($(this).attr('tbcount'));
-                        AddDisOne($(this).attr('CourseID'), $(this).attr('Course_Name'), $(this).attr('TeacherUID'), $(this).attr('Teacher_Name'), $(this).attr('Id'));
-                    }
+                    isChecked(this)
                 });
-
+                $('#tbody td').click(function () {
+                    isChecked($(this).parent().find('.checkbox'))
+                })
             };
             GetClassInfo(pageIndex);
         })
+        function isChecked(obj) {
+            $('#tbody').find('.checkbox').prop('checked', false);
+            if (!$(obj).is(':checked')) {
+                $(obj).prop('checked', true);
+                $(".btnwrap").empty();
+                $("#btn_yes").tmpl(1).appendTo(".btnwrap");
+                cur_TableCount = Number($(obj).attr('tbcount'));
+                AddDisOne($(obj).attr('CourseID'), $(obj).attr('Course_Name'), $(obj).attr('TeacherUID'), $(obj).attr('Teacher_Name'), $(obj).attr('Id'));
+            }
+        }
         function submit() {
             if (cur_TableCount > 0) {
                 AddExpert_List_Teacher_Course($.inArray(17, GetRoleArray('Userinfos')) == -1 ? 1 : 2); //判断是否是校管理员);
