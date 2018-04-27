@@ -1017,7 +1017,7 @@ namespace FEHandler.Eva_Manage
                             }
                             li.State = Convert.ToString(regustate);
                             li.StateType = (int)regustate;
-                            li.AnswerCount = Constant.Eva_QuestionAnswer_List.Count(q => q.ReguID == li.ReguId && q.CourseID == li.CourseID && q.State == (int)QueState.Submited);
+                            li.AnswerCount = Constant.Eva_QuestionAnswer_List.Count(q => q.RelationID==li.Id && q.State == (int)QueState.Submited);
                             li.TableCount = (from r in Constant.CourseRel_List
                                              where r.Course_Id == li.CourseID&&r.StudySection_Id==li.SectionID
                                              join t in Constant.Eva_CourseType_Table_List on new { CourseTypeId=r.CourseType_Id,r.StudySection_Id } equals new{ CourseTypeId=t.CourseTypeId,t.StudySection_Id}
@@ -1032,14 +1032,14 @@ namespace FEHandler.Eva_Manage
                         break;
                     case FuncType.getcount:
                         bool result = false;
-                        var currentRegu = Constant.Eva_Regular_List.FirstOrDefault(i => (DateTime)i.StartTime <= DateTime.Now && (DateTime)i.EndTime >= DateTime.Now);
+                        var currentRegu = Constant.Eva_Regular_List.FirstOrDefault(i =>i.Type==1&&(DateTime)i.StartTime <= DateTime.Now && (DateTime)i.EndTime >= DateTime.Now);
                         list = (from li in list where li.ReguId == currentRegu.Id select li).ToList();
                         if (currentRegu != null)
                         {                          
                             foreach (var li in list)
                             {
                                 int AnswerCount = Constant.Eva_QuestionAnswer_List.Count(q =>q.AnswerUID == li.ExpertUID && q.TeacherUID == li.TeacherUID && 
-                                    q.ReguID == currentRegu.Id && q.ReguID == li.ReguId && q.CourseID == li.CourseID && q.State == (int)QueState.Submited);
+                                    q.RelationID==li.Id && q.State == (int)QueState.Submited);
                                 if (AnswerCount == 0)
                                 {
                                     result = true;
