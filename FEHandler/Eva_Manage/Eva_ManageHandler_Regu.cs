@@ -1032,14 +1032,14 @@ namespace FEHandler.Eva_Manage
                         break;
                     case FuncType.getcount:
                         bool result = false;
-                        var currentRegu = Constant.Eva_Regular_List.FirstOrDefault(i => (DateTime)i.StartTime <= DateTime.Now && (DateTime)i.EndTime >= DateTime.Now);
+                        var currentRegu = Constant.Eva_Regular_List.FirstOrDefault(i =>i.Type==1&&(DateTime)i.StartTime <= DateTime.Now && (DateTime)i.EndTime >= DateTime.Now);
                         list = (from li in list where li.ReguId == currentRegu.Id select li).ToList();
                         if (currentRegu != null)
                         {                          
                             foreach (var li in list)
                             {
                                 int AnswerCount = Constant.Eva_QuestionAnswer_List.Count(q =>q.AnswerUID == li.ExpertUID && q.TeacherUID == li.TeacherUID && 
-                                    q.ReguID == currentRegu.Id && q.ReguID == li.ReguId && q.CourseID == li.CourseID && q.State == (int)QueState.Submited);
+                                    q.RelationID==li.Id && q.State == (int)QueState.Submited);
                                 if (AnswerCount == 0)
                                 {
                                     result = true;
