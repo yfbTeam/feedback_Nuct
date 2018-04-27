@@ -51,7 +51,9 @@
         .w-30 {
             width: 30px;
         }
-
+        .w-20 {
+            width: 20px;
+        }
         .w-10 {
             width: 10px;
         }
@@ -184,7 +186,7 @@
                         <thead>
                             <tr>
                                 <th>
-                                    <div class="table-cell w-10"></div>
+                                    <div class="table-cell w-20"></div>
                                 </th>
                                 <th>
 
@@ -346,7 +348,7 @@
     <script type="text/x-jquery-tmpl" id="itemData">
         <tr>
             <td>
-                <div class="table-cell w-10">
+                <div class="table-cell w-20">
                     <input tbcount="${TableCount}" Id="${Id}" courseid="${CourseID}" course_name="${Course_Name}" teacheruid="${TeacherUID}" teacher_name="${Teacher_Name}" class="checkbox" type="checkbox" />
                 </div>
             </td>
