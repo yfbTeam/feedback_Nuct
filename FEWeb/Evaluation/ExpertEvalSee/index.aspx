@@ -235,6 +235,7 @@
                 TeacherUID = login_User.UniqueNo;                
             }
             else {
+                SourceType = IsAllSchool == 1 ? 1 : 2;
                 $('.commonUsing').show();
             }
             State = 3;
