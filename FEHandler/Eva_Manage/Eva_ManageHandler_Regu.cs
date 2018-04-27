@@ -1017,7 +1017,7 @@ namespace FEHandler.Eva_Manage
                             }
                             li.State = Convert.ToString(regustate);
                             li.StateType = (int)regustate;
-                            li.AnswerCount = Constant.Eva_QuestionAnswer_List.Count(q => q.RelationID==li.Id && q.State == (int)QueState.Submited);
+                            li.AnswerCount = Constant.Eva_QuestionAnswer_List.Count(q => q.RelationID==li.Id && (q.State==(int)QueState.Submited|| q.State== (int)QueState.Checked));
                             li.TableCount = (from r in Constant.CourseRel_List
                                              where r.Course_Id == li.CourseID&&r.StudySection_Id==li.SectionID
                                              join t in Constant.Eva_CourseType_Table_List on new { CourseTypeId=r.CourseType_Id,r.StudySection_Id } equals new{ CourseTypeId=t.CourseTypeId,t.StudySection_Id}
@@ -1039,7 +1039,7 @@ namespace FEHandler.Eva_Manage
                             foreach (var li in list)
                             {
                                 int AnswerCount = Constant.Eva_QuestionAnswer_List.Count(q =>q.AnswerUID == li.ExpertUID && q.TeacherUID == li.TeacherUID && 
-                                    q.RelationID==li.Id && q.State == (int)QueState.Submited);
+                                    q.RelationID==li.Id && (q.State == (int)QueState.Submited || q.State == (int)QueState.Checked));
                                 if (AnswerCount == 0)
                                 {
                                     result = true;
