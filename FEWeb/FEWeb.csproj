@@ -440,7 +440,6 @@
     <Content Include="Scripts\Uploadify\uploadify\uploadify.css" />
     <Content Include="Scripts\Uploadify\uploadify\uploadify.swf" />
     <Content Include="Scripts\Uploadify\uploadify\WebForm1.aspx" />
-    <Content Include="Scripts\Uploadify\UploadyfyDemo.aspx" />
     <Content Include="Scripts\Webuploader\css\webuploader.css" />
     <Content Include="Scripts\Webuploader\dist\Uploader.swf" />
     <Content Include="Scripts\Webuploader\dist\webuploader.css" />
@@ -1419,10 +1418,6 @@
     </Compile>
     <Compile Include="Scripts\Uploadify\uploadify\WebForm1.aspx.designer.cs">
       <DependentUpon>WebForm1.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="Scripts\Uploadify\UploadyfyDemo.aspx.cs">
-      <DependentUpon>UploadyfyDemo.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Scripts\Webuploader\Upload.ashx.cs">
       <DependentUpon>Upload.ashx</DependentUpon>
