@@ -547,6 +547,9 @@
             }           
         })
         function ischecked(obj) {
+            if ($(obj).is(':disabled')) {
+                return;
+            }
             if ($(obj).is(':checked')) {
                 $(obj).prop('checked', false);
                 RemoveDis($(obj).attr('CourseID'), $(obj).attr('TeacherUID'), $(obj).attr('Id'));
