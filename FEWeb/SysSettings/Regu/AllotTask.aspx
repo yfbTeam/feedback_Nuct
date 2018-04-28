@@ -442,7 +442,8 @@
         var select_reguid = parent.select_reguid;
         ReguID = select_reguid;
         var IsAllSchool = parent.IsAllSchool;
-        UnEvaTeaRoleId = 8;        
+        UnEvaTeaRoleId = 8;
+        State = 0;
         var pageIndex = 0;
         $(function () {
             $(".fixed-table-box").fixedTable();

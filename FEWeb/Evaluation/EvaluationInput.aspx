@@ -182,6 +182,7 @@
 
         var reguType = 1;
         IsAllSchool = getQueryString('IsAllSchool');
+        ModelType = IsAllSchool == 1 ? 2 : 3;
         $(function () {
             $('#top').load('/header.html');
             $('#footer').load('/footer.html');
@@ -201,7 +202,7 @@
                 Get_Eva_RegularDataCompleate = function (result) {
                     if (result) {
                         $('.dian').show();
-                    }
+                    } else { $('.dian').hide(); }
                 };               
                 Get_Eva_RegularData();
             };
