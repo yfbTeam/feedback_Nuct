@@ -61,7 +61,7 @@ namespace FEHandler.Eva_Manage
                             jsonModel = AddExpert_List_Teacher_CourseExpertHelper(Expert_Teacher_Course_List);
                             break;
                         case DisModelType.manage:
-                            jsonModel = AddExpert_List_Teacher_CourseHelper(Expert_Teacher_Course_List, SectionID, Regu_Id, ExpertUID);
+                            jsonModel = AddExpert_List_Teacher_CourseHelper(Expert_Teacher_Course_List, SectionID, Regu_Id, ExpertUID, SourceType);
                             break;
                         default:
                             break;
@@ -80,7 +80,7 @@ namespace FEHandler.Eva_Manage
             }
         }
 
-        public static JsonModel AddExpert_List_Teacher_CourseHelper(List<Expert_Teacher_Course> Expert_Teacher_Course_List, int SectionID, string Regu_Id, string ExpertUID)
+        public static JsonModel AddExpert_List_Teacher_CourseHelper(List<Expert_Teacher_Course> Expert_Teacher_Course_List, int SectionID, string Regu_Id, string ExpertUID,int SourceType)
         {
             JsonModel model = new JsonModel();
             int Success = (int)errNum.Success;
@@ -92,7 +92,7 @@ namespace FEHandler.Eva_Manage
                 List<Expert_Teacher_Course> data_r_Copy = new List<Expert_Teacher_Course>();
                 //指定某个学年学期定期评价某专家的数据
                 List<Expert_Teacher_Course> data_r = (from s in Constant.Expert_Teacher_Course_List
-                                                      where s.ReguId == Regu_Id && s.ExpertUID == ExpertUID && s.SecionID == SectionID&&s.IsSelfStart==1
+                                                      where s.ReguId == Regu_Id && s.ExpertUID == ExpertUID && s.SecionID == SectionID&&s.SourceType==SourceType&&s.IsSelfStart==1
                                                       select s).ToList();
 
                 Expert_Teacher_Course_List.ForEach(i => Expert_Teacher_Course_List_Copy.Add(i));
