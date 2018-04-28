@@ -632,3 +632,22 @@ function getNowFormatDate() {
     var currentdate = date.getFullYear() + seperator1 + month + seperator1 + strDate
     return currentdate;
 }
+function getNowFormatDateTime() {
+    var date = new Date();
+    var seperator1 = "-";
+    var seperator2 = ":";
+    var month = date.getMonth() + 1;
+    var strDate = date.getDate();
+    if (month >= 1 && month <= 9) {
+        month = "0" + month;
+    }
+    if (strDate >= 0 && strDate <= 9) {
+        strDate = "0" + strDate;
+    }
+    var hour = (date.getHours()).toString();
+    var twoHour = hour.length == 1 ? "0" + hour : hour; //小时数为1位数时，前面加0
+    var minute = (date.getMinutes()).toString();
+    var twoMinute = minute.length == 1 ? "0" + minute : minute; //分钟数为1位数时，前面加0
+    var currentdate = date.getFullYear() + seperator1 + month + seperator1 + strDate + " " + twoHour + ":" + twoMinute;
+    return currentdate;
+}
