@@ -52,6 +52,7 @@ namespace FEHandler.Eva_Manage
                         item.RoomID = Convert.ToString(item.Id);
                         item.SourceType = SourceType;
                         item.IsSelfStart = IsSelfStart;
+                        item.TeacherMajor_ID = Constant.UserInfo_List.Where(t => t.UniqueNo == item.TeacherUID).Select(t => t.Major_ID).FirstOrDefault().ToString();
                     }
 
                     switch (DisModelType)
