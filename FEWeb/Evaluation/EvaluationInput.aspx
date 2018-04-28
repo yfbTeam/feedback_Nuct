@@ -143,7 +143,7 @@
                    <span class="operate_none bg_purple">查看</span>
                </div>
                {{if State == 1|| State ==4}}                      
-                   {{if DateTimeConvert(RegStartTime,'yyyy-MM-dd',true)<= getNowFormatDate()&& DateTimeConvert(RegEndTime,'yyyy-MM-dd',true) >= getNowFormatDate()}}
+                   {{if DateTimeConvert(RegStartTime,'yyyy-MM-dd HH:mm',true)<= getNowFormatDate()&& DateTimeConvert(RegEndTime,'yyyy-MM-dd HH:mm',true) >= getNowFormatDate()}}
                    <div class="operate" onclick="window.location.href='./input/EvalTable.aspx?IsAllSchool='+IsAllSchool+'&Id='+getQueryString('Id')+'&Iid='+getQueryString('Iid') +'&TeacherUID='+'${TeacherUID}'+'&TeacherName='+'${TeacherName}'
                       +'&SectionID='+'${SectionID}'+'&DisPlayName='+'${DisPlayName}'+'&CourseID='+'${CourseID}'+'&CourseName='+'${CourseName}'+'&ReguID='+'${ReguID}'+'&ReguName='+'${ReguName}'
                       +'&AnswerUID='+'${AnswerUID}'+'&AnswerName='+'${AnswerName}'+'&DepartmentName='+'${DepartmentName}'+'&QuestionID='+ '${Id}'+'&table_Id='+ '${TableID}'+'&TableName='+ '${TableName}'+'&RoomID='+ '${RoomID}'+'&RelationID='+ '${RelationID}'">
