@@ -220,7 +220,14 @@ namespace FEHandler.Eva_Manage
                     case ModeType.Look:
                         if (Key != "")
                         {
-                            list = (from li in list where li.CourseName.Contains(Key) || li.TeacherName.Contains(Key) select li).ToList();
+                            if ((int)IsAllSchool == 2)
+                            {
+                                list = (from li in list where li.CourseName.Contains(Key) select li).ToList();
+                            }
+                            else
+                            {
+                                list = (from li in list where li.CourseName.Contains(Key) || li.TeacherName.Contains(Key) || li.AnswerName.Contains(Key) select li).ToList();
+                            }
                         }
                         break;
                     default:

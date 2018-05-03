@@ -55,7 +55,7 @@
                     </select>
                 </div>
                 <div class="fl ml10">
-                    <input type="text" name="" id="Key" placeholder="请输入课程名称关键字" value="" class="text fl">
+                    <input type="text" name="" id="Key" placeholder="请输入课程名称关键字" value="" class="text fl" style="width:220px;">
                     <a class="search fl" href="javascript:;" onclick="tool_search();" id="select"><i class="iconfont"></i></a>
                 </div>
 
@@ -184,6 +184,11 @@
 
         var reguType = 1;
         IsAllSchool = getQueryString('IsAllSchool');
+        if (IsAllSchool == 2) {
+            $("#Key").attr('placeholder', '请输入课程名称关键字');
+        } else {
+            $("#Key").attr('placeholder', '请输入课程、教师、评价人关键字');
+        }
         $(function () {
             $('#top').load('/header.html');
             $('#footer').load('/footer.html');
