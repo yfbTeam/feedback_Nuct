@@ -43,7 +43,7 @@ namespace FEHandler.UserMan
                     //获取用户信息【根据类型】+课程【教师组】
                     case "GetUserByType_Course": GetUserByType_Course(context); break;
                     case "SetUserToRole": SetUserToRole(context); break;
-
+                    case "Remove_RoleUser":Remove_RoleUser(context); break;
                     case "IsMutex": IsMutex(context); break;
 
                     case "GetTeachers": GetTeachers(context); break;
@@ -244,6 +244,40 @@ namespace FEHandler.UserMan
         }
 
         #endregion
+
+        #region 删除角色成员
+        public void Remove_RoleUser(HttpContext context)
+        {
+            int intSuccess = (int)errNum.Success;
+            try
+            {
+                HttpRequest Request = context.Request;
+                int RoleUser_Id = RequestHelper.int_transfer(Request, "RoleUser_Id");
+                Sys_RoleOfUser Sys_RoleOfUser = Constant.Sys_RoleOfUser_List.FirstOrDefault(r => r.Id == RoleUser_Id);
+                if (Sys_RoleOfUser != null)
+                {
+                    var jsm = Constant.Sys_RoleOfUserService.Delete(RoleUser_Id);
+                    if (jsm.errNum == 0)
+                    {
+                        Constant.Sys_RoleOfUser_List.RemoveAll(r => r.Id==RoleUser_Id);
+                    }
+                    jsonModel = JsonModel.get_jsonmodel(intSuccess, "success", "0");
+                }
+                else
+                {
+                    jsonModel = JsonModel.get_jsonmodel(intSuccess, "未找到用户信息", "1");
+                }                            
+            }
+            catch (Exception ex)
+            {
+                LogHelper.Error(ex);
+            }
+            finally
+            {              
+                context.Response.Write("{\"result\":" + Constant.jss.Serialize(jsonModel) + "}");
+            }
+        }
+        #endregion        
 
         #region 获取用户组
 
@@ -953,7 +987,7 @@ namespace FEHandler.UserMan
                                 TeacherBirthday = tea_ != null ? tea_.TeacherBirthday : 0,
                                 TeacherSchooldate = tea_ != null ? tea_.TeacherSchooldate : 0,
                                 Status = tea_ != null ? tea_.Status : "",
-
+                                RoleUser_Id=ru.Id
                             }).ToList();
 
                 if (Dp != "")

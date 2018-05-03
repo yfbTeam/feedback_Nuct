@@ -31,5 +31,6 @@ namespace FEModel.Entity
         public int? TeacherSchooldate { get; set; }
 
         public string Status { get; set; }
+        public int? RoleUser_Id { get; set; }        
     }
 }

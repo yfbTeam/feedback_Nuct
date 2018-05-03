@@ -120,7 +120,15 @@
             <td>${DepartmentName}</td>
             <td>${SubDepartmentName}</td>
             <td>${Status}</td>
-
+            {{if CurrentRoleid!=3}}
+            <td>
+                <div class="operate" onclick="Remove_RoleUser(${RoleUser_Id});">
+                     <i class="iconfont color_purple">&#xe798;</i>
+                     <span class="operate_none bg_purple" style="display: none;">移除      
+                     </span>
+                 </div>
+            </td>
+            {{/if}}
         </tr>
     </script>
 
@@ -207,16 +215,16 @@
 
     <script type="text/x-jquery-tmpl" id="header_tea">
         <tr>
-            <th style="width: 5%">序号	</th>
+            <th style="width: 5%">序号</th>
             <th style="width: 15%">教职工号</th>
             <th style="width: 10%">姓名</th>
             <th style="width: 6%">性别</th>
             <th style="width: 6%">年龄</th>
             <th style="width: 6%">校龄</th>
-            <th style="width: 20%">部门</th>
-            <th style="width: 20%">子部门</th>
-            <th style="width: 10%">教师状态</th>
-
+            <th style="width: 18%">部门</th>
+            <th style="width: 18%">子部门</th>
+            <th style="width: 8%">教师状态</th>
+            <th style="width:6%;display:none;" class="tea_operate">操作</th>
         </tr>
     </script>
 
@@ -341,6 +349,7 @@
                 $("#btnitem1").tmpl(1).appendTo('#btnpanel');
                 $('#div_Class').hide();
                 $('#div_Unit').show();
+                $("#header_th th.tea_operate").hide();
             }
             else if (CurrentRoleid == 2) {
                 $('#div_Class,#div_Unit').show();
@@ -348,9 +357,9 @@
             else {
                 $("#btnitem1").tmpl(1).appendTo('#btnpanel');
                 $("#btnitem2").tmpl(1).appendTo('#btnpanel');
-
                 $('#div_Unit').show();
                 $('#div_Class').hide();
+                $("#header_th th.tea_operate").show();
             }
             pageIndex = 0;
             Get_UserByRoleID(pageIndex);
@@ -371,6 +380,29 @@
             all = JudgeBtn_IsExist("all");
 
             rid = login_User.Sys_Role_Id;
+        }
+        function Remove_RoleUser(roleuser_id) { //删除角色成员
+            layer.confirm('确认要把该用户移出？', {
+                btn: ['确定', '取消'],
+                title: '操作'
+            }, function (index) {
+                $.ajax({
+                    url: HanderServiceUrl + "/UserMan/UserManHandler.ashx",
+                    type: "post",
+                    async: false,
+                    dataType: "json",
+                    data: { Func: "Remove_RoleUser", RoleUser_Id: roleuser_id },
+                    success: function (json) {
+                        if (json.result.errNum == 0) {
+                            layer.msg('操作成功!');
+                            Get_UserByRoleID(0);
+                        } else {
+                            layer.msg(json.result.errMsg);
+                        }
+                    },
+                    error: function () { }
+                });
+            }, function () { });
         }
     </script>
 
