@@ -758,14 +758,16 @@ namespace FEHandler.UserMan
             {
                 HttpRequest Request = context.Request;
                 //返回所有用户信息
-
                 string ClassID = RequestHelper.string_transfer(Request, "ClassID");
-
-                List<UserInfo> UserInfo_List_ = Constant.UserInfo_List;
-                List<Major> Major_List = Constant.Major_List;
-
+                List<UserInfo> UserInfo_List_ = Constant.UserInfo_List;               
+                var cla_stuQuery= Constant.Class_StudentInfo_List;
+                if (ClassID != "")
+                {
+                    cla_stuQuery = (from q in cla_stuQuery where q.Class_Id == ClassID select q).ToList();
+                }
                 var query = from ul in UserInfo_List_
                             join s in Constant.Student_List on ul.UniqueNo equals s.UniqueNo
+                            join clstu in cla_stuQuery on s.UniqueNo equals clstu.UniqueNo
                             select new
                             {
                                 id = ul.Id,
@@ -779,16 +781,15 @@ namespace FEHandler.UserMan
                                 RoleName = "学生",
                                 UniqueNo = ul.UniqueNo,
                                 Pwd = ul.ClearPassword,
-                                MajorName = "",
-                                Major_ID = ul.Major_ID,
+                                Major_ID = s.MajorID,
+                                MajorName =s.MajorName,                                
                                 s.ClassNo,
                                 s.ClassName,
                             };
-                if (ClassID != "")
-                {
-                    query = (from q in query where q.ClassNo == ClassID select q).ToList();
-                }
-                var data = new { StuList = (from q in query select new { q.UniqueNo, q.Name }) };
+                
+                var data = new { StuList = (from q in query select new { q.UniqueNo, q.Name,q.Major_ID }),
+                                 MajorList=(from m in query select new { m.Major_ID,m.MajorName }).Distinct()
+                };
 
                 jsonModel = JsonModel.get_jsonmodel(intSuccess, "success", data);
             }

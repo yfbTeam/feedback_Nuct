@@ -317,14 +317,11 @@
             <label class="lblheader" customcode="${CustomCode}" name="${Value}">
                 ${Value}：              
                 {{if CustomCode == 4}}
-            <select id="major">
-            </select>
+            <select id="major" isrequired="true" fl="专业"></select>
                 {{else  CustomCode == 5}}
-            <select id="Cls">
-            </select>
+                <input readonly="readonly" class="input_bottom" id="Cls" />
                 {{else  CustomCode == 6}}
-            <select id="Stu">
-            </select>
+            <select id="Stu" isrequired="true" fl="学生"></select>
                 {{else  CustomCode == 7}} 
            <input readonly="readonly" class="input_bottom" id="section" />
                 {{else  CustomCode == 3}}  
@@ -334,7 +331,7 @@
                 {{else CustomCode == 1}}
            <input readonly="readonly" class="input_bottom" id="dp" />
                 {{else CustomCode==8}}
-           <input class="input_bottom" id="txt_copies" type="number" fl="份数" regtype="money" min="1" step="1"/>
+           <input class="input_bottom" id="txt_copies" type="number" fl="份数" regtype="money" min="1" step="1" />
                 {{else 1==1}}
             【${Header}】
                 {{/if}}            
@@ -371,6 +368,9 @@
         var AnswerName = getQueryString('AnswerName');
 
         var DepartmentName = getQueryString('DepartmentName');
+
+        var ClassID = getQueryString('ClassID');
+        var ClassName = getQueryString('ClassName');
         var RoomID = getQueryString("RoomID");
         IsAllSchool = getQueryString('IsAllSchool');
 
@@ -384,6 +384,8 @@
                 $('#teacher').val(TeacherName);
                 $('#course').val(CourseName);
                 $('#dp').val(DepartmentName);
+                $('#Cls').val(ClassName);
+                GetStudentsSelect(ClassID);
                 evaluate_Model.IsScore = retdata.IsScore;
                 InitControl(retdata.IsScore);
             };
@@ -410,12 +412,7 @@
                 UI_Table_View.IsPage_Display = true;
                 UI_Table_View.Get_Eva_TableDetail();
                 $('#GropName').text($('#table').find('option:selected').text());
-                Reflesh();
             });
-
-            Reflesh();
-
-
             var level1 = '';
             if (IsAllSchool == 1) {
                 $('#threenav').children().eq(0).addClass('selected');
@@ -443,6 +440,11 @@
 
         function Submit() {
             State = 2;
+            var valid_flag = validateForm($('.lblheader select'));
+            if (valid_flag != "0")
+            {
+                return false;
+            }
             input();
         }
 
@@ -462,7 +464,7 @@
                 CustomCode = (CustomCode != undefined && CustomCode != null) ? CustomCode.trim() : "";
                 Name = (Name != undefined && Name != null) ? Name.trim() : "";
 
-                if (CustomCode == "" || CustomCode == "2" || CustomCode == "3" || CustomCode == "7" || CustomCode == "8") {
+                if (CustomCode == "" || CustomCode == "1" || CustomCode == "2" || CustomCode == "3" || CustomCode == "5"|| CustomCode == "7" || CustomCode == "8" ) {
                     Value = $(this).find('input').val();
                 }
                 else {
@@ -485,22 +487,6 @@
             //提交答案
             SubmitQuestion();
         }
-
-        function Reflesh() {
-            GetClassInfoSelectCompleate = function () {
-                var ClassID = $('#Cls').val();
-                GetStudentsSelect(ClassID)
-            };
-            GetClassInfoSelect(SectionID, TeacherUID, CourseID);
-
-            $('#Cls').on('change', function () {
-                var ClassID = $('#Cls').val();
-                GetStudentsSelect(ClassID)
-            });
-
-
-        }
-
     </script>
 </body>
 </html>

@@ -256,6 +256,8 @@ namespace FEHandler.Eva_Manage
                                 TeacherName = room.TeacherName,
                                 DepartmentName = room.DepartmentName,
                                 RoomID = RoomID,
+                                ClassName = room.ClassName,
+                                ClassID = room.ClassID,
                                 IsInClass = Constant.Class_StudentInfo_List.Count(i => i.UniqueNo == UserID && i.Class_Id == room.ClassID) > 0 ? true : false,
                             };
                         }

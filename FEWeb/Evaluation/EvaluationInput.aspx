@@ -146,7 +146,7 @@
                    {{if DateTimeConvert(RegStartTime,'yyyy-MM-dd HH:mm',true)<= getNowFormatDateTime()&& DateTimeConvert(RegEndTime,'yyyy-MM-dd HH:mm',true) >= getNowFormatDateTime()}}
                    <div class="operate" onclick="window.location.href='./input/EvalTable.aspx?IsAllSchool='+IsAllSchool+'&Id='+getQueryString('Id')+'&Iid='+getQueryString('Iid') +'&TeacherUID='+'${TeacherUID}'+'&TeacherName='+'${TeacherName}'
                       +'&SectionID='+'${SectionID}'+'&DisPlayName='+'${DisPlayName}'+'&CourseID='+'${CourseID}'+'&CourseName='+'${CourseName}'+'&ReguID='+'${ReguID}'+'&ReguName='+'${ReguName}'
-                      +'&AnswerUID='+'${AnswerUID}'+'&AnswerName='+'${AnswerName}'+'&DepartmentName='+'${DepartmentName}'+'&QuestionID='+ '${Id}'+'&table_Id='+ '${TableID}'+'&TableName='+ '${TableName}'+'&RoomID='+ '${RoomID}'+'&RelationID='+ '${RelationID}'">
+                      +'&AnswerUID='+'${AnswerUID}'+'&AnswerName='+'${AnswerName}'+'&DepartmentName='+'${DepartmentName}'+'&QuestionID='+ '${Id}'+'&table_Id='+ '${TableID}'+'&TableName='+ '${TableName}'+'&RoomID='+ '${RoomID}'+'&RelationID='+ '${RelationID}'+'&ClassID='+ '${ClassID}'+'&ClassName='+ '${ClassName}'">
                        <i class="iconfont color_purple">&#xe617;</i>
                        <span class="operate_none bg_purple">编辑</span>
                    </div>
@@ -271,11 +271,11 @@
         function table_view(table_Id, QuestionID) {
             OpenIFrameWindow('答题详情', 'EvalDetail.aspx?table_Id=' + table_Id + '&QuestionID=' + QuestionID + '&Id=' + getQueryString('Id') + '&Iid=' + getQueryString('Iid'), '1000px', '600px')
         };
-        function navicate(TableCount, TeacherUID, TeacherName, SectionID, DisPlayName, CourseID, Course_Name, ReguID, ReguName, ExpertUID, ExpertName, Departent_Name, RoomID, RelationID) {
+        function navicate(TableCount, TeacherUID, TeacherName, SectionID, DisPlayName, CourseID, Course_Name, ReguID, ReguName, ExpertUID, ExpertName, Departent_Name, RoomID, RelationID,ClassID,ClassName) {
             if (TableCount > 0) {
                 window.location.href = './selectTable.aspx?IsAllSchool=' + IsAllSchool + '&Id=' + getQueryString('Id') + '&Iid=' + getQueryString('Iid') + '&TeacherUID=' + TeacherUID + '&TeacherName=' + TeacherName
                     + '&SectionID=' + SectionID + '&DisPlayName=' + DisPlayName + '&CourseID=' + CourseID + '&CourseName=' + Course_Name + '&ReguID=' + ReguID + '&ReguName=' + ReguName
-                    + '&AnswerUID=' + ExpertUID + '&AnswerName=' + ExpertName + '&DepartmentName=' + Departent_Name + '&RoomID=' + RoomID + '&RelationID=' + RelationID;
+                    + '&AnswerUID=' + ExpertUID + '&AnswerName=' + ExpertName + '&DepartmentName=' + Departent_Name + '&RoomID=' + RoomID + '&RelationID=' + RelationID + '&ClassID=' + ClassID + '&ClassName=' + ClassName;
             } else {
                 layer.confirm('该课程没有相关的评价表！<br>请联系管理员进行处理。', {
                     btn: ['确定'],

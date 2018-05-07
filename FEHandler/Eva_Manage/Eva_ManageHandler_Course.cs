@@ -173,7 +173,8 @@ namespace FEHandler.Eva_Manage
                     var list = (from exp in Expert_Teacher_Course_List
                                 join section in Constant.StudySection_List on exp.SecionID equals section.Id
                                 join regu in Constant.Eva_Regular_List on exp.ReguId equals Convert.ToString(regu.Id)
-                                select new { exp, section, regu }
+                                join room in Constant.CourseRoom_List on exp.RoomID equals room.Id.ToString()
+                                select new { exp, section, regu,room }
                                    ).ToList();
 
                     var list0 = list.Count > 0 ? list[0] : null;
@@ -196,6 +197,8 @@ namespace FEHandler.Eva_Manage
                             ExpertName = exp.ExpertName,
                             RoomID=exp.RoomID,
                             Id = exp.Id,
+                            ClassID = list0.room.ClassID,
+                            ClassName = list0.room.ClassName,                            
                             TableCount = (from r in Constant.CourseRel_List
                                            where r.Course_Id == exp.CourseId && r.StudySection_Id == exp.SecionID
                                            join t in Constant.Eva_CourseType_Table_List on new { CourseTypeId = r.CourseType_Id, r.StudySection_Id } equals new { CourseTypeId = t.CourseTypeId, t.StudySection_Id }

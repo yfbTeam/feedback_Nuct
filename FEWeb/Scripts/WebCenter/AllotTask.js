@@ -278,7 +278,7 @@ function AddExpert_List_Teacher_Course(sourtype) {
                                 break;
                             case "StartEval":                               
                                 parent.navicate(data.TableCount,data.TeacherUID, data.TeacherName, data.SectionID, data.DisplayName, data.CourseID,
-                                    data.CourseName, data.ReguID, data.ReguName, data.ExpertUID, data.ExpertName, DepartmentName, data.RoomID, data.Id);
+                                    data.CourseName, data.ReguID, data.ReguName, data.ExpertUID, data.ExpertName, DepartmentName, data.RoomID, data.Id, data.ClassID, data.ClassName);
                                 break;
                             default:
                         }
