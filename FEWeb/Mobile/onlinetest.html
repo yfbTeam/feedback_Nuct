@@ -130,11 +130,11 @@
                     <label class="lblheader" customcode="<%=child.CustomCode%>" code="<%=child.Id%>" name="<%=child.Value%>">
                         <%=child.Value%>：
                         <% if(child.CustomCode == 4){ %>
-                        <select id="major"></select>
+                        <select id="major" isrequired="true" fl="专业"></select>
                         <% }else if(child.CustomCode == 5){ %>
-                        <select id="Cls"></select>
+                        <label class="input_bottom_lbl" id="Cls" />                                                 
                         <% }else if(child.CustomCode == 6){ %>
-                        <select id="Stu"></select>
+                        <select id="Stu" isrequired="true" fl="学生"></select>
                         <% }else if(child.CustomCode ==8){ %>
                         <input type="number" name="name" value="" class="input_bottom" id="CopyNum" style="width:60%;"/>
                         <% }else if(child.CustomCode == 7){ %>
@@ -366,13 +366,16 @@
                     TeacherName = info.TeacherName;
                     AnswerUID = login_User.UniqueNo;
                     AnswerName = login_User.Name;
-                    TableName = retData.Name;
-                    var DepartmentName = info.DepartmentName;                  
+                    TableName = retData.Name;                    
+                    var DepartmentName = info.DepartmentName;
+                    ClassID = info.ClassID;
+                    ClassName = info.ClassName;
                     HeaderList = [];
                     $('#section').text(DisplayName);
                     $('#teacher').text(TeacherName);
                     $('#course').text(CourseName);
                     $('#dp').text(DepartmentName);
+                    $('#Cls').text(ClassName);
                     UI_Table_View.scoreInit(retData);
                     Reflesh();
                 }
@@ -383,6 +386,10 @@
             UI_Table_View.Get_Eva_TableDetail();
         }
         function SaveEvlData() {
+            var valid_flag = validateForm($('.lblheader select'));
+            if (valid_flag != "0") {
+                return false;
+            }
             HeaderList = [];
             $('.lblheader').each(function (index) {
                 var CustomCode = $(this).attr('customCode');
@@ -394,7 +401,7 @@
                 if (CustomCode == "") {
                     Value = $(this).find('input').val().trim();
                 }
-                else if (CustomCode == "1"||CustomCode == "2" || CustomCode == "3" || CustomCode == "7") {
+                else if (CustomCode == "1" || CustomCode == "2" || CustomCode == "3" || CustomCode == "5" || CustomCode == "7") {
                     Value = $(this).find('label').text().trim();
                 }
                 else if (CustomCode == '8') {
@@ -439,15 +446,7 @@
             }
         }
         function Reflesh() {
-            GetClassInfoSelectCompleate = function () {
-                var ClassID = $('#Cls').val();
-                GetStudentsSelect(ClassID)
-            };
-            GetClassInfoSelect(SectionID, TeacherUID, CourseID);
-            $('#Cls').on('change', function () {
-                var ClassID = $('#Cls').val();
-                GetStudentsSelect(ClassID)
-            });
+            GetStudentsSelect(ClassID);
         }
     </script>
 </body>

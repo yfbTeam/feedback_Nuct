@@ -55,7 +55,7 @@
                     </select>
                 </div>
                 <div class="fl ml10">
-                    <input type="text" name="" id="Key" placeholder="请输入课程名称关键字" value="" class="text fl">
+                    <input type="text" name="" id="Key" placeholder="请输入课程名称关键字" value="" class="text fl" style="width:220px;">
                     <a class="search fl" href="javascript:;" onclick="tool_search();" id="select"><i class="iconfont"></i></a>
                 </div>
 
@@ -184,7 +184,13 @@
 
         var reguType = 1;
         IsAllSchool = getQueryString('IsAllSchool');
+        if (IsAllSchool == 2) {
+            $("#Key").attr('placeholder', '请输入课程名称关键字');
+        } else {
+            $("#Key").attr('placeholder', '请输入课程、教师、评价人关键字');
+        }
         $(function () {
+            ChangeNav();
             $('#top').load('/header.html');
             $('#footer').load('/footer.html');
             Mode = 3;
@@ -231,6 +237,10 @@
             Key = Key != undefined ? Key.trim() : '';
             var DepartmentID = $('#DepartMent').val();
             var TableID = $('#table').val();
+            if (IsAllSchool == 3) {
+                IsAllSchool = 1;
+                DepartmentID = login_User.Major_ID;
+            }
             if (IsAllSchool == 2) {
                 TeacherUID = login_User.UniqueNo;                
             }
@@ -259,6 +269,21 @@
         function table_view(table_Id, QuestionID) {
             OpenIFrameWindow('答题详情', '../EvalDetail.aspx?table_Id=' + table_Id + '&QuestionID=' + QuestionID + '&Id=' + getQueryString('Id') + '&Iid=' + getQueryString('Iid'), '1000px', '600px')
         };
+        function ChangeNav() { //改变导航
+            var $nav_a = $("#threenav a"), $nav_departone = null;
+            var isdepart_all = 0, isdepart_one = 0;//全校院专家导航，本院院专家导航
+            $nav_a.each(function () {
+                if ($(this).attr('href').indexOf('IsAllSchool=1') != -1) {
+                    isdepart_all = 1;
+                }
+                if ($(this).attr('href').indexOf('IsAllSchool=3') != -1) {
+                    isdepart_one = 1;
+                    $nav_departone = $(this);
+                }
+            });
+            //如果全校院专家导航与本院院专家导航同时存在，删除本院院专家导航
+            if (isdepart_all == 1 && isdepart_one == 1 && $nav_departone){ $nav_departone.remove();}            
+        }
     </script>
 </body>
 </html>

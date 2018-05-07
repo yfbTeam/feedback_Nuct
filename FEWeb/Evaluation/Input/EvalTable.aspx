@@ -321,14 +321,11 @@
             <label class="lblheader" customcode="${CustomCode}" code="${Id}" name="${Name}">
                 ${Name}：
                 {{if CustomCode == 4}}
-                <select id="major">
-                </select>
+                <select id="major" isrequired="true" fl="专业"></select>
                 {{else  CustomCode == 5}}
-                <select id="Cls">
-                </select>
+                <input readonly="readonly" class="input_bottom" id="Cls" value="${Value}" />                        
                 {{else  CustomCode == 6}}
-                <select id="Stu">
-                </select>
+                <select id="Stu" isrequired="true" fl="学生"></select>
                 {{else  CustomCode == 7}} 
                 <input readonly="readonly" class="input_bottom" id="section" value="${Value}" />
                 {{else  CustomCode == 3}}  
@@ -377,6 +374,8 @@
 
         var DepartmentName = getQueryString('DepartmentName');
 
+        var ClassID = getQueryString('ClassID');
+        var ClassName = getQueryString('ClassName');
         var QuestionID = getQueryString("QuestionID");
         var RoomID = getQueryString("RoomID");
         var IsAllSchool = getQueryString('IsAllSchool');
@@ -425,6 +424,10 @@
 
         function Submit() {
             State = 2;
+            var valid_flag = validateForm($('.lblheader select'));
+            if (valid_flag != "0") {
+                return false;
+            }
             input();
         }
 
@@ -445,7 +448,7 @@
                 CustomCode = (CustomCode != undefined && CustomCode != null) ? CustomCode.trim() : "";
                 Name = (Name != undefined && Name != null) ? Name.trim() : "";
 
-                if (CustomCode == "" || CustomCode == "1" || CustomCode == "2" || CustomCode == "3" || CustomCode == "7" || CustomCode == "8") {
+                if (CustomCode == "" || CustomCode == "1" || CustomCode == "2" || CustomCode == "3" || CustomCode == "5"|| CustomCode == "7" || CustomCode == "8" ) {
                     Value = $(this).find('input').val();
                 }
                 else {
@@ -478,19 +481,7 @@
                     $("#item_check2").tmpl(item).appendTo("#list");
                 }
             })
-            
-
-
-            GetClassInfoSelectCompleate = function () {
-                var ClassID = $('#Cls').val();
-                GetStudentsSelect(ClassID)
-            };
-            GetClassInfoSelect(SectionID, TeacherUID, CourseID);
-
-            $('#Cls').on('change', function () {
-                var ClassID = $('#Cls').val();
-                GetStudentsSelect(ClassID)
-            });
+            GetStudentsSelect(ClassID);
             headerList.filter(function (item) {
                 if (item.CustomCode == 4 || item.CustomCode == 5 || item.CustomCode == 6) {
                     $('.div_header').find('label[CustomCode="' + item.CustomCode + '"]').find('select').val(item.ValueID);

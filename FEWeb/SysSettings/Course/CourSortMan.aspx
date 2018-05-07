@@ -155,11 +155,11 @@
                          </div>
                     {{else}}
                        <div class="operates">
-                           <div class="operate" onclick="OpenIFrameWindow('设置分类', 'AddCourseSort.aspx?id={{= $value.Id}}&Name={{= $value.Value}}&IsEnable={{= $value.IsEnable}}', '500px', '280px')">
+                           <div class="operate" onclick="GetCourseinfoBySortMan('{{= $value.Key}}','{{= $value.Value}}','{{= $value.SectionId}}');OpenIFrameWindow('设置分类', 'AddCourseSort.aspx?id={{= $value.Id}}&Name={{= $value.Value}}&IsEnable={{= $value.IsEnable}}', '500px', '280px')">
                                <i class="iconfont color_purple">&#xe632;</i>
                                <a class='operate_none bg_purple'>设置</a>
                            </div>
-                           <div class="operate ml5" onclick="remove('{{= $value.Id}}','{{= $value.Value}}');">
+                           <div class="operate ml5" onclick="GetCourseinfoBySortMan('{{= $value.Key}}','{{= $value.Value}}','{{= $value.SectionId}}');remove('{{= $value.Id}}','{{= $value.Value}}');">
                                <i class="iconfont color_purple">&#xe61b;</i>
                                <a class='operate_none bg_purple'>删除</a>
                            </div>

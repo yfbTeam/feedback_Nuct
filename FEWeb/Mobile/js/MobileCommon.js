@@ -448,3 +448,46 @@ function cutstr(str, len) {
 function ChosenInit() {
 
 }
+//验证表单的值
+function validateForm(elements) {
+    var flag = 0;
+    $.each(elements, function (i, fields) {
+        if ($(this).attr("isrequired") == "true") {
+            if ($(this).val() == null || $(this).val().trim() == "") {
+                flag++;
+                if (flag == 1) {
+                    MesTips('请输入' + $(this).attr("fl"));
+                }
+            }
+        }
+        if ($(this).attr("regtype") == "email") {
+            var reg = /^\w+@[a-zA-Z0-9]+(\.[a-z]{2,3}){1,2}$/;
+            if ($(this).val() != "" && reg.test($(this).val()) == false) {
+                MesTips('邮箱格式错误！');
+                flag++;
+            }
+        }
+        if ($(this).attr("regtype") == "telphone") {
+            var reg = /^((0\d{2,3}-\d{7,8})|(1[35784]\d{9}))$/;
+            if ($(this).val() != "" && reg.test($(this).val()) == false) {
+                MesTips('电话格式错误！');
+                flag++;
+            }
+        }
+        if (($(this).attr("regtype") == "money")) {
+            var reg = /(^[1-9]([0-9]+)?(\.[0-9]{1,2})?$)|(^(0){1}$)|(^[0-9]\.[0-9]([0-9])?$)/;
+            if ($(this).val() != "" && reg.test($(this).val()) == false) {
+                MesTips('请输入正确的' + $(this).attr("fl") + '！');
+                flag++;
+            }
+        }
+        if (($(this).attr("regtype") == "integer")) {
+            var reg = /^[1-9]\d*$/;
+            if ($(this).val() != "" && reg.test($(this).val()) == false) {
+                MesTips('请在' + $(this).attr("fl") + '处输入整数！');
+                flag++;
+            }
+        }
+    });
+    return flag;
+}
